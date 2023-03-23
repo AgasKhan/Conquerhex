@@ -332,7 +332,7 @@ public class LoadMap : MonoBehaviour
 
         yield return null;
         Time.timeScale = 1;
-        AudioManager.instance.Play("ambiente").source.loop = true;
+        //AudioManager.instance.Play("ambiente").source.loop = true;
 
     }
 

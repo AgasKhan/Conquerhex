@@ -32,9 +32,9 @@ public class Movement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        rb2d.velocity -= rb2d.velocity*(restaLineal * Time.fixedDeltaTime);
+        rb2d.velocity -= rb2d.velocity*(restaLineal * Time.deltaTime);
 
         if(rb2d.velocity.sqrMagnitude<0.01f)
         {

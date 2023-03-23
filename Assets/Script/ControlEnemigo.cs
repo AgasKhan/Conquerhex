@@ -48,7 +48,7 @@ public class ControlEnemigo : MonoBehaviour
 
     Animator anim;
 
-    AudioSource audioSource;
+    //AudioSource audioSource;
 
     private void Start()
     {
@@ -56,10 +56,14 @@ public class ControlEnemigo : MonoBehaviour
 
         anim = GetComponentInChildren<Animator>();
 
+        /*
         audioSource = AudioManager.instance.CreateAuSc(AudioManager.instance.Srch("disparo"), gameObject);
+
 
         audioSource.maxDistance = 5;
         audioSource.spatialBlend = 1;
+
+        */
         
         //health = this.GetComponent<vida>();
 
@@ -84,7 +88,7 @@ public class ControlEnemigo : MonoBehaviour
         Vector2 arma = Vector2.zero; //vector de direccion desde el arma hacia al jugador
         coord=Vector2.zero;
 
-        audioSource.volume = PlayerPrefs.GetFloat("Efecto");
+        //audioSource.volume = PlayerPrefs.GetFloat("Efecto");
         foreach (var item in player)
         {
             Vector2 coordAux = new Vector2(item.transform.position.x, item.transform.position.y);
@@ -139,7 +143,7 @@ public class ControlEnemigo : MonoBehaviour
                         {
                             anim.SetTrigger("attack");
                             enf.RestartTimer();
-                            audioSource.Play();
+                            //audioSource.Play();
                             dispararScript.Disparar(danio, arma, velocidadProyectil, fuego.position);
                         }
                         cubierto = false;
@@ -271,7 +275,7 @@ public class ControlEnemigo : MonoBehaviour
         if(enf!=null)
             CoolDown.DestroyCd("enfriamientoDisparo" + GetInstanceID());
         
-        Destroy(audioSource);
+        //Destroy(audioSource);
 
     }
 }

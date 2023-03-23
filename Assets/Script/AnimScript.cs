@@ -19,21 +19,22 @@ public class AnimScript : MonoBehaviour
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+
     public void AttackPlayer()
     {
-        AudioManager.instance.Play("parryStart");
+        //AudioManager.instance.Play("parryStart");
     }
 
     public void WalkPlayerLeft()
     {
       
-        AudioManager.instance.Play("izq"+Random.Range(1,3));
+        //AudioManager.instance.Play("izq"+Random.Range(1,3));
     }
 
     public void WalkPlayerRight()
     {
       
-        AudioManager.instance.Play("der" + Random.Range(1, 3));
+        //AudioManager.instance.Play("der" + Random.Range(1, 3));
     }
 
     public void DestruccionLetal()

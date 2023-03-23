@@ -157,7 +157,7 @@ public class TextCompleto
             {
                 texto.text += final[texto.text.Length];
 
-                AudioManager.instance.Play("tec"+Random.Range(1,4));
+                //AudioManager.instance.Play("tec"+Random.Range(1,4));
 
                 letras.RestartTimer();
                 timer.RestartTimer();

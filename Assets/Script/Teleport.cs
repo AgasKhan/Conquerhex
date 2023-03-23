@@ -85,7 +85,7 @@ public class Teleport : MonoBehaviour
 
                 if (other.CompareTag("Player"))
                 {
-                    AudioManager.instance.Play("transporte");
+                    //AudioManager.instance.Play("transporte");
                     for (int i = 0; i < LoadMap.arrHexCreados.Length; i++)
                     {
                         if (LoadMap.arrHexCreados[i].activeSelf && !(

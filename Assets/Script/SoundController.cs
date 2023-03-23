@@ -19,6 +19,6 @@ public class SoundController : MonoBehaviour
     {
         PlayerPrefs.SetFloat(n, f);
 
-        AudioManager.instance.UpdateSound();
+        //AudioManager.instance.UpdateSound();
     }
 }

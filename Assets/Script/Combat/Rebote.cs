@@ -57,7 +57,7 @@ public class Rebote : MonoBehaviour
 
             rgb2.velocity = reflejo * rgb2.velocity.magnitude;
 
-            AudioManager.instance.Play("parryGood");
+            //AudioManager.instance.Play("parryGood");
         }
        
     }

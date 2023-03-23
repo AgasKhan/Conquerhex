@@ -41,12 +41,6 @@ public class GameManager : MonoBehaviour
         } */       
     }
 
-    private void LateUpdate()
-    {
-        if (player != null)
-            transform.position = new Vector2(Mathf.Lerp(transform.position.x, player.transform.position.x, Time.deltaTime), Mathf.Lerp(transform.position.y, player.transform.position.y, Time.deltaTime * 10));
-    }
-
     private void Awake()
     {
         instance = this;
@@ -56,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        AudioManager.instance.Srch("ambiente").source.Stop();
+        //AudioManager.instance.Srch("ambiente").source.Stop();
     }
 
 
