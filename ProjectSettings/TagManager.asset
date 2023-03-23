@@ -3,18 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Hexagono
+  - Props
+  - Enemigo
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - escenario
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - proyectil
+  - enemigo
+  - parry
+  - portal
   - 
   - 
   - 
@@ -38,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: piso
+    uniqueID: 2646795057
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
