@@ -29,7 +29,7 @@ public class MainCamera : MonoBehaviour
 
         Vector2 direction = (obj.tr.position.Vect3To2() + obj.velocity* multiplyFront) - (me.tr.position.Vect3To2());
 
-        direction += me.velocity;
+        //direction += me.velocity;
 
         if (direction.sqrMagnitude > 1)
             direction.Normalize();
@@ -45,7 +45,6 @@ public class MainCamera : MonoBehaviour
 
 public class IaMovement
 {
-
 }
 
 [System.Serializable]
