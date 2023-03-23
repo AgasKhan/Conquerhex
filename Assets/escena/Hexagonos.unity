@@ -1418,9 +1418,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a5c158941f3b247a6a3513de1f07e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj:
+    tr: {fileID: 1696979105}
+    prev: {x: 0, y: 0}
+    velocity: {x: 0, y: 0}
+  me:
+    tr: {fileID: 0}
+    prev: {x: 0, y: 0}
+    velocity: {x: 0, y: 0}
+  velocity: 5
+  multiplyFront: 1
 --- !u!1 &1696979097 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3073669242969187174, guid: 00f4c5b18e0410a4aadb034dcda0a998,
+    type: 3}
+  m_PrefabInstance: {fileID: 765942997}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1696979105 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4208054622973972078, guid: 00f4c5b18e0410a4aadb034dcda0a998,
     type: 3}
   m_PrefabInstance: {fileID: 765942997}
   m_PrefabAsset: {fileID: 0}

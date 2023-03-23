@@ -25,25 +25,22 @@ public class MainCamera : MonoBehaviour
         if (obj.tr == null)
             return;
 
-        obj.LoadVelocity();
         me.LoadVelocity();
 
         Vector2 direction = (obj.tr.position.Vect3To2() + obj.velocity* multiplyFront) - (me.tr.position.Vect3To2());
 
+        direction += me.velocity;
+
         if (direction.sqrMagnitude > 1)
             direction.Normalize();
 
-
         me.tr.position += (direction * velocity*Time.deltaTime).Vec2to3(me.tr.position.z);
-
-
-
-        me.UpdatePrev();
-        obj.UpdatePrev();
-
     }
 
-
+    private void FixedUpdate()
+    {
+        obj.LoadVelocity();
+    }
 }
 
 public class IaMovement
@@ -55,17 +52,12 @@ public class IaMovement
 public struct Vector2Quad
 {
     public Transform tr;
-    public Vector2 actual;
     public Vector2 prev;
     public Vector2 velocity;
 
     public void LoadVelocity()
     {
-        velocity = (tr.position.Vect3To2() - prev) / Time.deltaTime;
-    }
-
-    public void UpdatePrev()
-    {
+        velocity = (tr.position.Vect3To2() * 1000 - prev * 1000) / (Time.deltaTime*1000);
         prev = tr.position.Vect3To2();
     }
 }
