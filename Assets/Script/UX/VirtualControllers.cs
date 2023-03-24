@@ -10,7 +10,6 @@ public class VirtualControllers : MonoBehaviour
 
     static List<FatherKey> _keys = new List<FatherKey>();
 
-    /*
     static public Button principal = new Button("Fire1");
 
     static public Button secondary = new Button("Fire2");
@@ -18,7 +17,8 @@ public class VirtualControllers : MonoBehaviour
     static public Button terciary = new Button("Fire3");
 
     static public Button parry = new Button("Parry");
-    */
+
+    public static AxisButton movement = new AxisButton("Horizontal", "Vertical", "Sprint");
 
     #endregion
 
@@ -110,7 +110,7 @@ public class VirtualControllers : MonoBehaviour
     }
 
     /// <summary>
-    /// clase destinada a instanciar la deteccion de un boton
+    /// manager de eventos destinados a teclas, boton pulsado(down), mientras lo presiono (pressed), y cuando lo suelto(up)
     /// </summary>
     public class Button : Key<string, bool>, IState
     {
@@ -171,7 +171,7 @@ public class VirtualControllers : MonoBehaviour
     }
 
     /// <summary>
-    /// clase intermedia entre el buttonaxis y el key, encargada de generar el chequeo
+    /// clase intermedia entre el buttonaxis y el key, encargada de generar el chequeo del axis
     /// </summary>
     public class MiddleAxis : Key<string, float>
     {
@@ -189,7 +189,7 @@ public class VirtualControllers : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// combinacion de boton + axis, eventos para si se pulsa(down) o suelta un boton(up), y cual es el valor de un joystick (pressed)
     /// </summary>
     public class AxisButton : FatherKey, IControlador, IState<Vector2>
     {
@@ -320,18 +320,6 @@ public class VirtualControllers : MonoBehaviour
     }
 
     static public bool eneableMove;
-
-    public JoyController joyController;
-
-    Button _principal = new Button("Fire1");
-
-    Button _secondary = new Button("Fire2");
-
-    Button _terciary = new Button("Fire3");
-
-    Button _parry = new Button("Parry");
-
-    public static AxisButton movement = new AxisButton("Horizontal", "Vertical", "Sprint");
 
 
     #region unity functions
