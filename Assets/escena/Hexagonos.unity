@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 829406116}
   - component: {fileID: 829406115}
   - component: {fileID: 829406114}
+  - component: {fileID: 829406118}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -725,10 +726,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a476fc8618cdb243a3daa8e646dfccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuMusic: 1
   player: {fileID: 0}
   menu: {fileID: 1419016541}
-  audioListener: {fileID: 1696556879}
 --- !u!4 &829406117
 Transform:
   m_ObjectHideFlags: 0
@@ -744,6 +743,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &829406118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829406113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95591c1601cf5b44995a03ea00dfca44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eneabled: 1
+  categoriesOfPool:
+  - name: Inputs
+    basePools: []
+  - name: Outputs
+    basePools: []
+  - name: Outputs
+    basePools: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &974297792 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 12435802451992036, guid: bb8e358f1b14aae40ad8901fcc1042a2,
@@ -1397,12 +1419,6 @@ GameObject:
 --- !u!1 &1696556874 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4066915045447182301, guid: 7e59caa9ba255f647b323788de73c43a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4066915045209513889}
-  m_PrefabAsset: {fileID: 0}
---- !u!81 &1696556879 stripped
-AudioListener:
-  m_CorrespondingSourceObject: {fileID: 4066915045447182300, guid: 7e59caa9ba255f647b323788de73c43a,
     type: 3}
   m_PrefabInstance: {fileID: 4066915045209513889}
   m_PrefabAsset: {fileID: 0}

@@ -27,7 +27,7 @@ public class DispararProyectil : MonoBehaviour
         damageColision.danio = danio;
         
         spawnP.transform.SetPositionAndRotation(
-            Euler.TransVec2To3(pos, 5),
+            pos.Vec2to3(5),
             Quaternion.Euler(0, 0, Mathf.Acos(movimiento.normalized.x) * Mathf.Sign(movimiento.y) * Mathf.Rad2Deg - 90)
         );
 

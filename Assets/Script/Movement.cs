@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Movement : MonoBehaviour
+public class Movement : MyScripts
 {
     public Rigidbody2D rb2d;
     SpriteRenderer rend;
@@ -24,26 +24,39 @@ public class Movement : MonoBehaviour
         rb2d.velocity += vector.normalized * magnitud;
     }
 
+    protected override void Config()
+    {
+        MyAwakes += MyAwake;
+        MyFixedUpdates += MyFixedUpdate;
+    }
+
     // Start is called before the first frame update
-    void Awake()//esto es de garca
+    void MyAwake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         rend = GetComponentInChildren<SpriteRenderer>();
+
+        if (rend != null)
+            MyUpdates += MyUpdateRender;
     }
 
     // Update is called once per frame
-    void Update()
+    void MyFixedUpdate()
     {
         rb2d.velocity -= rb2d.velocity*(restaLineal * Time.deltaTime);
 
         if(rb2d.velocity.sqrMagnitude<0.01f)
         {
             rb2d.velocity = Vector2.zero;
-        }
-
-        if(rend!=null)
-            rend.sortingOrder = Mathf.RoundToInt(transform.position.y*-100);
+        }            
 
         //Debug.DrawRay(this.transform.position, rb2d.velocity, Color.blue);    
     }
+
+    void MyUpdateRender()
+    {
+        rend.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
+    }
+
+
 }

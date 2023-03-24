@@ -39,13 +39,13 @@ public class Teleport : MonoBehaviour
             
             Vector2 vectorVelocidad = fisicaOther.velocity;
 
-            angle = 360 - Euler.DifAngulosVectores(anguloDefecto, vectorSalida);
+            angle = 360 - Utilitys.DifAngulosVectores(anguloDefecto, vectorSalida);
 
             lado = Mathf.FloorToInt(angle / 60);
 
             Teleport arrHexTeleport = LoadMap.arrHexCreados[ladosArray[lado, 0]].GetComponent<Teleport>();//accedo al script del array al que me quiero teletransportar
 
-            float anguloVelocidad = Euler.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), vectorVelocidad);
+            float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), vectorVelocidad);
 
             //aplico una velocidad al objeto que esta cerca del portal
 

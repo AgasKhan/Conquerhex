@@ -5,18 +5,42 @@ using System;
 
 public abstract class MyScripts : MonoBehaviour
 {
-    /*
-    abstract protected void MyAwake();
-    abstract protected void MyStart();
-    abstract protected void MyUpdate();
-    abstract protected void MyFixedUpdate();
-    */
-
     protected Action MyAwakes;
-    protected Action MyStarts;
-    protected Action MyUpdates;
-    protected Action MyFixedUpdates;
 
+    protected Action MyStarts;
+
+    protected event Action MyUpdates
+    {
+        add
+        {
+            GameManager.update +=value;
+            _updates += value;
+        }
+
+        remove
+        {
+            GameManager.update -= value;
+            _updates -= value;
+        }
+    }
+
+    protected event Action MyFixedUpdates
+    {
+        add
+        {
+            GameManager.fixedUpdate += value;
+            _fixedUpdates += value;
+        }
+
+        remove
+        {
+            GameManager.fixedUpdate -= value;
+            _fixedUpdates -= value;
+        }
+    }
+
+    Action _updates;
+    Action _fixedUpdates;
 
     protected abstract void Config();
 
@@ -24,18 +48,7 @@ public abstract class MyScripts : MonoBehaviour
     {
         Config();
 
-        MyAwakes.Invoke();
-    }
-
-    // Update is called once per frame
-    internal void Update()
-    {
-        MyUpdates?.Invoke();
-    }
-
-    internal void FixedUpdate()
-    {
-        MyFixedUpdates?.Invoke();
+        MyAwakes?.Invoke();
     }
 
     internal void Start()
@@ -43,5 +56,10 @@ public abstract class MyScripts : MonoBehaviour
         MyStarts?.Invoke();
     }
 
+    private void OnDestroy()
+    {
+        GameManager.fixedUpdate -= _fixedUpdates;
+        GameManager.update -= _updates;
+    }
 }
 

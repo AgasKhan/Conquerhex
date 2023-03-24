@@ -328,8 +328,6 @@ public class LoadMap : MonoBehaviour
         playerPublic.transform.parent = arrHexCreados[0].transform;
         playerPublic.transform.localPosition = new Vector3(0, 0, 0);
 
-        loadScreen.gameObject.SetActive(false);
-
         yield return null;
         Time.timeScale = 1;
         //AudioManager.instance.Play("ambiente").source.loop = true;

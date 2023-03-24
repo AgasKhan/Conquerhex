@@ -53,7 +53,7 @@ public class Menu : MonoBehaviour
     public IEnumerator CerrarhexagonosCO(System.Action<bool> end, System.Action<string> msg)
     {
 
-        if (Camera.main.GetComponent<GameManager>() != null)
+        if (GameManager.instance != null)
         {
            
             for (int i = 0; i < LoadMap.arrHexCreados.Length; i++)
@@ -84,7 +84,6 @@ public class Menu : MonoBehaviour
     public void ShowMenu()
     {
         canvas.SetActive(!canvas.activeSelf);
-        Time.timeScale = System.Convert.ToInt32(!canvas.activeSelf);
         Actualizar();
     }
     
@@ -152,6 +151,13 @@ public class Menu : MonoBehaviour
     public void Close()
     {
         Application.Quit();
+    }
+
+    private void Awake()
+    {
+        GameManager.onPause += () => ShowMenu();
+
+        GameManager.onPlay += () => ShowMenu();
     }
 
     private void Start()

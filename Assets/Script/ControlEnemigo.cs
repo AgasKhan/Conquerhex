@@ -92,7 +92,7 @@ public class ControlEnemigo : MonoBehaviour
         foreach (var item in player)
         {
             Vector2 coordAux = new Vector2(item.transform.position.x, item.transform.position.y);
-            if (aux > (coordAux - Euler.TransVec3to2(transform.position) ).sqrMagnitude)
+            if (aux > (coordAux - (transform.position).Vect3To2()).sqrMagnitude)
             {
                 apuntar = new Vector2(item.transform.position.x - pos.x, item.transform.position.y + 0.7f - pos.y);
                 arma = new Vector2(item.transform.position.x - fuego.position.x, item.transform.position.y+0.7f - fuego.position.y);
@@ -116,9 +116,9 @@ public class ControlEnemigo : MonoBehaviour
 
             RaycastHit2D mira = apuntadoArr[1];
 
-            Debug.DrawRay(Euler.TransVec2To3( Euler.TransVec3to2(pos), 5), apuntar.normalized*deteccion, Color.gray);
+            Debug.DrawRay(pos.Vect3To2().Vec2to3(5), apuntar.normalized*deteccion, Color.gray);
 
-            Debug.DrawRay(Euler.TransVec2To3(Euler.TransVec3to2(fuego.position), 5), arma.normalized * deteccion, Color.gray);
+            Debug.DrawRay(fuego.position.Vect3To2().Vec2to3(5), arma.normalized * deteccion, Color.gray);
 
             if (apuntado.collider!= null)
             {
@@ -224,11 +224,11 @@ public class ControlEnemigo : MonoBehaviour
 
         for (int i = 1; i <= 24; i++)
         {
-            collPj.Raycast(Euler.VecFromDegs(Euler.DifAngulosVectores(Vector2.right, apuntar) + 15 * i), rayArr, deteccion * 2, layerMask);
+            collPj.Raycast(Utilitys.VecFromDegs(Utilitys.DifAngulosVectores(Vector2.right, apuntar) + 15 * i), rayArr, deteccion * 2, layerMask);
 
             ray = rayArr[1];
 
-            Debug.DrawRay(pos, Euler.VecFromDegs(Euler.DifAngulosVectores(Vector2.right, apuntar) + 15 * i), Color.magenta);
+            Debug.DrawRay(pos, Utilitys.VecFromDegs(Utilitys.DifAngulosVectores(Vector2.right, apuntar) + 15 * i), Color.magenta);
 
             RaycastHit2D ray2;
 
@@ -236,15 +236,15 @@ public class ControlEnemigo : MonoBehaviour
 
             ray2 = Physics2D.Raycast(ray.point, coord - ray.point, layerMask);
 
-            Debug.DrawRay(Euler.TransVec2To3(ray.point, 5), coord - ray.point, Color.cyan);
+            Debug.DrawRay(ray.point.Vec2to3(5), coord - ray.point, Color.cyan);
 
             //DebugPrint.Log(ray2.collider.name);
 
             if (ray2.collider != null)
                 if ((ray2.collider.name == "Jugador" || ray2.collider.name == "Circle") && distancia * 4 > ray2.distance)//&& distancia*4 > ray2.distance
                 {
-                    Debug.DrawRay(Euler.TransVec2To3(ray.point, 5), coord - ray.point, Color.blue,1);
-                    der = ray.point - Euler.TransVec3to2(pos);
+                    Debug.DrawRay((ray.point.Vec2to3(5)), coord - ray.point, Color.blue,1);
+                    der = ray.point - (pos.Vect3To2());
                     distancia = ray2.distance;
                 }
         }
@@ -254,7 +254,7 @@ public class ControlEnemigo : MonoBehaviour
             distancia = 0;
             for (int i = 1; i <= 24; i++)
             {
-                collPj.Raycast(Euler.VecFromDegs(Euler.DifAngulosVectores(Vector2.right, apuntar) + 15 * i), rayArr, Mathf.Infinity, layerMask);
+                collPj.Raycast(Utilitys.VecFromDegs(Utilitys.DifAngulosVectores(Vector2.right, apuntar) + 15 * i), rayArr, Mathf.Infinity, layerMask);
 
                 ray = rayArr[1];
                 //Debug.DrawRay(transform.position, Euler.VecFromDegs(Euler.DifAngulosVectores(Vector2.right, movimiento) + 15 * i), Color.red);
@@ -262,7 +262,7 @@ public class ControlEnemigo : MonoBehaviour
                 if (ray.collider != null)
                     if (distancia < ray.distance)
                     {
-                        der = ray.point - Euler.TransVec3to2(pos);
+                        der = ray.point - pos.Vect3To2();
                         distancia = ray.distance;
                         Debug.DrawRay(pos, der, Color.red, 5);
                     }

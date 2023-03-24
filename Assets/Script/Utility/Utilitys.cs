@@ -67,6 +67,21 @@ public static class Utilitys
         return DeltaAngle(dir, Vector3.forward, out angle,  Vector3.up, MyRot);
     }
 
+    public static float DifAngulosVectores(Vector2 vec1, Vector2 vec2)
+    {
+        float angle = Vector2.SignedAngle(vec1, vec2);
+
+        return angle < 0 ? 360 + angle : angle;
+    }
+
+
+
+    public static Vector2 VecFromDegs(float x, float m = 1)
+    {
+        x *= Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(x) * m, Mathf.Sin(x) * m);
+    }
+
 
 
     #region interfaz

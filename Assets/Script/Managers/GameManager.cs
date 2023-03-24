@@ -5,72 +5,140 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    /*
-    public event System.Action OnPause;
-
-    public event System.Action OnPlay;
-    */
-
     public static GameManager instance;
 
-    public bool menuMusic = true;
+    public static event System.Action onPause
+    {
+        add
+        {
+            instance.fsmGameMaganer.pause.onPause += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.pause.onPause -= value;
+        }
+    }
+
+    public static event System.Action onPlay
+    {
+        add
+        {
+            instance.fsmGameMaganer.pause.onPlay += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.pause.onPlay -= value;
+        }
+    }
+
+    public static event System.Action update;
+
+    public static event System.Action fixedUpdate;
+
+    FSMGameMaganer fsmGameMaganer;
 
     public GameObject player;
 
     public Menu menu;
 
-    public AudioListener audioListener;
-
-
     void Update()
     {
-        
-            
-        /*
-        if(menuMusic)
-        {
-            if (AudioManager.instance.Srch("menu").source.isPlaying)
-            {
-                AudioManager.instance.Srch("menu").source.volume -= Time.deltaTime / 7;
+        update();
+    }
 
-                if (AudioManager.instance.Srch("menu").source.volume < 0.1)
-                {
-                    AudioManager.instance.Srch("menu").source.Stop();
-                }
-            }
-        } */       
+    private void FixedUpdate()
+    {
+        fixedUpdate();
     }
 
     private void Awake()
     {
         instance = this;
+
+        fsmGameMaganer = new FSMGameMaganer(this);
     }
-
-
-
-    private void OnDestroy()
-    {
-        //AudioManager.instance.Srch("ambiente").source.Stop();
-    }
-
 
     #region funciones
 
-   
+    public void Pause()
+    {
+        fsmGameMaganer.CurrentState = (fsmGameMaganer.CurrentState == fsmGameMaganer.pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+    }
 
-    
     #endregion
 }
 
+public class FSMGameMaganer : FSM<FSMGameMaganer, GameManager>
+{
+    public Load load = new Load();
+    public Gameplay gamePlay = new Gameplay();
+    public Pause pause = new Pause();
+
+    public FSMGameMaganer(GameManager reference) : base(reference)
+    {
+        Init(gamePlay);
+    }
+}
+
+public class Load : IState<FSMGameMaganer>
+{
+    public void OnEnterState(FSMGameMaganer param)
+    {
+    }
+
+    public void OnExitState(FSMGameMaganer param)
+    {
+    }
+
+    public void OnStayState(FSMGameMaganer param)
+    {
+    }
+}
+
+public class Gameplay : IState<FSMGameMaganer>
+{
+    public void OnEnterState(FSMGameMaganer param)
+    {
+        param.context.gameObject.SetActive(true);
+    }
+
+    public void OnExitState(FSMGameMaganer param)
+    {
+        param.context.gameObject.SetActive(false);
+    }
+
+    public void OnStayState(FSMGameMaganer param)
+    {
+    }
+}
+
+public class Pause : IState<FSMGameMaganer>
+{
+    public event System.Action onPause;
+
+    public event System.Action onPlay;
+
+    public void OnEnterState(FSMGameMaganer param)
+    {
+        onPause?.Invoke();
+        Time.timeScale = 0;
+    }
+
+    public void OnExitState(FSMGameMaganer param)
+    {
+        onPlay?.Invoke();
+        Time.timeScale = 1;
+    }
+
+    public void OnStayState(FSMGameMaganer param)
+    {
+    }
+}
 
 static class Euler
 {
-    public static float DifAngulosVectores(Vector2 vec1, Vector2 vec2)
-    {
-        float angle = Vector2.SignedAngle(vec1, vec2);
-
-        return angle < 0 ? 360 + angle : angle;
-    }
 
     public static float[,] LocalSidePosHex(float[,] auxCalc2, float apotema, float magnitud = 1f)
     {
@@ -106,25 +174,7 @@ static class Euler
         DebugPrint.Log("Cantidad de assets cargados: " +aux.Length.ToString());
 
         return aux;
-    }
-
-    public static Vector2 TransVec3to2(Vector3 vec)
-    {
-        return new Vector2(vec.x,vec.y);
-    }
-
-    public static Vector3 TransVec2To3(Vector2 v, float z)
-    {
-        return new Vector3(v.x,v.y, z);
-    }
-
-    public static Vector2 VecFromDegs(float x, float m=1)
-    {
-        x *= Mathf.Deg2Rad;
-        return new Vector2( Mathf.Cos(x) *m , Mathf.Sin(x)*m);
-    }
-
-    
+    }    
 }
 
 static class DebugPrint

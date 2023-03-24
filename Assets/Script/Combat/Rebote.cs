@@ -35,7 +35,7 @@ public class Rebote : MonoBehaviour
                     float angulo=0;
                     if (collision.gameObject.GetComponent<Rigidbody2D>() != null)
                     {
-                        angulo = Euler.DifAngulosVectores(collision.gameObject.GetComponent<Rigidbody2D>().velocity, enemigos[i].transform.position - collision.transform.position);
+                        angulo = Utilitys.DifAngulosVectores(collision.gameObject.GetComponent<Rigidbody2D>().velocity, enemigos[i].transform.position - collision.transform.position);
                     }
 
                     if ((enemigos[i].transform.position-transform.position).sqrMagnitude < dist && (angulo>90 && angulo<270))
