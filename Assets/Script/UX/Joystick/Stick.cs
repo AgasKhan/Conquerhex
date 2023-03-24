@@ -13,23 +13,15 @@ public class Stick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public float minMagnitud;
 
-    public float timer;
-
-    public event System.Action<Vector2, float> down;
-    public event System.Action<Vector2, float> pressed;
-    public event System.Action<Vector2, float> up;
-
     public void OnPointerDown(PointerEventData eventData)
     {
-        down(dir, timer);
-        timer = 0;
+        VirtualControllers.movement.OnEnterState(dir);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        up(dir, timer);
+        VirtualControllers.movement.OnExitState(dir);
         StopStick();
-        timer = -1;
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -63,8 +55,7 @@ public class Stick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     private void Update()
     {
-        if(timer>-1)
-            timer += Time.deltaTime;
-        pressed(dir, timer);
+        if(dir.sqrMagnitude>0)
+            VirtualControllers.movement.OnStayState(dir);
     }
 }

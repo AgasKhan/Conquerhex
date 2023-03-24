@@ -9,17 +9,14 @@ public class FeedbackJoy : MonoBehaviour
     Image sprite;
 
     [SerializeReference]
-    JoyController controloador;
-
-    [SerializeReference]
     Color apreto;
 
     Color _default;
 
     void Start()
     {
-        controloador.down += Controloador_down;
-        controloador.up += Controloador_up;
+        VirtualControllers.movement.down += Controloador_down;
+        VirtualControllers.movement.up += Controloador_up;
 
         _default = sprite.color;
     }

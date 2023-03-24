@@ -19,7 +19,6 @@ public class VirtualControllers : MonoBehaviour
 
     static public Button parry = new Button("Parry");
     */
-    static public IControlador movement;
 
     #endregion
 
@@ -41,26 +40,12 @@ public class VirtualControllers : MonoBehaviour
     /// clase destinada a generar los eventos de suscripcion
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class MiddleKey<T> : FatherKey, IState<T>
+    public abstract class MiddleKey<T> : FatherKey
     {
-        public event System.Action<T> eventDown;
-        public event System.Action<T> eventPress;
-        public event System.Action<T> eventUp;
+        public System.Action<T> eventDown;
+        public System.Action<T> eventPress;
+        public System.Action<T> eventUp;
 
-        public void OnEnterState(T param)
-        {
-            eventDown?.Invoke(param);
-        }
-
-        public void OnStayState(T param)
-        {
-            eventPress?.Invoke(param);
-        }
-
-        public void OnExitState(T param)
-        {
-            eventUp?.Invoke(param);
-        }
         public override void Destroy()
         {
             eventDown = null;
@@ -127,7 +112,7 @@ public class VirtualControllers : MonoBehaviour
     /// <summary>
     /// clase destinada a instanciar la deteccion de un boton
     /// </summary>
-    public class Button : Key<string, bool>
+    public class Button : Key<string, bool>, IState
     {
       
         #region general functions
@@ -135,21 +120,36 @@ public class VirtualControllers : MonoBehaviour
         {
             if (down)
             {
-                OnEnterState(0);
+                OnEnterState();
             }
 
             if (pressed)
             {
-                timePressed += Time.deltaTime;
-                OnStayState(timePressed);
+                OnStayState();
             }
 
             if (up)
             {
-                OnExitState(timePressed);
-                timePressed = 0;
+                OnExitState();
             }
 
+        }
+
+        public void OnEnterState()
+        {
+            eventDown?.Invoke(0);
+        }
+
+        public void OnStayState()
+        {
+            timePressed += Time.deltaTime;
+            eventPress?.Invoke(timePressed);
+        }
+
+        public void OnExitState()
+        {
+            eventUp?.Invoke(timePressed);
+            timePressed = 0;
         }
         #endregion
 
@@ -177,11 +177,6 @@ public class VirtualControllers : MonoBehaviour
     {
         public override void MyUpdate()
         {
-            if (pressed!=0)
-            {
-                timePressed += Time.deltaTime;
-                OnStayState(timePressed);
-            }
         }
 
         public MiddleAxis(string k)
@@ -196,17 +191,19 @@ public class VirtualControllers : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public class AxisButton : FatherKey, IControlador
+    public class AxisButton : FatherKey, IControlador, IState<Vector2>
     {
+        public event Action<Vector2, float> down;
+        public event Action<Vector2, float> pressed;
+        public event Action<Vector2, float> up;
+
         MiddleAxis horizontal;
         MiddleAxis vertical;
         Button button;
 
         Vector2 dir;
 
-        public event Action<Vector2, float> down;
-        public event Action<Vector2, float> pressed;
-        public event Action<Vector2, float> up;
+        float multiply= 0.5f;
 
         public bool enable
         {
@@ -241,20 +238,20 @@ public class VirtualControllers : MonoBehaviour
         {
             if (button.down)
             {
-                down?.Invoke(Vector2.zero, 0);
+                multiply = 1;
+                OnEnterState(dir * multiply);
             }
 
             if (vecPressed.sqrMagnitude > 0)
             {
-                timePressed += Time.deltaTime;
-                pressed?.Invoke(dir, timePressed);
+                OnStayState(dir*multiply);
             }
 
             if (button.up)
             {
-                up?.Invoke(dir, timePressed);
-                timePressed = 0;
+                OnExitState(dir * multiply);
                 dir = Vector2.zero;
+                multiply = 0.5f;
             }
         }
 
@@ -263,6 +260,23 @@ public class VirtualControllers : MonoBehaviour
             down = null;
             up = null;
             pressed = null;
+        }
+
+        public void OnEnterState(Vector2 param)
+        {
+            down?.Invoke(param, 0);
+        }
+
+        public void OnStayState(Vector2 param)
+        {
+            timePressed += Time.deltaTime;
+            pressed?.Invoke(param, timePressed);
+        }
+
+        public void OnExitState(Vector2 param)
+        {
+            up?.Invoke(param, timePressed);
+            timePressed = 0;
         }
 
         public AxisButton(string strHorizontal, string strVertical, string strButton)
@@ -288,63 +302,6 @@ public class VirtualControllers : MonoBehaviour
             _keys.Add(this);
         }
 
-    }
-
-    public class ControllerDivide : IControlador
-    {
-        IControlador controlador1;
-        IControlador contralador2;
-
-        event Action<Vector2, float> IControlador.down
-        {
-            add
-            {
-                controlador1.down += value;
-                contralador2.down += value;
-            }
-
-            remove
-            {
-                controlador1.down -= value;
-                contralador2.down -= value;
-            }
-        }
-
-        event Action<Vector2, float> IControlador.pressed
-        {
-            add
-            {
-                controlador1.pressed += value;
-                contralador2.pressed += value;
-            }
-
-            remove
-            {
-                controlador1.pressed -= value;
-                contralador2.pressed -= value;
-            }
-        }
-
-        event Action<Vector2, float> IControlador.up
-        {
-            add
-            {
-                controlador1.up += value;
-                contralador2.up += value;
-            }
-
-            remove
-            {
-                controlador1.up-= value;
-                contralador2.up -= value;
-            }
-        }
-
-        public ControllerDivide(IControlador controlador1, IControlador contralador2)
-        {
-            this.controlador1 = controlador1;
-            this.contralador2 = contralador2;
-        }
     }
 
     #endregion
@@ -374,7 +331,7 @@ public class VirtualControllers : MonoBehaviour
 
     Button _parry = new Button("Parry");
 
-    AxisButton _movement = new AxisButton("Horizontal", "Vertical", "Sprint");
+    public static AxisButton movement = new AxisButton("Horizontal", "Vertical", "Sprint");
 
 
     #region unity functions
@@ -383,7 +340,6 @@ public class VirtualControllers : MonoBehaviour
     {
         _instance = this;
         eneableMove = true;
-        movement = new ControllerDivide(_movement, joyController);
     }
 
     private void OnDestroy()

@@ -216,7 +216,6 @@ MonoBehaviour:
   dir: {x: 0, y: 0, z: 0}
   maxMagnitud: 0
   minMagnitud: 0
-  timer: 0
 --- !u!1 &538370410
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stick: {fileID: 452852493}
-  deadzone: 0.25
+  deadzone: 0.1
 --- !u!114 &978197451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,7 +528,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 978197447}
-  controloador: {fileID: 978197450}
   apreto: {r: 0, g: 0, b: 0, a: 0.29803923}
 --- !u!1 &1051053226
 GameObject:
