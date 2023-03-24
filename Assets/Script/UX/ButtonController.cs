@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonController : Controlador
+public class ButtonController : MonoBehaviour
 {
 
     Vector3 dir;
@@ -32,7 +32,7 @@ public class ButtonController : Controlador
         dir = Vector3.zero;
     }
 
-    public override Vector3 MoveDir()
+    public Vector3 MoveDir()
     {
         return dir;
     }

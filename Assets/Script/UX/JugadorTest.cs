@@ -4,13 +4,30 @@ using UnityEngine;
 
 public class JugadorTest : MonoBehaviour
 {
-    [SerializeField] Controlador myController = null;
-
     [SerializeField] float speed = 5;
 
-    private void Update()
+    private void Start()
     {
-        Vector3 myDir = myController.MoveDir();
-        transform.position += new Vector3(myDir.x, myDir.y, 0) * speed * Time.deltaTime;
+
+        VirtualControllers.movement.pressed += MyController_sticklocko;
+
+        VirtualControllers.movement.up += MyController_up;
+
     }
+
+    private void MyController_up(Vector2 arg1, float arg2)
+    {
+        transform.position += arg1.Vec2to3(0);
+    }
+
+    private void MyController_down(Vector2 arg1, float arg2)
+    {
+        
+    }
+
+    private void MyController_sticklocko(Vector2 obj, float n)
+    {
+        transform.position += new Vector3(obj.x, obj.y, 0) * speed * Time.deltaTime;
+    }
+
 }

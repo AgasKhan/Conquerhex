@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Controlador : MonoBehaviour
+public interface IControlador
 {
-    public abstract Vector3 MoveDir();
-
+    public event System.Action<Vector2, float> down;
+    public event System.Action<Vector2, float> pressed;
+    public event System.Action<Vector2, float> up;
 }
