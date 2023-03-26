@@ -9,7 +9,7 @@ abstract public class Proyectile : MonoBehaviour
 
     //public MoveRb MoveRb;
 
-    public Damage damage;
+    public Danio damage;
 
     /*
     protected void AplicateDebuff(Character ch)
@@ -108,7 +108,7 @@ abstract public class Proyectile : MonoBehaviour
 
     }
 
-    public virtual void Throw(Damage dmg, Vector3 dir, float multiply)
+    public virtual void Throw(Danio dmg, Vector3 dir, float multiply)
     {
         damage = dmg;
         //MoveRb.Dash(dir, multiply);
@@ -137,7 +137,7 @@ abstract public class Proyectile : MonoBehaviour
 
 public interface IOnProyectileEnter
 {
-    void ProyectileEnter(Damage damage);
+    void ProyectileEnter(Danio damage);
 }
 
 public interface IOnProyectileExit
@@ -145,7 +145,7 @@ public interface IOnProyectileExit
     void ProyectileExit();
 }
 
-public struct Damage
+public struct Danio
 {
     public float amount;
     public System.Type[] debuffList;
