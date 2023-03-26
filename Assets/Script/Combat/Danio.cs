@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public interface IDamageable
 {
@@ -31,9 +32,9 @@ public enum EnumDamage
 {
     Slash,
     Impact,
-    Perforation,
-    Toxic
+    Perforation
 }
+
 
 public abstract class ClassDamage
 {
@@ -42,19 +43,30 @@ public abstract class ClassDamage
     public ClassDamage()
     {
         typesDamages.Add(this.GetType(), this);
+
+        Debug.Log("se creo: " + this.GetType().Name);
     }
 
     public static ClassDamage SearchDamage(EnumDamage type)
     {
+        string nameClass = type.ToString();
+
+        Debug.Log(nameClass);
+
         foreach (var item in typesDamages)
         {
-            if (item.GetType().Name == type.ToString())
+            if (item.Key.Name == nameClass)
             {
+                Debug.Log("encontro");
                 return item.Value;
             }
         }
 
-        return null;
+        Debug.Log("NO encontro");
+
+        string completeNameClass = type.GetType().Namespace + "." + nameClass;
+
+        return (ClassDamage)Activator.CreateInstance(Type.GetType(completeNameClass));
     }
 
     public abstract void IntarnalAction(Entity go, float amount);
@@ -79,24 +91,13 @@ public class Slash : Physic
 {
     public override void IntarnalAction(Entity entity, float amount)
     {
-        Tim tim=null;
-
-        System.Action end = () =>
-        {
-            tim.Set(0);
-        };
-
-        entity.health.death += end;
-
-        tim = TimersManager.Create(amount/3,
-            ()=> 
+        entity.Effect(amount/3, 
+            () =>
             {
                 entity.health.TakeRegenDamage(Time.deltaTime);
             },
-            ()=>
-            {
-                entity.health.death -= end;
-            });
+            null
+            );
     }
 }
 
@@ -107,7 +108,7 @@ public class Impact : Physic
 {
     public override void IntarnalAction(Entity entity, float amount)
     {
-        entity.health.TakeLifeDamage(Random.Range(0, 0.5f)*amount);
+        entity.health.TakeLifeDamage(UnityEngine.Random.Range(0, 0.5f)*amount);
     }
 }
 
@@ -119,7 +120,7 @@ public class Perforation : Physic
     public override void IntarnalAction(Entity entity, float amount)
     {
         //entity.health.TakeRegenDamage();
-        var aux = 3 / Random.Range(1, 4);
+        var aux = 3 / UnityEngine.Random.Range(1, 4);
 
         entity.health.TakeRegenDamage(aux*amount);
     }

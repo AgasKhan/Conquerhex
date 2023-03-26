@@ -11,8 +11,6 @@ public class WeaponManager : MonoBehaviour
     {
         instance=this;
 
-        new Slash();
-
         foreach (var item in weapons)
         {
             item.Init();

@@ -10,6 +10,36 @@ public class Entity : MonoBehaviour, IDamageable
         dmg.ActionInitialiced(this);
         health.TakeLifeDamage(dmg.amount);
     }
+
+    /// <summary>
+    /// Crea un efecto de estado para el personaje
+    /// </summary>
+    /// <param name="time">tiempo que deseo que dure el efecto</param>
+    /// <param name="update">que deseo realizar mientras este activo el efecto</param>
+    /// <param name="end">que deseo realizar cuando termine el efecto</param>
+    public void Effect(float time, System.Action update, System.Action end)
+    {
+        Tim tim = null;
+
+        //se ejecutara cuando muere el personaje
+        System.Action internalEnd = 
+        () =>
+        {
+            //lleva el timer a 0, haciendo que la funcion de fin del timer
+            tim.Set(0);
+        };
+
+        //agrego al evento de muerte la funcion que deseo ejecutar en ese caso
+        health.death += internalEnd;
+
+        //creo el timer, que se encargara de manejar el flujo
+        tim = TimersManager.Create(time,update,
+            () =>
+            {
+                end?.Invoke();
+                health.death -= internalEnd;
+            });
+    }
 }
 
 
@@ -17,9 +47,11 @@ public class Health
 {
     Tim life;
     Tim regen;
-    CompleteRoutine timeToRegen;
+    Routine timeToRegen;
 
-    public event System.Action damaged;
+    public event System.Action regenDamaged;
+
+    public event System.Action lifeDamaged;
 
     public event System.Action noLife;
 
@@ -28,6 +60,8 @@ public class Health
     public float TakeRegenDamage(float amount)
     {
         timeToRegen.Reset();
+
+        regenDamaged?.Invoke();
 
         var aux = regen.Substract(amount);
 
@@ -56,7 +90,7 @@ public class Health
         }
 
         if(amount>0)
-            damaged?.Invoke();
+            lifeDamaged?.Invoke();
 
         //actualizar ui
         return life.Substract(amount);
@@ -70,6 +104,6 @@ public class Health
 
     public Health()
     {
-        timeToRegen = TimersManager.Create(1, Regen,null);
+        timeToRegen = TimersManager.Create(1, Regen);
     }
 }
