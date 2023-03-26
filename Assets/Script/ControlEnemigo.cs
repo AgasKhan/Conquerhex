@@ -30,7 +30,7 @@ public class ControlEnemigo : MonoBehaviour
 
     Movement scriptMov;
 
-    Timers enf;
+    Timer enf;
 
     DispararProyectil dispararScript;
 
@@ -69,7 +69,7 @@ public class ControlEnemigo : MonoBehaviour
 
         dispararScript = this.GetComponent<DispararProyectil>();
 
-        enf = CoolDown.CreateCd("enfriamientoDisparo" + GetInstanceID(), enfriamientoDisparoConst);
+        enf = TimersManager.Create(enfriamientoDisparoConst);
 
         player.AddRange(LoadMap.instance.carlitos);
 
@@ -139,10 +139,10 @@ public class ControlEnemigo : MonoBehaviour
                         {
                             scriptMov.SetVectorDT(velocidad * Time.deltaTime, apuntar * -1);
                         }
-                        if (enf.CheckAndSub())
+                        if (enf.Chck)
                         {
                             anim.SetTrigger("attack");
-                            enf.RestartTimer();
+                            enf.Reset();
                             //audioSource.Play();
                             dispararScript.Disparar(danio, arma, velocidadProyectil, fuego.position);
                         }
@@ -272,8 +272,8 @@ public class ControlEnemigo : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(enf!=null)
-            CoolDown.DestroyCd("enfriamientoDisparo" + GetInstanceID());
+        if (enf != null)
+            TimersManager.Destroy(enf);
         
         //Destroy(audioSource);
 

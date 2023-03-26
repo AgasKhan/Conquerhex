@@ -643,7 +643,7 @@ GameObject:
   - component: {fileID: 829406117}
   - component: {fileID: 829406116}
   - component: {fileID: 829406115}
-  - component: {fileID: 829406114}
+  - component: {fileID: 829406119}
   - component: {fileID: 829406118}
   m_Layer: 0
   m_Name: GameManager
@@ -652,18 +652,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &829406114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 829406113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04be589fe47fa74429fedd3459e6b1fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &829406115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +749,22 @@ MonoBehaviour:
     basePools: []
   - name: Outputs
     basePools: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &829406119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829406113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4e1a4a56a682442bf0815e50d4cd26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timersList: []
   references:
     version: 2
     RefIds: []

@@ -2,93 +2,130 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour
+public interface IDamageable
 {
-    #region VARIABLES
+    void TakeDamage(Damage dmg);
+}
 
-    [Header("Estadisticas")]
-    [SerializeField] protected Damage damage;
-    [SerializeField] protected float durability;
-    [SerializeField] protected float velocity;
+[System.Serializable]
+public struct Damage
+{
+    public float amount;
+    public EnumDamage type;
+    public ClassDamage typeInstance;
 
-    [Header("audio")]
-    public AudioClip audioClip;
-    public AudioSource audioSource;
-
-    [Header("Gizmos")]
-    public Color color;
-    [Range(0.1f, 2)]
-    public float radius;
-    [Range(-2, 2)]
-    public float distance;
-    [Range(0.1f, 2)]
-    public float upCollider;
-    #endregion
-
-    #region FUNCIONES
-
-    #region VIRTUALES
-    public virtual void Attack()
+    public void Init()
     {
-        Collider[] Auxiliar = DetectColliders();
-
-       /* if (Auxiliar != null)
-            foreach (var item in Auxiliar)
-            {
-                /* IReciveDamage entitys = item.GetComponent<IReciveDamage>();
-                 if (entitys != null && item.name != name)
-                     AttackPers(entitys);*/
-            //}
+        ClassDamage.SearchDamage(type);
+        Debug.Log("me ejecute");
     }
 
-    public virtual void Durability()
+    public void ActionInitialiced(Entity go)
     {
-        durability -= 1;
-        if (durability <= 0)
+        typeInstance.IntarnalAction(go, amount);
+    }
+
+}
+
+public enum EnumDamage
+{
+    Slash,
+    Impact,
+    Perforation,
+    Toxic
+}
+
+public abstract class ClassDamage
+{
+    static Dictionary<System.Type, ClassDamage> typesDamages = new Dictionary<System.Type, ClassDamage>();
+
+    public ClassDamage()
+    {
+        typesDamages.Add(this.GetType(), this);
+    }
+
+    public static ClassDamage SearchDamage(EnumDamage type)
+    {
+        foreach (var item in typesDamages)
         {
-            Destroy();
+            if (item.GetType().Name == type.ToString())
+            {
+                return item.Value;
+            }
         }
+
+        return null;
     }
 
-    public virtual void Destroy()
-    {
-        enabled = false;
-    }
-
-    public virtual void Drop()
-    {
-
-    }
-
-    public virtual Collider[] DetectColliders()
-    {
-        return Physics.OverlapSphere(transform.position + Vector3.up * upCollider + transform.forward * distance, radius);
-    }
-
-    #endregion
-
-    #region ABSTRACTAS
-    public abstract void ButtomA();
-    public abstract void ButtomB();
-    public abstract void ButtomC();
-
-    #endregion
-
-    #endregion
-
-    #region UNITY FUNCIONES
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = color;
-        Gizmos.DrawSphere(transform.position + Vector3.up * upCollider + transform.forward * distance, radius);
-    }
-
-    #endregion
+    public abstract void IntarnalAction(Entity go, float amount);
 }
 
-public abstract class Damage : MonoBehaviour
+
+/// <summary>
+/// este es un daño elemental
+/// </summary>
+public abstract class Elemental : ClassDamage
 {
-    float amount;
 }
 
+/// <summary>
+/// este es el daño fisico
+/// </summary>
+public abstract class Physic : ClassDamage
+{
+}
+
+public class Slash : Physic
+{
+    public override void IntarnalAction(Entity entity, float amount)
+    {
+        Tim tim=null;
+
+        System.Action end = () =>
+        {
+            tim.Set(0);
+        };
+
+        entity.health.death += end;
+
+        tim = TimersManager.Create(amount/3,
+            ()=> 
+            {
+                entity.health.TakeRegenDamage(Time.deltaTime);
+            },
+            ()=>
+            {
+                entity.health.death -= end;
+            });
+    }
+}
+
+/// <summary>
+/// danio extra aleatorio de hasta el 50%
+/// </summary>
+public class Impact : Physic
+{
+    public override void IntarnalAction(Entity entity, float amount)
+    {
+        entity.health.TakeLifeDamage(Random.Range(0, 0.5f)*amount);
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class Perforation : Physic
+{
+    public override void IntarnalAction(Entity entity, float amount)
+    {
+        //entity.health.TakeRegenDamage();
+        var aux = 3 / Random.Range(1, 4);
+
+        entity.health.TakeRegenDamage(aux*amount);
+    }
+}
+
+public interface Init
+{
+    void Init();
+}

@@ -42,11 +42,11 @@ public class Interfaz : MonoBehaviour
         tiempo = TitleSrchByName("Tiempo");
         tiempo.fade = false;
 
-        TitleSrchByName("Titulo secundario").timer.DefaultTimer(6);
+        TitleSrchByName("Titulo secundario").timer.Set(6);
         TitleSrchByName("Titulo secundario").Message("Presiona T para ver el tutorial");
 
         subtitulo = TitleSrchByName("Subtitulo");
-        subtitulo.timer.DefaultTimer(6);
+        subtitulo.timer.Set(6);
 
         widthDiag =Dialogo.rectTransform.rect.width;
         heightDiag=Dialogo.rectTransform.rect.height;
@@ -60,7 +60,7 @@ public class Interfaz : MonoBehaviour
         foreach (var item in titulosC)
         {            
             
-            if (item.Write() && item.fade && item.timer.CheckAndSub())
+            if (item.Write() && item.fade && item.timer.Chck)
             {
                 item.Fade(Time.deltaTime,0);
             }
@@ -111,8 +111,8 @@ public class TextCompleto
 {
     public string name;
     public TextMeshProUGUI texto;
-    public Timers timer;
-    public Timers letras;
+    public Timer timer;
+    public Timer letras;
     public string final;
     public bool fade;
 
@@ -153,14 +153,14 @@ public class TextCompleto
         }
         else if(final != "")
         {
-            if (letras.CheckAndSub())
+            if (letras.Chck)
             {
                 texto.text += final[texto.text.Length];
 
                 //AudioManager.instance.Play("tec"+Random.Range(1,4));
 
-                letras.RestartTimer();
-                timer.RestartTimer();
+                letras.Reset();
+                timer.Reset();
             }
             return false;
         }
@@ -195,9 +195,9 @@ public class TextCompleto
     {
         name = o.name;
         texto = o;
-        letras = CoolDown.CreateCd("letras-"+name + o.GetInstanceID(), t);
+        letras = TimersManager.Create(t);
         final = palabraInicial;
         fade = fadeActivacion;
-        timer = CoolDown.CreateCd("timer-" + name + o.GetInstanceID(), 3);
+        timer = TimersManager.Create(3);
     }
 }

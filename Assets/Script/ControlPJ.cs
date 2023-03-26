@@ -22,8 +22,8 @@ public class ControlPJ : MonoBehaviour
 
     SpriteRenderer rend;
 
-    Timers enf;
-    Timers dur;
+    Timer enf;
+    Timer dur;
 
     private void Start()
     {
@@ -35,8 +35,8 @@ public class ControlPJ : MonoBehaviour
 
         rend = controller.gameObject.GetComponent<SpriteRenderer>();
 
-        enf = CoolDown.CreateCd("enfriamientoParry", valorEnfriamiento);
-        dur = CoolDown.CreateCd("duracionParry", valorDuracion);
+        enf = TimersManager.Create(valorEnfriamiento);
+        dur = TimersManager.Create(valorDuracion);
     }
 
     void Update()
@@ -90,17 +90,17 @@ public class ControlPJ : MonoBehaviour
             rend.flipX = false;
         }
 
-        if (Input.GetButton("Parry") && enf.CheckAndSub())
+        if (Input.GetButton("Parry") && enf.Chck)
         {
             controller.SetBool("Atack", true);
             scriptParry.parry = true;
 
-            enf.RestartTimer();
-            dur.RestartTimer();
+            enf.Reset();
+            dur.Reset();
 
         }
 
-        if (dur.CheckAndSub() && scriptParry.parry)
+        if (dur.Chck && scriptParry.parry)
         {
             controller.SetBool("Atack", false);
             scriptParry.parry = false;

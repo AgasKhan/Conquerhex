@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class Impacto : Weapon
 {
 
@@ -49,3 +49,4 @@ public class Impacto : Weapon
 
     #endregion
 }
+*/

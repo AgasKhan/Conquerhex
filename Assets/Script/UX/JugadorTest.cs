@@ -11,6 +11,7 @@ public class JugadorTest : MonoBehaviour
         VirtualControllers.movement.pressed += MyController_sticklocko;
 
         VirtualControllers.movement.up += MyController_up;
+
     }
 
     private void MyController_up(Vector2 arg1, float arg2)

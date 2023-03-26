@@ -480,6 +480,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 287620110}
   m_CullTransparentMesh: 1
+--- !u!1 &448142827 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8935596654404770743, guid: b6ec9fce7b61ca4439b1e8dcba24044b,
+    type: 3}
+  m_PrefabInstance: {fileID: 169785999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &448142828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448142827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2d0262fdce15441b96a3a5102925fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - name: espada
+    image: {fileID: 21300000, guid: 4c3ca63f91abefe4880a4cc5af654d0e, type: 3}
+    damages:
+    - amount: 5
+      type: 1
+    - amount: 10
+      type: 2
+    - amount: 15
+      type: 0
+    durability:
+      _total: 150
+      _current: 0
+    velocity: 2
 --- !u!1 &471998534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1723,7 +1755,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1412636323}
   - component: {fileID: 1412636324}
-  - component: {fileID: 1412636325}
   - component: {fileID: 1412636326}
   m_Layer: 0
   m_Name: Espada
@@ -1800,27 +1831,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1412636325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412636322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93d52cbb7ae606418886b5817e4209b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: {fileID: 0}
-  durability: 100
-  velocity: 5
-  audioClip: {fileID: 0}
-  audioSource: {fileID: 0}
-  color: {r: 0, g: 0.06058979, b: 1, a: 0}
-  radius: 2
-  distance: 0
-  upCollider: 0.1
 --- !u!61 &1412636326
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ public class Vida : MonoBehaviour
 
     public MonoBehaviour[] controlador;
     
-    Timers enf;
+    Timer enf;
 
     Animator anim;
 
@@ -27,7 +27,7 @@ public class Vida : MonoBehaviour
     {
         hp = maxHp;
 
-        enf=CoolDown.CreateCd("enfriamiento"+GetInstanceID());
+        enf= TimersManager.Create();
 
         rend = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
@@ -55,7 +55,7 @@ public class Vida : MonoBehaviour
 
     void Update()
     {
-        if (enf.CheckAndSub() && rend.color != normal)
+        if (enf.Chck&& rend.color != normal)
         {
             rend.color= normal;
         }
@@ -69,11 +69,11 @@ public class Vida : MonoBehaviour
 
     public void RestarHp(float danio, float enf2)
     {
-        if (enf.CheckAndSub())
+        if (enf.Chck)
         {
             hp -= danio;
 
-            enf.DefaultTimer(enf2);
+            enf.Set(enf2);
 
             rend.color= colorDamage;
             anim.SetTrigger("Damage");
@@ -107,11 +107,11 @@ public class Vida : MonoBehaviour
 
 
                   
-                }
             }
+    }
 
     private void OnDestroy()
     {
-        CoolDown.DestroyCd("enfriamiento" + GetInstanceID());
+        TimersManager.Destroy(enf);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class Cortantes : Weapon
 {
    
@@ -52,3 +52,4 @@ public class Cortantes : Weapon
 
 
 }
+*/

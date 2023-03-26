@@ -86,21 +86,27 @@ public class TimersManager : MonoBehaviour
 }
 
 
-
+[System.Serializable]
 public class Tim : IGetPercentage
 {
     [SerializeField]
-    protected float _totalTime;
+    protected float _total;
 
     [SerializeField]
-    protected float _currentTime;
+    protected float _current;
+
+    public float total => _total;
+
+    public float current => _current;
 
     /// <summary>
     /// Reinicia el contador a su valor por defecto, para reiniciar la cuenta
     /// </summary>
-    public virtual void Reset()
+    public virtual float Reset()
     {
-        _currentTime = _totalTime;
+        _current = _total;
+
+        return _total;
     }
 
     /// <summary>
@@ -109,10 +115,12 @@ public class Tim : IGetPercentage
     /// <param name="n">En caso de ser negativo(-) suma al contador, siempre y cuando no este frenado</param>
     public virtual float Substract(float n)
     {
-        if (_currentTime > 0)
-        {
-            _currentTime -= n;
-        }
+        _current -= n;
+
+        if (_current>_total)
+            _current = total;
+        else if (_current < 0)
+            _current = 0;
 
         return Percentage();
     }
@@ -123,13 +131,13 @@ public class Tim : IGetPercentage
     /// <param name="totalTim">El numero a contar</param>
     public void Set(float totalTim)
     {
-        _totalTime = totalTim;
+        _total = totalTim;
         Reset();
     }
 
     public float Percentage()
     {
-        return _currentTime / _totalTime;
+        return _current / _total;
     }
 
     public float InversePercentage()
@@ -178,7 +186,7 @@ public class Timer : Tim
     {
         get
         {
-            return _currentTime <= 0;
+            return _current <= 0;
         }
     }
 
@@ -224,9 +232,9 @@ public class Timer : Tim
     /// <param name="n">En caso de ser negativo(-) suma al contador, siempre y cuando no este frenado</param>
     public override float Substract(float n)
     {
-        if (_currentTime > 0 && _freeze)
+        if (_current > 0 && _freeze)
         {
-            _currentTime -= n*_multiply;
+            _current -= n*_multiply;
         }
 
         return Percentage();
@@ -263,10 +271,11 @@ public class Routine : Timer
 
     public bool execute;
 
-    public override void Reset()
+    public override float Reset()
     {
         base.Reset();
         execute = true;
+        return _total;
     }
 
     public bool Execute()
