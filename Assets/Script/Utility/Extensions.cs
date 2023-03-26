@@ -150,7 +150,7 @@ public static class Extensions
 
     #region eventos botones
 
-    /*
+    
     public static void Event(this Button b)
     {
         var menu = MenuManager.instance;
@@ -184,7 +184,7 @@ public static class Extensions
         //menu.eventListFloat[s.name](s.gameObject, s.value);
 
         DebugPrint.Log("\tslider configurado");
-    }*/
+    }
     #endregion
 
     
