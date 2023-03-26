@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cortantes : Weapon
+public class Impacto : Weapon
 {
-   
-    
-    
+
+
     #region FUNCIONES 
 
     public override void Attack()
@@ -16,7 +15,7 @@ public class Cortantes : Weapon
 
     public override void Durability()
     {
-        durability -= 3;
+        durability -= 10;
         if (durability <= 0)
         {
             Destroy();
@@ -49,6 +48,4 @@ public class Cortantes : Weapon
     }
 
     #endregion
-
-
 }
