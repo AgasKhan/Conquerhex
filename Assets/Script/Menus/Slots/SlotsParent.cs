@@ -15,12 +15,12 @@ public class SlotsParent : MonoBehaviour, IDropHandler
 
         draggableItem = dropped.GetComponent<DragButton_ButtonsManager>();
 
-        /*
+        
         if (transform != draggableItem.originalParent)
             DeclinedDrop();
         else
             AcceptedDrop();
-        */
+        
     }
 
     public virtual void AcceptedDrop()
