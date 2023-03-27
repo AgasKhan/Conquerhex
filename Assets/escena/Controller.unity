@@ -308,7 +308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538370410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.1, y: 0, z: 0}
+  m_LocalPosition: {x: -0.29, y: -0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1773,8 +1773,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823b35b893a99fe4dbd1c49dae0984be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objective: {fileID: 538370413}
-  _maxSpeed: 7
+  _obj:
+    tr: {fileID: 538370413}
+    prev: {x: 0, y: 0}
+    velocity: {x: 0, y: 0}
+  _maxSpeed: 10
+  _aceleration: 1
   desiredBehav: 0
 --- !u!212 &1842580379
 SpriteRenderer:
