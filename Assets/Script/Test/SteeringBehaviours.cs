@@ -6,44 +6,63 @@ public enum Behaviour { Seek, Flee };
 public class SteeringBehaviours : MonoBehaviour
 {
     [SerializeField]
-    Transform objective;
+    Vector2Quad _obj;
 
     [SerializeField]
     float _maxSpeed = 7;
-    float _slowSpeed = 1f;
+
+    [SerializeField]
+    float _aceleration = 1f;
 
     Vector2 _desiredVelocity;
-    Vector2 _steering;
+    Vector2 _steering ;
     Vector2 _velocity = Vector2.zero;
 
+    
+
+    //System.Action onStay;
+
     public Behaviour desiredBehav = Behaviour.Seek;
-    public void SeekOrFlee()
+    public void Seek()
     {
-        Vector2 _direction = (objective.transform.position - transform.position);
-        _direction = desiredBehav == Behaviour.Seek ? _direction : _direction * -1; 
-
-        _desiredVelocity = _direction.normalized * _maxSpeed;
-        _steering = _desiredVelocity - _velocity;
-        _velocity += _steering * Time.deltaTime;
-
-        //Vector3 _slowDown = Vector3.ClampMagnitude(_direction, _slowSpeed);
-
-        float _slowDown = Mathf.Clamp01(_direction.magnitude / _slowSpeed);
-        _velocity *= _slowDown;
-
-        Move();
-
+        Manolo(1);
     }
+
+    public void Flee()
+    {
+        Manolo(-1);
+    }
+
+    void Manolo(float mukltiply)
+    {
+        Vector2 _direction = (_obj.tr.position - transform.position).Vect3To2() + _obj.velocity;
+
+        _direction *= mukltiply;
+
+        _steering = _direction - _velocity;
+
+        if (_steering.sqrMagnitude> _aceleration * _aceleration)
+            _steering = Vector2.ClampMagnitude(_steering, _aceleration);
+
+        _velocity += _steering;
+    }
+
 
     private void Move()
     {
-        transform.position += (Vector3)_velocity * Time.deltaTime;
-    }
+        if (_velocity.sqrMagnitude > _maxSpeed * _maxSpeed)
+            _velocity = Vector2.ClampMagnitude(_velocity, _maxSpeed);
 
+        transform.position += (_velocity * Time.deltaTime).Vec2to3(0);
+    }
 
     private void Update()
     {
-        SeekOrFlee();
+        Seek();
+
+        Move();
+
+        _obj.LoadVelocity();
     }
 
 }
