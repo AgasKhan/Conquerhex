@@ -232,9 +232,9 @@ public class Timer : Tim
     /// <param name="n">En caso de ser negativo(-) suma al contador, siempre y cuando no este frenado</param>
     public override float Substract(float n)
     {
-        if (_current > 0 && _freeze)
+        if (_freeze)
         {
-            _current -= n*_multiply;
+            return base.Substract(n * _multiply);
         }
 
         return Percentage();
