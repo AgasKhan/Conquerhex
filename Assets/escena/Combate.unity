@@ -503,11 +503,11 @@ MonoBehaviour:
     image: {fileID: 21300000, guid: 4c3ca63f91abefe4880a4cc5af654d0e, type: 3}
     damages:
     - amount: 5
-      type: 1
-    - amount: 10
-      type: 2
-    - amount: 15
       type: 0
+    - amount: 10
+      type: 1
+    - amount: 15
+      type: 2
     durability:
       _total: 150
       _current: 0
@@ -1413,6 +1413,7 @@ GameObject:
   - component: {fileID: 1197720637}
   - component: {fileID: 1197720636}
   - component: {fileID: 1197720635}
+  - component: {fileID: 1197720640}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1531,6 +1532,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1197720640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197720634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4e1a4a56a682442bf0815e50d4cd26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timersList: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1231468795
 GameObject:
   m_ObjectHideFlags: 0
