@@ -40,7 +40,7 @@ public class DetailsWindow : MonoBehaviour
     {
         instance = this;
         alphaCanvas = GetComponent<CanvasGroup>();
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public static void ModifyTexts(DoubleString d)
@@ -48,7 +48,7 @@ public class DetailsWindow : MonoBehaviour
         instance.myTitle.text = d.superior;
         instance.myDescription.text = d.inferior;
 
-        Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
+        //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
 
     }
 

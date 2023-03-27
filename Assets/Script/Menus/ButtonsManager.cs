@@ -10,6 +10,10 @@ public class ButtonsManager : MonoBehaviour
     {
         menu = MenuManager.instance;
        
+        
+    }
+    private void Start()
+    {
         menu.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 

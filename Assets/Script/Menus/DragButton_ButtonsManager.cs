@@ -23,15 +23,19 @@ public class DragButton_ButtonsManager : ButtonsManager, IBeginDragHandler, IDra
         originalParent = transform.parent;
 
         myCanvasGroup = GetComponent<CanvasGroup>();
+    }
 
-        menu.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
+    private void Start()
+    {
+
+        MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
             {"ShowWindow", ShowWindow}
 
         });
     }
-    
+
     void ShowWindow(GameObject g)
     {
         DetailsWindow.instance.SetWindow(_mySprite, _information);

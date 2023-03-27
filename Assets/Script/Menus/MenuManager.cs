@@ -221,7 +221,7 @@ public class MenuManager : MonoBehaviour
 
         DetailsWindow.ChangeAlpha(1, 0.1f);
 
-        DetailsWindow.PreviewImage(true, preview[index].previewImage);
+        //DetailsWindow.PreviewImage(true, preview[index].previewImage);
 
         DetailsWindow.SetMyButton(() => { SelectLevel(preview[index].numberScene.ToString()); }, true, "Play: " + preview[index].texts.superior);
 
