@@ -166,7 +166,7 @@ public static class Extensions
 
         DebugPrint.Log("\tboton configurando");
     }
-
+    /*
     public static void Event(this Slider s)
     {
         var menu = MenuManager.instance;
@@ -185,6 +185,7 @@ public static class Extensions
 
         DebugPrint.Log("\tslider configurado");
     }
+    */
     #endregion
 
     

@@ -16,10 +16,11 @@ public class MenuManager : MonoBehaviour
         public Sprite previewImage;
         public int numberScene;
     }
-
+    
 
     public SelectLevels[] preview;
 
+    
     public GameObject[] menus;
     public GameObject[] subMenus;
     public Button[] levelButtons;
@@ -47,6 +48,8 @@ public class MenuManager : MonoBehaviour
     {
         instance = this;
 
+        /*
+         
         if (levelButtons != null)
             for (int i = 0; i < levelButtons.Length; i++)
             {
@@ -77,58 +80,18 @@ public class MenuManager : MonoBehaviour
         }
 
         audioM = GetComponent<AudioManager>();
+
+        */
     }
 
     private void Start()
     {
         /*
-        foreach (var item in GetComponentsInChildren<Button>(true))
-        {
-            DebugPrint.Log("Nombre del boton: " + item.name.RichText("color", "green"));
-
-            for (int i = 0; i < item.onClick.GetPersistentEventCount(); i++)
-            {
-                DebugPrint.Log("\tmetodo: " + item.onClick.GetPersistentMethodName(i).RichText("color", "yellow"));
-            }
-
-            if (eventListButtoOn.ContainsKey(item.name))
-            {
-                eventListButtoOn[item.name](item);
-                eventListButtoOn.Remove(item.name);
-                DebugPrint.Log("\t\tInicializado");
-            }
-            if (eventListVoid.ContainsKey(item.name))
-            {
-                item.Event();
-            }
-        }
-        */
-
-
         if (!_inGame)
         {
             audioM.Play("MenuMusic");
         }
-
-        foreach (var item in GetComponentsInChildren<Slider>(true))
-        {
-            DebugPrint.Log("Nombre del Slider: " + item.name.RichText("color", "green"));
-
-            for (int i = 0; i < item.onValueChanged.GetPersistentEventCount(); i++)
-            {
-                DebugPrint.Log("\tmetodo: " + item.onValueChanged.GetPersistentMethodName(i).RichText("color", "yellow"));
-            }
-            if (eventListSliderOn.ContainsKey(item.name))
-            {
-                eventListSliderOn[item.name](item);
-                eventListSliderOn.Remove(item.name);
-                DebugPrint.Log("\tInicializado");
-            }
-            if (eventListFloat.ContainsKey(item.name))
-            {
-                item.Event();
-            }
-        }
+        */
     }
 
     void Update()
@@ -136,13 +99,13 @@ public class MenuManager : MonoBehaviour
         if (_inGame)
         {
             /*
+             
             if (Controllers.pause.down)
             {
                 OpenCloseMenu();
-            }*/
+            }
 
-
-            /*
+            
             if (_optionMenuActive)
             {
                 if (Input.GetKeyDown("h"))
@@ -151,10 +114,11 @@ public class MenuManager : MonoBehaviour
                 if (Input.GetKeyDown("j"))
                     GoToNextSubMenu();
             }
-            */
-            /*
+            
             if (Controllers.locked.down)
-                Controllers.MouseLock();*/
+                Controllers.MouseLock();
+            
+             */
         }
 
     }

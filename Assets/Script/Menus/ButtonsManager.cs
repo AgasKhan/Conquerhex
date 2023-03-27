@@ -1,66 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
 
 public class ButtonsManager : MonoBehaviour
 {
-    public AudioMixerGroup group;
+    protected MenuManager menu;
 
-    //Player_Character player;
-
-    MenuManager menu;
-
-    //
-    // Start is called before the first frame update
     void Awake()
     {
-        //player = GameManager.player;
         menu = MenuManager.instance;
-        /*
-        menu.eventListFloat.AddRange(new Pictionarys<string, System.Action<GameObject, float>>()
-        {
-            {"sens", CameraSpeed},
-            {"AlphaReticula", ChangeAlphaReticula},
-            {"Master", ChangeVolumeLevel},
-            {"Ambiental", ChangeVolumeLevel},
-            {"Effects", ChangeVolumeLevel}
-        });
-
-        menu.eventListSliderOn.AddRange(new Pictionarys<string, System.Action<Slider>>()
-        {
-            {"sens", CameraSpeed},
-            {"AlphaReticula", OnAlphaReticula},
-            {"Master", LoadVolumeLevel},
-            {"Ambiental", LoadVolumeLevel},
-            {"Effects", LoadVolumeLevel}
-        });
-
+       
         menu.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
-            {"Mute", Mute}
+            {"Button", Example}
 
-        });*/
+        });
     }
 
+    void Example(GameObject g)
+    {
+        Debug.Log("Apretaste el boton");
+    }
+
+
+    #region FuncionesAntiguas
+    /*
     // Llamada cada que cambia el slider
     void CameraSpeed(GameObject g, float f)
     {
         // Almacenar 
         //CSVReader.SaveInPictionary("MouseSensibility", f);
-        /*
+        
         print("Todo funciono: " + f);
         if (player == null)
             return;
 
 
-        player.cameraScript.Speed(f);*/
+        player.cameraScript.Speed(f);
     }
 
     // On
-    /*
+    
     void CameraSpeed(Slider s)
     {
         s.value = CSVReader.LoadFromPictionary<float>("MouseSensibility", 25);
@@ -76,7 +57,7 @@ public class ButtonsManager : MonoBehaviour
     {
         s.value = CSVReader.LoadFromPictionary<float>("AlphaReticula", 0.15f);
     }
-    */
+    
 
     void ChangeVolumeLevel(GameObject g, float volume)
     {
@@ -142,5 +123,7 @@ public class ButtonsManager : MonoBehaviour
 
         text.text = active ? "Deactivate" : "Activate";
     }
+    */
 
+    #endregion
 }

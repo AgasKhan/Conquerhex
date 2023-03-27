@@ -7,10 +7,11 @@ using UnityEngine.UI;
 public class DetailsWindow : MonoBehaviour
 {
 
-    static DetailsWindow instance;
+    public static DetailsWindow instance;
 
     [SerializeField]
     TextMeshProUGUI myTitle;
+
     [SerializeField]
     TextMeshProUGUI myDescription;
 
@@ -131,4 +132,9 @@ public class DetailsWindow : MonoBehaviour
             instance.previewImage.sprite = sprite;
     }
 
+    public void SetWindow(Sprite sprite, DoubleString ds)
+    {
+        PreviewImage(true, sprite);
+        ModifyTexts(ds);
+    }
 }
