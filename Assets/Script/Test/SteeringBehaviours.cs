@@ -6,7 +6,10 @@ public enum Behaviour { Seek, Flee };
 public class SteeringBehaviours : MonoBehaviour
 {
     [SerializeField]
-    Vector2Quad _obj;
+    public Vector2Quad _obj;
+
+    [SerializeField]
+    public List<Vector3> carlitos= new List<Vector3>(); 
 
     [SerializeField]
     float _maxSpeed = 7;
@@ -19,6 +22,10 @@ public class SteeringBehaviours : MonoBehaviour
     Vector2 _velocity = Vector2.zero;
 
     public Behaviour desiredBehav = Behaviour.Seek;
+
+    Carlitos fsmCarlitos;
+
+    public LayerMask layerMask;
 
     public void Arrive()
     {
@@ -43,9 +50,15 @@ public class SteeringBehaviours : MonoBehaviour
 
     Vector2 Direction(float mukltiply=1)
     {
-        Vector2 _direction = (_obj.tr.position - transform.position).Vect3To2();
+        if (carlitos.Count<=0)
+            return Vector2.zero;
+
+        Vector2 _direction = (carlitos[carlitos.Count - 1] - transform.position).Vect3To2();
 
         _direction *= mukltiply;
+
+        if (carlitos.Count > 1 && _direction.sqrMagnitude < 0.1f* 0.1f)
+            carlitos.RemoveAt(carlitos.Count-1);
 
         return _direction;
     }
@@ -86,13 +99,111 @@ public class SteeringBehaviours : MonoBehaviour
     }
     */
 
+    private void Start()
+    {
+        carlitos.Add(transform.position);
+
+        fsmCarlitos = new Carlitos(this);
+    }
+
     private void Update()
     {
         Arrive();
 
+        _obj.LoadVelocity();
+
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, _obj.tr.position - transform.position);
+
+        if (raycastHit2D.transform == _obj.tr)
+        {
+            fsmCarlitos.CurrentState = fsmCarlitos.persecucion;
+
+        }
+        else
+        {
+            fsmCarlitos.CurrentState = fsmCarlitos.vuelta;
+        }
+
+        Debug.DrawRay(transform.position, _obj.tr.position-transform.position);
+
+        
+
         Locomotion();
 
-        _obj.LoadVelocity();
     }
 
+    private void FixedUpdate()
+    {
+        fsmCarlitos.UpdateState();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        foreach (var item in carlitos)
+        {
+            Gizmos.DrawSphere(item, 0.1f);
+        }
+    }
+
+}
+
+
+public class Carlitos : FSM<Carlitos, SteeringBehaviours>
+{
+    public IState<Carlitos> persecucion = new Persecucion();
+
+    public IState<Carlitos> vuelta = new Vuelta();
+
+    public Carlitos(SteeringBehaviours reference) : base(reference)
+    {
+        Init(vuelta);
+    }
+}
+
+public class Persecucion : IState<Carlitos>
+{
+    public void OnEnterState(Carlitos param)
+    {
+        if (param.context.carlitos.Count >= 3)
+            return;
+
+        param.context.carlitos.Add(param.context.transform.position);
+        param.context.carlitos.Add(param.context._obj.tr.position);
+    }
+
+    public void OnExitState(Carlitos param)
+    {
+    }
+
+    public void OnStayState(Carlitos param)
+    {
+        param.context.carlitos[param.context.carlitos.Count - 1] = param.context._obj.prev;
+
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(param.context.transform.position, param.context.carlitos[param.context.carlitos.Count - 3] - param.context.transform.position);
+
+        if (raycastHit2D.transform == null)
+            param.context.carlitos[param.context.carlitos.Count - 2] = param.context.transform.position;
+        else
+        {
+            param.context.carlitos.Insert(param.context.carlitos.Count - 2, param.context.transform.position);
+        }
+    }
+}
+
+public class Vuelta : IState<Carlitos>
+{
+    public void OnEnterState(Carlitos param)
+    {
+    }
+
+    public void OnExitState(Carlitos param)
+    {
+    }
+
+    public void OnStayState(Carlitos param)
+    {
+
+    }
 }
