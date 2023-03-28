@@ -12,27 +12,56 @@ public class SteeringBehaviours : MonoBehaviour
     float _maxSpeed = 7;
 
     [SerializeField]
-    float _aceleration = 1f;
+    float _desaceleration = 1f;
 
     Vector2 _desiredVelocity;
     Vector2 _steering ;
     Vector2 _velocity = Vector2.zero;
 
-    
-
-    //System.Action onStay;
-
     public Behaviour desiredBehav = Behaviour.Seek;
-    public void Seek()
+
+    public void Arrive()
     {
-        Manolo(1);
+        _desiredVelocity = Vector2.ClampMagnitude(Direction(), _maxSpeed);
+
+        if (_desiredVelocity.sqrMagnitude < _velocity.sqrMagnitude / (_desaceleration* _desaceleration))
+            _desiredVelocity = -_velocity*(_desaceleration-1);
+
+        _steering = _desiredVelocity - _velocity;
+
+        AddVelocity(_steering);
     }
 
-    public void Flee()
+    public void Seek(float mukltiply)
     {
-        Manolo(-1);
+        _desiredVelocity = Direction(mukltiply).normalized * _maxSpeed;
+
+        _steering = _desiredVelocity - _velocity;
+
+        AddVelocity(_steering);
     }
 
+    Vector2 Direction(float mukltiply=1)
+    {
+        Vector2 _direction = (_obj.tr.position - transform.position).Vect3To2();
+
+        _direction *= mukltiply;
+
+        return _direction;
+    }
+
+    void AddVelocity(Vector2 velocity)
+    {
+        _velocity += velocity * Time.deltaTime;//sumo la velocidad en metros por segundo
+    }
+
+    private void Locomotion()
+    {
+        transform.position += (_velocity * Time.deltaTime).Vec2to3(0);//me muevo en metros por segundo
+    }
+
+
+    /*
     void Manolo(float mukltiply)
     {
         Vector2 _direction = (_obj.tr.position - transform.position).Vect3To2() + _obj.velocity;
@@ -55,12 +84,13 @@ public class SteeringBehaviours : MonoBehaviour
 
         transform.position += (_velocity * Time.deltaTime).Vec2to3(0);
     }
+    */
 
     private void Update()
     {
-        Seek();
+        Arrive();
 
-        Move();
+        Locomotion();
 
         _obj.LoadVelocity();
     }
