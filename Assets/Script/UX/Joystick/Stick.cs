@@ -37,8 +37,6 @@ public class Stick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             return;
         }
 
-        Debug.Log(direction.magnitude);
-
         transform.position = initPos + direction;
 
         dir.x = direction.x;

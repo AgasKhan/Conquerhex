@@ -181,7 +181,11 @@ public class Persecucion : IState<Carlitos>
     {
         param.context.carlitos[param.context.carlitos.Count - 1] = param.context._obj.prev;
 
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(param.context.transform.position, param.context.carlitos[param.context.carlitos.Count - 3] - param.context.transform.position);
+        Vector3 dir = param.context.carlitos[param.context.carlitos.Count - 3] - param.context.transform.position;
+
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(param.context.transform.position, dir, dir.magnitude);
+
+        Debug.DrawRay(param.context.transform.position, dir, Color.blue);
 
         if (raycastHit2D.transform == null)
             param.context.carlitos[param.context.carlitos.Count - 2] = param.context.transform.position;
