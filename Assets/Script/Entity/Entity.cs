@@ -43,15 +43,19 @@ public class Entity : MonoBehaviour, IDamageable
 }
 
 
-public class Health
+[System.Serializable]
+public class Health : Init
 {
+    [SerializeField]
     Tim life;
+    [SerializeField]
     Tim regen;
+    [SerializeReference]
     Routine timeToRegen;
 
-    public event System.Action regenDamaged;
+    public event System.Action<float> regenDamaged;
 
-    public event System.Action lifeDamaged;
+    public event System.Action<float> lifeDamaged;
 
     public event System.Action noLife;
 
@@ -61,14 +65,14 @@ public class Health
     {
         timeToRegen.Reset();
 
-        regenDamaged?.Invoke();
+        
 
         var aux = regen.Substract(amount);
 
         if (aux <= 0 && life.current <= 0)
             death?.Invoke();
 
-        //actualizar ui
+        regenDamaged?.Invoke(aux);
         return aux;
     }
 
@@ -89,21 +93,24 @@ public class Health
             }
         }
 
-        if(amount>0)
-            lifeDamaged?.Invoke();
+        var aux2 = life.Substract(amount);
+
+        if (amount>0)
+            lifeDamaged?.Invoke(aux2);
 
         //actualizar ui
-        return life.Substract(amount);
+        return aux2;
     }
 
     void Regen()
     {
-        life.Substract(-1 * (regen.current / 100) * life.total);
+        life.Substract(-1 * (regen.current / 100f) * life.total);
         regen.Substract(-1);
+        timeToRegen.Reset();
     }
 
-    public Health()
+    public void Init()
     {
-        timeToRegen = TimersManager.Create(1, Regen);
+        timeToRegen = TimersManager.Create(3, Regen, false);
     }
 }

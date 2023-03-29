@@ -11,6 +11,8 @@ public class ControlPJ : MonoBehaviour
 
     public float valorDuracion;
 
+    public Health health;
+
     public Menu menu;
 
     Rebote scriptParry;
@@ -37,6 +39,8 @@ public class ControlPJ : MonoBehaviour
 
         enf = TimersManager.Create(valorEnfriamiento);
         dur = TimersManager.Create(valorDuracion);
+
+        health.Init();
     }
 
     void Update()

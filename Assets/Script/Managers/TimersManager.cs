@@ -280,8 +280,8 @@ public class Routine : Timer
 
     public bool Execute()
     {
-        action();
         execute = false;
+        action();
         return destroy;
     }
 

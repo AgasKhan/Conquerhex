@@ -24,6 +24,11 @@ public class Interfaz : MonoBehaviour
     TextCompleto tiempo;
     TextCompleto subtitulo;
 
+    void UpdateLife(float percentage)
+    {
+        vida.fillAmount = percentage;
+    }
+
     private void Awake()
     {
         titulosC.Clear();
@@ -36,6 +41,8 @@ public class Interfaz : MonoBehaviour
             titulosC.Add(new TextCompleto(item, tiempoEntreLetrasPublic));
         }
     }
+
+
     void Start()
     {
         //defino la propiedad de vida
@@ -52,6 +59,8 @@ public class Interfaz : MonoBehaviour
         heightDiag=Dialogo.rectTransform.rect.height;
 
         Dialogo.rectTransform.sizeDelta = Vector2.zero;
+
+        GameManager.instance.player.GetComponent<ControlPJ>().health.lifeDamaged += UpdateLife;
     }
 
     // Update is called once per frame

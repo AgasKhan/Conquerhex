@@ -48,6 +48,14 @@ public class LoadMap : MonoBehaviour
         StartCoroutine(CargaHexagonos());
     }
 
+    public Object[] LoadAsset(string path)
+    {
+        Object[] aux = Resources.LoadAll(path);
+
+        DebugPrint.Log("Cantidad de assets cargados: " + aux.Length.ToString());
+
+        return aux;
+    }
 
     IEnumerator LoadHex(System.Action<bool> end, System.Action<string> msg2)
     {
@@ -84,7 +92,7 @@ public class LoadMap : MonoBehaviour
         {
             string path = "Props/terreno_" + i + "/";
 
-            props[i] = Euler.LoadAsset(path);
+            props[i] = LoadAsset(path);
         }
 
         StartCoroutine(VincularHexagonos());

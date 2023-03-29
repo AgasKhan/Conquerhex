@@ -167,14 +167,7 @@ static class Euler
 
     }
 
-    public static Object[] LoadAsset(string path)
-    {
-        Object[] aux = Resources.LoadAll(path);
 
-        DebugPrint.Log("Cantidad de assets cargados: " +aux.Length.ToString());
-
-        return aux;
-    }    
 }
 
 static class DebugPrint
