@@ -4,30 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DragButton_ButtonsManager : ButtonsManager, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DragButton_ButtonsManager : ButtonsManager
 {
-    [HideInInspector]
-    public Transform parentAfterDrag;
-    [HideInInspector]
-    public CanvasGroup myCanvasGroup;
-    [HideInInspector]
-    public Transform originalParent;
-
     [SerializeField]
     Sprite _mySprite;
     [SerializeField]
     DoubleString _information;
 
-    private void Awake()
-    {
-        originalParent = transform.parent;
-
-        myCanvasGroup = GetComponent<CanvasGroup>();
-    }
 
     private void Start()
     {
-
         MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
@@ -38,26 +24,7 @@ public class DragButton_ButtonsManager : ButtonsManager, IBeginDragHandler, IDra
 
     void ShowWindow(GameObject g)
     {
-        DetailsWindow.instance.SetWindow(_mySprite, _information);
+        Debug.Log("Apretaste un boton Draggeable");
+        //DetailsWindow.instance.SetWindow(_mySprite, _information);
     }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        parentAfterDrag = transform.parent;
-        transform.SetParent(transform.parent.parent.parent.parent);
-        transform.SetAsLastSibling();
-        myCanvasGroup.blocksRaycasts = false;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        transform.position = Input.mousePosition;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        transform.SetParent(parentAfterDrag);
-        myCanvasGroup.blocksRaycasts = true;
-    }
-
 }

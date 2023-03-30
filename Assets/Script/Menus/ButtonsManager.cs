@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class ButtonsManager : MonoBehaviour
 {
-    protected MenuManager menu;
+    //[SerializeField]
+    //protected MenuManager menu;
 
     void Awake()
     {
-        menu = MenuManager.instance;
-       
-        
+        //menu = MenuManager.instance;
     }
     private void Start()
     {
-        menu.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
+        MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
             {"Button", Example}
 
         });
     }
+
 
     void Example(GameObject g)
     {

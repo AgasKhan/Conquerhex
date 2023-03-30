@@ -5,33 +5,45 @@ using UnityEngine.EventSystems;
 
 public class SlotsParent : MonoBehaviour, IDropHandler
 {
-    protected DragButton_ButtonsManager draggableItem;
+    protected DragItem draggableItem;
+
+    [SerializeField]
+    Transform Container;
 
     public void OnDrop(PointerEventData eventData)
     {
         GameObject dropped = eventData.pointerDrag;
 
-        dropped.transform.SetAsLastSibling();
+        //dropped.transform.SetAsLastSibling();
 
-        draggableItem = dropped.GetComponent<DragButton_ButtonsManager>();
+        draggableItem = dropped.GetComponent<DragItem>();
 
-        
-        if (transform != draggableItem.originalParent)
-            DeclinedDrop();
-        else
+        if(draggableItem!=null)
             AcceptedDrop();
-        
+
+
+        /*
+        if (Container == draggableItem.originalParent)
+        {
+            DeclinedDrop();
+            Debug.Log("NO se acepto el drop");
+        }
+        else
+        {
+            AcceptedDrop();
+            Debug.Log("Se acepto el drop");
+        }
+        */
     }
 
     public virtual void AcceptedDrop()
     {
-        draggableItem.parentAfterDrag = transform;
+        draggableItem.parentAfterDrag = Container;
     }
 
     public virtual void DeclinedDrop()
     {
         draggableItem.parentAfterDrag = draggableItem.originalParent;
-
     }
 
 }
