@@ -12,6 +12,10 @@ public class Abilities : MonoBehaviour
 
     #region FUNCIONES
 
+    public void Stab()
+    {
+
+    }
 
 
     #endregion
