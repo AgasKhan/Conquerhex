@@ -2,25 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Abilities : MonoBehaviour
+public class AbilitiesManager : Manager<AbilitiesManager>
 {
     #region VARIABLES
 
-
+    [SerializeField]
+    AbilityBase[] abilityBases;
 
     #endregion
 
     #region FUNCIONES
 
-    public void Stab()
+    protected override void Awake()
     {
-
+        base.Awake();
     }
 
 
     #endregion
 
 }
+
+[System.Serializable]
+public class AbilityBase : FatherWeaponHability
+{
+    [SerializeField]
+    GameObject particles;
+
+    [SerializeReference]
+    FunctionSlot internalFunction;
+
+    public void Attack(Vector2 direction, Weapon weapon)
+    {
+        //instacio particulas y bla bla
+        internalFunction.InternalAttack(direction, weapon);
+    }
+}
+
+public class Hability : Init
+{
+    public Weapon weapon;
+    public AbilityBase habilityBase;
+    Timer cooldown;
+
+    public void Init()
+    {
+        cooldown = TimersManager.Create(habilityBase.velocity);
+    }
+
+    public void Attack(Vector2 dir)
+    {
+        if (cooldown.Chck)
+            habilityBase.Attack(dir, weapon);
+    }
+
+}
+
+public abstract class FunctionSlot : ScriptableObject
+{
+    public abstract void InternalAttack(Vector2 direction, Weapon weapon);
+}
+
+
 
 //padre de los pdoeres y debuffos
 /*

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour, IDamageable
 {
     public Health health;
+
     public virtual void TakeDamage(Damage dmg)
     {
         dmg.ActionInitialiced(this);

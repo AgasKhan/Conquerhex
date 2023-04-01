@@ -2,25 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponManager : MonoBehaviour
+public class WeaponManager : Manager<WeaponManager>
 {
-    static public WeaponManager instance;
+    [SerializeField]
+    WeaponBase[] weapons;
 
-    public Weapon[] weapons;
-    void Awake()
+    protected override void Awake()
     {
-        instance=this;
+        autoInit = (Init[])weapons;
+        base.Awake();
+    }
+}
 
-        foreach (var item in weapons)
+public abstract class Manager<T> : MonoBehaviour where T : Manager<T>
+{
+    static public T instance;
+
+    protected Init[] autoInit;
+
+    protected virtual void Awake()
+    {
+        instance = (T)this;
+
+        foreach (var item in autoInit)
         {
             item.Init();
         }
+
+        autoInit = null;
     }
 }
 
 
-[System.Serializable]
-public class Weapon
+public class FatherWeaponHability
 {
     #region VARIABLES
     public string name;
@@ -28,13 +42,42 @@ public class Weapon
 
     [Header("Estadisticas")]
     public Damage[] damages;
-    public Tim durability;
     public float velocity;
 
-    public System.Action durabilityOff;
+}
+
+
+[System.Serializable]
+public class WeaponBase : FatherWeaponHability
+{
+
+    public float durability;
+
     #endregion
 
     #region FUNCIONES
+
+    public bool CheckDamage(params Damage[] classDamages)
+    {
+        List<Damage> damagesList = new List<Damage>(classDamages);
+       
+        foreach (var dmgWeapon in damages)
+        {
+            foreach (var dmgTest in damagesList)
+            {
+                if (dmgTest.type == dmgWeapon.type && dmgTest.amount <= dmgWeapon.amount)
+                {
+                    damagesList.Remove(dmgWeapon);
+                    break;
+                }
+            }
+        }
+
+        if (damagesList.Count <= 0)
+            return true;
+        else
+            return false;
+    }
 
     public void Init()
     {
@@ -44,35 +87,33 @@ public class Weapon
         }
     }
 
-    public virtual void Durability()
-    {
-        if (durability.Substract(1) <= 0)
-        {
-            durabilityOff();
-        }
-    }
-
-    public virtual Weapon CoptyTo()
-    {
-        Weapon aux = new Weapon();
-
-        aux.name = name;
-        aux.image = image;
-        aux.damages = damages;
-        aux.durability = new Tim(durability.Reset());
-        aux.velocity = velocity;
-
-        return aux;
-    }
-
     
-    #endregion
-
-    #region UNITY FUNCIONES
-
-
-
     #endregion
 }
 
 /// /////////////////////////////////////////////////
+/// 
+
+
+
+public class Weapon : Init
+{
+    public WeaponBase weaponBase;
+    
+    Tim durability;
+
+    public event System.Action durabilityOff;
+
+    public void Init()
+    {
+        durability.Set(weaponBase.durability);
+    }
+
+    public void Durability()
+    {
+        if (durability.Substract(1) <= 0)
+            durabilityOff?.Invoke();
+    }
+}
+
+
