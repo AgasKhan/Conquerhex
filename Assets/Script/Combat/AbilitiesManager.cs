@@ -15,7 +15,7 @@ public class AbilitiesManager : Manager<AbilitiesManager>
 
     protected override void Awake()
     {
-        base.Awake();
+        //base.Awake();
     }
 
 

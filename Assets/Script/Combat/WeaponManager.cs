@@ -16,13 +16,10 @@ public class WeaponManager : Manager<WeaponManager>
 
 public abstract class Manager<T> : MonoBehaviour where T : Manager<T>
 {
-    static public T instance;
-
     protected Init[] autoInit;
 
     protected virtual void Awake()
-    {
-        instance = (T)this;
+    { 
 
         foreach (var item in autoInit)
         {

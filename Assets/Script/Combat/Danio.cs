@@ -17,7 +17,7 @@ public struct Damage
 
     public void Init()
     {
-        ClassDamage.SearchDamage(type);
+        typeInstance = DamageList.SearchDamage(type);
         Debug.Log("me ejecute");
     }
 
@@ -36,24 +36,17 @@ public enum EnumDamage
 }
 
 
-public abstract class ClassDamage
+public abstract class FatherDamageAbilities<T> : ScriptableObject
 {
-    static Dictionary<System.Type, ClassDamage> typesDamages = new Dictionary<System.Type, ClassDamage>();
+    protected Dictionary<System.Type, T> types = new Dictionary<System.Type, T>();
 
-    public ClassDamage()
-    {
-        typesDamages.Add(this.GetType(), this);
-
-        Debug.Log("se creo: " + this.GetType().Name);
-    }
-
-    public static ClassDamage SearchDamage(EnumDamage type)
+    protected T SearchOrCreate(System.Enum type , Dictionary<System.Type, T> types)
     {
         string nameClass = type.ToString();
 
         Debug.Log(nameClass);
 
-        foreach (var item in typesDamages)
+        foreach (var item in types)
         {
             if (item.Key.Name == nameClass)
             {
@@ -66,9 +59,41 @@ public abstract class ClassDamage
 
         string completeNameClass = type.GetType().Namespace + "." + nameClass;
 
-        return (ClassDamage)Activator.CreateInstance(Type.GetType(completeNameClass));
+        var newAux = (T)Activator.CreateInstance(Type.GetType(completeNameClass));
+
+        this.types.Add(typeof(T), newAux);
+
+        return newAux;
     }
 
+
+}
+
+[CreateAssetMenu(menuName = "Managers/DamageList", fileName = "DamageList")]
+public class DamageList : FatherDamageAbilities<ClassDamage>
+{
+    static DamageList instance;
+
+    [SerializeReference]
+    List<string> names = new List<string>();
+
+    public static ClassDamage SearchDamage(System.Enum type)
+    {
+        var aux = instance.SearchOrCreate(type, instance.types);
+
+        instance.names.Add(aux.GetType().Name);
+
+        return aux;
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+}
+
+public abstract class ClassDamage
+{
     public abstract void IntarnalAction(Entity go, float amount);
 }
 
