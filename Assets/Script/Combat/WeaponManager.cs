@@ -44,8 +44,6 @@ public class Weapon
         }
     }
 
-    #region VIRTUALES
-
     public virtual void Durability()
     {
         if (durability.Substract(1) <= 0)
@@ -67,8 +65,7 @@ public class Weapon
         return aux;
     }
 
-    #endregion
-
+    
     #endregion
 
     #region UNITY FUNCIONES
