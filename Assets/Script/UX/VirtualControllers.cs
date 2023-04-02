@@ -151,6 +151,20 @@ public class VirtualControllers : MonoBehaviour
             eventUp?.Invoke(timePressed);
             timePressed = 0;
         }
+
+        public void SuscribeController(IController controllerDir)
+        {
+            eventDown += controllerDir.ControllerDown;
+            eventUp += controllerDir.ControllerUp;
+            eventPress += controllerDir.ControllerPressed;
+        }
+
+        public void DesuscribeController(IController controllerDir)
+        {
+            eventDown -= controllerDir.ControllerDown;
+            eventUp -= controllerDir.ControllerUp;
+            eventPress -= controllerDir.ControllerPressed;
+        }
         #endregion
 
         #region constructor
@@ -191,11 +205,11 @@ public class VirtualControllers : MonoBehaviour
     /// <summary>
     /// combinacion de boton + axis, eventos para si se pulsa(down) o suelta un boton(up), y cual es el valor de un joystick (pressed)
     /// </summary>
-    public class AxisButton : FatherKey, IControlador, IState<Vector2>
+    public class AxisButton : FatherKey, IEventController, IState<Vector2>
     {
-        public event Action<Vector2, float> down;
-        public event Action<Vector2, float> pressed;
-        public event Action<Vector2, float> up;
+        public event Action<Vector2, float> eventDown;
+        public event Action<Vector2, float> eventPress;
+        public event Action<Vector2, float> eventUp;
 
         MiddleAxis horizontal;
         MiddleAxis vertical;
@@ -257,26 +271,40 @@ public class VirtualControllers : MonoBehaviour
 
         public override void Destroy()
         {
-            down = null;
-            up = null;
-            pressed = null;
+            eventDown = null;
+            eventUp = null;
+            eventPress = null;
         }
 
         public void OnEnterState(Vector2 param)
         {
-            down?.Invoke(param, 0);
+            eventDown?.Invoke(param, 0);
         }
 
         public void OnStayState(Vector2 param)
         {
             timePressed += Time.deltaTime;
-            pressed?.Invoke(param, timePressed);
+            eventPress?.Invoke(param, timePressed);
         }
 
         public void OnExitState(Vector2 param)
         {
-            up?.Invoke(param, timePressed);
+            eventUp?.Invoke(param, timePressed);
             timePressed = 0;
+        }
+
+        public void SuscribeController(IControllerDir controllerDir)
+        {
+            eventDown += controllerDir.ControllerDown;
+            eventUp += controllerDir.ControllerUp;
+            eventPress += controllerDir.ControllerPressed;
+        }
+
+        public void DesuscribeController(IControllerDir controllerDir)
+        {
+            eventDown -= controllerDir.ControllerDown;
+            eventUp -= controllerDir.ControllerUp;
+            eventPress -= controllerDir.ControllerPressed;
         }
 
         public AxisButton(string strHorizontal, string strVertical, string strButton)

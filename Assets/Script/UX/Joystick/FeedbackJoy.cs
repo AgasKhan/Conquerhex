@@ -15,8 +15,8 @@ public class FeedbackJoy : MonoBehaviour
 
     void Start()
     {
-        VirtualControllers.movement.down += Controloador_down;
-        VirtualControllers.movement.up += Controloador_up;
+        VirtualControllers.movement.eventDown += Controloador_down;
+        VirtualControllers.movement.eventUp += Controloador_up;
 
         _default = sprite.color;
     }

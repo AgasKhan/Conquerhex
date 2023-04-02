@@ -18,7 +18,6 @@ public struct Damage
     public void Init()
     {
         typeInstance = DamageList.SearchDamage(type);
-        Debug.Log("me ejecute");
     }
 
     public void ActionInitialiced(Entity go)
@@ -36,63 +35,51 @@ public enum EnumDamage
 }
 
 
-public abstract class FatherDamageAbilities<T> : ScriptableObject
+public abstract class FatherDamageAbilities<T>
 {
-    protected Dictionary<System.Type, T> types = new Dictionary<System.Type, T>();
+    protected Pictionarys<string, T> types = new Pictionarys<string, T>();
 
-    protected T SearchOrCreate(System.Enum type , Dictionary<System.Type, T> types)
+    protected T SearchOrCreate(System.Enum type , Pictionarys<string, T> types)
     {
         string nameClass = type.ToString();
 
-        Debug.Log(nameClass);
-
         foreach (var item in types)
         {
-            if (item.Key.Name == nameClass)
+            if (item.key == nameClass)
             {
-                Debug.Log("encontro");
-                return item.Value;
+                return item.value;
             }
         }
 
-        Debug.Log("NO encontro");
+        Debug.Log(nameClass);
 
         string completeNameClass = type.GetType().Namespace + "." + nameClass;
 
         var newAux = (T)Activator.CreateInstance(Type.GetType(completeNameClass));
 
-        this.types.Add(typeof(T), newAux);
+        this.types.Add(newAux.GetType().Name, newAux);
 
         return newAux;
     }
-
-
 }
 
-[CreateAssetMenu(menuName = "Managers/DamageList", fileName = "DamageList")]
+
 public class DamageList : FatherDamageAbilities<ClassDamage>
 {
     static DamageList instance;
 
-    [SerializeReference]
-    List<string> names = new List<string>();
-
     public static ClassDamage SearchDamage(System.Enum type)
     {
-        var aux = instance.SearchOrCreate(type, instance.types);
+        if (instance == null)
+            instance = new DamageList();
 
-        instance.names.Add(aux.GetType().Name);
+        var aux = instance.SearchOrCreate(type, instance.types);
 
         return aux;
     }
-
-    private void Awake()
-    {
-        instance = this;
-    }
 }
 
-public abstract class ClassDamage
+public abstract class ClassDamage 
 {
     public abstract void IntarnalAction(Entity go, float amount);
 }
@@ -151,7 +138,4 @@ public class Perforation : Physic
     }
 }
 
-public interface Init
-{
-    void Init();
-}
+

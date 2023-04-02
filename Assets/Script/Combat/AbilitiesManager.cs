@@ -1,45 +1,50 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
+[CreateAssetMenu(menuName = "Managers/AbilitiesManager")]
 public class AbilitiesManager : Manager<AbilitiesManager>
 {
     #region VARIABLES
-
-    [SerializeField]
-    AbilityBase[] abilityBases;
+    public List<AbilityBase> abilityBases = new List<AbilityBase>();
 
     #endregion
 
     #region FUNCIONES
 
-    protected override void Awake()
-    {
-        //base.Awake();
-    }
-
 
     #endregion
 
 }
 
-[System.Serializable]
-public class AbilityBase : FatherWeaponHability
+public abstract class AbilityBase : FatherWeaponAbility, IControllerDir
 {
     [SerializeField]
     GameObject particles;
 
-    [SerializeReference]
-    FunctionSlot internalFunction;
-
     public void Attack(Vector2 direction, Weapon weapon)
     {
         //instacio particulas y bla bla
-        internalFunction.InternalAttack(direction, weapon);
+        InternalAttack(direction, weapon);
+    }
+
+    public abstract void ControllerDown(Vector2 dir, float tim);
+    public abstract void ControllerPressed(Vector2 dir, float tim);
+    public abstract void ControllerUp(Vector2 dir, float tim);
+    protected abstract void InternalAttack(Vector2 direction, Weapon weapon);
+
+    private void Awake()
+    {
+        AbilitiesManager.instance.abilityBases.Add(this);
+    }
+
+    private void OnDestroy()
+    {
+        AbilitiesManager.instance.abilityBases.Remove(this);
     }
 }
 
-public class Hability : Init
+public class Ability : Init
 {
     public Weapon weapon;
     public AbilityBase habilityBase;
@@ -56,11 +61,6 @@ public class Hability : Init
             habilityBase.Attack(dir, weapon);
     }
 
-}
-
-public abstract class FunctionSlot : ScriptableObject
-{
-    public abstract void InternalAttack(Vector2 direction, Weapon weapon);
 }
 
 

@@ -8,9 +8,9 @@ public class JugadorTest : MonoBehaviour
 
     private void Start()
     {
-        VirtualControllers.movement.pressed += MyController_sticklocko;
+        VirtualControllers.movement.eventPress += MyController_sticklocko;
 
-        VirtualControllers.movement.up += MyController_up;
+        VirtualControllers.movement.eventUp += MyController_up;
 
     }
 

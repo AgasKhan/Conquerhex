@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/Stab")]
-public class Stab : AbilityBase
+
+[CreateAssetMenu(menuName = "Abilities/Kick")]
+public class Kick : AbilityBase
 {
     public override void ControllerDown(Vector2 dir, float tim)
     {

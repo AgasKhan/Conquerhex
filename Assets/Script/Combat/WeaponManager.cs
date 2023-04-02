@@ -2,52 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Managers/weapons", fileName = "weapons")]
 public class WeaponManager : Manager<WeaponManager>
 {
-    [SerializeField]
-    WeaponBase[] weapons;
+    [SerializeReference]
+    public List<WeaponBase> weapons= new List<WeaponBase>();
 
-    protected override void Awake()
+    protected void OnEnable()
     {
-        autoInit = (Init[])weapons;
-        base.Awake();
+        InitAll(weapons);
     }
 }
 
-public abstract class Manager<T> : MonoBehaviour where T : Manager<T>
-{
-    protected Init[] autoInit;
-
-    protected virtual void Awake()
-    { 
-
-        foreach (var item in autoInit)
-        {
-            item.Init();
-        }
-
-        autoInit = null;
-    }
-}
-
-
-public class FatherWeaponHability
+public class FatherWeaponAbility : ScriptableObject
 {
     #region VARIABLES
-    public string name;
+    public string nameDisplay;
     public Sprite image;
 
     [Header("Estadisticas")]
     public Damage[] damages;
     public float velocity;
-
 }
 
 
-[System.Serializable]
-public class WeaponBase : FatherWeaponHability
+[CreateAssetMenu(menuName = "Weapons/plantilla", fileName = "New weapons")]
+public class WeaponBase : FatherWeaponAbility, Init
 {
-
     public float durability;
 
     #endregion
@@ -84,7 +65,15 @@ public class WeaponBase : FatherWeaponHability
         }
     }
 
-    
+    private void Awake()
+    {
+        WeaponManager.instance.weapons.Add(this);
+    }
+
+    private void OnDestroy()
+    {
+        WeaponManager.instance.weapons.Remove(this);
+    }
     #endregion
 }
 
