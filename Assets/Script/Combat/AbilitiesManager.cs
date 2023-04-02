@@ -17,20 +17,20 @@ public class AbilitiesManager : Manager<AbilitiesManager>
 
 }
 
-public abstract class AbilityBase : FatherWeaponAbility, IControllerDir
+public abstract class AbilityBase : FatherWeaponAbility
 {
     [SerializeField]
     GameObject particles;
 
-    public void Attack(Vector2 direction, Weapon weapon)
+    protected void Attack(Vector2 direction, Weapon weapon)
     {
         //instacio particulas y bla bla
         InternalAttack(direction, weapon);
     }
 
-    public abstract void ControllerDown(Vector2 dir, float tim);
-    public abstract void ControllerPressed(Vector2 dir, float tim);
-    public abstract void ControllerUp(Vector2 dir, float tim);
+    public abstract void ControllerDown(Vector2 dir, float button, Weapon weapon, bool cooldownEnd);
+    public abstract void ControllerPressed(Vector2 dir, float button, Weapon weapon, bool cooldownEnd);
+    public abstract void ControllerUp(Vector2 dir, float button, Weapon weapon, bool cooldownEnd);
     protected abstract void InternalAttack(Vector2 direction, Weapon weapon);
 
     private void Awake()
@@ -40,23 +40,31 @@ public abstract class AbilityBase : FatherWeaponAbility, IControllerDir
 
 }
 
-public class Ability : Init
+public class Ability : Init, IControllerDir
 {
     public Weapon weapon;
-    public AbilityBase habilityBase;
+    public AbilityBase abilityBase;
     Timer cooldown;
 
     public void Init()
     {
-        cooldown = TimersManager.Create(habilityBase.velocity);
+        cooldown = TimersManager.Create(abilityBase.velocity);
     }
 
-    public void Attack(Vector2 dir)
+    public void ControllerDown(Vector2 dir, float tim)
     {
-        if (cooldown.Chck)
-            habilityBase.Attack(dir, weapon);
+        abilityBase.ControllerDown(dir, tim, weapon, cooldown.Chck);
     }
 
+    public void ControllerPressed(Vector2 dir, float tim)
+    {
+        abilityBase.ControllerPressed(dir, tim, weapon, cooldown.Chck);
+    }
+
+    public void ControllerUp(Vector2 dir, float tim)
+    {
+        abilityBase.ControllerUp(dir, tim, weapon, cooldown.Chck);
+    }
 }
 
 
