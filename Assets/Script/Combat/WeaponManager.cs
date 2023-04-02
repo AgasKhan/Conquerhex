@@ -14,24 +14,11 @@ public class WeaponManager : Manager<WeaponManager>
     }
 }
 
-public class FatherWeaponAbility : ScriptableObject
-{
-    #region VARIABLES
-    public string nameDisplay;
-    public Sprite image;
-
-    [Header("Estadisticas")]
-    public Damage[] damages;
-    public float velocity;
-}
-
 
 [CreateAssetMenu(menuName = "Weapons/plantilla", fileName = "New weapons")]
 public class WeaponBase : FatherWeaponAbility, Init
 {
     public float durability;
-
-    #endregion
 
     #region FUNCIONES
 
@@ -69,18 +56,21 @@ public class WeaponBase : FatherWeaponAbility, Init
     {
         WeaponManager.instance.weapons.Add(this);
     }
-
-    private void OnDestroy()
-    {
-        WeaponManager.instance.weapons.Remove(this);
-    }
     #endregion
 }
 
 /// /////////////////////////////////////////////////
 /// 
 
+public class FatherWeaponAbility : ScriptableObject
+{
+    public string nameDisplay;
+    public Sprite image;
 
+    [Header("Estadisticas")]
+    public Damage[] damages;
+    public float velocity;
+}
 
 public class Weapon : Init
 {

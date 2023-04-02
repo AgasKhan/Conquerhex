@@ -38,10 +38,6 @@ public abstract class AbilityBase : FatherWeaponAbility, IControllerDir
         AbilitiesManager.instance.abilityBases.Add(this);
     }
 
-    private void OnDestroy()
-    {
-        AbilitiesManager.instance.abilityBases.Remove(this);
-    }
 }
 
 public class Ability : Init
