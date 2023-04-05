@@ -9,15 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e2b1936eb057c29418e9670be3207f5d, type: 3}
   m_Name: Espada
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponBase
-  nameDisplay: super espada
+  m_EditorClassIdentifier: 
+  nameDisplay: 
   image: {fileID: 0}
   damages:
   - amount: 15
     type: 0
   - amount: 5
     type: 2
-  velocity: 0
-  durability: 0
+  - amount: 1
+    type: 1
+  velocity: 1.2
+  durability: 100

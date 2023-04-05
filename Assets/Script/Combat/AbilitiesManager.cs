@@ -22,16 +22,16 @@ public abstract class AbilityBase : FatherWeaponAbility
     [SerializeField]
     GameObject particles;
 
-    protected void Attack(Vector2 direction, Weapon weapon)
+    protected void Attack(Vector2 direction, WeaponBase weapon)
     {
         //instacio particulas y bla bla
         InternalAttack(direction, weapon);
     }
 
-    public abstract void ControllerDown(Vector2 dir, float button, Weapon weapon, bool cooldownEnd);
-    public abstract void ControllerPressed(Vector2 dir, float button, Weapon weapon, bool cooldownEnd);
-    public abstract void ControllerUp(Vector2 dir, float button, Weapon weapon, bool cooldownEnd);
-    protected abstract void InternalAttack(Vector2 direction, Weapon weapon);
+    public abstract void ControllerDown(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
+    public abstract void ControllerPressed(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
+    public abstract void ControllerUp(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
+    protected abstract void InternalAttack(Vector2 direction, WeaponBase weapon);
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public abstract class AbilityBase : FatherWeaponAbility
 
 public class Ability : Init, IControllerDir
 {
-    public Weapon weapon;
+    public WeaponBase weapon;
     public AbilityBase abilityBase;
     Timer cooldown;
 
