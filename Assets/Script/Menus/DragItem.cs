@@ -27,7 +27,7 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         myCanvasGroup.blocksRaycasts = false;
         parentAfterDrag = transform.parent;
-        transform.SetParent(transform.parent.parent.parent);
+        transform.SetParent(transform.parent.parent.parent.parent.parent);
         transform.SetAsLastSibling();
     }
 
