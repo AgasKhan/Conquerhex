@@ -166,6 +166,16 @@ public static class Extensions
 
         DebugPrint.Log("\tboton configurando");
     }
+
+    public static void SlotEvent(this SlotsParent s)
+    {
+        var menu = MenuManager.instance;
+
+        s.onAcceptDrop += menu.eventListVoid[s.name];
+
+        DebugPrint.Log("\tSlot" + s.name + "configurando");
+    }
+
     /*
     public static void Event(this Slider s)
     {
@@ -188,5 +198,5 @@ public static class Extensions
     */
     #endregion
 
-    
+
 }
