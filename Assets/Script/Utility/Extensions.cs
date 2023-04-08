@@ -167,7 +167,7 @@ public static class Extensions
         DebugPrint.Log("\tboton configurando");
     }
 
-    public static void SlotEvent(this SlotsParent s)
+    public static void SlotEvent(this Slot s)
     {
         var menu = MenuManager.instance;
 

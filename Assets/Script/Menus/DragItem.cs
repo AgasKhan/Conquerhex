@@ -11,14 +11,14 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     [HideInInspector]
     public CanvasGroup myCanvasGroup;
     [HideInInspector]
-    public Transform originalParent;
+    public Transform lastParent;
 
 
     private void Awake()
     {
-        originalParent = transform.parent;
+        lastParent = transform.parent;
 
-        Debug.Log(originalParent.name);
+        //Debug.Log(lastParent.name);
 
         myCanvasGroup = GetComponent<CanvasGroup>();
     }
