@@ -17,14 +17,12 @@ public class Slot : MonoBehaviour, IDropHandler
 
     Transform Container;
 
-    private void Awake()
-    {
-        LoadSystem.AddPostLoadCorutine(LoadSlots);
-    }
 
     private void Start()
     {
-       
+        Container = GetComponentInChildren<VerticalLayoutGroup>().transform;
+
+        //LoadSystem.AddPostLoadCorutine(InitSlots);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -50,19 +48,6 @@ public class Slot : MonoBehaviour, IDropHandler
 
         //------------------------------------------------------
 
-
-        /*
-        if (Container == draggableItem.originalParent)
-        {
-            DeclinedDrop();
-            Debug.Log("NO se acepto el drop");
-        }
-        else
-        {
-            AcceptedDrop();
-            Debug.Log("Se acepto el drop");
-        }
-        */
     }
 
     public virtual void AcceptedDrop()
@@ -77,45 +62,6 @@ public class Slot : MonoBehaviour, IDropHandler
         draggableItem.parentAfterDrag = draggableItem.lastParent;
     }
 
-    #region FuncionesSlots
-
-    public void FarmSlot(GameObject g)
-    {
-        Debug.Log("FarmingSlot");
-    }
-
-    public void AttackSlot(GameObject g)
-    {
-        Debug.Log("AttackSlot");
-    }
-
-    public void DefendSlot(GameObject g)
-    {
-        Debug.Log("DefendSlot");
-    }
-
-
-    //------------------------------------------------------
-    public void HeadSlot(GameObject g)
-    {
-        Debug.Log("HeadSlot");
-    }
-    public void ArmSlot(GameObject g)
-    {
-        Debug.Log("ArmSlot");
-    }
-    public void LegSlot(GameObject g)
-    {
-        Debug.Log("LegSlot");
-    }
-    public void TailSlot(GameObject g)
-    {
-        Debug.Log("TailSlot");
-    }
-    //------------------------------------------------------
-
-    #endregion
-
     /*
     public SlotsParent(DragItem draggableItem, Action onAcceptDrop, Transform container)
     {
@@ -124,27 +70,14 @@ public class Slot : MonoBehaviour, IDropHandler
         Container = container;
     }
     */
-
-    IEnumerator LoadSlots(System.Action<bool> end, System.Action<string> msg)
+    IEnumerator InitSlots(System.Action<bool> end, System.Action<string> msg)
     {
         end(true);
 
-        MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
-        {
+        Debug.Log("InitSlots");
 
-            {"FarmSlot", FarmSlot},
-            {"AttackSlot", AttackSlot},
-            {"DefendSlot", DefendSlot}
+        yield return new WaitForSeconds(5f);
 
-        });
-
-        yield return new WaitForSeconds(1f);
-
-        msg ("Cargando Slots");
         Extensions.SlotEvent(this);
-
-        Container = GetComponentInChildren<VerticalLayoutGroup>().transform;
-
-        yield return null;
     }
 }
