@@ -15,7 +15,7 @@ public abstract class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T
 
 public abstract class SingletonScript<T> : ScriptableObject where T : SingletonScript<T>
 {
-    public static T instance;
+    static protected T instance;
 
     protected virtual void Awake()
     {
@@ -23,13 +23,28 @@ public abstract class SingletonScript<T> : ScriptableObject where T : SingletonS
     }
 }
 
-public abstract class Manager<T> : SingletonScript<T> where T : Manager<T>
+public abstract class SingletonClass<T> where T : SingletonClass<T>
 {
-    protected void InitAll(IEnumerable<Init> init)
+    static protected T instance;
+
+    protected SingletonClass()
     {
-        foreach (var item in init)
+        instance = (T)this;
+    }
+}
+
+public class Manager<T> : SingletonClass<Manager<T>>
+{
+    List<T> _list = new List<T>();
+
+    static public List<T> list
+    {
+        get
         {
-            item.Init();
+            if (instance == null)
+                new Manager<T>();
+
+            return instance._list;
         }
     }
 }

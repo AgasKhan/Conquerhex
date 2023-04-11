@@ -2,22 +2,8 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName = "Managers/AbilitiesManager")]
-public class AbilitiesManager : Manager<AbilitiesManager>
-{
-    #region VARIABLES
-    public List<AbilityBase> abilityBases = new List<AbilityBase>();
 
-    #endregion
-
-    #region FUNCIONES
-
-
-    #endregion
-
-}
-
-public abstract class AbilityBase : FatherWeaponAbility
+public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
 {
     [SerializeField]
     GameObject particles;
@@ -32,12 +18,6 @@ public abstract class AbilityBase : FatherWeaponAbility
     public abstract void ControllerPressed(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
     public abstract void ControllerUp(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
     protected abstract void InternalAttack(Vector2 direction, WeaponBase weapon);
-
-    private void Awake()
-    {
-        AbilitiesManager.instance.abilityBases.Add(this);
-    }
-
 }
 
 public class Ability : Init, IControllerDir

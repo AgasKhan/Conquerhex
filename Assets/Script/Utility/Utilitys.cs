@@ -92,7 +92,13 @@ public static class Utilitys
         return GameObject.FindObjectsOfType<MonoBehaviour>().OfType<T>();
     }
 
-
+    static public void InitAll(IEnumerable<Init> init)
+    {
+        foreach (var item in init)
+        {
+            item.Init();
+        }
+    }
     #endregion
 
 
