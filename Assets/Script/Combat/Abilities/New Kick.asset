@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameDisplay: 
   image: {fileID: 0}
-  damages: []
+  damages:
+  - amount: 5
+    type: 1
+  - amount: 10
+    type: 0
   velocity: 0
   particles: {fileID: 0}
