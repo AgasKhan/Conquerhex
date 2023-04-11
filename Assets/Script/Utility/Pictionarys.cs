@@ -149,6 +149,15 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         pictionaries.Sort(comparer);
     }
 
+    public bool ContainsKey(string key, out int index)
+    {
+        if ((index = StringIndex(key)) > -1)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public bool ContainsKey(K key, out int index)
     {
         if ((index = SearchIndex(key)) > -1)
@@ -208,6 +217,38 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     public IEnumerator<Pictionary<K, V>> GetEnumerator()
     {
         return pictionaries.GetEnumerator();
+    }
+
+    public T SearchOrCreate<T>(K key) where T : V,new()
+    {
+        if (ContainsKey(key, out int index))
+            return (T)pictionaries[index].value;
+
+        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
+
+        var newAux = new T();
+
+        Debug.Log("se creo a partir de un new: " + newAux);
+
+        Add(key, newAux);
+
+        return newAux;
+    }
+
+    public V SearchOrCreate<T>(T key) where T : K
+    {
+        if (ContainsKey(key, out int index))
+            return pictionaries[index].value;
+
+        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
+
+        var newAux = (V)Activator.CreateInstance(Type.GetType(key.ToString()));
+
+        Debug.Log("se creo a partir de un string: "+newAux);
+
+        Add(key, newAux);
+
+        return newAux;
     }
 
     int SearchIndex(K key)

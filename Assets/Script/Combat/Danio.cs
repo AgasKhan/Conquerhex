@@ -17,14 +17,13 @@ public struct Damage
 
     public void Init()
     {
-        typeInstance = DamageList.SearchDamage(type);
+        typeInstance = Manager<ClassDamage>.pic.SearchOrCreate(type.ToString());
     }
 
     public void ActionInitialiced(Entity go)
     {
         typeInstance.IntarnalAction(go, amount);
     }
-
 }
 
 public enum EnumDamage
@@ -32,51 +31,6 @@ public enum EnumDamage
     Slash,
     Impact,
     Perforation
-}
-
-
-public abstract class FatherDamageAbilities<T>
-{
-    protected Pictionarys<string, T> types = new Pictionarys<string, T>();
-
-    protected T SearchOrCreate(System.Enum type , Pictionarys<string, T> types)
-    {
-        string nameClass = type.ToString();
-
-        foreach (var item in types)
-        {
-            if (item.key == nameClass)
-            {
-                return item.value;
-            }
-        }
-
-        Debug.Log(nameClass);
-
-        string completeNameClass = type.GetType().Namespace + "." + nameClass;
-
-        var newAux = (T)Activator.CreateInstance(Type.GetType(completeNameClass));
-
-        this.types.Add(newAux.GetType().Name, newAux);
-
-        return newAux;
-    }
-}
-
-
-public class DamageList : FatherDamageAbilities<ClassDamage>
-{
-    static DamageList instance;
-
-    public static ClassDamage SearchDamage(System.Enum type)
-    {
-        if (instance == null)
-            instance = new DamageList();
-
-        var aux = instance.SearchOrCreate(type, instance.types);
-
-        return aux;
-    }
 }
 
 public abstract class ClassDamage 

@@ -14,12 +14,12 @@ public abstract class FatherWeaponAbility<T> : ScriptableObject where T : Father
 
     protected virtual void OnEnable()
     {
-        Manager<T>.list.Add((T)this);
+        Manager<T>.pic.Add(nameDisplay, (T)this);
     }
 
     protected virtual void OnDisable()
     {
-        Manager<T>.list.Remove((T)this);
+        Manager<T>.pic.Remove(nameDisplay);
     }
 }
 

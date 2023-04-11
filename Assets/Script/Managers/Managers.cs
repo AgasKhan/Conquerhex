@@ -35,16 +35,16 @@ public abstract class SingletonClass<T> where T : SingletonClass<T>
 
 public class Manager<T> : SingletonClass<Manager<T>>
 {
-    List<T> _list = new List<T>();
+    Pictionarys<string,T> _pic = new Pictionarys<string,T>();
 
-    static public List<T> list
+    static public Pictionarys<string,T> pic
     {
         get
         {
             if (instance == null)
                 new Manager<T>();
 
-            return instance._list;
+            return instance._pic;
         }
     }
 }
