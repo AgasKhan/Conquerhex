@@ -5,22 +5,34 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Stab")]
 public class Stab : AbilityBase
 {
+<<<<<<< Updated upstream
     //¿Cuando?
     public override void ControllerDown(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd)
+=======
+    public override void ControllerDown(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd)
+>>>>>>> Stashed changes
     {
-        throw new System.NotImplementedException();
+
     }
 
+<<<<<<< Updated upstream
     //¿Cuando?
     public override void ControllerPressed(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd)
+=======
+    public override void ControllerPressed(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd)
+>>>>>>> Stashed changes
     {
-        throw new System.NotImplementedException();
+
     }
 
+<<<<<<< Updated upstream
     //¿Cuando?
     public override void ControllerUp(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd)
+=======
+    public override void ControllerUp(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd)
+>>>>>>> Stashed changes
     {
-        throw new System.NotImplementedException();
+
     }
 
     //¿Como?

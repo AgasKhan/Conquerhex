@@ -14,9 +14,9 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         InternalAttack(direction, weapon);
     }
 
-    public abstract void ControllerDown(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
-    public abstract void ControllerPressed(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
-    public abstract void ControllerUp(Vector2 dir, float button, WeaponBase weapon, bool cooldownEnd);
+    public abstract void ControllerDown(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd);
+    public abstract void ControllerPressed(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd);
+    public abstract void ControllerUp(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd);
     protected abstract void InternalAttack(Vector2 direction, WeaponBase weapon);
 }
 
@@ -33,17 +33,17 @@ public class Ability : Init, IControllerDir
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        abilityBase.ControllerDown(dir, tim, weapon, cooldown.Chck);
+        abilityBase.ControllerDown(dir, tim, weapon, cooldown);
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        abilityBase.ControllerPressed(dir, tim, weapon, cooldown.Chck);
+        abilityBase.ControllerPressed(dir, tim, weapon, cooldown);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        abilityBase.ControllerUp(dir, tim, weapon, cooldown.Chck);
+        abilityBase.ControllerUp(dir, tim, weapon, cooldown);
     }
 }
 
