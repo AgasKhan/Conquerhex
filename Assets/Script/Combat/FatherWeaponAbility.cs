@@ -8,6 +8,11 @@ public abstract class FatherWeaponAbility<T> : ScriptableObject where T : Father
     public string nameDisplay;
     public Sprite image;
 
+    [Space]
+    [TextArea(3,6)]
+    public string description;
+    [Space]
+
     [Header("Estadisticas")]
     public Damage[] damages;
     public float velocity;
