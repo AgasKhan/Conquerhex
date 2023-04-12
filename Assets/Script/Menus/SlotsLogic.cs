@@ -9,6 +9,15 @@ public class SlotsLogic : MonoBehaviour
     private void Awake()
     {
         //LoadSystem.AddPostLoadCorutine(LoadSlots);
+
+        MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
+        {
+
+            {"FarmSlot", FarmSlot},
+            {"AttackSlot", AttackSlot},
+            {"DefendSlot", DefendSlot}
+
+        });
     }
 
     void Start()

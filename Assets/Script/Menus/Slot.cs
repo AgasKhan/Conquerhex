@@ -23,6 +23,8 @@ public class Slot : MonoBehaviour, IDropHandler
         Container = GetComponentInChildren<VerticalLayoutGroup>().transform.GetChild(0);
 
         //LoadSystem.AddPostLoadCorutine(InitSlots);
+
+        Extensions.SlotEvent(this);
     }
 
     public void OnDrop(PointerEventData eventData)
