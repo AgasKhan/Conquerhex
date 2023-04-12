@@ -67,8 +67,6 @@ public class SlotsLogic : MonoBehaviour
     {
         msg("Cargando Slots");
 
-        Debug.Log("LoadSlots");
-
         MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
@@ -78,7 +76,7 @@ public class SlotsLogic : MonoBehaviour
 
         });
 
-        yield return new WaitForSeconds(1f);
+        yield return null;
         end(true);
     }
 

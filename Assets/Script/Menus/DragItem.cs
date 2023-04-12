@@ -12,7 +12,8 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public CanvasGroup myCanvasGroup;
     [HideInInspector]
     public Transform lastParent;
-
+    [SerializeField]
+    public Transform canvas;
 
     private void Awake()
     {
@@ -21,13 +22,15 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         //Debug.Log(lastParent.name);
 
         myCanvasGroup = GetComponent<CanvasGroup>();
+
+        canvas = GetComponentInParent<Canvas>().transform;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         myCanvasGroup.blocksRaycasts = false;
         parentAfterDrag = transform.parent;
-        transform.SetParent(transform.parent.parent.parent.parent.parent);
+        transform.SetParent(canvas);
         transform.SetAsLastSibling();
     }
 

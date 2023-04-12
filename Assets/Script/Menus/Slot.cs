@@ -20,7 +20,7 @@ public class Slot : MonoBehaviour, IDropHandler
 
     private void Start()
     {
-        Container = GetComponentInChildren<VerticalLayoutGroup>().transform;
+        Container = GetComponentInChildren<VerticalLayoutGroup>().transform.GetChild(0);
 
         //LoadSystem.AddPostLoadCorutine(InitSlots);
     }
@@ -72,12 +72,8 @@ public class Slot : MonoBehaviour, IDropHandler
     */
     IEnumerator InitSlots(System.Action<bool> end, System.Action<string> msg)
     {
-        end(true);
-
-        Debug.Log("InitSlots");
-
-        yield return new WaitForSeconds(5f);
-
         Extensions.SlotEvent(this);
+        end(true);
+        yield return null;
     }
 }
