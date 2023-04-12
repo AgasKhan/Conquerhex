@@ -14,18 +14,35 @@ public abstract class FatherWeaponAbility<T> : ScriptableObject where T : Father
     [Space]
 
     [Header("Estadisticas")]
-    public Damage[] damages;
+    public Damage[] damages = new Damage[1];
     public float velocity;
 
-    protected virtual void OnEnable()
+    private void OnEnable()
+    {
+        MyEnable();
+    }
+
+    private void OnDisable()
+    {
+        MyDisable();
+    }
+
+    private void OnDestroy()
+    {
+        MyDisable();
+    }
+
+    protected virtual void MyDisable()
+    {
+        Manager<T>.pic.Remove(nameDisplay);
+    }
+
+    protected virtual void MyEnable()
     {
         Manager<T>.pic.Add(nameDisplay, (T)this);
     }
 
-    protected virtual void OnDisable()
-    {
-        Manager<T>.pic.Remove(nameDisplay);
-    }
+
 }
 
 

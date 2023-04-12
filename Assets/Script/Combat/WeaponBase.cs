@@ -39,10 +39,11 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
         }        
     }
 
-    protected override void OnEnable()
+
+    protected override void MyEnable()
     {
         Init();
-        base.OnEnable();
+        base.MyEnable();
     }
     #endregion
 }

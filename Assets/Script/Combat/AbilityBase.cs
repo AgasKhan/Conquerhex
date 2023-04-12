@@ -8,21 +8,40 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     [SerializeField]
     GameObject particles;
 
-    protected void Attack(Vector2 direction, WeaponBase weapon)
+    [Header("Multiplicadores danio")]
+    public Damage[] damagesMultiply = new Damage[0];
+
+    protected void Attack(Vector2 direction, Weapon weapon)
     {
         //instacio particulas y bla bla
-        InternalAttack(direction, weapon);
+
+
+        Damage[] damagesCopy = (Damage[])weapon.weaponBase.damages.Clone();
+
+        for (int i = 0; i < damagesMultiply.Length; i++)
+        {
+            for (int ii = 0; ii < damagesCopy.Length; ii++)
+            {
+                if(damagesMultiply[i].type == damagesCopy[ii].type)
+                {
+                    damagesCopy[ii].amount *= damagesMultiply[ii].amount;
+                    break;
+                }
+            }
+        }
+
+        InternalAttack(direction, damagesCopy);
     }
 
-    public abstract void ControllerDown(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd);
-    public abstract void ControllerPressed(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd);
-    public abstract void ControllerUp(Vector2 dir, float button, WeaponBase weapon, Timer cooldownEnd);
-    protected abstract void InternalAttack(Vector2 direction, WeaponBase weapon);
+    public abstract void ControllerDown(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
+    public abstract void ControllerPressed(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
+    public abstract void ControllerUp(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
+    protected abstract void InternalAttack(Vector2 direction, Damage[] damages);
 }
 
 public class Ability : Init, IControllerDir
 {
-    public WeaponBase weapon;
+    public Weapon weapon;
     public AbilityBase abilityBase;
     Timer cooldown;
 
