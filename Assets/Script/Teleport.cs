@@ -106,7 +106,7 @@ public class Teleport : MonoBehaviour
 
                     //arrHexTeleport.gameObject.SetActive(true);
 
-                    Camera.main.gameObject.transform.position = new Vector3(
+                    MainCamera.instance.gameObject.transform.position = new Vector3(
                         arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 0] - (ladosPuntos[lado, 0] - Camera.main.gameObject.transform.position.x),
                         arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 1] - (ladosPuntos[lado, 1] - Camera.main.gameObject.transform.position.y),
                         Camera.main.gameObject.transform.position.z);
