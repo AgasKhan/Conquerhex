@@ -24,6 +24,13 @@ public class Movement : MyScripts
         rb2d.velocity += vector.normalized * magnitud;
     }
 
+    public void SetVectorDT(Vector2 vector)
+    {
+        //para setear los vectores de velocidad
+
+        rb2d.velocity += vector;
+    }
+
     protected override void Config()
     {
         MyAwakes += MyAwake;

@@ -41,13 +41,43 @@ public class ControlPJ : MonoBehaviour
         dur = TimersManager.Create(valorDuracion);
 
         health.Init();
+
+        VirtualControllers.movement.eventDown += Movement_eventDown;
+
+        VirtualControllers.movement.eventPress += Movement_eventPress;
+        
+        VirtualControllers.movement.eventUp += Movement_eventUp;
+    }
+
+    private void Movement_eventDown(Vector2 arg1, float arg2)
+    {
+        controller.SetBool("Move", true);
+    }
+
+    private void Movement_eventUp(Vector2 arg1, float arg2)
+    {
+        controller.SetBool("Move", false);
+    }
+
+    private void Movement_eventPress(Vector2 arg1, float arg2)
+    {
+        mov.SetVectorDT(velocidad * Time.deltaTime * arg1);
+        
+        controller.SetFloat("Sprint", arg1.magnitude*1.5f);
+
+        if (arg1.x < 0)
+        {
+            rend.flipX = true;
+        }
+        else if (arg1.x > 0)
+        {
+            rend.flipX = false;
+        }
     }
 
     void Update()
     {
-        Vector2 movimiento = Vector2.right * Input.GetAxis("Horizontal") + Vector2.up * Input.GetAxis("Vertical");
-
-        float mult = 1;
+      
 
         if (Input.GetButtonDown("Cancel"))
         {
@@ -67,32 +97,8 @@ public class ControlPJ : MonoBehaviour
                 "\n" +
                 "\n" +
                 "Para ganar tienes que escapar del espacio fragmentado atravez de un dirigible como muestra la imagen", true, false);
-            
         }
-
-
-        if (Input.GetButton("Sprint"))
-            mult = 1.5f;
         
-        if (movimiento.sqrMagnitude>0)
-        {
-            mov.SetVectorDT(velocidad * Time.deltaTime * mult, movimiento);
-            controller.SetBool("Move",true);
-            controller.SetFloat("Sprint", mult);
-        }
-        else
-        {
-            controller.SetBool("Move", false);
-        }
-
-        if (movimiento.x<0)
-        {
-            rend.flipX = true;
-        }
-        else if(movimiento.x > 0)
-        {
-            rend.flipX = false;
-        }
 
         if (Input.GetButton("Parry") && enf.Chck)
         {
