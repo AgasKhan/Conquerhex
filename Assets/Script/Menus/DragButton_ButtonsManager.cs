@@ -8,6 +8,7 @@ public class DragButton_ButtonsManager : ButtonsManager
 {
     [SerializeField]
     Sprite _mySprite;
+
     [SerializeField]
     DoubleString _information;
 
