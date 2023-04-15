@@ -16,7 +16,11 @@ public class ButtonsManager : MonoBehaviour
         MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
-            {"Button", Example}
+            {"Button", Example},
+            {"Start", Start},
+            {"Options", Options},
+            {"Credits", Credits},
+            {"Exit", Exit}
 
         });
     }
@@ -26,6 +30,28 @@ public class ButtonsManager : MonoBehaviour
     {
         Debug.Log("Apretaste el boton");
     }
+
+    void Start(GameObject g)
+    {
+
+    }
+
+    void Options(GameObject g)
+    {
+
+    }
+
+    void Credits(GameObject g)
+    {
+
+    }
+
+    void Exit(GameObject g)
+    {
+        Application.Quit();
+    }
+
+
 
 
     #region FuncionesAntiguas
