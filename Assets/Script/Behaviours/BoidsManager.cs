@@ -2,13 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoidsManager : MonoBehaviour
+
+public class BoidsManager : SingletonMono<BoidsManager>
 {
-
-    public static BoidsManager Instance { get; private set; }
-
-    public List<Boid> AllBoids { get; private set; }
-
     public float ViewRadius
     {
         get
@@ -35,17 +31,4 @@ public class BoidsManager : MonoBehaviour
 
     [field: SerializeField, Range(0f, 2.5f)]
     public float CohesionWeight { get; private set; }
-
-    void Awake()
-    {
-        Instance = this;
-
-        AllBoids = new List<Boid>();
-    }
-
-    public void RegisterNewBoid(Boid newBoid)
-    {
-        if (!AllBoids.Contains(newBoid))
-            AllBoids.Add(newBoid);
-    }
 }

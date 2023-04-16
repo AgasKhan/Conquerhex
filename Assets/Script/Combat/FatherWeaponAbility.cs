@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class FatherWeaponAbility<T> : ScriptableObject where T : FatherWeaponAbility<T>
+public abstract class FatherWeaponAbility<T> : Item where T : FatherWeaponAbility<T>
 {
-    public string nameDisplay;
-    public Sprite image;
-
-    [Space]
-    [TextArea(3,6)]
-    public string description;
     [Space]
 
     [Header("Estadisticas")]

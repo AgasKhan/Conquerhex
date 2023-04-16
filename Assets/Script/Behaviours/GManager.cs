@@ -7,11 +7,11 @@ public class GManager : MonoBehaviour
     [SerializeField] float _boundHeight;
     [SerializeField] float _boundWidth;
 
-    public static GManager Instance { get; private set; }
+    public static GManager instance { get; private set; }
 
     void Awake()
     {
-        Instance = this;
+        instance = this;
     }
 
     public Vector3 SetObjectBoundPosition(Vector3 pos)
