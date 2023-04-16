@@ -2,30 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonsManager : MonoBehaviour
+public class ButtonsFunctions : MonoBehaviour
 {
-    //[SerializeField]
-    //protected MenuManager menu;
 
-    void Awake()
-    {
-        //menu = MenuManager.instance;
-    }
     private void Start()
     {
         MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
+            // Static Buttons
             {"Button", Example},
             {"Start", Start},
             {"Options", Options},
             {"Credits", Credits},
-            {"Exit", Exit}
+            {"Exit", Exit},
+
+
+            //Dragable Buttons
+            {"ShowWindow", ShowWindow}
 
         });
     }
 
-
+    #region Static Buttons
     void Example(GameObject g)
     {
         Debug.Log("Apretaste el boton");
@@ -43,7 +42,9 @@ public class ButtonsManager : MonoBehaviour
 
     void Credits(GameObject g)
     {
+        var data = g.GetComponent<ButtonInformation>().buttonData;
 
+        data.detailWindow.SetWindow(data.sprite, data.text);
     }
 
     void Exit(GameObject g)
@@ -51,8 +52,16 @@ public class ButtonsManager : MonoBehaviour
         Application.Quit();
     }
 
+    #endregion
 
+    #region Drageable Buttons
+    void ShowWindow(GameObject g)
+    {
+        Debug.Log("Apretaste un boton Draggeable");
+        //DetailsWindow.instance.SetWindow(_mySprite, _information);
+    }
 
+    #endregion
 
     #region FuncionesAntiguas
     /*

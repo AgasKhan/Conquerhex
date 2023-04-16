@@ -17,10 +17,8 @@ public class MenuManager : MonoBehaviour
         public int numberScene;
     }
     
-
     public SelectLevels[] preview;
 
-    
     public GameObject[] menus;
     public GameObject[] subMenus;
     public Button[] levelButtons;
