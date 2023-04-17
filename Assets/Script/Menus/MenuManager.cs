@@ -95,6 +95,8 @@ public class MenuManager : SingletonMono<MenuManager>
                 Manager<DetailsWindow>.pic.Add(AllDetailsWindows[i].transform.name, AllDetailsWindows[i]);
             }
         }
+
+        refSceneChanger = GetComponent<SceneChanger>();
     }
 
     private void Start()
@@ -197,7 +199,7 @@ public class MenuManager : SingletonMono<MenuManager>
 
     public void StartGame()
     {
-        ClickAccept();
+        //ClickAccept();
         refSceneChanger.Load(firstLevel);
     }
 

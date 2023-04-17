@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonInformation : MonoBehaviour
 {
-    public ItemBase myDetails;
+    public ItemBase myItem;
 
     [HideInInspector]
     public DetailsWindow myDetailWindow;

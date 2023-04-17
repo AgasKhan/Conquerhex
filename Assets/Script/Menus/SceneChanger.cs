@@ -6,9 +6,9 @@ using TMPro;
 
 public class SceneChanger : MonoBehaviour
 {
-    public Animator transition;
+    //public Animator transition;
 
-    bool isCharging = false;
+    //bool isCharging = false;
 
     public void QuitGame()
     {
@@ -22,11 +22,11 @@ public class SceneChanger : MonoBehaviour
 
     public void Load(string scn, bool charge)
     {
-        if (isCharging)
-            return;
+        //if (isCharging)
+            //return;
 
         //Controllers.MouseLock();
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         /*
         int index = scn.IndexOf('_');
         if (index > -1)
@@ -50,7 +50,7 @@ public class SceneChanger : MonoBehaviour
 
         print("mandaste a cargar");
         */
-        isCharging = true;
+        //isCharging = true;
         
         StartCoroutine(LoadSc(scn));
         

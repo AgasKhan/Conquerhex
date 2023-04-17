@@ -51,6 +51,14 @@ public class DetailsWindow : MonoBehaviour
         //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
 
     }
+    public static void ModifyTexts(string title, string description)
+    {
+        instance.myTitle.text = title;
+        instance.myDescription.text = description;
+
+        //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
+
+    }
 
     public static void ActiveButtons(bool value)
     {
@@ -136,5 +144,11 @@ public class DetailsWindow : MonoBehaviour
     {
         PreviewImage(true, sprite);
         ModifyTexts(ds);
+    }
+
+    public void SetWindow(Sprite sprite, string title, string description)
+    {
+        PreviewImage(true, sprite);
+        ModifyTexts(title, description);
     }
 }

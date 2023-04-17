@@ -12,7 +12,7 @@ public class ButtonsFunctions : MonoBehaviour
 
             // Static Buttons
             {"Button", Example},
-            {"Start", Start},
+            {"StartNewGame", StartNewGame},
             {"Options", Options},
             {"Credits", Credits},
             {"Exit", Exit},
@@ -35,12 +35,9 @@ public class ButtonsFunctions : MonoBehaviour
     void ShowMod(GameObject g)
     {
         var data = g.GetComponent<ButtonInformation>();
+        var item = data.myItem;
 
-        var aux = data.myDetails;
-
-        DoubleString text = new DoubleString(aux.nameDisplay, aux.details.ToString(" = ", "\n \n"));
-
-        data.myDetailWindow.SetWindow(aux.image, text);
+        data.myDetailWindow.SetWindow(item.image, item.nameDisplay, item.details.ToString(" = ", "\n \n"));
     }
 
     #region Static Buttons
@@ -49,9 +46,9 @@ public class ButtonsFunctions : MonoBehaviour
         Debug.Log("Apretaste el boton");
     }
 
-    void Start(GameObject g)
+    void StartNewGame(GameObject g)
     {
-
+        MenuManager.instance.StartGame();
     }
 
     void Options(GameObject g)
@@ -68,7 +65,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void Exit(GameObject g)
     {
-        Application.Quit();
+        MenuManager.instance.refSceneChanger.QuitGame();
     }
 
 
