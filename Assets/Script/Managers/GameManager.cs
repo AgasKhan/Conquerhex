@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonMono<GameManager>
 {
-    public static GameManager instance;
 
     public static event System.Action onPause
     {
@@ -41,8 +40,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
-    public Menu menu;
-
     void Update()
     {
         update();
@@ -53,10 +50,9 @@ public class GameManager : MonoBehaviour
         fixedUpdate();
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
-
+        base.Awake();
         fsmGameMaganer = new FSMGameMaganer(this);
     }
 
