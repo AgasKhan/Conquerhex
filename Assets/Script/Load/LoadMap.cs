@@ -320,7 +320,7 @@ public class LoadMap : MonoBehaviour
         loadScreen.Progress(100, "<size=50>Carga finalizada</size>" +
             "\n<size=20> Presione <color=green>espacio</color> para continuar </size>");
 
-        while (!Input.GetKeyDown(KeyCode.Space))
+        while (!Input.GetKeyDown(KeyCode.Space) && !(Input.touches.Length > 0))
         {
             yield return null;
         }
