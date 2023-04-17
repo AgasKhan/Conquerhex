@@ -2,25 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ItemBase : ScriptableObject
+public abstract class ItemBase : ScriptableObject, IShowItem
 {
     public string nameDisplay;
     public Sprite image;
 
     [Space]
     [TextArea(3, 6)]
-    public string description;
+    public string details;
 
     [Range(1, 1000)]
     public int maxAmount = 1;
 
+    string IShowItem.nameDisplay => nameDisplay;
+
+    Sprite IShowItem.image => image;
+
+    List<string> IShowItem.details => new List<string>() { details };
+
     public override string ToString()
     {
-        return nameDisplay + "\n" + description;
+        return nameDisplay + "\n" + details;
     }
 }
 
-public abstract class Item
+public interface IShowItem
+{
+    public string nameDisplay { get; }
+    public Sprite image { get;  }
+    public List<string> details { get; }
+}
+
+public abstract class Item : IShowItem
 {
     protected ItemBase _itemBase;
 
@@ -43,7 +56,7 @@ public abstract class Item
 
     protected virtual List<string> GetDetails()
     {
-        return new List<string>() { _itemBase.description };
+        return new List<string>() { _itemBase.details };
     }
 
     public override string ToString()
