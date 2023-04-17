@@ -31,7 +31,7 @@ public abstract class ItemBase : ScriptableObject, IShowItem
 
     public override string ToString()
     {
-        return nameDisplay + "\n" + details.ToString("\n", "\n\n");
+        return nameDisplay + "\n\n" + details.ToString("\n", "\n\n");
     }
 }
 
