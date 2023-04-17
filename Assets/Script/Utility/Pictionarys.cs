@@ -209,6 +209,16 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         }
     }
 
+    public void RemoveAt(int i)
+    {
+        pictionaries.RemoveAt(i);
+    }
+
+    public void Clear()
+    {
+        pictionaries.Clear();
+    }
+
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
