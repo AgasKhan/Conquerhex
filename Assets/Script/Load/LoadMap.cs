@@ -365,9 +365,13 @@ public class LoadMap : MonoBehaviour
 
                         prop.transform.position = new Vector3((i - 1.5f) + rng1 / 10f, (ii - 1.5f) + rng2 / 10f, center.z);
 
-                        prop.GetComponentInChildren<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(prop.transform.position.y * -100);
+                        var aux = prop.GetComponentInChildren<SpriteRenderer>();
 
-                        prop.transform.localScale = new Vector3(prop.transform.localScale.x * (Random.Range(0, 2) == 0 ? -1 : 1), prop.transform.localScale.y, prop.transform.localScale.z);
+                        aux.sortingOrder = Mathf.RoundToInt(prop.transform.position.y * -100);
+
+                        aux.flipX = (Random.Range(0, 2) == 0);
+
+                        //prop.transform.localScale = new Vector3(prop.transform.localScale.x * (Random.Range(0, 2) == 0 ? -1 : 1), prop.transform.localScale.y, prop.transform.localScale.z);
 
 
 

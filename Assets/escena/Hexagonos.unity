@@ -602,6 +602,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f6030430b4216fd489184f422f8a8025, type: 2}
+    - target: {fileID: 722686346728633479, guid: 00f4c5b18e0410a4aadb034dcda0a998,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3073669242969187174, guid: 00f4c5b18e0410a4aadb034dcda0a998,
         type: 3}
       propertyPath: m_Name
@@ -681,6 +686,11 @@ PrefabInstance:
         type: 3}
       propertyPath: health.regen._total
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707659774541505818, guid: 00f4c5b18e0410a4aadb034dcda0a998,
+        type: 3}
+      propertyPath: animator
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6707659774541505818, guid: 00f4c5b18e0410a4aadb034dcda0a998,
         type: 3}
@@ -1593,6 +1603,16 @@ PrefabInstance:
       propertyPath: orthographic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1125739740253471796, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      propertyPath: far clip plane
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1125739740253471796, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 1125739740253471947, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1622,6 +1642,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030717250457983995, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      propertyPath: m_StopNaN
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6592060790990565492, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
