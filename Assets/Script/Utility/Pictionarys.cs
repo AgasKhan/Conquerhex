@@ -105,13 +105,13 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return ToString("=");
     }
 
-    public string ToString(string s)
+    public string ToString(string glue, string entreKeys = "\n")
     {
         string salida = "";
 
         foreach (var item in pictionaries)
         {
-            salida += item.key + s + item.value + "\n";
+            salida += item.key + glue + item.value + entreKeys;
         }
         return salida;
     }

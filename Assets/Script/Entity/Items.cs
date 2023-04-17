@@ -26,12 +26,12 @@ public abstract class ItemBase : ScriptableObject, IShowItem
 
     protected virtual Pictionarys<string, string> GetDetails()
     {
-        return new Pictionarys<string, string>() { {"Descripcion: ", _details } };
+        return new Pictionarys<string, string>() { {"Descripcion", _details } };
     }
 
     public override string ToString()
     {
-        return nameDisplay + "\n" + string.Join("\n", details);
+        return nameDisplay + "\n" + details.ToString("\n", "\n\n");
     }
 }
 
