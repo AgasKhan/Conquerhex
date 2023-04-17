@@ -6,12 +6,10 @@ using UnityEngine.EventSystems;
 
 public class ButtonInformation : MonoBehaviour
 {
-    //public ButtonData buttonData;
     public ItemBase myDetails;
 
     [HideInInspector]
     public DetailsWindow myDetailWindow;
-
 
     private void Start()
     {

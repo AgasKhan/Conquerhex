@@ -32,28 +32,13 @@ public class ButtonsFunctions : MonoBehaviour
         });
     }
 
-    string ReadDetails(List<string> list)
-    {
-        var str = "";
-
-        foreach (var item in list)
-        {
-            str += item + "\n";
-        }
-
-        return str;
-    }
-
-
     void ShowMod(GameObject g)
     {
         var data = g.GetComponent<ButtonInformation>();
 
         var aux = data.myDetails;
 
-        //DoubleString text = new DoubleString(aux.nameDisplay, ReadDetails(aux.details));
-
-        DoubleString text = new DoubleString(aux.nameDisplay, aux.details.ToString());
+        DoubleString text = new DoubleString(aux.nameDisplay, aux.details.ToString(" = ", "\n \n"));
 
         data.myDetailWindow.SetWindow(aux.image, text);
     }
