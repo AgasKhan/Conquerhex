@@ -22,7 +22,7 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
             aux += "" + item.type.ToString() + "=" + item.amount + "\n";
         }
 
-        list.Add("Damages",aux.RichText("color", "red"));
+        list.Add("Damages",aux);
 
         return list;
     }

@@ -72,7 +72,7 @@ public class Weapon : Item<WeaponBase>, Init, IGetPercentage
 
         var aux = durability.current + "/" + durability.total;
         
-        list.Add("Durability" , aux.RichText("color", "yellow"));
+        list.Add("Durability" , aux);
 
         return list;
     }
