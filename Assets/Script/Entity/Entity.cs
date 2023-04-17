@@ -6,7 +6,32 @@ public class Entity : MonoBehaviour, IDamageable
 {
     public Health health;
 
-    public List<ItemBase> drops = new List<ItemBase>();
+    public List<DropItem> drops = new List<DropItem>();
+
+    public void Drop()
+    {
+        int aux=0;
+
+        foreach (var item in drops)
+        {
+            aux += item.peso;
+        }
+
+        aux = Random.Range(0, aux);
+
+        int pesoAcumulador = 0;
+
+        foreach (var item in drops)
+        {
+            if((pesoAcumulador + item.peso)> aux)
+            {
+                //return item.item;
+            }
+
+            pesoAcumulador += item.peso;
+        }
+
+    }
 
     public virtual void TakeDamage(Damage dmg)
     {
@@ -60,6 +85,13 @@ public class Entity : MonoBehaviour, IDamageable
 
 }
 
+
+public struct DropItem
+{
+    public int peso;
+
+    public ItemBase item;
+}
 
 [System.Serializable]
 public class Health : Init
