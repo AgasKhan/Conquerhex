@@ -17,11 +17,45 @@ public class ButtonsFunctions : MonoBehaviour
             {"Credits", Credits},
             {"Exit", Exit},
 
+            {"MBody", MBody},
+            {"MArms", MArms},
+            {"MLegs", MLegs},
+            {"MHeads", MHeads},
+            {"MTails", MTails},
+            {"QUIT", QUIT},
 
+            {"ShowMod", ShowMod},
+            
             //Dragable Buttons
             {"ShowWindow", ShowWindow}
 
         });
+    }
+
+    string ReadDetails(List<string> list)
+    {
+        var str = "";
+
+        foreach (var item in list)
+        {
+            str += item + "\n";
+        }
+
+        return str;
+    }
+
+
+    void ShowMod(GameObject g)
+    {
+        var data = g.GetComponent<ButtonInformation>();
+
+        var aux = data.myDetails;
+
+        //DoubleString text = new DoubleString(aux.nameDisplay, ReadDetails(aux.details));
+
+        DoubleString text = new DoubleString(aux.nameDisplay, aux.details.ToString());
+
+        data.myDetailWindow.SetWindow(aux.image, text);
     }
 
     #region Static Buttons
@@ -42,15 +76,43 @@ public class ButtonsFunctions : MonoBehaviour
 
     void Credits(GameObject g)
     {
-        var data = g.GetComponent<ButtonInformation>().buttonData;
+        //var data = g.GetComponent<ButtonInformation>().buttonData;
 
-        data.detailWindow.SetWindow(data.sprite, data.text);
+        //data.detailWindow.SetWindow(data.sprite, data.text);
     }
 
     void Exit(GameObject g)
     {
         Application.Quit();
     }
+
+
+
+    void MBody(GameObject g)
+    {
+        
+    }
+    void MArms(GameObject g)
+    {
+
+    }
+    void MLegs(GameObject g)
+    {
+
+    }
+    void MHeads(GameObject g)
+    {
+
+    }
+    void MTails(GameObject g)
+    {
+
+    }
+    void QUIT(GameObject g)
+    {
+
+    }
+
 
     #endregion
 

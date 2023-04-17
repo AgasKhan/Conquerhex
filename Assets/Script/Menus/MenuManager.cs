@@ -5,10 +5,8 @@ using TMPro;
 using System;
 
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : SingletonMono<MenuManager>
 {
-    static public MenuManager instance;
-
     [System.Serializable]
     public struct SelectLevels
     {
@@ -16,7 +14,10 @@ public class MenuManager : MonoBehaviour
         public Sprite previewImage;
         public int numberScene;
     }
-    
+
+    [SerializeField]
+    DetailsWindow[] AllDetailsWindows;
+
     public SelectLevels[] preview;
 
     public GameObject[] menus;
@@ -42,11 +43,12 @@ public class MenuManager : MonoBehaviour
     public Pictionarys<string, Action<Slider>> eventListSliderOn = new Pictionarys<string, Action<Slider>>();
     public Pictionarys<string, Action<Button>> eventListButtoOn = new Pictionarys<string, Action<Button>>();
 
+    /*
     private void Awake()
     {
         instance = this;
 
-        /*
+        
          
         if (levelButtons != null)
             for (int i = 0; i < levelButtons.Length; i++)
@@ -79,7 +81,20 @@ public class MenuManager : MonoBehaviour
 
         audioM = GetComponent<AudioManager>();
 
-        */
+        
+    }
+    */
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (AllDetailsWindows != null)
+        {
+            for (int i = 0; i < AllDetailsWindows.Length; i++)
+            {
+                Manager<DetailsWindow>.pic.Add(AllDetailsWindows[i].transform.name, AllDetailsWindows[i]);
+            }
+        }
     }
 
     private void Start()

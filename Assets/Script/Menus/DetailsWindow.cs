@@ -39,7 +39,7 @@ public class DetailsWindow : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        alphaCanvas = GetComponent<CanvasGroup>();
+        //alphaCanvas = GetComponent<CanvasGroup>();
         //gameObject.SetActive(false);
     }
 

@@ -6,13 +6,20 @@ using UnityEngine.EventSystems;
 
 public class ButtonInformation : MonoBehaviour
 {
-    public ButtonData buttonData;
+    //public ButtonData buttonData;
+    public ItemBase myDetails;
+
+    [HideInInspector]
+    public DetailsWindow myDetailWindow;
+
 
     private void Start()
     {
-        var aux = DetailsWindowsManager.instance.detailsWindows[transform.name];
+        var aux = Manager<DetailsWindow>.pic[transform.name];
 
         if (aux != null)
-            buttonData.detailWindow = aux;
+            myDetailWindow = aux;
+        else
+            Debug.Log("No se encontro: " + transform.name + " entre las Details Windows");
     }
 }
