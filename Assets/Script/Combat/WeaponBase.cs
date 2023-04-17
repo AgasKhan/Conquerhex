@@ -50,17 +50,15 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
 
 
 
-public class Weapon : Init
+public class Weapon : Item<WeaponBase>, Init, IGetPercentage
 {
-    public WeaponBase weaponBase;
-
     Tim durability;
 
     public event System.Action durabilityOff;
 
     public void Init()
     {
-        durability.Set(weaponBase.durability);
+        durability.Set(itemBase.durability);
     }
 
     public void Durability()
@@ -69,5 +67,33 @@ public class Weapon : Init
             durabilityOff?.Invoke();
     }
 
+    protected override List<string> GetDetails()
+    {
+        var list = base.GetDetails();
 
+        string aux = "";
+
+        foreach (var item in itemBase.damages)
+        {
+            aux += item.type.ToString() + "=" + item.amount + "\n";
+        }
+
+        list.Add(aux.RichText("color", "red"));
+
+        aux = "Durability: " + durability.current + "/" + durability.total;
+
+        list.Add(aux.RichText("color", "yellow"));
+
+        return list;
+    }
+
+    public float Percentage()
+    {
+        return durability.Percentage();
+    }
+
+    public float InversePercentage()
+    {
+        return durability.InversePercentage();
+    }
 }

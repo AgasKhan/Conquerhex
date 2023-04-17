@@ -4,36 +4,68 @@ using UnityEngine;
 
 public abstract class StaticEntity : Entity
 {
-    public LogicActive interact;
+    public Pictionarys<string,LogicActive> interact; //funciones de un uso
 
-    public WorkEntiy work;
+    public Pictionarys<string,WorkEntiy> work; //funciones en el update
 
     public List<Item> inventory;
 
-    private void Start()
-    {
+    [SerializeField]
+    Pictionarys<string, LogicActive> actions; //funciones de un uso
 
+    FSMWork fsmWork;
+
+    public void ChangeWork(string key)
+    {
+        fsmWork.CurrentState = work[key];
+    }
+
+    public void CancelWork()
+    {
+        fsmWork.CurrentState = fsmWork.voiid;
+    }
+
+    private void Awake()
+    {
+        fsmWork = new FSMWork(this);
+    }
+
+    private void Update()
+    {
+       fsmWork.UpdateState();
     }
 }
 
-public abstract class WorkEntiy : MonoBehaviour 
+public class FSMWork : FSM<FSMWork, StaticEntity>
 {
-    public abstract void WorkUpdate(StaticEntity entity);
+    public IState<FSMWork> voiid = new WorkEntiyNull();
+
+    public FSMWork(StaticEntity reference) : base(reference)
+    {
+        Init(voiid);
+    }
 }
 
-
-public class Item : ScriptableObject
+public class WorkEntiyNull : IState<FSMWork>
 {
-    public string nameDisplay;
-    public Sprite image;
+    public void OnEnterState(FSMWork param)
+    {  
+    }
 
-    [Space]
-    [TextArea(3, 6)]
-    public string description;
+    public void OnExitState(FSMWork param)
+    {
+    }
 
-    [Range(1,1000)]
-    public int maxAmount=1;
+    public void OnStayState(FSMWork param)
+    {
+    }
 }
 
+public abstract class WorkEntiy : MonoBehaviour, IState<FSMWork>
+{
+    public abstract void OnEnterState(FSMWork param);
+    public abstract void OnExitState(FSMWork param);
+    public abstract void OnStayState(FSMWork param);
+}
 
 

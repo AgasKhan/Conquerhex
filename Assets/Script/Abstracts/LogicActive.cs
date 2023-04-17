@@ -34,7 +34,6 @@ abstract public class LogicActive : MonoBehaviour
     }
 }
 
-
 public abstract class LogicActive<T> : LogicActive
 {
     public override void Activate<C>(params C[] genericParams)

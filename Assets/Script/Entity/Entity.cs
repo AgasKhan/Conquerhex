@@ -6,6 +6,8 @@ public class Entity : MonoBehaviour, IDamageable
 {
     public Health health;
 
+    public List<ItemBase> drops = new List<ItemBase>();
+
     public virtual void TakeDamage(Damage dmg)
     {
         dmg.ActionInitialiced(this);
@@ -41,6 +43,21 @@ public class Entity : MonoBehaviour, IDamageable
                 health.death -= internalEnd;
             });
     }
+
+    private void Health_death()
+    {
+        foreach (var item in drops)
+        {
+            Debug.Log(item);
+        }
+    }
+
+    private void Awake()
+    {
+        health.death += Health_death;
+    }
+
+
 }
 
 
@@ -60,13 +77,13 @@ public class Health : Init
 
     public event System.Action noLife;
 
+    public event System.Action reLife;
+
     public event System.Action death;
 
     public float TakeRegenDamage(float amount)
     {
         timeToRegen.Reset();
-
-        
 
         var aux = regen.Substract(amount);
 
@@ -89,7 +106,6 @@ public class Health : Init
 
             if (TakeRegenDamage(aux) <= 0)
             {
-                death?.Invoke();
                 return 0;
             }
         }
@@ -105,9 +121,19 @@ public class Health : Init
 
     void Regen()
     {
+        bool noLifeBool = false;
+
+        if (life.current <= 0)
+            noLifeBool = true;
+
         life.Substract(-1 * (regen.current / 100f) * life.total);
         regen.Substract(-1);
         timeToRegen.Reset();
+
+        if(noLifeBool && life.current>0)
+        {
+            reLife?.Invoke();
+        }
     }
 
     public void Init()

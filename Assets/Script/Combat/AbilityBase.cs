@@ -16,7 +16,7 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         //instacio particulas y bla bla
 
 
-        Damage[] damagesCopy = (Damage[])weapon.weaponBase.damages.Clone();
+        Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
         for (int i = 0; i < damagesMultiply.Length; i++)
         {
@@ -39,30 +39,39 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     protected abstract void InternalAttack(Vector2 direction, Damage[] damages);
 }
 
-public class Ability : Init, IControllerDir
+public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
 {
     public Weapon weapon;
-    public AbilityBase abilityBase;
     Timer cooldown;
 
     public void Init()
     {
-        cooldown = TimersManager.Create(abilityBase.velocity);
+        cooldown = TimersManager.Create(itemBase.velocity);
     }
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        abilityBase.ControllerDown(dir, tim, weapon, cooldown);
+        itemBase.ControllerDown(dir, tim, weapon, cooldown);
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        abilityBase.ControllerPressed(dir, tim, weapon, cooldown);
+        itemBase.ControllerPressed(dir, tim, weapon, cooldown);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        abilityBase.ControllerUp(dir, tim, weapon, cooldown);
+        itemBase.ControllerUp(dir, tim, weapon, cooldown);
+    }
+
+    public float Percentage()
+    {
+        return cooldown.Percentage();
+    }
+
+    public float InversePercentage()
+    {
+        return cooldown.InversePercentage();
     }
 }
 

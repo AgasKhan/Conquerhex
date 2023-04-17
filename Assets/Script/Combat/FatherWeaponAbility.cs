@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class FatherWeaponAbility<T> : Item where T : FatherWeaponAbility<T>
+public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAbility<T>
 {
     [Space]
 
