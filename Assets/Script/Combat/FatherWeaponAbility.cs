@@ -13,7 +13,7 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
 
     protected override List<string> GetDetails()
     {
-        var list = details;
+        var list = base.GetDetails();
 
         string aux = "";
 

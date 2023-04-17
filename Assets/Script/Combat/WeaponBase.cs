@@ -68,7 +68,7 @@ public class Weapon : Item<WeaponBase>, Init, IGetPercentage
 
     protected override List<string> GetDetails()
     {
-        var list = details;
+        var list = base.GetDetails();
 
         var aux = "Durability: " + durability.current + "/" + durability.total;
         
