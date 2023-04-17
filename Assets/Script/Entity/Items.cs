@@ -4,25 +4,34 @@ using UnityEngine;
 
 public abstract class ItemBase : ScriptableObject, IShowItem
 {
-    public string nameDisplay;
-    public Sprite image;
+    [SerializeField]
+    string _nameDisplay;
+
+    [SerializeField]
+    Sprite _image;
 
     [Space]
+    [SerializeField]
     [TextArea(3, 6)]
-    public string details;
+    string _details;
 
     [Range(1, 1000)]
     public int maxAmount = 1;
 
-    string IShowItem.nameDisplay => nameDisplay;
+    public string nameDisplay => _nameDisplay;
 
-    Sprite IShowItem.image => image;
+    public Sprite image => _image;
 
-    List<string> IShowItem.details => new List<string>() { details };
+    public List<string> details => GetDetails();
+
+    protected virtual List<string> GetDetails()
+    {
+        return new List<string>() { _details };
+    }
 
     public override string ToString()
     {
-        return nameDisplay + "\n" + details;
+        return nameDisplay + "\n" + string.Join("\n", details);
     }
 }
 
@@ -43,6 +52,11 @@ public abstract class Item : IShowItem
 
     public List<string> details => GetDetails();
 
+    protected virtual List<string> GetDetails()
+    {
+        return _itemBase.details;
+    }
+
     public virtual void GetAmounts(out int actual, out int max)
     {
         max = _itemBase.maxAmount;
@@ -54,14 +68,9 @@ public abstract class Item : IShowItem
         return _itemBase.maxAmount;
     }
 
-    protected virtual List<string> GetDetails()
-    {
-        return new List<string>() { _itemBase.details };
-    }
-
     public override string ToString()
     {
-        return nameDisplay + "\n" + string.Join("\n", details);
+        return _itemBase.ToString();
     }
 }
 

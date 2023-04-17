@@ -39,7 +39,6 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
         }        
     }
 
-
     protected override void MyEnable()
     {
         Init();
@@ -69,19 +68,10 @@ public class Weapon : Item<WeaponBase>, Init, IGetPercentage
 
     protected override List<string> GetDetails()
     {
-        var list = base.GetDetails();
+        var list = details;
 
-        string aux = "";
-
-        foreach (var item in itemBase.damages)
-        {
-            aux += item.type.ToString() + "=" + item.amount + "\n";
-        }
-
-        list.Add(aux.RichText("color", "red"));
-
-        aux = "Durability: " + durability.current + "/" + durability.total;
-
+        var aux = "Durability: " + durability.current + "/" + durability.total;
+        
         list.Add(aux.RichText("color", "yellow"));
 
         return list;

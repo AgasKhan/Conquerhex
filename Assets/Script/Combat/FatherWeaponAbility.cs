@@ -11,6 +11,23 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
     public Damage[] damages = new Damage[1];
     public float velocity;
 
+    protected override List<string> GetDetails()
+    {
+        var list = details;
+
+        string aux = "";
+
+        foreach (var item in damages)
+        {
+            aux += "" + item.type.ToString() + "=" + item.amount + "\n";
+        }
+
+        list.Add(aux.RichText("color", "red"));
+
+        return list;
+    }
+
+
     private void OnEnable()
     {
         MyEnable();

@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FSM<T, Context> : ISwitchState<T> where T : FSM<T,Context>
+public abstract class FSM<T, Context> : FSMSerialize<T, Context> where T : FSM<T, Context>
+{ 
+    protected FSM(Context reference)
+    {
+        Init(reference);
+    }
+}
+
+[System.Serializable]
+public abstract class FSMSerialize<T, Context> : ISwitchState<T> where T : FSMSerialize<T, Context>
 {
 
     public Context context;
 
     IState<T> currentState;
 
-    public IState<T> CurrentState 
-    {   
-        get => currentState; 
-        set => SwitchState(value); 
+    public IState<T> CurrentState
+    {
+        get => currentState;
+        set => SwitchState(value);
     }
 
     T FSMConvertToChild()
@@ -40,10 +49,8 @@ public abstract class FSM<T, Context> : ISwitchState<T> where T : FSM<T,Context>
         currentState.OnEnterState(FSMConvertToChild());
     }
 
-    protected FSM(Context reference)
+    public virtual void Init(Context reference)
     {
         this.context = reference;
     }
 }
-
-
