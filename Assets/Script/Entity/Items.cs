@@ -22,11 +22,11 @@ public abstract class ItemBase : ScriptableObject, IShowItem
 
     public Sprite image => _image;
 
-    public List<string> details => GetDetails();
+    public Pictionarys<string,string> details => GetDetails();
 
-    protected virtual List<string> GetDetails()
+    protected virtual Pictionarys<string, string> GetDetails()
     {
-        return new List<string>() { _details };
+        return new Pictionarys<string, string>() { {"Descripcion: ", _details } };
     }
 
     public override string ToString()
@@ -39,7 +39,7 @@ public interface IShowItem
 {
     public string nameDisplay { get; }
     public Sprite image { get;  }
-    public List<string> details { get; }
+    public Pictionarys<string, string> details { get; }
 }
 
 public abstract class Item : IShowItem
@@ -50,9 +50,9 @@ public abstract class Item : IShowItem
 
     public Sprite image => _itemBase.image;
 
-    public List<string> details => GetDetails();
+    public Pictionarys<string, string> details => GetDetails();
 
-    protected virtual List<string> GetDetails()
+    protected virtual Pictionarys<string, string> GetDetails()
     {
         return _itemBase.details;
     }

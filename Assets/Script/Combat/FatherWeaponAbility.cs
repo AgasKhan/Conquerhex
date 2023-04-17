@@ -11,7 +11,7 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
     public Damage[] damages = new Damage[1];
     public float velocity;
 
-    protected override List<string> GetDetails()
+    protected override Pictionarys<string, string> GetDetails()
     {
         var list = base.GetDetails();
 
@@ -22,7 +22,7 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
             aux += "" + item.type.ToString() + "=" + item.amount + "\n";
         }
 
-        list.Add(aux.RichText("color", "red"));
+        list.Add("Damages",aux.RichText("color", "red"));
 
         return list;
     }

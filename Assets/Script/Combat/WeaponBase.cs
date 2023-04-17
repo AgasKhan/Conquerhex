@@ -66,13 +66,13 @@ public class Weapon : Item<WeaponBase>, Init, IGetPercentage
             durabilityOff?.Invoke();
     }
 
-    protected override List<string> GetDetails()
+    protected override Pictionarys<string,string> GetDetails()
     {
         var list = base.GetDetails();
 
-        var aux = "Durability: " + durability.current + "/" + durability.total;
+        var aux = durability.current + "/" + durability.total;
         
-        list.Add(aux.RichText("color", "yellow"));
+        list.Add("Durability" , aux.RichText("color", "yellow"));
 
         return list;
     }
