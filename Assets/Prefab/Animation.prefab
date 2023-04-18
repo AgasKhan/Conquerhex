@@ -50,7 +50,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 4294967295
+  m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -150,11 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc4b86777cc114983a53b0e4ea4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: f6030430b4216fd489184f422f8a8025, type: 2}
+  material: {fileID: 2100000, guid: 337d60be4bdd2d24db6085cfa810b3f4, type: 2}
   shadow: 1
   animator: 0
-  dirVector: {x: 0, y: 0}
-  colorShadow: {r: 0, g: 0, b: 0, a: 0}
-  sortingLayer: piso
+  dirVector: {x: 1, y: 1}
+  colorShadow: {r: 0, g: 0, b: 0, a: 1}
+  sortingLayer: Shadow
   originalSprite: {fileID: 0}
-  offsetScale: 10

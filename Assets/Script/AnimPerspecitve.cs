@@ -5,7 +5,6 @@ using UnityEngine;
 public class AnimPerspecitve : MonoBehaviour
 {
     // Start is called before the first frame update
-    static int shadowOrder;
 
     [SerializeField]
     Material material;
@@ -22,12 +21,7 @@ public class AnimPerspecitve : MonoBehaviour
     [SerializeField]
     SpriteRenderer originalSprite;
 
-    SpriteRenderer shadowSprite;
-
-    
-    [SerializeField]
-    float offsetScale=10;
-    
+    SpriteRenderer shadowSprite;    
 
     private void Awake()
     {
@@ -46,15 +40,33 @@ public class AnimPerspecitve : MonoBehaviour
 
         shadowSprite.material = material;
 
-        shadowSprite.transform.localScale = originalSprite.transform.localScale * offsetScale;
+        originalSprite.RegisterSpriteChangeCallback(UpdateShadowSprite);
+
+        shadowSprite.gameObject.transform.rotation = Quaternion.identity;
+
+        shadowSprite.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+
+        shadowSprite.sortingLayerName = sortingLayer;
+
+
+        /*
+        shadowSprite.renderingLayerMask = (uint)Mathf.Pow(2, Random.Range(1, 6));
 
         shadowSprite.sortingOrder = shadowOrder;
 
-        originalSprite.RegisterSpriteChangeCallback(UpdateShadowSprite);
+        shadowOrder += 2;
 
-        shadowOrder+=2;
 
-        shadowSprite.renderingLayerMask = (uint)Random.Range(2,5);
+        var aux = UpdateBounds(shadowSprite.sprite.bounds);
+
+         print(shadowSprite.bounds + " " + aux);
+
+        shadowSprite.bounds = aux;
+
+        */
+
+
+
     }
 
     void UpdateShadowSprite(SpriteRenderer sprite)
@@ -63,17 +75,21 @@ public class AnimPerspecitve : MonoBehaviour
         shadowSprite.flipX = sprite.flipX;
     }
 
+    Bounds UpdateBounds(Bounds bounds)
+    {
+
+        //return new Bounds(transform.TransformPoint(bounds.center), bounds.size * shadowSprite.transform.lossyScale.x);
+
+        return new Bounds(bounds.center, bounds.size * shadowSprite.transform.lossyScale.x*10);
+    }
+
     void UpdateShadow()
     {
-        //shadowSprite.material.SetVector("_Vector2", dirVector);
+        shadowSprite.material.SetVector("_Vector2", Vector2.one);
 
-        //shadowSprite.material.SetColor("_Color", colorShadow);
+        shadowSprite.material.SetColor("_Color", colorShadow);
 
-        shadowSprite.sortingLayerName = sortingLayer;
-
-        shadowSprite.gameObject.transform.rotation = Quaternion.identity;
-
-        
+        StartCoroutine(UpdatePostFrame(() => shadowSprite.localBounds = UpdateBounds(shadowSprite.sprite.bounds)));   
     }
 
     private void OnEnable()
@@ -87,5 +103,12 @@ public class AnimPerspecitve : MonoBehaviour
             CreateShadow();
 
         UpdateShadow();
+    }
+
+    IEnumerator UpdatePostFrame(System.Action action)
+    {
+        yield return null;
+
+        action();
     }
 }
