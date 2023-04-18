@@ -22,7 +22,7 @@ public class EventsCall : MonoBehaviour
     }
     void Start()
     {
-        menu = MenuManager.instance;
+       menu = MenuManager.instance;
     }
 
 
