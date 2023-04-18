@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlotsLogic : MonoBehaviour
+public class SlotsFunctions : MonoBehaviour
 {
-    public Pictionarys<System.Enum, EventSlot> SlotsEvents;
-
     private void Awake()
     {
         //LoadSystem.AddPostLoadCorutine(LoadSlots);
 
+        /*
         MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
@@ -18,18 +17,7 @@ public class SlotsLogic : MonoBehaviour
             {"DefendSlot", DefendSlot}
 
         });
-    }
-
-    void Start()
-    {
-
-
-        
-    }
-
-    void Update()
-    {
-        
+        */
     }
 
 
@@ -88,9 +76,5 @@ public class SlotsLogic : MonoBehaviour
         yield return null;
         end(true);
     }
-
-}
-public class EventSlot
-{
 
 }

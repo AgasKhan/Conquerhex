@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class DetailsWindow : MonoBehaviour
 {
-
     public static DetailsWindow instance;
 
     [SerializeField]
@@ -16,7 +15,7 @@ public class DetailsWindow : MonoBehaviour
     TextMeshProUGUI myDescription;
 
     [SerializeField]
-    GameObject myUpgradesGrid;
+    GameObject buttonsGrid;
 
     [SerializeField]
     Button myButton;
@@ -24,22 +23,24 @@ public class DetailsWindow : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI myButtonText;
 
-    //[SerializeField]
-    //LevelUpButton[] buttoncitos;
-
     [SerializeField]
     Image previewImage;
 
     [SerializeField]
     Scrollbar scrollbar;
 
+    //--------------------------------------------
+    [SerializeField]
+    Button backButton;
 
-    CanvasGroup alphaCanvas;
+    [SerializeField]
+    GameObject buttonPrefab;
+    //--------------------------------------------
+
 
     private void Awake()
     {
         instance = this;
-        //alphaCanvas = GetComponent<CanvasGroup>();
         //gameObject.SetActive(false);
     }
 
@@ -62,12 +63,12 @@ public class DetailsWindow : MonoBehaviour
 
     public static void ActiveButtons(bool value)
     {
-        for (int i = 0; i < instance.myUpgradesGrid.transform.childCount; i++)
+        for (int i = 0; i < instance.buttonsGrid.transform.childCount; i++)
         {
-            instance.myUpgradesGrid.transform.GetChild(i).gameObject.SetActive(value);
+            instance.buttonsGrid.transform.GetChild(i).gameObject.SetActive(value);
         }
 
-        instance.myUpgradesGrid.transform.parent.GetChild(0).gameObject.SetActive(value);
+        instance.buttonsGrid.transform.parent.GetChild(0).gameObject.SetActive(value);
     }
 
     public static void GenerateButtons(DoubleString[] d)
@@ -104,7 +105,7 @@ public class DetailsWindow : MonoBehaviour
         instance.myButton.onClick.AddListener(() =>
         {
             myAction();
-            MenuManager.instance.ClickAccept();
+            //MenuManager.instance.ClickAccept();
         }
         );
 
@@ -123,14 +124,6 @@ public class DetailsWindow : MonoBehaviour
         instance.myButton.interactable = false;
     }
 
-
-
-    public static void ChangeAlpha(float alpha, float seconds)
-    {
-        instance.gameObject.SetActive(true);
-
-        Utilitys.LerpInTime(instance.alphaCanvas.alpha, alpha, seconds, Mathf.Lerp, (save) => { instance.alphaCanvas.alpha = save; });
-    }
 
     static public void PreviewImage(bool active, Sprite sprite = null)
     {
@@ -151,4 +144,23 @@ public class DetailsWindow : MonoBehaviour
         PreviewImage(true, sprite);
         ModifyTexts(title, description);
     }
+
+    public void SetWindow(string title, string description)
+    {
+        ModifyTexts(title, description);
+    }
+
+    //--------------------------------------------------------
+
+    public void CreateButtons(List<string> buttonsNames)
+    {
+        for (int i = 0; i < buttonsNames.Count; i++)
+        {
+            var aux = Instantiate(buttonPrefab, buttonsGrid.transform);
+            var button = aux.GetComponentInChildren<Button>();
+
+            button.name = buttonsNames[i];
+        }
+    }
+    //--------------------------------------------------------
 }

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class ButtonInformation : MonoBehaviour
 {
@@ -13,11 +11,16 @@ public class ButtonInformation : MonoBehaviour
 
     private void Start()
     {
-        var aux = Manager<DetailsWindow>.pic[transform.name];
+        if (myItem != null)
+            GetDetailsWindow();
+    }
 
-        if (aux != null)
-            myDetailWindow = aux;
+    public void GetDetailsWindow()
+    {
+        if (Manager<DetailsWindow>.pic.ContainsKey(transform.name))
+            myDetailWindow = Manager<DetailsWindow>.pic[transform.name];
         else
             Debug.Log("No se encontro: " + transform.name + " entre las Details Windows");
     }
+
 }

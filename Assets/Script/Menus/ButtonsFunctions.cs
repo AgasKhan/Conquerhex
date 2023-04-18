@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class ButtonsFunctions : MonoBehaviour
 {
-
     private void Start()
     {
         MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
-
             // Static Buttons
             {"Button", Example},
             {"StartNewGame", StartNewGame},
-            {"Options", Options},
+            {"Options", ShowYourPanel},
             {"Credits", Credits},
             {"Exit", Exit},
 
@@ -25,6 +23,11 @@ public class ButtonsFunctions : MonoBehaviour
             {"QUIT", QUIT},
 
             {"ShowMod", ShowMod},
+            {"QuitWindow", QuitWindow},
+            {"ClosePanel", ClosePanel},
+            {"Panel1", ShowYourPanel},
+            {"Panel2", ShowYourPanel},
+            {"Panel3", ShowYourPanel},
             
             //Dragable Buttons
             {"ShowWindow", ShowWindow}
@@ -40,6 +43,22 @@ public class ButtonsFunctions : MonoBehaviour
         data.myDetailWindow.SetWindow(item.image, item.nameDisplay, item.details.ToString(" = ", "\n \n"));
     }
 
+    void QuitWindow (GameObject g)
+    {
+        var data = g.GetComponent<ButtonInformation>();
+        var item = data.myItem;
+
+        //data.myDetailWindow.CreateButtons(item.myNamesList);
+        data.myDetailWindow.SetWindow(item.nameDisplay, item.details.ToString());
+    }
+
+    void ClosePanel (GameObject g)
+    {
+        MenuManager.instance.CloseLastPanel();
+    }
+
+
+
     #region Static Buttons
     void Example(GameObject g)
     {
@@ -51,9 +70,9 @@ public class ButtonsFunctions : MonoBehaviour
         MenuManager.instance.StartGame();
     }
 
-    void Options(GameObject g)
+    void ShowYourPanel(GameObject g)
     {
-
+        MenuManager.instance.ShowPanel(g.name);
     }
 
     void Credits(GameObject g)
