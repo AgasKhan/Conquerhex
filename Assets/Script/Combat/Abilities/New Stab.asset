@@ -12,12 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de17b9099fa682c469a81cc1cc102c28, type: 3}
   m_Name: New Stab
   m_EditorClassIdentifier: 
-  nameDisplay: stab
-  image: {fileID: 0}
-  description: 
+  _nameDisplay: 
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
   damages:
   - amount: 5
     type: 0
+  - amount: 5
+    type: 1
+  - amount: 5
+    type: 2
   velocity: 0
   particles: {fileID: 0}
-  damagesMultiply: []
+  damagesMultiply:
+  - amount: 1
+    type: 0
+  - amount: 0
+    type: 2
