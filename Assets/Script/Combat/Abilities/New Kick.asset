@@ -12,14 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130cb119361f13c43b92038afecd410b, type: 3}
   m_Name: New Kick
   m_EditorClassIdentifier: 
-  nameDisplay: patada
-  image: {fileID: 0}
-  description: 
-  damages:
-  - amount: 5
-    type: 1
-  - amount: 10
-    type: 0
+  _nameDisplay: Kick
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
+  damages: []
   velocity: 0
   particles: {fileID: 0}
-  damagesMultiply: []
+  detect:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    maxDetects: -1
+    minDetects: 1
+  damagesMultiply:
+  - amount: 0.5
+    type: 1

@@ -12,21 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de17b9099fa682c469a81cc1cc102c28, type: 3}
   m_Name: New Stab
   m_EditorClassIdentifier: 
-  _nameDisplay: 
+  _nameDisplay: Stab
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
   damages:
   - amount: 5
-    type: 0
-  - amount: 5
-    type: 1
-  - amount: 5
     type: 2
   velocity: 0
   particles: {fileID: 0}
+  detect:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    maxDetects: -1
+    minDetects: 1
   damagesMultiply:
-  - amount: 1
-    type: 0
-  - amount: 0
+  - amount: 2
     type: 2
+  - amount: 0
+    type: 0
