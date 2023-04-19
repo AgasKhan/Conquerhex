@@ -2,35 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boid : MonoBehaviour
+public class Boid : Seek
 {
 
-    delegate void _FuncionLoca(ref Vector3 desired, Boid objective, Vector3 dirToBoid);
-
-    [SerializeField] float _maxSpeed;
-
-    [Range(0f, 0.1f), SerializeField]
-    float _maxForce;
-
-    Vector3 _velocity;
+    delegate void _FuncBoid(ref Vector2 desired, Boid objective, Vector2 dirToBoid);
 
     void Start()
     {
         Manager<Boid>.pic.Add(GetInstanceID().ToString(), this);
 
-        Vector3 random = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+        Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 
-        AddForce(random.normalized * _maxSpeed);
+        AddVelocity(random.normalized * _maxSpeed);
     }
 
     void Update()
     {
-        AddForce(BoidIntern(Separation,false) * BoidsManager.instance.SeparationWeight +
+        AddVelocity(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
                  BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
                  BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
-        transform.position += _velocity * Time.deltaTime;
-       // transform.forward = _velocity;
+        Locomotion();
 
         CheckBounds();
     }
@@ -42,9 +34,9 @@ public class Boid : MonoBehaviour
 
     
 
-    Vector3 BoidIntern(_FuncionLoca func, bool promedio)
+    Vector2 BoidIntern(_FuncBoid func, bool promedio)
     {
-        Vector3 desired = Vector3.zero;
+        Vector2 desired = Vector2.zero;
 
         int count = 0;
 
@@ -55,55 +47,39 @@ public class Boid : MonoBehaviour
             if (boid.value == this) continue;
 
             //Saco la direccion hacia el boid
-            Vector3 dirToBoid = boid.value.transform.position - transform.position;
+            Vector2 dirToBoid = DirectionPursuit(boid.value.transform.position);
 
-            //Si esta dentro del rango de vision
+            //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
             if (dirToBoid.sqrMagnitude <= BoidsManager.instance.SeparationRadius)
             {
-                //En este caso me resto porque quiero separarme hacia el lado contrario
                 func(ref desired, boid.value, dirToBoid);
 
                 count++;
             }
         }
 
-        if (desired == Vector3.zero) return desired;
+        if (desired == Vector2.zero) return desired;
 
+        //En caso de requerir tener el promedio de todos los boids, promedio con mi desired
         if(promedio)
             desired /= count;
 
         return CalculateSteering(desired);
     }
 
-    void Separation(ref Vector3 desired, Boid boid, Vector3 dirToBoid)
+    void Separation(ref Vector2 desired, Boid boid, Vector2 dirToBoid)
     {
         desired -= dirToBoid;
     }
 
-    void Alignment(ref Vector3 desired, Boid boid, Vector3 dirToBoid)
+    void Alignment(ref Vector2 desired, Boid boid, Vector2 dirToBoid)
     {
         desired += boid._velocity;
     }
 
-    void Cohesion(ref Vector3 desired, Boid boid, Vector3 dirToBoid)
+    void Cohesion(ref Vector2 desired, Boid boid, Vector2 dirToBoid)
     {
-        desired += boid.transform.position;
-    }
-
-    Vector3 CalculateSteering(Vector3 desired)
-    {
-        //desired.Normalize();
-        //desired *= _maxSpeed;
-        //desired -= _velocity;
-
-        //return Vector3.ClampMagnitude(desired, _maxForce);
-
-        return Vector3.ClampMagnitude((desired.normalized * _maxSpeed) - _velocity, _maxForce);
-    }
-
-    void AddForce(Vector3 force)
-    {
-        _velocity = Vector3.ClampMagnitude(_velocity + force, _maxSpeed);
+        desired += (Vector2)boid.transform.position;
     }
 
     private void OnDrawGizmos()

@@ -10,9 +10,12 @@ public class Seek : MonoBehaviour
     [SerializeField]
     protected float _desaceleration = 1f;
 
+    [SerializeField]
+    float _maxForce;
+    
     protected Vector2 _desiredVelocity;
     protected Vector2 _steering;
-    protected Vector2 _velocity = Vector3.zero;
+    public Vector2 _velocity = Vector3.zero;
 
     //Vector2 _velocity;
     //public Vector2 velocity { get { return _velocity; } }
@@ -31,13 +34,15 @@ public class Seek : MonoBehaviour
 
     //}
 
-    protected virtual Vector3 Seeking(Vector2 target)
+    public virtual Vector3 CalculateSteering(Vector2 target)
     {
-        _desiredVelocity = Direction(target).normalized * _maxSpeed;
+        //_desiredVelocity = Direction(target).normalized * _maxSpeed;
 
-        _steering = _desiredVelocity - _velocity;
+        //_steering = _desiredVelocity - _velocity;
 
-        return AddVelocity(_steering);
+        //return AddVelocity(_steering);
+
+        return Vector2.ClampMagnitude((target.normalized * _maxSpeed) - _velocity, _maxForce);
     }
 
     Vector2 Direction(Vector3 targetPos, float multiply = 1)
@@ -52,7 +57,8 @@ public class Seek : MonoBehaviour
 
    public Vector2 AddVelocity(Vector2 velocity)
     {
-        return _velocity += velocity * Time.deltaTime;//sumo la velocidad en metros por segundo
+        return _velocity = Vector2.ClampMagnitude(_velocity + velocity, _maxSpeed);
+        //return _velocity += velocity * Time.deltaTime;//sumo la velocidad en metros por segundo
     }
 
     public void Locomotion()
@@ -72,12 +78,12 @@ public class Seek : MonoBehaviour
         _velocity += _steering * Time.deltaTime;
     }
 
-    protected virtual Vector2 DirectionEvade(Vector3 targetPos)
+    public virtual Vector2 DirectionEvade(Vector3 targetPos)
     {
         return Direction(targetPos, -1);
     }
 
-    protected virtual Vector2 DirectionPursuit(Vector3 targetPos)
+    public virtual Vector2 DirectionPursuit(Vector3 targetPos)
     {
         return Direction(targetPos, 1);
     }
@@ -88,7 +94,7 @@ public class Seek : MonoBehaviour
 public class Pursuit : Seek
 {
     //Transform pos;
-    protected override Vector2 DirectionPursuit(Vector3 targetPos)
+    public override Vector2 DirectionPursuit(Vector3 targetPos)
     {
         var ourDir = base.DirectionPursuit(targetPos);
 
@@ -106,7 +112,7 @@ public class Pursuit : Seek
 
         if (agentToTarget.sqrMagnitude <= base.AddVelocity(targetPos).sqrMagnitude)
         {
-            return base.Seeking(targetPos);
+            return base.CalculateSteering(targetPos);
         }
 
         return _directionToGo;
