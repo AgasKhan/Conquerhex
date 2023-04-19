@@ -2,11 +2,17 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
-
 public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
 {
+    [Space]
+
+    [Header("Particulas a mostrar")]
     [SerializeField]
     GameObject particles;
+
+    [Header("Deteccion")]
+    [SerializeField]
+    protected Detect<IDamageable> detect;
 
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
@@ -14,8 +20,6 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     protected void Attack(Vector2 direction, Weapon weapon)
     {
         //instacio particulas y bla bla
-
-
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
         for (int i = 0; i < damagesMultiply.Length; i++)
@@ -31,6 +35,17 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         }
 
         InternalAttack(direction, damagesCopy);
+    }
+
+    protected void Damage(ref Damage[] damages, params IDamageable[] damageables)
+    {
+        foreach (var entitys in damageables)
+        {
+            foreach (var dmg in damages)
+            {
+                entitys.TakeDamage(dmg);
+            }
+        }
     }
 
     public abstract void ControllerDown(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
@@ -75,6 +90,128 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
     }
 }
 
+[System.Serializable]
+public class Detect<T>
+{
+    public float radius;
+
+    public float distance;
+
+    public LayerMask layerMask;
+
+    public int maxDetects = -1;
+
+    public int minDetects = 1;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="chck">Funcion que chequea si deseo hacerle danio (usualmente compara si no es el casteador)</param>
+    /// <returns></returns>
+    public T[] Area(Vector2 pos, System.Func<Transform, bool> chck)
+    {
+        var aux = Physics2D.OverlapCircleAll(pos, radius, layerMask);
+
+        List<T> damageables = new List<T>();
+
+        foreach (var item in aux)
+        {
+            var components = item.GetComponents<T>();
+
+            if (components.Length > 0 && chck(item.transform))
+            {
+                damageables.AddRange(components);
+            }
+        }
+
+        return damageables.ToArray();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="caster"></param>
+    /// <param name="chck">compara si no es el casteador</param>
+    /// <returns></returns>
+    public T[] AreaWithRay(Vector2 pos, Vector2 caster, System.Func<Transform, bool> chck)
+    {
+        List<T> damageables = new List<T>(Area(pos, chck));
+
+        for (int i = damageables.Count; i >= 0; i--)
+        {
+            var aux = RayTransform(pos, (caster - pos), (caster - pos).magnitude);
+
+            if (!chck(aux[0]))
+            {
+                damageables.RemoveAt(i);
+            }
+        }
+
+        return damageables.ToArray();
+    }
+
+    /// <summary>
+    /// Ray que devuelve el transform
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="dir"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    public Transform[] RayTransform(Vector2 pos, Vector2 dir, float distance = -1)
+    {
+        var aux = Physics2D.RaycastAll(pos, dir, distance<0 ? this.distance : distance, layerMask);
+
+        Debug.DrawRay(pos, dir, Color.red, 1);
+
+        if (aux.Length >= minDetects)
+        {
+            List<Transform> tr = new List<Transform>();
+
+            Transform[] result=new Transform[maxDetects > 0 ? maxDetects : tr.ToArray().Length - minDetects - 1];
+
+            foreach (var item in aux)
+            {
+                tr.Add(item.transform);
+            }
+
+            System.Array.ConstrainedCopy(tr.ToArray(), minDetects-1, result, 0, result.Length);
+
+            return result;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Ray que devuelve el tipo de la clase
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="dir"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    public T[] Ray(Vector2 pos, Vector2 dir, float distance = -1)
+    {
+        List<T> result = new List<T>();
+
+        var tr = RayTransform(pos, dir, distance);
+
+        foreach (var item in tr)
+        {
+            var aux = item.GetComponents<T>();
+            if (aux.Length > 0)
+                result.AddRange(aux);
+        }
+
+        if (result.Count > 0)
+            return result.ToArray();
+        else
+            return null;
+    }
+
+
+}
 
 
 //padre de los pdoeres y debuffos
