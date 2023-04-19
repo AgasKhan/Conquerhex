@@ -19,6 +19,12 @@ public abstract class MoveAbstract : MonoBehaviour
     [SerializeField]
     protected float _frameDesaceleration;
 
+    public float maxSpeed
+    {
+        get => _velocity.total;
+        set => _velocity.total = value;
+    }
+
     public float velocity
     {
         get => _velocity.current;
@@ -39,6 +45,8 @@ public abstract class MoveAbstract : MonoBehaviour
         }
     }
 
+    public Vector2 vectorVelocity => velocity * direction;
+
     protected Vector2 ToVector(Tim tim)
     {
         return direction * tim.current;
@@ -51,11 +59,14 @@ public abstract class MoveAbstract : MonoBehaviour
         tim.current = number;
     }
 
+
     public virtual MoveAbstract Acelerator(Vector2 dir)
     {
-        var vecVelocity = ToVector(_velocity);
+        aceleration.current = dir.magnitude;
 
-        vecVelocity += aceleration.current * Time.deltaTime * dir;
+        var vecVelocity = vectorVelocity;
+
+        vecVelocity += aceleration.current * Time.deltaTime * dir.normalized;
 
         velocity = vecVelocity.magnitude;
 
@@ -64,9 +75,24 @@ public abstract class MoveAbstract : MonoBehaviour
         return this;
     }
 
-    public virtual MoveAbstract Acelerator(float number)
+    /*
+    public virtual MoveAbstract Acelerator(Vector2 dir)
     {
-        Set(aceleration, number);
+        var vecVelocity = vectorVelocity;
+
+        vecVelocity += dir;
+
+        velocity = vecVelocity.magnitude;
+
+        direction = vecVelocity.normalized;
+
+        return this;
+    }
+    */
+
+    public virtual MoveAbstract MaxAcelerator(float number)
+    {
+        aceleration.total = number;
 
         return this;
     }

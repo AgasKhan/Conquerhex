@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class Seek : MonoBehaviour
 {
+    /*
     [SerializeField]
     protected float _maxSpeed = 7;
 
     [SerializeField]
     protected float _desaceleration = 1f;
+     
+
 
     [SerializeField]
     float _maxForce;
-    
+    */
+
+    [SerializeField]
+    protected MoveAbstract move;
+
     protected Vector2 _desiredVelocity;
     protected Vector2 _steering;
-    public Vector2 _velocity = Vector3.zero;
+    //public Vector2 _velocity = Vector3.zero;
 
     //Vector2 _velocity;
     //public Vector2 velocity { get { return _velocity; } }
@@ -34,6 +41,7 @@ public class Seek : MonoBehaviour
 
     //}
 
+
     public virtual Vector3 CalculateSteering(Vector2 target)
     {
         //_desiredVelocity = Direction(target).normalized * _maxSpeed;
@@ -42,7 +50,7 @@ public class Seek : MonoBehaviour
 
         //return AddVelocity(_steering);
 
-        return Vector2.ClampMagnitude((target.normalized * _maxSpeed) - _velocity, _maxForce);
+        return Vector2.ClampMagnitude((target.normalized * move.maxSpeed) - move.vectorVelocity, move.aceleration.current);
     }
 
     Vector2 Direction(Vector3 targetPos, float multiply = 1)
@@ -55,37 +63,30 @@ public class Seek : MonoBehaviour
         return _direction;
     }
 
-   public Vector2 AddVelocity(Vector2 velocity)
-    {
-        return _velocity = Vector2.ClampMagnitude(_velocity + velocity, _maxSpeed);
-        //return _velocity += velocity * Time.deltaTime;//sumo la velocidad en metros por segundo
-    }
-
-    public void Locomotion()
-    {
-        transform.position += (_velocity * Time.deltaTime).Vec2to3(0);//me muevo en metros por segundo
-    }
-
     public virtual void Arrive(Vector3 target)
     {
-        _desiredVelocity = Vector2.ClampMagnitude(target, _maxSpeed);
+        _desiredVelocity = Vector2.ClampMagnitude(target, move.maxSpeed);
 
-        if (_desiredVelocity.sqrMagnitude < _velocity.sqrMagnitude / (_desaceleration * _desaceleration))
-            _desiredVelocity = -_velocity * (_desaceleration - 1);
+        if (_desiredVelocity.sqrMagnitude < (move.velocity * move.velocity / (move._desaceleration.current * move._desaceleration.current)))
+            _desiredVelocity = -move.vectorVelocity * (move._desaceleration.current - 1);
 
-        _steering = _desiredVelocity - _velocity;
+        _steering = _desiredVelocity - move.vectorVelocity;
 
-        _velocity += _steering * Time.deltaTime;
+        var vecVelocity = move.vectorVelocity;
+
+        vecVelocity += _steering * Time.deltaTime;
+
+        move.Velocity(vecVelocity);
     }
 
-    public virtual Vector2 DirectionEvade(Vector3 targetPos)
+    public virtual Vector2 DirectionEvade(MoveAbstract targetPos)
     {
-        return Direction(targetPos, -1);
+        return Direction(targetPos.transform.position, -1);
     }
 
-    public virtual Vector2 DirectionPursuit(Vector3 targetPos)
+    public virtual Vector2 DirectionPursuit(MoveAbstract targetPos)
     {
-        return Direction(targetPos, 1);
+        return Direction(targetPos.transform.position, 1);
     }
 
 
@@ -94,7 +95,7 @@ public class Seek : MonoBehaviour
 public class Pursuit : Seek
 {
     //Transform pos;
-    public override Vector2 DirectionPursuit(Vector3 targetPos)
+    public override Vector2 DirectionPursuit(MoveAbstract targetPos)
     {
         var ourDir = base.DirectionPursuit(targetPos);
 
@@ -102,7 +103,7 @@ public class Pursuit : Seek
 
 
         //Vector2 _direction = Vector3.Project(tarPos + base.AddVelocity(targetPos), base.AddVelocity(targetPos)).Vect3To2();
-        Vector2 _direction = Vector3.Project(ourDir + base.AddVelocity(targetPos), transform.position).Vect3To2();
+        Vector2 _direction = Vector3.Project(ourDir + targetPos.vectorVelocity, transform.position).Vect3To2();
         Vector2 _directionToGo = ourDir - _direction;
 
         Vector2 agentToTarget = _direction - (Vector2)transform.position; //_pursuitTarget.transform.position - transform.position;
@@ -110,9 +111,9 @@ public class Pursuit : Seek
 
         //Si la distancia al agente es < distancia al punto del Pursuit podemos usar Seek
 
-        if (agentToTarget.sqrMagnitude <= base.AddVelocity(targetPos).sqrMagnitude)
+        if (agentToTarget.sqrMagnitude <= targetPos.vectorVelocity.sqrMagnitude)
         {
-            return base.CalculateSteering(targetPos);
+            return base.CalculateSteering(targetPos.transform.position);
         }
 
         return _directionToGo;

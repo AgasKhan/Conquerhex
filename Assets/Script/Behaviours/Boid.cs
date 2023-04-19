@@ -13,16 +13,14 @@ public class Boid : Seek
 
         Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 
-        AddVelocity(random.normalized * _maxSpeed);
+        move.Velocity(move.maxSpeed).Velocity(random.normalized);
     }
 
     void Update()
     {
-        AddVelocity(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
+        move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
                  BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
                  BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
-
-        Locomotion();
 
         CheckBounds();
     }
@@ -47,7 +45,7 @@ public class Boid : Seek
             if (boid.value == this) continue;
 
             //Saco la direccion hacia el boid
-            Vector2 dirToBoid = DirectionPursuit(boid.value.transform.position);
+            Vector2 dirToBoid = DirectionPursuit(boid.value.move);
 
             //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
             if (dirToBoid.sqrMagnitude <= BoidsManager.instance.SeparationRadius)
@@ -74,7 +72,7 @@ public class Boid : Seek
 
     void Alignment(ref Vector2 desired, Boid boid, Vector2 dirToBoid)
     {
-        desired += boid._velocity;
+        desired += boid.move.vectorVelocity;
     }
 
     void Cohesion(ref Vector2 desired, Boid boid, Vector2 dirToBoid)
