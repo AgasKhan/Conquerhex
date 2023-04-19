@@ -159,10 +159,22 @@ public static class Extensions
 
         b.onClick.RemoveAllListeners();
 
+        UnityEngine.Events.UnityAction unityAction;
+
+        if(b.TryGetComponent(out LogicActive logicActive))
+        {
+            unityAction = () => logicActive.Activate(b);
+        }
+        else
+        {
+            unityAction = () =>
+            {
+                menu.eventListVoid[b.name](b.gameObject);
+            };
+        }
+
         //UnityEventTools.RemovePersistentListener(b.onClick, 0);
-        b.onClick.AddListener(() => {
-            menu.eventListVoid[b.name](b.gameObject);
-        });
+        b.onClick.AddListener(unityAction);
         //menu.eventListVoid[b.name](b.gameObject);
 
         DebugPrint.Log("\tboton configurando");

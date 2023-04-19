@@ -14,7 +14,9 @@ public class EventsCall : MonoBehaviour
         {
             b.onClick.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.Off);
             b.Event();
-            menu.eventListVoid[b.name](b.gameObject);
+            //menu.eventListVoid[b.name](b.gameObject);
+            b.onClick.Invoke();
+
             //menu.eventListVoid.Remove(b.name);
             return;
         }

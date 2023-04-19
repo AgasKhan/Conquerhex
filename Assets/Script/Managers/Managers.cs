@@ -49,6 +49,37 @@ public class Manager<T> : SingletonClass<Manager<T>>
     }
 }
 
+
+public class ManagerAddRemove<T>
+{
+    //referencia de mi pic que si es estatico
+    Pictionarys<string, T> _pic = Manager<T>.pic;
+
+    List<string> keys = new List<string>();
+
+    public void RemoveAll()
+    {
+        foreach (var item in keys)
+        {
+            _pic.Remove(item);
+        }
+
+        keys.Clear();
+    }
+
+    public void Add(string key, T value)
+    {
+        keys.Add(key);
+
+        _pic.Add(key, value);
+    }
+
+    ~ManagerAddRemove()
+    {
+        RemoveAll();
+    }
+}
+
 /*
 public class ManagerComponent<T> : SingletonMono<ManagerComponent<T>>
 {

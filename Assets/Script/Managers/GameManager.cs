@@ -63,6 +63,11 @@ public class GameManager : SingletonMono<GameManager>
         fsmGameMaganer.CurrentState = (fsmGameMaganer.CurrentState == fsmGameMaganer.pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
     }
 
+    public void Pause(bool pause)
+    {
+        fsmGameMaganer.CurrentState = (pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+    }
+
     #endregion
 }
 
