@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class ButtonsFunctions : MonoBehaviour
 {
+    MenuManager refMenu;
     private void Start()
     {
-        MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
+        refMenu = MenuManager.instance;
+        refMenu.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
             // Static Buttons
             {"Button", Example},
-            {"StartNewGame", StartNewGame},
-            {"Options", ShowYourPanel},
-            {"Credits", Credits},
+
+            //Menu principal
+            {"StartGame", StartGame},
+            {"Settings", DisplayWindow},
+            {"Credits", DisplayWindow},
             {"Exit", Exit},
 
+            //Menu de creacion de minions
             {"MBody", MBody},
             {"MArms", MArms},
             {"MLegs", MLegs},
@@ -22,12 +27,14 @@ public class ButtonsFunctions : MonoBehaviour
             {"MTails", MTails},
             {"QUIT", QUIT},
 
+            //Manejo de ventanas
             {"ShowMod", ShowMod},
             {"QuitWindow", QuitWindow},
-            {"ClosePanel", ClosePanel},
-            {"Panel1", ShowYourPanel},
-            {"Panel2", ShowYourPanel},
-            {"Panel3", ShowYourPanel},
+            {"CloseWindow", CloseWindow},
+            {"Panel1", DisplayWindow},
+            {"Panel2", DisplayWindow},
+            {"Panel3", DisplayWindow},
+            {"Details", DisplayWindow},
             
             //Dragable Buttons
             {"ShowWindow", ShowWindow}
@@ -41,6 +48,8 @@ public class ButtonsFunctions : MonoBehaviour
         var item = data.myItem;
 
         data.myDetailWindow.SetWindow(item.image, item.nameDisplay, item.details.ToString(" = ", "\n \n"));
+
+        //MenuManager.instance.ShowWindow(g.name);
     }
 
     void QuitWindow (GameObject g)
@@ -52,9 +61,9 @@ public class ButtonsFunctions : MonoBehaviour
         data.myDetailWindow.SetWindow(item.nameDisplay, item.details.ToString());
     }
 
-    void ClosePanel (GameObject g)
+    void CloseWindow (GameObject g)
     {
-        MenuManager.instance.CloseLastPanel();
+        refMenu.CloseLastWindow();
     }
 
 
@@ -65,26 +74,19 @@ public class ButtonsFunctions : MonoBehaviour
         Debug.Log("Apretaste el boton");
     }
 
-    void StartNewGame(GameObject g)
+    void StartGame(GameObject g)
     {
-        MenuManager.instance.StartGame();
+        refMenu.StartGame();
     }
 
-    void ShowYourPanel(GameObject g)
+    void DisplayWindow(GameObject g)
     {
-        MenuManager.instance.ShowPanel(g.name);
-    }
-
-    void Credits(GameObject g)
-    {
-        //var data = g.GetComponent<ButtonInformation>().buttonData;
-
-        //data.detailWindow.SetWindow(data.sprite, data.text);
+        refMenu.ShowWindow(g.name);
     }
 
     void Exit(GameObject g)
     {
-        MenuManager.instance.refSceneChanger.QuitGame();
+        refMenu.refSceneChanger.QuitGame();
     }
 
 

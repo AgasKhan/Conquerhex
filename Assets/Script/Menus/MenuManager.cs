@@ -25,10 +25,8 @@ public class MenuManager : SingletonMono<MenuManager>
     //-----------------------------------------------------------------------
 
 
-    //[HideInInspector]
-    private Pictionarys<string, GameObject> panels = new Pictionarys<string, GameObject>();
-
-    private string lastPanel = "";
+    public Pictionarys<string, GameObject> subMenus = new Pictionarys<string, GameObject>();
+    public Pictionarys<string, DetailsWindow> detailsWindows = new Pictionarys<string, DetailsWindow>();
 
     protected override void Awake()
     {
@@ -37,10 +35,10 @@ public class MenuManager : SingletonMono<MenuManager>
         refSceneChanger = GetComponent<SceneChanger>();
         //audioM = GameManager.GetComponent<AudioManager>();
 
-        GetDetailsWinAndPanels();
+        GetDetailsWinAndSubMenus();
     }
 
-    void GetDetailsWinAndPanels()
+    void GetDetailsWinAndSubMenus()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -48,33 +46,41 @@ public class MenuManager : SingletonMono<MenuManager>
             var detailsW= aux.GetComponent<DetailsWindow>();
 
             if (detailsW != null)
-                Manager<DetailsWindow>.pic.Add(aux.name, detailsW);
+                detailsWindows.Add(aux.name, detailsW);
             else
-                panels.Add(aux.name, aux);
+                subMenus.Add(aux.name, aux);
         }
     }
 
-    public void ShowPanel(string key)
+    public void ShowWindow(string key)
     {
-        if (panels.ContainsKey(key))
+        if (subMenus.ContainsKey(key))
         {
-            panels[key].SetActive(true);
-            panels[key].transform.SetAsLastSibling();
-            lastPanel = key;
+            subMenus[key].SetActive(true);
+            subMenus[key].transform.SetAsLastSibling();
+        }
+        else if (detailsWindows.ContainsKey(key))
+        {
+            detailsWindows[key].ShowOrHide(true);
+            detailsWindows[key].transform.SetAsLastSibling();
         }
         else
-            Debug.Log("No se encontro el panel: " + key);
+            Debug.Log("No se encontro: " + key + " en los pictionarys");
     }
 
-    public void CloseLastPanel()
-    {
-        if(lastPanel != "")
-        {
-            panels[lastPanel].SetActive(false);
-            panels[lastPanel].transform.SetAsFirstSibling();
 
-            lastPanel = transform.GetChild(transform.childCount - 1).name;
-        }
+
+    public void CloseLastWindow()
+    {
+        var lastChild = transform.GetChild(transform.childCount - 1);
+        var aux = lastChild.GetComponent<DetailsWindow>();
+
+        if (aux != null)
+            aux.ShowOrHide(false);
+        else
+            lastChild.gameObject.SetActive(false);
+
+        lastChild.SetAsFirstSibling();
     }
 
     public void StartGame()

@@ -43,6 +43,11 @@ public class DetailsWindow : MonoBehaviour
         instance = this;
         //gameObject.SetActive(false);
     }
+    public void ShowOrHide(bool condition)
+    {
+        this.gameObject.SetActive(condition);
+    }
+
 
     public static void ModifyTexts(DoubleString d)
     {
