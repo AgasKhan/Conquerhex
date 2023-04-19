@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadSystem : MonoBehaviour
+public class LoadSystem : SingletonMono<LoadSystem>
 {
-    public static LoadSystem instance;
 
     List<WaitForCorutines.MyCoroutine> preLoad = new List<WaitForCorutines.MyCoroutine>();
 
@@ -15,7 +14,7 @@ public class LoadSystem : MonoBehaviour
     LoadScreen loadScreen;
 
     // Start is called before the first frame update
-    void Awake()
+    protected override void Awake()
     {
         if (instance != null)
         {
@@ -44,6 +43,11 @@ public class LoadSystem : MonoBehaviour
         loadScreen.Open();
         StartCoroutine(LoadScene(scn));
         Time.timeScale = 1;
+    }
+
+    public void Reload()
+    {
+        Load(SceneManager.GetActiveScene().name);
     }
 
     IEnumerator LoadScene(string scene)

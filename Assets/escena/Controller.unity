@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 152366517}
   - component: {fileID: 152366516}
   - component: {fileID: 152366515}
+  - component: {fileID: 152366518}
   m_Layer: 0
   m_Name: Boid (1)
   m_TagString: Untagged
@@ -153,10 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ed448b40e66244a90f8b79afa0759b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 5
-  _desaceleration: 1
-  _maxForce: 0.01
-  _velocity: {x: 0, y: 0}
+  move: {fileID: 152366518}
 --- !u!212 &152366516
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -224,6 +222,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &152366518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152366514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0}
+  aceleration:
+    _total: 5
+    _current: 0.01
+  _desaceleration:
+    _total: 10
+    _current: 0
+  _velocity:
+    _total: 15
+    _current: 5
+  _frameVelocity: 0
+  _frameDesaceleration: 0
 --- !u!1 &237772594
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +566,7 @@ GameObject:
   - component: {fileID: 579155442}
   - component: {fileID: 579155441}
   - component: {fileID: 579155440}
+  - component: {fileID: 579155443}
   m_Layer: 0
   m_Name: Boid (2)
   m_TagString: Untagged
@@ -563,10 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ed448b40e66244a90f8b79afa0759b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 5
-  _desaceleration: 1
-  _maxForce: 0.01
-  _velocity: {x: 0, y: 0}
+  move: {fileID: 579155443}
 --- !u!212 &579155441
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -634,6 +654,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &579155443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579155439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0}
+  aceleration:
+    _total: 5
+    _current: 0.01
+  _desaceleration:
+    _total: 10
+    _current: 0
+  _velocity:
+    _total: 15
+    _current: 5
+  _frameVelocity: 0
+  _frameDesaceleration: 0
 --- !u!1 &619941230
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +689,7 @@ GameObject:
   - component: {fileID: 619941232}
   - component: {fileID: 619941231}
   - component: {fileID: 619941233}
+  - component: {fileID: 619941234}
   m_Layer: 0
   m_Name: Boid
   m_TagString: Untagged
@@ -731,10 +776,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ed448b40e66244a90f8b79afa0759b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 5
-  _desaceleration: 1
-  _maxForce: 0.01
-  _velocity: {x: 0, y: 0}
+  move: {fileID: 619941234}
+--- !u!114 &619941234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619941230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0}
+  aceleration:
+    _total: 5
+    _current: 0.01
+  _desaceleration:
+    _total: 10
+    _current: 0
+  _velocity:
+    _total: 15
+    _current: 5
+  _frameVelocity: 0
+  _frameDesaceleration: 0
 --- !u!1 &821165642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,9 +1531,7 @@ MonoBehaviour:
   carlitos: []
   _maxSpeed: 10
   _desaceleration: 1
-  _maxSeekForce: 0
-  _maxPursuitForce: 0
-  _pursuitTarget: {fileID: 0}
+  desiredBehav: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 2147483647
