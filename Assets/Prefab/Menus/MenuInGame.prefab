@@ -234,7 +234,7 @@ PrefabInstance:
     - target: {fileID: 4010141340871702410, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Name
-      value: Back Menu
+      value: BackMenu
       objectReference: {fileID: 0}
     - target: {fileID: 4741700821661415422, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
@@ -254,7 +254,7 @@ PrefabInstance:
     - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Name
-      value: BACK MENU
+      value: BACKMENU
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aafeb3de00c8864690ef025d3c2afe7, type: 3}
@@ -566,10 +566,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Text
       objectReference: {fileID: 0}
+    - target: {fileID: 6926420586964467372, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Name
       value: STORE
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aafeb3de00c8864690ef025d3c2afe7, type: 3}
@@ -706,6 +716,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Help
       objectReference: {fileID: 0}
+    - target: {fileID: 4010141340871702410, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4741700821661415422, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Color.b
@@ -721,10 +736,20 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.7924528
       objectReference: {fileID: 0}
+    - target: {fileID: 6926420586964467372, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Name
       value: HELP
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aafeb3de00c8864690ef025d3c2afe7, type: 3}
@@ -1031,10 +1056,20 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.7924528
       objectReference: {fileID: 0}
+    - target: {fileID: 6926420586964467372, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Name
       value: SETTINGS
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aafeb3de00c8864690ef025d3c2afe7, type: 3}

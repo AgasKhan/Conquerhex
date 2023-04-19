@@ -36,10 +36,34 @@ public class ButtonsFunctions : MonoBehaviour
             {"Panel3", DisplayWindow},
             {"Details", DisplayWindow},
             
+            //Menu in game
+            {"Resume", Resume},
+            {"Restart", Restart},
+            {"Store", DisplayWindow},
+            {"Help", DisplayWindow},
+            {"Settings", DisplayWindow},
+            {"BackMenu", BackMenu},
+
+
             //Dragable Buttons
             {"ShowWindow", ShowWindow}
 
         });
+    }
+
+    void Resume(GameObject g)
+    {
+        refMenu.CloseLastWindow();
+
+        //Despausar
+    }
+    void Restart(GameObject g)
+    {
+        refMenu.refSceneChanger.ReloadSc();
+    }
+    void BackMenu(GameObject g)
+    {
+        refMenu.refSceneChanger.Load("MainMenu");
     }
 
     void ShowMod(GameObject g)
