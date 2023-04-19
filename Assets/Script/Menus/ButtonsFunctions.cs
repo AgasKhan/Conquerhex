@@ -43,8 +43,8 @@ public class ButtonsFunctions : MonoBehaviour
             {"Help", DisplayWindow},
             {"Settings", DisplayWindow},
             {"BackMenu", BackMenu},
-
-
+            {"MenuInGame", DisplayWindow},
+            
             //Dragable Buttons
             {"ShowWindow", ShowWindow}
 
@@ -59,7 +59,7 @@ public class ButtonsFunctions : MonoBehaviour
     }
     void Restart(GameObject g)
     {
-        refMenu.refSceneChanger.ReloadSc();
+        //refMenu.refSceneChanger.ReloadSc();
     }
     void BackMenu(GameObject g)
     {
