@@ -63,9 +63,14 @@ public abstract class Item : IShowItem
         actual = 1;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <returns>Cuantos items me sobraron desp de apilarlos</returns>
     public virtual int AddAmount(int amount)
     {
-        return _itemBase.maxAmount;
+        return amount;
     }
 
     public override string ToString()
