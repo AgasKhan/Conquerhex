@@ -95,9 +95,28 @@ public class Tim : IGetPercentage
     [SerializeField]
     protected float _current;
 
-    public float total => _total;
+    public float current
+    {
+        get => _current;
+        set
+        {
+            _current = value;
 
-    public float current => _current;
+            if (_current > _total)
+                _current = total;
+            else if (_current < 0)
+                _current = 0;
+        }
+    }
+
+    public float total
+    {
+        get => _total;
+        set
+        {
+            _total = value;
+        }
+    }
 
     /// <summary>
     /// Reinicia el contador a su valor por defecto, para reiniciar la cuenta
@@ -116,12 +135,6 @@ public class Tim : IGetPercentage
     public virtual float Substract(float n)
     {
         _current -= n;
-
-        if (_current>_total)
-            _current = total;
-        else if (_current < 0)
-            _current = 0;
-
         return Percentage();
     }
 

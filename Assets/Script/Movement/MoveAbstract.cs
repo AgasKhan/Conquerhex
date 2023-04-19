@@ -46,7 +46,9 @@ public abstract class MoveAbstract : MonoBehaviour
 
     protected void Set(Tim tim, float number)
     {
-        tim.Substract(-(number- tim.current));
+        //tim.Substract(-(number- tim.current));
+
+        tim.current = number;
     }
 
     public virtual MoveAbstract Acelerator(Vector2 dir)
