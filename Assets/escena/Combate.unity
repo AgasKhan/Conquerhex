@@ -480,6 +480,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 287620110}
   m_CullTransparentMesh: 1
+--- !u!1001 &451814052
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.707018
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.505829
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.28837177
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223119, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 132d1382f7b77bc42a847412133db52d, type: 3}
 --- !u!1 &471998534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,8 +1449,6 @@ GameObject:
   - component: {fileID: 1197720638}
   - component: {fileID: 1197720637}
   - component: {fileID: 1197720636}
-  - component: {fileID: 1197720635}
-  - component: {fileID: 1197720640}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1389,18 +1456,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1197720635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197720634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe7d92fcbdf40746bf9331334e5e515, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1197720636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1500,22 +1555,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1197720640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197720634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4e1a4a56a682442bf0815e50d4cd26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timersList: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &1231468795
 GameObject:
   m_ObjectHideFlags: 0

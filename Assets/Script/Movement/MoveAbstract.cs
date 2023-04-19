@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MoveAbstract : MonoBehaviour
+public abstract class MoveAbstract : MyScripts
 {
     public Vector2 direction;
 

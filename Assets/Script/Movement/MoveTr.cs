@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class MoveTr : MoveAbstract
 {
+    protected override void Config()
+    {
+        MyUpdates += MyUpdate;
+    }
 
-    private void Update()
+    public void MyUpdate()
     {
         transform.position += (direction * _frameVelocity).Vec2to3(0);
 

@@ -835,6 +835,87 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 9018090919472937176}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1071990371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1071990373}
+  - component: {fileID: 1071990372}
+  m_Layer: 0
+  m_Name: LoadMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1071990372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071990371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6c41ccc1def3c343990c8996b53b7e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carlitos:
+  - {fileID: 1237103842}
+  - {fileID: 1084463089}
+  - {fileID: 1698553399}
+  - {fileID: 499816192}
+  - {fileID: 1619326786}
+  - {fileID: 1079650741}
+  cameras:
+  - {fileID: 1312319289}
+  - {fileID: 173715809}
+  - {fileID: 1588293151}
+  - {fileID: 1205162054}
+  - {fileID: 2110841287}
+  - {fileID: 421829267}
+  renders:
+  - {fileID: 974297792}
+  - {fileID: 1074810649}
+  - {fileID: 1362971591}
+  - {fileID: 1002002811}
+  - {fileID: 435053264}
+  - {fileID: 1818294913}
+  rng: 20
+  loadScreen: {fileID: 722148356}
+  hexagono: {fileID: 4467571277743417452, guid: 6b5900aa9a556e54d818a6fe09263a51,
+    type: 3}
+  pastito:
+  - {fileID: 11400000, guid: 9515d7550357cdb42a18c3ff6dbfa0f2, type: 2}
+  - {fileID: 11400000, guid: 32d538fba1619a0418b58a9c5d597550, type: 2}
+  - {fileID: 11400000, guid: 44bb2a8e9f474fb4a93b91c513ce3163, type: 2}
+  nieve:
+  - {fileID: 11400000, guid: 5b12ac83acb4efd4da277388bf7b216f, type: 2}
+  - {fileID: 11400000, guid: d13e4ef74af9bba4a8f3ffd3eab3261a, type: 2}
+  - {fileID: 11400000, guid: 2c2fc7a80fe7ee7468ec7384a7364a11, type: 2}
+  map: {fileID: 1540370208}
+  playerPublic: {fileID: 1696979097}
+  spawner: {fileID: 5223350694060523476, guid: ecf5bace16d838041a93341ef03cc01d, type: 3}
+  victoria: {fileID: 1523643467}
+--- !u!4 &1071990373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071990371}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1074810649 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6795698234201348587, guid: df8853a72e2fc6c44b0785a2e570487a,
@@ -2995,118 +3076,95 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: map
       value: 
       objectReference: {fileID: 1540370208}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: rng
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: victoria
       value: 
       objectReference: {fileID: 1523643467}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: loadScreen
       value: 
       objectReference: {fileID: 722148356}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: playerPublic
       value: 
       objectReference: {fileID: 1696979097}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: cameras.Array.data[0]
       value: 
       objectReference: {fileID: 1312319289}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: cameras.Array.data[1]
       value: 
       objectReference: {fileID: 173715809}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: cameras.Array.data[2]
       value: 
       objectReference: {fileID: 1588293151}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: cameras.Array.data[3]
       value: 
       objectReference: {fileID: 1205162054}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: cameras.Array.data[4]
       value: 
       objectReference: {fileID: 2110841287}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: cameras.Array.data[5]
       value: 
       objectReference: {fileID: 421829267}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: renders.Array.data[0]
       value: 
       objectReference: {fileID: 974297792}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: renders.Array.data[1]
       value: 
       objectReference: {fileID: 1074810649}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: renders.Array.data[2]
       value: 
       objectReference: {fileID: 1362971591}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: renders.Array.data[3]
       value: 
       objectReference: {fileID: 1002002811}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: renders.Array.data[4]
       value: 
       objectReference: {fileID: 435053264}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: renders.Array.data[5]
       value: 
       objectReference: {fileID: 1818294913}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: carlitos.Array.data[0]
       value: 
       objectReference: {fileID: 1237103842}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: carlitos.Array.data[1]
       value: 
       objectReference: {fileID: 1084463089}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: carlitos.Array.data[2]
       value: 
       objectReference: {fileID: 1698553399}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: carlitos.Array.data[3]
       value: 
       objectReference: {fileID: 499816192}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: carlitos.Array.data[4]
       value: 
       objectReference: {fileID: 1619326786}
-    - target: {fileID: 7739652029663223117, guid: 132d1382f7b77bc42a847412133db52d,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: carlitos.Array.data[5]
       value: 
       objectReference: {fileID: 1079650741}

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7739652029663223115}
   - component: {fileID: 7739652029663223114}
-  - component: {fileID: 7739652029663223117}
   - component: {fileID: 7739652029663223113}
   - component: {fileID: 7739652029663223112}
   - component: {fileID: 2552611046586137618}
@@ -49,56 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  menu: {fileID: 0}
---- !u!114 &7739652029663223117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7739652029663223119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6c41ccc1def3c343990c8996b53b7e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carlitos:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  cameras:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  renders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  rng: 7
-  loadScreen: {fileID: 0}
-  hexagono: {fileID: 4467571277743417452, guid: 6b5900aa9a556e54d818a6fe09263a51,
-    type: 3}
-  pastito:
-  - {fileID: 11400000, guid: 9515d7550357cdb42a18c3ff6dbfa0f2, type: 2}
-  - {fileID: 11400000, guid: 32d538fba1619a0418b58a9c5d597550, type: 2}
-  - {fileID: 11400000, guid: 44bb2a8e9f474fb4a93b91c513ce3163, type: 2}
-  nieve:
-  - {fileID: 11400000, guid: 5b12ac83acb4efd4da277388bf7b216f, type: 2}
-  - {fileID: 11400000, guid: d13e4ef74af9bba4a8f3ffd3eab3261a, type: 2}
-  - {fileID: 11400000, guid: 2c2fc7a80fe7ee7468ec7384a7364a11, type: 2}
-  map: {fileID: 0}
-  playerPublic: {fileID: 0}
-  spawner: {fileID: 5223350694060523476, guid: ecf5bace16d838041a93341ef03cc01d, type: 3}
-  victoria: {fileID: 0}
 --- !u!114 &7739652029663223113
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -42,12 +42,12 @@ public class GameManager : SingletonMono<GameManager>
 
     void Update()
     {
-        update();
+        update?.Invoke();
     }
 
     private void FixedUpdate()
     {
-        fixedUpdate();
+        fixedUpdate?.Invoke();
     }
 
     protected override void Awake()
