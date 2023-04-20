@@ -17,7 +17,7 @@ MonoBehaviour:
   _details: 
   maxAmount: 1
   damages:
-  - amount: 0
+  - amount: 5
     type: 0
   velocity: 0
   joystick: 0
@@ -30,4 +30,8 @@ MonoBehaviour:
       m_Bits: 0
     maxDetects: -1
     minDetects: 1
-  damagesMultiply: []
+  damagesMultiply:
+  - amount: 2
+    type: 0
+  - amount: 0
+    type: 2

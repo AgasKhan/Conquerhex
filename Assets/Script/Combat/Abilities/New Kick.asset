@@ -16,8 +16,11 @@ MonoBehaviour:
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
-  damages: []
+  damages:
+  - amount: 3
+    type: 1
   velocity: 0
+  joystick: 0
   particles: {fileID: 0}
   detect:
     radius: 0
