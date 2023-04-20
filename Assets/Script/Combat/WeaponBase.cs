@@ -49,20 +49,27 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
 
 
 
-public class Weapon : Item<WeaponBase>, Init, IGetPercentage
+public class Weapon : Item<WeaponBase>, IGetPercentage
 {
     Tim durability;
 
+    public Damage[] damages => itemBase.damages;
+
     public event System.Action durabilityOff;
 
-    public void Init()
+    public override void Init()
     {
         durability.Set(itemBase.durability);
     }
 
     public void Durability()
     {
-        if (durability.Substract(1) <= 0)
+        Durability(1);
+    }
+
+    public void Durability(float damageToDurability)
+    {
+        if (durability.Substract(damageToDurability) <= 0)
             durabilityOff?.Invoke();
     }
 

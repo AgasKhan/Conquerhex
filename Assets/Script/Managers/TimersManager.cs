@@ -89,8 +89,7 @@ public class TimersManager : MonoBehaviour
 [System.Serializable]
 public class Tim : IGetPercentage
 {
-    [SerializeField]
-    protected float _total;
+    public float total;
 
     [SerializeField]
     protected float _current;
@@ -102,19 +101,10 @@ public class Tim : IGetPercentage
         {
             _current = value;
 
-            if (_current > _total)
+            if (_current > total)
                 _current = total;
             else if (_current < 0)
                 _current = 0;
-        }
-    }
-
-    public float total
-    {
-        get => _total;
-        set
-        {
-            _total = value;
         }
     }
 
@@ -123,9 +113,9 @@ public class Tim : IGetPercentage
     /// </summary>
     public virtual float Reset()
     {
-        _current = _total;
+        _current = total;
 
-        return _total;
+        return total;
     }
 
     /// <summary>
@@ -144,13 +134,13 @@ public class Tim : IGetPercentage
     /// <param name="totalTim">El numero a contar</param>
     public void Set(float totalTim)
     {
-        _total = totalTim;
+        total = totalTim;
         Reset();
     }
 
     public float Percentage()
     {
-        return _current / _total;
+        return _current / total;
     }
 
     public float InversePercentage()
@@ -288,7 +278,7 @@ public class Routine : Timer
     {
         base.Reset();
         execute = true;
-        return _total;
+        return total;
     }
 
     public bool Execute()

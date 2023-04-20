@@ -6,6 +6,11 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
 {
     [Space]
 
+    [Header("tipo de boton")]
+    public bool joystick;
+
+    [Space]
+
     [Header("Particulas a mostrar")]
     [SerializeField]
     GameObject particles;
@@ -17,9 +22,13 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
 
-    protected void Attack(Vector2 direction, Weapon weapon)
+    
+
+    protected void Attack(Entity caster, Vector2 direction, Weapon weapon)
     {
         //instacio particulas y bla bla
+
+
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
         for (int i = 0; i < damagesMultiply.Length; i++)
@@ -34,7 +43,7 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
             }
         }
 
-        InternalAttack(direction, damagesCopy);
+        InternalAttack(caster, direction, damagesCopy);
     }
 
     protected void Damage(ref Damage[] damages, params IDamageable[] damageables)
@@ -48,35 +57,72 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         }
     }
 
-    public abstract void ControllerDown(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
-    public abstract void ControllerPressed(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
-    public abstract void ControllerUp(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
-    protected abstract void InternalAttack(Vector2 direction, Damage[] damages);
+    public abstract void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
+    public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
+    public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
+    protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages);
 }
 
 public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
 {
-    public Weapon weapon;
-    Timer cooldown;
+    public event System.Action<Weapon> equipedWeapon;
+    public event System.Action<Weapon> desEquipedWeapon;
+    public event System.Action<Weapon> rejectedWeapon;
+    Weapon _weapon;
 
-    public void Init()
+    public Weapon weapon
+    {
+        get => _weapon;
+        set => ChangeWeapon(value);
+    }
+
+    Timer cooldown;
+    Entity caster;
+
+    public Ability(Entity caster)
+    {
+        this.caster = caster;
+    }
+
+    void ChangeWeapon(Weapon weapon)
+    {
+        foreach (var ability in itemBase.damages)
+        {
+            foreach (var dmg in weapon.damages)
+            {
+                if(ability.type==dmg.type && ability.amount>dmg.amount)
+                {
+                    rejectedWeapon(weapon);
+                    return;
+                }
+            }
+        }
+
+        desEquipedWeapon?.Invoke(this._weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
+
+        this._weapon = weapon;
+
+        equipedWeapon?.Invoke(this._weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
+    }
+
+    public override void Init()
     {
         cooldown = TimersManager.Create(itemBase.velocity);
     }
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        itemBase.ControllerDown(dir, tim, weapon, cooldown);
+        itemBase.ControllerDown(caster, dir, tim, weapon, cooldown);
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        itemBase.ControllerPressed(dir, tim, weapon, cooldown);
+        itemBase.ControllerPressed(caster, dir, tim, weapon, cooldown);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        itemBase.ControllerUp(dir, tim, weapon, cooldown);
+        itemBase.ControllerUp(caster, dir, tim, weapon, cooldown);
     }
 
     public float Percentage()

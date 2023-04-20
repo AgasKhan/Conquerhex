@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ItemBase : ScriptableObject, IShowItem
+public abstract class ItemBase : ItemAbstract
 {
     [SerializeField]
     string _nameDisplay;
@@ -18,16 +18,23 @@ public abstract class ItemBase : ScriptableObject, IShowItem
     [Range(1, 1000)]
     public int maxAmount = 1;
 
-    public string nameDisplay => _nameDisplay;
+    public override string nameDisplay => _nameDisplay;
 
-    public Sprite image => _image;
+    public override Sprite image => _image;
 
-    public Pictionarys<string,string> details => GetDetails();
-
-    protected virtual Pictionarys<string, string> GetDetails()
+    protected override Pictionarys<string, string> GetDetails()
     {
         return new Pictionarys<string, string>() { {"Descripcion", _details } };
     }
+}
+
+public abstract class ItemAbstract : ScriptableObject
+{
+    public abstract string nameDisplay { get; }
+    public abstract Sprite image { get; }
+    public Pictionarys<string, string> details => GetDetails();
+
+    protected abstract Pictionarys<string, string> GetDetails();
 
     public override string ToString()
     {
@@ -35,24 +42,16 @@ public abstract class ItemBase : ScriptableObject, IShowItem
     }
 }
 
-public interface IShowItem
-{
-    public string nameDisplay { get; }
-    public Sprite image { get;  }
-    public Pictionarys<string, string> details { get; }
-}
 
-public abstract class Item : IShowItem
+public abstract class Item : ItemAbstract
 {
     protected ItemBase _itemBase;
 
-    public string nameDisplay => _itemBase.nameDisplay;
+    public override string nameDisplay => _itemBase.nameDisplay;
 
-    public Sprite image => _itemBase.image;
+    public override Sprite image => _itemBase.image;
 
-    public Pictionarys<string, string> details => GetDetails();
-
-    protected virtual Pictionarys<string, string> GetDetails()
+    protected override Pictionarys<string, string> GetDetails()
     {
         return _itemBase.details;
     }
@@ -79,9 +78,19 @@ public abstract class Item : IShowItem
     }
 }
 
-public abstract class Item<T> : Item where T : ItemBase
+public abstract class Item<T> : Item, Init where T : ItemBase
 {
-    public T itemBase => (T)_itemBase;
+    public T itemBase
+    {
+        get => (T)_itemBase;
+        set
+        {
+            _itemBase = value;
+            Init();
+        }
+    }
+
+    public abstract void Init();
 }
 
 public abstract class ItemStackeable<T> : Item<T> where T : ItemBase

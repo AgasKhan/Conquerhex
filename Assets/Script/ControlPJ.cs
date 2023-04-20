@@ -11,6 +11,8 @@ public class ControlPJ : MonoBehaviour
 
     public float valorDuracion;
 
+    public Ability abilityA;
+
     public Health health;
 
     public Menu menu;

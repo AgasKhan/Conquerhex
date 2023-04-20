@@ -7,7 +7,7 @@ public class Stab : AbilityBase
 {
     //Cuandos
     //Antes
-    public override void ControllerDown(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
         //Pocision en la mano del pj sin moverse ni extenderse
         //dir.y = 0;
@@ -15,7 +15,7 @@ public class Stab : AbilityBase
     }
 
     //Durante
-    public override void ControllerPressed(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
         //Posicion extendida, moviendose en horizontal al apuñalar 
         //dir.x = 1;
@@ -25,7 +25,7 @@ public class Stab : AbilityBase
     }
 
     //Despues
-    public override void ControllerUp(Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
         //Vuelve a posicion inicial
         //dir.x = 0;
@@ -36,7 +36,7 @@ public class Stab : AbilityBase
     }
 
     //Como
-    protected override void InternalAttack(Vector2 direction, Damage[] damages)
+    protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
         Debug.Log(direction);
 

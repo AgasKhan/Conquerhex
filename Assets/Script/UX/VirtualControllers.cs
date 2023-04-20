@@ -10,11 +10,12 @@ public class VirtualControllers : MonoBehaviour
 
     static List<FatherKey> _keys = new List<FatherKey>();
 
-    static public Button principal = new Button("Fire1");
+    
+    static public AxisButton principal = new AxisButton("Mouse X", "Mouse Y", "Fire1");
 
-    static public Button secondary = new Button("Fire2");
+    static public AxisButton secondary = new AxisButton("Mouse X", "Mouse Y", "Fire2");
 
-    static public Button terciary = new Button("Fire3");
+    static public AxisButton terciary = new AxisButton("Mouse X", "Mouse Y", "Fire3");
 
     static public Button parry = new Button("Parry");
 
