@@ -48,17 +48,8 @@ public class Manager : SingletonMono<Manager>
             return instance._pic;
         }
     }
-    /*
-    public T SearchAndCast<T>() where T : SingletonClass<T>
-    {
-        return pic[typeof(T).Name] as T;
-    }
-    */
 
-    public static object Search(System.Type type)
-    {
-        return instance._pic[type.Name];
-    }
+    
 
     private void OnDestroy()
     {
@@ -73,6 +64,21 @@ public class Manager<T> : SingletonClass<Manager<T>>
     public Manager()
     {
         LoadSystem.AddPostLoadCorutine(() => Manager.pic.Add(typeof(T).Name, this));
+    }
+
+    public static Pictionarys<string, C> SearchByType<C>() where C : T
+    {
+        Pictionarys<string, C> aux = new Pictionarys<string, C>();
+
+        foreach (var item in pic)
+        {
+            if(item.value is C)
+            {
+                aux.Add(item.key, (C)item.value);
+            }
+        }
+
+        return aux;
     }
 
     static public Pictionarys<string,T> pic

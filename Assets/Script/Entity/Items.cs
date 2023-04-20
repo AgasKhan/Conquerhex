@@ -31,6 +31,31 @@ public abstract class ItemBase : ScriptableObject ,IShowItem
     {
         return new Pictionarys<string, string>() { { "Descripcion", _details } };
     }
+
+    private void OnEnable()
+    {
+        MyEnable();
+    }
+
+    private void OnDisable()
+    {
+        MyDisable();
+    }
+
+    private void OnDestroy()
+    {
+        MyDisable();
+    }
+
+    protected virtual void MyDisable()
+    {
+        Manager<ItemBase>.pic.Remove(nameDisplay);
+    }
+
+    protected virtual void MyEnable()
+    {
+        Manager<ItemBase>.pic.Add(_nameDisplay, this);
+    }
 }
 
 public interface IShowItem
