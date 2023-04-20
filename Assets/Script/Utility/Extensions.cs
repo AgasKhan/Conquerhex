@@ -211,5 +211,14 @@ public static class Extensions
     */
     #endregion
 
+    static public string ToString(this Damage[] damages, string glue, string reglon)
+    {
+        var aux = "";
+        foreach (var item in damages)
+        {
+            aux += item.type.ToString()+glue+item.amount+ reglon;
+        }
 
+        return aux;
+    }
 }

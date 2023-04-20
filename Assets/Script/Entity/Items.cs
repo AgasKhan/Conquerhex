@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ItemBase : ItemAbstract
+public abstract class ItemBase : ScriptableObject ,IShowItem
 {
     [SerializeField]
     string _nameDisplay;
@@ -18,15 +18,29 @@ public abstract class ItemBase : ItemAbstract
     [Range(1, 1000)]
     public int maxAmount = 1;
 
-    public override string nameDisplay => _nameDisplay;
+    public string nameDisplay => _nameDisplay;
 
-    public override Sprite image => _image;
+    public Sprite image => _image;
 
-    protected override Pictionarys<string, string> GetDetails()
+    public override string ToString()
     {
-        return new Pictionarys<string, string>() { {"Descripcion", _details } };
+        return nameDisplay + "\n\n" + GetDetails().ToString("\n", "\n\n");
+    }
+
+    public virtual Pictionarys<string, string> GetDetails()
+    {
+        return new Pictionarys<string, string>() { { "Descripcion", _details } };
     }
 }
+
+public interface IShowItem
+{
+    public string nameDisplay { get; }
+    public Sprite image { get; }
+    public Pictionarys<string, string> details => GetDetails();
+    public Pictionarys<string, string> GetDetails();
+}
+
 
 public abstract class ItemAbstract : ScriptableObject
 {
@@ -43,17 +57,17 @@ public abstract class ItemAbstract : ScriptableObject
 }
 
 
-public abstract class Item : ItemAbstract
+public abstract class Item : IShowItem
 {
     protected ItemBase _itemBase;
 
-    public override string nameDisplay => _itemBase.nameDisplay;
+    public string nameDisplay => _itemBase.nameDisplay;
 
-    public override Sprite image => _itemBase.image;
+    public Sprite image => _itemBase.image;
 
-    protected override Pictionarys<string, string> GetDetails()
+    public virtual Pictionarys<string, string> GetDetails()
     {
-        return _itemBase.details;
+        return _itemBase.GetDetails();
     }
 
     public virtual void GetAmounts(out int actual, out int max)

@@ -9,6 +9,15 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
 
     #region FUNCIONES
 
+    public override Pictionarys<string, string> GetDetails()
+    {
+        var list = base.GetDetails();
+
+        list.Add("Damages", damages.ToString("=", "\n"));
+
+        return list;
+    }
+
     public bool CheckDamage(params Damage[] classDamages)
     {
         List<Damage> damagesList = new List<Damage>(classDamages);
@@ -73,12 +82,14 @@ public class Weapon : Item<WeaponBase>, IGetPercentage
             durabilityOff?.Invoke();
     }
 
-    protected override Pictionarys<string,string> GetDetails()
+    public override Pictionarys<string,string> GetDetails()
     {
         var list = base.GetDetails();
 
-        var aux = durability.current + "/" + durability.total;
-        
+    var aux = durability.current + "/" + durability.total;
+
+        //list.Add("Damages", damages.ToString("=", "\n\n"));
+
         list.Add("Durability" , aux);
 
         return list;

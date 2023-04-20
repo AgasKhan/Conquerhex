@@ -22,7 +22,16 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
 
-    
+    public override Pictionarys<string, string> GetDetails()
+    {
+        var aux = base.GetDetails();
+
+        aux.Add("Modificadores", damages.ToString("= X", "\n\n"));
+
+        aux.Add("Requisitos", damages.ToString("<","\n\n"));
+
+        return aux;
+    }
 
     protected void Attack(Entity caster, Vector2 direction, Weapon weapon)
     {
@@ -68,7 +77,7 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
     public event System.Action<Weapon> equipedWeapon;
     public event System.Action<Weapon> desEquipedWeapon;
     public event System.Action<Weapon> rejectedWeapon;
-    Weapon _weapon;
+    
 
     public Weapon weapon
     {
@@ -76,6 +85,7 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
         set => ChangeWeapon(value);
     }
 
+    Weapon _weapon;
     Timer cooldown;
     Entity caster;
 
