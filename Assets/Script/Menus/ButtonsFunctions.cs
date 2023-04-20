@@ -28,7 +28,6 @@ public class ButtonsFunctions : MonoBehaviour
             {"QUIT", QUIT},
 
             //Manejo de ventanas
-            {"ShowMod", ShowMod},
             {"QuitWindow", QuitWindow},
             {"CloseWindow", CloseWindow},
             {"Panel1", DisplayWindow},
@@ -71,23 +70,9 @@ public class ButtonsFunctions : MonoBehaviour
         LoadSystem.instance.Load("MainMenu");
     }
 
-    void ShowMod(GameObject g)
-    {
-        var data = g.GetComponent<ButtonInformation>();
-        var item = data.myItem;
-
-        data.myDetailWindow.SetWindow(item.image, item.nameDisplay, item.details.ToString(" = ", "\n \n"));
-
-        //MenuManager.instance.ShowWindow(g.name);
-    }
-
     void QuitWindow (GameObject g)
     {
-        var data = g.GetComponent<ButtonInformation>();
-        var item = data.myItem;
-
-        //data.myDetailWindow.CreateButtons(item.myNamesList);
-        data.myDetailWindow.SetWindow(item.nameDisplay, item.details.ToString());
+        
     }
 
     void CloseWindow (GameObject g)

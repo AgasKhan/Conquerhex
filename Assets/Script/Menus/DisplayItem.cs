@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShowItem : LogicActive<UnityEngine.UI.Button>
+public class DisplayItem : LogicActive<UnityEngine.UI.Button>
 {
     public ItemBase myItem;
 
@@ -12,8 +12,7 @@ public class ShowItem : LogicActive<UnityEngine.UI.Button>
 
     private void Start()
     {
-        if (myItem != null)
-            GetDetailsWindow();
+        GetDetailsWindow();
     }
 
     public void GetDetailsWindow()
@@ -27,10 +26,10 @@ public class ShowItem : LogicActive<UnityEngine.UI.Button>
     protected override void InternalActivate(params Button[] specificParam)
     {
         //specificParam[0]
-        if (Manager<WeaponBase>.pic.ContainsKey(transform.parent.name))
+        if (Manager<AbilityBase>.pic.ContainsKey(transform.parent.name))
         {
-            myItem = Manager<WeaponBase>.pic[transform.parent.name];
-            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, ((IShowItem)myItem).details.ToString(" = ", "\n \n"));
+            myItem = Manager<AbilityBase>.pic[transform.parent.name];
+            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
         }
         else
             Debug.Log("No se encontro el item: " + transform.parent.name);
