@@ -86,9 +86,7 @@ public class Weapon : Item<WeaponBase>, IGetPercentage
     {
         var list = base.GetDetails();
 
-    var aux = durability.current + "/" + durability.total;
-
-        //list.Add("Damages", damages.ToString("=", "\n\n"));
+        var aux = durability.current + "/" + durability.total;
 
         list.Add("Durability" , aux);
 
