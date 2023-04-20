@@ -10,8 +10,6 @@ public class MenuManager : SingletonMono<MenuManager>
     [SerializeField]
     string firstLevel;
 
-    [HideInInspector]
-    public SceneChanger refSceneChanger;
     //public AudioManager audioM;
 
 
@@ -26,14 +24,17 @@ public class MenuManager : SingletonMono<MenuManager>
 
 
     public Pictionarys<string, GameObject> subMenus = new Pictionarys<string, GameObject>();
-    public Pictionarys<string, DetailsWindow> detailsWindows = new Pictionarys<string, DetailsWindow>();
+    //public Pictionarys<string, DetailsWindow> detailsWindows = new Pictionarys<string, DetailsWindow>();
+
+    Pictionarys<string, DetailsWindow> detailsWindows;
 
     protected override void Awake()
     {
         base.Awake();
 
-        refSceneChanger = GetComponent<SceneChanger>();
         //audioM = GameManager.GetComponent<AudioManager>();
+
+        detailsWindows = Manager<DetailsWindow>.pic;
 
         GetDetailsWinAndSubMenus();
     }
@@ -86,7 +87,7 @@ public class MenuManager : SingletonMono<MenuManager>
     public void StartGame()
     {
         //ClickAccept();
-        refSceneChanger.Load(firstLevel);
+        LoadSystem.instance.Load(firstLevel);
     }
 
     /*
@@ -111,6 +112,11 @@ public class MenuManager : SingletonMono<MenuManager>
         audioM.Play("Fireworks");
     }
     */
+
+    private void OnDestroy()
+    {
+        detailsWindows.Clear();
+    }
 }
 
 

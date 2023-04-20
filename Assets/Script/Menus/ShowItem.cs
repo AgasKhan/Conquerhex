@@ -18,8 +18,8 @@ public class ShowItem : LogicActive<UnityEngine.UI.Button>
 
     public void GetDetailsWindow()
     {
-        if (MenuManager.instance.detailsWindows.ContainsKey(transform.name))
-            myDetailWindow = MenuManager.instance.detailsWindows[transform.name];
+        if (Manager<DetailsWindow>.pic.ContainsKey(transform.name))
+            myDetailWindow = Manager<DetailsWindow>.pic[transform.name];
         else
             Debug.Log("No se encontro: " + transform.name + " entre las Details Windows");
     }
@@ -27,9 +27,13 @@ public class ShowItem : LogicActive<UnityEngine.UI.Button>
     protected override void InternalActivate(params Button[] specificParam)
     {
         //specificParam[0]
-
+        if (Manager<WeaponBase>.pic.ContainsKey(transform.parent.name))
+        {
+            myItem = Manager<WeaponBase>.pic[transform.parent.name];
+            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.details.ToString(" = ", "\n \n"));
+        }
+        else
+            Debug.Log("No se encontro el item: " + transform.parent.name);
         
-
-        myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.details.ToString(" = ", "\n \n"));
     }
 }

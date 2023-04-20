@@ -43,27 +43,32 @@ public class ButtonsFunctions : MonoBehaviour
             {"Help", DisplayWindow},
             {"Settings", DisplayWindow},
             {"BackMenu", BackMenu},
-            {"MenuInGame", DisplayWindow},
+            {"MenuInGame", PauseMenu},
             
             //Dragable Buttons
             {"ShowWindow", ShowWindow}
 
         });
     }
+    void PauseMenu(GameObject g)
+    {
+        DisplayWindow(g);
+        GameManager.instance.Pause();
+        //Despausar
+    }
 
     void Resume(GameObject g)
     {
         refMenu.CloseLastWindow();
-
-        //Despausar
+        GameManager.instance.Pause();
     }
     void Restart(GameObject g)
     {
-        //refMenu.refSceneChanger.ReloadSc();
+        LoadSystem.instance.Reload();
     }
     void BackMenu(GameObject g)
     {
-        refMenu.refSceneChanger.Load("MainMenu");
+        LoadSystem.instance.Load("MainMenu");
     }
 
     void ShowMod(GameObject g)
@@ -110,7 +115,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void Exit(GameObject g)
     {
-        refMenu.refSceneChanger.QuitGame();
+        Application.Quit();
     }
 
 
