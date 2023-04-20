@@ -5,45 +5,70 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Stab")]
 public class Stab : AbilityBase
 {
+    private bool isStabbing = false; // Indica si el jugador está actualmente apuñalando
+    
+    private float stabRange;
+
+    /*
+    Entity caster: ENTIDAD QUE USA LA HABILIDAD
+    Vector2 dir: HACIA DONDE APUNTA LA HABILIDAD
+    float button: EL TIEMPO QUE MANTUVO PRESIONADO EL BOTON (No se usara en ControllerDown)
+    Weapon weapon: EL ARMA EQUIPADA CON ESTA HABILIDAD
+    Timer cooldownEnd: EL TIEMPO DE REUTILIZACION DE LA HABILIDAD
+     */
+
     //Cuandos
-    //Antes
-    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    //Antes, al apretar el boton
+    public override void ControllerDown (Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        //Pocision en la mano del pj sin moverse ni extenderse
-        //dir.y = 0;
-        //dir.x = 0;
+        cooldownEnd.Set(3f, true);
+
+        isStabbing = true; // El jugador está preparándose para apuñalar
+        
+
     }
 
-    //Durante
+    //Durante, al mantener y moverlo
     public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        //Posicion extendida, moviendose en horizontal al apuñalar 
-        //dir.x = 1;
-        //dir.y = 0;
+        dir = dir.normalized; // Establecer la dirección del apuñalamiento como la dirección actual del controlador
+        
 
         weapon.Durability();
     }
 
-    //Despues
+    //Despues, al sotarlo
     public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        //Vuelve a posicion inicial
-        //dir.x = 0;
-        //dir.y = 0;
+        
+        isStabbing = false;
 
+        cooldownEnd.Start();
+
+        cooldownEnd.SubsDeltaTime();
         //comienza a bajar el cooldown
-
     }
 
-    //Como
+    //Como se efectua la habilidad
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        Debug.Log(direction);
+        if (isStabbing && direction == direction.normalized)
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(caster.transform.position, stabRange, direction, 0f);
 
-        direction.x = 1;
-        direction.y = 0;
-
-
-
+            foreach (RaycastHit hit in hits)
+            {
+                Health health = hit.collider.gameObject.GetComponent<Health>();
+                if (health != null)
+                {
+                    foreach (Damage damage in damages)
+                    {
+                        
+                        //Entity.TakeDamage(damage);
+                    }
+                }
+            }
+        }
     }
 }
+
