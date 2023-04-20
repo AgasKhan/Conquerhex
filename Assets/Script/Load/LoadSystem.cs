@@ -9,6 +9,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     static List<WaitForCorutines.MyCoroutine> postLoad = new List<WaitForCorutines.MyCoroutine>();
 
+    static System.Action preLoadEvent;
+    static System.Action postLoadEvent;
+
     [SerializeReference]
     LoadScreen loadScreen;
 
@@ -48,24 +51,12 @@ public class LoadSystem : SingletonMono<LoadSystem>
     //delegado adaptado
     public static void AddPreLoadCorutine(System.Action myCoroutine)
     {
-        preLoad.Add(MiniCoroutine(myCoroutine));
+        preLoadEvent += myCoroutine;
     }
 
     public static void AddPostLoadCorutine(System.Action myCoroutine)
     {
-        postLoad.Add(MiniCoroutine(myCoroutine));
-    }
-
-    static WaitForCorutines.MyCoroutine MiniCoroutine(System.Action myCoroutine)
-    {
-        WaitForCorutines.MyCoroutine aux = (b, msg) => 
-        {
-            myCoroutine();
-            b(true);
-            return null;            
-        };
-
-        return aux;
+        postLoadEvent += myCoroutine;
     }
 
     public void Load(string scn, bool pause = false)
@@ -93,7 +84,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
             yield return new WaitForCorutines(this, preLoad[i], (s) => loadScreen.Progress(((i) / (preLoad.Count))  * 100 * (1f / 3), s));
         }
 
-        loadScreen.Progress(0, "Start scene load");
+        preLoadEvent?.Invoke();
+
+        loadScreen.Progress("Start scene load");
 
         yield return null;
 
@@ -123,11 +116,15 @@ public class LoadSystem : SingletonMono<LoadSystem>
             yield return new WaitForCorutines(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 3) + (2f / 3)) * 100, s));
         }
 
+        loadScreen.Progress(100, "<size=50>Carga finalizada</size>");
+
+        postLoadEvent?.Invoke();
+
         yield return null;
 
         if (loadPause)
         {
-            loadScreen.Progress(100, "<size=50>Carga finalizada</size>" +
+            loadScreen.Progress("<size=50>Carga finalizada</size>" +
             "\n<size=20> Presione <color=green>espacio</color> para continuar </size>");
 
             while (!Input.GetKeyDown(KeyCode.Space) && !(Input.touches.Length > 0))
@@ -138,6 +135,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         preLoad.Clear();
         postLoad.Clear();
+
+        postLoadEvent = null;
+        preLoadEvent = null;
 
         loadScreen.Close();
 
