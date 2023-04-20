@@ -72,7 +72,7 @@ public class Manager<T> : SingletonClass<Manager<T>>
 
     public Manager()
     {
-        GameManager.RetardedFrame(() =>Manager.pic.Add(typeof(T).Name, this));
+        LoadSystem.AddPostLoadCorutine(() => Manager.pic.Add(typeof(T).Name, this));
     }
 
     static public Pictionarys<string,T> pic
