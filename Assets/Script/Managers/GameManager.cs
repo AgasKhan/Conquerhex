@@ -68,6 +68,21 @@ public class GameManager : SingletonMono<GameManager>
         fsmGameMaganer.CurrentState = (pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
     }
 
+    static public void RetardedFrame(System.Action action, int frames = 1)
+    {
+        instance.StartCoroutine(instance._RetardedFrame(action));
+    }
+
+    public IEnumerator _RetardedFrame(System.Action action, int frames = 1)
+    {
+        for (int i = 0; i < frames; i++)
+        {
+            yield return null;
+        }
+
+        action();
+    }
+
     #endregion
 }
 

@@ -59,8 +59,16 @@ public class Interfaz : MonoBehaviour
         heightDiag=Dialogo.rectTransform.rect.height;
 
         Dialogo.rectTransform.sizeDelta = Vector2.zero;
+       
+        LoadSystem.AddPostLoadCorutine(MyCoroutine);
+ 
+    }
 
+    IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
+    {
+        yield return null;
         GameManager.instance.player.GetComponent<ControlPJ>().health.lifeDamaged += UpdateLife;
+        end(true);
     }
 
     // Update is called once per frame

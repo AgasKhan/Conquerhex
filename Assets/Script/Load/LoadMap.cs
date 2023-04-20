@@ -19,8 +19,6 @@ public class LoadMap : MonoBehaviour
 
     public int rng;
 
-    public LoadScreen loadScreen;
-
     public GameObject hexagono;
 
     public Tile[] pastito;
@@ -45,7 +43,8 @@ public class LoadMap : MonoBehaviour
     void Awake()
     {
         instance = this;
-        StartCoroutine(CargaHexagonos());
+
+        LoadSystem.AddPostLoadCorutine(CargaHexagonos);
     }
 
     public Object[] LoadAsset(string path)
@@ -95,12 +94,9 @@ public class LoadMap : MonoBehaviour
             props[i] = LoadAsset(path);
         }
 
-        StartCoroutine(VincularHexagonos());
+        //StartCoroutine(VincularHexagonos());
 
-        //yield return new WaitForCorutines(this, VincularHexagonos, (s)=> { });
-
-        while (hexagonos[hexagonos.GetLength(0) - 1, hexagonos.GetLength(1) - 1, hexagonos.GetLength(2) - 1] == 0)
-            yield return null;
+        yield return new WaitForCorutines(this, VincularHexagonos, (s)=> msg2(s));
 
         auxCalc = Euler.LocalSidePosHex(auxCalc, apotema);
 
@@ -118,7 +114,7 @@ public class LoadMap : MonoBehaviour
                     i + " de " + hexagonos.GetLength(0) + "\n" +
                     "<size=25>Escape para cancelar";
 
-                loadScreen.Progress(persentage , msg);
+                msg2(msg);
 
                 DebugPrint.Log("Carga del nivel: " + persentage + "%");
                 DebugPrint.Log("Tiempo entre frames: " + (Time.unscaledDeltaTime) + " milisegundos");
@@ -205,7 +201,7 @@ public class LoadMap : MonoBehaviour
             }
         }
     }
-    IEnumerator CargaHexagonos()
+    IEnumerator CargaHexagonos(System.Action<bool> end, System.Action<string> msg)
     {   //el primero es la cantidad y el indice de hexagonos, le sumo uno de mas para tener el primero central, y desp el anterior vinculado
         //el segundo los lados, coloco uno mas, ya que voy a usar el lado 0, para preguntar si esta completo
         //el tercero es que id de hexagono [0] esta relacionado y el segundo [1] es a cual lado esta relacionado
@@ -227,7 +223,7 @@ public class LoadMap : MonoBehaviour
 
         while (SystemInfo.systemMemorySize < 14 * rng * 4 / 1000)
         {
-            loadScreen.Progress(0, "Has colocado mas hexagonos que lo que dispones de RAM" +
+            msg("Has colocado mas hexagonos que lo que dispones de RAM" +
                 "\n" +
                 "Pulsa escape para volver");
 
@@ -262,12 +258,10 @@ public class LoadMap : MonoBehaviour
 
         //audioListener.enabled = true;
 
-        loadScreen.Progress(0, "Ejecutando algoritmo de vinculacion de hexagonos");
-
-        string msg2;
+        msg("Ejecutando algoritmo de vinculacion de hexagonos");
 
         //perdida del flujo
-        yield return new WaitForCorutines(this, LoadHex, (s) => msg2 = s );
+        yield return new WaitForCorutines(this, LoadHex, (s) => msg(s));
 
         //prototipo de us
 
@@ -317,21 +311,14 @@ public class LoadMap : MonoBehaviour
         DebugPrint.Log("Tiempo total de carga: " + tiempoCarga);
         DebugPrint.Log("Carga finalizada");
 
-        loadScreen.Progress(100, "<size=50>Carga finalizada</size>" +
-            "\n<size=20> Presione <color=green>espacio</color> para continuar </size>");
-
-        while (!Input.GetKeyDown(KeyCode.Space) && !(Input.touches.Length > 0))
-        {
-            yield return null;
-        }
-
         playerPublic.transform.parent = arrHexCreados[0].transform;
         playerPublic.transform.localPosition = new Vector3(0, 0, 0);
 
         yield return null;
-        Time.timeScale = 1;
+        
         //AudioManager.instance.Play("ambiente").source.loop = true;
 
+        end(true);
     }
 
     static public Vector3 AbsSidePosHex(Vector3 posicionInicial, int lado, float z, float multiplicador = 1)
@@ -434,7 +421,7 @@ public class LoadMap : MonoBehaviour
 
     }
 
-    IEnumerator VincularHexagonos(bool comprobacion = false)
+    IEnumerator VincularHexagonos(System.Action<bool> end, System.Action<string> msg)
     {
         /*
         La funcion toma un array de 3 dimensiones y crea la informacion asi mismo ordena el array para el sistema de hexagonos
@@ -451,7 +438,7 @@ public class LoadMap : MonoBehaviour
         int[,,] hex = hexagonos;
 
         bool aislado = false;
-
+        /*
         if (comprobacion)
             for (int h = 0; h < hex.GetLength(0); h++)
             {
@@ -464,6 +451,7 @@ public class LoadMap : MonoBehaviour
                 }
 
             }
+        */
 
         for (int i = 0; i < disponibles.Length; i++)
         {
@@ -480,7 +468,7 @@ public class LoadMap : MonoBehaviour
             if (h % 1000 == 0)
             {
 
-                loadScreen.Progress("Ejecutando algoritmo de vinculacion de hexagonos" +
+                msg("Ejecutando algoritmo de vinculacion de hexagonos" +
                     "\n" +
                     "<size=20>" + h + " de " + hex.GetLength(0) + "</size>" +
                     "\n" +
@@ -569,14 +557,17 @@ public class LoadMap : MonoBehaviour
         {
             DebugPrint.Warning("Generacion no grata, rearmando");
             DebugPrint.Warning("warning");
+            /*
             StopCoroutine(VincularHexagonos());
             VincularHexagonos(true);
+            */
         }
         else
         {
             hexagonos = hex;
         }
-            
+
+        end(true);
     }
 
    

@@ -12,11 +12,16 @@ public class LoadScreen : MonoBehaviour
 
     public CanvasGroup canvasGroup;
 
+    [Range(0.1f,10)]
+    public float transition=1;
+
     float fade;
 
     public void Progress(float percentage, string message)
     {
-        pantallaCarga.fillAmount = percentage / 100;
+        //revisar
+        //if(pantallaCarga != null)
+            pantallaCarga.fillAmount = percentage / 100;
 
         textoCarga.text = message;
     }
@@ -42,9 +47,29 @@ public class LoadScreen : MonoBehaviour
         fade = 0;
     }
 
+    /*
+    private void Awake()
+    {
+        var aux = GetComponentsInChildren<Image>();
+        pantallaCarga = aux[aux.Length - 1];
+    }
+    */
+    public IEnumerator LoadImage(System.Action<bool> end, System.Action<string> msg)
+    {
+        msg("LoadLoadSystem...");
+
+        while(fade != 0 && canvasGroup.alpha < 0.99f)
+        {
+            //canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, fade, Time.deltaTime * 10);
+            yield return null;
+        }
+
+        end(true);
+    }
+
     private void Update()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, fade, Time.deltaTime);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, fade, Time.deltaTime* transition);
         if(fade==0 && canvasGroup.alpha<0.01f)
             gameObject.SetActive(false);
     }

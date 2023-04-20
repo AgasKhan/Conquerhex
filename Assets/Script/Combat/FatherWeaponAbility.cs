@@ -37,6 +37,8 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
     }
 
 
+
+
 }
 
 
