@@ -32,7 +32,8 @@ public class Stab : AbilityBase
     public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
         dir = dir.normalized; // Establecer la dirección del apuñalamiento como la dirección actual del controlador
-        
+
+        InternalAttack(caster, dir, damages);
 
         weapon.Durability();
     }
