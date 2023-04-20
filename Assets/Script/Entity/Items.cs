@@ -42,20 +42,6 @@ public interface IShowItem
 }
 
 
-public abstract class ItemAbstract : ScriptableObject
-{
-    public abstract string nameDisplay { get; }
-    public abstract Sprite image { get; }
-    public Pictionarys<string, string> details => GetDetails();
-
-    protected abstract Pictionarys<string, string> GetDetails();
-
-    public override string ToString()
-    {
-        return nameDisplay + "\n\n" + details.ToString("\n", "\n\n");
-    }
-}
-
 
 public abstract class Item : IShowItem
 {

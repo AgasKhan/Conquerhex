@@ -33,9 +33,47 @@ public abstract class SingletonClass<T> where T : SingletonClass<T>
     }
 }
 
+public class Manager : SingletonMono<Manager>
+{
+    [SerializeField]
+    Pictionarys<string, object> _pic = new Pictionarys<string, object>();
+
+    static public Pictionarys<string, object> pic
+    {
+        get
+        {
+            if (instance == null)
+                GameManager.instance.gameObject.AddComponent<Manager>();
+            
+            return instance._pic;
+        }
+    }
+    /*
+    public T SearchAndCast<T>() where T : SingletonClass<T>
+    {
+        return pic[typeof(T).Name] as T;
+    }
+    */
+
+    public static object Search(System.Type type)
+    {
+        return instance._pic[type.Name];
+    }
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+}
+
 public class Manager<T> : SingletonClass<Manager<T>>
 {
-    Pictionarys<string,T> _pic = new Pictionarys<string,T>();
+    Pictionarys<string, T> _pic = new Pictionarys<string, T>();
+
+    public Manager()
+    {
+        Manager.pic.Add(GetType().Name, this);
+    }
 
     static public Pictionarys<string,T> pic
     {
@@ -47,6 +85,8 @@ public class Manager<T> : SingletonClass<Manager<T>>
             return instance._pic;
         }
     }
+
+
 }
 
 

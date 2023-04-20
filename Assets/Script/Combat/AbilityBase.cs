@@ -27,7 +27,7 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         var aux = base.GetDetails();
 
         if(damagesMultiply.Length>0)
-            aux.Add("Modificadores", damagesMultiply.ToString("= X", "\n"));
+            aux.Add("Modificadores", damagesMultiply.ToString("= x", "\n"));
 
         if (damages.Length > 0)
             aux.Add("Requisitos", damages.ToString("<","\n"));
