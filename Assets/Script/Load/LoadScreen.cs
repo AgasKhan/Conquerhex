@@ -15,7 +15,7 @@ public class LoadScreen : MonoBehaviour
     [Range(0.1f,10)]
     public float transition=1;
 
-    float fade;
+    float fade=1;
 
     public void Progress(float percentage, string message)
     {
@@ -65,6 +65,11 @@ public class LoadScreen : MonoBehaviour
         }
 
         end(true);
+    }
+
+    private void Awake()
+    {
+        canvasGroup.alpha = fade;
     }
 
     private void Update()

@@ -13,6 +13,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
     [SerializeReference]
     LoadScreen loadScreen;
 
+    public bool loadPause;
+
     // Start is called before the first frame update
     protected override void Awake()
     {
@@ -42,8 +44,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
         instance.postLoad.Add(myCoroutine);
     }
 
-    public void Load(string scn)
+    public void Load(string scn, bool pause = false)
     {
+        loadPause = pause;
         loadScreen.Open();
         StartCoroutine(LoadScene(scn));
         Time.timeScale = 1;
@@ -51,7 +54,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     public void Reload()
     {
-        Load(SceneManager.GetActiveScene().name);
+        Load(SceneManager.GetActiveScene().name, loadPause);
     }
 
     IEnumerator PostLoad(System.Action<bool> end, System.Action<string> msg)
@@ -66,12 +69,17 @@ public class LoadSystem : SingletonMono<LoadSystem>
             yield return new WaitForCorutines(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 3) + (2f / 3)) * 100, s));
         }
 
-        loadScreen.Progress(100, "<size=50>Carga finalizada</size>" +
-          "\n<size=20> Presione <color=green>espacio</color> para continuar </size>");
+        yield return null;
 
-        while (!Input.GetKeyDown(KeyCode.Space) && !(Input.touches.Length > 0))
+        if(loadPause)
         {
-            yield return null;
+            loadScreen.Progress(100, "<size=50>Carga finalizada</size>" +
+            "\n<size=20> Presione <color=green>espacio</color> para continuar </size>");
+
+            while (!Input.GetKeyDown(KeyCode.Space) && !(Input.touches.Length > 0))
+            {
+                yield return null;
+            }
         }
 
         preLoad.Clear();

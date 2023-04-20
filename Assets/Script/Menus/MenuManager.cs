@@ -87,7 +87,7 @@ public class MenuManager : SingletonMono<MenuManager>
     public void StartGame()
     {
         //ClickAccept();
-        LoadSystem.instance.Load(firstLevel);
+        LoadSystem.instance.Load(firstLevel, true);
     }
 
     /*
