@@ -23,7 +23,12 @@ public class Stab : AbilityBase
     {
         cooldownEnd.Set(3f, true);
 
-        isStabbing = true; // El jugador está preparándose para apuñalar
+        if (cooldownEnd.current == 0)
+        {
+
+            isStabbing = true; // El jugador está preparándose para apuñala
+
+        }
         
 
     }

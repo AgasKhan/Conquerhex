@@ -20,7 +20,12 @@ public class Cut : AbilityBase
     {
         cooldownEnd.Set(3.5f, true);
 
-        isCuting = true; 
+        if (cooldownEnd.current == 0)
+        {
+
+            isCuting = true; 
+
+        }
 
     }
 

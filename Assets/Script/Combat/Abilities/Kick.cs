@@ -22,7 +22,12 @@ public class Kick : AbilityBase
     {
         cooldownEnd.Set(5f, true);
 
-        isKicking = true;
+        if (cooldownEnd.current == 0)
+        {
+
+            isKicking = true; 
+
+        }
 
     }
 
