@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonInformation : MonoBehaviour
 {
-    public ItemBase myItem;
+    public IShowItem myItem;
 
     [HideInInspector]
     public DetailsWindow myDetailWindow;

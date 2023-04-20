@@ -30,7 +30,7 @@ public class ShowItem : LogicActive<UnityEngine.UI.Button>
         if (Manager<WeaponBase>.pic.ContainsKey(transform.parent.name))
         {
             myItem = Manager<WeaponBase>.pic[transform.parent.name];
-            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.details.ToString(" = ", "\n \n"));
+            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, ((IShowItem)myItem).details.ToString(" = ", "\n \n"));
         }
         else
             Debug.Log("No se encontro el item: " + transform.parent.name);
