@@ -861,7 +861,8 @@ MonoBehaviour:
   - {fileID: 1002002811}
   - {fileID: 435053264}
   - {fileID: 1818294913}
-  rng: 1500
+  rng: 10
+  loadPerFrame: 45
   hexagono: {fileID: 4467571277743417452, guid: 6b5900aa9a556e54d818a6fe09263a51,
     type: 3}
   pastito:
@@ -2139,6 +2140,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoadSystemGameObject
       objectReference: {fileID: 0}
+    - target: {fileID: 5643858890388896638, guid: 35e1afc0884a7144589c1be27f036279,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5643858890388896898, guid: 35e1afc0884a7144589c1be27f036279,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2243,6 +2249,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643858890388896901, guid: 35e1afc0884a7144589c1be27f036279,
+        type: 3}
+      propertyPath: transition
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35e1afc0884a7144589c1be27f036279, type: 3}

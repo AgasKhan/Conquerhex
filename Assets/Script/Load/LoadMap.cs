@@ -19,6 +19,8 @@ public class LoadMap : MonoBehaviour
 
     public int rng;
 
+    public int loadPerFrame;
+
     public GameObject hexagono;
 
     public Tile[] pastito;
@@ -96,6 +98,8 @@ public class LoadMap : MonoBehaviour
 
         //StartCoroutine(VincularHexagonos());
 
+        msg2("Ejecutando algoritmo de vinculacion de hexagonos");
+
         yield return new WaitForCorutines(this, VincularHexagonos, (s)=> msg2(s));
 
         auxCalc = Euler.LocalSidePosHex(auxCalc, apotema);
@@ -103,7 +107,7 @@ public class LoadMap : MonoBehaviour
         for (int i = 0; i < hexagonos.GetLength(0); i++)
         {
             //espera para la carga
-            if (i % 45 == 0)
+            if (i % loadPerFrame == 0)
             {
                 tiempoCarga += Time.unscaledDeltaTime;
 
@@ -258,7 +262,7 @@ public class LoadMap : MonoBehaviour
 
         //audioListener.enabled = true;
 
-        msg("Ejecutando algoritmo de vinculacion de hexagonos");
+        
 
         //perdida del flujo
         yield return new WaitForCorutines(this, LoadHex, (s) => msg(s));
@@ -300,12 +304,8 @@ public class LoadMap : MonoBehaviour
         {
             victoria = Instantiate(victoria);
             victoria.transform.position = arrHexCreados[arrHexCreados.GetLength(0) - 1].transform.position;
-        }
+        }        
 
-
-        yield return null;
-
-        
         tiempoCarga += Time.unscaledDeltaTime;
         DebugPrint.Log("Tiempo entre frames: " + (Time.unscaledDeltaTime) + " milisegundos");
         DebugPrint.Log("Tiempo total de carga: " + tiempoCarga);
@@ -314,10 +314,7 @@ public class LoadMap : MonoBehaviour
         playerPublic.transform.parent = arrHexCreados[0].transform;
         playerPublic.transform.localPosition = new Vector3(0, 0, 0);
 
-        yield return null;
-        
         //AudioManager.instance.Play("ambiente").source.loop = true;
-
         end(true);
     }
 
@@ -561,11 +558,15 @@ public class LoadMap : MonoBehaviour
             StopCoroutine(VincularHexagonos());
             VincularHexagonos(true);
             */
+
+            msg("error de generacion");
         }
         else
         {
             hexagonos = hex;
         }
+
+        msg("generacion correcta");
 
         end(true);
     }

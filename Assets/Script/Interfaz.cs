@@ -66,9 +66,9 @@ public class Interfaz : MonoBehaviour
 
     IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
     {
+        end(true);
         yield return null;
         GameManager.instance.player.GetComponent<ControlPJ>().health.lifeDamaged += UpdateLife;
-        end(true);
     }
 
     // Update is called once per frame
