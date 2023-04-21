@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Behaviour { Seek, Flee };
-public class SteeringBehaviours : MonoBehaviour
+public class Hunter : MonoBehaviour
 {
     [SerializeField]
     public Vector2Quad _obj;
@@ -150,13 +150,13 @@ public class SteeringBehaviours : MonoBehaviour
 }
 
 
-public class Carlitos : FSM<Carlitos, SteeringBehaviours>
+public class Carlitos : FSM<Carlitos, Hunter>
 {
     public IState<Carlitos> persecucion = new Persecucion();
 
     public IState<Carlitos> vuelta = new Vuelta();
 
-    public Carlitos(SteeringBehaviours reference) : base(reference)
+    public Carlitos(Hunter reference) : base(reference)
     {
         Init(vuelta);
     }

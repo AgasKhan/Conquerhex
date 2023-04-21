@@ -27,7 +27,7 @@ public class Boid : Seek
 
     void CheckBounds()
     {
-        transform.position = GManager.instance.SetObjectBoundPosition(transform.position);
+        transform.position = Boundaries.instance.SetObjectBoundPosition(transform.position);
     }
 
     
@@ -45,7 +45,7 @@ public class Boid : Seek
             if (boid.value == this) continue;
 
             //Saco la direccion hacia el boid
-            Vector2 dirToBoid = DirectionPursuit(boid.value.move);
+            Vector2 dirToBoid = DirectionSeek(boid.value.move);
 
             //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
             if (dirToBoid.sqrMagnitude <= BoidsManager.instance.SeparationRadius)

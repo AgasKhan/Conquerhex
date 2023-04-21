@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GManager : MonoBehaviour
+public class Boundaries : MonoBehaviour
 {
     [SerializeField] float _boundHeight;
     [SerializeField] float _boundWidth;
 
-    public static GManager instance { get; private set; }
+    public static Boundaries instance { get; private set; }
 
     void Awake()
     {
