@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using TMPro;
 using System;
 
 
@@ -23,9 +21,10 @@ public class MenuManager : SingletonMono<MenuManager>
     //-----------------------------------------------------------------------
 
 
+    //[SerializeField]
     public Pictionarys<string, GameObject> subMenus = new Pictionarys<string, GameObject>();
-    //public Pictionarys<string, DetailsWindow> detailsWindows = new Pictionarys<string, DetailsWindow>();
 
+    //[SerializeField]
     Pictionarys<string, DetailsWindow> detailsWindows;
 
     protected override void Awake()
