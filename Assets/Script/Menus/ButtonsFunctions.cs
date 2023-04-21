@@ -5,10 +5,18 @@ using UnityEngine;
 public class ButtonsFunctions : MonoBehaviour
 {
     MenuManager refMenu;
+    private void Awake()
+    {
+        LoadSystem.AddPostLoadCorutine(LoadButtons);
+    }
     private void Start()
     {
         refMenu = MenuManager.instance;
-        refMenu.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
+    }
+
+    void LoadButtons()
+    {
+        MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
             // Static Buttons
             {"Button", Example},
@@ -49,6 +57,10 @@ public class ButtonsFunctions : MonoBehaviour
 
         });
     }
+
+
+
+
     void PauseMenu(GameObject g)
     {
         DisplayWindow(g);
@@ -129,7 +141,6 @@ public class ButtonsFunctions : MonoBehaviour
     {
 
     }
-
 
     #endregion
 

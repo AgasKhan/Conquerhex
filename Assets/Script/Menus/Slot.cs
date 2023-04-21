@@ -15,20 +15,26 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public Action <GameObject> onAcceptDrop;
 
+    [SerializeField]
     Transform Container;
 
 
     private void Start()
     {
-        Container = GetComponentInChildren<VerticalLayoutGroup>().transform.GetChild(0);
+        Container = GetComponentInChildren<VerticalLayoutGroup>().transform;
 
         //LoadSystem.AddPostLoadCorutine(InitSlots);
 
-        Extensions.SlotEvent(this);
+        //Extensions.SlotEvent(this);
+
+        //LoadSystem.AddPostLoadCorutine(InitSlots);
     }
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (onAcceptDrop == null)
+            Extensions.SlotEvent(this);
+
         GameObject dropped = eventData.pointerDrag;
 
         //dropped.transform.SetAsLastSibling();
@@ -72,10 +78,4 @@ public class Slot : MonoBehaviour, IDropHandler
         Container = container;
     }
     */
-    IEnumerator InitSlots(System.Action<bool> end, System.Action<string> msg)
-    {
-        Extensions.SlotEvent(this);
-        end(true);
-        yield return null;
-    }
 }

@@ -25,10 +25,10 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
 
     protected override void InternalActivate(params Button[] specificParam)
     {
-        //specificParam[0]
-        if (Manager<AbilityBase>.pic.ContainsKey(transform.parent.name))
+        
+        if (Manager<ItemBase>.pic.ContainsKey(transform.parent.name))
         {
-            myItem = Manager<AbilityBase>.pic[transform.parent.name];
+            myItem = Manager<ItemBase>.pic[transform.parent.name];
             myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
         }
         else

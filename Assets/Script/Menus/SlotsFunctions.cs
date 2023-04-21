@@ -6,18 +6,7 @@ public class SlotsFunctions : MonoBehaviour
 {
     private void Awake()
     {
-        //LoadSystem.AddPostLoadCorutine(LoadSlots);
-
-        /*
-        MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
-        {
-
-            {"FarmSlot", FarmSlot},
-            {"AttackSlot", AttackSlot},
-            {"DefendSlot", DefendSlot}
-
-        });
-        */
+        LoadSystem.AddPostLoadCorutine(LoadSlots);
     }
 
 
@@ -60,21 +49,22 @@ public class SlotsFunctions : MonoBehaviour
 
     #endregion
 
-    IEnumerator LoadSlots(System.Action<bool> end, System.Action<string> msg)
+    void LoadSlots()
     {
-        msg("Cargando Slots");
-
         MenuManager.instance.eventListVoid.AddRange(new Pictionarys<string, System.Action<GameObject>>()
         {
 
             {"FarmSlot", FarmSlot},
             {"AttackSlot", AttackSlot},
-            {"DefendSlot", DefendSlot}
+            {"DefendSlot", DefendSlot},
+
+
+            {"HeadSlot", HeadSlot},
+            {"ArmSlot", ArmSlot},
+            {"LegSlot", LegSlot},
+            {"TailSlot", TailSlot}
 
         });
-
-        yield return null;
-        end(true);
     }
 
 }

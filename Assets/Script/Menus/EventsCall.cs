@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class EventsCall : MonoBehaviour
 {
-    MenuManager menu;
-
     public void Event(GameObject g)
     {
         print("\tAccediendo: " + g.name);
@@ -22,10 +20,4 @@ public class EventsCall : MonoBehaviour
         }
         DebugPrint.Warning("No contiene uno de los componentes esperados: " + g.name);
     }
-    void Start()
-    {
-       menu = MenuManager.instance;
-    }
-
-
 }

@@ -63,8 +63,6 @@ public class CSVReader : SingletonMono<CSVReader>
         }
         */
 
-        instance = this;
-
         //ReadCSV(textAssetData);
 
         /*
@@ -244,6 +242,7 @@ public class CSVReader : SingletonMono<CSVReader>
 
 }
 
+/*
 public interface IBDSave
 {
     void JsonToObj(string Json);
@@ -253,3 +252,4 @@ public interface IBDLoad
 {
     string ObjToJson();
 }
+*/
