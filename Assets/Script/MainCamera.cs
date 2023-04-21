@@ -14,7 +14,7 @@ public class MainCamera : SingletonMono<MainCamera>
     // Update is called once per frame
     private void LateUpdate()
     {
-        transform.position  = obj.tr.position;
+        transform.position  = obj.tr.position.Vect3To2().Vec2to3(0);
     }
 
  
