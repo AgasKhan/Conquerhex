@@ -6,6 +6,7 @@ using System;
 
 public class SaveWithJSON : SingletonMono<SaveWithJSON>
 {
+    
     public Pictionarys<string, string> baseData = new Pictionarys<string, string>();
 
     public static Pictionarys<string, string> BD
@@ -39,10 +40,10 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
         }
     }
 
-
-    private void Start()
-    {
-        path = Application.persistentDataPath + "/saveData.json";
+    
+    //private void Start()
+    //{
+       // path = Application.persistentDataPath + "/saveData.json";
 
 
         //Para Computadora
@@ -53,12 +54,12 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
             Directory.CreateDirectory(directoryPath);
         */
 
-        if (File.Exists(path))
-            LoadGame();
-        else
-            SaveGame();
-    }
-
+        //if (File.Exists(path))
+           // LoadGame();
+       // else
+           // SaveGame();
+    //}
+    
     void SaveGame()
     {
         File.WriteAllText(path, BD.ToString());
