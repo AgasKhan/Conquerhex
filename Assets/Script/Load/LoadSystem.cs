@@ -6,11 +6,10 @@ using UnityEngine.SceneManagement;
 public class LoadSystem : SingletonMono<LoadSystem>
 {
     static List<WaitForCorutines.MyCoroutine> preLoad = new List<WaitForCorutines.MyCoroutine>();
-
     static List<WaitForCorutines.MyCoroutine> postLoad = new List<WaitForCorutines.MyCoroutine>();
 
-    static System.Action preLoadEvent;
-    static System.Action postLoadEvent;
+    static List<System.Action> preLoadEvent = new List<System.Action>();
+    static List<System.Action> postLoadEvent = new List<System.Action>();
 
     [SerializeReference]
     LoadScreen loadScreen;
@@ -51,12 +50,12 @@ public class LoadSystem : SingletonMono<LoadSystem>
     //delegado adaptado
     public static void AddPreLoadCorutine(System.Action myCoroutine)
     {
-        preLoadEvent += myCoroutine;
+        preLoadEvent.Add(myCoroutine);
     }
 
     public static void AddPostLoadCorutine(System.Action myCoroutine)
     {
-        postLoadEvent += myCoroutine;
+        postLoadEvent.Add(myCoroutine);
     }
 
     public void Load(string scn, bool pause = false)
@@ -84,7 +83,12 @@ public class LoadSystem : SingletonMono<LoadSystem>
             yield return new WaitForCorutines(this, preLoad[i], (s) => loadScreen.Progress(((i) / (preLoad.Count))  * 100 * (1f / 3), s));
         }
 
-        preLoadEvent?.Invoke();
+        foreach (var item in preLoadEvent)
+        {
+            item();
+            yield return null;
+        }
+        
 
         loadScreen.Progress("Start scene load");
 
@@ -116,9 +120,13 @@ public class LoadSystem : SingletonMono<LoadSystem>
             yield return new WaitForCorutines(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 3) + (2f / 3)) * 100, s));
         }
 
-        loadScreen.Progress(100, "<size=50>Carga finalizada</size>");
+        foreach (var item in postLoadEvent)
+        {
+            item();
+            yield return null;
+        }
 
-        postLoadEvent?.Invoke();
+        loadScreen.Progress(100, "<size=50>Carga finalizada</size>");
 
         yield return null;
 
@@ -136,8 +144,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
         preLoad.Clear();
         postLoad.Clear();
 
-        postLoadEvent = null;
-        preLoadEvent = null;
+        postLoadEvent.Clear();
+        preLoadEvent.Clear();
 
         loadScreen.Close();
 

@@ -66,6 +66,23 @@ public class Manager<T> : SingletonClass<Manager<T>>
         LoadSystem.AddPostLoadCorutine(() => Manager.pic.Add(typeof(T).Name, this));
     }
 
+    public static Pictionarys<string, object> SearchByType(System.Type type)
+    {
+        Pictionarys<string, object> aux = new Pictionarys<string, object>();
+
+        /*
+        foreach (var item in pic)
+        {
+            if (item.value.GetType() == type)
+            {
+                aux.Add(item.key, item.value as type);
+            }
+        }
+        */
+
+        return aux;
+    }
+
     public static Pictionarys<string, C> SearchByType<C>() where C : T
     {
         Pictionarys<string, C> aux = new Pictionarys<string, C>();

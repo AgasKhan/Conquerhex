@@ -32,9 +32,33 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
-    public static event System.Action update;
+    public static event System.Action update
+    {
+        add
+        {
+            instance._update += value;
+        }
+        remove
+        {
+            instance._update -= value;
+        }
+    }
 
-    public static event System.Action fixedUpdate;
+    public static event System.Action fixedUpdate
+    {
+        add
+        {
+            instance._fixedUpdate += value;
+        }
+        remove
+        {
+            instance._fixedUpdate -= value;
+        }
+    }
+
+    event System.Action _update;
+
+    event System.Action _fixedUpdate;
 
     FSMGameMaganer fsmGameMaganer;
 
@@ -42,12 +66,12 @@ public class GameManager : SingletonMono<GameManager>
 
     void Update()
     {
-        update?.Invoke();
+        _update?.Invoke();
     }
 
     private void FixedUpdate()
     {
-        fixedUpdate?.Invoke();
+        _fixedUpdate?.Invoke();
     }
 
     protected override void Awake()

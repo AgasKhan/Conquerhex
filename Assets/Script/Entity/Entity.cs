@@ -2,11 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour, IDamageable
+public class Entity : MyScripts, IDamageable
 {
     public Health health;
 
     public List<DropItem> drops = new List<DropItem>();
+
+    protected override void Config()
+    {
+        MyAwakes += MyAwake;
+    }
+
+    private void Entity_onPause()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void Entity_MyUpdates()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void MyAwake()
+    {
+        health.death += Health_death;
+    }
+    
 
     public void Drop()
     {
@@ -77,10 +98,7 @@ public class Entity : MonoBehaviour, IDamageable
         }
     }
 
-    private void Awake()
-    {
-        health.death += Health_death;
-    }
+    
 
 
 }
