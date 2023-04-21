@@ -13,16 +13,6 @@ public class Entity : MyScripts, IDamageable
         MyAwakes += MyAwake;
     }
 
-    private void Entity_onPause()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void Entity_MyUpdates()
-    {
-        throw new System.NotImplementedException();
-    }
-
     private void MyAwake()
     {
         health.death += Health_death;
@@ -186,7 +176,7 @@ public class Health : Init
         }
     }
 
-    public void Init()
+    public void Init(params object[] param)
     {
         timeToRegen = TimersManager.Create(3, Regen, false);
     }

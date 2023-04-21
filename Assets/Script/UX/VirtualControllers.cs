@@ -10,7 +10,7 @@ public class VirtualControllers : MonoBehaviour
 
     static List<FatherKey> _keys = new List<FatherKey>();
 
-    public static AxisButton movement = new AxisButton("Horizontal", "Vertical", "Sprint");
+    static public AxisButton movement = new AxisButton("Horizontal", "Vertical", "Sprint");
 
     static public AxisButton principal = new AxisButton("Mouse X", "Mouse Y", "Fire1");
 
@@ -20,9 +20,19 @@ public class VirtualControllers : MonoBehaviour
 
     static public Button parry = new Button("Parry");
 
-    static public T Search<T>(KeyInput e) where T :FatherKey
+    static public T Search<T>(KeyInput e) where T : FatherKey
     {
-        return _keys[(int)e] as T;
+        List<T> aux = new List<T>();
+
+        for (int i = 0; i < _keys.Count; i++)
+        {
+            if(_keys[i] is T)
+            {
+                aux.Add((T)_keys[i]);
+            }
+        }
+
+        return aux[(int)e];
     }
 
     #endregion

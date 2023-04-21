@@ -9,13 +9,13 @@ public interface IDamageable
 }
 
 [System.Serializable]
-public struct Damage
+public struct Damage : Init
 {
     public float amount;
     public EnumDamage type;
     public ClassDamage typeInstance;
 
-    public void Init()
+    public void Init(params object[] param)
     {
         typeInstance = Manager<ClassDamage>.pic.SearchOrCreate(type.ToString());
     }

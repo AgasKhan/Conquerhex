@@ -67,9 +67,10 @@ public interface IShowItem
 }
 
 
-
+[System.Serializable]
 public abstract class Item : IShowItem
 {
+    [SerializeField]
     protected ItemBase _itemBase;
 
     public string nameDisplay => _itemBase.nameDisplay;
@@ -115,7 +116,7 @@ public abstract class Item<T> : Item, Init where T : ItemBase
         }
     }
 
-    public abstract void Init();
+    public abstract void Init(params object[] param);
 }
 
 public abstract class ItemStackeable<T> : Item<T> where T : ItemBase

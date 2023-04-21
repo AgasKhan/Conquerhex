@@ -122,12 +122,15 @@ namespace Internal
             get => _passToChck;
             set
             {
+                _passToChck = value;
+
+                if (list == null)
+                    return;
+
                 if (value)
                     PassTo();
                 else
                     RemoveTo();
-
-                _passToChck = value;
             }
         }
 

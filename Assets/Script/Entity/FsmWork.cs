@@ -8,7 +8,7 @@ public class FSMWork : FSMSerialize<FSMWork, StaticEntity>
 {
     public IState<FSMWork> voiid = new WorkEntiyNull();
 
-    [SerializeReference]
+    [SerializeField]
     public Pictionarys<string, WorkEntiy> work = new Pictionarys<string, WorkEntiy>();
 
     public void ChangeWork(string key)

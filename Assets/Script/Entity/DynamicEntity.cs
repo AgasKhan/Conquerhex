@@ -9,15 +9,22 @@ public abstract class DinamicEntity : StaticEntity
 
 public abstract class DinamicEntityWork : DinamicEntity
 {
-    [SerializeReference]
+    [SerializeField]
     FSMWork fsmWork;
 
-    private void Awake()
+    protected override void Config()
+    {
+        base.Config();
+        MyAwakes += MyAwake;
+        MyUpdates += MyUpdate;
+    }
+
+    private void MyAwake()
     {
         fsmWork.Init(this);
     }
 
-    private void Update()
+    private void MyUpdate()
     {
         fsmWork.UpdateState();
     }

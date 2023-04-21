@@ -15,15 +15,22 @@ public abstract class StaticEntity : Entity
 
 public abstract class StaticEntityWork : StaticEntity
 {
-    [SerializeReference]
+    [SerializeField]
     FSMWork fsmWork;
 
-    private void Awake()
+    protected override void Config()
+    {
+        base.Config();
+        MyAwakes += MyAwake;
+        MyUpdates += MyUpdate;
+    }
+
+    private void MyAwake()
     {
         fsmWork.Init(this);
     }
 
-    private void Update()
+    private void MyUpdate()
     {
         fsmWork.UpdateState();
     }

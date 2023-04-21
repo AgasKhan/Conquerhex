@@ -13,11 +13,6 @@ public abstract class MoveAbstract : MyScripts
     [SerializeField]
     protected Tim _velocity;
 
-    [SerializeField]
-    protected float _frameVelocity;
-
-    [SerializeField]
-    protected float _frameDesaceleration;
 
     public float maxSpeed
     {
@@ -31,7 +26,7 @@ public abstract class MoveAbstract : MyScripts
         set
         {
             Set(_velocity, value);
-            _frameVelocity = _velocity.current * Time.deltaTime;
+            
         }
     }
 
@@ -41,7 +36,7 @@ public abstract class MoveAbstract : MyScripts
         set
         {
             Set(_desaceleration, value);
-            _frameDesaceleration = _desaceleration.current * Time.deltaTime;
+            
         }
     }
 

@@ -172,5 +172,5 @@ public class ManagerComponent<T> : SingletonMono<ManagerComponent<T>>
 
 public interface Init
 {
-    void Init();
+    void Init(params object[] param);
 }

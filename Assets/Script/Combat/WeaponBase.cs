@@ -40,7 +40,7 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
             return false;
     }
 
-    public void Init()
+    public void Init(params object[] param)
     {
         foreach (var item in damages)
         {
@@ -57,7 +57,7 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
 }
 
 
-
+[System.Serializable]
 public class Weapon : Item<WeaponBase>, IGetPercentage
 {
     Tim durability;
@@ -66,9 +66,9 @@ public class Weapon : Item<WeaponBase>, IGetPercentage
 
     public event System.Action durabilityOff;
 
-    public override void Init()
+    public override void Init(params object[] param)
     {
-        durability.Set(itemBase.durability);
+        durability = new Tim(itemBase.durability);
     }
 
     public void Durability()

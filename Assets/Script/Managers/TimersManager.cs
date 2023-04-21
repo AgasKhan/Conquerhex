@@ -113,7 +113,7 @@ public class Tim : IGetPercentage
     /// </summary>
     public virtual float Reset()
     {
-        _current = total;
+        current = total;
 
         return total;
     }
@@ -124,7 +124,7 @@ public class Tim : IGetPercentage
     /// <param name="n">En caso de ser negativo(-) suma al contador, siempre y cuando no este frenado</param>
     public virtual float Substract(float n)
     {
-        _current -= n;
+        current -= n;
         return Percentage();
     }
 
@@ -140,7 +140,7 @@ public class Tim : IGetPercentage
 
     public float Percentage()
     {
-        return _current / total;
+        return current / total;
     }
 
     public float InversePercentage()

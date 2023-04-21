@@ -11,9 +11,9 @@ public class MoveTr : MoveAbstract
 
     public void MyUpdate()
     {
-        transform.position += (direction * _frameVelocity).Vec2to3(0);
+        transform.position += (direction * _velocity.current * Time.deltaTime).Vec2to3(0);
 
-        _velocity.Substract(_frameDesaceleration);
+        _velocity.Substract(_desaceleration.current * Time.deltaTime);
     }
 
 }

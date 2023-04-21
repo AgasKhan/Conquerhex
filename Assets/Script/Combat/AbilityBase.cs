@@ -74,6 +74,7 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages);
 }
 
+[System.Serializable]
 public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
 {
     public event System.Action<Weapon> equipedWeapon;
@@ -87,14 +88,10 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
         set => ChangeWeapon(value);
     }
 
+    [SerializeField]
     Weapon _weapon;
     Timer cooldown;
     Entity caster;
-
-    public Ability(Entity caster)
-    {
-        this.caster = caster;
-    }
 
     void ChangeWeapon(Weapon weapon)
     {
@@ -117,9 +114,11 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
         equipedWeapon?.Invoke(this._weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
     }
 
-    public override void Init()
+    public override void Init(params object[] param)
     {
         cooldown = TimersManager.Create(itemBase.velocity);
+        this.caster = param[0] as Entity;
+        _weapon.Init();
     }
 
     public void ControllerDown(Vector2 dir, float tim)
