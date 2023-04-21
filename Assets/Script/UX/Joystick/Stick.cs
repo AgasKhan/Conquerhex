@@ -15,15 +15,19 @@ public class Stick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public VirtualControllers.AxisButton AxisButton;
 
+    bool press;
+
     public void OnPointerDown(PointerEventData eventData)
     {
         AxisButton.OnEnterState(dir);
+        press = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         AxisButton.OnExitState(dir);
         StopStick();
+        press = false;
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -55,7 +59,7 @@ public class Stick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     private void Update()
     {
-        if(dir.sqrMagnitude>0)
+        if(press)
             AxisButton.OnStayState(dir);
     }
 }

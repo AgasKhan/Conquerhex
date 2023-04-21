@@ -230,10 +230,9 @@ public class VirtualControllers : MonoBehaviour
         MiddleAxis vertical;
         Button button;
 
+        bool press;
+
         Vector2 dir;
-
-        float multiply= 0.5f;
-
         public bool enable
         {
             get
@@ -267,20 +266,20 @@ public class VirtualControllers : MonoBehaviour
         {
             if (button.down)
             {
-                multiply = 1;
-                OnEnterState(dir * multiply);
+                OnEnterState(dir);
+                press = true;
             }
 
-            if (vecPressed.sqrMagnitude > 0)
+            if (vecPressed.sqrMagnitude > 0 || press)
             {
-                OnStayState(dir*multiply);
+                OnStayState(dir);
             }
 
             if (button.up)
             {
-                OnExitState(dir * multiply);
+                OnExitState(dir);
                 dir = Vector2.zero;
-                multiply = 0.5f;
+                press = false;
             }
         }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MoveAbstract : MyScripts
+public abstract class MoveAbstract : MyScripts, IControllerDir
 {
     public Vector2 direction;
 
@@ -55,13 +55,20 @@ public abstract class MoveAbstract : MyScripts
     }
 
 
+    public virtual MoveAbstract Director(Vector2 dir)
+    {
+        direction = dir;
+
+        return this;
+    }
+
     public virtual MoveAbstract Acelerator(Vector2 dir)
     {
-        aceleration.current = dir.magnitude;
-
         var vecVelocity = vectorVelocity;
 
-        vecVelocity += aceleration.current * Time.deltaTime * dir.normalized;
+        vecVelocity +=  Time.deltaTime * dir;
+
+        aceleration.current = dir.magnitude;
 
         velocity = vecVelocity.magnitude;
 
@@ -113,5 +120,21 @@ public abstract class MoveAbstract : MyScripts
         desaceleration = number;
 
         return this;
+    }
+
+    public virtual void ControllerDown(Vector2 dir, float tim)
+    {
+
+    }
+
+    public virtual void ControllerPressed(Vector2 dir, float tim)
+    {
+        Acelerator(dir * 5);
+        //velocity += aceleration.current * Time.deltaTime;
+    }
+
+    public virtual void ControllerUp(Vector2 dir, float tim)
+    {
+
     }
 }

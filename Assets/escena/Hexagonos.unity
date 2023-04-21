@@ -1547,13 +1547,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0}
   aceleration:
-    total: 8
+    total: 10
     _current: 8
   _desaceleration:
     total: 8
     _current: 8
   _velocity:
-    total: 8
+    total: 10
     _current: 8
 --- !u!114 &1504004399
 MonoBehaviour:
@@ -2108,6 +2108,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8041896967532854927, guid: 726c5a64171b4f544920f01c6d4e3e4a,
+        type: 3}
+      propertyPath: deadzone
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8041896968994495624, guid: 726c5a64171b4f544920f01c6d4e3e4a,
         type: 3}
       propertyPath: m_Pivot.x
