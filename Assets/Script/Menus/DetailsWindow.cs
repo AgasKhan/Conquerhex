@@ -79,7 +79,6 @@ public class DetailsWindow : MonoBehaviour
     public static void GenerateButtons(DoubleString[] d)
     {
         ActiveButtons(true);
-        int i;
         /*
         for (i = 0; i < d.Length; i++)
         {
