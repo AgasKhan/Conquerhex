@@ -51,15 +51,18 @@ public class ButtonsFunctions : MonoBehaviour
             {"Settings", DisplayWindow},
             {"BackMenu", BackMenu},
             {"MenuInGame", PauseMenu},
+
+
+            {"Ejemplo", DisplayWindow},
+            {"Ejemplo2", DisplayWindow},
             
             //Dragable Buttons
             {"ShowWindow", ShowWindow}
 
+            
+
         });
     }
-
-
-
 
     void PauseMenu(GameObject g)
     {

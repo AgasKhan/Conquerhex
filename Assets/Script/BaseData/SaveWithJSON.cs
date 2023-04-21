@@ -46,16 +46,15 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
 
 
         //Para Computadora
+        /*
         var directoryPath = Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Replace("\\","/")) + "/" + Application.productName;
         
         if (Directory.Exists(directoryPath))
             Directory.CreateDirectory(directoryPath);
-
+        */
 
         if (File.Exists(path))
-        {
             LoadGame();
-        }
         else
             SaveGame();
     }
