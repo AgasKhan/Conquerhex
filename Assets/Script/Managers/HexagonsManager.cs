@@ -251,15 +251,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                     reload = true;
                 }
             }
-
             DebugPrint.Log(pantalla);
-
         }
-
-
-
         return reload;
-
     }
-
 }

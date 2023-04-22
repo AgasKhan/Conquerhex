@@ -255,7 +255,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 
         var newAux = (V)Activator.CreateInstance(Type.GetType(key.ToString()));
 
-        Debug.Log("se creo a partir de un string: "+newAux);
+        //Debug.Log("se creo a partir de un string: "+newAux);
 
         Add(key, newAux);
 

@@ -16,7 +16,11 @@ public class Teleport : MonoBehaviour
 
     Vector2 anguloDefecto;
 
-    public void SetHex(int[,] ladosArray)
+    Teleport[] arrHexCreados => HexagonsManager.arrHexCreados;
+
+    Pictionarys<int, Teleport> activeHex => HexagonsManager.activeHex;
+
+    public void SetTeleportEdge(int[,] ladosArray)
     {
         for (int ii = 0; ii < ladosArray.GetLength(0) - 1; ii++)
         {
@@ -95,12 +99,6 @@ public class Teleport : MonoBehaviour
 
                 if (other.CompareTag("Player"))
                 {
-                    //AudioManager.instance.Play("transporte");
-
-                    
-
-                    //arrHexTeleport.gameObject.SetActive(true);
-
                     MainCamera.instance.gameObject.transform.position = new Vector3(
                         arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 0] - (ladosPuntos[lado, 0] - Camera.main.gameObject.transform.position.x),
                         arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 1] - (ladosPuntos[lado, 1] - Camera.main.gameObject.transform.position.y),
@@ -108,27 +106,27 @@ public class Teleport : MonoBehaviour
 
                     for (int i = 0; i < LoadMap.instance.renders.Length; i++)
                     {
-                        HexagonsManager.arrHexCreados[arrHexTeleport.ladosArray[i, 0]].gameObject.SetActive(true);
-                        HexagonsManager.activeHex.Add(arrHexTeleport.ladosArray[i, 0], HexagonsManager.arrHexCreados[arrHexTeleport.ladosArray[i, 0]]);
+                        arrHexCreados[arrHexTeleport.ladosArray[i, 0]].gameObject.SetActive(true);
+                        activeHex.Add(arrHexTeleport.ladosArray[i, 0], arrHexCreados[arrHexTeleport.ladosArray[i, 0]]);
 
-                        LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(HexagonsManager.arrHexCreados[ladosArray[lado, 0]].transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
+                        LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[ladosArray[lado, 0]].transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
 
                         LoadMap.instance.cameras[i].gameObject.transform.position = new Vector2(
-                            HexagonsManager.arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.x,
-                            HexagonsManager.arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.y
+                            arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.x,
+                            arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.y
                             );
 
-                        LoadMap.instance.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(HexagonsManager.arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - HexagonsManager.arrHexCreados[ladosArray[lado, 0]].transform.position);
+                        LoadMap.instance.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
                     }
 
 
-                    for (int i = HexagonsManager.activeHex.Count-1; i >= 0; i--)
+                    for (int i = activeHex.Count-1; i >= 0; i--)
                     {
                         bool off = true;
 
                         for (int l = 0; l < 6; l++)
                         {
-                            if (arrHexTeleport.id == HexagonsManager.activeHex[i].id || arrHexTeleport.ladosArray[l, 0] == HexagonsManager.activeHex[i].id)
+                            if (arrHexTeleport.id == activeHex[i].id || arrHexTeleport.ladosArray[l, 0] == HexagonsManager.activeHex[i].id)
                             {
                                 off = false;
                                 break;
@@ -137,8 +135,8 @@ public class Teleport : MonoBehaviour
 
                         if (off)
                         {
-                            HexagonsManager.arrHexCreados[HexagonsManager.activeHex[i].id].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
-                            HexagonsManager.activeHex.RemoveAt(i);
+                            arrHexCreados[activeHex[i].id].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+                            activeHex.RemoveAt(i);
                         }
                     }
                 }

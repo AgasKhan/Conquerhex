@@ -161,7 +161,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
             FillPropsPos(props[rng], arrHexCreados[i].gameObject, 42, apotema, i != 0, i == 0 || i == hexagonos.GetLength(0) - 1);
 
-            arrHexTeleport.SetHex(hexagonos[i]);
+            arrHexTeleport.SetTeleportEdge(hexagonos[i]);
         }
         end(true);
     }
