@@ -2,39 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ItemBase : ScriptableObject ,IShowItem
+public abstract class ItemBase : ShowDetails
 {
-    protected System.Type _itemType;
-    protected abstract void SetCreateItemType();
-
-    [SerializeField]
-    string _nameDisplay;
-
-    [SerializeField]
-    Sprite _image;
-
-    [Space]
-    [SerializeField]
-    [TextArea(3, 6)]
-    string _details;
-
     [Range(1, 1000)]
     public int maxAmount = 1;
 
-    public string nameDisplay => _nameDisplay;
-
-    public Sprite image => _image;
-
-    public override string ToString()
-    {
-        return nameDisplay + "\n\n" + GetDetails().ToString("\n", "\n\n");
-    }
-
-    public virtual Pictionarys<string, string> GetDetails()
-    {
-        return new Pictionarys<string, string>() { { "Descripcion", _details } };
-    }
-
+    protected System.Type _itemType;
+    protected abstract void SetCreateItemType();
+    
     public Item Create() 
     {
         var aux = System.Activator.CreateInstance(_itemType) as Item;
@@ -71,21 +46,17 @@ public abstract class ItemBase : ScriptableObject ,IShowItem
 
     protected virtual void MyEnable()
     {
-        Manager<ItemBase>.pic.Add(_nameDisplay, this);
+        Manager<ItemBase>.pic.Add(nameDisplay, this);
     }
 }
 
-public interface IShowItem
-{
-    public string nameDisplay { get; }
-    public Sprite image { get; }
-    public Pictionarys<string, string> details => GetDetails();
-    public Pictionarys<string, string> GetDetails();
-}
+
+
+
 
 
 [System.Serializable]
-public abstract class Item : IShowItem, Init
+public abstract class Item : IShowDetails, Init
 {
     [SerializeField]
     protected ItemBase _itemBase;
@@ -102,10 +73,12 @@ public abstract class Item : IShowItem, Init
 
     public abstract void Init(params object[] param);
 
+
     public virtual Pictionarys<string, string> GetDetails()
     {
         return _itemBase.GetDetails();
     }
+
 
     public virtual void GetAmounts(out int actual, out int max)
     {
