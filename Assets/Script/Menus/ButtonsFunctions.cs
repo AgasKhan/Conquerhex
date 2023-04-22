@@ -26,6 +26,8 @@ public class ButtonsFunctions : MonoBehaviour
             {"Settings", DisplayWindow},
             {"Credits", DisplayWindow},
             {"Exit", Exit},
+            {"Dungeons", Dungeons},
+            {"LoadGame", LoadGame},
 
             //Menu de creacion de minions
             {"MBody", MBody},
@@ -50,18 +52,31 @@ public class ButtonsFunctions : MonoBehaviour
             {"Help", DisplayWindow},
             {"Settings", DisplayWindow},
             {"BackMenu", BackMenu},
+            {"SaveGame", SaveGame},
             {"MenuInGame", PauseMenu},
+
 
 
             {"Ejemplo", DisplayWindow},
             {"Ejemplo2", DisplayWindow},
             
             //Dragable Buttons
-            {"ShowWindow", ShowWindow}
+            {"ShowWindow", ShowWindow},
 
-            
+            //Tutorial
+            {"Tutorial", DisplayWindow}
 
         });
+    }
+
+    void LoadGame(GameObject g)
+    {
+
+    }
+
+    void Dungeons(GameObject g)
+    {
+
     }
 
     void PauseMenu(GameObject g)
@@ -84,6 +99,10 @@ public class ButtonsFunctions : MonoBehaviour
     {
         LoadSystem.instance.Load("MainMenu");
     }
+    void SaveGame(GameObject g)
+    {
+
+    }
 
     void QuitWindow (GameObject g)
     {
@@ -94,6 +113,7 @@ public class ButtonsFunctions : MonoBehaviour
     {
         refMenu.CloseLastWindow();
     }
+
 
 
 
