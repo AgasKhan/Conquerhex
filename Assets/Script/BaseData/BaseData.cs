@@ -4,6 +4,4 @@ using UnityEngine;
 public  class BaseData : SingletonScript<BaseData>
 {
     public int playerCoins = 0;
-
-
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DisplayItem : LogicActive<UnityEngine.UI.Button>
 {
-    public ItemBase myItem;
+    public IShowDetails myItem;
 
     [HideInInspector]
     public DetailsWindow myDetailWindow;
@@ -25,8 +25,11 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
 
     protected override void InternalActivate(params Button[] specificParam)
     {
-        
-        if (Manager<ItemBase>.pic.ContainsKey(transform.parent.name))
+        if (myItem != null)
+        {
+            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
+        }
+        else if (Manager<ItemBase>.pic.ContainsKey(transform.parent.name))
         {
             myItem = Manager<ItemBase>.pic[transform.parent.name];
             myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
