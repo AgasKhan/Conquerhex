@@ -22,6 +22,8 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     //    bool loadscene = false;
 
+    Teleport[] arrHexCreados => HexagonsManager.arrHexCreados;
+
     public void ChangeHex(string number)
     {
         if(number.Length<11)
@@ -56,22 +58,22 @@ public class Menu : MonoBehaviour
         if (GameManager.instance != null)
         {
            
-            for (int i = 0; i < LoadMap.arrHexCreados.Length; i++)
+            for (int i = 0; i < arrHexCreados.Length; i++)
             {
-                if(LoadMap.arrHexCreados[i]!=null)
-                    LoadMap.arrHexCreados[i].gameObject.SetActive(false);
+                if(arrHexCreados[i]!=null)
+                    arrHexCreados[i].gameObject.SetActive(false);
             }
             
             yield return null;
 
-            for (int i = 0; i < LoadMap.arrHexCreados.Length; i++)
+            for (int i = 0; i < arrHexCreados.Length; i++)
             {
-                if (LoadMap.arrHexCreados[i] != null && LoadMap.arrHexCreados[i].transform.Find("Jugador") == null)
-                    Destroy(LoadMap.arrHexCreados[i]);
+                if (arrHexCreados[i] != null && arrHexCreados[i].transform.Find("Jugador") == null)
+                    Destroy(arrHexCreados[i]);
 
                 if (i % 100 == 0)
                 {
-                    msg("Destruidos: " + i + " de " + LoadMap.arrHexCreados.Length);
+                    msg("Destruidos: " + i + " de " + arrHexCreados.Length);
                     yield return null;
                 }
             }

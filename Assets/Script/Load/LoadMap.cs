@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class LoadMap : MonoBehaviour
+public class LoadMap : SingletonMono<LoadMap>
 {
-    public static LoadMap instance;
-
-    static public Teleport[] arrHexCreados;
-
-    static public Pictionarys<int, Teleport> activeHex= new Pictionarys<int, Teleport>();
-
-    static public float[,] auxCalc = new float[6, 2];
-
     public GameObject[] carlitos;
 
     public Camera[] cameras;
@@ -22,8 +14,6 @@ public class LoadMap : MonoBehaviour
     public int rng;
 
     public int loadPerFrame;
-
-    public GameObject hexagono;
 
     public Biomes[] biomes;
 
@@ -37,21 +27,21 @@ public class LoadMap : MonoBehaviour
 
     public Vector3 basePos= new Vector3 {x=2, y=20, z=10 };
 
-    int[][,] hexagonos;
-
     float tiempoCarga = 0;
 
+    Teleport[] arrHexCreados => HexagonsManager.arrHexCreados;
+
+    Pictionarys<int, Teleport> activeHex => HexagonsManager.activeHex;
+
+    GameObject hexagono => HexagonsManager.hexagono;
+
+    int[][,] hexagonos => HexagonsManager.hexagonos;
+
     // Start is called before the first frame update
-    void Awake()
+    protected override void Awake()
     {
-        instance = this;
-
+        base.Awake();
         LoadSystem.AddPostLoadCorutine(CargaHexagonos);
-    }
-
-    private void OnDestroy()
-    {
-        activeHex.Clear();
     }
 
     public Vector3 CalculateHexagonoPos(int index)
@@ -70,12 +60,7 @@ public class LoadMap : MonoBehaviour
 
     IEnumerator LoadHex(System.Action<bool> end, System.Action<string> msg2)
     {
-        hexagonos = new int[rng][,];
-
-        for (int i = 0; i < rng; i++)
-        {
-            hexagonos[i] = new int[7, 2];
-        }
+        HexagonsManager.SetArrayHexagons(rng);
 
         Teleport arrHexTeleport;//Despues lo voy a usar para guardar el getcomponent
 
@@ -99,8 +84,6 @@ public class LoadMap : MonoBehaviour
         //reveer
         Object[][] props = new Object[terreno.GetLength(0)][];
 
-        arrHexCreados = new Teleport[hexagonos.GetLength(0)];
-
         DebugPrint.Log("Informacion de seteo");
 
         DebugPrint.Log("lado" + lado);
@@ -118,9 +101,9 @@ public class LoadMap : MonoBehaviour
 
         msg2("Ejecutando algoritmo de vinculacion de hexagonos");
 
-        yield return new WaitForCorutines(this, VincularHexagonos, (s)=> msg2(s));
+        yield return new WaitForCorutines(this, HexagonsManager.instance.VincularHexagonos, (s)=> msg2(s));
 
-        auxCalc = Euler.LocalSidePosHex(auxCalc, apotema);
+        HexagonsManager.LocalSidePosHex(apotema);
 
         for (int i = 0; i < hexagonos.GetLength(0); i++)
         {
@@ -284,13 +267,13 @@ public class LoadMap : MonoBehaviour
 
             renders[i] = GameObject.Find("render (" + i + ")");
 
-            renders[i].transform.position = AbsSidePosHex(arrHexCreados[0].transform.position, i, renders[i].transform.position.z, 2);
+            renders[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[0].transform.position, i, renders[i].transform.position.z, 2);
 
             //renders[i].transform.localScale = Vector3.one * scala;
 
             carlitos[i] = GameObject.Find("Carlitos (" + i + ")");
 
-            carlitos[i].transform.position = AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), carlitos[i].transform.position.z, 2);
+            carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), carlitos[i].transform.position.z, 2);
 
         }
 
@@ -311,13 +294,6 @@ public class LoadMap : MonoBehaviour
         //AudioManager.instance.Play("ambiente").source.loop = true;
         end(true);
     }
-
-    static public Vector3 AbsSidePosHex(Vector3 posicionInicial, int lado, float z, float multiplicador = 1)
-    {
-        //accede a la variable global que contiene las coordenadas relativas y las guarda en un vector3, asi mismo permite multiplicarlas por un escalar
-        return new Vector3(posicionInicial.x + auxCalc[lado, 0] * multiplicador, posicionInicial.y + auxCalc[lado, 1] * multiplicador, z);
-    }
-
 
 
     void FillPropsPos(Object[] props, GameObject hex, int distance, float apotema, bool spawn, bool centro = false)
@@ -369,200 +345,9 @@ public class LoadMap : MonoBehaviour
         }
     }
 
-    bool ImprimirHexagonos(int[][,] hexagonos)
-    {
-        /*
-            Ademas de mostrar en consola el valor del array 
-            muestra errores de relacion, en caso de que existan
-        */
-        bool reload = false;
+   
 
-        DebugPrint.Log("Mapeado de hexagonos");
-
-        for (int h = 0; h < hexagonos.GetLength(0); h++)
-        {
-            string pantalla = "\n\n<color=green>hexagono con ID: " + h + "</color>\n";
-
-            for (int l = 1; l < hexagonos[h].GetLength(0); l++)
-                pantalla += "|\tLado \t ? \tid \tlado\t|";
-
-            pantalla += "\n";
-
-            for (int l = 1; l < hexagonos[h].GetLength(0); l++)
-            {
-                pantalla += "|\t" + l + "\t?\t" + hexagonos[h][l, 0] + "\t" + hexagonos[h][l, 1] + "\t|";
-                //print("| Lado " + l + " teleport hexagono: " + hexagonos[h, l, 0] + " al lado: " + hexagonos[h, l, 1] + " |");
-                if (h != hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 0])
-                {
-                    DebugPrint.Error("Error en Lado " + l + " de la id: " + h + " resultado no esperado: l " + hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 1] + " ,h " + hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 0]);
-
-                    DebugPrint.Error(h + " " + hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 0]);
-
-                    reload = true;
-                }
-            }
-
-            DebugPrint.Log(pantalla);
-
-        }
-
-
-
-        return reload;
-
-    }
-
-    IEnumerator VincularHexagonos(System.Action<bool> end, System.Action<string> msg)
-    {
-        /*
-        La funcion toma un array de 3 dimensiones y crea la informacion asi mismo ordena el array para el sistema de hexagonos
-        procedural
-         */
-
-        //el array de listas, contiene 6 listas, una por cada lado,
-        //en este caso siendo equivalente al lado 0 de las listas al lado 1 de los arrays,
-        //dentro voy a guardar cada uno de los lados disponibles,
-        //invirtiendo el orden en comparacion del array de hexagonos,
-        //poniendo primero el lado y desp el indice del array
-        List<int>[] disponibles = new List<int>[6];
-
-        int[][,] hex = hexagonos;
-
-        bool aislado = false;
-        /*
-        if (comprobacion)
-            for (int h = 0; h < hex.GetLength(0); h++)
-            {
-                for (int l = 0; l < hex.GetLength(1); l++)
-                {
-                    for (int i = 0; i < hex.GetLength(2); i++)
-                    {
-                        hex[h, l, i] = 0;
-                    }
-                }
-
-            }
-        */
-
-        for (int i = 0; i < disponibles.Length; i++)
-        {
-            disponibles[i] = new List<int>();
-            for (int h = 0; h < hex.GetLength(0); h++)
-            {
-                if (hex[h][0, 0] == 0)
-                    disponibles[i].Add(h);
-            }
-        }
-
-        for (int hexIndex = 0; hexIndex < hex.GetLength(0); hexIndex++)
-        {
-            if (hexIndex % 1000 == 0)
-            {
-
-                msg("Ejecutando algoritmo de vinculacion de hexagonos" +
-                    "\n" +
-                    "<size=20>" + hexIndex + " de " + hex.GetLength(0) + "</size>" +
-                    "\n" +
-                    "Presiona escape para cancelar");
-
-                yield return null;
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                StopAllCoroutines();
-                LoadSystem.instance.Load("Menu");
-            }
-
-
-            if (hex[hexIndex][0, 0] == 0) //if que se encarga de preguntar si alguno ya esta completo,
-                                   //esto puede pasar en caso de que el array tenga algun hexagono seteado de antemano
-            {
-                hex[hexIndex][0, 0] = 1;
-
-                for (int lado = 1; lado < hex[hexIndex].GetLength(0); lado++)
-                {
-                    //le resto uno a la variable de los lados para que sea compatible con el sistema de la lista
-                    lado--;
-
-                    //calculo el lado opuesto (cuando quiera trabajarlo para mi array de hexagonos voy a tener que sumarle 1 para equivaler los indices)
-                    int ladoOpuesto = ((lado - 3) >= 0) ? (lado - 3) : (lado + 3);
-
-                    //Le vuelvo a incrementar 1 para dejarlo como estaba
-                    lado++;
-
-                    int auxL, auxI;
-                    //Voy a guardar la cantidad maxima de indices para despues poder elegir uno al azar, dentro de la lista
-                    //me encargo de no pisar un lado ya seteado
-                    if (hex[hexIndex][ lado, 1] == 0 && ((auxL = disponibles[ladoOpuesto].Count) > 0))
-                    {
-                        //defino mi numero aleatorio en base a la disponibilidad (ya que los anteriores hexagonos ya los tengo seteados, no quiero pisarlos)
-                        auxL = Random.Range(0, auxL);
-
-                        //obtengo el indice de los hexagonos a partir de la lista
-                        auxI = disponibles[ladoOpuesto][auxL];
-
-                        //print("lado " + ladoOpuesto + " ID " + disponibles[ladoOpuesto][auxL]);
-
-                        //quito tanto el elegido de forma aleatoria como el que estoy parado ahora
-                        disponibles[ladoOpuesto].RemoveAt(auxL);
-                        disponibles[lado - 1].Remove(hexIndex);
-
-                        //seteo mi hexagono
-                        hex[hexIndex][ lado, 0] = auxI;
-                        hex[hexIndex][lado, 1] = ladoOpuesto + 1;//le sumo 1 por q el indice de los hexagonos arranca en 1 en comparacion al de las listas que arranca en 0
-
-                        //seteo el otro hexagono
-                        hex[auxI][hex[hexIndex][lado, 1], 0] = hexIndex;
-                        hex[auxI][hex[hexIndex][lado, 1], 1] = lado;
-                    }
-                    else if (hex[hexIndex][lado, 1] == 0)
-                    {
-                        hex[hexIndex][lado, 0] = -1;
-                    }
-                    //print(hexagonos[h, l, 0]);
-                }
-            }
-        }
-        //correcion si por casualidad un hexagono se vinculo totalmente asi mismo
-        for (int h = 0; h < hex.GetLength(0); h++)
-        {
-            bool auxAislado = true;
-
-            for (int l = 1; l < hex[h].GetLength(0); l++)
-            {
-                if (hex[h][l, 0] != h)
-                {
-                    auxAislado = false;
-                }
-            }
-            if (auxAislado)
-            {
-                aislado = true;
-            }
-        }
-
-        if (ImprimirHexagonos(hex) || (aislado && hex.GetLength(0) > 1))
-        {
-            DebugPrint.Warning("Generacion no grata, rearmando");
-            DebugPrint.Warning("warning");
-            /*
-            StopCoroutine(VincularHexagonos());
-            VincularHexagonos(true);
-            */
-
-            msg("error de generacion");
-        }
-        else
-        {
-            hexagonos = hex;
-        }
-
-        msg("generacion correcta");
-
-        end(true);
-    }
+    
 
    
 }

@@ -922,6 +922,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1071990373}
   - component: {fileID: 1071990372}
+  - component: {fileID: 1071990374}
   m_Layer: 0
   m_Name: LoadMap
   m_TagString: Untagged
@@ -962,10 +963,8 @@ MonoBehaviour:
   - {fileID: 1002002811}
   - {fileID: 435053264}
   - {fileID: 1818294913}
-  rng: 5
+  rng: 20
   loadPerFrame: 1
-  hexagono: {fileID: 4467571277743417452, guid: 6b5900aa9a556e54d818a6fe09263a51,
-    type: 3}
   biomes:
   - {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
   - {fileID: 11400000, guid: e3d7a5bb6d2b7754d98e4cfd25e3414d, type: 2}
@@ -973,6 +972,7 @@ MonoBehaviour:
   playerPublic: {fileID: 1696979097}
   spawner: {fileID: 5223350694060523476, guid: ecf5bace16d838041a93341ef03cc01d, type: 3}
   victoria: {fileID: 1523643467}
+  basePos: {x: 2, y: 20, z: 10}
 --- !u!4 &1071990373
 Transform:
   m_ObjectHideFlags: 0
@@ -988,6 +988,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1071990374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071990371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1de95ce3d889f942b08fc3e8a28ebee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _arrHexCreados: []
+  _activeHex:
+    pictionaries: []
+  _hexagono: {fileID: 4467571277743417452, guid: 6b5900aa9a556e54d818a6fe09263a51,
+    type: 3}
 --- !u!1 &1074810649 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6795698234201348587, guid: df8853a72e2fc6c44b0785a2e570487a,
@@ -2226,6 +2243,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 765942997}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1696979098 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4208054622973972078, guid: 00f4c5b18e0410a4aadb034dcda0a998,
+    type: 3}
+  m_PrefabInstance: {fileID: 765942997}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1698553399 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1302792868, guid: 00f4c5b18e0410a4aadb034dcda0a998,
@@ -2756,7 +2779,7 @@ PrefabInstance:
         type: 3}
       propertyPath: obj.tr
       value: 
-      objectReference: {fileID: 1504004400}
+      objectReference: {fileID: 1696979098}
     - target: {fileID: 7674655437596361991, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: m_RootOrder

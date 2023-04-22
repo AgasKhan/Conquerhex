@@ -180,38 +180,6 @@ public class Pause : IState<FSMGameMaganer>
     }
 }
 
-static class Euler
-{
-
-    public static float[,] LocalSidePosHex(float[,] auxCalc2, float apotema, float magnitud = 1f)
-    {
-
-
-        DebugPrint.Log("Calculo de posición de lados");
-
-        //calcula las coordenadas relativas de los lados de los hexagonos y lo retorna
-        for (int i = 0; i < auxCalc2.GetLength(0); i++)
-        {
-            /*
-            auxCalc[i, 0] = ((((lado/2) * Mathf.Sin((1f / 3f) * Mathf.PI)) / (Mathf.Sin((1f / 6f) )* Mathf.PI))) * Mathf.Cos((1f / 2f) * Mathf.PI + (1f / 3f * Mathf.PI) * i);
-            auxCalc[i, 1] = ((((lado/2) * Mathf.Sin((1f / 3f) * Mathf.PI)) / (Mathf.Sin((1f / 6f) )* Mathf.PI))) * Mathf.Sin((1f / 2f) * Mathf.PI + (1f / 3f * Mathf.PI) * i);
-            */
-
-            //Cuenta que calcula los puntos relativos
-            auxCalc2[i, 0] = (apotema) * Mathf.Cos((1f / 2f) * Mathf.PI - (1f / 3f) * Mathf.PI * i) * magnitud;
-            auxCalc2[i, 1] = (apotema) * Mathf.Sin((1f / 2f) * Mathf.PI - (1f / 3f) * Mathf.PI * i) * magnitud;
-
-            DebugPrint.Log(auxCalc2[i, 0] + " " + auxCalc2[i, 1]);
-
-        }
-
-        
-        return auxCalc2;
-
-    }
-
-
-}
 
 static class DebugPrint
 {
