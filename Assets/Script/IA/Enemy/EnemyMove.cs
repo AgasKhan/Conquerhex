@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class IAEnemy : Seek, IControllerDir
+public class EnemyMove : Seek, IControllerDir
 {
     [SerializeField] float _viewRadius;
     [SerializeField] Transform[] _totalWaypoints;
 
     int _currentWaypoint;
 
+    [SerializeField] Transform _target;
+
     Action _OnCurrentPath;
 
-    #region Move
+    private void Start()
+    {
+        
+    }
+
     public void ControllerDown(Vector2 dir, float tim)
     {
+        Debug.Log("Down");
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
@@ -25,14 +32,20 @@ public class IAEnemy : Seek, IControllerDir
         //Si no está dentro del rango de visión, patrulla
         if (_viewRadius * _viewRadius >= dirToWaypoint.sqrMagnitude)
         {
+
             _OnCurrentPath();
+            //ControllerPressed(dirToWaypoint, 0);
+
         }
 
         //Sino, persigue
         else
         {
-            DirectionPursuit(move.Director(dir));
+            DirectionPursuit(move.Director(_target.position));
+            Debug.Log("Pursuit");
         }
+        
+
     }
 
     public void ControllerUp(Vector2 dir, float tim)
@@ -63,26 +76,22 @@ public class IAEnemy : Seek, IControllerDir
             _OnCurrentPath = NormalPath;
         }
     }
-    #endregion
 
-    #region Attack
 
-    public virtual void ControllerDownATK(Vector2 dir, float tim)
+    private void OnDrawGizmos()
     {
-        //Ataque 1
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(_viewRadius));
     }
 
-    public virtual void ControllerPressedATK(Vector2 dir, float tim)
+    private void Update()
     {
-        //Ataque 2
-    }
 
-    public virtual void ControllerUpATK(Vector2 dir, float tim)
-    {
-        //Ataque 3
-    }
+        
 
-    #endregion
+    }
 }
+
+
 
 
