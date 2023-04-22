@@ -7,9 +7,11 @@ public class LoadMap : MonoBehaviour
 {
     public static LoadMap instance;
 
-    static public GameObject[] arrHexCreados;
+    static public Teleport[] arrHexCreados;
 
-    static private float[,] auxCalc = new float[6, 2];
+    static public Pictionarys<int, Teleport> activeHex= new Pictionarys<int, Teleport>();
+
+    static public float[,] auxCalc = new float[6, 2];
 
     public GameObject[] carlitos;
 
@@ -23,9 +25,7 @@ public class LoadMap : MonoBehaviour
 
     public GameObject hexagono;
 
-    public Tile[] pastito;
-
-    public Tile[] nieve;
+    public Biomes[] biomes;
 
     public Tilemap map;
 
@@ -35,9 +35,9 @@ public class LoadMap : MonoBehaviour
 
     public GameObject victoria;
 
-    int[,,] hexagonos;
+    public Vector3 basePos= new Vector3 {x=2, y=20, z=10 };
 
-
+    int[][,] hexagonos;
 
     float tiempoCarga = 0;
 
@@ -47,6 +47,16 @@ public class LoadMap : MonoBehaviour
         instance = this;
 
         LoadSystem.AddPostLoadCorutine(CargaHexagonos);
+    }
+
+    private void OnDestroy()
+    {
+        activeHex.Clear();
+    }
+
+    public Vector3 CalculateHexagonoPos(int index)
+    {
+        return new Vector3(instance.basePos.x * (index + 1), instance.basePos.y, instance.basePos.z);
     }
 
     public Object[] LoadAsset(string path)
@@ -60,7 +70,12 @@ public class LoadMap : MonoBehaviour
 
     IEnumerator LoadHex(System.Action<bool> end, System.Action<string> msg2)
     {
-        hexagonos = new int[rng, 7, 2];
+        hexagonos = new int[rng][,];
+
+        for (int i = 0; i < rng; i++)
+        {
+            hexagonos[i] = new int[7, 2];
+        }
 
         Teleport arrHexTeleport;//Despues lo voy a usar para guardar el getcomponent
 
@@ -72,16 +87,19 @@ public class LoadMap : MonoBehaviour
 
         float apotema = Mathf.Sqrt(Mathf.Pow(lado, 2) - Mathf.Pow(lado / 2, 2));
 
-        float x = lado * 2 * 2;
-        float y = 20;
-        float z = 10;
+        basePos.x = lado * basePos.x * basePos.x;
 
-        Tile[][] terreno = { pastito, nieve };
+        Tile[][] terreno = new Tile[biomes.Length][];
+
+        for (int i = 0; i < terreno.GetLength(0); i++)
+        {
+            terreno[i] = biomes[i].tile;
+        }
 
         //reveer
         Object[][] props = new Object[terreno.GetLength(0)][];
 
-        arrHexCreados = new GameObject[hexagonos.GetLength(0)];
+        arrHexCreados = new Teleport[hexagonos.GetLength(0)];
 
         DebugPrint.Log("Informacion de seteo");
 
@@ -91,7 +109,7 @@ public class LoadMap : MonoBehaviour
 
         for (int i = 0; i < terreno.GetLength(0); i++)
         {
-            string path = "Props/terreno_" + i + "/";
+            string path = "Props/" + biomes[i].nameDisplay + "/";
 
             props[i] = LoadAsset(path);
         }
@@ -135,15 +153,15 @@ public class LoadMap : MonoBehaviour
 
             //spawn hexagonos
 
-            arrHexCreados[i] = Instantiate(hexagono);
+            arrHexCreados[i] = Instantiate(hexagono).GetComponent<Teleport>();
 
-            arrHexCreados[i].SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+            arrHexCreados[i].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
 
             //textMesh = arrHexCreados[i].GetComponentsInChildren<TextMeshProUGUI>();
 
             arrHexTeleport = arrHexCreados[i].GetComponent<Teleport>();
 
-            arrHexCreados[i].transform.position = new Vector3(x * (i + 1), y, z);
+            arrHexCreados[i].transform.position = CalculateHexagonoPos(i);
 
             //arrHexCreados[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(Random.Range(1, 11)/10f, Random.Range(1, 11) / 10f, Random.Range(1, 11) / 10f, 1f));
 
@@ -158,33 +176,9 @@ public class LoadMap : MonoBehaviour
 
             FillTilePos(terreno[rng], arrHexCreados[i].transform.position, 42);
 
-            FillPropsPos(props[rng], arrHexCreados[i], 42, apotema, i != 0, i == 0 || i == hexagonos.GetLength(0) - 1);
+            FillPropsPos(props[rng], arrHexCreados[i].gameObject, 42, apotema, i != 0, i == 0 || i == hexagonos.GetLength(0) - 1);
 
-            for (int ii = 0; ii < hexagonos.GetLength(1) - 1; ii++)
-            {
-                arrHexTeleport.ladosArray[ii, 0] = hexagonos[i, ii + 1, 0];
-                arrHexTeleport.ladosArray[ii, 1] = hexagonos[i, ii + 1, 1] - 1; //Le resto para tener el indice en 0
-                //para X e Y
-                arrHexTeleport.ladosPuntos[ii, 0] = (x * (i + 1)) + auxCalc[ii, 0];
-                arrHexTeleport.ladosPuntos[ii, 1] = y + auxCalc[ii, 1];
-
-                //Debug.DrawRay(arrHexCreados[i].transform.position, new Vector2(auxCalc[ii, 0], auxCalc[ii, 1]) , Color.cyan, 60);
-
-                //Debug.DrawRay(arrHexCreados[i].transform.position, new Vector2(Mathf.Cos((1f / 2f)*Mathf.PI), Mathf.Sin((1f / 2f) * Mathf.PI)), Color.red, 60);
-
-                //textMesh[ii].text = hexagonos[i, ii + 1, 0].ToString();
-                //nTorre++;
-            }
-            /*
-            textMesh[0].text = "<color=#FF0000>" + hexagonos[i, 1, 0] + "\n\n<color=#0000FF>" + hexagonos[i, 6, 0];
-            textMesh[1].text = "<color=#FF0000>" + hexagonos[i, 1, 0] + "\n\n<color=#00FF00>" + hexagonos[i, 2, 0];
-
-            textMesh[2].text = "<color=#0000FF>" + hexagonos[i, 3, 0] + "\n\n<color=#00FF00>" + hexagonos[i, 2, 0];
-            textMesh[3].text = "<color=#0000FF>" + hexagonos[i, 3, 0] + "\n\n<color=#FF0000>" + hexagonos[i, 4, 0];
-
-            textMesh[4].text = "<color=#00FF00>" + hexagonos[i, 5, 0] + "\n\n<color=#FF0000>" + hexagonos[i, 4, 0];
-            textMesh[5].text = "<color=#00FF00>" + hexagonos[i, 5, 0] + "\n\n<color=#0000FF>" + hexagonos[i, 6, 0];
-            */
+            arrHexTeleport.SetHex(hexagonos[i]);
         }
         end(true);
     }
@@ -213,9 +207,6 @@ public class LoadMap : MonoBehaviour
         //cantidad = GameObject.FindGameObjectsWithTag("enemigo").Length;
 
         Teleport arrHexTeleport;
-
-        int min = PlayerPrefs.GetInt("nivelMin", 0);
-        int max = PlayerPrefs.GetInt("nivelMax", 5);
 
         Time.timeScale = 0;
 
@@ -263,8 +254,6 @@ public class LoadMap : MonoBehaviour
         //audioListener.enabled = true;
 
         
-
-        //perdida del flujo
         yield return new WaitForCorutines(this, LoadHex, (s) => msg(s));
 
         //prototipo de us
@@ -272,13 +261,18 @@ public class LoadMap : MonoBehaviour
         //audioListener.enabled = false;
 
         //configuro las camaras y los carlitos para el primer hexagono
+
+        arrHexTeleport = arrHexCreados[0];
+
+        arrHexCreados[0].gameObject.SetActive(true);
+
+        activeHex.Add(0, arrHexCreados[0]);
+
         for (int i = 0; i < cameras.Length; i++)
         {
-            arrHexTeleport = arrHexCreados[0].GetComponent<Teleport>();
+            arrHexCreados[arrHexTeleport.ladosArray[i, 0]].gameObject.SetActive(true);
 
-            arrHexCreados[0].SetActive(true);
-
-            arrHexCreados[arrHexTeleport.ladosArray[i, 0]].SetActive(true);
+            activeHex.Add(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].id, arrHexCreados[arrHexTeleport.ladosArray[i, 0]]);
 
             cameras[i].gameObject.transform.position = new Vector3(
                 arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.x,
@@ -375,7 +369,7 @@ public class LoadMap : MonoBehaviour
         }
     }
 
-    bool ImprimirHexagonos(int[,,] hexagonos)
+    bool ImprimirHexagonos(int[][,] hexagonos)
     {
         /*
             Ademas de mostrar en consola el valor del array 
@@ -389,20 +383,20 @@ public class LoadMap : MonoBehaviour
         {
             string pantalla = "\n\n<color=green>hexagono con ID: " + h + "</color>\n";
 
-            for (int l = 1; l < hexagonos.GetLength(1); l++)
+            for (int l = 1; l < hexagonos[h].GetLength(0); l++)
                 pantalla += "|\tLado \t ? \tid \tlado\t|";
 
             pantalla += "\n";
 
-            for (int l = 1; l < hexagonos.GetLength(1); l++)
+            for (int l = 1; l < hexagonos[h].GetLength(0); l++)
             {
-                pantalla += "|\t" + l + "\t?\t" + hexagonos[h, l, 0] + "\t" + hexagonos[h, l, 1] + "\t|";
+                pantalla += "|\t" + l + "\t?\t" + hexagonos[h][l, 0] + "\t" + hexagonos[h][l, 1] + "\t|";
                 //print("| Lado " + l + " teleport hexagono: " + hexagonos[h, l, 0] + " al lado: " + hexagonos[h, l, 1] + " |");
-                if (h != hexagonos[hexagonos[h, l, 0], hexagonos[h, l, 1], 0])
+                if (h != hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 0])
                 {
-                    DebugPrint.Error("Error en Lado " + l + " de la id: " + h + " resultado no esperado: l " + hexagonos[hexagonos[h, l, 0], hexagonos[h, l, 1], 1] + " ,h " + hexagonos[hexagonos[h, l, 0], hexagonos[h, l, 1], 0]);
+                    DebugPrint.Error("Error en Lado " + l + " de la id: " + h + " resultado no esperado: l " + hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 1] + " ,h " + hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 0]);
 
-                    DebugPrint.Error(h + " " + hexagonos[hexagonos[h, l, 0], hexagonos[h, l, 1], 0]);
+                    DebugPrint.Error(h + " " + hexagonos[hexagonos[h][l, 0]][hexagonos[h][l, 1], 0]);
 
                     reload = true;
                 }
@@ -432,7 +426,7 @@ public class LoadMap : MonoBehaviour
         //poniendo primero el lado y desp el indice del array
         List<int>[] disponibles = new List<int>[6];
 
-        int[,,] hex = hexagonos;
+        int[][,] hex = hexagonos;
 
         bool aislado = false;
         /*
@@ -455,19 +449,19 @@ public class LoadMap : MonoBehaviour
             disponibles[i] = new List<int>();
             for (int h = 0; h < hex.GetLength(0); h++)
             {
-                if (hex[h, 0, 0] == 0)
+                if (hex[h][0, 0] == 0)
                     disponibles[i].Add(h);
             }
         }
 
-        for (int h = 0; h < hex.GetLength(0); h++)
+        for (int hexIndex = 0; hexIndex < hex.GetLength(0); hexIndex++)
         {
-            if (h % 1000 == 0)
+            if (hexIndex % 1000 == 0)
             {
 
                 msg("Ejecutando algoritmo de vinculacion de hexagonos" +
                     "\n" +
-                    "<size=20>" + h + " de " + hex.GetLength(0) + "</size>" +
+                    "<size=20>" + hexIndex + " de " + hex.GetLength(0) + "</size>" +
                     "\n" +
                     "Presiona escape para cancelar");
 
@@ -479,30 +473,29 @@ public class LoadMap : MonoBehaviour
             {
                 StopAllCoroutines();
                 LoadSystem.instance.Load("Menu");
-
             }
 
 
-            if (hex[h, 0, 0] == 0) //if que se encarga de preguntar si alguno ya esta completo,
+            if (hex[hexIndex][0, 0] == 0) //if que se encarga de preguntar si alguno ya esta completo,
                                    //esto puede pasar en caso de que el array tenga algun hexagono seteado de antemano
             {
-                hex[h, 0, 0] = 1;
+                hex[hexIndex][0, 0] = 1;
 
-                for (int l = 1; l < hex.GetLength(1); l++)
+                for (int lado = 1; lado < hex[hexIndex].GetLength(0); lado++)
                 {
                     //le resto uno a la variable de los lados para que sea compatible con el sistema de la lista
-                    l--;
+                    lado--;
 
                     //calculo el lado opuesto (cuando quiera trabajarlo para mi array de hexagonos voy a tener que sumarle 1 para equivaler los indices)
-                    int ladoOpuesto = ((l - 3) >= 0) ? (l - 3) : (l + 3);
+                    int ladoOpuesto = ((lado - 3) >= 0) ? (lado - 3) : (lado + 3);
 
                     //Le vuelvo a incrementar 1 para dejarlo como estaba
-                    l++;
+                    lado++;
 
                     int auxL, auxI;
                     //Voy a guardar la cantidad maxima de indices para despues poder elegir uno al azar, dentro de la lista
                     //me encargo de no pisar un lado ya seteado
-                    if (hex[h, l, 1] == 0 && ((auxL = disponibles[ladoOpuesto].Count) > 0))
+                    if (hex[hexIndex][ lado, 1] == 0 && ((auxL = disponibles[ladoOpuesto].Count) > 0))
                     {
                         //defino mi numero aleatorio en base a la disponibilidad (ya que los anteriores hexagonos ya los tengo seteados, no quiero pisarlos)
                         auxL = Random.Range(0, auxL);
@@ -514,19 +507,19 @@ public class LoadMap : MonoBehaviour
 
                         //quito tanto el elegido de forma aleatoria como el que estoy parado ahora
                         disponibles[ladoOpuesto].RemoveAt(auxL);
-                        disponibles[l - 1].Remove(h);
+                        disponibles[lado - 1].Remove(hexIndex);
 
                         //seteo mi hexagono
-                        hex[h, l, 0] = auxI;
-                        hex[h, l, 1] = ladoOpuesto + 1;//le sumo 1 por q el indice de los hexagonos arranca en 1 en comparacion al de las listas que arranca en 0
+                        hex[hexIndex][ lado, 0] = auxI;
+                        hex[hexIndex][lado, 1] = ladoOpuesto + 1;//le sumo 1 por q el indice de los hexagonos arranca en 1 en comparacion al de las listas que arranca en 0
 
                         //seteo el otro hexagono
-                        hex[auxI, hex[h, l, 1], 0] = h;
-                        hex[auxI, hex[h, l, 1], 1] = l;
+                        hex[auxI][hex[hexIndex][lado, 1], 0] = hexIndex;
+                        hex[auxI][hex[hexIndex][lado, 1], 1] = lado;
                     }
-                    else if (hex[h, l, 1] == 0)
+                    else if (hex[hexIndex][lado, 1] == 0)
                     {
-                        hex[h, l, 0] = -1;
+                        hex[hexIndex][lado, 0] = -1;
                     }
                     //print(hexagonos[h, l, 0]);
                 }
@@ -537,9 +530,9 @@ public class LoadMap : MonoBehaviour
         {
             bool auxAislado = true;
 
-            for (int l = 1; l < hex.GetLength(1); l++)
+            for (int l = 1; l < hex[h].GetLength(0); l++)
             {
-                if (hex[h, l, 0] != h)
+                if (hex[h][l, 0] != h)
                 {
                     auxAislado = false;
                 }
@@ -573,3 +566,4 @@ public class LoadMap : MonoBehaviour
 
    
 }
+

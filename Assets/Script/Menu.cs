@@ -59,7 +59,7 @@ public class Menu : MonoBehaviour
             for (int i = 0; i < LoadMap.arrHexCreados.Length; i++)
             {
                 if(LoadMap.arrHexCreados[i]!=null)
-                    LoadMap.arrHexCreados[i].SetActive(false);
+                    LoadMap.arrHexCreados[i].gameObject.SetActive(false);
             }
             
             yield return null;

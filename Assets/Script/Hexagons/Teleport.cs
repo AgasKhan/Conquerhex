@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
-    
     public int id;
 
     //hacia donde se teletransporta, el primer indice es el lado del propio hexagono, y el segundo es el destino (0 para la id y 1 para el lado)
@@ -15,24 +14,38 @@ public class Teleport : MonoBehaviour
 
     public float velocityTransfer;
 
+    Vector2 anguloDefecto;
+
+    public void SetHex(int[,] ladosArray)
+    {
+        for (int ii = 0; ii < ladosArray.GetLength(0) - 1; ii++)
+        {
+            this.ladosArray[ii, 0] = ladosArray[ii + 1, 0];
+            this.ladosArray[ii, 1] = ladosArray[ii + 1, 1] - 1; //Le resto para tener el indice en 0
+
+            //para X e Y
+            this.ladosPuntos[ii, 0] = transform.position.x  + LoadMap.auxCalc[ii, 0];
+            this.ladosPuntos[ii, 1] = transform.position.y + LoadMap.auxCalc[ii, 1];
+        }
+    }
+
+    private void Awake()
+    {
+        //vector que da el angulo por defecto para calcular el hexagono (esta a 120 grados)
+        anguloDefecto = new Vector2(Mathf.Cos((2f / 3f) * Mathf.PI), Mathf.Sin((2f / 3f) * Mathf.PI));
+    }
+
     void OnTriggerStay2D(Collider2D other)
     {
         Rigidbody2D fisicaOther = other.GetComponent<Rigidbody2D>();
         
         if (fisicaOther != null)
         {
-            //StartCoroutine(FixColision(other));
-
-            
-
             float angle;
             float[] difEspejada = new float[2]; //voy a guardar la diferencia para poder espejarlo de forma correcta
             int lado;
             //PrintF log = new PrintF();
-
-            //vector que da el angulo por defecto para calcular el hexagono (esta a 120 grados)
-            Vector2 anguloDefecto = new Vector2(Mathf.Cos((2f / 3f) * Mathf.PI), Mathf.Sin((2f / 3f) * Mathf.PI));
-
+            
             Vector2 vectorSalida = (other.gameObject.transform.position - this.gameObject.transform.position).normalized;
 
             fisicaOther.velocity += Time.deltaTime * velocityTransfer * fisicaOther.velocity.normalized;
@@ -55,12 +68,9 @@ public class Teleport : MonoBehaviour
             Debug.DrawRay(this.gameObject.transform.position, anguloDefecto, Color.red, 30);
 
             if
-            (
-                anguloVelocidad < 180
-                &&
-                anguloVelocidad > 0
-            )
+            (anguloVelocidad < 180 && anguloVelocidad > 0)
             {
+                //tp?.Invoke();
 
                 difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
                 difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.y;
@@ -86,23 +96,8 @@ public class Teleport : MonoBehaviour
                 if (other.CompareTag("Player"))
                 {
                     //AudioManager.instance.Play("transporte");
-                    for (int i = 0; i < LoadMap.arrHexCreados.Length; i++)
-                    {
-                        if (LoadMap.arrHexCreados[i].activeSelf && !(
-                            arrHexTeleport.id == i ||
-                            arrHexTeleport.ladosArray[0, 0] == i ||
-                            arrHexTeleport.ladosArray[1, 0] == i ||
-                            arrHexTeleport.ladosArray[2, 0] == i ||
-                            arrHexTeleport.ladosArray[3, 0] == i ||
-                            arrHexTeleport.ladosArray[4, 0] == i ||
-                            arrHexTeleport.ladosArray[5, 0] == i))
-                        {
-                            LoadMap.arrHexCreados[i].SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
-                            DebugPrint.Log("Desactivando hexagono id: " + i);
-                        }
 
-
-                    }
+                    
 
                     //arrHexTeleport.gameObject.SetActive(true);
 
@@ -113,7 +108,8 @@ public class Teleport : MonoBehaviour
 
                     for (int i = 0; i < LoadMap.instance.renders.Length; i++)
                     {
-                        LoadMap.arrHexCreados[arrHexTeleport.ladosArray[i, 0]].SetActive(true);
+                        LoadMap.arrHexCreados[arrHexTeleport.ladosArray[i, 0]].gameObject.SetActive(true);
+                        LoadMap.activeHex.Add(arrHexTeleport.ladosArray[i, 0],LoadMap.arrHexCreados[arrHexTeleport.ladosArray[i, 0]]);
 
                         LoadMap.instance.renders[i].transform.position = LoadMap.AbsSidePosHex(LoadMap.arrHexCreados[ladosArray[lado, 0]].transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
 
@@ -124,23 +120,30 @@ public class Teleport : MonoBehaviour
 
                         LoadMap.instance.carlitos[i].transform.position = LoadMap.AbsSidePosHex(LoadMap.arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - LoadMap.arrHexCreados[ladosArray[lado, 0]].transform.position);
                     }
+
+
+                    for (int i = LoadMap.activeHex.Count-1; i >= 0; i--)
+                    {
+                        bool off = true;
+
+                        for (int l = 0; l < 6; l++)
+                        {
+                            if (arrHexTeleport.id == LoadMap.activeHex[i].id || arrHexTeleport.ladosArray[l, 0] == LoadMap.activeHex[i].id)
+                            {
+                                off = false;
+                                break;
+                            }
+                        }
+
+                        if (off)
+                        {
+                            LoadMap.arrHexCreados[LoadMap.activeHex[i].id].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+                            LoadMap.activeHex.RemoveAt(i);
+                        }
+                    }
                 }
-                //printeo la info
-                //log.Print();
             }
         }
     }
 
- /*
-    IEnumerator FixColision(Collider2D fix)
-    {
-       
-        Collider2D[] arr = fix.gameObject.GetComponents<Collider2D>();
-        foreach (Collider2D item in arr)
-            item.enabled = false;
-        yield return null;
-        yield return null;
-        foreach (Collider2D item in arr)
-            item.enabled = true;
-    }*/
 }

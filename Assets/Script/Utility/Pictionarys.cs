@@ -14,7 +14,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     [SerializeField]
     List<Pictionary<K, V>> pictionaries;
     
-    public float count
+    public int Count
     {
         get;
         private set;
@@ -183,7 +183,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
             aux++;
         }
 
-        count += aux;
+        Count += aux;
     }
 
     public void Add(K key, V value)
@@ -191,7 +191,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         if (ContainsKey(key))
             return;
         pictionaries.Add(new Pictionary<K, V>(key, value));
-        count++;
+        Count++;
     }
 
     public void Remove(K key)
@@ -202,7 +202,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
             {
                 pictionaries.RemoveAt(i);
 
-                count--;
+                Count--;
 
                 return;
             }
@@ -212,6 +212,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     public void RemoveAt(int i)
     {
         pictionaries.RemoveAt(i);
+        Count--;
     }
 
     public void Clear()
