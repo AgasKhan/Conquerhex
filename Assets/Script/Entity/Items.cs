@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class ItemBase : ScriptableObject ,IShowItem
 {
+    protected System.Type _itemType;
+    protected abstract void SetCreateItemType();
+
     [SerializeField]
     string _nameDisplay;
 
@@ -30,6 +33,20 @@ public abstract class ItemBase : ScriptableObject ,IShowItem
     public virtual Pictionarys<string, string> GetDetails()
     {
         return new Pictionarys<string, string>() { { "Descripcion", _details } };
+    }
+
+    public Item Create() 
+    {
+        var aux = System.Activator.CreateInstance(_itemType) as Item;
+
+        aux.SetItemBase(this);
+
+        return aux;
+    }
+
+    private void Awake()
+    {
+        SetCreateItemType();
     }
 
     private void OnEnable()
@@ -68,7 +85,7 @@ public interface IShowItem
 
 
 [System.Serializable]
-public abstract class Item : IShowItem
+public abstract class Item : IShowItem, Init
 {
     [SerializeField]
     protected ItemBase _itemBase;
@@ -76,6 +93,14 @@ public abstract class Item : IShowItem
     public string nameDisplay => _itemBase.nameDisplay;
 
     public Sprite image => _itemBase.image;
+
+    public void SetItemBase(ItemBase item)
+    {
+        _itemBase = item;
+        Init();
+    }
+
+    public abstract void Init(params object[] param);
 
     public virtual Pictionarys<string, string> GetDetails()
     {
@@ -104,19 +129,13 @@ public abstract class Item : IShowItem
     }
 }
 
-public abstract class Item<T> : Item, Init where T : ItemBase
+public abstract class Item<T> : Item where T : ItemBase
 {
     public T itemBase
     {
         get => (T)_itemBase;
-        set
-        {
-            _itemBase = value;
-            Init();
-        }
+        set => SetItemBase(value);
     }
-
-    public abstract void Init(params object[] param);
 }
 
 public abstract class ItemStackeable<T> : Item<T> where T : ItemBase

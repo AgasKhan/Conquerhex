@@ -42,17 +42,20 @@ public class PoolManager : MonoBehaviour
             }
         }
 
-        public T SpawnPoolObj<T>(out Transform go) where T : Object
+        public Transform SpawnPoolObj<T>(out T go) where T : Object
         {
             var aux = pool[index];
-            go = aux.Obj.transform;
+            go = default;
 
             foreach (var item in aux.auxiliarReference)
             {
                 if (item is T)
-                    return (T)item;
+                {
+                    go = (T)item;
+                    break;
+                }
             }
-            return default;
+            return aux.Obj.transform;
         }
 
         public Transform SpawnPoolObj()
@@ -159,77 +162,49 @@ public class PoolManager : MonoBehaviour
 
     #region "Spawn" pool objects
 
-    static public T SpawnPoolObject<T>(int categoryIndex, string powerObject, Vector3 pos, Quaternion angles) where T : Object
-    {
-        Vector2Int indexs = SrchInCategory(categoryIndex, powerObject);
-
-        return SpawnPoolObject<T>(indexs, pos, angles);
-    }
-
-    static public GameObject SpawnPoolObject(int categoryIndex, string powerObject, Vector3 pos, Quaternion angles)
-    {
-        Vector2Int indexs = SrchInCategory(categoryIndex, powerObject);
-
-        return SpawnPoolObject(indexs, pos, angles);
-    }
-
-    static public GameObject SpawnPoolObject(string type, string powerObject, Vector3 pos, Quaternion angles)
-    {
-        Vector2Int indexs = SrchInCategory(type, powerObject);
-
-        return SpawnPoolObject(indexs, pos, angles);
-    }
-
-    static public GameObject SpawnPoolObject(Vector2Int indexs, Vector3 pos, Quaternion angles, Transform padre = null)
-    {
-
-        if (indexs.x < 0)
-        {
-            Debug.LogWarning("categoria no encontrada");
-            return null;
-        }
-        else if (indexs.y < 0)
-        {
-            Debug.LogWarning("Objeto no encontrado");
-            return null;
-        }
-
-        var pool = instance.categoriesOfPool[indexs.x].objectPool[indexs.y];
+    static public Transform SpawnPoolObject(Vector2Int indexs, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null)
+    { 
+        var pool = InternalSpawnPoolObject(indexs);
 
         Transform transformObject = pool.SpawnPoolObj();
 
-        transformObject.parent = padre;
-        transformObject.localPosition = pos;
-        transformObject.localRotation = angles;
-        transformObject.gameObject.SetActive(true);
+        SetTransform(transformObject, pos, angles, padre);
 
-        return transformObject.gameObject;
+        return transformObject;
     }
 
-    static public T SpawnPoolObject<T>(Vector2Int indexs, Vector3 pos, Quaternion angles, Transform padre = null) where T : Object
+    static public Transform SpawnPoolObject<T>(Vector2Int indexs, out T reference, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null) where T : Object
     {
+        var transform = SpawnPoolObject(indexs, out reference);
 
+        SetTransform(transform, pos, angles, padre);
+
+        return transform;
+    }
+
+    static PoolObjects InternalSpawnPoolObject(Vector2Int indexs)
+    {
         if (indexs.x < 0)
         {
             Debug.LogWarning("categoria no encontrada");
-            return default;
+            return null;
         }
         else if (indexs.y < 0)
         {
             Debug.LogWarning("Objeto no encontrado");
-            return default;
+            return null;
         }
 
-        var pool = instance.categoriesOfPool[indexs.x].objectPool[indexs.y];
+        return instance.categoriesOfPool[indexs.x].objectPool[indexs.y];
+    }
 
-        T obj = pool.SpawnPoolObj<T>(out Transform transform);
-
+    static void SetTransform(Transform transform, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null)
+    {
         transform.parent = padre;
         transform.localPosition = pos;
         transform.localRotation = angles;
-        transform.gameObject.SetActive(true);
 
-        return obj;
+        transform.gameObject.SetActive(true);
     }
     #endregion
 

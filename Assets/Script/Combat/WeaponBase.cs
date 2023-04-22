@@ -53,6 +53,11 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
         Init();
         base.MyEnable();
     }
+
+    protected override void SetCreateItemType()
+    {
+        _itemType = typeof(Weapon);
+    }
     #endregion
 }
 

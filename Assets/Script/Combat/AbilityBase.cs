@@ -22,6 +22,11 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
 
+    protected override void SetCreateItemType()
+    {
+        _itemType = typeof(Ability);
+    }
+
     public override Pictionarys<string, string> GetDetails()
     {
         var aux = base.GetDetails();
@@ -116,8 +121,10 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
 
     public override void Init(params object[] param)
     {
+        if(param.Length>0)
+            this.caster = param[0] as Entity;
+
         cooldown = TimersManager.Create(itemBase.velocity);
-        this.caster = param[0] as Entity;
         _weapon.Init();
     }
 
