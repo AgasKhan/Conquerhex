@@ -33,7 +33,7 @@ abstract public class Proyectile : MonoBehaviour
         {
             foreach (var item in damage.objectSpawner)
             {
-                PoolObjects.SpawnPoolObject(item, transform.position, Quaternion.identity);
+                PoolManager.SpawnPoolObject(item, transform.position, Quaternion.identity);
             }
         }
         damage.objectSpawner = null;

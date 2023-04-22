@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolObjects : MonoBehaviour
+public class PoolManager : MonoBehaviour
 {
     [System.Serializable]
     public class Category
@@ -11,11 +11,11 @@ public class PoolObjects : MonoBehaviour
         public string name;
 
         [SerializeField]
-        public BasePool[] basePools;
+        public PoolObjects[] objectPool;
     }
 
     [System.Serializable]
-    public class BasePool
+    public class PoolObjects
     {
         [Header("configuracion")]
 
@@ -27,7 +27,7 @@ public class PoolObjects : MonoBehaviour
         int _index = 0;
 
         [SerializeReference]
-        PoolObj[] pool;
+        ObjectRefence[] pool;
 
         public int index
         {
@@ -62,22 +62,22 @@ public class PoolObjects : MonoBehaviour
 
         public void Init()
         {
-            pool = new PoolObj[amount];
+            pool = new ObjectRefence[amount];
 
             for (int i = 0; i < pool.Length; i++)
             {
-                pool[i] = new PoolObj(prefab, utilityRefence);
+                pool[i] = new ObjectRefence(prefab, utilityRefence);
             }
         }
     }
 
     [System.Serializable]
-    public class PoolObj
+    public class ObjectRefence
     {
         public GameObject Obj;
         public Object[] auxiliarReference;
 
-        public PoolObj(GameObject prefab, Object[] utilityRefence)
+        public ObjectRefence(GameObject prefab, Object[] utilityRefence)
         {
             Obj = Instantiate(prefab);
 
@@ -99,7 +99,7 @@ public class PoolObjects : MonoBehaviour
     Category[] categoriesOfPool;
 
 
-    static PoolObjects instance;
+    static PoolManager instance;
 
     #region busqueda por categoria
 
@@ -142,9 +142,9 @@ public class PoolObjects : MonoBehaviour
     {
         Vector2Int indexsFind = new Vector2Int(index, -1);
 
-        for (int ii = 0; ii < instance.categoriesOfPool[index].basePools.Length; ii++)
+        for (int ii = 0; ii < instance.categoriesOfPool[index].objectPool.Length; ii++)
         {
-            if (instance.categoriesOfPool[index].basePools[ii].prefab.name == powerObject)
+            if (instance.categoriesOfPool[index].objectPool[ii].prefab.name == powerObject)
             {
                 indexsFind.y = ii;
                 return indexsFind;
@@ -194,7 +194,7 @@ public class PoolObjects : MonoBehaviour
             return null;
         }
 
-        var pool = instance.categoriesOfPool[indexs.x].basePools[indexs.y];
+        var pool = instance.categoriesOfPool[indexs.x].objectPool[indexs.y];
 
         Transform transformObject = pool.SpawnPoolObj();
 
@@ -220,7 +220,7 @@ public class PoolObjects : MonoBehaviour
             return default;
         }
 
-        var pool = instance.categoriesOfPool[indexs.x].basePools[indexs.y];
+        var pool = instance.categoriesOfPool[indexs.x].objectPool[indexs.y];
 
         T obj = pool.SpawnPoolObj<T>(out Transform transform);
 
@@ -233,20 +233,31 @@ public class PoolObjects : MonoBehaviour
     }
     #endregion
 
-    void Start()
+    void Awake()
     {
         instance = this;
 
         if (!eneabled)
             return;
 
+        LoadSystem.AddPostLoadCorutine(GeneratePool);
+    }
+
+    IEnumerator GeneratePool(System.Action<bool> end, System.Action<string> msg)
+    {
+        msg("Starting pool");
+
         foreach (var item in categoriesOfPool)
         {
-            foreach (var subitem in item.basePools)
+            foreach (var subitem in item.objectPool)
             {
+                msg("Loading pool item: " + subitem.prefab.name);
                 subitem.Init();
+                yield return null;
             }
         }
+
+        end(true);
     }
 
 }

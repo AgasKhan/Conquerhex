@@ -11,7 +11,7 @@ public class MuerteDistancia : MonoBehaviour
     // Update is called once per frame
     void Awake()
     {
-        Destroy(this.gameObject, muerte);
+        //Destroy(this.gameObject, muerte);
         rb= GetComponent<Rigidbody2D>();
     }
     private void FixedUpdate()
