@@ -10,7 +10,7 @@ public class Seek : MonoBehaviour
     protected Vector2 _desiredVelocity;
     protected Vector2 _steering;
 
-    protected Vector3 CalculateSteering(Vector2 target)
+    protected Vector2 CalculateSteering(Vector2 target)
     {
         //_desiredVelocity = Direction(target).normalized * _maxSpeed;
 
@@ -19,16 +19,6 @@ public class Seek : MonoBehaviour
         //return AddVelocity(_steering);
 
         return Vector2.ClampMagnitude((target.normalized * move.maxSpeed) - move.vectorVelocity, move.aceleration.current);
-    }
-
-    Vector2 Direction(Vector3 targetPos, float multiply = 1)
-    {
-
-        Vector2 _direction = (targetPos - transform.position).Vect3To2();
-
-        _direction *= multiply;
-
-        return _direction;
     }
 
     protected void Arrive(Vector3 target)
@@ -47,35 +37,38 @@ public class Seek : MonoBehaviour
         move.Velocity(vecVelocity);
     }
 
-    protected Vector2 DirectionFlee(MoveAbstract targetPos)
-    {
-        return Direction(targetPos.transform.position, -1);
-    }
-
     protected Vector2 DirectionSeek(MoveAbstract targetPos)
     {
         return Direction(targetPos.transform.position, 1);
     }
 
+    protected Vector2 DirectionFlee(MoveAbstract targetPos)
+    {
+        return Direction(targetPos.transform.position, -1);
+    }
+
     protected Vector2 DirectionPursuit(MoveAbstract targetPos)
     {
+        //Calculo la distancia hacia el objetivo
         var ourDir = Direction(targetPos.transform.position, 1);
 
-        // var tarPos = base.DirectionPursuit(pos.position);
+        //Saco la distancia según dónde estará el enemigo que va a una determinada velocidad
+        Vector2 _directionToTarget = (targetPos.transform.position).Vect3To2() + targetPos.vectorVelocity - transform.position.Vect3To2();
+
+        //Realizo una proyección del vector entre el punto donde estará el enemigo y nuestra posición actual
+        Vector2 aux = Vector3.Project(_directionToTarget, ourDir);
+
+        //Sumo el vector posición nuestra junto a la posición futura del enemigo y le resto la proyección para interceptarlo en caso de estar cerca o gire bruscamente
+        Vector2 _directionToGo = ourDir + _directionToTarget - aux;
 
 
-        //Vector2 _direction = Vector3.Project(tarPos + base.AddVelocity(targetPos), base.AddVelocity(targetPos)).Vect3To2();
-        Vector2 _direction = Vector3.Project((Vector2)targetPos.transform.position + targetPos.vectorVelocity, transform.position).Vect3To2();
-        Vector2 _directionToGo = ourDir - _direction;
+        //Vector2 agentToTarget = _directionToGo - (Vector2)transform.position; 
 
-
-        Vector2 agentToTarget = _direction - (Vector2)transform.position; //_pursuitTarget.transform.position - transform.position;
-
-        //Si la distancia al agente es < distancia al punto del Pursuit podemos usar Seek
-        if (agentToTarget.sqrMagnitude <= targetPos.vectorVelocity.sqrMagnitude)
-        {
-            return ourDir;
-        }
+        ////Si la distancia al objetivo es menor a la distancia al punto del Pursuit podemos usar Seek
+        //if (agentToTarget.sqrMagnitude <= targetPos.vectorVelocity.sqrMagnitude)
+        //{
+        //    return ourDir;
+        //}
 
         return _directionToGo;
     }
@@ -83,6 +76,16 @@ public class Seek : MonoBehaviour
     protected Vector2 DirectionEvade (MoveAbstract targetPos)
     {
         return -DirectionPursuit(targetPos);
+    }
+
+    Vector2 Direction(Vector3 targetPos, float multiply = 1)
+    {
+
+        Vector2 _direction = (targetPos - transform.position).Vect3To2();
+
+        _direction *= multiply;
+
+        return _direction;
     }
 
 }
