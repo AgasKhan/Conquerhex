@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 152366516}
   - component: {fileID: 152366515}
   - component: {fileID: 152366518}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Boid (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -565,6 +565,7 @@ GameObject:
   - component: {fileID: 553593062}
   - component: {fileID: 553593064}
   - component: {fileID: 553593063}
+  - component: {fileID: 553593065}
   m_Layer: 0
   m_Name: Enem
   m_TagString: Untagged
@@ -580,7 +581,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553593060}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.77, y: -4, z: 0}
+  m_LocalPosition: {x: -9, y: -2.2113333, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -675,12 +676,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: {fileID: 553593063}
-  _viewRadius: 10
   _totalWaypoints:
   - {fileID: 1884210288}
   - {fileID: 910548548}
   - {fileID: 1857428518}
   _target: {fileID: 619941232}
+--- !u!114 &553593065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553593060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f400e9c831ab644ab813547fde3910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 4.83
+  viewAngle: 65
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  obstableMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  visibleTargets: []
 --- !u!1 &579155439
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,7 +714,7 @@ GameObject:
   - component: {fileID: 579155441}
   - component: {fileID: 579155440}
   - component: {fileID: 579155443}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Boid (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +835,7 @@ GameObject:
   - component: {fileID: 619941231}
   - component: {fileID: 619941233}
   - component: {fileID: 619941234}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Boid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1081,7 +1102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 910548548}
   - component: {fileID: 910548547}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Circle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1823,10 +1844,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823b35b893a99fe4dbd1c49dae0984be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _obj:
-    tr: {fileID: 538370413}
-    prev: {x: 0, y: 0}
-    velocity: {x: 0, y: 0}
+  obj: {fileID: 0}
+  me: {fileID: 0}
   carlitos: []
   _maxSpeed: 10
   _desaceleration: 1
@@ -1912,7 +1931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1857428518}
   - component: {fileID: 1857428517}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Circle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1997,7 +2016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1884210288}
   - component: {fileID: 1884210287}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
