@@ -41,4 +41,3 @@ public abstract class WorkEntiy : MonoBehaviour, IState<FSMWork>
     public abstract void OnExitState(FSMWork param);
     public abstract void OnStayState(FSMWork param);
 }
-

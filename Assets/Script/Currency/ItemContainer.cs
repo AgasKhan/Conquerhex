@@ -2,48 +2,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ItemContainer : MonoBehaviour, IItemContainer
+public class ItemContainer : MonoBehaviour
 {
-    StaticEntity customer;
+    [SerializeField]
+    public StaticEntity character;
+
+
+    //Solo con fines de prueba
+    [SerializeField]
+    Resources_Item characterItem;
 
     private void Awake()
     {
-        customer = GetComponent<StaticEntity>();
+        characterItem.Init();
     }
 
-    public void AddItems(Item item, int amount)
+    private void Start()
     {
-        for (int i = 0; i < amount; i++)
-        {
-            customer.inventory.Add(item);
-        }
+        //Solo con fines de prueba
+        LoadSystem.AddPostLoadCorutine((Action)(() =>
+            {
+                character.AddOrSubstractItems((string)characterItem.nameDisplay, (int)30);
+                character.AddOrSubstractItems((string)characterItem.nameDisplay, (int)30);
+            })
+        
+        );
     }
-    public void RemoveItems(Item item, int amount)
-    {
-        for (int i = 0; i < amount; i++)
-        {
-            customer.inventory.Remove(item);
-        }
-    }
-
-    public bool ContainsItem(Item item)
-    {
-        return customer.inventory.Contains(item);
-    }
-
-    public int ItemCount(Item item)
-    {
-        throw new NotImplementedException();
-    }
-
-}
-
-
-
-public interface IItemContainer
-{
-    bool ContainsItem(Item item);
-    int ItemCount(Item item);
-    void RemoveItems(Item item, int amount);
-    void AddItems(Item item, int amount);
 }

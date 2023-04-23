@@ -221,6 +221,4 @@ public static class Extensions
 
         return aux;
     }
-
-    
 }

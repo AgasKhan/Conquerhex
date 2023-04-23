@@ -2,14 +2,88 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StaticEntity : Entity
+public abstract class StaticEntity : Entity, IItemContainer
 {
     public Pictionarys<string,LogicActive> interact; //funciones de un uso para la interaccion
 
-    public List<Item> inventory;
+    public List<Item> inventory = new List<Item>();
 
     [SerializeField]
     Pictionarys<string, LogicActive> actions; //funciones de un uso para cuestiones internas
+
+    public bool ContainsItem(Item item)
+    {
+        return inventory.Contains(item);
+    }
+
+    public int ItemCount(string itemName)
+    {
+        int amount = 0;
+
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].nameDisplay == itemName)
+            {
+                inventory[i].GetAmounts(out int actual, out int max);
+                amount += actual;
+            }
+        }
+        return amount;
+    }
+
+    public void AddOrSubstractItems(string itemName, int amount)
+    {
+        ItemBase myItemBase = null;
+
+        for (int i = inventory.Count - 1; i >= 0; i--)
+        {
+            if (itemName == inventory[i].nameDisplay)
+            {
+                amount = inventory[i].AddAmount(amount);
+                myItemBase = inventory[i].GetItemBase();
+
+                inventory[i].GetAmounts(out int actual, out int max);
+
+                if (actual <= 0)
+                {
+                    inventory.RemoveAt(i);
+                }
+                
+                if (amount == 0)
+                    return;
+            }
+        }
+
+        if (myItemBase == null)
+        {
+            if (amount < 0)
+            {
+                Debug.LogWarning("No posees el item: " + itemName);
+                return;
+            }
+            else
+            {
+                myItemBase = Manager<ItemBase>.pic[itemName];
+            }
+        }
+
+        AddOrCreate(myItemBase, amount);
+
+        Debug.Log(string.Join("", inventory));
+    }
+
+    void AddOrCreate(ItemBase itemBase, int amount)
+    {
+        if (amount > 0)
+        {
+            inventory.Add(itemBase.Create());
+
+            amount = inventory[inventory.Count - 1].AddAmount(amount - 1);
+
+            AddOrCreate(itemBase, amount);
+        }
+    }
+
 }
 
 
@@ -36,3 +110,10 @@ public abstract class StaticEntityWork : StaticEntity
     }
 }
 
+
+public interface IItemContainer
+{
+    bool ContainsItem(Item item);
+    int ItemCount(string item);
+    void AddOrSubstractItems(string item, int amount);
+}

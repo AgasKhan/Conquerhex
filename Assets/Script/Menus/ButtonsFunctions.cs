@@ -55,11 +55,11 @@ public class ButtonsFunctions : MonoBehaviour
             {"SaveGame", SaveGame},
             {"MenuInGame", PauseMenu},
 
-
-
             {"Ejemplo", DisplayWindow},
             {"Ejemplo2", DisplayWindow},
-            
+            {"BuyItem", BuyItem},
+            {"EquipItem", EquipItem},
+
             //Dragable Buttons
             {"ShowWindow", ShowWindow},
 
@@ -67,6 +67,20 @@ public class ButtonsFunctions : MonoBehaviour
             {"Tutorial", DisplayWindow}
 
         });
+    }
+
+    void BuyItem(GameObject g)
+    {
+        Store.instance.BuyAnItem(g.transform.parent.name);
+        //g.name = "EquipItem";
+    }
+
+    void EquipItem(GameObject g)
+    {
+        //Verificar si ya esta equipada
+
+        var aux = g.GetComponent<UnityEngine.UI.Button>();
+        aux.interactable = false;
     }
 
     void LoadGame(GameObject g)

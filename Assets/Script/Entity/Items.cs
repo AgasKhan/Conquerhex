@@ -21,11 +21,12 @@ public abstract class ItemBase : ShowDetails
 
     private void Awake()
     {
-        SetCreateItemType();
+        
     }
 
     private void OnEnable()
     {
+        SetCreateItemType();
         MyEnable();
     }
 
@@ -59,7 +60,7 @@ public abstract class ItemBase : ShowDetails
 public abstract class Item : IShowDetails, Init
 {
     [SerializeField]
-    protected ItemBase _itemBase;
+    private ItemBase _itemBase;
 
     public string nameDisplay => _itemBase.nameDisplay;
 
@@ -96,9 +97,14 @@ public abstract class Item : IShowDetails, Init
         return amount;
     }
 
+    public ItemBase GetItemBase()
+    {
+        return _itemBase;
+    }
+
     public override string ToString()
     {
-        return _itemBase.ToString();
+        return nameDisplay + "\n\n" + GetDetails().ToString(": " ,"\n") + "\n";
     }
 }
 
@@ -106,24 +112,28 @@ public abstract class Item<T> : Item where T : ItemBase
 {
     public T itemBase
     {
-        get => (T)_itemBase;
+        get => (T)GetItemBase();
         set => SetItemBase(value);
     }
 }
 
 public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 {
-    int actual;
+    int actual = 1;
 
     public override int AddAmount(int amount)
     {
         actual += amount;
         int resto = 0;
 
-        if (actual > _itemBase.maxAmount)
+        if (actual > itemBase.maxAmount)
         {
-            resto = actual - _itemBase.maxAmount;
-            actual = _itemBase.maxAmount;
+            resto = actual - itemBase.maxAmount;
+            actual = itemBase.maxAmount;
+        }
+        else if (actual <= 0)
+        {
+            resto = actual;
         }
 
         return resto;
@@ -131,7 +141,15 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 
     public override void GetAmounts(out int actual, out int max)
     {
-        max = _itemBase.maxAmount;
+        max = itemBase.maxAmount;
         actual = this.actual;
+    }
+
+    public override Pictionarys<string, string> GetDetails()
+    {
+        var aux = base.GetDetails();
+        aux.Add("Cantidad: ", actual + " / "+ itemBase.maxAmount);
+
+        return aux;
     }
 }
