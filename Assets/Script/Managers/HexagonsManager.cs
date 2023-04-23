@@ -84,20 +84,20 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         int[][,] hex = hexagonos;
 
         bool aislado = false;
-        /*
-        if (comprobacion)
+
+        //if (comprobacion)
             for (int h = 0; h < hex.GetLength(0); h++)
             {
-                for (int l = 0; l < hex.GetLength(1); l++)
+                for (int l = 0; l < hex[h].GetLength(0); l++)
                 {
-                    for (int i = 0; i < hex.GetLength(2); i++)
+                    for (int i = 0; i < hex[h].GetLength(1); i++)
                     {
-                        hex[h, l, i] = 0;
+                        hex[h][l, i] = 0;
                     }
                 }
 
             }
-        */
+
 
         for (int i = 0; i < disponibles.Length; i++)
         {
@@ -178,6 +178,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                     }
                     //print(hexagonos[h, l, 0]);
                 }
+
+
+
             }
         }
         //correcion si por casualidad un hexagono se vinculo totalmente asi mismo
@@ -201,13 +204,12 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         if (ImprimirHexagonos(hex) || (aislado && hex.GetLength(0) > 1))
         {
             DebugPrint.Warning("Generacion no grata, rearmando");
-            Debug.LogWarning("warning");
-            /*
-            StopCoroutine(VincularHexagonos());
-            VincularHexagonos(true);
-            */
+            Debug.LogWarning("warning, rearmando");
 
-            msg("error de generacion");
+            msg("Generacion no grata, rearmando");
+            yield return null;
+            yield return new WaitForCorutines(this,VincularHexagonos,(s)=>msg(s));
+            msg("rearmando exitoso");
         }
         else
         {
