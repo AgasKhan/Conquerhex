@@ -219,6 +219,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         end(true);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="hexagonos"></param>
+    /// <returns></returns>
     bool ImprimirHexagonos(int[][,] hexagonos)
     {
         /*

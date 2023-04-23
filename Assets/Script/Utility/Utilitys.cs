@@ -40,7 +40,6 @@ public static class Utilitys
     /// <returns>retorna la diferencia absoluta entre el angulo y la rotacion del objeto</returns>
     static public float DeltaAngle(Vector3 dir, Vector3 from, out float angle, Vector3 axis, Quaternion MyRot)
     {
-
         angle = AngleOffAroundAxis(from, dir, axis);
 
         angle = angle < 0 ? 360 + angle : angle;
@@ -67,6 +66,13 @@ public static class Utilitys
         return DeltaAngle(dir, Vector3.forward, out angle,  Vector3.up, MyRot);
     }
 
+
+    /// <summary>
+    /// devuelve la diferencia real entre angulos de 2 vectores (OJO QUE ESTA FUNCION SOLO SIRVE CON VECTOR2)
+    /// </summary>
+    /// <param name="vec1"></param>
+    /// <param name="vec2"></param>
+    /// <returns></returns>
     public static float DifAngulosVectores(Vector2 vec1, Vector2 vec2)
     {
         float angle = Vector2.SignedAngle(vec1, vec2);
@@ -75,11 +81,16 @@ public static class Utilitys
     }
 
 
-
+    /// <summary>
+    /// Calcula un vector 2 en base al angulo y su magnitud
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
     public static Vector2 VecFromDegs(float x, float m = 1)
     {
         x *= Mathf.Deg2Rad;
-        return new Vector2(Mathf.Cos(x) * m, Mathf.Sin(x) * m);
+        return new Vector2(Mathf.Cos(x),Mathf.Sin(x))*m;
     }
 
 
