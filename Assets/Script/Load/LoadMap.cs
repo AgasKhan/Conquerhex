@@ -142,7 +142,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
             //textMesh = arrHexCreados[i].GetComponentsInChildren<TextMeshProUGUI>();
 
-            arrHexTeleport = arrHexCreados[i].GetComponent<Teleport>();
+            arrHexTeleport = arrHexCreados[i];
 
             arrHexCreados[i].transform.position = CalculateHexagonoPos(i);
 

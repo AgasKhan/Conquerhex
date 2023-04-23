@@ -6,7 +6,9 @@ public enum Behaviour { Seek, Flee };
 public class Hunter : MonoBehaviour
 {
     [SerializeField]
-    public Vector2Quad _obj;
+    public MoveAbstract obj;
+
+    public MoveAbstract me;
 
     [SerializeField]
     public List<Vector3> carlitos= new List<Vector3>(); 
@@ -19,7 +21,6 @@ public class Hunter : MonoBehaviour
 
     Vector2 _desiredVelocity;
     Vector2 _steering ;
-    Vector2 _velocity = Vector2.zero;
 
     public Behaviour desiredBehav = Behaviour.Seek;
 
@@ -31,73 +32,37 @@ public class Hunter : MonoBehaviour
     {
         _desiredVelocity = Vector2.ClampMagnitude(Direction(), _maxSpeed);
 
-        if (_desiredVelocity.sqrMagnitude < _velocity.sqrMagnitude / (_desaceleration* _desaceleration))
-            _desiredVelocity = -_velocity*(_desaceleration-1);
+        if (_desiredVelocity.sqrMagnitude < me.vectorVelocity.sqrMagnitude / (_desaceleration* _desaceleration))
+            _desiredVelocity = -me.vectorVelocity * (_desaceleration-1);
 
-        _steering = _desiredVelocity - _velocity;
+        _steering = _desiredVelocity - me.vectorVelocity;
 
-        AddVelocity(_steering);
+        me.Acelerator(_steering);
     }
 
     public void Seek(float mukltiply)
     {
         _desiredVelocity = Direction(mukltiply).normalized * _maxSpeed;
 
-        _steering = _desiredVelocity - _velocity;
+        _steering = _desiredVelocity - me.vectorVelocity;
 
-        AddVelocity(_steering);
+        me.Acelerator(_steering);
     }
 
-    Vector2 Direction(float mukltiply=1)
+    Vector2 Direction(float multiply=1)
     {
         if (carlitos.Count<=0)
             return Vector2.zero;
 
         Vector2 _direction = (carlitos[carlitos.Count - 1] - transform.position).Vect3To2();
 
-        _direction *= mukltiply;
+        _direction *= multiply;
 
         if (carlitos.Count > 1 && _direction.sqrMagnitude < 0.1f* 0.1f)
             carlitos.RemoveAt(carlitos.Count-1);
 
         return _direction;
     }
-
-    void AddVelocity(Vector2 velocity)
-    {
-        _velocity += velocity * Time.deltaTime;//sumo la velocidad en metros por segundo
-    }
-
-    private void Locomotion()
-    {
-        transform.position += (_velocity * Time.deltaTime).Vec2to3(0);//me muevo en metros por segundo
-    }
-
-
-    /*
-    void Manolo(float mukltiply)
-    {
-        Vector2 _direction = (_obj.tr.position - transform.position).Vect3To2() + _obj.velocity;
-
-        _direction *= mukltiply;
-
-        _steering = _direction - _velocity;
-
-        if (_steering.sqrMagnitude> _aceleration * _aceleration)
-            _steering = Vector2.ClampMagnitude(_steering, _aceleration);
-
-        _velocity += _steering;
-    }
-
-
-    private void Move()
-    {
-        if (_velocity.sqrMagnitude > _maxSpeed * _maxSpeed)
-            _velocity = Vector2.ClampMagnitude(_velocity, _maxSpeed);
-
-        transform.position += (_velocity * Time.deltaTime).Vec2to3(0);
-    }
-    */
 
     private void Start()
     {
@@ -110,26 +75,18 @@ public class Hunter : MonoBehaviour
     {
         Arrive();
 
-        _obj.LoadVelocity();
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, obj.transform.position - transform.position);
 
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, _obj.tr.position - transform.position);
-
-        if (raycastHit2D.transform == _obj.tr)
+        if (raycastHit2D.transform == obj.transform)
         {
             fsmCarlitos.CurrentState = fsmCarlitos.persecucion;
-
         }
         else
         {
             fsmCarlitos.CurrentState = fsmCarlitos.vuelta;
         }
 
-        Debug.DrawRay(transform.position, _obj.tr.position-transform.position);
-
-        
-
-        Locomotion();
-
+        Debug.DrawRay(transform.position, obj.transform.position-transform.position);
     }
 
     private void FixedUpdate()
@@ -146,7 +103,6 @@ public class Hunter : MonoBehaviour
             Gizmos.DrawSphere(item, 0.1f);
         }
     }
-
 }
 
 
@@ -170,7 +126,7 @@ public class Persecucion : IState<Carlitos>
             return;
 
         param.context.carlitos.Add(param.context.transform.position);
-        param.context.carlitos.Add(param.context._obj.tr.position);
+        param.context.carlitos.Add(param.context.obj.transform.position);
     }
 
     public void OnExitState(Carlitos param)
@@ -179,7 +135,7 @@ public class Persecucion : IState<Carlitos>
 
     public void OnStayState(Carlitos param)
     {
-        param.context.carlitos[param.context.carlitos.Count - 1] = param.context._obj.prev;
+        param.context.carlitos[param.context.carlitos.Count - 1] = param.context.obj.transform.position;
 
         Vector3 dir = param.context.carlitos[param.context.carlitos.Count - 3] - param.context.transform.position;
 

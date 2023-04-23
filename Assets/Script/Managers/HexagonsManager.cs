@@ -201,7 +201,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         if (ImprimirHexagonos(hex) || (aislado && hex.GetLength(0) > 1))
         {
             DebugPrint.Warning("Generacion no grata, rearmando");
-            DebugPrint.Warning("warning");
+            Debug.LogWarning("warning");
             /*
             StopCoroutine(VincularHexagonos());
             VincularHexagonos(true);
