@@ -16,6 +16,13 @@ public class JoyController : MonoBehaviour
     [SerializeField]
     [Range(0.05f, 1)]
     float deadzone;
+
+    public VirtualControllers.AxisButton axisButton
+    {
+        get => stick.AxisButton;
+        private set => stick.AxisButton = value;
+    }
+
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -26,6 +33,6 @@ public class JoyController : MonoBehaviour
 
         stick.minMagnitud = stick.maxMagnitud * deadzone;
 
-        stick.AxisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
+        axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
     }
 }
