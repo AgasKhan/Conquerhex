@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FeedbackButton : MonoBehaviour
+public class FeedbackButton : MonoBehaviour, IControllerDir
 {
     [SerializeReference]
     Image sprite;
@@ -17,27 +17,22 @@ public class FeedbackButton : MonoBehaviour
     {
         var aux = GetComponent<JoyController>();
 
-        aux.axisButton.eventUp += Controloador_up;
-
-        aux.axisButton.eventDown += Controloador_down;
-
-        aux.axisButton.eventPress += AxisButton_eventPress;
+        aux.axisButton.SuscribeController(this);
 
         _default = sprite.color;
     }
-
-    private void AxisButton_eventPress(Vector2 arg1, float arg2)
-    {
-        
-    }
-
-    private void Controloador_up(Vector2 arg1, float arg2)
-    {
-        sprite.color = _default;
-    }
-
-    private void Controloador_down(Vector2 arg1, float arg2)
+    public void ControllerDown(Vector2 dir, float tim)
     {
         sprite.color = apreto;
+    }
+
+    public void ControllerPressed(Vector2 dir, float tim)
+    {
+       
+    }
+
+    public void ControllerUp(Vector2 dir, float tim)
+    {
+        sprite.color = _default;
     }
 }
