@@ -20,6 +20,34 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         private set;
     }
 
+    public K[] keys
+    {
+        get
+        {
+            List<K> keys = new List<K>();
+            foreach (var item in pictionaries)
+            {
+                keys.Add(item.key);
+            }
+
+            return keys.ToArray();
+        }
+    }
+
+    public V[] values
+    {
+        get
+        {
+            List<V> values = new List<V>();
+            foreach (var item in pictionaries)
+            {
+                values.Add(item.value);
+            }
+
+            return values.ToArray();
+        }
+    }
+
     /// <summary>
     /// busca por el orden de la lista
     /// </summary>

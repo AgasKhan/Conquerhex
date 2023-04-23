@@ -36,9 +36,9 @@ public abstract class SingletonClass<T> where T : SingletonClass<T>
 public class Manager : SingletonMono<Manager>
 {
     [SerializeField]
-    Pictionarys<string, object> _pic = new Pictionarys<string, object>();
+    Pictionarys<string, string[]> _pic = new Pictionarys<string, string[]>();
 
-    static public Pictionarys<string, object> pic
+    static public Pictionarys<string, string[]> pic
     {
         get
         {
@@ -63,7 +63,7 @@ public class Manager<T> : SingletonClass<Manager<T>>
 
     public Manager()
     {
-        LoadSystem.AddPostLoadCorutine(() => Manager.pic.Add(typeof(T).Name, this));
+        LoadSystem.AddPostLoadCorutine(() => Manager.pic.Add(typeof(T).Name, _pic.keys));
     }
 
     public static Pictionarys<string, object> SearchByType(System.Type type)

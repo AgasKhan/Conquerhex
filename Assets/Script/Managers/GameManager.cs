@@ -230,6 +230,7 @@ static class DebugPrint
 
 }
 
+
 struct PrintF
 {
     string pantalla;
