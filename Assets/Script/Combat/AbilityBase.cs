@@ -42,8 +42,9 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
 
     protected void Attack(Entity caster, Vector2 direction, Weapon weapon)
     {
-        //instacio particulas y bla bla
+        //instacio particulas
 
+        Instantiate(particles, caster.transform.position, Quaternion.identity);
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 

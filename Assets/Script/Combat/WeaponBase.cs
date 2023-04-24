@@ -50,8 +50,8 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
 
     protected override void MyEnable()
     {
-        Init();
         base.MyEnable();
+        Init();
     }
 
     protected override void SetCreateItemType()
