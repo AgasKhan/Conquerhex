@@ -5,9 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Cut")]
 public class Cut : AbilityBase
 {
-    private bool isCuting = false; 
-
-    private float cutRange;
     /*
     Entity caster: ENTIDAD QUE USA LA HABILIDAD
     Vector2 dir: HACIA DONDE APUNTA LA HABILIDAD
@@ -18,53 +15,34 @@ public class Cut : AbilityBase
 
     public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        cooldownEnd.Set(3.5f, true);
-
-        if (cooldownEnd.current == 0)
-        {
-
-            isCuting = true; 
-
-        }
-
+        Debug.Log("presionaste ataque 1, CUT");
     }
 
     public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        dir = dir.normalized; 
-
-        InternalAttack(caster, dir, damages);
-
-        weapon.Durability(5);
+        Debug.Log("estas manteniendo ataque 1, CUT");
     }
 
     public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        isCuting = false;
+        Debug.Log("Soltaste ataque 1, CUT");
 
-        cooldownEnd.Start();
+        //comienza a bajar el cooldown
 
-        cooldownEnd.SubsDeltaTime();
+        weapon.Durability(5);
+
+        if (cooldownEnd.Chck)
+        {
+            cooldownEnd.Reset();
+
+            Attack(caster, dir, weapon);
+        }
     }
 
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        if (isCuting && direction == direction.normalized)
-        {
-            RaycastHit[] hits = Physics.SphereCastAll(caster.transform.position, cutRange, direction, 0f);
+        var aux = detect.Area(caster.transform.position, (tr) => { return caster.transform != tr; });
 
-            foreach (RaycastHit hit in hits)
-            {
-                Health health = hit.collider.gameObject.GetComponent<Health>();
-                if (health != null)
-                {
-                    foreach (Damage damage in damages)
-                    {
-
-                        //Entity.TakeDamage(damage);
-                    }
-                }
-            }
-        }
+        Damage(ref damages, aux);
     }
 }

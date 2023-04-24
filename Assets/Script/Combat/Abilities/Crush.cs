@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/Stab")]
-public class Stab : AbilityBase
+[CreateAssetMenu(menuName = "Abilities/Crush")]
+public class Crush : AbilityBase
 {
     /*
     Entity caster: ENTIDAD QUE USA LA HABILIDAD
@@ -13,27 +13,25 @@ public class Stab : AbilityBase
     Timer cooldownEnd: EL TIEMPO DE REUTILIZACION DE LA HABILIDAD
      */
 
-    //Cuandos
-    //Antes, al apretar el boton
-    public override void ControllerDown (Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        Debug.Log("presionaste ataque 1, STAB");
+        Debug.Log("presionaste ataque 1, CRUSH");
     }
 
     //Durante, al mantener y moverlo
     public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        Debug.Log("estas manteniendo ataque 1, STAB");    
+        Debug.Log("estas manteniendo ataque 1, CRUSH");
     }
 
     //Despues, al sotarlo
     public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        Debug.Log("Soltaste ataque 1, STAB");
+        Debug.Log("Soltaste ataque 1, CRUSH");
 
         //comienza a bajar el cooldown
 
-        weapon.Durability();
+        weapon.Durability(3);
 
         if (cooldownEnd.Chck)
         {
@@ -43,12 +41,10 @@ public class Stab : AbilityBase
         }
     }
 
-    //Como se efectua la habilidad
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        var aux = detect.Area(caster.transform.position, (tr) => { return caster.transform != tr; });
 
-        Damage(ref damages, aux);
+
+
     }
 }
-
