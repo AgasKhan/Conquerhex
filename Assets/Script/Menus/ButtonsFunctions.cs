@@ -91,6 +91,8 @@ public class ButtonsFunctions : MonoBehaviour
         //Se obtiene el componente "Button" del "GameObject"
         var aux = g.GetComponent<UnityEngine.UI.Button>();
 
+        BaseData.storeItems.Remove(g.transform.parent.name);
+
         aux.interactable = false;
     }
 
@@ -100,7 +102,9 @@ public class ButtonsFunctions : MonoBehaviour
         //Verificar si ya esta equipada
         var character = GameManager.instance.player.GetComponent<Character>();
 
-        if(character.prin.weapon.nameDisplay == g.transform.parent.name)
+        BaseData.playerInventory.Add(g.transform.parent.name);
+
+        if (character.prin.weapon.nameDisplay == g.transform.parent.name)
         {
 
         }

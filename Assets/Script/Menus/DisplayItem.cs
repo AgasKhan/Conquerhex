@@ -33,6 +33,13 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
         {
             myItem = Manager<ItemBase>.pic[transform.parent.name];
             myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
+
+
+            if (BaseData.storeItems.ContainsKey(myItem.nameDisplay))
+            {
+
+            }
+
         }
         else
             Debug.Log("No se encontro el item: " + transform.parent.name);
