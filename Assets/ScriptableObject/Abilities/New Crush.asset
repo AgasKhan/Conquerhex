@@ -9,27 +9,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 130cb119361f13c43b92038afecd410b, type: 3}
-  m_Name: New Kick
+  m_Script: {fileID: 11500000, guid: 1e0362914bd55b247b87f7d9c8a4d0b4, type: 3}
+  m_Name: New Crush
   m_EditorClassIdentifier: 
-  _nameDisplay: Kick
+  _nameDisplay: Crush
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
   damages:
-  - amount: 3
+  - amount: 5
     type: 1
-  velocity: 0
+  velocity: 5
   joystick: 0
-  particles: {fileID: 0}
+  particles: {fileID: 8381359565195705839, guid: 183101fd64e969647aa940efe49fbb7e,
+    type: 3}
   detect:
-    radius: 0
-    distance: 0
+    radius: 1
+    distance: 1
     layerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
     maxDetects: -1
-    minDetects: 1
+    minDetects: 3
   damagesMultiply:
-  - amount: 0.5
+  - amount: 2
     type: 1
+  - amount: 0
+    type: 0
+  - amount: 0
+    type: 2

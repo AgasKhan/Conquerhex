@@ -237,7 +237,7 @@ public class Detect<T>
         {
             var aux = RayTransform(pos, (caster - pos), (caster - pos).magnitude);
 
-            if (!chck(aux[0]))
+            if ( aux != null && aux.Length > 0 && !chck(aux[0]))
             {
                 damageables.RemoveAt(i);
             }

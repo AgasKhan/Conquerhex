@@ -46,7 +46,7 @@ public class Stab : AbilityBase
     //Como se efectua la habilidad
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        var aux = detect.Area(caster.transform.position, (tr) => { return caster.transform != tr; });
+        var aux = detect.Area(caster.transform.position, (tr) => {return caster.transform != tr; });
 
         Damage(ref damages, aux);
     }

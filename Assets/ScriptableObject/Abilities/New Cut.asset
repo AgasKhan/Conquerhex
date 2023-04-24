@@ -12,22 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6188f181b43bdaa439c5c2c1eaf0f864, type: 3}
   m_Name: New Cut
   m_EditorClassIdentifier: 
-  _nameDisplay: 
+  _nameDisplay: Cut
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
   damages:
   - amount: 5
     type: 0
-  velocity: 0
+  velocity: 1
   joystick: 0
-  particles: {fileID: 0}
+  particles: {fileID: 7116390312251845958, guid: a30819a81c72f2a4fae239b14b9e7767,
+    type: 3}
   detect:
-    radius: 0
-    distance: 0
+    radius: 1
+    distance: 1
     layerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
     maxDetects: -1
     minDetects: 1
   damagesMultiply:
