@@ -29,7 +29,8 @@ public class Stab : AbilityBase
             isStabbing = true; // El jugador está preparándose para apuñala
 
         }
-        
+
+        Debug.Log("presionaste ataque 1");
 
     }
 
@@ -41,6 +42,8 @@ public class Stab : AbilityBase
         InternalAttack(caster, dir, damages);
 
         weapon.Durability();
+
+        Debug.Log("estas manteniendo ataque 1");
     }
 
     //Despues, al sotarlo
@@ -53,6 +56,8 @@ public class Stab : AbilityBase
 
         cooldownEnd.SubsDeltaTime();
         //comienza a bajar el cooldown
+
+        Debug.Log("Soltaste ataque 1");
     }
 
     //Como se efectua la habilidad

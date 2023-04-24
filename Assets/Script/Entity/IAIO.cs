@@ -20,11 +20,14 @@ public class IAIO : MonoBehaviour, IState<Character>
 
     public void OnExitState(Character param)
     {
+        VirtualControllers.principal.DesuscribeController(param.prin);
+        VirtualControllers.secondary.DesuscribeController(param.sec);
+        VirtualControllers.terciary.DesuscribeController(param.ter);
+        VirtualControllers.movement.DesuscribeController(param.move);
     }
 
     public void OnStayState(Character param)
     {
         
     }
-
 }

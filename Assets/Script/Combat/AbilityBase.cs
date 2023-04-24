@@ -73,6 +73,14 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         }
     }
 
+    /*
+    /// <summary>
+    /// En caso de ser verdadero le estoy diciendo a la IA que puede ATACAR
+    /// </summary>
+    /// <param name="caster"></param>
+    /// <returns></returns>
+    public abstract bool IADetect(Entity caster);
+    */
     public abstract void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
     public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
     public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
@@ -85,7 +93,8 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
     public event System.Action<Weapon> equipedWeapon;
     public event System.Action<Weapon> desEquipedWeapon;
     public event System.Action<Weapon> rejectedWeapon;
-    
+
+    System.Action<Vector2, float> pressed;
 
     public Weapon weapon
     {
@@ -119,6 +128,8 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
         equipedWeapon?.Invoke(this._weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
     }
 
+    #region interfaces
+
     public override void Init(params object[] param)
     {
         if(param.Length>0)
@@ -126,21 +137,25 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
 
         cooldown = TimersManager.Create(itemBase.velocity);
         _weapon.Init();
+
+        pressed = MyControllerVOIDPressed;
     }
 
     public void ControllerDown(Vector2 dir, float tim)
     {
         itemBase.ControllerDown(caster, dir, tim, weapon, cooldown);
+        pressed = MyControllerPressed;
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        itemBase.ControllerPressed(caster, dir, tim, weapon, cooldown);
+        pressed(dir, tim);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
         itemBase.ControllerUp(caster, dir, tim, weapon, cooldown);
+        pressed = MyControllerVOIDPressed;
     }
 
     public float Percentage()
@@ -152,6 +167,20 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
     {
         return cooldown.InversePercentage();
     }
+
+    #endregion
+
+    #region internal functions
+    void MyControllerPressed(Vector2 dir, float tim)
+    {
+        itemBase.ControllerPressed(caster, dir, tim, weapon, cooldown);
+    }
+
+    void MyControllerVOIDPressed(Vector2 dir, float tim)
+    {
+    }
+
+    #endregion
 }
 
 [System.Serializable]
