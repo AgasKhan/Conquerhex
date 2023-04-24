@@ -16,8 +16,12 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     GameObject particles;
 
     [Header("Deteccion")]
+
     [SerializeField]
-    protected Detect<IDamageable> detect;
+    protected Detect<Entity> detect;
+
+    [SerializeField]
+    protected Detect<Entity> detectIA;
 
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
@@ -52,9 +56,9 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         {
             for (int ii = 0; ii < damagesCopy.Length; ii++)
             {
-                if(damagesMultiply[i].type == damagesCopy[ii].type)
+                if(damagesMultiply[i].typeInstance == damagesCopy[ii].typeInstance)
                 {
-                    damagesCopy[ii].amount *= damagesMultiply[ii].amount;
+                    damagesCopy[ii].amount *= damagesMultiply[i].amount;
                     break;
                 }
             }
@@ -74,14 +78,25 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
         }
     }
 
-    /*
     /// <summary>
     /// En caso de ser verdadero le estoy diciendo a la IA que puede ATACAR
     /// </summary>
     /// <param name="caster"></param>
     /// <returns></returns>
-    public abstract bool IADetect(Entity caster);
-    */
+    public virtual List<IDamageable> IADetect(Entity caster)
+    {
+        return new List<IDamageable>(detectIA.AreaWithRay(caster.transform.position, caster.transform.position, 
+            (entidad)=> 
+            { 
+                return caster.team != entidad.team; 
+            },
+            (tr)=>
+            {
+                return caster.transform == tr;
+            }
+            ));
+    }
+
     public abstract void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
     public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
     public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
@@ -114,7 +129,7 @@ public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
         {
             foreach (var dmg in weapon.damages)
             {
-                if(ability.type==dmg.type && ability.amount>dmg.amount)
+                if(ability.typeInstance == dmg.typeInstance && ability.amount>dmg.amount)
                 {
                     rejectedWeapon(weapon);
                     return;
@@ -203,7 +218,7 @@ public class Detect<T>
     /// <param name="pos"></param>
     /// <param name="chck">Funcion que chequea si deseo hacerle danio (usualmente compara si no es el casteador)</param>
     /// <returns></returns>
-    public T[] Area(Vector2 pos, System.Func<Transform, bool> chck)
+    public T[] Area(Vector2 pos, System.Func<T, bool> chck)
     {
         var aux = Physics2D.OverlapCircleAll(pos, radius, layerMask);
 
@@ -213,9 +228,10 @@ public class Detect<T>
         {
             var components = item.GetComponents<T>();
 
-            if (components.Length > 0 && chck(item.transform))
+            foreach (var comp in components)
             {
-                damageables.AddRange(components);
+                if(chck(comp))
+                    damageables.Add(comp);
             }
         }
 
@@ -227,9 +243,10 @@ public class Detect<T>
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="caster"></param>
-    /// <param name="chck">compara si no es el casteador</param>
+    /// <param name="chck">compara si deseo hacerle daño</param>
+    /// <param name="chckTr">compara si es el casteador</param>
     /// <returns></returns>
-    public T[] AreaWithRay(Vector2 pos, Vector2 caster, System.Func<Transform, bool> chck)
+    public T[] AreaWithRay(Vector2 pos, Vector2 caster, System.Func<T, bool> chck, System.Func< Transform , bool> chckTr)
     {
         List<T> damageables = new List<T>(Area(pos, chck));
 
@@ -237,7 +254,7 @@ public class Detect<T>
         {
             var aux = RayTransform(pos, (caster - pos), (caster - pos).magnitude);
 
-            if ( aux != null && aux.Length > 0 && !chck(aux[0]))
+            if ( aux != null && aux.Length > 0 && !chckTr(aux[minDetects]))
             {
                 damageables.RemoveAt(i);
             }
@@ -287,6 +304,11 @@ public class Detect<T>
     /// <returns></returns>
     public T[] Ray(Vector2 pos, Vector2 dir, float distance = -1)
     {
+        return Ray(pos, dir, (entity) => true, distance);
+    }
+
+    public T[] Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck,  float distance = -1)
+    {
         List<T> result = new List<T>();
 
         var tr = RayTransform(pos, dir, distance);
@@ -294,8 +316,12 @@ public class Detect<T>
         foreach (var item in tr)
         {
             var aux = item.GetComponents<T>();
-            if (aux.Length > 0)
-                result.AddRange(aux);
+          
+            foreach (var tType in aux)
+            {
+                if(chck(tType))
+                    result.Add(tType);
+            }
         }
 
         if (result.Count > 0)

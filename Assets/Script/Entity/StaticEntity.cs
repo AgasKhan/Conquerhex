@@ -39,7 +39,7 @@ public abstract class StaticEntity : Entity, IItemContainer
         {
             if (itemName == inventory[i].nameDisplay)
             {
-                amount = inventory[i].AddAmount(amount);
+                inventory[i].AddAmount(amount, out amount);
                 myItemBase = inventory[i].GetItemBase();
 
                 inventory[i].GetAmounts(out int actual, out int max);
@@ -78,7 +78,7 @@ public abstract class StaticEntity : Entity, IItemContainer
         {
             inventory.Add(itemBase.Create());
 
-            amount = inventory[inventory.Count - 1].AddAmount(amount - 1);
+            inventory[inventory.Count - 1].AddAmount(amount - 1,out amount);
 
             AddOrCreate(itemBase, amount);
         }

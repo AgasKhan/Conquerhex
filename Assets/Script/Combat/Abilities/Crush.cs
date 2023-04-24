@@ -43,9 +43,8 @@ public class Crush : AbilityBase
 
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (tr) => { return caster.transform != tr; });
+        var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (algo)=> { return true; } ,(tr) => { return caster.transform == tr; });
 
         Damage(ref damages, aux);
-
     }
 }

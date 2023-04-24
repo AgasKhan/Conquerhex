@@ -9,16 +9,10 @@ public interface IDamageable
 }
 
 [System.Serializable]
-public struct Damage : Init
+public struct Damage
 {
     public float amount;
-    public EnumDamage type;
     public ClassDamage typeInstance;
-
-    public void Init(params object[] param)
-    {
-        typeInstance = Manager<ClassDamage>.pic.SearchOrCreate(type.ToString());
-    }
 
     public void ActionInitialiced(Entity go)
     {
@@ -26,18 +20,11 @@ public struct Damage : Init
     }
 }
 
-public enum EnumDamage
+public abstract class ClassDamage : ShowDetails
 {
-    Slash,
-    Impact,
-    Perforation
-}
-
-public abstract class ClassDamage 
-{
+    public Color color;
     public abstract void IntarnalAction(Entity go, float amount);
 }
-
 
 /// <summary>
 /// este es un daño elemental
@@ -49,47 +36,6 @@ public abstract class Elemental : ClassDamage
 /// <summary>
 /// este es el daño fisico
 /// </summary>
-public abstract class Physic : ClassDamage
+public abstract class PhysicalDamage : ClassDamage
 {
 }
-
-public class Slash : Physic
-{
-    public override void IntarnalAction(Entity entity, float amount)
-    {
-        entity.Effect(amount/3, 
-            () =>
-            {
-                entity.health.TakeRegenDamage(Time.deltaTime);
-            },
-            null
-            );
-    }
-}
-
-/// <summary>
-/// danio extra aleatorio de hasta el 50%
-/// </summary>
-public class Impact : Physic
-{
-    public override void IntarnalAction(Entity entity, float amount)
-    {
-        entity.health.TakeLifeDamage(UnityEngine.Random.Range(0, 0.5f)*amount);
-    }
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class Perforation : Physic
-{
-    public override void IntarnalAction(Entity entity, float amount)
-    {
-        //entity.health.TakeRegenDamage();
-        var aux = 3 / UnityEngine.Random.Range(1, 4);
-
-        entity.health.TakeRegenDamage(aux*amount);
-    }
-}
-
-

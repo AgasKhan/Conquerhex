@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Weapons/plantilla", fileName = "New weapons")]
-public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
+public class WeaponBase : FatherWeaponAbility<WeaponBase>//, Init
 {
     public float durability;
 
@@ -26,7 +26,7 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
         {
             foreach (var dmgTest in damagesList)
             {
-                if (dmgTest.type == dmgWeapon.type && dmgTest.amount <= dmgWeapon.amount)
+                if (dmgTest.typeInstance == dmgWeapon.typeInstance && dmgTest.amount <= dmgWeapon.amount)
                 {
                     damagesList.Remove(dmgWeapon);
                     break;
@@ -40,6 +40,7 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
             return false;
     }
 
+    /*
     public void Init(params object[] param)
     {
         for (int i = 0; i < damages.Length; i++)
@@ -47,11 +48,12 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
             damages[i].Init();
         }
     }
+    */
 
     protected override void MyEnable()
     {
         base.MyEnable();
-        Init();
+        //Init();
     }
 
     protected override void SetCreateItemType()

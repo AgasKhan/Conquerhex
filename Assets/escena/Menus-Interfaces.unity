@@ -1721,6 +1721,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlotOf: 1
   Container: {fileID: 0}
+--- !u!1 &242541289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 242541290}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &242541290
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242541289}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 888884088}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &250566461 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3511639666692222736, guid: 515d52cb30ab0a4449e7b22b35378879,
@@ -5915,6 +5951,7 @@ RectTransform:
   - {fileID: 1401737438}
   - {fileID: 1136472671}
   - {fileID: 2125904955}
+  - {fileID: 242541290}
   m_Father: {fileID: 408613823}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5937,12 +5974,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myTitle: {fileID: 1432520943}
   myDescription: {fileID: 1401737439}
-  buttonsGrid: {fileID: 0}
-  myButton: {fileID: 0}
-  myButtonText: {fileID: 0}
   previewImage: {fileID: 2145873887}
-  scrollbar: {fileID: 0}
-  backButton: {fileID: 0}
+  buttonsGrid: {fileID: 242541290}
   buttonPrefab: {fileID: 0}
 --- !u!114 &888884090
 MonoBehaviour:
@@ -5994,6 +6027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf47aa6f80466c34482f4f3099a497f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
   health:
     life:
       total: 0
@@ -9739,12 +9773,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myTitle: {fileID: 325112058}
   myDescription: {fileID: 962690252}
-  buttonsGrid: {fileID: 0}
-  myButton: {fileID: 0}
-  myButtonText: {fileID: 0}
   previewImage: {fileID: 52985726}
-  scrollbar: {fileID: 0}
-  backButton: {fileID: 0}
+  buttonsGrid: {fileID: 0}
   buttonPrefab: {fileID: 0}
 --- !u!114 &1335398407
 MonoBehaviour:
@@ -10531,6 +10561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a11365eea590f4e8768a85bf1bca2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
   health:
     life:
       total: 10
@@ -14614,12 +14645,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myTitle: {fileID: 0}
   myDescription: {fileID: 0}
-  buttonsGrid: {fileID: 0}
-  myButton: {fileID: 0}
-  myButtonText: {fileID: 0}
   previewImage: {fileID: 0}
-  scrollbar: {fileID: 0}
-  backButton: {fileID: 0}
+  buttonsGrid: {fileID: 0}
   buttonPrefab: {fileID: 0}
 --- !u!1001 &1957426753
 PrefabInstance:

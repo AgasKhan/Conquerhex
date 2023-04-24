@@ -20,11 +20,11 @@ public class ItemContainer : MonoBehaviour
     private void Start()
     {
         //Solo con fines de prueba
-        LoadSystem.AddPostLoadCorutine((Action)(() =>
+        LoadSystem.AddPostLoadCorutine(() =>
             {
-                character.AddOrSubstractItems((string)characterItem.nameDisplay, (int)30);
-                character.AddOrSubstractItems((string)characterItem.nameDisplay, (int)30);
-            })
+                character.AddOrSubstractItems(characterItem.nameDisplay, 30);
+                character.AddOrSubstractItems(characterItem.nameDisplay, 30);
+            }
         
         );
     }

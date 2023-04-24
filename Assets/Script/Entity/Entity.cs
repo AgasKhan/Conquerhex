@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Entity : MyScripts, IDamageable
 {
+    public Team team;
+
     public Health health;
 
     public List<DropItem> drops = new List<DropItem>();
@@ -183,4 +185,10 @@ public class Health : Init
     {
         timeToRegen = TimersManager.Create(3, Regen, false);
     }
+}
+
+public enum Team
+{
+    windows,
+    mac
 }

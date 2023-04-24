@@ -19,10 +19,6 @@ public abstract class ItemBase : ShowDetails
         return aux;
     }
 
-    private void Awake()
-    {
-        
-    }
 
     private void OnEnable()
     {
@@ -60,26 +56,25 @@ public abstract class ItemBase : ShowDetails
 public abstract class Item : IShowDetails, Init
 {
     [SerializeField]
-    private ItemBase _itemBase;
+    protected ItemBase _itemBase;
 
     public string nameDisplay => _itemBase.nameDisplay;
 
     public Sprite image => _itemBase.image;
-
-    public void SetItemBase(ItemBase item)
-    {
-        _itemBase = item;
-        Init();
-    }
-
-    public abstract void Init(params object[] param);
-
 
     public virtual Pictionarys<string, string> GetDetails()
     {
         return _itemBase.GetDetails();
     }
 
+    public abstract void Init(params object[] param);
+
+    public abstract Item SetItemBase(object baseItem);
+
+    public Item Create()
+    {
+        return _itemBase.Create();
+    }
 
     public virtual void GetAmounts(out int actual, out int max)
     {
@@ -92,9 +87,11 @@ public abstract class Item : IShowDetails, Init
     /// </summary>
     /// <param name="amount"></param>
     /// <returns>Cuantos items me sobraron desp de apilarlos</returns>
-    public virtual int AddAmount(int amount)
+    public virtual Item AddAmount(int amount, out int resto)
     {
-        return amount;
+        resto = amount;
+
+        return this;
     }
 
     public ItemBase GetItemBase()
@@ -115,16 +112,32 @@ public abstract class Item<T> : Item where T : ItemBase
         get => (T)GetItemBase();
         set => SetItemBase(value);
     }
+
+    public override Item SetItemBase(object baseItem)
+    {
+        if(baseItem is T)
+        {
+            _itemBase = baseItem as T;
+            Init();
+        }
+        else
+        {
+            Debug.LogWarning("Type itembase failed");
+        }
+        
+
+        return this;
+    }
 }
 
 public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 {
     int actual = 1;
 
-    public override int AddAmount(int amount)
+    public override Item AddAmount(int amount, out int resto)
     {
         actual += amount;
-        int resto = 0;
+        resto = 0;
 
         if (actual > itemBase.maxAmount)
         {
@@ -136,7 +149,7 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
             resto = actual;
         }
 
-        return resto;
+        return this;
     }
 
     public override void GetAmounts(out int actual, out int max)
