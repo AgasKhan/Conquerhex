@@ -42,10 +42,10 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>, Init
 
     public void Init(params object[] param)
     {
-        foreach (var item in damages)
+        for (int i = 0; i < damages.Length; i++)
         {
-            item.Init();
-        }        
+            damages[i].Init();
+        }
     }
 
     protected override void MyEnable()

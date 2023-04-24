@@ -15,6 +15,7 @@ public class Entity : MyScripts, IDamageable
 
     private void MyAwake()
     {
+        health.Init();
         health.death += Health_death;
     }
     
@@ -143,6 +144,8 @@ public class Health : Init
             var aux = amount - life.current;
             
             noLife?.Invoke();
+
+            life.Substract(amount);
 
             if (TakeRegenDamage(aux) <= 0)
             {
