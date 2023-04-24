@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EnemyMove : Seek, IControllerDir
+public class EnemyMove : SteeringBehaviour, IControllerDir
 {
     //[SerializeField] float _viewRadius;
     [SerializeField] Transform[] _totalWaypoints;
@@ -89,6 +89,11 @@ public class EnemyMove : Seek, IControllerDir
 
         
 
+    }
+
+    public override Vector2 Calculate(MoveAbstract target)
+    {
+        throw new NotImplementedException();
     }
 }
 

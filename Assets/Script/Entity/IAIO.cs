@@ -6,6 +6,22 @@ public class IAIO : MonoBehaviour, IState<Character>
 {
     Character character;
 
+    [SerializeField]
+    SteeringWithTarger[] steerings;
+
+    private void Update()
+    {
+        Vector2 result = Vector2.zero;
+
+        foreach (var steer in steerings)
+        {
+            foreach (var obj in steer.targets)
+            {
+                result = steer.steering.Calculate(obj);
+            }
+        }
+    }
+
     public void OnEnterState(Character param)
     {
         character = param;
@@ -30,4 +46,12 @@ public class IAIO : MonoBehaviour, IState<Character>
     {
         
     }
+}
+
+[System.Serializable]
+struct SteeringWithTarger
+{
+    public SteeringBehaviour steering;
+
+    public List<MoveAbstract> targets;
 }

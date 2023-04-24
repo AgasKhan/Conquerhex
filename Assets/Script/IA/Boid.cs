@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boid : Seek
+
+public class Boid : SteeringBehaviour
 {
 
+    /*
     delegate void _FuncBoid(ref Vector2 desired, Boid objective, Vector2 dirToBoid);
 
     void Start()
@@ -86,5 +88,9 @@ public class Boid : Seek
 
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(BoidsManager.instance.ViewRadius));
+    }*/
+    public override Vector2 Calculate(MoveAbstract target)
+    {
+        throw new System.NotImplementedException();
     }
 }
