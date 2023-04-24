@@ -12,6 +12,7 @@ public class Character : DinamicEntityWork//, ISwitchState<Character>
     [SerializeField]
     public Ability ter;
 
+
     /*
     public IState<Character> CurrentState 
     { 
