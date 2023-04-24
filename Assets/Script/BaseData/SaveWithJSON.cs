@@ -7,17 +7,17 @@ using System;
 public class SaveWithJSON : SingletonMono<SaveWithJSON>
 {
     
-    public Pictionarys<string, string> baseData = new Pictionarys<string, string>();
+    Pictionarys<string, string> _baseData = new Pictionarys<string, string>();
 
     public static Pictionarys<string, string> BD
     {
         get
         {
-            return instance.baseData;
+            return instance._baseData;
         }
         set
         {
-            instance.baseData = value;
+            instance._baseData = value;
         }
     }
 
@@ -61,13 +61,14 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
     
     void SaveGame()
     {
-        File.WriteAllText(path, BD.ToString());
+        File.WriteAllText(path, JsonUtility.ToJson(BD));
     }
 
     public void LoadGame()
     {
         string save = File.ReadAllText(path);
-        LoadFromPictionary<Pictionarys<string, string>>(save);
+
+        BD = JsonUtility.FromJson<Pictionarys<string, string>>(save);
     }
 
     public void DeleteData()
