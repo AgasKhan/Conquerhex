@@ -6,10 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Kick")]
 public class Kick : AbilityBase
 {
-    private bool isKicking = false;
-
-    private float kickRange;
-
     /*
     Entity caster: ENTIDAD QUE USA LA HABILIDAD
     Vector2 dir: HACIA DONDE APUNTA LA HABILIDAD
@@ -20,53 +16,37 @@ public class Kick : AbilityBase
 
     public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        cooldownEnd.Set(5f, true);
-
-        if (cooldownEnd.current == 0)
-        {
-
-            isKicking = true; 
-
-        }
-
+        Debug.Log("presionaste ataque 1, KICK");
     }
 
+    //Durante, al mantener y moverlo
     public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        dir = dir.normalized;
-
-        InternalAttack(caster, dir, damages);
-
-        weapon.Durability(3);
+        Debug.Log("estas manteniendo ataque 1, KICK");
     }
 
+    //Despues, al sotarlo
     public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
     {
-        isKicking = true;
+        Debug.Log("Soltaste ataque 1, KICK");
 
-        cooldownEnd.Start();
+        //comienza a bajar el cooldown
 
-        cooldownEnd.SubsDeltaTime();
+        weapon.Durability(3);
+
+        if (cooldownEnd.Chck)
+        {
+            cooldownEnd.Reset();
+
+            Attack(caster, dir, weapon);
+        }
     }
 
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        if (isKicking && direction == direction.normalized)
-        {
-            RaycastHit[] hits = Physics.SphereCastAll(caster.transform.position, kickRange, direction, 0f);
+        
 
-            foreach (RaycastHit hit in hits)
-            {
-                Health health = hit.collider.gameObject.GetComponent<Health>();
-                if (health != null)
-                {
-                    foreach (Damage damage in damages)
-                    {
 
-                        //Entity.TakeDamage(damage);
-                    }
-                }
-            }
-        }
+
     }
 }
