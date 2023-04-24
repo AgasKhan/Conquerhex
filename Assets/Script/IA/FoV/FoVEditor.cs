@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 [CustomEditor (typeof (FieldOfView))]
 public class FoVEditor : Editor
 {
@@ -20,6 +21,7 @@ public class FoVEditor : Editor
         Handles.DrawLine(fow.transform.position, (fow.transform.position).Vect3To2() + viewAngleA * fow.viewRadius);
         Handles.DrawLine(fow.transform.position, (fow.transform.position).Vect3To2() + viewAngleB * fow.viewRadius);
 
+        //Linea hasta el target
         Handles.color = Color.red;
         foreach (Transform visibleTarget in fow.visibleTargets)
         {
@@ -29,3 +31,5 @@ public class FoVEditor : Editor
     }
 
 }
+
+#endif
