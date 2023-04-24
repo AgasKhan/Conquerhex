@@ -11,13 +11,11 @@ public class IAIO : MonoBehaviour, IState<Character>
 
     private void Update()
     {
-        Vector2 result = Vector2.zero;
-
         foreach (var steer in steerings)
         {
             foreach (var obj in steer.targets)
             {
-                result = steer.steering.Calculate(obj);
+                steer.steering.Calculate(obj);
             }
         }
     }
