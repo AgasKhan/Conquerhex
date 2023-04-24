@@ -57,7 +57,7 @@ public class ButtonsFunctions : MonoBehaviour
 
             {"Ejemplo", DisplayWindow},
             {"Ejemplo2", DisplayWindow},
-            {"BuyItem", BuyItem},
+            {"BuySingleItem", BuySingleItem},
             {"EquipItem", EquipItem},
 
             //Dragable Buttons
@@ -69,15 +69,45 @@ public class ButtonsFunctions : MonoBehaviour
         });
     }
 
-    void BuyItem(GameObject g)
+    void BuySingleItem2(GameObject g)
     {
+        //Se compra el item usando una funcion de "Store" enviando el nombre del padre del boton
         Store.instance.BuyAnItem(g.transform.parent.name);
-        //g.name = "EquipItem";
+
+        //Se cambia el nombre del boton para que cumpla otra funcion
+        g.name = "EquipItem";
+
+        //Se obtiene el componente "Button" del "GameObject"
+        var aux = g.GetComponent<UnityEngine.UI.Button>();
+
+        //Se envia el componente del boton a "Extensiones" para que se le asigne una nueva funcion basada en su nombre nuevo
+        Extensions.Event(aux);
     }
+    void BuySingleItem(GameObject g)
+    {
+        //Se compra el item usando una funcion de "Store" enviando el nombre del padre del boton
+        Store.instance.BuyAnItem(g.transform.parent.name);
+
+        //Se obtiene el componente "Button" del "GameObject"
+        var aux = g.GetComponent<UnityEngine.UI.Button>();
+
+        aux.interactable = false;
+    }
+
 
     void EquipItem(GameObject g)
     {
         //Verificar si ya esta equipada
+        var character = GameManager.instance.player.GetComponent<Character>();
+
+        if(character.prin.weapon.nameDisplay == g.transform.parent.name)
+        {
+
+        }
+        else
+        {
+            g.transform.parent.name = "Espada";
+        }
 
         var aux = g.GetComponent<UnityEngine.UI.Button>();
         aux.interactable = false;

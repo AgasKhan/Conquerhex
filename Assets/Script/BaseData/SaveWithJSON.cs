@@ -41,10 +41,9 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
     }
 
     
-    //private void Start()
-    //{
-       // path = Application.persistentDataPath + "/saveData.json";
-
+    private void Start()
+    {
+        path = Application.persistentDataPath + "/saveData.json";
 
         //Para Computadora
         /*
@@ -54,11 +53,11 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
             Directory.CreateDirectory(directoryPath);
         */
 
-        //if (File.Exists(path))
-           // LoadGame();
-       // else
-           // SaveGame();
-    //}
+        if (File.Exists(path))
+            LoadGame();
+        else
+            SaveGame();
+    }
     
     void SaveGame()
     {
@@ -70,6 +69,7 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
         string save = File.ReadAllText(path);
         LoadFromPictionary<Pictionarys<string, string>>(save);
     }
+
     public void DeleteData()
     {
         //File.Delete(path);

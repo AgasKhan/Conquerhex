@@ -36,6 +36,6 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
         }
         else
             Debug.Log("No se encontro el item: " + transform.parent.name);
-        
+
     }
 }

@@ -15,24 +15,25 @@ public class DetailsWindow : MonoBehaviour
     TextMeshProUGUI myDescription;
 
     [SerializeField]
-    GameObject buttonsGrid;
+    Image previewImage;
 
+    [SerializeField]
+    Transform buttonsGrid;
+
+    Pictionarys<string, Button> myButtons = new Pictionarys<string, Button>();
+
+    /*
     [SerializeField]
     Button myButton;
 
     [SerializeField]
     TextMeshProUGUI myButtonText;
-
-    [SerializeField]
-    Image previewImage;
-
+    
     [SerializeField]
     Scrollbar scrollbar;
+    */
 
     //--------------------------------------------
-    [SerializeField]
-    Button backButton;
-
     [SerializeField]
     GameObject buttonPrefab;
     //--------------------------------------------
@@ -42,6 +43,13 @@ public class DetailsWindow : MonoBehaviour
     {
         instance = this;
         //gameObject.SetActive(false);
+
+        for (int i = 0; i < buttonsGrid.childCount; i++)
+        {
+            var aux = buttonsGrid.GetChild(i).GetComponentInChildren<Button>();
+            myButtons.Add(aux.name, aux);
+        }
+
     }
     public void ShowOrHide(bool condition)
     {
@@ -68,12 +76,12 @@ public class DetailsWindow : MonoBehaviour
 
     public static void ActiveButtons(bool value)
     {
-        for (int i = 0; i < instance.buttonsGrid.transform.childCount; i++)
+        for (int i = 0; i < instance.buttonsGrid.childCount; i++)
         {
-            instance.buttonsGrid.transform.GetChild(i).gameObject.SetActive(value);
+            instance.buttonsGrid.GetChild(i).gameObject.SetActive(value);
         }
 
-        instance.buttonsGrid.transform.parent.GetChild(0).gameObject.SetActive(value);
+        instance.buttonsGrid.parent.GetChild(0).gameObject.SetActive(value);
     }
 
     public static void GenerateButtons(DoubleString[] d)
@@ -94,6 +102,8 @@ public class DetailsWindow : MonoBehaviour
         }*/
     }
 
+
+    /*
     public static void HideMyButton(bool interact)
     {
         instance.myButton.gameObject.SetActive(!interact);
@@ -127,7 +137,7 @@ public class DetailsWindow : MonoBehaviour
     {
         instance.myButton.interactable = false;
     }
-
+    */
 
     static public void PreviewImage(bool active, Sprite sprite = null)
     {
@@ -136,7 +146,7 @@ public class DetailsWindow : MonoBehaviour
         if (sprite != null)
             instance.previewImage.sprite = sprite;
     }
-
+    
     public void SetWindow(Sprite sprite, DoubleString ds)
     {
         PreviewImage(true, sprite);
@@ -155,16 +165,37 @@ public class DetailsWindow : MonoBehaviour
     }
 
     //--------------------------------------------------------
-
     public void CreateButtons(List<string> buttonsNames)
     {
         for (int i = 0; i < buttonsNames.Count; i++)
         {
-            var aux = Instantiate(buttonPrefab, buttonsGrid.transform);
+            var aux = Instantiate(buttonPrefab, buttonsGrid);
             var button = aux.GetComponentInChildren<Button>();
 
             button.name = buttonsNames[i];
         }
     }
     //--------------------------------------------------------
+
+    public void HideSingleButton(string buttonName)
+    {
+        if (myButtons.ContainsKey(buttonName))
+            myButtons[buttonName].transform.parent.gameObject.SetActive(false);
+        else
+            Debug.Log("No se encontro el boton: " + buttonName);
+    }
+    public void ShowSingleButton(string buttonName)
+    {
+        if (myButtons.ContainsKey(buttonName))
+            myButtons[buttonName].transform.parent.gameObject.SetActive(true);
+        else
+            Debug.Log("No se encontro el boton: " + buttonName);
+    }
+    public void ShowOrHideButton(string buttonName, bool state)
+    {
+        if (myButtons.ContainsKey(buttonName))
+            myButtons[buttonName].transform.parent.gameObject.SetActive(state);
+        else
+            Debug.Log("No se encontro el boton: " + buttonName);
+    }
 }
