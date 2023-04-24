@@ -20,9 +20,6 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     [SerializeField]
     protected Detect<Entity> detect;
 
-    [SerializeField]
-    protected Detect<Entity> detectIA;
-
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
 
@@ -83,9 +80,9 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
     /// </summary>
     /// <param name="caster"></param>
     /// <returns></returns>
-    public virtual List<IDamageable> IADetect(Entity caster)
+    public virtual List<IDamageable> IADetect(Entity caster, Vector2 dir)
     {
-        return new List<IDamageable>(detectIA.AreaWithRay(caster.transform.position, caster.transform.position, 
+        return new List<IDamageable>(detect.AreaWithRay(caster.transform.position, caster.transform.position, 
             (entidad)=> 
             { 
                 return caster.team != entidad.team; 
