@@ -54,7 +54,7 @@ public class Character : DinamicEntityWork//, ISwitchState<Character>
         sec.Init(this);
         ter.Init(this);
 
-        _ia.OnEnterState(this);
+        _ia?.OnEnterState(this);
     }
 
 }
