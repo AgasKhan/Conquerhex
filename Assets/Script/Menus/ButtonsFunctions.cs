@@ -64,7 +64,7 @@ public class ButtonsFunctions : MonoBehaviour
             {"ShowWindow", ShowWindow},
 
             //Tutorial
-            {"Tutorial", DisplayWindow}
+            {"Tutorial", DisplayWindow},
 
         });
     }
