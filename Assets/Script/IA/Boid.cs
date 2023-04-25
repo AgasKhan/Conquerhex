@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Boid : SteeringBehaviour
+public class Boid : MonoBehaviour
 {
+    /*MoveAbstract move;
+    SteeringBehaviour stBehav;
+    Arrive arrive;
+    Seek seek;
+    Flee flee;
+    Tim tim;
+    GameObject food;
+    Hunter hun;
 
-    /*
+    [SerializeField] float _minPosz;
+    [SerializeField] float _maxPosz;
+
     delegate void _FuncBoid(ref Vector2 desired, Boid objective, Vector2 dirToBoid);
 
     void Start()
@@ -24,6 +34,10 @@ public class Boid : SteeringBehaviour
                  BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
                  BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
+        FoodSpawn();
+
+        BoidEat();
+
         CheckBounds();
     }
 
@@ -32,7 +46,39 @@ public class Boid : SteeringBehaviour
         transform.position = Boundaries.instance.SetObjectBoundPosition(transform.position);
     }
 
-    
+    void FoodSpawn()
+    {
+        if (tim.current <= 0)
+        {
+            var wanted = Random.Range(_minPosz, _maxPosz);
+            var foodPos = new Vector3(wanted, wanted, wanted);
+            GameObject gmObj = Instantiate(food, foodPos, Quaternion.identity);
+
+            tim.Reset();
+        }
+    }
+
+    void BoidEat()
+    {
+        Vector2 dirToFood = food.transform.position - transform.position; 
+
+
+        if (dirToFood.sqrMagnitude <= BoidsManager.instance.ViewRadius)
+        {
+            arrive.Calculate(move.Director(dirToFood));
+            Destroy(food, 0.5f);
+        }
+    }
+
+    void BoidFlee()
+    {
+        Vector2 dirToFlee = transform.position - hun.transform.position;
+
+        if (dirToFlee.sqrMagnitude <= BoidsManager.instance.ViewRadius)
+        {
+            flee.Calculate(move.Director(hun.transform.position));
+        }
+    }
 
     Vector2 BoidIntern(_FuncBoid func, bool promedio)
     {
@@ -47,7 +93,7 @@ public class Boid : SteeringBehaviour
             if (boid.value == this) continue;
 
             //Saco la direccion hacia el boid
-            Vector2 dirToBoid = DirectionSeek(boid.value.move);
+            Vector2 dirToBoid = boid.value.transform.position - transform.position; //seek.Calculate(boid.value.move);
 
             //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
             if (dirToBoid.sqrMagnitude <= BoidsManager.instance.SeparationRadius)
@@ -64,7 +110,7 @@ public class Boid : SteeringBehaviour
         if(promedio)
             desired /= count;
 
-        return CalculateSteering(desired);
+        return seek.Calculate(move.Director(desired));
     }
 
     void Separation(ref Vector2 desired, Boid boid, Vector2 dirToBoid)
@@ -88,9 +134,9 @@ public class Boid : SteeringBehaviour
 
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(BoidsManager.instance.ViewRadius));
-    }*/
+    }
     public override Vector2 Calculate(MoveAbstract target)
     {
         throw new System.NotImplementedException();
-    }
+    }*/
 }

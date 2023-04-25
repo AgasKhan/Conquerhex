@@ -7,6 +7,7 @@ public class Boundaries : MonoBehaviour
     [SerializeField] float _boundHeight;
     [SerializeField] float _boundWidth;
 
+    MoveAbstract move;
     public static Boundaries instance { get; private set; }
 
     void Awake()
@@ -19,11 +20,11 @@ public class Boundaries : MonoBehaviour
         float y = _boundHeight / 2;
         float x = _boundWidth / 2;
 
-        if (pos.y > y) pos.y = -y;
-        else if (pos.y < -y) pos.y = y;
+        if (pos.y > y -1) move.Velocity(move.velocity * -1); //pos.y = -y;
+        else if (pos.y < -y +1) move.Velocity(move.velocity * 1); //pos.y = y;
 
-        if (pos.x > x) pos.x = -x;
-        else if (pos.x < -x) pos.x = x;
+        if (pos.x > x -1) move.Velocity(move.velocity * -1); //pos.x = -x;
+        else if (pos.x < -x +1) move.Velocity(move.velocity * 1); //pos.x = x;
 
         return pos;
     }
