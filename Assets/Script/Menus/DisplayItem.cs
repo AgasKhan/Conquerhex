@@ -34,12 +34,17 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
             myItem = Manager<ItemBase>.pic[transform.parent.name];
             myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
 
-
+            /*
             if (BaseData.storeItems.ContainsKey(myItem.nameDisplay))
             {
 
             }
-
+            */
+        }
+        else if (Manager<ShowDetails>.pic.ContainsKey(transform.parent.name))
+        {
+            myItem = Manager<ShowDetails>.pic[transform.parent.name];
+            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
         }
         else
             Debug.Log("No se encontro el item: " + transform.parent.name);
