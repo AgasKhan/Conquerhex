@@ -11,6 +11,7 @@ public class IAIO : IAFather
 
     private void Update()
     {
+        /*
         foreach (var steer in steerings)
         {
             foreach (var obj in steer.targets)
@@ -18,15 +19,23 @@ public class IAIO : IAFather
                 steer.steering.Calculate(obj);
             }
         }
+        */
     }
 
     public override void OnEnterState(Character param)
     {
         character = param;
+        
+        if(param.prin.itemBase !=null)
+            VirtualControllers.principal.SuscribeController(param.prin);
 
-        VirtualControllers.principal.SuscribeController(param.prin);
-        VirtualControllers.secondary.SuscribeController(param.sec);
-        VirtualControllers.terciary.SuscribeController(param.ter);
+        if (param.sec.itemBase != null)
+            VirtualControllers.secondary.SuscribeController(param.sec);
+
+        if (param.ter.itemBase != null)
+            VirtualControllers.terciary.SuscribeController(param.ter);
+
+
         VirtualControllers.movement.SuscribeController(param.move);
     }
 
@@ -34,9 +43,16 @@ public class IAIO : IAFather
 
     public override void OnExitState(Character param)
     {
+        //if (param.prin.itemBase != null)
         VirtualControllers.principal.DesuscribeController(param.prin);
+
+        //if (param.sec.itemBase != null)
         VirtualControllers.secondary.DesuscribeController(param.sec);
-        VirtualControllers.terciary.DesuscribeController(param.ter);
+
+        //if (param.ter.itemBase != null)
+         VirtualControllers.terciary.DesuscribeController(param.ter);
+
+
         VirtualControllers.movement.DesuscribeController(param.move);
     }
 

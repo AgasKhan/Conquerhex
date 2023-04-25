@@ -77,7 +77,11 @@ public class Weapon : Item<WeaponBase>, IGetPercentage
 
     public override void Init(params object[] param)
     {
-        durability = new Tim(itemBase.durability);
+        if (itemBase == null)
+            return;
+
+        if(durability==null)
+            durability = new Tim(itemBase.durability);
     }
 
     public void Durability()

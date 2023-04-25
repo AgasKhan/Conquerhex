@@ -49,6 +49,32 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
+        if (caster is Character)
+        {
+            var casterCharacter = (Character)caster;
+
+            List<Damage> additives = new List<Damage>(casterCharacter.additiveDamage);
+
+            for (int i = 0; i < damagesCopy.Length; i++)
+            {
+                for (int ii = additives.Count - 1; ii >= 0; ii--)
+                {
+                    if(damagesCopy[i].typeInstance == additives[ii].typeInstance)
+                    {
+                        damagesCopy[i].amount += additives[ii].amount;
+
+                        additives.RemoveAt(ii);
+                    }
+                }
+            }
+
+            additives.AddRange(damagesCopy);
+
+            damagesCopy = additives.ToArray();
+
+        }
+
+
         for (int i = 0; i < damagesMultiply.Length; i++)
         {
             for (int ii = 0; ii < damagesCopy.Length; ii++)
@@ -129,6 +155,7 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
                 if(ability.typeInstance == dmg.typeInstance && ability.amount>dmg.amount)
                 {
                     rejectedWeapon(weapon);
+                    Debug.Log("arma no aceptada");
                     return;
                 }
             }
@@ -143,15 +170,27 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
 
     #region interfaces
 
+    /// <summary>
+    /// primer parametro caster, segundo weapon
+    /// </summary>
+    /// <param name="param"></param>
     public override void Init(params object[] param)
     {
-        if(param.Length>0)
+        pressed = MyControllerVOIDPressed;
+
+        if (itemBase == null)
+            return;
+
+        if (param.Length > 0)
             this.caster = param[0] as Entity;
 
-        cooldown = TimersManager.Create(itemBase.velocity);
-        _weapon.Init();
+        if (param.Length > 1)
+            _weapon = param[1] as Weapon;
 
-        pressed = MyControllerVOIDPressed;
+        cooldown = TimersManager.Create(itemBase.velocity);
+
+        if(weapon!=null)
+            weapon.Init();
     }
 
     public void ControllerDown(Vector2 dir, float tim)

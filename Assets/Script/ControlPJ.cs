@@ -42,7 +42,7 @@ public class ControlPJ : MonoBehaviour
         enf = TimersManager.Create(valorEnfriamiento);
         dur = TimersManager.Create(valorDuracion);
 
-        health.Init();
+        health.Init(100f,10f);
 
         VirtualControllers.movement.eventDown += Movement_eventDown;
 

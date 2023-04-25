@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07dcd3e1be95f524bb9134a728f11063, type: 3}
+  m_Name: Homano
+  m_EditorClassIdentifier: 
+  _nameDisplay: Pj
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
+  weight: 0
+  life: 100
+  regen: 1
+  velocity: 1
+  weightCapacity: 0
+  principal:
+    weapon: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
+    kata: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
+  secondary:
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  tertiary:
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  vulnerabilities: []
+  additiveDamage: []

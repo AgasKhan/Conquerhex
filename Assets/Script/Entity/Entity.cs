@@ -102,9 +102,9 @@ public struct DropItem
 [System.Serializable]
 public class Health : Init
 {
-    [SerializeField]
+    [SerializeReference]
     Tim life;
-    [SerializeField]
+    [SerializeReference]
     Tim regen;
     [SerializeReference]
     Routine timeToRegen;
@@ -175,8 +175,22 @@ public class Health : Init
         regenUpdate?.Invoke(regen);
     }
 
+    /// <summary>
+    /// Primer parametro vida, segundo regen
+    /// </summary>
+    /// <param name="param"></param>
     public void Init(params object[] param)
     {
+        if (timeToRegen != null)
+            TimersManager.Destroy(timeToRegen);
+
+        if(param!=null && param.Length>0)
+        {
+            life = new Tim((float)param[0]);
+
+            regen = new Tim((float)param[1]);
+        }
+
         timeToRegen = TimersManager.Create(3, Regen, false);
     }
 }
