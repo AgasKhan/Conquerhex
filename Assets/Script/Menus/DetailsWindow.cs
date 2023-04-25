@@ -43,12 +43,13 @@ public class DetailsWindow : MonoBehaviour
     {
         instance = this;
         //gameObject.SetActive(false);
-
+        /*
         for (int i = 0; i < buttonsGrid.childCount; i++)
         {
             var aux = buttonsGrid.GetChild(i).GetComponentInChildren<Button>();
             myButtons.Add(aux.name, aux);
         }
+        */
 
     }
     public void ShowOrHide(bool condition)
