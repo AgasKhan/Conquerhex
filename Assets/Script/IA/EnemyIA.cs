@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EnemyIA : SteeringBehaviour
+public class EnemyIA : MonoBehaviour
 {
+    MoveAbstract move;
+
     Seek seek;
     Persuit pursuit;
 
@@ -97,10 +99,6 @@ public class EnemyIA : SteeringBehaviour
 
     }
 
-    public override Vector2 Calculate(MoveAbstract target)
-    {
-        throw new NotImplementedException();
-    }
 }
 
 
