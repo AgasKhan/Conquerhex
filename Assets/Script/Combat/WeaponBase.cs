@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapons/plantilla", fileName = "New weapons")]
 public class WeaponBase : FatherWeaponAbility<WeaponBase>//, Init
 {
+    public float range;
+
     public float durability;
 
     #region FUNCIONES

@@ -11,7 +11,7 @@ public class ControlPJ : MonoBehaviour
 
     public float valorDuracion;
 
-    public Ability abilityA;
+    public WeaponKata abilityA;
 
     public Health health;
 

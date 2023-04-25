@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Stab")]
-public class Stab : AbilityBase
+public class Stab : WeaponKataBase
 {
     /*
     Entity caster: ENTIDAD QUE USA LA HABILIDAD

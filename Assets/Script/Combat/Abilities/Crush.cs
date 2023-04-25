@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Crush")]
-public class Crush : AbilityBase
+public class Crush : WeaponKataBase
 {
     /*
     Entity caster: ENTIDAD QUE USA LA HABILIDAD

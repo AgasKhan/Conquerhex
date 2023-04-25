@@ -7,6 +7,8 @@ public abstract class ItemBase : ShowDetails
     [Range(1, 1000)]
     public int maxAmount = 1;
 
+    public float weight;
+
     protected System.Type _itemType;
     protected abstract void SetCreateItemType();
     

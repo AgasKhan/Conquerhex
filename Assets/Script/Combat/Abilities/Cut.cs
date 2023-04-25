@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Cut")]
-public class Cut : AbilityBase
+public class Cut : WeaponKataBase
 {
     /*
     Entity caster: ENTIDAD QUE USA LA HABILIDAD

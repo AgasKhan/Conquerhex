@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
-public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
+public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 {
     [Space]
 
@@ -25,7 +25,7 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
 
     protected override void SetCreateItemType()
     {
-        _itemType = typeof(Ability);
+        _itemType = typeof(WeaponKata);
     }
 
     public override Pictionarys<string, string> GetDetails()
@@ -101,7 +101,7 @@ public abstract class AbilityBase : FatherWeaponAbility<AbilityBase>
 }
 
 [System.Serializable]
-public class Ability : Item<AbilityBase>,Init, IControllerDir, IGetPercentage
+public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercentage
 {
     public event System.Action<Weapon> equipedWeapon;
     public event System.Action<Weapon> desEquipedWeapon;

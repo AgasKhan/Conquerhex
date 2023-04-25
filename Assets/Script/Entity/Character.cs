@@ -6,11 +6,11 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 {
     // Start is called before the first frame update
     [SerializeField]
-    public Ability prin;
+    public WeaponKata prin;
     [SerializeField]
-    public Ability sec;
+    public WeaponKata sec;
     [SerializeField]
-    public Ability ter;
+    public WeaponKata ter;
 
 
     /*
