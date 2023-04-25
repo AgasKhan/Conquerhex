@@ -6,12 +6,12 @@ using UnityEngine;
 public class Boid : MonoBehaviour
 {
     /*MoveAbstract move;
-    SteeringBehaviour stBehav;
-    Arrive arrive;
-    Seek seek;
-    Flee flee;
+
+    [SerializeField] Arrive arrive;
+    [SerializeField] Seek seek;
+    [SerializeField] Flee flee;
     Tim tim;
-    GameObject food;
+    [SerializeField] GameObject food;
     Hunter hun;
 
     [SerializeField] float _minPosz;
@@ -134,9 +134,6 @@ public class Boid : MonoBehaviour
 
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(BoidsManager.instance.ViewRadius));
-    }
-    public override Vector2 Calculate(MoveAbstract target)
-    {
-        throw new System.NotImplementedException();
     }*/
+
 }
