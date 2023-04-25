@@ -19,30 +19,14 @@ public abstract class ItemBase : ShowDetails
         return aux;
     }
 
-
-    private void OnEnable()
-    {
-        SetCreateItemType();
-        MyEnable();
-    }
-
-    private void OnDisable()
-    {
-        MyDisable();
-    }
-
-    private void OnDestroy()
-    {
-        MyDisable();
-    }
-
-    protected virtual void MyDisable()
+    protected override void MyDisable()
     {
         Manager<ItemBase>.pic.Remove(nameDisplay);
     }
 
-    protected virtual void MyEnable()
+    protected override void MyEnable()
     {
+        SetCreateItemType();
         Manager<ItemBase>.pic.Add(nameDisplay, this);
     }
 }

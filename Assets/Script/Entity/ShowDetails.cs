@@ -29,6 +29,31 @@ public class ShowDetails : ScriptableObject, IShowDetails
     {
         return new Pictionarys<string, string>() { { "Description", _details } };
     }
+
+    private void OnEnable()
+    {
+        MyEnable();
+    }
+
+    private void OnDisable()
+    {
+        MyDisable();
+    }
+
+    private void OnDestroy()
+    {
+        MyDisable();
+    }
+
+    protected virtual void MyDisable()
+    {
+        Manager<ShowDetails>.pic.Remove(nameDisplay);
+    }
+
+    protected virtual void MyEnable()
+    {
+        Manager<ShowDetails>.pic.Add(nameDisplay, this);
+    }
 }
 
 public interface IShowDetails
