@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IAIO : MonoBehaviour, IState<Character>
+public class IAIO : IAFather
 {
     Character character;
 
@@ -20,7 +20,7 @@ public class IAIO : MonoBehaviour, IState<Character>
         }
     }
 
-    public void OnEnterState(Character param)
+    public override void OnEnterState(Character param)
     {
         character = param;
 
@@ -32,7 +32,7 @@ public class IAIO : MonoBehaviour, IState<Character>
 
 
 
-    public void OnExitState(Character param)
+    public override void OnExitState(Character param)
     {
         VirtualControllers.principal.DesuscribeController(param.prin);
         VirtualControllers.secondary.DesuscribeController(param.sec);
@@ -40,7 +40,7 @@ public class IAIO : MonoBehaviour, IState<Character>
         VirtualControllers.movement.DesuscribeController(param.move);
     }
 
-    public void OnStayState(Character param)
+    public override void OnStayState(Character param)
     {
         
     }

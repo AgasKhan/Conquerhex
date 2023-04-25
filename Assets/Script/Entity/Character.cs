@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : DinamicEntityWork//, ISwitchState<Character>
+public class Character : DinamicEntityWork, ISwitchState<Character>
 {
     // Start is called before the first frame update
     [SerializeField]
@@ -29,7 +29,7 @@ public class Character : DinamicEntityWork//, ISwitchState<Character>
     IState<Character> _ia;
     */
 
-    public IAIO CurrentState
+    public IState<Character> CurrentState
     {
         get => _ia;
         set
@@ -40,8 +40,8 @@ public class Character : DinamicEntityWork//, ISwitchState<Character>
         }
     }
 
-    [SerializeReference]
-    IAIO _ia;
+    [SerializeField]
+    IState<Character> _ia;
 
     protected override void Config()
     {

@@ -24,9 +24,9 @@ public class Interfaz : MonoBehaviour
     TextCompleto tiempo;
     TextCompleto subtitulo;
 
-    void UpdateLife(float percentage)
+    void UpdateLife(IGetPercentage getPercentage)
     {
-        vida.fillAmount = percentage;
+        vida.fillAmount = getPercentage.Percentage();
     }
 
     private void Awake()
@@ -68,7 +68,7 @@ public class Interfaz : MonoBehaviour
     {
         end(true);
         yield return null;
-        GameManager.instance.player.GetComponent<ControlPJ>().health.lifeDamaged += UpdateLife;
+        GameManager.instance.player.GetComponent<ControlPJ>().health.lifeUpdate += UpdateLife;
     }
 
     // Update is called once per frame

@@ -90,12 +90,7 @@ public class Entity : MyScripts, IDamageable
             Debug.Log(item);
         }
     }
-
-    
-
-
 }
-
 
 public struct DropItem
 {
