@@ -26,10 +26,7 @@ public class Store : StaticEntity
             if (Manager<Recipes>.pic[recipeName].CanCraft(customer.character))
             {
                 Manager<Recipes>.pic[recipeName].Craft(customer.character);
-            }
-            else
-            {
-                Debug.Log("No tienes los recursos suficientes");
+                Manager<Recipes>.pic.Remove(recipeName);
             }
         }
         else

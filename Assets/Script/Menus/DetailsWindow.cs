@@ -17,8 +17,7 @@ public class DetailsWindow : MonoBehaviour
     [SerializeField]
     Image previewImage;
 
-    [SerializeField]
-    Transform buttonsGrid;
+    public Transform buttonsGrid;
 
     Pictionarys<string, Button> myButtons = new Pictionarys<string, Button>();
 
@@ -147,7 +146,7 @@ public class DetailsWindow : MonoBehaviour
         if (sprite != null)
             instance.previewImage.sprite = sprite;
     }
-    
+
     public void SetWindow(Sprite sprite, DoubleString ds)
     {
         PreviewImage(true, sprite);
@@ -198,5 +197,21 @@ public class DetailsWindow : MonoBehaviour
             myButtons[buttonName].transform.parent.gameObject.SetActive(state);
         else
             Debug.Log("No se encontro el boton: " + buttonName);
+    }
+
+
+    public void RefreshButtons(string name)
+    {
+        if(Manager<Recipes>.pic.ContainsKey(name))
+        {
+            for (int i = 0; i < buttonsGrid.childCount; i++)
+            {
+
+            }
+        }
+        if(BaseData.storeItems.ContainsKey(name))
+        {
+
+        }
     }
 }

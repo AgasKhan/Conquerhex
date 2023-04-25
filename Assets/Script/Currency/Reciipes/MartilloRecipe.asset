@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48b1c2f8970e79348b9011dfead2730a, type: 3}
-  m_Name: HammerRecipe
+  m_Name: MartilloRecipe
   m_EditorClassIdentifier: 
-  _nameDisplay: HammerRecipe
+  _nameDisplay: MartilloRecipe
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
+  weight: 0
   materials:
   - Item: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
     Amount: 10
-  results:
-  - Item: {fileID: 11400000, guid: 42d5a7e28c1367a46937aeb369adf5cf, type: 2}
-    Amount: 1
+  result:
+    Item: {fileID: 11400000, guid: 42d5a7e28c1367a46937aeb369adf5cf, type: 2}
+    Amount: 0

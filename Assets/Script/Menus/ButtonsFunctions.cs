@@ -91,8 +91,6 @@ public class ButtonsFunctions : MonoBehaviour
         //Se obtiene el componente "Button" del "GameObject"
         var aux = g.GetComponent<UnityEngine.UI.Button>();
 
-        BaseData.storeItems.Remove(g.transform.parent.name);
-
         aux.interactable = false;
     }
 

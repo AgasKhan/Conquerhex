@@ -10,44 +10,32 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
     [HideInInspector]
     public DetailsWindow myDetailWindow;
 
-    private void Start()
+    void GetVariables()
     {
-        GetDetailsWindow();
+        myItem = GetScriptObject(transform.parent.name);
+        myDetailWindow = Manager<DetailsWindow>.pic[transform.name];
     }
 
-    public void GetDetailsWindow()
+    IShowDetails GetScriptObject(string ObjectName)
     {
-        if (Manager<DetailsWindow>.pic.ContainsKey(transform.name))
-            myDetailWindow = Manager<DetailsWindow>.pic[transform.name];
+        if (Manager<ShowDetails>.pic.ContainsKey(ObjectName))
+            return Manager<ShowDetails>.pic[transform.parent.name];
         else
-            Debug.Log("No se encontro: " + transform.name + " entre las Details Windows");
+            return Manager<ItemBase>.pic[transform.parent.name];
     }
 
     protected override void InternalActivate(params Button[] specificParam)
     {
-        if (myItem != null)
-        {
-            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
-        }
-        else if (Manager<ItemBase>.pic.ContainsKey(transform.parent.name))
-        {
-            myItem = Manager<ItemBase>.pic[transform.parent.name];
-            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
+        GetVariables();
 
-            /*
-            if (BaseData.storeItems.ContainsKey(myItem.nameDisplay))
-            {
-
-            }
-            */
-        }
-        else if (Manager<ShowDetails>.pic.ContainsKey(transform.parent.name))
+        if (myItem == null || myDetailWindow == null)
         {
-            myItem = Manager<ShowDetails>.pic[transform.parent.name];
-            myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
+            Debug.LogWarning("No se encontro un parametro necesario");
+            return;
         }
-        else
-            Debug.Log("No se encontro el item: " + transform.parent.name);
 
+        myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
     }
+
+    
 }

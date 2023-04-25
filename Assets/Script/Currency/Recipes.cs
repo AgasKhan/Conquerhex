@@ -7,37 +7,33 @@ public class Recipes : ItemBase
 {
     public List<Ingredient> materials;
 
-    public List<Ingredient> results;
+    public Ingredient result;
 
     public bool CanCraft(IItemContainer container)
     {
         foreach (var ingredient in materials)
         {
             if (container.ItemCount(ingredient.Item.nameDisplay) < ingredient.Amount)
+            {
+                Debug.Log("No posees los items necesarios para el crafteo");
                 return false;
+            }
         }
         return true;
     }
 
     public void Craft(IItemContainer container)
     {
-        if(CanCraft(container))
+        foreach (var ingredient in materials)
         {
-            foreach (var ingredient in materials)
-            {
-                container.AddOrSubstractItems(ingredient.Item.nameDisplay, - ingredient.Amount);
-            }
+            container.AddOrSubstractItems(ingredient.Item.nameDisplay, -ingredient.Amount);
+        }
 
-            foreach (var ingredient in results)
-            {
-                container.AddOrSubstractItems(ingredient.Item.nameDisplay, ingredient.Amount);
-            }
+        container.AddOrSubstractItems(result.Item.nameDisplay, result.Amount);
 
-            foreach (var ingredient in materials)
-            {
-                Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item.nameDisplay).ToString() + " "  + ingredient.Item.nameDisplay);
-            }
-
+        foreach (var ingredient in materials)
+        {
+            Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item.nameDisplay).ToString() + " " + ingredient.Item.nameDisplay);
         }
     }
 
