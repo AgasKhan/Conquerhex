@@ -114,9 +114,9 @@ public class Health : Init
     [SerializeReference]
     Routine timeToRegen;
 
-    public event System.Action<float> regenDamaged;
+    public event System.Action<IGetPercentage> lifeUpdate;
 
-    public event System.Action<float> lifeDamaged;
+    public event System.Action<IGetPercentage> regenUpdate;
 
     public event System.Action noLife;
 
@@ -128,13 +128,11 @@ public class Health : Init
     {
         timeToRegen.Reset();
 
-        var aux = regen.Substract(amount);
-
-        if (aux <= 0 && life.current <= 0)
+        if (regen.Substract(amount) <= 0 && life.current <= 0)
             death?.Invoke();
 
-        regenDamaged?.Invoke(aux);
-        return aux;
+        regenUpdate?.Invoke(regen);
+        return regen.Percentage();
     }
 
     public float TakeLifeDamage(float amount)
@@ -149,19 +147,17 @@ public class Health : Init
 
             life.Substract(amount);
 
-            if (TakeRegenDamage(aux) <= 0)
-            {
-                return 0;
-            }
+            TakeRegenDamage(aux);
+        }
+        else
+        {
+            life.Substract(amount);                
         }
 
-        var aux2 = life.Substract(amount);
-
-        if (amount>0)
-            lifeDamaged?.Invoke(aux2);
+        lifeUpdate?.Invoke(life);
 
         //actualizar ui
-        return aux2;
+        return life.Percentage();
     }
 
     void Regen()
@@ -179,6 +175,9 @@ public class Health : Init
         {
             reLife?.Invoke();
         }
+
+        lifeUpdate?.Invoke(life);
+        regenUpdate?.Invoke(regen);
     }
 
     public void Init(params object[] param)
