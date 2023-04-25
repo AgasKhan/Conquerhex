@@ -69,20 +69,6 @@ public class ButtonsFunctions : MonoBehaviour
         });
     }
 
-    void BuySingleItem2(GameObject g)
-    {
-        //Se compra el item usando una funcion de "Store" enviando el nombre del padre del boton
-        Store.instance.BuyAnItem(g.transform.parent.name);
-
-        //Se cambia el nombre del boton para que cumpla otra funcion
-        g.name = "EquipItem";
-
-        //Se obtiene el componente "Button" del "GameObject"
-        var aux = g.GetComponent<UnityEngine.UI.Button>();
-
-        //Se envia el componente del boton a "Extensiones" para que se le asigne una nueva funcion basada en su nombre nuevo
-        Extensions.Event(aux);
-    }
     void BuySingleItem(GameObject g)
     {
         //Se compra el item usando una funcion de "Store" enviando el nombre del padre del boton
@@ -94,22 +80,14 @@ public class ButtonsFunctions : MonoBehaviour
         aux.interactable = false;
     }
 
-
     void EquipItem(GameObject g)
     {
         //Verificar si ya esta equipada
         var character = GameManager.instance.player.GetComponent<Character>();
 
-        BaseData.playerInventory.Add(g.transform.parent.name);
+        Debug.Log("El jugador se equipó: " + g.name);
 
-        if (character.prin.weapon.nameDisplay == g.transform.parent.name)
-        {
-
-        }
-        else
-        {
-            g.transform.parent.name = "Espada";
-        }
+        BaseData.playerInventory.Add(g.name);
 
         var aux = g.GetComponent<UnityEngine.UI.Button>();
         aux.interactable = false;

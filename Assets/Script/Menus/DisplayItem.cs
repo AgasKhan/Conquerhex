@@ -35,6 +35,7 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
         }
 
         myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
+        myDetailWindow.RefreshButton(myItem.nameDisplay);
     }
 
     
