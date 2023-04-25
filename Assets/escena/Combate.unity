@@ -205,11 +205,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -221,6 +219,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -233,7 +232,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -253,7 +251,7 @@ Transform:
   m_Children:
   - {fileID: 1791346414}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &94065485
 PrefabInstance:
@@ -598,11 +596,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -614,6 +610,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -626,7 +623,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -646,7 +642,7 @@ Transform:
   m_Children:
   - {fileID: 1882426386}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &217600883
 PrefabInstance:
@@ -856,11 +852,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -872,6 +866,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -884,7 +879,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -904,7 +898,7 @@ Transform:
   m_Children:
   - {fileID: 1931712101}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &359693044
 PrefabInstance:
@@ -1244,11 +1238,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -1260,6 +1252,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -1272,7 +1265,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -1292,7 +1284,7 @@ Transform:
   m_Children:
   - {fileID: 1059007525}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &451814052
 PrefabInstance:
@@ -1304,7 +1296,7 @@ PrefabInstance:
     - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
@@ -1570,11 +1562,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -1586,6 +1576,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -1598,7 +1589,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -1618,7 +1608,7 @@ Transform:
   m_Children:
   - {fileID: 1529512102}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &530374421
 PrefabInstance:
@@ -1802,11 +1792,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -1818,6 +1806,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -1830,7 +1819,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -1850,7 +1838,7 @@ Transform:
   m_Children:
   - {fileID: 429420608}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &662804436
 BoxCollider2D:
@@ -2221,11 +2209,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -2237,6 +2223,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -2249,7 +2236,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -2269,7 +2255,7 @@ Transform:
   m_Children:
   - {fileID: 1151063968}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &844921733
 GameObject:
@@ -2340,11 +2326,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -2362,8 +2346,9 @@ MonoBehaviour:
       pictionaries:
       - key: 
         value: {fileID: 0}
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
-    _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
+    _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: 3385f69350ec53241822acc73a292f10, type: 2}
   sec:
@@ -2371,10 +2356,9 @@ MonoBehaviour:
     _weapon:
       _itemBase: {fileID: 11400000, guid: 42d5a7e28c1367a46937aeb369adf5cf, type: 2}
   ter:
-    _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
+    _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 844921734}
   references:
     version: 2
     RefIds:
@@ -2394,7 +2378,7 @@ Transform:
   m_Children:
   - {fileID: 1506517310}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &994069915
 GameObject:
@@ -2462,7 +2446,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1059007524
 PrefabInstance:
@@ -2687,7 +2671,7 @@ RectTransform:
   - {fileID: 130107017}
   - {fileID: 359693045}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2902,11 +2886,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -2918,6 +2900,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -2930,7 +2913,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -2950,7 +2932,7 @@ Transform:
   m_Children:
   - {fileID: 1649979669}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1240751354
 PrefabInstance:
@@ -3153,11 +3135,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -3169,6 +3149,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -3181,7 +3162,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -3201,7 +3181,7 @@ Transform:
   m_Children:
   - {fileID: 746437022}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1266468115
 PrefabInstance:
@@ -3581,11 +3561,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -3597,6 +3575,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -3609,7 +3588,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -3629,7 +3607,7 @@ Transform:
   m_Children:
   - {fileID: 530374422}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1640049622
 GameObject:
@@ -3713,11 +3691,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -3729,6 +3705,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -3741,7 +3718,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -3761,7 +3737,7 @@ Transform:
   m_Children:
   - {fileID: 217600884}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1649979668
 PrefabInstance:
@@ -4349,11 +4325,9 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 100
-      _current: 100
+      rid: -2
     regen:
-      total: 10
-      _current: 1
+      rid: -2
     timeToRegen:
       rid: -2
   interact:
@@ -4365,6 +4339,7 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
+  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
   prin:
     _itemBase: {fileID: 11400000, guid: 964fe4e51fc615f448274c5d9ffd62f4, type: 2}
     _weapon:
@@ -4377,7 +4352,6 @@ MonoBehaviour:
     _itemBase: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
     _weapon:
       _itemBase: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  _ia: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -4397,8 +4371,82 @@ Transform:
   m_Children:
   - {fileID: 94065486}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2006986962
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1705536568217477445, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_Name
+      value: Point Light 2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 1705536568217477445, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 80.45116
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 19.574223
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581945881407357684, guid: f9c196f145075b64386847b4587dd907,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f9c196f145075b64386847b4587dd907, type: 3}
 --- !u!1001 &2291286609917748520
 PrefabInstance:
   m_ObjectHideFlags: 0
