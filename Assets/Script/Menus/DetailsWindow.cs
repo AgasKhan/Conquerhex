@@ -204,15 +204,15 @@ public class DetailsWindow : MonoBehaviour
 
     public void RefreshButton(string name)
     {
-        if (buttonsGrid.GetChild(0) == null)
+        var aux = buttonsGrid.GetChild(0).GetComponentInChildren<Button>();
+
+        if (aux == null)
         {
             Debug.Log("No se encontro el boton a refrescar");
             return;
         }
 
         buttonsGrid.GetChild(0).name = name;
-
-        var aux = buttonsGrid.GetChild(0).GetComponentInChildren<Button>();
 
         if (BaseData.playerInventory.Contains(name + "Recipe") && BaseData.currentWeapon != name)
             aux.interactable = true;
