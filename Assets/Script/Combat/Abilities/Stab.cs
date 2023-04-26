@@ -50,15 +50,7 @@ public class Stab : WeaponKataBase
 
         Damage(ref damages, aux);
 
-        /*var aux2 = caster.GetComponent<IDamageable>();
-
-        for (int i = 0; i < aux.Length; i++)
-        {
-            if (aux[i] == aux2)
-            {
-            
-            }
-        }*/
+        
     }
 }
 
