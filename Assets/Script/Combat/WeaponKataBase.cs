@@ -43,9 +43,11 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     protected void Attack(Entity caster, Vector2 direction, Weapon weapon)
     {
-        //instacio particulas
+        //particulas
 
-        Instantiate(particles, caster.transform.position, Quaternion.identity);
+        var aux = PoolManager.SrchInCategory("Particles", particles.name);
+
+        PoolManager.SpawnPoolObject(aux, caster.transform.position);
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 

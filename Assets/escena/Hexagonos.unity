@@ -1328,7 +1328,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
   - {fileID: 11400000, guid: e3d7a5bb6d2b7754d98e4cfd25e3414d, type: 2}
   map: {fileID: 1540370208}
-  playerPublic: {fileID: 0}
+  playerPublic: {fileID: 1504004396}
   spawner: {fileID: 5223350694060523476, guid: ecf5bace16d838041a93341ef03cc01d, type: 3}
   victoria: {fileID: 1523643467}
   basePos: {x: 2, y: 20, z: 10}
@@ -4106,6 +4106,120 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: managedReferences[-2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].name
+      value: Particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[0].amount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 2291286609945862154, guid: 8e0c2eb154fa8b94d92e62732b861a5b,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[1].amount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 9173608332381660513, guid: 830bdff0b412d2f4bbffa007f46efe6f,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[2].amount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 4462336582239376682, guid: 46caac2c9e3ac774c8bc66196f3c18b3,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[1].pool.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[1].pool.Array.data[0]
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[0].utilityRefence.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[1].utilityRefence.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[2].utilityRefence.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[0].utilityRefence.Array.data[0]
+      value: 
+      objectReference: {fileID: 5057395760623579736, guid: 6187da6f17fa2d247b45239a7266d8fa,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[0].utilityRefence.Array.data[1]
+      value: 
+      objectReference: {fileID: 698684580352829851, guid: 6187da6f17fa2d247b45239a7266d8fa,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[1].utilityRefence.Array.data[0]
+      value: 
+      objectReference: {fileID: 5057395760623579736, guid: 6187da6f17fa2d247b45239a7266d8fa,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[1].utilityRefence.Array.data[1]
+      value: 
+      objectReference: {fileID: 698684580352829851, guid: 6187da6f17fa2d247b45239a7266d8fa,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[2].utilityRefence.Array.data[0]
+      value: 
+      objectReference: {fileID: 5057395760623579736, guid: 6187da6f17fa2d247b45239a7266d8fa,
+        type: 3}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[2].utilityRefence.Array.data[1]
+      value: 
+      objectReference: {fileID: 698684580352829851, guid: 6187da6f17fa2d247b45239a7266d8fa,
+        type: 3}
     - target: {fileID: 7739652029663223114, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
       propertyPath: menu
