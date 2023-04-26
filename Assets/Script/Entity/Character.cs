@@ -52,6 +52,16 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
             }
         }
 
+        //---------------------
+        if(team == Team.mac)
+        {
+            var aux = gameObject.GetComponent<Animator>();
+
+            if( aux!= null)
+                aux.SetTrigger("Dañado");
+        }
+        //---------------------
+
         base.TakeDamage(dmg);
     }
 
@@ -84,7 +94,6 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     }
 
     //--------------------------------------------
-    
     void ShowLoserWindow()
     {
         if (team == Team.windows)
