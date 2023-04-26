@@ -37,7 +37,12 @@ public class MenuManager : SingletonMono<MenuManager>
 
         GetDetailsWinAndSubMenus();
 
-        if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
+        LoadSystem.AddPostLoadCorutine(PLayAudios);
+    }
+
+    void PLayAudios()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
         {
             MusicInGame();
         }
