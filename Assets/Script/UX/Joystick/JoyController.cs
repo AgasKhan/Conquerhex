@@ -20,6 +20,8 @@ public class JoyController : MonoBehaviour
     [SerializeField]
     UnityEngine.UI.Image imageToFill;
 
+    //Timer rutina;
+
     public float fill
     {
         set => imageToFill.fillAmount = value;
@@ -40,17 +42,24 @@ public class JoyController : MonoBehaviour
 
         EventManager.events.SearchOrCreate<EventGeneric>(eventController).action += JoyController_action;
 
-        LoadSystem.AddPostLoadCorutine(()=>
-        {
+        LoadSystem.AddPostLoadCorutine(SetStick);
 
-            stick.initPos = transform.position;
+        //rutina = TimersManager.Create(3, SetStick, false);
+    }
 
-            stick.maxMagnitud = rect.rect.width / 2;
+    void SetStick()
+    {
+        stick.initPos = transform.position;
 
-            stick.minMagnitud = stick.maxMagnitud * deadzone;
+        stick.maxMagnitud = rect.rect.width / 2;
 
-        }
-        );
+        stick.minMagnitud = stick.maxMagnitud * deadzone;
+
+    }
+
+    private void Update()
+    {
+        SetStick();
     }
 
     private void JoyController_action(params object[] param)
