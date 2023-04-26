@@ -30,9 +30,9 @@ public class TimersManager : MonoBehaviour
     /// <param name="action">la funcion que se ejecutara</param>
     /// <param name="destroy">si se destruye luego de ejecutar la funcion</param>
     /// <returns>retorna la rutina creada</returns>
-    public static Routine Create(float totTime, Action action, bool destroy=true, bool unscaled = false)
+    public static TimedAction Create(float totTime, Action action, bool destroy=true, bool unscaled = false)
     {
-        Routine newTimer = new Routine(totTime, action, destroy, unscaled);
+        TimedAction newTimer = new TimedAction(totTime, action, destroy, unscaled);
         instance.timersList.Add(newTimer);
         return newTimer;
     }
@@ -47,9 +47,9 @@ public class TimersManager : MonoBehaviour
     /// <param name="destroy"></param>
     /// <param name="unscaled"></param>
     /// <returns></returns>
-    public static CompleteRoutine Create(float totTime, Action update, Action end, bool destroy = true, bool unscaled = false)
+    public static TimedCompleteAction Create(float totTime, Action update, Action end, bool destroy = true, bool unscaled = false)
     {
-        CompleteRoutine newTimer = new CompleteRoutine(totTime, update, end, destroy, unscaled);
+        TimedCompleteAction newTimer = new TimedCompleteAction(totTime, update, end, destroy, unscaled);
         instance.timersList.Add(newTimer);
         return newTimer;
     }
@@ -76,9 +76,9 @@ public class TimersManager : MonoBehaviour
         {
             timersList[i].SubsDeltaTime();
 
-            if (timersList[i].Chck && timersList[i] is Routine && ((Routine)timersList[i]).execute)
+            if (timersList[i].Chck && timersList[i] is TimedAction && ((TimedAction)timersList[i]).execute)
             {
-                if (((Routine)timersList[i]).Execute())
+                if (((TimedAction)timersList[i]).Execute())
                     timersList.RemoveAt(i);
             }
         }
@@ -266,7 +266,7 @@ public class Timer : Tim
 /// rutina que ejecutara una accion desp de que termine el tiemer
 /// </summary>
 [System.Serializable] 
-public class Routine : Timer
+public class TimedAction : Timer
 {    
     public Action action;
 
@@ -288,7 +288,7 @@ public class Routine : Timer
         return destroy;
     }
 
-    public Routine(float timer, Action action, bool destroy = true, bool unscaled = false) : base(timer)
+    public TimedAction(float timer, Action action, bool destroy = true, bool unscaled = false) : base(timer)
     {
        
         this.action = action;
@@ -304,7 +304,7 @@ public class Routine : Timer
 /// rutina que ejecutara una funcion al comenzar/reiniciar, otra en cada frame, y otra al final
 /// </summary>
 [System.Serializable]
-public class CompleteRoutine : Routine
+public class TimedCompleteAction : TimedAction
 {
 
     Action update;
@@ -332,7 +332,7 @@ public class CompleteRoutine : Routine
     /// <param name="update"></param>
     /// <param name="end"></param>
     /// <param name="destroy"></param>
-    public CompleteRoutine(float timer, Action update, Action end, bool destroy = true, bool unscaled = false) : base(timer, end, destroy)
+    public TimedCompleteAction(float timer, Action update, Action end, bool destroy = true, bool unscaled = false) : base(timer, end, destroy)
     {
         this.update = update;
         _unscaled = unscaled;

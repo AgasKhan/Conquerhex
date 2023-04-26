@@ -68,7 +68,7 @@ public class Interfaz : MonoBehaviour
     {
         end(true);
         yield return null;
-        GameManager.instance.player.GetComponent<ControlPJ>().health.lifeUpdate += UpdateLife;
+        GameManager.instance.player.GetComponent<Character>().health.lifeUpdate += UpdateLife;
     }
 
     // Update is called once per frame

@@ -15,19 +15,19 @@ public class Stab : WeaponKataBase
 
     //Cuandos
     //Antes, al apretar el boton
-    public override void ControllerDown (Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerDown (Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("presionaste ataque 1, STAB");
     }
 
     //Durante, al mantener y moverlo
-    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("estas manteniendo ataque 1, STAB");    
     }
 
     //Despues, al sotarlo
-    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("Soltaste ataque 1, STAB");
 
@@ -35,12 +35,9 @@ public class Stab : WeaponKataBase
 
         weapon.Durability();
 
-        if (cooldownEnd.Chck)
-        {
-            cooldownEnd.Reset();
+        cooldownEnd.Reset();
 
-            Attack(caster, dir, weapon);
-        }
+        Attack(caster, dir, weapon);
     }
 
     //Como se efectua la habilidad

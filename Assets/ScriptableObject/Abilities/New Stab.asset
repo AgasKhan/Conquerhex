@@ -16,27 +16,20 @@ MonoBehaviour:
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
+  weight: 0
   damages:
   - amount: 5
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
   velocity: 3
   joystick: 0
-  particles: {fileID: 4462336582239376682, guid: 46caac2c9e3ac774c8bc66196f3c18b3,
-    type: 3}
+  particles:
+  - {fileID: 4462336582239376682, guid: 46caac2c9e3ac774c8bc66196f3c18b3, type: 3}
   detect:
     radius: 1
     distance: 1
     layerMask:
       serializedVersion: 2
       m_Bits: 1
-    maxDetects: -1
-    minDetects: 1
-  detectIA:
-    radius: 0
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
     maxDetects: -1
     minDetects: 1
   damagesMultiply:

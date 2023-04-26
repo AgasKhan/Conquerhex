@@ -12,8 +12,8 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [Space]
 
     [Header("Particulas a mostrar")]
-    [SerializeField]
-    GameObject particles;
+    public
+    GameObject[] particles;
 
     [Header("Deteccion")]
 
@@ -42,12 +42,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     }
 
     protected void Attack(Entity caster, Vector2 direction, Weapon weapon)
-    {
-        //particulas
-
-        var aux = PoolManager.SrchInCategory("Particles", particles.name);
-
-        PoolManager.SpawnPoolObject(aux, caster.transform.position);
+    {       
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
@@ -122,9 +117,9 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
             ));
     }
 
-    public abstract void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
-    public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
-    public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd);
+    public abstract void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
+    public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
+    public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
     protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages);
 }
 
@@ -135,7 +130,17 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     public event System.Action<Weapon> desEquipedWeapon;
     public event System.Action<Weapon> rejectedWeapon;
 
+
+    public event System.Action updateTimer;
+
+    void TriggerTimerEvent()
+    {
+        updateTimer?.Invoke();
+    }
+
     System.Action<Vector2, float> pressed;
+
+    System.Action<Vector2, float> up;
 
     public Weapon weapon
     {
@@ -147,6 +152,7 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     Weapon _weapon;
     Timer cooldown;
     Entity caster;
+    Vector2Int[] indexParticles;
 
     void ChangeWeapon(Weapon weapon)
     {
@@ -178,7 +184,7 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     /// <param name="param"></param>
     public override void Init(params object[] param)
     {
-        pressed = MyControllerVOIDPressed;
+        pressed = MyControllerVOID;
 
         if (itemBase == null)
             return;
@@ -189,16 +195,27 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
         if (param.Length > 1)
             _weapon = param[1] as Weapon;
 
-        cooldown = TimersManager.Create(itemBase.velocity);
+        cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, ()=> { }, false);
 
         if(weapon!=null)
             weapon.Init();
+
+        indexParticles = new Vector2Int[itemBase.particles.Length];
+
+        for (int i = 0; i < itemBase.particles.Length; i++)
+        {
+            indexParticles[i] = PoolManager.SrchInCategory("Particles", itemBase.particles[i].name);
+        }
     }
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        itemBase.ControllerDown(caster, dir, tim, weapon, cooldown);
-        pressed = MyControllerPressed;
+        if(cooldown.Chck)
+        {
+            itemBase.ControllerDown(caster, dir, tim, weapon, cooldown, indexParticles);
+            pressed = MyControllerPressed;
+            up = MyControllerUp;
+        }
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
@@ -208,8 +225,10 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        itemBase.ControllerUp(caster, dir, tim, weapon, cooldown);
-        pressed = MyControllerVOIDPressed;
+        up(dir, tim);
+
+        pressed = MyControllerVOID;
+        up = MyControllerVOID;
     }
 
     public float Percentage()
@@ -227,10 +246,16 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     #region internal functions
     void MyControllerPressed(Vector2 dir, float tim)
     {
-        itemBase.ControllerPressed(caster, dir, tim, weapon, cooldown);
+        itemBase.ControllerPressed(caster, dir, tim, weapon, cooldown, indexParticles);
     }
 
-    void MyControllerVOIDPressed(Vector2 dir, float tim)
+    public void MyControllerUp(Vector2 dir, float tim)
+    {
+        
+        itemBase.ControllerUp(caster, dir, tim, weapon, cooldown, indexParticles);
+    }
+
+    void MyControllerVOID(Vector2 dir, float tim)
     {
     }
 

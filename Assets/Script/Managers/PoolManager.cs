@@ -164,9 +164,7 @@ public class PoolManager : MonoBehaviour
 
     static public Transform SpawnPoolObject(Vector2Int indexs, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null)
     { 
-        var pool = InternalSpawnPoolObject(indexs);
-
-        Transform transformObject = pool.SpawnPoolObj();
+        var transformObject = InternalSpawnPoolObject(indexs).SpawnPoolObj();
 
         SetTransform(transformObject, pos, angles, padre);
 
@@ -175,7 +173,7 @@ public class PoolManager : MonoBehaviour
 
     static public Transform SpawnPoolObject<T>(Vector2Int indexs, out T reference, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null) where T : Object
     {
-        var transform = SpawnPoolObject(indexs, out reference);
+        var transform = InternalSpawnPoolObject(indexs).SpawnPoolObj(out reference);
 
         SetTransform(transform, pos, angles, padre);
 

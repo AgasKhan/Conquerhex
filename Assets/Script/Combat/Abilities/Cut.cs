@@ -13,17 +13,17 @@ public class Cut : WeaponKataBase
     Timer cooldownEnd: EL TIEMPO DE REUTILIZACION DE LA HABILIDAD
      */
 
-    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("presionaste ataque 1, CUT");
     }
 
-    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("estas manteniendo ataque 1, CUT");
     }
 
-    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("Soltaste ataque 1, CUT");
 
@@ -31,12 +31,9 @@ public class Cut : WeaponKataBase
 
         weapon.Durability(5);
 
-        if (cooldownEnd.Chck)
-        {
-            cooldownEnd.Reset();
+        cooldownEnd.Reset();
 
-            Attack(caster, dir, weapon);
-        }
+        Attack(caster, dir, weapon);
     }
 
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)

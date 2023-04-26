@@ -107,7 +107,7 @@ public class Health : Init
     [SerializeReference]
     Tim regen;
     [SerializeReference]
-    Routine timeToRegen;
+    TimedAction timeToRegen;
 
     public event System.Action<IGetPercentage> lifeUpdate;
 

@@ -115,23 +115,23 @@ public static class Utilitys
 
     #region lerps
 
-    static public CompleteRoutine LerpInTime<T>(T original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedCompleteAction LerpInTime<T>(T original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
         return LerpInTime(() => original, () => final, seconds, Lerp, save);
     }
 
-    static public CompleteRoutine LerpInTime<T>(T original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedCompleteAction LerpInTime<T>(T original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
         return LerpInTime(() => original, final, seconds, Lerp, save);
     }
 
-    static public CompleteRoutine LerpInTime<T>(System.Func<T> original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedCompleteAction LerpInTime<T>(System.Func<T> original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
         return LerpInTime(original, () => final, seconds, Lerp, save);
     }
 
 
-    static public CompleteRoutine LerpInTime<T>(System.Func<T> original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedCompleteAction LerpInTime<T>(System.Func<T> original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
         Timer tim = new Timer(seconds);
 
@@ -139,7 +139,7 @@ public static class Utilitys
 
         update = () =>
         {
-            save(Lerp(original(), final(), tim.Percentage()));
+            save(Lerp(original(), final(), tim.InversePercentage()));
         }
         ,
 
@@ -150,10 +150,10 @@ public static class Utilitys
 
         tim = TimersManager.Create(seconds, update, end, true, true);
 
-        return (CompleteRoutine)tim;
+        return (TimedCompleteAction)tim;
     }
 
-    static public CompleteRoutine LerpWithCompare<T>(T original, T final, float velocity, System.Func<T, T, float, T> Lerp, System.Func<T, T, bool> compare, System.Action<T> save)
+    static public TimedCompleteAction LerpWithCompare<T>(T original, T final, float velocity, System.Func<T, T, float, T> Lerp, System.Func<T, T, bool> compare, System.Action<T> save)
     {
         Timer tim = new Timer(1);
 
@@ -177,7 +177,7 @@ public static class Utilitys
 
         tim = TimersManager.Create(1, update, end, true, true);
 
-        return (CompleteRoutine)tim;
+        return (TimedCompleteAction)tim;
     }
 
     #endregion

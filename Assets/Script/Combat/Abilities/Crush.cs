@@ -13,19 +13,31 @@ public class Crush : WeaponKataBase
     Timer cooldownEnd: EL TIEMPO DE REUTILIZACION DE LA HABILIDAD
      */
 
-    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    //OJO QUE ES UNA REFERENCIA PARA TODOS
+    FadeOnOff reference;
+
+    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("presionaste ataque 1, CRUSH");
+
+        if (caster.CompareTag("Player"))
+        {
+            var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
+            aux.SetParent(caster.transform);
+
+            aux.localScale *= detect.radius;
+
+        }
     }
 
     //Durante, al mantener y moverlo
-    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("estas manteniendo ataque 1, CRUSH");
     }
 
     //Despues, al sotarlo
-    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd)
+    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
     {
         Debug.Log("Soltaste ataque 1, CRUSH");
 
@@ -33,12 +45,14 @@ public class Crush : WeaponKataBase
 
         weapon.Durability(3);
 
-        if (cooldownEnd.Chck)
-        {
-            cooldownEnd.Reset();
+        cooldownEnd.Reset();
 
-            Attack(caster, dir, weapon);
-        }
+        Attack(caster, dir, weapon);
+
+        PoolManager.SpawnPoolObject(particles[0], caster.transform.position);
+
+        if (caster.CompareTag("Player"))
+            reference.Off();
     }
 
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
