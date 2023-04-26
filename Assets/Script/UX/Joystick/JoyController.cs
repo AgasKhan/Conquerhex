@@ -36,15 +36,21 @@ public class JoyController : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
 
-        stick.initPos = transform.position;
-
-        stick.maxMagnitud = rect.rect.width / 2;
-
-        stick.minMagnitud = stick.maxMagnitud * deadzone;
-
         axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
 
-        EventManager.events.SearchOrCreate<EventGeneric>(eventController).action += JoyController_action; ;
+        EventManager.events.SearchOrCreate<EventGeneric>(eventController).action += JoyController_action;
+
+        LoadSystem.AddPostLoadCorutine(()=>
+        {
+
+            stick.initPos = transform.position;
+
+            stick.maxMagnitud = rect.rect.width / 2;
+
+            stick.minMagnitud = stick.maxMagnitud * deadzone;
+
+        }
+        );
     }
 
     private void JoyController_action(params object[] param)
