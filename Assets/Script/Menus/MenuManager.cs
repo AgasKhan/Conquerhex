@@ -36,6 +36,8 @@ public class MenuManager : SingletonMono<MenuManager>
         detailsWindows = Manager<DetailsWindow>.pic;
 
         GetDetailsWinAndSubMenus();
+
+        MusicInGame();
     }
 
     void GetDetailsWinAndSubMenus()
@@ -115,6 +117,11 @@ public class MenuManager : SingletonMono<MenuManager>
     public void ClickSound()
     {
         audioM.Play("Click");
+    }
+
+    public void MusicInGame()
+    {
+        audioM.Play("MusicInMenu");
     }
 
     /*
