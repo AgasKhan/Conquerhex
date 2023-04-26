@@ -8,10 +8,10 @@ public class IAIO : IAFather
 
     [SerializeField]
     SteeringWithTarger[] steerings;
-
+  /*
     private void Update()
     {
-        /*
+      
         foreach (var steer in steerings)
         {
             foreach (var obj in steer.targets)
@@ -19,9 +19,9 @@ public class IAIO : IAFather
                 steer.steering.Calculate(obj);
             }
         }
-        */
+        
     }
-
+*/
     public override void OnEnterState(Character param)
     {
         character = param;
@@ -49,7 +49,6 @@ public class IAIO : IAFather
 
 
         VirtualControllers.movement.SuscribeController(param.move);
-
     }
 
 
