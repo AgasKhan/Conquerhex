@@ -212,14 +212,22 @@ public class DetailsWindow : MonoBehaviour
 
         buttonsGrid.GetChild(0).name = name;
 
-        if(BaseData.playerInventory.Contains(name))
-        {
-            var aux = buttonsGrid.GetChild(0).GetComponent<Button>();
+        var aux = buttonsGrid.GetChild(0).GetComponentInChildren<Button>();
+
+        if (BaseData.playerInventory.Contains(name + "Recipe") && BaseData.currentWeapon != name)
+            aux.interactable = true;
+        else
             aux.interactable = false;
-        }
-            
+
+
 
         //var button = buttonsGrid.GetChild(0).GetComponent<Button>();
         //button.transform.parent.name = name + "Recipe";
     }
+
+    public void EnableButton ()
+    {
+        buttonsGrid.GetChild(0).GetComponentInChildren<Button>().interactable = true;
+    }
+
 }

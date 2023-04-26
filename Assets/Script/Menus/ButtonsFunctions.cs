@@ -77,17 +77,22 @@ public class ButtonsFunctions : MonoBehaviour
         //Se obtiene el componente "Button" del "GameObject"
         var aux = g.GetComponent<UnityEngine.UI.Button>();
 
+        BaseData.playerInventory.Add(g.transform.parent.name);
+
         aux.interactable = false;
+
+        DetailsWindow.instance.EnableButton();
     }
 
     void EquipItem(GameObject g)
     {
-        //Verificar si ya esta equipada
-        var character = GameManager.instance.player.GetComponent<Character>();
+        //var character = GameManager.instance.player.GetComponent<Character>();
 
-        Debug.Log("El jugador se equipó: " + g.name);
+        Debug.Log("El jugador se equipó: " + g.transform.parent.name);
 
-        BaseData.playerInventory.Add(g.name);
+        BaseData.currentWeapon = g.transform.parent.name;
+
+        Debug.Log("Current weapon = " + BaseData.currentWeapon);
 
         var aux = g.GetComponent<UnityEngine.UI.Button>();
         aux.interactable = false;
