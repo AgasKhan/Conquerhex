@@ -5,15 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Crush")]
 public class CrushBase : WeaponKataBase
 {
-    /*
-    Entity caster: ENTIDAD QUE USA LA HABILIDAD
-    Vector2 dir: HACIA DONDE APUNTA LA HABILIDAD
-    float button: EL TIEMPO QUE MANTUVO PRESIONADO EL BOTON (No se usara en ControllerDown)
-    Weapon weapon: EL ARMA EQUIPADA CON ESTA HABILIDAD
-    Timer cooldownEnd: EL TIEMPO DE REUTILIZACION DE LA HABILIDAD
-     */
-
-    //OJO QUE ES UNA REFERENCIA PARA TODOS
+    //ES UNA REFERENCIA PARA TODOS
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
         var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (algo)=> { return caster != algo; } ,(tr) => { return caster.transform == tr; });
@@ -40,7 +32,7 @@ public class Crush : WeaponKata
             var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
             aux.SetParent(caster.transform);
 
-            aux.localScale *= itemBase.detect.radius + 5f;
+            aux.localScale *= itemBase.detect.radius;
 
         }
     }

@@ -2,31 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/Stab")]
-public class StabBase : WeaponKataBase
+[CreateAssetMenu(menuName = "Abilities/MultiCut")]
+public class MultiCutBase : WeaponKataBase
 {
-    //Como se efectua la habilidad
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        var aux = detect.Area(caster.transform.position, (tr) => {return caster != tr; });
+        var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (algo) => { return caster != algo; }, (tr) => { return caster.transform == tr; });
 
         Damage(ref damages, aux);
-
-        
     }
 
     protected override void SetCreateItemType()
     {
-        _itemType = typeof(Stab);
+        _itemType = typeof(MultiCut);
     }
 }
 
-public class Stab : WeaponKata
+public class MultiCut : WeaponKata
 {
     FadeOnOff reference;
-    protected override void InternalControllerDown( Vector2 dir, float button)
+
+    protected override void InternalControllerDown(Vector2 dir, float button)
     {
-        Debug.Log("presionaste ataque 1, STAB");
+        Debug.Log("presionaste ataque 1, MULTICUT");
 
         if (caster.CompareTag("Player"))
         {
@@ -41,23 +39,25 @@ public class Stab : WeaponKata
     //Durante, al mantener y moverlo
     protected override void InternalControllerPress(Vector2 dir, float button)
     {
-        Debug.Log("estas manteniendo ataque 1, STAB");
+        Debug.Log("estas manteniendo ataque 1, MULTICUT");
     }
 
     //Despues, al sotarlo
     protected override void InternalControllerUp(Vector2 dir, float button)
     {
-        Debug.Log("Soltaste ataque 1, STAB");
+        Debug.Log("Soltaste ataque 1, MULTICUT");
 
         //comienza a bajar el cooldown
 
-        weapon.Durability();
+        weapon.Durability(7);
 
         cooldown.Reset();
 
         itemBase.Attack(caster, dir, weapon);
 
-        PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
+        var aux = PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
+
+        aux.SetParent(caster.transform);
 
         if (caster.CompareTag("Player"))
             reference.Off();

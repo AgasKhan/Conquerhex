@@ -5,14 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Cut")]
 public class CutBase : WeaponKataBase
 {
-    /*
-    Entity caster: ENTIDAD QUE USA LA HABILIDAD
-    Vector2 dir: HACIA DONDE APUNTA LA HABILIDAD
-    float button: EL TIEMPO QUE MANTUVO PRESIONADO EL BOTON (No se usara en ControllerDown)
-    Weapon weapon: EL ARMA EQUIPADA CON ESTA HABILIDAD
-    Timer cooldownEnd: EL TIEMPO DE REUTILIZACION DE LA HABILIDAD
-     */
-
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
         var aux = detect.Area(caster.transform.position, (tr) => { return caster != tr; });
