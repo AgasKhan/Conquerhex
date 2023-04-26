@@ -27,16 +27,29 @@ public class IAIO : IAFather
         character = param;
         
         if(param.prin.itemBase !=null)
+        {
             VirtualControllers.principal.SuscribeController(param.prin);
+            param.prin.updateTimer += PrinUi;
+        }
+            
 
         if (param.sec.itemBase != null)
+        {
             VirtualControllers.secondary.SuscribeController(param.sec);
+            param.sec.updateTimer += SecUi;
+        }
+            
 
         if (param.ter.itemBase != null)
+        {
             VirtualControllers.terciary.SuscribeController(param.ter);
+            param.ter.updateTimer += TerUi;
+        }
+            
 
 
         VirtualControllers.movement.SuscribeController(param.move);
+
     }
 
 
@@ -45,21 +58,41 @@ public class IAIO : IAFather
     {
         //if (param.prin.itemBase != null)
         VirtualControllers.principal.DesuscribeController(param.prin);
+        param.prin.updateTimer -= PrinUi;
 
         //if (param.sec.itemBase != null)
         VirtualControllers.secondary.DesuscribeController(param.sec);
+        param.sec.updateTimer -= SecUi;
 
         //if (param.ter.itemBase != null)
-         VirtualControllers.terciary.DesuscribeController(param.ter);
+        VirtualControllers.terciary.DesuscribeController(param.ter);
+        param.ter.updateTimer -= TerUi;
 
 
         VirtualControllers.movement.DesuscribeController(param.move);
     }
 
+
     public override void OnStayState(Character param)
     {
         
     }
+
+    void PrinUi(float f)
+    {
+        EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.principal).Execute(f);
+    }
+
+    void SecUi(float f)
+    {
+        EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.secondary).Execute(f);
+    }
+
+    void TerUi(float f)
+    {
+        EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.terciary).Execute(f);
+    }
+
 }
 
 [System.Serializable]

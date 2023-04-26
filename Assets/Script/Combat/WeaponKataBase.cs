@@ -131,11 +131,11 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     public event System.Action<Weapon> rejectedWeapon;
 
 
-    public event System.Action updateTimer;
+    public event System.Action<float> updateTimer;
 
     void TriggerTimerEvent()
     {
-        updateTimer?.Invoke();
+        updateTimer?.Invoke(cooldown.InversePercentage());
     }
 
     System.Action<Vector2, float> pressed;

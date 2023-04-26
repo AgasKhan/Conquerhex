@@ -276,7 +276,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 
         return newAux;
     }
-
+    /*
     public V SearchOrCreate<T>(T key) where T : K
     {
         if (ContainsKey(key, out int index))
@@ -292,7 +292,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 
         return newAux;
     }
-
+    */
     int SearchIndex(K key)
     {
         for (int i = 0; i < pictionaries.Count; i++)

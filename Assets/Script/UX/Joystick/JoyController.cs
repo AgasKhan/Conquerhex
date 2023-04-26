@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
 public class JoyController : MonoBehaviour
 {
     [SerializeField]
-    KeyInput eventController;
+    ControllerEnum eventController;
 
     [SerializeField]
     Stick stick;
@@ -44,5 +43,12 @@ public class JoyController : MonoBehaviour
         stick.minMagnitud = stick.maxMagnitud * deadzone;
 
         axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
+
+        EventManager.events.SearchOrCreate<EventGeneric>(eventController).action += JoyController_action; ;
+    }
+
+    private void JoyController_action(params object[] param)
+    {
+        fill = (float)param[0];
     }
 }
