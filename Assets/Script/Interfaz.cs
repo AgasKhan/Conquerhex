@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Interfaz : MonoBehaviour
 {
-    static  public  List<TextCompleto>  titulosC = new List<TextCompleto>();
+    static  public  Pictionarys<string,TextCompleto>  titulosC = new Pictionarys<string, TextCompleto>();
 
             public  TextMeshProUGUI[]   titulos;
 
@@ -38,7 +38,7 @@ public class Interfaz : MonoBehaviour
         foreach (var item in titulos)
         {
             item.text = "";
-            titulosC.Add(new TextCompleto(item, tiempoEntreLetrasPublic));
+            titulosC.Add(item.name,new TextCompleto(item, tiempoEntreLetrasPublic));
         }
     }
 
@@ -77,9 +77,9 @@ public class Interfaz : MonoBehaviour
         foreach (var item in titulosC)
         {            
             
-            if (item.Write() && item.fade && item.timer.Chck)
+            if (item.value.Write() && item.value.fade && item.value.timer.Chck)
             {
-                item.Fade(Time.deltaTime,0);
+                item.value.Fade(Time.deltaTime,0);
             }
         }
         
@@ -108,16 +108,9 @@ public class Interfaz : MonoBehaviour
     static public TextCompleto TitleSrchByName(string name)
     {
         TextCompleto aux = null;
-        //inicializo si no esta inicializada la lista
-        //Saque la inicializacion y la puse en el awake
-        //la recorro y devuelvo el resultado de la busqueda
-        foreach (var item in titulosC)
-        {
-            if(item.name==name)
-            {
-                aux = item;
-            }
-        }
+
+        titulosC.TryGetValue(name, out aux);
+
         return aux;
     }
 
@@ -126,7 +119,6 @@ public class Interfaz : MonoBehaviour
 
 public class TextCompleto
 {
-    public string name;
     public TextMeshProUGUI texto;
     public Timer timer;
     public Timer letras;
@@ -210,7 +202,6 @@ public class TextCompleto
 
     public TextCompleto(TextMeshProUGUI o, float t=0 , bool fadeActivacion=true,string palabraInicial="")
     {
-        name = o.name;
         texto = o;
         letras = TimersManager.Create(t);
         final = palabraInicial;

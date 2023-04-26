@@ -177,13 +177,16 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         pictionaries.Sort(comparer);
     }
 
-    public bool ContainsKey(string key, out int index)
+    public bool TryGetValue(K key, out V value)
     {
-        if ((index = StringIndex(key)) > -1)
-        {
-            return true;
-        }
-        return false;
+        bool ret = ContainsKey(key, out int index);
+
+        if (ret)
+            value = pictionaries[index].value;
+        else
+            value = default;
+
+        return ret;
     }
 
     public bool ContainsKey(K key, out int index)
