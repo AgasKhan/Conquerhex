@@ -8,23 +8,29 @@ public class FollowIA : StateMachineBehaviour
     Character character;
     Seek seek;
 
+
     [SerializeField] float _viewRadius;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(me == null)
-           me.GetComponent<MoveAbstract>();
+        character = GameManager.instance.player.GetComponent<Character>();
 
-        seek = seek.GetComponent<Seek>();
-        character = character.GetComponent<Character>();
+        if (me == null)
+            me = animator.GetComponent<MoveAbstract>();
+
+        seek = character.GetComponent<Seek>();
+
+        me.Velocity(5f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if((me.transform.position - character.transform.position).sqrMagnitude <= _viewRadius * _viewRadius)
-            me.Acelerator(seek.Calculate(me.Director(character.transform.position)));
+        me.Acelerator((character.transform.position - animator.transform.position));
+
+        if ((character.transform.position - animator.transform.position).magnitude <= animator.GetFloat("MinDistance") )
+            animator.SetTrigger("Ataque");
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

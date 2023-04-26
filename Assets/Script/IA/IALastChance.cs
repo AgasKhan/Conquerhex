@@ -33,7 +33,7 @@ public class IALastChance : IAFather
 
     void Attack()
     {
-        int rng = Random.Range(1, 4);
+        int rng = Random.Range(1, 3);
 
         switch (rng)
         {
@@ -47,11 +47,6 @@ public class IALastChance : IAFather
                 character.sec.ControllerDown(Vector2.zero, 0);
                 character.sec.ControllerUp(Vector2.zero, 0);
 
-                break;
-
-            case 3:
-                character.ter.ControllerDown(Vector2.zero, 0);
-                character.ter.ControllerUp(Vector2.zero, 0);
                 break;
         }
 

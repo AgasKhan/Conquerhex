@@ -40,6 +40,10 @@ public class Entity : MyScripts, IDamageable
             if((pesoAcumulador + item.peso)> aux)
             {
                 //return item.item;
+
+                //-------------------------------------------------------------
+                Instantiate(item.item, transform.position, Quaternion.identity);
+                //-------------------------------------------------------------
             }
 
             pesoAcumulador += item.peso;

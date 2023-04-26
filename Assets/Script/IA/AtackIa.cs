@@ -5,13 +5,11 @@ using UnityEngine;
 public class AtackIa : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-
+    Character character;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-        //haago los gets para atacar
-
+        character = animator.gameObject.GetComponent<Character>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -23,7 +21,8 @@ public class AtackIa : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //ataco  
+        character.ter.ControllerDown(Vector2.zero, 0);
+        character.ter.ControllerUp(Vector2.zero, 0);
     }
 
 }

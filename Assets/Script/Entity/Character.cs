@@ -92,6 +92,12 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
             GameManager.instance.Pause(false);
             MenuManager.instance.ShowWindow("Defeat");
         }
+        else
+        {
+            gameObject.SetActive(false);
+            Drop();
+        }
+
     }
     //--------------------------------------------
 
