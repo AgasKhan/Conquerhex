@@ -50,7 +50,7 @@ public class Interfaz : MonoBehaviour
         tiempo.fade = false;
 
         TitleSrchByName("Titulo secundario").timer.Set(6);
-        TitleSrchByName("Titulo secundario").Message("Presiona T para ver el tutorial");
+        //TitleSrchByName("Titulo secundario").Message("Presiona T para ver el tutorial");
 
         subtitulo = TitleSrchByName("Subtitulo");
         subtitulo.timer.Set(6);
