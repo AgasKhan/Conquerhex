@@ -8,7 +8,7 @@ public class MenuManager : SingletonMono<MenuManager>
     [SerializeField]
     string firstLevel;
 
-    //public AudioManager audioM;
+    public AudioManager audioM;
 
 
     //para los eventos-------------------------------------------------------
@@ -31,7 +31,7 @@ public class MenuManager : SingletonMono<MenuManager>
     {
         base.Awake();
 
-        //audioM = GameManager.GetComponent<AudioManager>();
+        audioM = GetComponent<AudioManager>();
 
         detailsWindows = Manager<DetailsWindow>.pic;
 
@@ -110,6 +110,11 @@ public class MenuManager : SingletonMono<MenuManager>
     {
         //ClickAccept();
         LoadSystem.instance.Load(firstLevel, true);
+    }
+
+    public void ClickSound()
+    {
+        audioM.Play("Click");
     }
 
     /*

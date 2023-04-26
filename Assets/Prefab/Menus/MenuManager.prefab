@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6227486016251379411}
   - component: {fileID: 4418523952358345047}
   - component: {fileID: 7370776945268583976}
+  - component: {fileID: 2984370465521999757}
   m_Layer: 5
   m_Name: MenuManager
   m_TagString: Untagged
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstLevel: Hexagonos
-  refSceneChanger: {fileID: 0}
+  audioM: {fileID: 0}
   eventListVoid:
     pictionaries: []
   eventListFloat:
@@ -128,8 +129,6 @@ MonoBehaviour:
   eventListButtoOn:
     pictionaries: []
   subMenus:
-    pictionaries: []
-  detailsWindows:
     pictionaries: []
 --- !u!114 &5768513404646989340
 MonoBehaviour:
@@ -179,3 +178,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d15a535a4d55042a38e3d8ac28feef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2984370465521999757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009890561030537687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e675479cc1aa37489f79d2c52e85af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries:
+    - key: Click
+      value:
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: 74f0eacccbc631e4389b258b68f591c6, type: 3}
+        volume: 0.5
+        pitch: 1
+        spatialBlend: 0
+        maxDistance: 0
+        minDistance: 0
+        loop: 0
+        onAwake: 0
+        source: {fileID: 0}

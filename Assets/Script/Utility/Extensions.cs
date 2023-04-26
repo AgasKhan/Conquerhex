@@ -173,6 +173,7 @@ public static class Extensions
             };
         }
 
+        unityAction += menu.ClickSound;
         //UnityEventTools.RemovePersistentListener(b.onClick, 0);
         b.onClick.AddListener(unityAction);
         //menu.eventListVoid[b.name](b.gameObject);
