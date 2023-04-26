@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
+
 
 public class JoyController : MonoBehaviour
 {
@@ -16,6 +17,15 @@ public class JoyController : MonoBehaviour
     [SerializeField]
     [Range(0.05f, 1)]
     float deadzone;
+
+    [SerializeField]
+    UnityEngine.UI.Image imageToFill;
+
+    public float fill
+    {
+        set => imageToFill.fillAmount = value;
+        get => imageToFill.fillAmount;
+    }
 
     public VirtualControllers.AxisButton axisButton
     {
