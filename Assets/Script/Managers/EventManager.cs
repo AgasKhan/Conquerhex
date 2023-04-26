@@ -3,19 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //si no se cuantos voy a tener, por q lo desconozco
-public class EventManager : MonoBehaviour
+public class EventManager : SingletonMono<EventManager>
 {
-    public static Pictionarys<System.Enum, EventGeneric> events = new Pictionarys<System.Enum, EventGeneric>();
+    [SerializeField]
+    Pictionarys<System.Enum, EventGeneric> _events = new Pictionarys<System.Enum, EventGeneric>();
 
-    private void OnDestroy()
-    {
-        events.Clear();
-    }
-
-    private void Awake()
-    {
-        events.Clear();
-    }
+    static public Pictionarys<System.Enum, EventGeneric> events => instance._events;
 }
 
 
