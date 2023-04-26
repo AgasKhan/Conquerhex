@@ -76,9 +76,23 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
         _ia?.OnEnterState(this);
 
+        //--------------------------
+        health.noLife += ShowLoserWindow;
+        //--------------------------
+
         //ver move con su velocidad
     }
 
+    //--------------------------------------------
+    void ShowLoserWindow()
+    {
+        if (team == Team.windows)
+        {
+            MenuManager.instance.ShowWindow("Defeat");
+        }
+    }
+    //--------------------------------------------
+
 }
 
-    
+

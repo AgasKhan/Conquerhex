@@ -105,6 +105,14 @@ public class ButtonsFunctions : MonoBehaviour
 
         var aux = g.GetComponent<UnityEngine.UI.Button>();
         aux.interactable = false;
+
+
+        //------------------------------------------------------------------------
+        var body = Manager<ItemBase>.pic["Pj"] as BodyBase;
+        var weapon = Manager<ItemBase>.pic[g.transform.parent.name] as WeaponBase;
+
+        body.principal.weapon = weapon;
+        //------------------------------------------------------------------------
     }
 
     void LoadGame(GameObject g)
