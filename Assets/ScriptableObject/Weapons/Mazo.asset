@@ -7,23 +7,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2b1936eb057c29418e9670be3207f5d, type: 3}
-  m_Name: Lanza
+  m_Name: Mazo
   m_EditorClassIdentifier: 
-  _nameDisplay: Lanza
-  _image: {fileID: 21300000, guid: cdb88fdb0cf46b244a667edaff21c7df, type: 3}
-  _details: "La m\xE1s rapida de todas"
+  _nameDisplay: Mazo
+  _image: {fileID: 21300000, guid: 9aa4348290784b2468144a97eb15d8d7, type: 3}
+  _details: "Super pesado y algo lento, pero el que mas da\xF1o hace"
   maxAmount: 1
   weight: 0
   damages:
-  - amount: 7
-    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  - amount: 4
-    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
-  - amount: 5
+  - amount: 20
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
-  velocity: 2.5
+  velocity: 0.4
   range: 0
-  durability: 100
+  durability: 150
