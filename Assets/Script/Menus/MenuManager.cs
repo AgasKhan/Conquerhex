@@ -37,7 +37,14 @@ public class MenuManager : SingletonMono<MenuManager>
 
         GetDetailsWinAndSubMenus();
 
-        MusicInGame();
+        if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            MusicInGame();
+        }
+        else
+        {
+            GameMusic();
+        }
     }
 
     void GetDetailsWinAndSubMenus()
@@ -118,10 +125,13 @@ public class MenuManager : SingletonMono<MenuManager>
     {
         audioM.Play("Click");
     }
-
     public void MusicInGame()
     {
         audioM.Play("MusicInMenu");
+    }
+    public void GameMusic()
+    {
+        audioM.Play("GameMusic");
     }
 
     /*
