@@ -15,6 +15,8 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     [SerializeField]
     public WeaponKata ter;
 
+
+
     public Damage[] additiveDamage => bodyBase.additiveDamage;
 
     public IState<Character> CurrentState

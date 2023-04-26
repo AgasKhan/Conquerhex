@@ -41,7 +41,7 @@ public class Teleport : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        Rigidbody2D fisicaOther = other.GetComponent<Rigidbody2D>();
+        MoveAbstract fisicaOther = other.GetComponent<MoveAbstract>();
         
         if (fisicaOther != null)
         {
@@ -52,9 +52,9 @@ public class Teleport : MonoBehaviour
             
             Vector2 vectorSalida = (other.gameObject.transform.position - this.gameObject.transform.position).normalized;
 
-            fisicaOther.velocity += Time.deltaTime * velocityTransfer * fisicaOther.velocity.normalized;
+            fisicaOther.Acelerator(velocityTransfer * fisicaOther.direction);
             
-            Vector2 vectorVelocidad = fisicaOther.velocity;
+            Vector2 vectorVelocidad = fisicaOther.vectorVelocity;
 
             angle = 360 - Utilitys.DifAngulosVectores(anguloDefecto, vectorSalida);
 
@@ -96,6 +96,10 @@ public class Teleport : MonoBehaviour
                 other.gameObject.transform.SetParent(arrHexTeleport.gameObject.transform);
                 //le doy un empujon para que no se quede en el medio
 
+                for (int i = 0; i < fisicaOther.carlitos.Length; i++)
+                {
+                    fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
+                }
 
                 if (other.CompareTag("Player"))
                 {
@@ -115,8 +119,6 @@ public class Teleport : MonoBehaviour
                             arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.x,
                             arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.y
                             );
-
-                        LoadMap.instance.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
                     }
 
 

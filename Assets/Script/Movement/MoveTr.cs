@@ -23,7 +23,7 @@ public class MoveTr : MoveAbstract
             MyUpdates += MyUpdateRender;
     }
 
-    public void MyUpdate()
+    public virtual void MyUpdate()
     {
         transform.position += (direction * _velocity.current * Time.deltaTime).Vec2to3(0);
 

@@ -7,12 +7,12 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     GameObject obj;
 
-    void Awake()
+    private void Awake()
     {
-        obj = Instantiate(obj, transform.position, transform.rotation, transform.parent);
-
-        obj.GetComponent<Init>()?.Init();
-
-        Destroy(this);
+        LoadSystem.AddPostLoadCorutine(()=> {
+            obj = Instantiate(obj, transform.position, transform.rotation);
+            obj.GetComponent<Init>()?.Init();
+            obj.transform.SetParent(transform.parent); 
+        });
     }
 }

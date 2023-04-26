@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class MoveAbstract : MyScripts, IControllerDir
 {
+    public Transform[] carlitos;
+
     public Vector2 direction;
 
     public Tim aceleration;
@@ -124,17 +126,17 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public virtual void ControllerDown(Vector2 dir, float tim)
     {
-
+        //_desaceleration.current = 0;
     }
 
     public virtual void ControllerPressed(Vector2 dir, float tim)
     {
-        Acelerator(dir * 5);
+        Acelerator(dir* aceleration.total);
         //velocity += aceleration.current * Time.deltaTime;
     }
 
     public virtual void ControllerUp(Vector2 dir, float tim)
     {
-
+        //_desaceleration.Reset();
     }
 }

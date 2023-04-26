@@ -80,15 +80,19 @@ public class LoadSystem : SingletonMono<LoadSystem>
         //loadscene = true;
         for (int i = 0; i < preLoad.Count; i++)
         {
-            yield return new WaitForCorutines(this, preLoad[i], (s) => loadScreen.Progress(((i) / (preLoad.Count))  * 100 * (1f / 3), s));
+            yield return new WaitForCorutines(this, preLoad[i], (s) => loadScreen.Progress((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
         }
 
-        foreach (var item in preLoadEvent)
+        loadScreen.Progress("Close action scripts");
+
+        for (int i = 0; i < preLoadEvent.Count; i++)
         {
-            item();
-            yield return null;
+            preLoadEvent[i]();
+            loadScreen.Progress((((i + 1f) / (preLoadEvent.Count)) * (1f / 6) + (1f / 6)) * 100);
+            if (i % 100 == 0)
+                yield return null;
         }
-        
+
 
         loadScreen.Progress("Start scene load");
 
@@ -117,13 +121,16 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         for (int i = 0; i < postLoad.Count; i++)
         {
-            yield return new WaitForCorutines(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 3) + (2f / 3)) * 100, s));
+            yield return new WaitForCorutines(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
         }
 
-        foreach (var item in postLoadEvent)
+        for (int i = 0; i < postLoadEvent.Count; i++)
         {
-            item();
-            yield return null;
+            postLoadEvent[i]();
+            loadScreen.Progress(( ((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6 )*100, "Load actions script: "+i+"/"+ postLoadEvent.Count);
+            
+            if(i % 100 == 0)
+                yield return null;
         }
 
         loadScreen.Progress(100, "<size=50>Carga finalizada</size>");

@@ -139,13 +139,15 @@ namespace Internal
             add
             {
                 list += value;
-                passTo(value);
+                if(_passToChck)
+                    passTo(value);
 
             }
             remove
             {
-                list -= value;
-                removeTo(value);
+                list -= value; 
+                if (_passToChck)
+                    removeTo(value);
             }
         }
 
