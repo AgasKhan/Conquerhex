@@ -35,9 +35,19 @@ public class StabBase : WeaponKataBase
 
 public class Stab : WeaponKata
 {
+    FadeOnOff reference;
     protected override void InternalControllerDown( Vector2 dir, float button)
     {
         Debug.Log("presionaste ataque 1, STAB");
+
+        if (caster.CompareTag("Player"))
+        {
+            var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
+            aux.SetParent(caster.transform);
+
+            aux.localScale *= itemBase.detect.radius + 1.5f;
+
+        }
     }
 
     //Durante, al mantener y moverlo
@@ -60,5 +70,8 @@ public class Stab : WeaponKata
         itemBase.Attack(caster, dir, weapon);
 
         PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
+
+        if (caster.CompareTag("Player"))
+            reference.Off();
     }
 }

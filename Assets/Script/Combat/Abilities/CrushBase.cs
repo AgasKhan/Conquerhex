@@ -40,7 +40,7 @@ public class Crush : WeaponKata
             var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
             aux.SetParent(caster.transform);
 
-            aux.localScale *= itemBase.detect.radius;
+            aux.localScale *= itemBase.detect.radius + 5f;
 
         }
     }
