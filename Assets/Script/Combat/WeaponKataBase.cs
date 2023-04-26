@@ -185,6 +185,7 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     public override void Init(params object[] param)
     {
         pressed = MyControllerVOID;
+        up = MyControllerUp;
 
         if (itemBase == null)
             return;
