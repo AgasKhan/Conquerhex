@@ -25,13 +25,13 @@ MonoBehaviour:
   particles:
   - {fileID: 6510125619236422602, guid: 6d7b01bdef4c9d44596d7108af762e72, type: 3}
   detect:
-    radius: 1
-    distance: 1
+    radius: 2
+    distance: 5
     layerMask:
       serializedVersion: 2
       m_Bits: 129
-    maxDetects: -1
-    minDetects: 3
+    maxDetects: 5
+    minDetects: 1
   damagesMultiply:
   - amount: 2
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
