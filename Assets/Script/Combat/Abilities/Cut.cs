@@ -41,7 +41,7 @@ public class Cut : WeaponKataBase
 
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        var aux = detect.Area(caster.transform.position, (tr) => { return caster.transform != tr; });
+        var aux = detect.Area(caster.transform.position, (tr) => { return caster != tr; });
 
         Damage(ref damages, aux);
     }

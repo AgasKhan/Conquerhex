@@ -80,7 +80,7 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
         _ia = GetComponent<IState<Character>>();
 
-        _ia.OnEnterState(this);
+        _ia?.OnEnterState(this);
 
         
 
