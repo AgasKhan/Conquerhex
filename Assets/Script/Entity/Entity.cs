@@ -103,11 +103,16 @@ public struct DropItem
 public class Health : Init
 {
     [SerializeReference]
-    Tim life;
+    public Tim life;
     [SerializeReference]
-    Tim regen;
+    public Tim regen;
     [SerializeReference]
     TimedAction timeToRegen;
+
+    public float maxLife => life.total;
+    public float actualLife => life.current;
+    public float maxRegen => regen.total;
+    public float actualRegen => regen.current;
 
     public event System.Action<IGetPercentage> lifeUpdate;
 

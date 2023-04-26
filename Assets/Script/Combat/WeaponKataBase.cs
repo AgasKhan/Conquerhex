@@ -12,21 +12,15 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [Space]
 
     [Header("Particulas a mostrar")]
-    public
-    GameObject[] particles;
+    public GameObject[] particles;
 
     [Header("Deteccion")]
 
     [SerializeField]
-    protected Detect<Entity> detect;
+    public Detect<Entity> detect;
 
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
-
-    protected override void SetCreateItemType()
-    {
-        _itemType = typeof(WeaponKata);
-    }
 
     public override Pictionarys<string, string> GetDetails()
     {
@@ -41,7 +35,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         return aux;
     }
 
-    protected void Attack(Entity caster, Vector2 direction, Weapon weapon)
+    public void Attack(Entity caster, Vector2 direction, Weapon weapon)
     {       
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
@@ -117,14 +111,16 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
             ));
     }
 
+    /*
     public abstract void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
     public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
     public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
+    */
     protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages);
 }
 
 [System.Serializable]
-public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercentage
+public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 {
     public event System.Action<Weapon> equipedWeapon;
     public event System.Action<Weapon> desEquipedWeapon;
@@ -150,9 +146,9 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
 
     [SerializeField]
     Weapon _weapon;
-    Timer cooldown;
-    Entity caster;
-    Vector2Int[] indexParticles;
+    protected Timer cooldown;
+    protected Entity caster;
+    protected Vector2Int[] indexParticles;
 
     void ChangeWeapon(Weapon weapon)
     {
@@ -185,7 +181,7 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     public override void Init(params object[] param)
     {
         pressed = MyControllerVOID;
-        up = MyControllerUp;
+        up = MyControllerVOID;
 
         if (itemBase == null)
             return;
@@ -213,9 +209,9 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
     {
         if(cooldown.Chck)
         {
-            itemBase.ControllerDown(caster, dir, tim, weapon, cooldown, indexParticles);
-            pressed = MyControllerPressed;
-            up = MyControllerUp;
+            InternalControllerDown(dir, tim);
+            pressed = InternalControllerPress;
+            up = InternalControllerUp;
         }
     }
 
@@ -232,33 +228,20 @@ public class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir, IGetPercent
         up = MyControllerVOID;
     }
 
-    public float Percentage()
-    {
-        return cooldown.Percentage();
-    }
-
-    public float InversePercentage()
-    {
-        return cooldown.InversePercentage();
-    }
-
     #endregion
 
     #region internal functions
-    void MyControllerPressed(Vector2 dir, float tim)
-    {
-        itemBase.ControllerPressed(caster, dir, tim, weapon, cooldown, indexParticles);
-    }
-
-    public void MyControllerUp(Vector2 dir, float tim)
-    {
-        
-        itemBase.ControllerUp(caster, dir, tim, weapon, cooldown, indexParticles);
-    }
 
     void MyControllerVOID(Vector2 dir, float tim)
     {
     }
+
+
+    protected abstract void InternalControllerDown(Vector2 dir, float tim);
+
+    protected abstract void InternalControllerPress(Vector2 dir, float tim);
+
+    protected abstract void InternalControllerUp(Vector2 dir, float tim);
 
     #endregion
 }

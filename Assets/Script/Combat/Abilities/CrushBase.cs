@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Crush")]
-public class Crush : WeaponKataBase
+public class CrushBase : WeaponKataBase
 {
     /*
     Entity caster: ENTIDAD QUE USA LA HABILIDAD
@@ -14,9 +14,24 @@ public class Crush : WeaponKataBase
      */
 
     //OJO QUE ES UNA REFERENCIA PARA TODOS
+    protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
+    {
+        var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (algo)=> { return caster != algo; } ,(tr) => { return caster.transform == tr; });
+
+        Damage(ref damages, aux);
+    }
+
+    protected override void SetCreateItemType()
+    {
+        _itemType = typeof(Crush);
+    }
+}
+
+public class Crush : WeaponKata
+{
     FadeOnOff reference;
 
-    public override void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
+    protected override void InternalControllerDown(Vector2 dir, float button)
     {
         Debug.Log("presionaste ataque 1, CRUSH");
 
@@ -25,19 +40,19 @@ public class Crush : WeaponKataBase
             var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
             aux.SetParent(caster.transform);
 
-            aux.localScale *= detect.radius;
+            aux.localScale *= itemBase.detect.radius;
 
         }
     }
 
     //Durante, al mantener y moverlo
-    public override void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
+    protected override void InternalControllerPress(Vector2 dir, float button)
     {
         Debug.Log("estas manteniendo ataque 1, CRUSH");
     }
 
     //Despues, al sotarlo
-    public override void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles)
+    protected override void InternalControllerUp(Vector2 dir, float button)
     {
         Debug.Log("Soltaste ataque 1, CRUSH");
 
@@ -45,20 +60,13 @@ public class Crush : WeaponKataBase
 
         weapon.Durability(3);
 
-        cooldownEnd.Reset();
+        cooldown.Reset();
 
-        Attack(caster, dir, weapon);
+        itemBase.Attack(caster, dir, weapon);
 
-        PoolManager.SpawnPoolObject(particles[0], caster.transform.position);
+        PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
 
         if (caster.CompareTag("Player"))
             reference.Off();
-    }
-
-    protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
-    {
-        var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (algo)=> { return caster != algo; } ,(tr) => { return caster.transform == tr; });
-
-        Damage(ref damages, aux);
     }
 }

@@ -8,14 +8,12 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     BodyBase bodyBase;
 
     // Start is called before the first frame update
-    [SerializeField]
+    [SerializeReference]
     public WeaponKata prin;
-    [SerializeField]
+    [SerializeReference]
     public WeaponKata sec;
-    [SerializeField]
+    [SerializeReference]
     public WeaponKata ter;
-
-
 
     public Damage[] additiveDamage => bodyBase.additiveDamage;
 
@@ -35,12 +33,6 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
     public void SetWeaponKataCombo(ref WeaponKata set,WeaponKataCombo combo)
     {
-        if (combo == null || combo.kata == null)
-        {
-            set.Init(this);
-            return;
-        }
-
         set = (WeaponKata)combo.kata.Create();
 
         var weapon = combo.weapon.Create();
@@ -83,8 +75,6 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         _ia = GetComponent<IState<Character>>();
 
         _ia?.OnEnterState(this);
-
-        
 
         //ver move con su velocidad
     }

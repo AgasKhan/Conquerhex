@@ -29,7 +29,7 @@ public abstract class ClassDamage : ShowDetails
 /// <summary>
 /// este es un daño elemental
 /// </summary>
-public abstract class Elemental : ClassDamage
+public abstract class ElementalDamage : ClassDamage
 {
 }
 
