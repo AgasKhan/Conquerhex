@@ -41,7 +41,9 @@ public class DetailsWindow : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
         //gameObject.SetActive(false);
+
         /*
         for (int i = 0; i < buttonsGrid.childCount; i++)
         {
@@ -200,18 +202,24 @@ public class DetailsWindow : MonoBehaviour
     }
 
 
-    public void RefreshButtons(string name)
+    public void RefreshButton(string name)
     {
-        if(Manager<Recipes>.pic.ContainsKey(name))
+        if (buttonsGrid.GetChild(0) == null)
         {
-            for (int i = 0; i < buttonsGrid.childCount; i++)
-            {
-
-            }
+            Debug.Log("No se encontro el boton a refrescar");
+            return;
         }
-        if(BaseData.storeItems.ContainsKey(name))
+
+        buttonsGrid.GetChild(0).name = name;
+
+        if(BaseData.playerInventory.Contains(name))
         {
-
+            var aux = buttonsGrid.GetChild(0).GetComponent<Button>();
+            aux.interactable = false;
         }
+            
+
+        //var button = buttonsGrid.GetChild(0).GetComponent<Button>();
+        //button.transform.parent.name = name + "Recipe";
     }
 }
