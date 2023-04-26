@@ -11,6 +11,11 @@ public class EventManager : MonoBehaviour
     {
         events.Clear();
     }
+
+    private void Awake()
+    {
+        events.Clear();
+    }
 }
 
 

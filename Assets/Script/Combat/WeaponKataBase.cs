@@ -134,6 +134,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         updateTimer?.Invoke(cooldown.InversePercentage());
     }
 
+
     System.Action<Vector2, float> pressed;
 
     System.Action<Vector2, float> up;
