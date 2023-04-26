@@ -26,14 +26,13 @@ public class MultiCut : WeaponKata
     {
         Debug.Log("presionaste ataque 1, MULTICUT");
 
-        if (caster.CompareTag("Player"))
-        {
-            var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
-            aux.SetParent(caster.transform);
+       
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
+        aux.SetParent(caster.transform);
 
-            aux.localScale *= itemBase.detect.radius;
+        aux.localScale *= itemBase.detect.radius;
 
-        }
+       
     }
 
     //Durante, al mantener y moverlo
@@ -59,7 +58,7 @@ public class MultiCut : WeaponKata
 
         aux.SetParent(caster.transform);
 
-        if (caster.CompareTag("Player"))
-            reference.Off();
+        
+        reference.Off();
     }
 }

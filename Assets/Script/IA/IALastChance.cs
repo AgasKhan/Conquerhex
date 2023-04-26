@@ -8,9 +8,13 @@ public class IALastChance : IAFather
 
     Character character;
 
+    Timer doryEnemy;
+
     Timer timer;
 
-    Timer doryEnemy;
+    AutomatickAttack prin;
+
+    AutomatickAttack sec;
 
     [SerializeField]
     float distanceAttack;
@@ -21,7 +25,7 @@ public class IALastChance : IAFather
         if (enemy == null || character==null)
             return;
 
-        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && timer.Chck)
+        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && prin.attack.Chck && sec.attack.Chck)
         {
             Attack();
         }
@@ -33,26 +37,21 @@ public class IALastChance : IAFather
 
     void Attack()
     {
-        int rng = Random.Range(1, 3);
+        int rng = Random.Range(2, 5);
 
         Debug.Log("El numero magico es: " + rng);
 
         switch (rng)
         {
             case 1:
-                character.prin.ControllerDown(Vector2.zero, 0);
-                character.prin.ControllerUp(Vector2.zero, 0);
-
+                prin.Attack();
                 break;
 
             case 2:
-                character.sec.ControllerDown(Vector2.zero, 0);
-                character.sec.ControllerUp(Vector2.zero, 0);
-
+                sec.Attack();
                 break;
         }
 
-        timer.Set(rng);
         
     }
 
@@ -77,9 +76,18 @@ public class IALastChance : IAFather
     {
         character = param;
 
-        timer = TimersManager.Create(3);
-
         doryEnemy = TimersManager.Create(10, () => enemy = null, false);
+
+
+        prin = new AutomatickAttack(character.prin);
+
+        timer = TimersManager.Create(1);
+
+        prin.onAttack += () => timer.Set(prin.attack.total);
+
+        sec = new AutomatickAttack(character.sec);
+
+        sec.onAttack += () => timer.Set(sec.attack.total);
     }
 
     public override void OnExitState(Character param)

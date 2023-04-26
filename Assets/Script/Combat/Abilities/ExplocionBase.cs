@@ -27,14 +27,13 @@ public class Explocion : WeaponKata
     {
         Debug.Log("presionaste ataque 1, EXPLOCION");
 
-        if (caster.CompareTag("Player"))
-        {
-            var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
-            aux.SetParent(caster.transform);
+       
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
+        aux.SetParent(caster.transform);
 
-            aux.localScale *= itemBase.detect.radius;
+        aux.localScale *= itemBase.detect.radius;
 
-        }
+
     }
 
     protected override void InternalControllerPress(Vector2 dir, float tim)
@@ -58,7 +57,7 @@ public class Explocion : WeaponKata
 
         aux.SetParent(caster.transform);
 
-        if (caster.CompareTag("Player"))
-            reference.Off();
+        
+        reference.Off();
     }
 }

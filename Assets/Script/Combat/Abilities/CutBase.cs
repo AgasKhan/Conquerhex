@@ -26,14 +26,12 @@ public class Cut : WeaponKata
     {
         Debug.Log("presionaste ataque 1, CUT");
 
-        if (caster.CompareTag("Player"))
-        {
-            var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
-            aux.SetParent(caster.transform);
+        
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
+        aux.SetParent(caster.transform);
 
-            aux.localScale *= itemBase.detect.radius;
+        aux.localScale *= itemBase.detect.radius;
 
-        }
     }
 
     protected override void InternalControllerPress(Vector2 dir, float button)
@@ -55,7 +53,7 @@ public class Cut : WeaponKata
 
         PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
 
-        if (caster.CompareTag("Player"))
-            reference.Off();
+        
+        reference.Off();
     }
 }

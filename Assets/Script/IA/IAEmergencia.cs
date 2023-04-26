@@ -14,16 +14,17 @@ public class IAEmergencia : IAFather
     [SerializeField]
     float distanceAttack;
 
+    AutomatickAttack automatick;
+
     // Update is called once per frame
     void Update()
     {
         if (enemy == null || character==null)
             return;
 
-        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && timer.Chck)
+        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && timer.Chck && automatick.attack.Chck)
         {
-            character.ter.ControllerDown(Vector2.zero, 0);
-            character.ter.ControllerUp(Vector2.zero, 0);
+            automatick.Attack();
         }
         else
         {
@@ -39,13 +40,7 @@ public class IAEmergencia : IAFather
         {
             if (enemy.team != character.team)
                 this.enemy = enemy.GetComponent<MoveAbstract>();
-
-            
         }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
     }
 
     public override void OnEnterState(Character param)
@@ -53,6 +48,8 @@ public class IAEmergencia : IAFather
         character = param;
 
         timer = TimersManager.Create(2);
+
+        automatick = new AutomatickAttack(character.ter);
 
     }
 
@@ -64,5 +61,32 @@ public class IAEmergencia : IAFather
     public override void OnStayState(Character param)
     {
   
+    }
+}
+
+public class AutomatickAttack
+{
+    public Timer attack;
+    WeaponKata kata;
+
+    public event System.Action onAttack;
+
+    public AutomatickAttack(WeaponKata kata)
+    {
+        this.kata = kata;
+        attack = TimersManager.Create(Random.Range(3, 6) / 3f, () =>
+        {
+            kata.ControllerUp(Vector2.zero, 0);
+
+            onAttack?.Invoke();
+        }
+        
+        , false);
+    }
+
+    public void Attack()
+    {
+        attack.Reset();
+        kata.ControllerDown(Vector2.zero, 0);
     }
 }
