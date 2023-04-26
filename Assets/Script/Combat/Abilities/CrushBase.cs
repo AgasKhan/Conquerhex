@@ -64,7 +64,9 @@ public class Crush : WeaponKata
 
         itemBase.Attack(caster, dir, weapon);
 
-        PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
+        var aux = PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
+
+        aux.SetParent(caster.transform);
 
         if (caster.CompareTag("Player"))
             reference.Off();

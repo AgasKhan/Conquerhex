@@ -59,6 +59,6 @@ public class Stab : WeaponKata
 
         itemBase.Attack(caster, dir, weapon);
 
-        PoolManager.SpawnPoolObject(indexParticles[2], caster.transform.position);
+        PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
     }
 }

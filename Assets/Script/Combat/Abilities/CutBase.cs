@@ -50,6 +50,6 @@ public class Cut : WeaponKata
 
         itemBase.Attack(caster, dir, weapon);
 
-        PoolManager.SpawnPoolObject(indexParticles[1], caster.transform.position);
+        PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
     }
 }

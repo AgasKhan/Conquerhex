@@ -35,6 +35,8 @@ public class IALastChance : IAFather
     {
         int rng = Random.Range(1, 3);
 
+        Debug.Log("El numero magico es: " + rng);
+
         switch (rng)
         {
             case 1:
