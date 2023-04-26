@@ -67,8 +67,9 @@ public class EnemyIA : IAFather
     }
 
     //Detection
-    public override void OnExitState(Character param)
+    public override void OnStayState(Character param)
     {
+
         Vector2 dirToTarget = seek.Calculate(move.Director(target.transform.position));
 
         if (dirToTarget.sqrMagnitude <= _viewRadius * _viewRadius)
@@ -80,13 +81,15 @@ public class EnemyIA : IAFather
                 //Attack
             }
         }
+
     }
 
     //Return
-    public override void OnStayState(Character param)
+    public override void OnExitState(Character param)
     {
         BackwardPath();
     }
+
 
     private void OnDrawGizmos()
     {
