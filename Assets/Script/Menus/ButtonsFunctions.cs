@@ -49,12 +49,10 @@ public class ButtonsFunctions : MonoBehaviour
             {"Resume", Resume},
             {"Restart", Restart},
             {"Store", DisplayWindow},
-            {"Help", DisplayWindow},
             {"Settings", DisplayWindow},
             {"BackMenu", BackMenu},
             {"SaveGame", SaveGame},
             {"MenuInGame", PauseMenu},
-
             {"Ejemplo", DisplayWindow},
             {"Ejemplo2", DisplayWindow},
             {"BuySingleItem", BuySingleItem},
