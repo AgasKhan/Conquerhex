@@ -49,6 +49,16 @@ public class Stab : WeaponKataBase
         var aux = detect.Area(caster.transform.position, (tr) => {return caster.transform != tr; });
 
         Damage(ref damages, aux);
+
+        /*var aux2 = caster.GetComponent<IDamageable>();
+
+        for (int i = 0; i < aux.Length; i++)
+        {
+            if (aux[i] == aux2)
+            {
+            
+            }
+        }*/
     }
 }
 
