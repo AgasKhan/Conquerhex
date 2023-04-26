@@ -13,7 +13,13 @@ public class FeedbackButton : MonoBehaviour, IControllerDir
 
     Color _default;
 
-    void Start()
+    private void Awake()
+    {
+        LoadSystem.AddPostLoadCorutine(StartButtons);
+    }
+
+
+    void StartButtons()
     {
         var aux = GetComponent<JoyController>();
 

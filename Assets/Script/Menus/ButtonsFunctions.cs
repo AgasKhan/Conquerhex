@@ -140,6 +140,7 @@ public class ButtonsFunctions : MonoBehaviour
     void Restart(GameObject g)
     {
         LoadSystem.instance.Reload();
+        refMenu.CloseLastWindow();
     }
     void BackMenu(GameObject g)
     {

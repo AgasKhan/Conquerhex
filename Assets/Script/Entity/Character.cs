@@ -84,10 +84,12 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     }
 
     //--------------------------------------------
+    
     void ShowLoserWindow()
     {
         if (team == Team.windows)
         {
+            GameManager.instance.Pause(false);
             MenuManager.instance.ShowWindow("Defeat");
         }
     }
