@@ -27,7 +27,7 @@ public class IAEmergencia : IAFather
         }
         else
         {
-            character.move.ControllerPressed(pursuit.Calculate(character.move.Director(enemy.transform.position - transform.position)).normalized, 0);
+            character.move.ControllerPressed((enemy.transform.position - transform.position).normalized, 0);
             //character.move.ControllerPressed((enemy.transform.position - transform.position).normalized, 0);
         }
     }
