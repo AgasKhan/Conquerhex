@@ -43,6 +43,17 @@ public class MenuManager : SingletonMono<MenuManager>
         for (int i = 0; i < transform.childCount; i++)
         {
             GameObject aux = transform.GetChild(i).gameObject;
+
+            for (int j = 0; j < aux.transform.childCount; j++)
+            {
+                GameObject aux2 = aux.transform.GetChild(j).gameObject;
+
+                var detailsWin2 = aux2.GetComponent<DetailsWindow>();
+
+                if (detailsWin2 != null)
+                    detailsWindows.Add(aux2.name, detailsWin2);
+            }
+
             var detailsW= aux.GetComponent<DetailsWindow>();
 
             if (detailsW != null)
@@ -73,6 +84,18 @@ public class MenuManager : SingletonMono<MenuManager>
     public void CloseLastWindow()
     {
         var lastChild = transform.GetChild(transform.childCount - 1);
+        var aux = lastChild.GetComponent<DetailsWindow>();
+
+        if (aux != null)
+            aux.ShowOrHide(false);
+        else
+            lastChild.gameObject.SetActive(false);
+
+        lastChild.SetAsFirstSibling();
+    }
+    public void CloseLastWindow(Transform tr)
+    {
+        var lastChild = tr.GetChild(tr.childCount - 1);
         var aux = lastChild.GetComponent<DetailsWindow>();
 
         if (aux != null)

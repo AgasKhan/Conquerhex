@@ -60,6 +60,10 @@ public class ButtonsFunctions : MonoBehaviour
             {"BuySingleItem", BuySingleItem},
             {"EquipItem", EquipItem},
 
+            {"ItemsButtons_1", DisplayStore},
+            {"ItemsButtons_2", DisplayStore},
+
+
             //Dragable Buttons
             {"ShowWindow", ShowWindow},
 
@@ -69,6 +73,13 @@ public class ButtonsFunctions : MonoBehaviour
         });
     }
 
+    void DisplayStore(GameObject g)
+    {
+        refMenu.CloseLastWindow(g.transform.parent.parent.parent.parent);
+        refMenu.ShowWindow(g.name);
+    }
+
+    
     void BuySingleItem(GameObject g)
     {
         //Se compra el item usando una funcion de "Store" enviando el nombre del padre del boton

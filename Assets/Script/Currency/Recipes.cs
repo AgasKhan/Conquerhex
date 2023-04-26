@@ -26,7 +26,7 @@ public class Recipes : ItemBase
     {
         foreach (var ingredient in materials)
         {
-            container.AddOrSubstractItems(ingredient.Item.nameDisplay, -ingredient.Amount);
+            container.AddOrSubstractItems(ingredient.Item.nameDisplay, - ingredient.Amount);
         }
 
         container.AddOrSubstractItems(result.Item.nameDisplay, result.Amount);

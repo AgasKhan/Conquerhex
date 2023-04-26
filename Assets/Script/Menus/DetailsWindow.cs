@@ -218,11 +218,6 @@ public class DetailsWindow : MonoBehaviour
             aux.interactable = true;
         else
             aux.interactable = false;
-
-
-
-        //var button = buttonsGrid.GetChild(0).GetComponent<Button>();
-        //button.transform.parent.name = name + "Recipe";
     }
 
     public void EnableButton ()
