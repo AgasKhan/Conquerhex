@@ -20,11 +20,11 @@ public class Boundaries : MonoBehaviour
         float y = _boundHeight / 2;
         float x = _boundWidth / 2;
 
-        if (pos.y > y -1) move.Velocity(move.velocity * -1); //pos.y = -y;
-        else if (pos.y < -y +1) move.Velocity(move.velocity * 1); //pos.y = y;
+        if (pos.y > y /*-1*/) pos.y = -y; //move.Velocity(move.velocity * -1);
+        else if (pos.y < -y /*+1*/) pos.y = y; //move.Velocity(move.velocity * 1);
 
-        if (pos.x > x -1) move.Velocity(move.velocity * -1); //pos.x = -x;
-        else if (pos.x < -x +1) move.Velocity(move.velocity * 1); //pos.x = x;
+        if (pos.x > x /*-1*/) pos.x = -x; //move.Velocity(move.velocity * -1);
+        else if (pos.x < -x /*+1*/) pos.x = x; //move.Velocity(move.velocity * 1);
 
         return pos;
     }

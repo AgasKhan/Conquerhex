@@ -49,6 +49,8 @@ public class Stab : WeaponKataBase
         var aux = detect.Area(caster.transform.position, (tr) => {return caster.transform != tr; });
 
         Damage(ref damages, aux);
+
+        
     }
 }
 
