@@ -55,6 +55,8 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
                         damagesCopy[i].amount += additives[ii].amount;
 
                         additives.RemoveAt(ii);
+
+                        continue;
                     }
                 }
             }

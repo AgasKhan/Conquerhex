@@ -58,7 +58,7 @@ public class LoadScreen : MonoBehaviour
     {
         msg("LoadLoadSystem...");
 
-        while(fade != 0 && canvasGroup.alpha < 0.99f)
+        while(fade != 0 && canvasGroup.alpha < 0.95f)
         {
             //canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, fade, Time.deltaTime * 10);
             yield return null;
