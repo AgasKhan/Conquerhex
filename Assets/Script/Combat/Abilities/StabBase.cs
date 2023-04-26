@@ -58,5 +58,7 @@ public class Stab : WeaponKata
         cooldown.Reset();
 
         itemBase.Attack(caster, dir, weapon);
+
+        PoolManager.SpawnPoolObject(indexParticles[2], caster.transform.position);
     }
 }

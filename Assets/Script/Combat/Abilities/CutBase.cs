@@ -49,5 +49,7 @@ public class Cut : WeaponKata
         cooldown.Reset();
 
         itemBase.Attack(caster, dir, weapon);
+
+        PoolManager.SpawnPoolObject(indexParticles[1], caster.transform.position);
     }
 }
