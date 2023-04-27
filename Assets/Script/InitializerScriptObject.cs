@@ -5,15 +5,25 @@ using UnityEngine;
 public class InitializerScriptObject : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    public TMPro.TextMeshProUGUI textMesh;
+    
     void Awake()
     {
         string path = "ScriptableObject";
-        LoadSystem.LoadAsset(path);
+        var aux = LoadSystem.LoadAsset(path);
+
+        textMesh.text += "Se cargaron los assets: \n";
+
+        foreach (var item in aux)
+        {
+            textMesh.text +="\t"  +item.name +" ";
+        }
+        textMesh.text += "\n";
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        textMesh.text += "el manager de items contiene: " + Manager<ItemBase>.pic.Count;
     }
 }
