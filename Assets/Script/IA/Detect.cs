@@ -11,8 +11,14 @@ public class Detect<T>
 
     public LayerMask layerMask;
 
+    /// <summary>
+    /// numero maximo de objetos detectados
+    /// </summary>
     public int maxDetects = -1;
 
+    /// <summary>
+    /// numero minimo de objetos detectados
+    /// </summary>
     public int minDetects = 1;
 
     /// <summary>

@@ -207,6 +207,9 @@ public class Health : Init
 
 public enum Team
 {
-    windows,
-    mac
+    player,
+    enemy,
+    hervivoro,
+    recursos,
+    carnivoro
 }

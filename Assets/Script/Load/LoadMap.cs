@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class LoadMap : SingletonMono<LoadMap>
 {
-    public GameObject[] carlitos;
+    public Transform[] carlitos;
 
     public Camera[] cameras;
 
@@ -19,7 +19,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
     public Tilemap map;
 
-    public GameObject playerPublic;
+    public MoveAbstract playerPublic;
 
     public GameObject spawner;
 
@@ -205,13 +205,17 @@ public class LoadMap : SingletonMono<LoadMap>
             yield return null;
         }
 
-        GameManager.instance.player = playerPublic;
+        if(playerPublic!= null)
+        {
+            GameManager.instance.player = playerPublic.gameObject;
+            carlitos = playerPublic.carlitos;
+        }
+            
 
         cameras = new Camera[Camera.allCamerasCount - 1];
 
         renders = new GameObject[6];
 
-        carlitos = new GameObject[6];
 
         //recorro todas las camaras y guardo las que quiero en orden
         foreach (var item in Camera.allCameras)
@@ -262,10 +266,8 @@ public class LoadMap : SingletonMono<LoadMap>
 
             //renders[i].transform.localScale = Vector3.one * scala;
 
-            carlitos[i] = GameObject.Find("Carlitos (" + i + ")");
-
-            carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), carlitos[i].transform.position.z, 2);
-
+            if(playerPublic != null)
+                carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), carlitos[i].transform.position.z, 2);
         }
 
         if (arrHexCreados.GetLength(0) > 1)
@@ -279,8 +281,12 @@ public class LoadMap : SingletonMono<LoadMap>
         DebugPrint.Log("Tiempo total de carga: " + tiempoCarga);
         DebugPrint.Log("Carga finalizada");
 
-        playerPublic.transform.parent = arrHexCreados[0].transform;
-        playerPublic.transform.localPosition = new Vector3(0, 0, 0);
+        if(playerPublic != null)
+        {
+            playerPublic.transform.parent = arrHexCreados[0].transform;
+            playerPublic.transform.localPosition = new Vector3(0, 0, 0);
+        }
+        
 
         //AudioManager.instance.Play("ambiente").source.loop = true;
         end(true);

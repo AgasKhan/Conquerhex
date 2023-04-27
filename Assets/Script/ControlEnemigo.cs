@@ -6,7 +6,7 @@ public class ControlEnemigo : MonoBehaviour
 {
     //public GameObject[] player;
 
-    readonly List<GameObject> player = new List<GameObject>();
+    readonly List<Transform> player = new List<Transform>();
 
     public float nivel;
 
@@ -73,7 +73,7 @@ public class ControlEnemigo : MonoBehaviour
 
         player.AddRange(LoadMap.instance.carlitos);
 
-        player.Add(GameManager.instance.player);
+        player.Add(GameManager.instance.player.transform);
 
     }
     void FixedUpdate()

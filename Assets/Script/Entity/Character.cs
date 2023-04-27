@@ -22,7 +22,15 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         get => _ia;
         set
         {
-            _ia.OnExitState(this);
+            if(_ia!=null)
+            {
+                _ia.OnExitState(this);
+            }
+            else if(value!=null)
+            {
+                MyUpdates += IAUpdate;
+            }
+
             _ia = value;
             _ia.OnEnterState(this);
         }
@@ -53,7 +61,7 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         }
 
         //---------------------
-        if(team == Team.mac)
+        if(team == Team.enemy)
         {
             var aux = gameObject.GetComponent<Animator>();
 
@@ -84,7 +92,11 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
         _ia = GetComponent<IState<Character>>();
 
-        _ia?.OnEnterState(this);
+        if(_ia!= null)
+        {
+            _ia.OnEnterState(this);
+            MyUpdates += IAUpdate;
+        }
 
         //--------------------------
         health.noLife += ShowLoserWindow;
@@ -93,10 +105,15 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         //ver move con su velocidad
     }
 
+    void IAUpdate()
+    {
+        _ia.OnStayState(this);
+    }
+
     //--------------------------------------------
     void ShowLoserWindow()
     {
-        if (team == Team.windows)
+        if (team == Team.player)
         {
             GameManager.instance.Pause(false);
             MenuManager.instance.ShowWindow("Defeat");
@@ -106,7 +123,6 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
             gameObject.SetActive(false);
             Drop();
         }
-
     }
     //--------------------------------------------
 

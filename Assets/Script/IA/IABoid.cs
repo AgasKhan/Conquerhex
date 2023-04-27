@@ -3,9 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Boid : MonoBehaviour
+public class IABoid : IAFather
 {
-    /*MoveAbstract move;
+    [SerializeField]
+    Detect<Entity> detect;
+
+    public override void OnEnterState(Character param)
+    {
+        //esto se ejecuta cuando un character me inicia
+    }
+
+    public override void OnExitState(Character param)
+    {
+        //esto se ejecuta cuando dejo de managear un character
+    }
+
+    public override void OnStayState(Character param)
+    {
+        //esto se ejecuta solo cuando el juego NO esta en pausa
+    }
+
+
+}
+
+
+/*MoveAbstract move;
 
     [SerializeField] Arrive arrive;
     [SerializeField] Seek seek;
@@ -135,5 +157,3 @@ public class Boid : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(BoidsManager.instance.ViewRadius));
     }*/
-
-}
