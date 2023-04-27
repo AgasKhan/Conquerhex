@@ -24,8 +24,13 @@ public class Interfaz : MonoBehaviour
     TextCompleto tiempo;
     TextCompleto subtitulo;
 
-    void UpdateLife(IGetPercentage getPercentage)
+    /// <summary>
+    /// el primer parametro debe de ser un IGetPercentage
+    /// </summary>
+    /// <param name="param"></param>
+    void UpdateLife(params object[] param)
     {
+        IGetPercentage getPercentage = param[0] as IGetPercentage;
         vida.fillAmount = getPercentage.Percentage();
     }
 
@@ -68,7 +73,7 @@ public class Interfaz : MonoBehaviour
     {
         end(true);
         yield return null;
-        GameManager.instance.player.GetComponent<Character>().health.lifeUpdate += UpdateLife;
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += UpdateLife;
     }
 
     // Update is called once per frame

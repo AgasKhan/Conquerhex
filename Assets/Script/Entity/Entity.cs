@@ -213,3 +213,9 @@ public enum Team
     recursos,
     carnivoro
 }
+
+public enum LifeType
+{
+    life,
+    regen
+}

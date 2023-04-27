@@ -1386,7 +1386,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
   - {fileID: 11400000, guid: e3d7a5bb6d2b7754d98e4cfd25e3414d, type: 2}
   map: {fileID: 1540370208}
-  playerPublic: {fileID: 1504004396}
+  playerPublic: {fileID: 1504004406}
   spawner: {fileID: 5223350694060523476, guid: ecf5bace16d838041a93341ef03cc01d, type: 3}
   victoria: {fileID: 1523643467}
   basePos: {x: 2, y: 20, z: 10}
@@ -2112,18 +2112,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ded982e2c73252246b9dc2a3c4b66a86, type: 3}
---- !u!1 &1504004396 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6295448971589143386, guid: 9982472369f0d9b439b39b8f4172c71d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6295448973055230582}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1504004400 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
     type: 3}
   m_PrefabInstance: {fileID: 6295448973055230582}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1504004406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6295448973055230582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1523643467 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3019227970276860375, guid: d231685d877d2f842855491e00130042,
@@ -2810,6 +2816,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 6749773658987503344, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      propertyPath: obj
+      value: 
+      objectReference: {fileID: 1504004400}
     - target: {fileID: 6749773658987503344, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: obj.tr

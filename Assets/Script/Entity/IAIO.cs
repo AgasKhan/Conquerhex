@@ -25,8 +25,12 @@ public class IAIO : IAFather
     public override void OnEnterState(Character param)
     {
         character = param;
-        
-        if(param.prin.itemBase !=null)
+
+        param.health.lifeUpdate += UpdateLife;
+        param.health.regenUpdate += UpdateRegen;
+
+
+        if (param.prin.itemBase !=null)
         {
             VirtualControllers.principal.SuscribeController(param.prin);
             param.prin.updateTimer += PrinUi;
@@ -55,6 +59,9 @@ public class IAIO : IAFather
 
     public override void OnExitState(Character param)
     {
+        param.health.lifeUpdate -= UpdateLife;
+        param.health.regenUpdate -= UpdateRegen;
+
         //if (param.prin.itemBase != null)
         VirtualControllers.principal.DesuscribeController(param.prin);
         param.prin.updateTimer -= PrinUi;
@@ -90,6 +97,16 @@ public class IAIO : IAFather
     void TerUi(float f)
     {
         EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.terciary).Execute(f);
+    }
+
+    void UpdateLife(IGetPercentage getPercentage)
+    {
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).Execute(getPercentage);
+    }
+
+    void UpdateRegen(IGetPercentage getPercentage)
+    {
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(getPercentage);
     }
 
 }
