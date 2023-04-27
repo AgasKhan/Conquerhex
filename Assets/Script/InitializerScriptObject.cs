@@ -7,11 +7,18 @@ public class InitializerScriptObject : MonoBehaviour
     // Start is called before the first frame update
 
     public TMPro.TextMeshProUGUI textMesh;
-    
+
+    public bool EnabledDebug;
+
     void Awake()
     {
         string path = "ScriptableObject";
         var aux = LoadSystem.LoadAsset(path);
+
+        EnabledDebug = enabled ? EnabledDebug : false;
+
+        if (!EnabledDebug)
+            return;
 
         textMesh.text += "Se cargaron los assets: \n";
 
@@ -24,6 +31,9 @@ public class InitializerScriptObject : MonoBehaviour
 
     private void Start()
     {
+        if (!EnabledDebug)
+            return;
+
         textMesh.text += "el itembase de items contiene: " + Manager<ItemBase>.pic.Count;
         textMesh.text += "\nel showmanager de items contiene: " + Manager<ShowDetails>.pic.Count;
     }
