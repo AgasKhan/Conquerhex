@@ -49,15 +49,6 @@ public class LoadMap : SingletonMono<LoadMap>
         return new Vector3(instance.basePos.x * (index + 1), instance.basePos.y, instance.basePos.z);
     }
 
-    public Object[] LoadAsset(string path)
-    {
-        Object[] aux = Resources.LoadAll(path);
-
-        DebugPrint.Log("Cantidad de assets cargados: " + aux.Length.ToString());
-
-        return aux;
-    }
-
     IEnumerator LoadHex(System.Action<bool> end, System.Action<string> msg2)
     {
         HexagonsManager.SetArrayHexagons(rng);
@@ -94,7 +85,7 @@ public class LoadMap : SingletonMono<LoadMap>
         {
             string path = "Props/" + biomes[i].nameDisplay + "/";
 
-            props[i] = LoadAsset(path);
+            props[i] = LoadSystem.LoadAsset(path);
         }
 
         //StartCoroutine(VincularHexagonos());

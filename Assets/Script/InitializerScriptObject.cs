@@ -5,9 +5,10 @@ using UnityEngine;
 public class InitializerScriptObject : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        string path = "ScriptableObject";
+        LoadSystem.LoadAsset(path);
     }
 
     // Update is called once per frame

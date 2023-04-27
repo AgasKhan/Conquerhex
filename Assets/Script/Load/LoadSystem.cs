@@ -58,6 +58,15 @@ public class LoadSystem : SingletonMono<LoadSystem>
         postLoadEvent.Add(myCoroutine);
     }
 
+    public static Object[] LoadAsset(string path)
+    {
+        Object[] aux = Resources.LoadAll(path);
+
+        Debug.Log("Cantidad de assets cargados: " + aux.Length.ToString());
+
+        return aux;
+    }
+
     public void Load(string scn, bool pause = false)
     {
         loadPause = pause;
