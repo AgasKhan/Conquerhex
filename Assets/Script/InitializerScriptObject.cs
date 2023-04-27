@@ -24,6 +24,7 @@ public class InitializerScriptObject : MonoBehaviour
 
     private void Start()
     {
-        textMesh.text += "el manager de items contiene: " + Manager<ItemBase>.pic.Count;
+        textMesh.text += "el itembase de items contiene: " + Manager<ItemBase>.pic.Count;
+        textMesh.text += "\nel showmanager de items contiene: " + Manager<ShowDetails>.pic.Count;
     }
 }
