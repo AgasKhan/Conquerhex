@@ -302,8 +302,11 @@ public class TimedAction : Timer
     public bool Execute()
     {
         if(execute)
+        {
+            execute = false;
             action();
-        execute = false;
+        }
+        
         return destroy;
     }
 

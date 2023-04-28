@@ -87,18 +87,23 @@ public class Detect<T>
 
         Debug.DrawRay(pos, dir, Color.red, 1);
 
-        if (aux.Length >= minDetects)
+        if (aux.Length > minDetects)
         {
             List<Transform> tr = new List<Transform>();
 
-            Transform[] result = new Transform[maxDetects > 0 ? maxDetects : tr.ToArray().Length - minDetects - 1];
+            Transform[] result = new Transform[maxDetects > 0 ? maxDetects : tr.ToArray().Length - minDetects];
 
             foreach (var item in aux)
             {
                 tr.Add(item.transform);
             }
 
-            System.Array.ConstrainedCopy(tr.ToArray(), minDetects - 1, result, 0, result.Length);
+            //System.Array.ConstrainedCopy(tr.ToArray(), minDetects - 1, result, 0, result.Length);
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = tr[i + minDetects];
+            }
 
             return result;
         }

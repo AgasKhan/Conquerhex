@@ -50,6 +50,7 @@ public class FadeOnOff : MonoBehaviour
 
     private void OnEnable()
     {
+        transform.localScale = Vector3.one;
         sprite.color = fadeColorOff;
         onTimer.Reset();
     }
