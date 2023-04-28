@@ -9,7 +9,7 @@ public class Arrive : SteeringBehaviour
     {
         Vector2 desired = Direction(target);
         var speed = me.maxSpeed;
-
+        //pendiente: esta cuenta hace que el pj baile cuando tiene dos elementos al que se quiere dirigir muy cercanos
         if (desired.sqrMagnitude <= (me.velocity * me.velocity / (me._desaceleration.current * me._desaceleration.current)))
             speed = -me.maxSpeed * ((desired.magnitude - 1) / me._desaceleration.current);
 

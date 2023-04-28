@@ -15,16 +15,15 @@ public class IABoid : IAFather
 
     delegate void _FuncBoid(ref Vector2 desired, IABoid objective, Vector2 dirToBoid);
 
-    private void Start()
-    {
-        detect.radius = 5;
-    }
     public override void OnEnterState(Character param)
     {
         //esto se ejecuta cuando un character me inicia
-    //    Manager<IABoid>.pic.Add(GetInstanceID().ToString(), this);
-    //    Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 
+        //necesito añadir a los boid a una lista para usarlos de comparación para los calculos de flocking
+    //    Manager<IABoid>.pic.Add(GetInstanceID().ToString(), this);
+
+        //randomizar el movimiento de los boids
+    //    Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
     //    param.move.Velocity(param.move.maxSpeed).Velocity(random.normalized);
     //
     }
@@ -40,14 +39,14 @@ public class IABoid : IAFather
         //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
         //Execute();
 
+        //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
         var recursos = detect.Area(param.transform.position, (target) => { return Team.recursos == target.team;});
 
-        Debug.Log("recursos " + recursos.Length);
-
+        //quiero recorrer la cantidad de gameobjects que tienen el team recursos para añadirlos a la lista correspondiente, en este caso, fruta
         for (int i = 0; i < recursos.Length; i++)
         {
             steerings["frutas"].targets.Add(recursos[i].transform);
-            Debug.Log("recursos en for " + recursos);
+            Debug.Log("recursos en for " + recursos[i]);
         }
 
         //var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
@@ -67,78 +66,78 @@ public class IABoid : IAFather
         steerings[key].steering = steerings[key].steering.SwitchSteering<T>();
     }
 
-    //Vector2 BoidIntern(_FuncBoid func, bool promedio)
-    //{
-    //    Vector2 desired = Vector2.zero;
+    Vector2 BoidIntern(_FuncBoid func, bool promedio)
+    {
+        Vector2 desired = Vector2.zero;
 
-    //    int count = 0;
+        int count = 0;
 
-    //    //Por cada boid
-    //    foreach (var boid in Manager<IABoid>.pic)
-    //    {
-    //        //Si soy este boid a chequear, ignoro y sigo la iteracion
-    //        if (boid.value == this) continue;
+        //Por cada boid
+        foreach (var boid in Manager<IABoid>.pic)
+        {
+            //Si soy este boid a chequear, ignoro y sigo la iteracion
+            if (boid.value == this) continue;
 
-    //        //Saco la direccion hacia el boid
-    //        Vector2 dirToBoid = boid.value.transform.position - transform.position; //seek.Calculate(boid.value.move);
+            //Saco la direccion hacia el boid
+            Vector2 dirToBoid = boid.value.transform.position - transform.position; //seek.Calculate(boid.value.move);
 
-    //        //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
-    //        if (dirToBoid.sqrMagnitude <= BoidsManager.instance.SeparationRadius)
-    //        {
-    //            func(ref desired, boid.value, dirToBoid);
+            //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
+            if (dirToBoid.sqrMagnitude <= BoidsManager.instance.SeparationRadius)
+            {
+                func(ref desired, boid.value, dirToBoid);
 
-    //            count++;
-    //        }
-    //    }
+                count++;
+            }
+        }
 
-    //    if (desired == Vector2.zero) return desired;
+        if (desired == Vector2.zero) return desired;
 
-    //    //En caso de requerir tener el promedio de todos los boids, promedio con mi desired
-    //    if (promedio)
-    //        desired /= count;
+        //En caso de requerir tener el promedio de todos los boids, promedio con mi desired
+        if (promedio)
+            desired /= count;
 
-    //    return desired;
-    //}
+        return desired;
+    }
 
-    //void Separation(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
-    //{
-    //    desired -= dirToBoid;
-    //}
+    void Separation(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
+    {
+        desired -= dirToBoid;
+    }
 
-    //void Alignment(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
-    //{
-    //    desired += boid.move.vectorVelocity;
-    //}
+    void Alignment(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
+    {
+        desired += boid.move.vectorVelocity;
+    }
 
-    //void Cohesion(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
-    //{
-    //    desired += (Vector2)boid.transform.position;
-    //}
+    void Cohesion(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
+    {
+        desired += (Vector2)boid.transform.position;
+    }
 
-    ////Veo los limites
-    //void CheckBounds()
-    //{
-    //    transform.position = Boundaries.instance.SetObjectBoundPosition(transform.position);
-    //}
+    //Veo los limites
+    void CheckBounds()
+    {
+        transform.position = Boundaries.instance.SetObjectBoundPosition(transform.position);
+    }
 
-    ////Ejecuto el mov flocking
-    //void Execute()
-    //{
-    //    move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
-    //     BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
-    //     BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
+    //Ejecuto el mov flocking (align, separation, cohesion)
+    void Execute()
+    {
+        move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
+         BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
+         BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
-    //    CheckBounds();
-    //}
+        CheckBounds();
+    }
 
-    ////Ver gizmos
-    //private void OnDrawGizmos()
-    //{
-    //    if (!BoidsManager.instance) return;
+    //Ver gizmos
+    private void OnDrawGizmos()
+    {
+        if (!BoidsManager.instance) return;
 
-    //    Gizmos.color = Color.white;
-    //    Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(BoidsManager.instance.ViewRadius));
-    //}
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(BoidsManager.instance.ViewRadius));
+    }
 }
 
 
