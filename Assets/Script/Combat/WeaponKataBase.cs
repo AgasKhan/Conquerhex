@@ -101,12 +101,12 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
             tim = TimersManager.Create(0.5f, ()=> {
 
-            if(((int)(tim.Percentage() * 10)) % 1 == 0)
+            if(((int)(tim.Percentage() * 10)) % 2 == 0)
             {
                 //parpadeo rapido
 
                 
-                sprite.color =  Color.green;
+                sprite.color =  Color.magenta;
             }
             else
             {
