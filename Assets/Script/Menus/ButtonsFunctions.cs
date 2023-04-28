@@ -67,13 +67,20 @@ public class ButtonsFunctions : MonoBehaviour
             {"ShowWindow", ShowWindow},
 
             //Tutorial
-            {"ShowControls", DisplayWindow},
+            {"ShowControls", ShowControls},
 
             //Display Items Special Actions 
             {"RefreshButton", RefreshMyButton}
 
         });
     }
+    void ShowControls(GameObject g)
+    {
+        DisplayWindow(g);
+        refMenu.MusicInGame(false);
+        refMenu.PlayTutorialM(true);
+    }
+
     void RefreshMyButton(GameObject g)
     {
         var aux = g.GetComponent<DisplayItem>();
@@ -191,6 +198,7 @@ public class ButtonsFunctions : MonoBehaviour
     void StartGame(GameObject g)
     {
         refMenu.StartGame();
+        refMenu.StartSound();
     }
 
     void DisplayWindow(GameObject g)

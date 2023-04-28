@@ -44,7 +44,7 @@ public class MenuManager : SingletonMono<MenuManager>
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
         {
-            MusicInGame();
+            MusicInGame(true);
         }
         else
         {
@@ -130,13 +130,30 @@ public class MenuManager : SingletonMono<MenuManager>
     {
         audioM.Play("Click");
     }
-    public void MusicInGame()
+    public void MusicInGame(bool condition)
     {
-        audioM.Play("MusicInMenu");
+        if(condition == true)
+            audioM.Play("MusicInMenu");
+        else
+            audioM.Stop("MusicInMenu");
     }
+
     public void GameMusic()
     {
         audioM.Play("GameMusic");
+    }
+
+    public void StartSound()
+    {
+        audioM.Play("MusicInMenu");
+    }
+
+    public void PlayTutorialM(bool condition)
+    {
+        if (condition == true)
+            audioM.Play("TutorialMusic");
+        else
+            audioM.Stop("TutorialMusic");
     }
 
     /*
