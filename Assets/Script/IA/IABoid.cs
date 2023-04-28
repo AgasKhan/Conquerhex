@@ -8,6 +8,9 @@ public class IABoid : IAFather
     [SerializeField]
     Detect<Entity> detect;
 
+    [SerializeField]
+    Pictionarys<string,SteeringWithTarger> steerings;
+
     public override void OnEnterState(Character param)
     {
         //esto se ejecuta cuando un character me inicia
@@ -20,10 +23,62 @@ public class IABoid : IAFather
 
     public override void OnStayState(Character param)
     {
-        //esto se ejecuta solo cuando el juego NO esta en pausa
+        foreach (var itemInPictionary in steerings)
+        {
+            for (int i = 0; i < itemInPictionary.value.Count; i++)
+            {
+                param.move.Acelerator(itemInPictionary.value.steering.Calculate(itemInPictionary.value[i]));
+            }
+        }
     }
 
+    public void SwitchComportomiento<T>(string key) where T : SteeringBehaviour
+    {
+        steerings[key].steering = steerings[key].steering.SwitchSteering<T>();
+    }
+}
 
+
+[System.Serializable]
+class SteeringWithTarger
+{
+    public SteeringBehaviour steering;
+
+    public List<Transform> targets;
+
+    public int Count => targets.Count;
+
+    Dictionary<Transform, MoveAbstract> lookUpTable = new Dictionary<Transform, MoveAbstract>();
+
+    //version hiper justificada de un lookuptable
+    public MoveAbstract this[int i]
+    {
+        get
+        {
+            MoveAbstract aux;
+
+            //en caso que mi diccionario sea muy largo es mas rapido directamente obtener el componente
+            if (lookUpTable.Count<=200)
+            {
+                if (lookUpTable.TryGetValue(targets[i], out aux))
+                {
+                    return aux;
+                }
+            }
+
+            if (!targets[i].TryGetComponent(out aux))
+            {
+                aux = targets[i].gameObject.AddComponent<MoveTr>();
+                aux.enabled = false;
+            }
+
+            lookUpTable.Add(targets[i], aux);
+  
+
+            return aux;
+
+        }
+    }
 }
 
 

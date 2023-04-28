@@ -3120,6 +3120,9 @@ GameObject:
   - component: {fileID: 4472251128575466742}
   - component: {fileID: 4472251128575466730}
   - component: {fileID: 4472251128575466741}
+  - component: {fileID: 4472251128575466745}
+  - component: {fileID: 4472251128575466744}
+  - component: {fileID: 4472251128575466743}
   m_Layer: 7
   m_Name: Corderito
   m_TagString: Enemigo
@@ -3170,6 +3173,59 @@ MonoBehaviour:
       m_Bits: 0
     maxDetects: -1
     minDetects: 1
+  steerings:
+    pictionaries:
+    - key: frutas
+      value:
+        steering: {fileID: 4472251128575466745}
+        targets: []
+    - key: enemigos
+      value:
+        steering: {fileID: 4472251128575466745}
+        targets: []
+    - key: yos
+      value:
+        steering: {fileID: 4472251128575466743}
+        targets: []
+--- !u!114 &4472251128575466743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472251128575466740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b4b1e1e378fb9248aa2aabc6076b147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  me: {fileID: 0}
+--- !u!114 &4472251128575466744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472251128575466740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7adb7bd8338124a8755dad0a6d492f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  me: {fileID: 0}
+--- !u!114 &4472251128575466745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472251128575466740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8926cebf671874842b3c22cfca8fa9ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  me: {fileID: 0}
 --- !u!95 &4772338560607170476
 Animator:
   serializedVersion: 4

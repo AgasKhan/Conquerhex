@@ -12,7 +12,7 @@ public class Persuit : SteeringBehaviour
         var ourDir = Direction(target);
 
         //Saco la distancia según dónde estará el enemigo que va a una determinada velocidad
-        Vector2 _directionToTarget = (target.transform.position).Vect3To2() + target.vectorVelocity - move.transform.position.Vect3To2();
+        Vector2 _directionToTarget = (target.transform.position).Vect3To2() + target.vectorVelocity - me.transform.position.Vect3To2();
 
         //Realizo una proyección del vector entre el punto donde estará el enemigo y nuestra posición actual
         Vector2 aux = Vector3.Project(_directionToTarget, ourDir);

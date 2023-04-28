@@ -7,14 +7,14 @@ public class Arrive : SteeringBehaviour
 
     public override Vector2 Calculate(MoveAbstract target)
     {
-        _desiredVelocity = Vector2.ClampMagnitude(target.transform.position, move.maxSpeed);
+        _desiredVelocity = Vector2.ClampMagnitude(target.transform.position, me.maxSpeed);
 
-        if (_desiredVelocity.sqrMagnitude < (move.velocity * move.velocity / (move._desaceleration.current * move._desaceleration.current)))
-            _desiredVelocity = -move.vectorVelocity * (move._desaceleration.current - 1);
+        if (_desiredVelocity.sqrMagnitude < (me.velocity * me.velocity / (me._desaceleration.current * me._desaceleration.current)))
+            _desiredVelocity = -me.vectorVelocity * (me._desaceleration.current - 1);
 
-        _steering = _desiredVelocity - move.vectorVelocity;
+        _steering = _desiredVelocity - me.vectorVelocity;
 
-        var vecVelocity = move.vectorVelocity;
+        var vecVelocity = me.vectorVelocity;
 
         vecVelocity += _steering * Time.deltaTime;
 

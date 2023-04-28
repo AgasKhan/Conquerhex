@@ -6,22 +6,7 @@ public class IAIO : IAFather
 {
     Character character;
 
-    [SerializeField]
-    SteeringWithTarger[] steerings;
-  /*
-    private void Update()
-    {
-      
-        foreach (var steer in steerings)
-        {
-            foreach (var obj in steer.targets)
-            {
-                steer.steering.Calculate(obj);
-            }
-        }
-        
-    }
-*/
+   
     public override void OnEnterState(Character param)
     {
         character = param;
@@ -109,12 +94,4 @@ public class IAIO : IAFather
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(getPercentage);
     }
 
-}
-
-[System.Serializable]
-struct SteeringWithTarger
-{
-    public SteeringBehaviour steering;
-
-    public List<MoveAbstract> targets;
 }

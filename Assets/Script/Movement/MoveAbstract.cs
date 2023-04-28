@@ -8,12 +8,12 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public Vector2 direction;
 
-    public Tim aceleration;
+    public Tim aceleration = new Tim();
 
-    public Tim _desaceleration;
+    public Tim _desaceleration = new Tim();
 
     [SerializeField]
-    protected Tim _velocity;
+    protected Tim _velocity = new Tim();
 
 
     public float maxSpeed
