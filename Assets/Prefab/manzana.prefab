@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 8155588718149302041}
   - component: {fileID: 7706923363004807860}
   - component: {fileID: 5120457469351579647}
-  m_Layer: 0
+  - component: {fileID: 2078342864}
+  - component: {fileID: 3849503840052946532}
+  m_Layer: 10
   m_Name: manzana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: fa3397d4e66fe4142b8df4483f588e49, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,3 +112,43 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!58 &2078342864
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790657688179249189}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.638
+--- !u!114 &3849503840052946532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790657688179249189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b69541b12351444aa9d594b53532e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerStun:
+    total: 0
+    _current: 0
+  detect:
+    radius: 1
+    distance: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    maxDetects: -1
+    minDetects: 1
+  param: {fileID: 5120457469351579647}

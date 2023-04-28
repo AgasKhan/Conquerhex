@@ -9,7 +9,7 @@ public class IABoid : IAFather
     Detect<Entity> detect;
 
     [SerializeField]
-    Pictionarys<string,SteeringWithTarger> steerings;
+    public Pictionarys<string,SteeringWithTarger> steerings;
 
     MoveAbstract move;
 
@@ -36,19 +36,19 @@ public class IABoid : IAFather
     public override void OnStayState(Character param)
     {
        
-        //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
-        //Execute();
-
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
         var recursos = detect.Area(param.transform.position, (target) => { return Team.recursos == target.team;});
-
-        //quiero recorrer la cantidad de gameobjects que tienen el team recursos para añadirlos a la lista correspondiente, en este caso, fruta
+            
+        //añado las frutas que estan en mi area de detección, si ya esta en la lista no se añade
         for (int i = 0; i < recursos.Length; i++)
         {
+            if (steerings["frutas"].targets.Contains(recursos[i].transform)) continue;
             steerings["frutas"].targets.Add(recursos[i].transform);
-            Debug.Log("recursos en for " + recursos[i]);
         }
 
+
+        //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
+        //Execute();
         //var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
 
 
@@ -142,7 +142,7 @@ public class IABoid : IAFather
 
 
 [System.Serializable]
-class SteeringWithTarger
+public class SteeringWithTarger
 {
     public SteeringBehaviour steering;
 
