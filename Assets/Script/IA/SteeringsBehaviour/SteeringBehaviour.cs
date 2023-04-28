@@ -21,8 +21,6 @@ public abstract class SteeringBehaviour : MonoBehaviour
         return aux;
     }
 
-
-
     protected Vector2 CalculateSteering(Vector2 target)
     {
         //_desiredVelocity = Direction(target).normalized * _maxSpeed;

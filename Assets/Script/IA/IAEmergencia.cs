@@ -71,14 +71,26 @@ public class AutomatickAttack
 
     public event System.Action onAttack;
 
+    //recibe el porcentaje de la carga del ataque
+    public event System.Action<float> waitToAttack;
+
     public AutomatickAttack(WeaponKata kata)
     {
         this.kata = kata;
-        attack = TimersManager.Create(Random.Range(3, 6) / 3f, () =>
+
+        attack = null;
+
+        attack = TimersManager.Create(Random.Range(3, 6) / 3f,()=> {
+
+            waitToAttack?.Invoke(attack.InversePercentage());
+
+        }, () =>
         {
             kata.ControllerUp(Vector2.zero, 0);
 
             onAttack?.Invoke();
+
+            waitToAttack = null;
         }
         
         , false);
