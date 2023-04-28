@@ -52,10 +52,11 @@ public class Explocion : WeaponKata
 
         itemBase.Attack(caster, dir, weapon);
 
-        var aux = PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
+        /*
+        var aux = PoolManager.SpawnPoolObject(itemBase.indexParticles[0], caster.transform.position);
 
         aux.SetParent(caster.transform);
-
+        */
         
         reference.Off();
     }

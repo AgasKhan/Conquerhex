@@ -81,7 +81,7 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     protected override void Config()
     {
         base.Config();
-        MyStarts += MyAwake;
+        MyAwakes += MyAwake;
     }
 
     void MyAwake()
@@ -95,8 +95,7 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         SetWeaponKataCombo(ref ter, bodyBase.tertiary);
 
         _ia = GetComponent<IState<Character>>();
-
-        if(_ia!= null)
+        if (_ia != null)
         {
             _ia.OnEnterState(this);
             MyUpdates += IAUpdate;
@@ -107,6 +106,10 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         //--------------------------
 
         //ver move con su velocidad
+        /*
+        LoadSystem.AddPostLoadCorutine(()=> {
+            
+        });*/
     }
 
     void IAUpdate()

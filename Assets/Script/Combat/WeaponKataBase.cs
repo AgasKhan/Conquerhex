@@ -22,6 +22,10 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
 
+    public Vector2Int[] indexParticles;
+
+
+
     public override Pictionarys<string, string> GetDetails()
     {
         var aux = base.GetDetails();
@@ -33,6 +37,24 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
             aux.Add("Requisitos", damages.ToString("<","\n"));
 
         return aux;
+    }
+
+    protected override void MyEnable()
+    {
+        base.MyEnable();
+
+        LoadSystem.AddPostLoadCorutine(()=> {
+
+            indexParticles = new Vector2Int[particles.Length];
+
+            for (int i = 0; i < particles.Length; i++)
+            {
+                indexParticles[i] = PoolManager.SrchInCategory("Particles", particles[i].name);
+            }
+
+        });
+
+        
     }
 
     public void Attack(Entity caster, Vector2 direction, Weapon weapon)
@@ -83,10 +105,12 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         InternalAttack(caster, direction, damagesCopy);
     }
 
-    protected void Damage(ref Damage[] damages, Entity caster, params IDamageable[] damageables)
+    protected void Damage(ref Damage[] damages, Entity caster, params Entity[] damageables)
     {
         foreach (var entitys in damageables)
         {
+            InternalParticleSpawnToDamaged(entitys.transform);
+
             foreach (var dmg in damages)
             {
                 entitys.TakeDamage(dmg);
@@ -99,6 +123,15 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
     public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
     */
+    protected virtual void InternalParticleSpawnToDamaged(Transform dmg)
+    {
+        var aux = PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
+
+        //aux.SetParent(dmg);
+
+    }
+
+
     protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages);
 }
 
@@ -129,7 +162,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     Weapon _weapon;
     protected Timer cooldown;
     protected Entity caster;
-    protected Vector2Int[] indexParticles;
+    //protected Vector2Int[] indexParticles;
 
     void TriggerTimerEvent()
     {
@@ -183,12 +216,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         if(weapon!=null)
             weapon.Init();
 
-        indexParticles = new Vector2Int[itemBase.particles.Length];
-
-        for (int i = 0; i < itemBase.particles.Length; i++)
-        {
-            indexParticles[i] = PoolManager.SrchInCategory("Particles", itemBase.particles[i].name);
-        }
+        
     }
 
     public void ControllerDown(Vector2 dir, float tim)

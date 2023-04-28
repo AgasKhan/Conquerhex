@@ -36,6 +36,7 @@ public class Entity : MyScripts, IDamageable
 
         damageables = new IDamageable[aux.Length - 1];
 
+        //evita el bucle de llamarme a mi mmismo
         int ii = 0;
 
         for (int i = 0; i < aux.Length; i++)
@@ -46,6 +47,7 @@ public class Entity : MyScripts, IDamageable
                 ii++;
             }
         }
+
    
         tim = TimersManager.Create(0.33f, () => {
 

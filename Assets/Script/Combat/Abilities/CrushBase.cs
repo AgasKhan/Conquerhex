@@ -13,6 +13,7 @@ public class CrushBase : WeaponKataBase
         Damage(ref damages, caster, aux);
     }
 
+
     protected override void SetCreateItemType()
     {
         _itemType = typeof(Crush);
@@ -54,10 +55,11 @@ public class Crush : WeaponKata
 
         itemBase.Attack(caster, dir, weapon);
 
+        /*
         var aux = PoolManager.SpawnPoolObject(indexParticles[0], caster.transform.position);
 
         aux.SetParent(caster.transform);
-
+        */
 
         reference.Off();
     }

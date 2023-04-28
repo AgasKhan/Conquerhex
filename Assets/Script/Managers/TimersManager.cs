@@ -199,7 +199,7 @@ public class Timer : Tim
     /// Modifica el numero que multiplica la constante temporal, y asi acelerar o disminuir el timer
     /// </summary>
     /// <param name="m">Por defecto es 1</param>
-    public Timer Multiply(float m)
+    public Timer SetMultiply(float m)
     {
         _multiply = m;
 
@@ -274,10 +274,9 @@ public class Timer : Tim
     /// <param name="m">Modifica el multiplicador del timer, por defecto 0</param>
     public Timer(float totTim = 10, float m=1, bool unscaled = false)
     {
-        _multiply = m;
-        Start();
-        Set(totTim);
+        SetMultiply(m);
         SetUnscaled(unscaled);
+        Set(totTim);
     }
 }
 
