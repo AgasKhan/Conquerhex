@@ -9,7 +9,7 @@ public class CutBase : WeaponKataBase
     {
         var aux = detect.Area(caster.transform.position, (tr) => { return caster != tr; });
 
-        Damage(ref damages, aux);
+        Damage(ref damages, caster, aux);
     }
 
     protected override void SetCreateItemType()

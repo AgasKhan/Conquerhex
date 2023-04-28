@@ -83,10 +83,48 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         InternalAttack(caster, direction, damagesCopy);
     }
 
-    protected void Damage(ref Damage[] damages, params IDamageable[] damageables)
+    protected void Damage(ref Damage[] damages, Entity caster, params IDamageable[] damageables)
     {
         foreach (var entitys in damageables)
         {
+            Color originalColor;
+
+            if (entitys is DinamicEntity)
+            {
+                var aux = (DinamicEntity)entitys;
+
+               Timer tim = null;
+
+                var sprite = aux.GetComponentInChildren<SpriteRenderer>();
+
+                originalColor = sprite.color;
+
+            tim = TimersManager.Create(0.5f, ()=> {
+
+            if(((int)(tim.Percentage() * 10)) % 1 == 0)
+            {
+                //parpadeo rapido
+
+                
+                sprite.color =  Color.green;
+            }
+            else
+            {
+               //el mantenido
+
+               sprite.color = Color.yellow;
+            }
+
+        },()=> {
+
+            //volver al original
+
+            sprite.color = originalColor;
+        });
+
+                aux.move.Acelerator(aux.move.vectorVelocity * -2);
+            }
+
             foreach (var dmg in damages)
             {
                 entitys.TakeDamage(dmg);

@@ -10,7 +10,7 @@ public class ExplocionBase : WeaponKataBase
     {
         var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (algo) => { return caster.transform != algo; }, (tr) => { return caster.transform == tr; });
 
-        Damage(ref damages, aux);
+        Damage(ref damages, caster, aux);
     }
 
     protected override void SetCreateItemType()
