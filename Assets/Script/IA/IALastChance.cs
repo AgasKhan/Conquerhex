@@ -6,8 +6,6 @@ public class IALastChance : IAFather
 {
     MoveAbstract enemy;
 
-    Character character;
-
     Timer doryEnemy;
 
     Timer timer;
@@ -76,8 +74,9 @@ public class IALastChance : IAFather
     {
         character = param;
 
-        doryEnemy = TimersManager.Create(10, () => enemy = null, false);
+        timerStun.Set(character.bodyBase.stunTime);
 
+        doryEnemy = TimersManager.Create(10, () => enemy = null, false);
 
         prin = new AutomatickAttack(character.prin);
 

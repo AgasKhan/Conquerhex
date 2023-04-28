@@ -10,6 +10,14 @@ public class Entity : MyScripts, IDamageable
 
     public List<DropItem> drops = new List<DropItem>();
 
+    SpriteRenderer sprite;
+
+    Color originalColor;
+
+    Timer tim = null;
+
+    IDamageable[] damageables;
+
     protected override void Config()
     {
         MyAwakes += MyAwake;
@@ -19,8 +27,51 @@ public class Entity : MyScripts, IDamageable
     {
         health.Init();
         health.death += Health_death;
+
+        sprite = GetComponentInChildren<SpriteRenderer>();
+
+        originalColor = sprite.color;
+
+        var aux = GetComponentsInChildren<IDamageable>();
+
+        damageables = new IDamageable[aux.Length - 1];
+
+        int ii = 0;
+
+        for (int i = 0; i < aux.Length; i++)
+        {
+            if((Object)aux[i]!=this)
+            {
+                damageables[ii] = aux[i];
+                ii++;
+            }
+        }
+   
+        tim = TimersManager.Create(0.33f, () => {
+
+            if (((int)(tim.Percentage() * 10)) % 2 == 0)
+            {
+                //parpadeo rapido
+
+
+                sprite.color = Color.magenta;
+            }
+            else
+            {
+                //el mantenido
+
+                sprite.color = Color.yellow;
+            }
+
+        }, () => {
+
+            //volver al original
+
+            sprite.color = originalColor;
+
+        }, false);
     }
-    
+
 
     public void Drop()
     {
@@ -53,8 +104,15 @@ public class Entity : MyScripts, IDamageable
 
     public virtual void TakeDamage(Damage dmg)
     {
+        tim.Reset();
+
         dmg.ActionInitialiced(this);
         health.TakeLifeDamage(dmg.amount);
+
+        foreach (var item in damageables)
+        {
+            item.TakeDamage(dmg);
+        }
     }
 
     /// <summary>
@@ -122,6 +180,10 @@ public class Health : Init
 
     public event System.Action<IGetPercentage> regenUpdate;
 
+    public event System.Action<float> lifeUpdateAmount;
+
+    public event System.Action<float> regenUpdateAmount;
+
     public event System.Action noLife;
 
     public event System.Action reLife;
@@ -136,6 +198,8 @@ public class Health : Init
             death?.Invoke();
 
         regenUpdate?.Invoke(regen);
+        regenUpdateAmount?.Invoke(amount);
+
         return regen.Percentage();
     }
 
@@ -159,7 +223,9 @@ public class Health : Init
         }
 
         lifeUpdate?.Invoke(life);
-
+        
+        lifeUpdateAmount?.Invoke(amount);
+        
 
         //actualizar ui
         return life.Percentage();

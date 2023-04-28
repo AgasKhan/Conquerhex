@@ -7,7 +7,7 @@ public class IAEmergencia : IAFather
     MoveAbstract enemy;
     Persuit pursuit;
 
-    Character character;
+
 
     Timer timer;
 
@@ -47,10 +47,11 @@ public class IAEmergencia : IAFather
     {
         character = param;
 
+        timerStun.Set(character.bodyBase.stunTime);
+
         timer = TimersManager.Create(2);
 
         automatick = new AutomatickAttack(character.ter);
-
     }
 
     public override void OnExitState(Character param)

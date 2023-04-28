@@ -14,6 +14,8 @@ public class BodyBase : ItemBase
 
     public float weightCapacity;
 
+    public float stunTime;
+
     [Header("Ataque")]
 
     public WeaponKataCombo principal;

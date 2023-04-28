@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 7826366853568280356}
   - component: {fileID: 7826366853568280379}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: enemy
   m_TagString: Enemigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,7 +179,8 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
-  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
+  <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
+    type: 2}
   prin:
     rid: -2
   sec:
@@ -226,6 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344fce233e89ce741b6c389590b88b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerStun:
+    total: 0
+    _current: 0
   distanceAttack: 1
 --- !u!50 &7826366853568280356
 Rigidbody2D:

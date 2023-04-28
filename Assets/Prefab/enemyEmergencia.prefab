@@ -474,7 +474,8 @@ MonoBehaviour:
     context: {fileID: 0}
     work:
       pictionaries: []
-  bodyBase: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
+  <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
+    type: 2}
   prin:
     rid: -2
   sec:
@@ -527,6 +528,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a307c1db84fb684590ebe8a00b261c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerStun:
+    total: 0
+    _current: 0
   distanceAttack: 2
 --- !u!50 &7826366853568280356
 Rigidbody2D:
@@ -577,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2333010bd75e24e861c5a89587049c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  move: {fileID: 2904035125237228758}
+  me: {fileID: 0}
 --- !u!1 &9039635426545646564
 GameObject:
   m_ObjectHideFlags: 0

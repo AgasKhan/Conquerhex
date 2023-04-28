@@ -87,73 +87,11 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     {
         foreach (var entitys in damageables)
         {
-            Color originalColor;
-
-            if (entitys is Entity)
-            {
-                var aux = (Entity)entitys;
-
-                var sprite = aux.GetComponentInChildren<SpriteRenderer>();
-
-                originalColor = sprite.color;
-
-                Timer tim = null;
-
-                tim = TimersManager.Create(0.5f, ()=> {
-
-                    if(((int)(tim.Percentage() * 10)) % 2 == 0)
-                    {
-                        //parpadeo rapido
-
-                
-                        sprite.color =  Color.magenta;
-                    }
-                    else
-                    {
-                       //el mantenido
-
-                       sprite.color = Color.yellow;
-                    }
-
-                },()=> {
-
-                    //volver al original
-
-                    sprite.color = originalColor;
-                });
-
-                if (entitys is DinamicEntity)
-                {
-                    var auxMove = ((DinamicEntity)aux);
-
-                    auxMove.move.Acelerator(auxMove.move.vectorVelocity * -2);
-                }
-            }
-
             foreach (var dmg in damages)
             {
                 entitys.TakeDamage(dmg);
             }
         }
-    }
-
-    /// <summary>
-    /// En caso de ser verdadero le estoy diciendo a la IA que puede ATACAR
-    /// </summary>
-    /// <param name="caster"></param>
-    /// <returns></returns>
-    public virtual List<IDamageable> IADetect(Entity caster, Vector2 dir)
-    {
-        return new List<IDamageable>(detect.AreaWithRay(caster.transform.position, caster.transform.position, 
-            (entidad)=> 
-            { 
-                return caster.team != entidad.team; 
-            },
-            (tr)=>
-            {
-                return caster.transform == tr;
-            }
-            ));
     }
 
     /*
@@ -255,6 +193,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public void ControllerDown(Vector2 dir, float tim)
     {
+        if (caster.enabled == false || caster.gameObject.activeSelf == false)
+            return;
+
         if(cooldown.Chck)
         {
             InternalControllerDown(dir, tim);
@@ -265,11 +206,17 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
+        if (caster.enabled == false || caster.gameObject.activeSelf == false)
+            return;
+
         pressed(dir, tim);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
+        if (caster.enabled == false || caster.gameObject.activeSelf == false)
+            return;
+
         up(dir, tim);
 
         pressed = MyControllerVOID;

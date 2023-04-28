@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class IAIO : IAFather
 {
-    Character character;
-
    
     public override void OnEnterState(Character param)
     {

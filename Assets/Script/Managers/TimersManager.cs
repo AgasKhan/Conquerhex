@@ -302,8 +302,9 @@ public class TimedAction : Timer
 
     public bool Execute()
     {
+        if(execute)
+            action();
         execute = false;
-        action();
         return destroy;
     }
 
@@ -341,7 +342,7 @@ public class TimedCompleteAction : TimedAction
     /// </summary>
     public override float Substract(float n)
     {
-        if (!pauseRoutine)
+        if (!pauseRoutine && execute)
         {
             base.Substract(n);
             update();

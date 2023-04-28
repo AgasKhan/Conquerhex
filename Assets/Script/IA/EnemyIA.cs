@@ -21,7 +21,6 @@ public class EnemyIA : IAFather
     [SerializeField] float _detectionRadius;
 
     WeaponKataBase wb;
-    Character character;
     //[SerializeField] Transform[] _totalWaypoints;
 
     //int _currentWaypoint;

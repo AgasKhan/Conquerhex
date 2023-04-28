@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Character : DinamicEntityWork, ISwitchState<Character>
 {
-    [SerializeField]
-    BodyBase bodyBase;
+    [field: SerializeField]
+    public BodyBase bodyBase
+    {
+        get;
+        private set;
+    }
 
     // Start is called before the first frame update
     [SerializeReference]
@@ -77,7 +81,7 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     protected override void Config()
     {
         base.Config();
-        MyAwakes += MyAwake;
+        MyStarts += MyAwake;
     }
 
     void MyAwake()
