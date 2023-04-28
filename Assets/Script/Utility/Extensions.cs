@@ -161,9 +161,20 @@ public static class Extensions
 
         UnityEngine.Events.UnityAction unityAction;
 
-        if(b.TryGetComponent(out LogicActive logicActive))
+        if(b.TryGetComponent(out DisplayItem logicActive))
         {
-            unityAction = () => logicActive.Activate(b);
+            if (logicActive.specialAction != "")
+            {
+                unityAction = () =>
+                {
+                    logicActive.Activate(b);
+                    menu.eventListVoid[logicActive.specialAction](b.gameObject);
+                };
+            }
+            else
+            {
+                unityAction = () => logicActive.Activate(b);
+            }
         }
         else
         {

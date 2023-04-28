@@ -10,11 +10,11 @@ public class ItemContainer : MonoBehaviour
 
     //Solo con fines de prueba
     [SerializeField]
-    Resources_Item characterItem;
+    Resources_Item initialItems;
 
     private void Awake()
     {
-        characterItem.Init();
+        initialItems.Init();
     }
 
     private void Start()
@@ -22,8 +22,8 @@ public class ItemContainer : MonoBehaviour
         //Solo con fines de prueba
         LoadSystem.AddPostLoadCorutine(() =>
             {
-                character.AddOrSubstractItems(characterItem.nameDisplay, 30);
-                character.AddOrSubstractItems(characterItem.nameDisplay, 30);
+                character.AddOrSubstractItems(initialItems.nameDisplay, 20);
+                character.AddOrSubstractItems(initialItems.nameDisplay, 30);
             }
         
         );

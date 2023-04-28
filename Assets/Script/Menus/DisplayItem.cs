@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class DisplayItem : LogicActive<UnityEngine.UI.Button>
 {
     public IShowDetails myItem;
+
+    public string specialAction = "";
 
     [HideInInspector]
     public DetailsWindow myDetailWindow;
@@ -27,7 +30,6 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
     protected override void InternalActivate(params Button[] specificParam)
     {
         GetVariables();
-
         if (myItem == null || myDetailWindow == null)
         {
             Debug.LogWarning("No se encontro un parametro necesario");
@@ -35,8 +37,5 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
         }
 
         myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
-        myDetailWindow.RefreshButton(myItem.nameDisplay);
     }
-
-    
 }

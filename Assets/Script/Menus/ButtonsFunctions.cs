@@ -23,11 +23,14 @@ public class ButtonsFunctions : MonoBehaviour
 
             //Menu principal
             {"StartGame", StartGame},
-            {"Settings", DisplayWindow},
-            {"Credits", DisplayWindow},
-            {"Exit", Exit},
             {"Dungeons", Dungeons},
             {"LoadGame", LoadGame},
+            {"Settings", DisplayWindow},
+            {"Store", ShowStore},
+            {"Credits", DisplayWindow},
+            {"Exit", Exit},
+            
+            
 
             //Menu de creacion de minions
             {"MBody", MBody},
@@ -48,13 +51,11 @@ public class ButtonsFunctions : MonoBehaviour
             //Menu in game
             {"Resume", Resume},
             {"Restart", Restart},
-            {"Store", DisplayWindow},
+            
             {"Settings", DisplayWindow},
             {"BackMenu", BackMenu},
             {"SaveGame", SaveGame},
             {"MenuInGame", PauseMenu},
-            {"Ejemplo", DisplayWindow},
-            {"Ejemplo2", DisplayWindow},
             {"BuySingleItem", BuySingleItem},
             {"EquipItem", EquipItem},
 
@@ -66,9 +67,17 @@ public class ButtonsFunctions : MonoBehaviour
             {"ShowWindow", ShowWindow},
 
             //Tutorial
-            {"ShowControls", DisplayWindow}
+            {"ShowControls", DisplayWindow},
+
+            //Display Items Special Actions 
+            {"RefreshButton", RefreshMyButton}
 
         });
+    }
+    void RefreshMyButton(GameObject g)
+    {
+        var aux = g.GetComponent<DisplayItem>();
+        aux.myDetailWindow.RefreshButton(aux.myItem.nameDisplay);
     }
 
     void DisplayStore(GameObject g)
@@ -76,21 +85,28 @@ public class ButtonsFunctions : MonoBehaviour
         refMenu.CloseLastWindow(g.transform.parent.parent.parent.parent);
         refMenu.ShowWindow(g.name);
     }
-
     
+    void ShowStore(GameObject g)
+    {
+        DisplayWindow(g);
+        Store.instance.RefreshPlayerCoins();
+        Debug.Log("Se metio donde no debia");
+    }
+
+
+
     void BuySingleItem(GameObject g)
     {
-        //Se compra el item usando una funcion de "Store" enviando el nombre del padre del boton
-        Store.instance.BuyAnItem(g.transform.parent.name);
+        if (Store.instance.BuyAnItem(g.transform.parent.name))
+        {
+            var aux = g.GetComponent<UnityEngine.UI.Button>();
+            aux.interactable = false;
 
-        //Se obtiene el componente "Button" del "GameObject"
-        var aux = g.GetComponent<UnityEngine.UI.Button>();
-
-        BaseData.playerInventory.Add(g.transform.parent.name);
-
-        aux.interactable = false;
-
-        DetailsWindow.instance.EnableButton();
+            BaseData.playerInventory.Add(g.transform.parent.name);
+            
+            DetailsWindow.instance.EnableButton();
+            Store.instance.RefreshPlayerCoins();
+        }
     }
 
     void EquipItem(GameObject g)
@@ -108,10 +124,12 @@ public class ButtonsFunctions : MonoBehaviour
 
 
         //------------------------------------------------------------------------
+        /*
         var body = Manager<ItemBase>.pic["Pj"] as BodyBase;
         var weapon = Manager<ItemBase>.pic[g.transform.parent.name] as WeaponBase;
 
         body.principal.weapon = weapon;
+        */
         //------------------------------------------------------------------------
     }
 
