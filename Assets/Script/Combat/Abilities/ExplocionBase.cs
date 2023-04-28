@@ -21,7 +21,6 @@ public class ExplocionBase : WeaponKataBase
 
 public class Explocion : WeaponKata
 {
-    FadeOnOff reference;
 
     protected override void InternalControllerDown(Vector2 dir, float tim)
     {
@@ -31,7 +30,7 @@ public class Explocion : WeaponKata
         var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
         aux.SetParent(caster.transform);
 
-        aux.localScale *= itemBase.detect.radius;
+        aux.localScale *= itemBase.detect.diameter;
 
 
     }

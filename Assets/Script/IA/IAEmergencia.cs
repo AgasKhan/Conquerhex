@@ -71,8 +71,34 @@ public class AutomatickAttack
 
     public event System.Action onAttack;
 
-    //recibe el porcentaje de la carga del ataque
-    public event System.Action<float> waitToAttack;
+    Color original;
+
+    Color actual
+    {
+        get
+        {
+            if (kata.reference != null)
+                return kata.reference.color;
+            else
+                return Color.white;
+        }
+        set
+        {
+            if (kata.reference != null) 
+                kata.reference.color = value;
+        }
+    }
+
+    public void Attack()
+    {
+        kata.ControllerDown(Vector2.zero, 0);
+     
+        original = actual;
+
+        original.a = 1;
+
+        attack.Reset();
+    }
 
     public AutomatickAttack(WeaponKata kata)
     {
@@ -82,23 +108,15 @@ public class AutomatickAttack
 
         attack = TimersManager.Create(Random.Range(3, 6) / 3f,()=> {
 
-            waitToAttack?.Invoke(attack.InversePercentage());
+            actual = Color.Lerp(Color.clear, original, attack.InversePercentage());
 
         }, () =>
         {
             kata.ControllerUp(Vector2.zero, 0);
 
             onAttack?.Invoke();
-
-            waitToAttack = null;
         }
         
         , false);
-    }
-
-    public void Attack()
-    {
-        attack.Reset();
-        kata.ControllerDown(Vector2.zero, 0);
     }
 }

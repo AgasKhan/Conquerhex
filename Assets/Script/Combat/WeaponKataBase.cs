@@ -89,40 +89,45 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         {
             Color originalColor;
 
-            if (entitys is DinamicEntity)
+            if (entitys is Entity)
             {
-                var aux = (DinamicEntity)entitys;
-
-               Timer tim = null;
+                var aux = (Entity)entitys;
 
                 var sprite = aux.GetComponentInChildren<SpriteRenderer>();
 
                 originalColor = sprite.color;
 
-            tim = TimersManager.Create(0.5f, ()=> {
+                Timer tim = null;
 
-            if(((int)(tim.Percentage() * 10)) % 2 == 0)
-            {
-                //parpadeo rapido
+                tim = TimersManager.Create(0.5f, ()=> {
+
+                    if(((int)(tim.Percentage() * 10)) % 2 == 0)
+                    {
+                        //parpadeo rapido
 
                 
-                sprite.color =  Color.magenta;
-            }
-            else
-            {
-               //el mantenido
+                        sprite.color =  Color.magenta;
+                    }
+                    else
+                    {
+                       //el mantenido
 
-               sprite.color = Color.yellow;
-            }
+                       sprite.color = Color.yellow;
+                    }
 
-        },()=> {
+                },()=> {
 
-            //volver al original
+                    //volver al original
 
-            sprite.color = originalColor;
-        });
+                    sprite.color = originalColor;
+                });
 
-                aux.move.Acelerator(aux.move.vectorVelocity * -2);
+                if (entitys is DinamicEntity)
+                {
+                    var auxMove = ((DinamicEntity)aux);
+
+                    auxMove.move.Acelerator(auxMove.move.vectorVelocity * -2);
+                }
             }
 
             foreach (var dmg in damages)
@@ -169,15 +174,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public event System.Action<float> updateTimer;
 
-    void TriggerTimerEvent()
-    {
-        updateTimer?.Invoke(cooldown.InversePercentage());
-    }
-
-
-    System.Action<Vector2, float> pressed;
-
-    System.Action<Vector2, float> up;
+    public FadeOnOff reference;
 
     public Weapon weapon
     {
@@ -185,11 +182,21 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         set => ChangeWeapon(value);
     }
 
+    System.Action<Vector2, float> pressed;
+
+    System.Action<Vector2, float> up;
+
+
     [SerializeField]
     Weapon _weapon;
     protected Timer cooldown;
     protected Entity caster;
     protected Vector2Int[] indexParticles;
+
+    void TriggerTimerEvent()
+    {
+        updateTimer?.Invoke(cooldown.InversePercentage());
+    }
 
     void ChangeWeapon(Weapon weapon)
     {

@@ -7,6 +7,8 @@ public class Detect<T>
 {
     public float radius;
 
+    public float diameter => radius * 2;
+
     public float distance;
 
     public LayerMask layerMask;

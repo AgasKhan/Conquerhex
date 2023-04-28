@@ -148,7 +148,7 @@ public static class Utilitys
             save(final());
         };
 
-        tim = TimersManager.Create(seconds, update, end, true, true);
+        tim = TimersManager.Create(seconds, update, end).SetUnscaled(true);
 
         return (TimedCompleteAction)tim;
     }

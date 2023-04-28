@@ -23,7 +23,6 @@ public class StabBase : WeaponKataBase
 
 public class Stab : WeaponKata
 {
-    FadeOnOff reference;
     protected override void InternalControllerDown( Vector2 dir, float button)
     {
         Debug.Log("presionaste ataque 1, STAB");
@@ -32,7 +31,7 @@ public class Stab : WeaponKata
         var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
         aux.SetParent(caster.transform);
 
-        aux.localScale *= itemBase.detect.radius;
+        aux.localScale *= itemBase.detect.diameter;
 
 
     }

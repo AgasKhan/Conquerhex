@@ -132,10 +132,12 @@ public class Tim : IGetPercentage
     /// Setea el contador
     /// </summary>
     /// <param name="totalTim">El numero a contar</param>
-    public void Set(float totalTim)
+    public Tim Set(float totalTim)
     {
         total = totalTim;
         Reset();
+
+        return this;
     }
 
     public float Percentage()
@@ -197,25 +199,31 @@ public class Timer : Tim
     /// Modifica el numero que multiplica la constante temporal, y asi acelerar o disminuir el timer
     /// </summary>
     /// <param name="m">Por defecto es 1</param>
-    public void Multiply(float m)
+    public Timer Multiply(float m)
     {
         _multiply = m;
+
+        return this;
     }
 
     /// <summary>
     /// En caso de que el contador este detenido lo reanuda
     /// </summary>
-    public void Start()
+    public Timer Start()
     {
         _freeze = true;
+
+        return this;
     }
 
     /// <summary>
     /// Frena el contador, no resetea ni modifica el contador actual
     /// </summary>
-    public void Stop()
+    public Timer Stop()
     {
         _freeze = false;
+
+        return this;
     }
 
     /// <summary>
@@ -223,10 +231,12 @@ public class Timer : Tim
     /// </summary>
     /// <param name="totalTim">El numero a contar</param>
     /// <param name="f">Si arranca a contar o no</param>
-    public void Set(float totalTim, bool f=true)
+    public Timer Set(float totalTim, bool f=true)
     {
         base.Set(totalTim);
         _freeze = f;
+
+        return this;
     }
 
     /// <summary>
@@ -248,6 +258,15 @@ public class Timer : Tim
         return Substract(deltaTime);
     }
 
+    public Timer SetUnscaled(bool u)
+    {
+        _unscaled = u;
+
+        return this;
+    }
+
+
+
     /// <summary>
     /// Configura el timer para su uso
     /// </summary>
@@ -258,7 +277,7 @@ public class Timer : Tim
         _multiply = m;
         Start();
         Set(totTim);
-        this._unscaled = unscaled;
+        SetUnscaled(unscaled);
     }
 }
 
@@ -288,15 +307,22 @@ public class TimedAction : Timer
         return destroy;
     }
 
-    public TimedAction(float timer, Action action, bool destroy = true, bool unscaled = false) : base(timer)
+    public TimedAction SetDestroy(bool d)
     {
-       
-        this.action = action;
-        this.destroy = destroy;
-        execute = true;
-        _unscaled = unscaled;
+        destroy = d;
+
+        return this;
     }
 
+   
+
+    public TimedAction(float timer, Action action, bool destroy = true, bool unscaled = false) : base(timer)
+    {
+        this.action = action;
+        execute = true;
+        SetDestroy(destroy);
+        SetUnscaled(unscaled);
+    }
 
 }
 
@@ -324,6 +350,8 @@ public class TimedCompleteAction : TimedAction
         return Percentage();
     }
 
+    
+
     /// <summary>
     /// crea una rutina que ejecutara una funcion al comenzar/reiniciar, otra en cada frame, y otra al final
     /// </summary>
@@ -332,10 +360,9 @@ public class TimedCompleteAction : TimedAction
     /// <param name="update"></param>
     /// <param name="end"></param>
     /// <param name="destroy"></param>
-    public TimedCompleteAction(float timer, Action update, Action end, bool destroy = true, bool unscaled = false) : base(timer, end, destroy)
+    public TimedCompleteAction(float timer, Action update, Action end, bool destroy = true, bool unscaled = false) : base(timer, end, destroy, unscaled)
     {
         this.update = update;
-        _unscaled = unscaled;
     }
 }
 

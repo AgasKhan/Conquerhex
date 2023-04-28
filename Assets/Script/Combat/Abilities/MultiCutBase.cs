@@ -20,8 +20,6 @@ public class MultiCutBase : WeaponKataBase
 
 public class MultiCut : WeaponKata
 {
-    FadeOnOff reference;
-
     protected override void InternalControllerDown(Vector2 dir, float button)
     {
         Debug.Log("presionaste ataque 1, MULTICUT");
@@ -30,9 +28,9 @@ public class MultiCut : WeaponKata
         var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
         aux.SetParent(caster.transform);
 
-        aux.localScale *= itemBase.detect.radius;
+        aux.localScale *= itemBase.detect.diameter;
 
-       
+
     }
 
     //Durante, al mantener y moverlo

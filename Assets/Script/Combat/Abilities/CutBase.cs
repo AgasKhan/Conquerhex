@@ -20,7 +20,6 @@ public class CutBase : WeaponKataBase
 
 public class Cut : WeaponKata
 {
-    FadeOnOff reference;
 
     protected override void InternalControllerDown(Vector2 dir, float button)
     {
