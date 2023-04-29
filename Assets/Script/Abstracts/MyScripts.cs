@@ -10,35 +10,10 @@ public abstract class MyScripts : MonoBehaviour
 
     protected Action MyStarts;
 
-    protected event Action MyUpdates
-    {
-        add
-        {
-            GameManager.update += value;
-            update += value;
-        }
+    protected event Action MyUpdates;
 
-        remove
-        {
-            GameManager.update -= value;
-            update -= value;
-        }
-    }
-
-    protected event Action MyFixedUpdates
-    {
-        add
-        {
-            GameManager.fixedUpdate += value;
-            fixedUpdate += value;
-        }
-
-        remove
-        {
-            GameManager.fixedUpdate -= value;
-            fixedUpdate -= value;
-        }
-    }
+    protected event Action MyFixedUpdates;
+  
 
     protected event Action onPause
     {
@@ -66,20 +41,6 @@ public abstract class MyScripts : MonoBehaviour
         }
     }
 
-    System.Action update;
-    System.Action fixedUpdate;
-
-    void OnPlay()
-    {
-        GameManager.update += update;
-        GameManager.fixedUpdate += fixedUpdate;
-    }
-
-    void OnPause()
-    {
-        GameManager.update -= update;
-        GameManager.fixedUpdate -= fixedUpdate;
-    }
 
     protected abstract void Config();
 
@@ -98,15 +59,16 @@ public abstract class MyScripts : MonoBehaviour
         MyStarts?.Invoke();
     }
 
-    private void OnEnable()
+    internal void Update()
     {
-        OnPlay();
+        MyUpdates?.Invoke();
     }
 
-    private void OnDisable()
+    internal void FixedUpdate()
     {
-        OnPause();
+        MyFixedUpdates?.Invoke();
     }
+
 }
 
 
