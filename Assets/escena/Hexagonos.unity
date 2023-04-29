@@ -3661,6 +3661,14 @@ MonoBehaviour:
     rid: -2
   ter:
     rid: -2
+  areaFarming:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    maxDetects: -1
+    minDetects: 1
   references:
     version: 2
     RefIds:
@@ -3700,7 +3708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4472251128575466741
 MonoBehaviour:
   m_ObjectHideFlags: 0
