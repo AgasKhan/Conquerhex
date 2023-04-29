@@ -6,7 +6,7 @@ using UnityEngine;
 public class IABoid : IAFather
 {
     [SerializeField]
-    Detect<Entity> detect;
+    protected Detect<Entity> detect;
 
     [SerializeField]
     public Pictionarys<string,SteeringWithTarger> steerings;
