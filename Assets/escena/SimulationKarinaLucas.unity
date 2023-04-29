@@ -429,6 +429,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: manzana
       objectReference: {fileID: 0}
+    - target: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
         type: 3}
       propertyPath: team
@@ -1428,6 +1433,14 @@ MonoBehaviour:
     rid: -2
   ter:
     rid: -2
+  areaFarming:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 64
+    maxDetects: -1
+    minDetects: 1
   references:
     version: 2
     RefIds:
@@ -1453,7 +1466,7 @@ MonoBehaviour:
     distance: 1
     layerMask:
       serializedVersion: 2
-      m_Bits: 1024
+      m_Bits: 193
     maxDetects: 5
     minDetects: 1
   steerings:
@@ -1893,7 +1906,7 @@ PrefabInstance:
     - target: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
         type: 3}
@@ -2998,6 +3011,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: manzana (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
         type: 3}
       propertyPath: param
@@ -3537,6 +3555,14 @@ MonoBehaviour:
     rid: -2
   ter:
     rid: -2
+  areaFarming:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    maxDetects: -1
+    minDetects: 1
   references:
     version: 2
     RefIds:
@@ -4460,6 +4486,14 @@ MonoBehaviour:
     rid: -2
   ter:
     rid: -2
+  areaFarming:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 64
+    maxDetects: -1
+    minDetects: 1
   references:
     version: 2
     RefIds:
@@ -4548,7 +4582,7 @@ MonoBehaviour:
     distance: 1
     layerMask:
       serializedVersion: 2
-      m_Bits: 1024
+      m_Bits: 193
     maxDetects: 5
     minDetects: 1
   steerings:

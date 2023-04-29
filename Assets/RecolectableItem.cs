@@ -11,7 +11,7 @@ public class RecolectableItem : StaticEntity
 
     //bool recolect;
 
-    TimedCompleteAction recolect;
+    Timer recolect;
 
     StaticEntity referenceToTravel;
 
@@ -24,15 +24,17 @@ public class RecolectableItem : StaticEntity
 
     void MyAwake()
     {
-        recolect = TimersManager.LerpInTime(transform.position, ()=> referenceToTravel.transform.position, 1, Vector3.Slerp, (pos) => transform.position = pos);
-
-        recolect.AddToEnd(() =>
+        recolect = TimersManager.LerpInTime(() => transform.position, ()=> referenceToTravel.transform.position, 1, Vector3.Slerp, (pos) => transform.position = pos)
+        .AddToEnd(() =>
         {
             referenceToTravel.AddAllItems(this);
             gameObject.SetActive(false);
             Debug.Log("me recoge: " + referenceToTravel.name);
 
-        }).Stop().SetUnscaled(false).current = 0;
+        })
+        .Stop();
+
+        recolect.current = 0;
     }
 
     public void Recolect(StaticEntity entity)
