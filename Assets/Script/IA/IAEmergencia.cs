@@ -116,8 +116,6 @@ public class AutomatickAttack
             kata.ControllerUp(Vector2.zero, 0);
 
             onAttack?.Invoke();
-        }
-        
-        , false);
+        });
     }
 }

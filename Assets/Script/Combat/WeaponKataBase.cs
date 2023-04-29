@@ -211,7 +211,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         if (param.Length > 1)
             _weapon = param[1] as Weapon;
 
-        cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, ()=> { }, false);
+        cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, ()=> { });
 
         if(weapon!=null)
             weapon.Init();

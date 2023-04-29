@@ -11,9 +11,20 @@ public abstract class StaticEntity : Entity, IItemContainer
     [SerializeField]
     Pictionarys<string, LogicActive> actions; //funciones de un uso para cuestiones internas
 
-    public bool ContainsItem(Item item)
+    public bool Contains(Item item)
     {
         return inventory.Contains(item);
+    }
+
+    public virtual void AddAllItems(StaticEntity entity)
+    {
+        AddAllItems(entity.inventory);
+    }
+
+    void AddAllItems(List<Item> items)
+    {
+        inventory.AddRange(items);
+        items.Clear();
     }
 
     public int ItemCount(string itemName)
@@ -113,7 +124,7 @@ public abstract class StaticEntityWork : StaticEntity
 
 public interface IItemContainer
 {
-    bool ContainsItem(Item item);
+    bool Contains(Item item);
     int ItemCount(string item);
     void AddOrSubstractItems(string item, int amount);
 }

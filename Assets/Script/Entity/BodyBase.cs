@@ -16,6 +16,8 @@ public class BodyBase : ItemBase
 
     public float stunTime;
 
+    public float areaFarming=1;
+
     [Header("Ataque")]
 
     public WeaponKataCombo principal;

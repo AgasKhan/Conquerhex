@@ -32,9 +32,11 @@ public class FadeOnOff : MonoBehaviour
 
     private void Awake()
     {
-        offTimer = TimersManager.Create(fadeOff, () => gameObject.SetActive(false), false);
+        offTimer = TimersManager.LerpInTime(sprite.color, fadeColorOff, fadeOff, Color.Lerp, (fadecolor) => sprite.color = fadecolor);
 
-        onTimer = Utilitys.LerpInTime(sprite.color, fadeColorOn, fadeOn, Color.Lerp, (fadecolor) => sprite.color = fadecolor).SetDestroy(false);
+        offTimer.AddToEnd(() => gameObject.SetActive(false));
+
+        onTimer = TimersManager.LerpInTime(sprite.color, fadeColorOn, fadeOn, Color.Lerp, (fadecolor) => sprite.color = fadecolor);
     }
 
     public void On()
@@ -44,7 +46,6 @@ public class FadeOnOff : MonoBehaviour
 
     public void Off()
     {
-        Utilitys.LerpInTime(sprite.color, fadeColorOff, fadeOff, Color.Lerp, (fadecolor) => sprite.color = fadecolor);
         offTimer.Reset();
     }
 

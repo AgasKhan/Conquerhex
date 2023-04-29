@@ -71,7 +71,7 @@ public class Entity : MyScripts, IDamageable
 
             sprite.color = originalColor;
 
-        }, false);
+        });
     }
 
 
@@ -235,6 +235,9 @@ public class Health : Init
 
     void Regen()
     {
+        if (life == null && regen == null)
+            return;
+
         bool noLifeBool = false;
 
         if (life.current <= 0)
@@ -242,7 +245,6 @@ public class Health : Init
 
         life.Substract(-1 * (regen.current / 100f) * life.total);
         regen.Substract(-1);
-        timeToRegen.Reset();
 
         if(noLifeBool && life.current>0)
         {
@@ -269,7 +271,8 @@ public class Health : Init
             regen = new Tim((float)param[1]);
         }
 
-        timeToRegen = TimersManager.Create(3, Regen, false);
+        timeToRegen = TimersManager.Create(3, Regen);
+        timeToRegen.SetLoop(true);
     }
 }
 

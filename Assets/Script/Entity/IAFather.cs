@@ -13,7 +13,7 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
         timerStun = TimersManager.Create(0.33f, () =>
         {
             enabled = true;
-        }, false);
+        });
     }
 
     public void TakeDamage(Damage dmg)

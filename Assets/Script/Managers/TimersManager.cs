@@ -5,10 +5,10 @@ using System;
 
 public class TimersManager : MonoBehaviour
 {
-    static TimersManager instance;
+    static public TimersManager instance;
 
     [SerializeReference]
-    List<Timer> timersList;
+    public List<Timer> timersList;
 
     /// <summary>
     /// Crea un timer que se almacena en una lista para restarlos de forma automatica
@@ -19,7 +19,6 @@ public class TimersManager : MonoBehaviour
     public static Timer Create(float totTime2 = 10, float m = 1, bool unscaled=false)
     {
         Timer newTimer = new Timer(totTime2, m, unscaled);
-        instance.timersList.Add(newTimer);
         return newTimer;
     }
 
@@ -28,12 +27,11 @@ public class TimersManager : MonoBehaviour
     /// </summary>
     /// <param name="totTime">el tiempo total a esperar</param>
     /// <param name="action">la funcion que se ejecutara</param>
-    /// <param name="destroy">si se destruye luego de ejecutar la funcion</param>
+    /// <param name="loop">En caso de ser false se quita de la cola, y en caso de ser true se auto reinicia</param>
     /// <returns>retorna la rutina creada</returns>
-    public static TimedAction Create(float totTime, Action action, bool destroy=true, bool unscaled = false)
+    public static TimedAction Create(float totTime, Action action)
     {
-        TimedAction newTimer = new TimedAction(totTime, action, destroy, unscaled);
-        instance.timersList.Add(newTimer);
+        TimedAction newTimer = new TimedAction(totTime, action);
         return newTimer;
     }
 
@@ -41,18 +39,88 @@ public class TimersManager : MonoBehaviour
     /// Crea una rutina completa, la cual ejecutara una funcion al comenzar/reiniciar, en el update, y al finalizar
     /// </summary>
     /// <param name="totTime"></param>
-    /// <param name="start"></param>
     /// <param name="update"></param>
     /// <param name="end"></param>
-    /// <param name="destroy"></param>
+    /// <param name="loop">En caso de ser false se quita de la cola, y en caso de ser true se auto reinicia</param>
     /// <param name="unscaled"></param>
     /// <returns></returns>
-    public static TimedCompleteAction Create(float totTime, Action update, Action end, bool destroy = true, bool unscaled = false)
+    public static TimedCompleteAction Create(float totTime, Action update, Action end)
     {
-        TimedCompleteAction newTimer = new TimedCompleteAction(totTime, update, end, destroy, unscaled);
-        instance.timersList.Add(newTimer);
+        TimedCompleteAction newTimer = new TimedCompleteAction(totTime, update, end);
         return newTimer;
     }
+
+    #region lerps
+
+    static public TimedCompleteAction LerpInTime<T>(T original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    {
+        return LerpInTime(() => original, () => final, seconds, Lerp, save);
+    }
+
+    static public TimedCompleteAction LerpInTime<T>(T original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    {
+        return LerpInTime(() => original, final, seconds, Lerp, save);
+    }
+
+    static public TimedCompleteAction LerpInTime<T>(System.Func<T> original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    {
+        return LerpInTime(original, () => final, seconds, Lerp, save);
+    }
+
+
+    static public TimedCompleteAction LerpInTime<T>(System.Func<T> original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    {
+        TimedCompleteAction tim = null;
+
+        System.Action
+
+        update = () =>
+        {
+            save(Lerp(original(), final(), tim.InversePercentage()));
+        }
+        ,
+
+        end = () =>
+        {
+            save(final());
+        };
+
+        tim = Create(seconds, update, end);
+
+        return tim;
+    }
+
+    static public TimedCompleteAction LerpWithCompare<T>(T original, T final, float velocity, System.Func<T, T, float, T> Lerp, System.Func<T, T, bool> compare, System.Action<T> save)
+    {
+        TimedCompleteAction tim = null;
+
+        System.Action
+
+        update = () =>
+        {
+            original = Lerp(original, final, Time.deltaTime * velocity);
+            save(original);
+            if (compare(original, final))
+                tim.Set(0);
+            else
+                tim.Reset();
+        }
+        ,
+        end = () =>
+        {
+            save(final);
+
+        };
+
+        tim = Create(1, update, end);
+
+        return tim;
+    }
+
+    #endregion
+
+
+
 
     /// <summary>
     /// Destruye un timer de la lista
@@ -72,15 +140,9 @@ public class TimersManager : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < timersList.Count; i++)
+        for (int i = timersList.Count-1; i >= 0; i--)
         {
             timersList[i].SubsDeltaTime();
-
-            if (timersList[i].Chck && timersList[i] is TimedAction && ((TimedAction)timersList[i]).execute)
-            {
-                if (((TimedAction)timersList[i]).Execute())
-                    timersList.RemoveAt(i);
-            }
         }
     }
 }
@@ -161,8 +223,10 @@ public class Tim : IGetPercentage
 public class Timer : Tim
 {
     float _multiply;
-    bool _freeze;
+    bool _freeze = true; //por defecto no esta agregado
     protected bool _unscaled;
+
+    protected bool loop;
 
     public float deltaTime
     {
@@ -171,15 +235,25 @@ public class Timer : Tim
             return _unscaled ? Time.unscaledDeltaTime : Time.deltaTime;
         }
     }
-
-    public bool pauseTimer
+    
+    bool freeze
     {
+        get => _freeze;
         set
         {
-            if (value)
-                Stop();
+            if (value == _freeze)
+                return;
+
+            if(value)
+            {
+                TimersManager.instance.timersList.Remove(this);
+            }
             else
-                Start();
+            {
+                TimersManager.instance.timersList.Add(this);
+            }
+
+            _freeze = value;
         }
     }
 
@@ -211,7 +285,7 @@ public class Timer : Tim
     /// </summary>
     public Timer Start()
     {
-        _freeze = true;
+        freeze = false;
 
         return this;
     }
@@ -219,9 +293,19 @@ public class Timer : Tim
     /// <summary>
     /// Frena el contador, no resetea ni modifica el contador actual
     /// </summary>
-    public Timer Stop()
+    public Timer Stop(int i = -1)
     {
-        _freeze = false;
+        if (i < 0)
+            freeze = true;
+        else
+            TimersManager.instance.timersList.RemoveAt(i);
+
+        return this;
+    }
+
+    public Timer SetLoop(bool l)
+    {
+        loop = l;
 
         return this;
     }
@@ -234,9 +318,15 @@ public class Timer : Tim
     public Timer Set(float totalTim, bool f=true)
     {
         base.Set(totalTim);
-        _freeze = f;
+        freeze = !f;
 
         return this;
+    }
+
+    public override float Reset()
+    {
+        Start();
+        return base.Reset();
     }
 
     /// <summary>
@@ -245,17 +335,26 @@ public class Timer : Tim
     /// <param name="n">En caso de ser negativo(-) suma al contador, siempre y cuando no este frenado</param>
     public override float Substract(float n)
     {
-        if (_freeze)
-        {
-            return base.Substract(n * _multiply);
-        }
-
-        return Percentage();
+        return base.Substract(n * _multiply);
     }
 
-    public float SubsDeltaTime()
+    /// <summary>
+    /// Realiza la resta automatica asi como las funciones necesarias dentro del TimerManager y recibe el indice dentro del manager
+    /// </summary>
+    /// <returns></returns>
+    public virtual float SubsDeltaTime(int i = -1)
     {
-        return Substract(deltaTime);
+        var aux = Substract(deltaTime);
+
+        if (aux <= 0)
+        {
+            if (loop)
+                Reset();
+            else
+                Stop(i);
+        }
+
+        return aux;
     }
 
     public Timer SetUnscaled(bool u)
@@ -286,44 +385,44 @@ public class Timer : Tim
 [System.Serializable] 
 public class TimedAction : Timer
 {    
-    public Action action;
-
-    public bool destroy;
-
-    public bool execute;
+    Action end;
 
     public override float Reset()
     {
         base.Reset();
-        execute = true;
         return total;
     }
 
-    public bool Execute()
+    public override float SubsDeltaTime(int i = -1)
     {
-        if(execute)
+        var aux = base.SubsDeltaTime(i);
+        if(aux<=0)
         {
-            execute = false;
-            action();
+            end();
         }
-        
-        return destroy;
+
+        return aux;
     }
 
-    public TimedAction SetDestroy(bool d)
+    public TimedAction AddToEnd(Action end)
     {
-        destroy = d;
+        this.end += end;
 
         return this;
     }
 
-   
-
-    public TimedAction(float timer, Action action, bool destroy = true, bool unscaled = false) : base(timer)
+    public TimedAction SubstractToEnd(Action end)
     {
-        this.action = action;
-        execute = true;
-        SetDestroy(destroy);
+        this.end -= end;
+
+        return this;
+    }
+
+
+    public TimedAction(float timer, Action action, bool loop = false, bool unscaled = false) : base(timer)
+    {
+        this.end = action;
+        SetLoop(loop);
         SetUnscaled(unscaled);
     }
 
@@ -335,25 +434,33 @@ public class TimedAction : Timer
 [System.Serializable]
 public class TimedCompleteAction : TimedAction
 {
-
     Action update;
-    public bool pauseRoutine;
 
     /// <summary>
     /// funcion que ejecutara de forma automatica cada frame
     /// </summary>
-    public override float Substract(float n)
+    public override float SubsDeltaTime(int i = -1)
     {
-        if (!pauseRoutine && execute)
-        {
-            base.Substract(n);
-            update();
-        }
+        update();
+        return base.SubsDeltaTime(i);
+    }
+    
 
-        return Percentage();
+    public TimedCompleteAction AddToUpdate(Action update)
+    {
+        this.update +=update;
+
+        return this;
     }
 
-    
+    public TimedCompleteAction SubstractToUpdate(Action update)
+    {
+        this.update -= update;
+
+        return this;
+    }
+
+
 
     /// <summary>
     /// crea una rutina que ejecutara una funcion al comenzar/reiniciar, otra en cada frame, y otra al final
@@ -363,7 +470,7 @@ public class TimedCompleteAction : TimedAction
     /// <param name="update"></param>
     /// <param name="end"></param>
     /// <param name="destroy"></param>
-    public TimedCompleteAction(float timer, Action update, Action end, bool destroy = true, bool unscaled = false) : base(timer, end, destroy, unscaled)
+    public TimedCompleteAction(float timer, Action update, Action end, bool loop = false, bool unscaled = false) : base(timer, end, loop, unscaled)
     {
         this.update = update;
     }

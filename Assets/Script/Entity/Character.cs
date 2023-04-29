@@ -19,6 +19,9 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     [SerializeReference]
     public WeaponKata ter;
 
+    [SerializeField]
+    Detect<RecolectableItem> areaFarming;
+
     public Damage[] additiveDamage => bodyBase.additiveDamage;
 
     public IState<Character> CurrentState
@@ -82,11 +85,14 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
     {
         base.Config();
         MyAwakes += MyAwake;
+        MyUpdates += MyUpdate;
     }
 
     void MyAwake()
     {
         health.Init(bodyBase.life, bodyBase.regen);
+
+        areaFarming.radius = bodyBase.areaFarming;
 
         SetWeaponKataCombo(ref prin, bodyBase.principal);
 
@@ -105,11 +111,19 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         health.noLife += ShowLoserWindow;
         //--------------------------
 
+        
+
         //ver move con su velocidad
-        /*
-        LoadSystem.AddPostLoadCorutine(()=> {
-            
-        });*/
+    }
+
+    void MyUpdate()
+    {
+        var recolectables = areaFarming.Area(transform.position, (algo) => { return true; });
+        Debug.Log("depredadores " + recolectables.Count);
+        foreach (var recolectable in recolectables)
+        {
+            recolectable.Recolect(this);
+        }
     }
 
     void IAUpdate()

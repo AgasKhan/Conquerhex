@@ -76,7 +76,7 @@ public class IALastChance : IAFather
 
         timerStun.Set(character.bodyBase.stunTime);
 
-        doryEnemy = TimersManager.Create(10, () => enemy = null, false);
+        doryEnemy = TimersManager.Create(10, () => enemy = null);
 
         prin = new AutomatickAttack(character.prin);
 
