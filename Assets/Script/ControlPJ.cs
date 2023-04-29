@@ -83,7 +83,7 @@ public class ControlPJ : MonoBehaviour
 
         if (Input.GetButtonDown("Cancel"))
         {
-            GameManager.instance.Pause();
+            GameManager.instance.TogglePause();
             
         }
 

@@ -153,14 +153,14 @@ public class ButtonsFunctions : MonoBehaviour
     void PauseMenu(GameObject g)
     {
         DisplayWindow(g);
-        GameManager.instance.Pause();
+        GameManager.instance.TogglePause();
         //Despausar
     }
 
     void Resume(GameObject g)
     {
         refMenu.CloseLastWindow();
-        GameManager.instance.Pause();
+        GameManager.instance.TogglePause();
     }
     void Restart(GameObject g)
     {

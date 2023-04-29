@@ -32,6 +32,14 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
+    public static Pictionarys<MyScripts, System.Action> update => instance._update;
+
+    Pictionarys<MyScripts, System.Action> _update = new Pictionarys<MyScripts, System.Action>();
+
+    public static Pictionarys<MyScripts, System.Action> fixedUpdate => instance._fixedUpdate;
+
+    Pictionarys<MyScripts, System.Action> _fixedUpdate = new Pictionarys<MyScripts, System.Action>();
+
     FSMGameMaganer fsmGameMaganer;
 
     public GameObject player;
@@ -44,7 +52,7 @@ public class GameManager : SingletonMono<GameManager>
 
     #region funciones
 
-    public void Pause()
+    public void TogglePause()
     {
         fsmGameMaganer.CurrentState = (fsmGameMaganer.CurrentState == fsmGameMaganer.pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
     }
@@ -52,6 +60,35 @@ public class GameManager : SingletonMono<GameManager>
     public void Pause(bool pause)
     {
         fsmGameMaganer.CurrentState = (pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+    }
+
+    private void Update()
+    {
+        for (int i = 0; i < _update.Count; i++)
+        {
+            _update[i]();
+        }
+
+        /*
+        foreach (var item in _update)
+        {
+            item.value();
+        }
+        */
+    }
+
+    private void FixedUpdate()
+    {
+        for (int i = 0; i < _fixedUpdate.Count; i++)
+        {
+            _fixedUpdate[i]();
+        }
+        /*
+        foreach (var item in _fixedUpdate)
+        {
+            item.value();
+        }
+        */
     }
 
     /*

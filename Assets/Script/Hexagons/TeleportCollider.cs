@@ -8,8 +8,6 @@ public class TeleportCollider : MonoBehaviour
     [SerializeField]
     Teleport teleport;
 
-    int id => teleport.id;
-
     //hacia donde se teletransporta, el primer indice es el lado del propio hexagono, y el segundo es el destino (0 para la id y 1 para el lado)
     int[,] ladosArray => teleport.ladosArray;
 
@@ -91,7 +89,7 @@ public class TeleportCollider : MonoBehaviour
                 if (fisicaOther.carlitos != null)
                     for (int i = 0; i < fisicaOther.carlitos.Length; i++)
                     {
-                        fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
+                        fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), fisicaOther.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
                     }
 
 

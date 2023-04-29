@@ -10,9 +10,37 @@ public abstract class MyScripts : MonoBehaviour
 
     protected Action MyStarts;
 
-    protected event Action MyUpdates;
+    protected event Action MyUpdates
+    {
+        add
+        {
+            _update += value;
+            if(gameObject.activeSelf)
+                GameManager.update.SearchOrCreate(this, _update);
+        }
+        remove
+        {
+            _update -= value;
+            if (gameObject.activeSelf)
+                GameManager.update.SearchOrCreate(this, _update);
+        }
+    }
 
-    protected event Action MyFixedUpdates;
+    protected event Action MyFixedUpdates
+    {
+        add
+        {
+            _fixedUpdate += value;
+            if (gameObject.activeSelf)
+                GameManager.update.SearchOrCreate(this, _fixedUpdate);
+        }
+        remove
+        {
+            _fixedUpdate -= value;
+            if (gameObject.activeSelf)
+                GameManager.update.SearchOrCreate(this, _fixedUpdate);
+        }
+    }
   
 
     protected event Action onPause
@@ -41,17 +69,30 @@ public abstract class MyScripts : MonoBehaviour
         }
     }
 
-
     protected abstract void Config();
+
+    System.Action _update;
+
+    System.Action _fixedUpdate;
 
     internal void Awake()
     {
-        GameManager.onPlay += ()=> gameObject.SetActive(true);
-        GameManager.onPause += () => gameObject.SetActive(false);
+        GameManager.onPlay += GameManager_onPlay;
 
+        GameManager.onPause += GameManager_onPause;
         Config();
 
         MyAwakes?.Invoke();
+    }    
+
+    private void GameManager_onPlay()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void GameManager_onPause()
+    {
+        gameObject.SetActive(false);
     }
 
     internal void Start()
@@ -59,16 +100,20 @@ public abstract class MyScripts : MonoBehaviour
         MyStarts?.Invoke();
     }
 
-    internal void Update()
+    private void OnEnable()
     {
-        MyUpdates?.Invoke();
+        if(_update!=null)   
+            GameManager.update.SearchOrCreate(this, _update);
+
+        if (_fixedUpdate != null)
+            GameManager.fixedUpdate.SearchOrCreate(this, _fixedUpdate);
     }
 
-    internal void FixedUpdate()
+    private void OnDisable()
     {
-        MyFixedUpdates?.Invoke();
+        GameManager.update.Remove(this);
+        GameManager.fixedUpdate.Remove(this);
     }
-
 }
 
 

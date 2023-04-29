@@ -13,7 +13,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 {
     [SerializeField]
     List<Pictionary<K, V>> pictionaries;
-    
+
     public int Count
     {
         get;
@@ -94,7 +94,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         {
             var index = SearchIndex(k);
             if (index < 0)
-                Debug.Log("se busco " + k.ToString() +" y no se encontro");
+                Debug.Log("se busco " + k.ToString() + " y no se encontro");
             return pictionaries[index].value;
         }
         set
@@ -103,14 +103,14 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         }
     }
 
-    public static Pictionarys<K,V> operator + (Pictionarys<K, V> original, Pictionarys<K, V> sumado)
+    public static Pictionarys<K, V> operator +(Pictionarys<K, V> original, Pictionarys<K, V> sumado)
     {
         original.AddRange(sumado);
 
         return original;
     }
 
-    public static Pictionarys<K, V> operator +(Pictionarys<K, V> original,  Dictionary<K, V> sumado)
+    public static Pictionarys<K, V> operator +(Pictionarys<K, V> original, Dictionary<K, V> sumado)
     {
         foreach (var item in sumado)
         {
@@ -123,7 +123,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     {
         foreach (var item in sumado)
         {
-            original.Add(item.key,item.value);
+            original.Add(item.key, item.value);
         }
         return original;
     }
@@ -172,7 +172,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return -1;
     }
 
-    public void Sort(IComparer<Pictionary<K,V>> comparer)
+    public void Sort(IComparer<Pictionary<K, V>> comparer)
     {
         pictionaries.Sort(comparer);
     }
@@ -261,7 +261,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return pictionaries.GetEnumerator();
     }
 
-    public T SearchOrCreate<T>(K key) where T : V,new()
+    public T SearchOrCreate<T>(K key) where T : V, new()
     {
         if (ContainsKey(key, out int index))
             return (T)pictionaries[index].value;
@@ -276,6 +276,33 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 
         return newAux;
     }
+
+    public V SearchOrCreate(K key)
+    {
+        if (ContainsKey(key, out int index))
+            return pictionaries[index].value;
+
+        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
+
+        V newAux = default;
+
+        Add(key, newAux);
+
+        return newAux;
+    }
+
+    public void SearchOrCreate(K key, V value)
+    {
+        if (ContainsKey(key, out int index))
+        {
+            pictionaries[index].value = value;
+            return;
+        }
+
+        Add(key, value);
+        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
+    }
+
     /*
     public V SearchOrCreate<T>(T key) where T : K
     {
