@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class IAIO : IAFather
 {
-   
+
+    string originalTag;
+
     public override void OnEnterState(Character param)
     {
         character = param;
+
+        originalTag = param.gameObject.tag;
+
+        param.gameObject.tag = "Player";
 
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
@@ -59,6 +65,8 @@ public class IAIO : IAFather
 
 
         VirtualControllers.movement.DesuscribeController(param.move);
+
+        param.gameObject.tag = originalTag;
     }
 
 

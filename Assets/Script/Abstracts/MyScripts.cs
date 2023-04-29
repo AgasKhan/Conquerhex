@@ -114,6 +114,12 @@ public abstract class MyScripts : MonoBehaviour
         GameManager.update.Remove(this);
         GameManager.fixedUpdate.Remove(this);
     }
+    private void OnDestroy()
+    {
+        GameManager.onPlay -= GameManager_onPlay;
+
+        GameManager.onPause -= GameManager_onPause;
+    }
 }
 
 

@@ -64,6 +64,8 @@ public class JoyController : MonoBehaviour
 
     private void JoyController_action(params object[] param)
     {
-        fill = (float)param[0];
+        var aux = (float)param[0];
+
+        fill = aux > 0.98f ? 1 : aux;
     }
 }

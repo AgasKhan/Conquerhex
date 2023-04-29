@@ -9,13 +9,15 @@ public class FadeOnOff : MonoBehaviour
     SpriteRenderer sprite;
 
     [SerializeField]
-    Color fadeColorOn;
+    public Color areaColor;
 
     [SerializeField]
-    Color fadeColorOff;
+    public Color attackColor;
 
+    [SerializeReference]
     TimedAction offTimer;
 
+    [SerializeReference]
     TimedAction onTimer;
 
     [SerializeField]
@@ -32,27 +34,33 @@ public class FadeOnOff : MonoBehaviour
 
     private void Awake()
     {
-        offTimer = TimersManager.LerpInTime(sprite.color, fadeColorOff, fadeOff, Color.Lerp, (fadecolor) => sprite.color = fadecolor);
+        offTimer = TimersManager.LerpInTime(1f, 0, fadeOff, Mathf.Lerp, (fadecolor) => sprite.color = new Color(attackColor.r, attackColor.g, attackColor.b, fadecolor));
 
         offTimer.AddToEnd(() => gameObject.SetActive(false));
 
-        onTimer = TimersManager.LerpInTime(sprite.color, fadeColorOn, fadeOn, Color.Lerp, (fadecolor) => sprite.color = fadecolor);
+        onTimer = TimersManager.LerpInTime(0f, 1, fadeOn, Mathf.Lerp, (fadecolor) => sprite.color = new Color(areaColor.r, areaColor.g, areaColor.b, fadecolor));
     }
 
-    public void On()
+    public FadeOnOff On()
     {
         gameObject.SetActive(true);
+
+        return this;
     }
 
-    public void Off()
+    public FadeOnOff Off()
     {
         offTimer.Reset();
+
+        return this;
     }
 
     private void OnEnable()
     {
-        transform.localScale = Vector3.one;
-        sprite.color = fadeColorOff;
+        sprite.color = new Color(areaColor.r, areaColor.g, areaColor.b, 0);
+
         onTimer.Reset();
     }
+
+    
 }

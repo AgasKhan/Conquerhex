@@ -72,7 +72,27 @@ public class AutomatickAttack
 
     public event System.Action onAttack;
 
-    Color original;
+    Color attackColor
+    {
+        get
+        {
+            if (kata.reference != null)
+                return kata.reference.attackColor;
+            else
+                return Color.white;
+        }
+    }
+
+    Color areaColor
+    {
+        get
+        {
+            if (kata.reference != null)
+                return kata.reference.areaColor;
+            else
+                return Color.white;
+        }
+    }
 
     Color actual
     {
@@ -93,10 +113,6 @@ public class AutomatickAttack
     public void Attack()
     {
         kata.ControllerDown(Vector2.zero, 0);
-     
-        original = actual;
-
-        original.a = 1;
 
         attack.Reset();
     }
@@ -109,7 +125,7 @@ public class AutomatickAttack
 
         attack = TimersManager.Create(Random.Range(3, 6) / 3f,()=> {
 
-            actual = Color.Lerp(Color.clear, original, attack.InversePercentage());
+            actual = Color.Lerp(areaColor, attackColor, attack.InversePercentage());
 
         }, () =>
         {
