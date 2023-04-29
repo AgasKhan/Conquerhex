@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public abstract class ItemBase : ShowDetails
 {
     [Range(1, 1000)]
@@ -91,6 +92,7 @@ public abstract class Item : IShowDetails, Init
     }
 }
 
+[System.Serializable]
 public abstract class Item<T> : Item where T : ItemBase
 {
     public T itemBase
@@ -116,8 +118,10 @@ public abstract class Item<T> : Item where T : ItemBase
     }
 }
 
+[System.Serializable]
 public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 {
+    [SerializeField]
     int actual = 1;
 
     public override Item AddAmount(int amount, out int resto)

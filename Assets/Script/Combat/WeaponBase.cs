@@ -69,6 +69,7 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>//, Init
 [System.Serializable]
 public class Weapon : Item<WeaponBase>, IGetPercentage
 {
+    [SerializeField]
     Tim durability;
 
     public Damage[] damages => itemBase.damages;

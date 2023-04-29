@@ -11,6 +11,9 @@ public class RecolectableItem : StaticEntity
 
     //bool recolect;
 
+    [SerializeField]
+    ItemBase initialItems;
+
     Timer recolect;
 
     StaticEntity referenceToTravel;
@@ -35,6 +38,8 @@ public class RecolectableItem : StaticEntity
         .Stop();
 
         recolect.current = 0;
+
+        AddOrSubstractItems(initialItems.nameDisplay, 5);
     }
 
     public void Recolect(StaticEntity entity)
