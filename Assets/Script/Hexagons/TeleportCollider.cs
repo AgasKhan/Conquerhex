@@ -71,6 +71,7 @@ public class TeleportCollider : MonoBehaviour
 
                  DebugPrint.Log("transportando al ID: " + (ladosArray[lado,0]) + " Y al lado " + (ladosArray[lado, 1]));
                  */
+                
 
                 other.gameObject.transform.position =
                     new Vector3(
@@ -79,12 +80,13 @@ public class TeleportCollider : MonoBehaviour
                         other.gameObject.transform.position.z);
 
                 other.gameObject.transform.SetParent(arrHexTeleport.gameObject.transform);
-                //le doy un empujon para que no se quede en el medio
 
-                for (int i = 0; i < fisicaOther.carlitos.Length; i++)
-                {
-                    fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
-                }
+                //le doy un empujon para que no se quede en el medio
+                if (fisicaOther.carlitos != null)
+                    for (int i = 0; i < fisicaOther.carlitos.Length; i++)
+                    {
+                        fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
+                    }
 
                 if (other.CompareTag("Player"))
                 {
