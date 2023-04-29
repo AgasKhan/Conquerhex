@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IAManzana : MonoBehaviour
+public class RecolectableItem : StaticEntity
 {
     [SerializeField]
     Detect<Entity> detect;
+
     [SerializeField]
     Entity param;
 
@@ -21,6 +22,5 @@ public class IAManzana : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
 
 }

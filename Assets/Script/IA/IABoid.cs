@@ -26,6 +26,7 @@ public class IABoid : IAFather
     //    Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
     //    param.move.Velocity(param.move.maxSpeed).Velocity(random.normalized);
     //
+
     }
 
     public override void OnExitState(Character param)
@@ -46,10 +47,20 @@ public class IABoid : IAFather
             steerings["frutas"].targets.Add(recursos[i].transform);
         }
 
-
         //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
         //Execute();
-        //var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
+        var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
+
+        for (int i = 0; i < enemigo.Length; i++)
+        {
+            if(!steerings["enemigos"].targets.Contains(enemigo[i].transform) && (enemigo[i].transform.position - transform.position).sqrMagnitude <= detect.radius * detect.radius)
+            {
+                steerings["enemigos"].targets.Add(enemigo[i].transform);
+            }
+            else if((enemigo[i].transform.position - transform.position).sqrMagnitude > detect.radius * detect.radius)
+                steerings["enemigos"].targets.Remove(enemigo[i].transform);
+
+        }
 
 
         foreach (var itemInPictionary in steerings)
@@ -123,7 +134,7 @@ public class IABoid : IAFather
     //Ejecuto el mov flocking (align, separation, cohesion)
     void Execute()
     {
-        move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
+         move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
          BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
          BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
