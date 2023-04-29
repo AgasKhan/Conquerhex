@@ -13,11 +13,11 @@ public class RecolectableItem : StaticEntity
     private void Update()
     {
         var depredadores = detect.Area(param.transform.position, (algo) => { return Team.hervivoro == algo.team; });
-        Debug.Log("depredadores " + depredadores.Length);
+        Debug.Log("depredadores " + depredadores.Count);
         foreach (var depredador in depredadores)
         {
             var aux = depredador.GetComponent<IABoid>();
-            aux.steerings["frutas"].targets.Remove(transform);
+            aux.steerings["frutas"].targets.Remove(this);
             Debug.Log("depredador " + depredador.name);
             gameObject.SetActive(false);
         }

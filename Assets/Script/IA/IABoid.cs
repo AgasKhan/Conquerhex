@@ -39,29 +39,39 @@ public class IABoid : IAFather
        
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
         var recursos = detect.Area(param.transform.position, (target) => { return Team.recursos == target.team;});
-            
+
         //añado las frutas que estan en mi area de detección, si ya esta en la lista no se añade
-        for (int i = 0; i < recursos.Length; i++)
+        steerings["frutas"].targets = recursos;
+
+        var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
+
+        steerings["enemigos"].targets = enemigo;
+
+        /*
+        for (int i = 0; i < recursos.Count; i++)
         {
-            if (steerings["frutas"].targets.Contains(recursos[i].transform)) continue;
-            steerings["frutas"].targets.Add(recursos[i].transform);
+            if (steerings["frutas"].targets.Contains(recursos[i])) continue;
+            steerings["frutas"].targets.Add(recursos[i]);
         }
+        */
 
         //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
         //Execute();
-        var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
 
+
+        /*
         for (int i = 0; i < enemigo.Length; i++)
         {
-            if(!steerings["enemigos"].targets.Contains(enemigo[i].transform) && (enemigo[i].transform.position - transform.position).sqrMagnitude <= detect.radius * detect.radius)
+            
+            if(!steerings["enemigos"].targets.Contains(enemigo[i]) && (enemigo[i].transform.position - transform.position).sqrMagnitude <= detect.radius * detect.radius)
             {
-                steerings["enemigos"].targets.Add(enemigo[i].transform);
+                steerings["enemigos"].targets.Add(enemigo[i]);
             }
             else if((enemigo[i].transform.position - transform.position).sqrMagnitude > detect.radius * detect.radius)
-                steerings["enemigos"].targets.Remove(enemigo[i].transform);
-
+                steerings["enemigos"].targets.Remove(enemigo[i]);
+          
         }
-
+        */
 
         foreach (var itemInPictionary in steerings)
         {
@@ -157,13 +167,19 @@ public class SteeringWithTarger
 {
     public SteeringBehaviour steering;
 
-    public List<Transform> targets = new List<Transform>();
+    public List<Entity> targets = new List<Entity>();
 
     public int Count => targets.Count;
 
-    Dictionary<Transform, MoveAbstract> lookUpTable = new Dictionary<Transform, MoveAbstract>();
+    Dictionary<Entity, MoveAbstract> lookUpTable = new Dictionary<Entity, MoveAbstract>();
 
     //version hiper justificada de un lookuptable
+
+    /// <summary>
+    /// LookUpTable de obtencion de MoveAbstracts
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
     public MoveAbstract this[int i]
     {
         get

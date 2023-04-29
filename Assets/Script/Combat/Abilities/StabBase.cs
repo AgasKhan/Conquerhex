@@ -10,7 +10,7 @@ public class StabBase : WeaponKataBase
     {
         var aux = detect.Area(caster.transform.position, (tr) => {return caster != tr; });
 
-        Damage(ref damages, caster, aux);
+        Damage(ref damages, caster, aux.ToArray());
 
         
     }

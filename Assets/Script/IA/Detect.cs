@@ -29,7 +29,7 @@ public class Detect<T>
     /// <param name="pos"></param>
     /// <param name="chck">Criterio de busqueda</param>
     /// <returns></returns>
-    public T[] Area(Vector2 pos, System.Func<T, bool> chck)
+    public List<T> Area(Vector2 pos, System.Func<T, bool> chck)
     {
         var aux = Physics2D.OverlapCircleAll(pos, radius, layerMask);
 
@@ -46,7 +46,7 @@ public class Detect<T>
             }
         }
 
-        return damageables.ToArray();
+        return damageables;
     }
 
     /// <summary>
