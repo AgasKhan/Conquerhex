@@ -81,12 +81,19 @@ public class TeleportCollider : MonoBehaviour
 
                 other.gameObject.transform.SetParent(arrHexTeleport.gameObject.transform);
 
+                if(!arrHexTeleport.gameObject.activeSelf)
+                {
+                    arrHexTeleport.gameObject.SetActive(true);
+                    arrHexTeleport.gameObject.SetActive(false);
+                }
+                
                 //le doy un empujon para que no se quede en el medio
                 if (fisicaOther.carlitos != null)
                     for (int i = 0; i < fisicaOther.carlitos.Length; i++)
                     {
                         fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), LoadMap.instance.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
                     }
+
 
                 if (other.CompareTag("Player"))
                 {

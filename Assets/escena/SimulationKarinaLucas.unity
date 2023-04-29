@@ -1462,7 +1462,7 @@ MonoBehaviour:
     total: 0
     _current: 0
   detect:
-    radius: 5
+    radius: 7
     distance: 1
     layerMask:
       serializedVersion: 2
@@ -2024,13 +2024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c41ccc1def3c343990c8996b53b7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carlitos:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  carlitos: []
   cameras:
   - {fileID: 1312319289}
   - {fileID: 173715809}
@@ -2045,7 +2039,7 @@ MonoBehaviour:
   - {fileID: 1002002811}
   - {fileID: 435053264}
   - {fileID: 1818294913}
-  rng: 5
+  rng: 1
   loadPerFrame: 5
   biomes:
   - {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
@@ -4578,7 +4572,7 @@ MonoBehaviour:
     total: 0
     _current: 0
   detect:
-    radius: 5
+    radius: 7
     distance: 1
     layerMask:
       serializedVersion: 2

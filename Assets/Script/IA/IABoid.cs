@@ -7,6 +7,7 @@ public class IABoid : IAFather
 {
     [SerializeField]
     protected Detect<Entity> detect;
+    //protected Detect<IABoid> a, b, c;
 
     [SerializeField]
     public Pictionarys<string,SteeringWithTarger> steerings;
@@ -14,18 +15,19 @@ public class IABoid : IAFather
     MoveAbstract move;
 
     delegate void _FuncBoid(ref Vector2 desired, IABoid objective, Vector2 dirToBoid);
-
+    List<IABoid> list = new List<IABoid>();
     public override void OnEnterState(Character param)
     {
         //esto se ejecuta cuando un character me inicia
+        move = param.move;
 
         //necesito añadir a los boid a una lista para usarlos de comparación para los calculos de flocking
-    //    Manager<IABoid>.pic.Add(GetInstanceID().ToString(), this);
+        //Manager<IABoid>.pic.Add(GetInstanceID().ToString(), this);
+        BoidsManager.list.Add(this);
 
         //randomizar el movimiento de los boids
-    //    Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-    //    param.move.Velocity(param.move.maxSpeed).Velocity(random.normalized);
-    //
+        Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        move.Velocity(move.maxSpeed).Velocity(random.normalized);
 
     }
 
@@ -36,9 +38,9 @@ public class IABoid : IAFather
 
     public override void OnStayState(Character param)
     {
-       
+
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
-        var recursos = detect.Area(param.transform.position, (target) => { return Team.recursos == target.team;});
+        var recursos = detect.Area(param.transform.position, (target) => { return Team.recursos == target.team; });
 
         //añado las frutas que estan en mi area de detección, si ya esta en la lista no se añade
         steerings["frutas"].targets = recursos;
@@ -55,8 +57,16 @@ public class IABoid : IAFather
         }
         */
 
+
+
+
+        //var separation = a.Area(param.transform.position, (algo) => { return param.team == algo.team; });
         //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
-        //Execute();
+
+
+        move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
+         BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
+         BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
 
         /*
@@ -77,7 +87,7 @@ public class IABoid : IAFather
         {
             for (int i = 0; i < itemInPictionary.value.Count; i++)
             {
-                param.move.Acelerator(itemInPictionary.value.steering.Calculate(itemInPictionary.value[i]));
+                move.Acelerator(itemInPictionary.value.steering.Calculate(itemInPictionary.value[i]));
             }
         }
     }
@@ -94,18 +104,18 @@ public class IABoid : IAFather
         int count = 0;
 
         //Por cada boid
-        foreach (var boid in Manager<IABoid>.pic)
+        foreach (var boid in BoidsManager.list)
         {
             //Si soy este boid a chequear, ignoro y sigo la iteracion
-            if (boid.value == this) continue;
+            if (boid == this) continue;
 
             //Saco la direccion hacia el boid
-            Vector2 dirToBoid = boid.value.transform.position - transform.position; //seek.Calculate(boid.value.move);
+            Vector2 dirToBoid = boid.transform.position - transform.position; //seek.Calculate(boid.value.move);
 
             //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
             if (dirToBoid.sqrMagnitude <= BoidsManager.instance.SeparationRadius)
             {
-                func(ref desired, boid.value, dirToBoid);
+                func(ref desired, boid, dirToBoid);
 
                 count++;
             }
@@ -148,7 +158,7 @@ public class IABoid : IAFather
          BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
          BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
-        CheckBounds();
+        //CheckBounds();
     }
 
     //Ver gizmos

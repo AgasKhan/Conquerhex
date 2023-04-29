@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BoidsManager : SingletonMono<BoidsManager>
 {
+    public static List<IABoid> list = new List<IABoid>();
+
     public float ViewRadius
     {
         get
@@ -31,4 +33,9 @@ public class BoidsManager : SingletonMono<BoidsManager>
 
     [field: SerializeField, Range(0f, 2.5f)]
     public float CohesionWeight { get; private set; }
+
+    private void OnDestroy()
+    {
+        list.Clear();
+    }
 }
