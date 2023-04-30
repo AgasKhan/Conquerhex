@@ -78,7 +78,7 @@ public class ButtonsFunctions : MonoBehaviour
     {
         DisplayWindow(g);
         refMenu.MusicInGame(false);
-        refMenu.PlayTutorialM(true);
+        //refMenu.PlayTutorialM(true);
     }
 
     void RefreshMyButton(GameObject g)
