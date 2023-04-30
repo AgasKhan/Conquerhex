@@ -40,12 +40,16 @@ public class JoyController : MonoBehaviour
 
         axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
 
-        EventManager.events.SearchOrCreate<EventGeneric>(eventController).action += JoyController_action;
+        EventManager.events.SearchOrCreate<EventTimer>(eventController).action += JoyController_action;
+
+        EventManager.events.SearchOrCreate<EventTimer>(eventController).end += JoyController_end;
 
         LoadSystem.AddPostLoadCorutine(SetStick);
 
         //rutina = TimersManager.Create(3, SetStick, false);
     }
+
+    
 
     void SetStick()
     {
@@ -64,8 +68,11 @@ public class JoyController : MonoBehaviour
 
     private void JoyController_action(params object[] param)
     {
-        var aux = (float)param[0];
+        fill = (float)param[0];
+    }
 
-        fill = aux > 0.98f ? 1 : aux;
+    private void JoyController_end()
+    {
+        fill = 1;
     }
 }

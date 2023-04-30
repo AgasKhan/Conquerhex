@@ -25,6 +25,16 @@ public class EventGeneric
     }
 }
 
+public class EventTimer : EventGeneric
+{
+    public event System.Action end;
+
+    public virtual void ExecuteEnd()
+    {
+        end?.Invoke();
+    }
+}
+
 /*
 public enum InterfazController
 {

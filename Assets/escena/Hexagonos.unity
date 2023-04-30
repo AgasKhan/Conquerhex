@@ -1617,6 +1617,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 774874936181183142, guid: 46a5d68f8a8742a4b89317855e64eecc,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 807025398609488659, guid: 46a5d68f8a8742a4b89317855e64eecc,
         type: 3}
       propertyPath: m_Sprite
@@ -2488,6 +2493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carlitosPrefab: {fileID: 0}
   carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
@@ -4141,6 +4147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carlitosPrefab: {fileID: 0}
   carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
@@ -4352,6 +4359,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 41cca85982169634f9a5d27d8885a745,
         type: 3}
+    - target: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: carlitos.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_RootOrder

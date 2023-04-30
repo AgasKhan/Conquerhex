@@ -142,8 +142,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     public event System.Action<Weapon> desEquipedWeapon;
     public event System.Action<Weapon> rejectedWeapon;
 
-
     public event System.Action<float> updateTimer;
+
+    public event System.Action finishTimer;
 
     public FadeOnOff reference;
 
@@ -169,6 +170,11 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     void TriggerTimerEvent()
     {
         updateTimer?.Invoke(cooldown.InversePercentage());
+    }
+
+    void TriggerTimerFinishEvent()
+    {
+        finishTimer?.Invoke();
     }
 
     void ChangeWeapon(Weapon weapon)
@@ -213,7 +219,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         if (param.Length > 1)
             _weapon = param[1] as Weapon;
 
-        cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, ()=> { });
+        cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, TriggerTimerFinishEvent);
 
         if(weapon!=null)
             weapon.Init();

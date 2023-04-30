@@ -23,6 +23,7 @@ public class IAIO : IAFather
         {
             VirtualControllers.principal.SuscribeController(param.prin);
             param.prin.updateTimer += PrinUi;
+            param.prin.finishTimer += PrinUiFinish;
         }
             
 
@@ -30,6 +31,7 @@ public class IAIO : IAFather
         {
             VirtualControllers.secondary.SuscribeController(param.sec);
             param.sec.updateTimer += SecUi;
+            param.sec.finishTimer += SecUiFinish;
         }
             
 
@@ -37,6 +39,7 @@ public class IAIO : IAFather
         {
             VirtualControllers.terciary.SuscribeController(param.ter);
             param.ter.updateTimer += TerUi;
+            param.ter.finishTimer += TerUiFinish;
         }
             
 
@@ -54,14 +57,17 @@ public class IAIO : IAFather
         //if (param.prin.itemBase != null)
         VirtualControllers.principal.DesuscribeController(param.prin);
         param.prin.updateTimer -= PrinUi;
+        param.prin.finishTimer -= PrinUiFinish;
 
         //if (param.sec.itemBase != null)
         VirtualControllers.secondary.DesuscribeController(param.sec);
         param.sec.updateTimer -= SecUi;
+        param.sec.finishTimer -= SecUiFinish;
 
         //if (param.ter.itemBase != null)
         VirtualControllers.terciary.DesuscribeController(param.ter);
         param.ter.updateTimer -= TerUi;
+        param.ter.finishTimer -= TerUiFinish;
 
 
         VirtualControllers.movement.DesuscribeController(param.move);
@@ -88,6 +94,21 @@ public class IAIO : IAFather
     void TerUi(float f)
     {
         EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.terciary).Execute(f);
+    }
+
+    void PrinUiFinish()
+    {
+        EventManager.events.SearchOrCreate<EventTimer>(ControllerEnum.principal).ExecuteEnd();
+    }
+
+    void SecUiFinish()
+    {
+        EventManager.events.SearchOrCreate<EventTimer>(ControllerEnum.secondary).ExecuteEnd();
+    }
+
+    void TerUiFinish()
+    {
+        EventManager.events.SearchOrCreate<EventTimer>(ControllerEnum.terciary).ExecuteEnd();
     }
 
     void UpdateLife(IGetPercentage getPercentage)

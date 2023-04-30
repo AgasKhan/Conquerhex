@@ -460,15 +460,18 @@ MonoBehaviour:
   team: 1
   health:
     life:
-      rid: -2
+      total: 0
+      _current: 0
     regen:
-      rid: -2
+      total: 0
+      _current: 0
     timeToRegen:
-      rid: -2
+      total: 0
+      _current: 0
+  drops: []
   interact:
     pictionaries: []
-  actions:
-    pictionaries: []
+  inventory: []
   move: {fileID: 2904035125237228758}
   fsmWork:
     context: {fileID: 0}
@@ -507,6 +510,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
+    type: 3}
   carlitos:
   - {fileID: 8699328423136912331}
   - {fileID: 2526490682218577631}
