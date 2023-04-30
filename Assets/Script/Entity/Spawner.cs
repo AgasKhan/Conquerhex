@@ -5,17 +5,23 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] objects;
+    protected GameObject[] objects;
 
-    private void Awake()
+    protected GameObject spawneado;
+
+    protected virtual void Awake()
     {
         LoadSystem.AddPostLoadCorutine(()=> {
 
             int aux = Random.Range(0, objects.Length);
-            var go = Instantiate(objects[aux], transform.position, transform.rotation);
+            spawneado = Instantiate(objects[aux], transform.position, transform.rotation);
 
-            go.GetComponent<Init>()?.Init();
-            go.transform.SetParent(transform.parent);
+            spawneado.GetComponent<Init>()?.Init();
+            spawneado.transform.SetParent(transform.parent);
+
+            var rend = GetComponentInChildren<SpriteRenderer>();
+
+            rend.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
         });
     }
 }

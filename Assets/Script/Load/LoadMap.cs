@@ -270,7 +270,7 @@ public class LoadMap : SingletonMono<LoadMap>
                 carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), carlitos[i].transform.position.z, 2);
         }
 
-        if (arrHexCreados.GetLength(0) > 1)
+        if (arrHexCreados.GetLength(0) > 1 && victoria!=null)
         {
             victoria = Instantiate(victoria);
             victoria.transform.position = arrHexCreados[arrHexCreados.GetLength(0) - 1].transform.position;

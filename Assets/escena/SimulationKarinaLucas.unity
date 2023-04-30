@@ -444,6 +444,16 @@ PrefabInstance:
       propertyPath: param
       value: 
       objectReference: {fileID: 2113813046}
+    - target: {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
+        type: 3}
+      propertyPath: inventory.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
+        type: 3}
+      propertyPath: inventory.Array.data[0]
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 8155588718149302041, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
         type: 3}
       propertyPath: m_RootOrder
@@ -1418,8 +1428,7 @@ MonoBehaviour:
       rid: -2
   interact:
     pictionaries: []
-  actions:
-    pictionaries: []
+  inventory: []
   move: {fileID: 463798065}
   fsmWork:
     context: {fileID: 0}
@@ -2039,15 +2048,14 @@ MonoBehaviour:
   - {fileID: 1002002811}
   - {fileID: 435053264}
   - {fileID: 1818294913}
-  rng: 20
+  rng: 2
   loadPerFrame: 5
   biomes:
-  - {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
-  - {fileID: 11400000, guid: e3d7a5bb6d2b7754d98e4cfd25e3414d, type: 2}
+  - {fileID: 11400000, guid: f814c5bcece8449429d786f9e48e224c, type: 2}
   map: {fileID: 1540370208}
   playerPublic: {fileID: 0}
-  spawner: {fileID: 5223350694060523476, guid: ecf5bace16d838041a93341ef03cc01d, type: 3}
-  victoria: {fileID: 1523643467}
+  spawner: {fileID: 8042764937083542110, guid: e0d187928cdad064998045ceb7964b1d, type: 3}
+  victoria: {fileID: 0}
   basePos: {x: 2, y: 20, z: 10}
 --- !u!4 &1071990373
 Transform:
@@ -2821,12 +2829,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ded982e2c73252246b9dc2a3c4b66a86, type: 3}
---- !u!1 &1523643467 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3019227970276860375, guid: d231685d877d2f842855491e00130042,
-    type: 3}
-  m_PrefabInstance: {fileID: 6169556999017181514}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1540370205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3534,8 +3536,7 @@ MonoBehaviour:
       rid: -2
   interact:
     pictionaries: []
-  actions:
-    pictionaries: []
+  inventory: []
   move: {fileID: 1869125756}
   fsmWork:
     context: {fileID: 0}
@@ -4465,8 +4466,7 @@ MonoBehaviour:
       rid: -2
   interact:
     pictionaries: []
-  actions:
-    pictionaries: []
+  inventory: []
   move: {fileID: 4472251128575466741}
   fsmWork:
     context: {fileID: 0}
@@ -4577,7 +4577,7 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 193
-    maxDetects: 5
+    maxDetects: -1
     minDetects: 1
   steerings:
     pictionaries:
