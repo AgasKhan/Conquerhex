@@ -41,7 +41,7 @@ public class ItemContainer : MonoBehaviour
             Debug.Log(string.Join("", character.inventory));
             Debug.Log("-------------------------------------------------------------");
 
-            character.inventory = SaveWithJSON.LoadClassFromPictionary<List<Item>>("PlayerInventory");
+            character.inventory = SaveWithJSON.LoadFromPictionary<List<Item>>("PlayerInventory");
         }
     }
 
@@ -59,7 +59,7 @@ public class ItemContainer : MonoBehaviour
 
         //Debug.Log(JsonUtility.ToJson(aux));
 
-        SaveWithJSON.SaveInPictionary("PlayerDrops", character.inventory);
+        SaveWithJSON.SaveInPictionary("PlayerInventory", character.inventory);
     }
 
     private void OnDestroy()

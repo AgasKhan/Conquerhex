@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class MoveAbstract : MyScripts, IControllerDir
 {
+    public GameObject carlitosPrefab;
+
     public Transform[] carlitos;
 
     public Vector2 direction;

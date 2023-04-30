@@ -21,6 +21,18 @@ public class MoveTr : MoveAbstract
 
         if (rend != null)
             MyUpdates += MyUpdateRender;
+
+        if (carlitosPrefab == null)
+            return;
+
+        carlitos = new Transform[6];
+
+        for (int i = 0; i < carlitos.Length; i++)
+        {
+            carlitos[i] = Instantiate(carlitosPrefab, transform).transform;
+
+            carlitos[i].name = "Carlitos (" + i + ")";
+        }
     }
 
     public virtual void MyUpdate()

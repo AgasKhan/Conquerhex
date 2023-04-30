@@ -167,11 +167,11 @@ public struct DropItem
 [System.Serializable]
 public class Health : Init
 {
-    [SerializeReference]
+    [SerializeField]
     public Tim life;
-    [SerializeReference]
+    [SerializeField]
     public Tim regen;
-    [SerializeReference]
+    [SerializeField]
     TimedAction timeToRegen;
 
     public float maxLife => life.total;

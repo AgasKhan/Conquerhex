@@ -16,6 +16,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     public bool loadPause;
 
+    [SerializeReference]
+    SaveWithJSON saveWithJSON = new SaveWithJSON();
+
     // Start is called before the first frame update
     protected override void Awake()
     {
@@ -29,7 +32,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         DontDestroyOnLoad(gameObject);
 
-        
+        saveWithJSON.Init();
+
         StartCoroutine(PostLoad((b)=>{ }, (s)=> { loadScreen.Progress(s);  }));
         preLoad.Add(loadScreen.LoadImage);
     }

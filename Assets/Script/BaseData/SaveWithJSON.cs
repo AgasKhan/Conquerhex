@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using System;
 
-public class SaveWithJSON : SingletonMono<SaveWithJSON>
+public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 {
     public Pictionarys<string, string> _baseData = new Pictionarys<string, string>();
 
@@ -27,31 +27,6 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
 
     //BaseData json;
 
-
-    private void Start()
-    {
-        path = Application.persistentDataPath + "/saveData.json";
-
-        Debug.Log("BD: \n" + BD.ToString());
-
-        //Para Computadora
-        /*
-        var directoryPath = Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Replace("\\","/")) + "/" + Application.productName;
-        
-        if (Directory.Exists(directoryPath))
-            Directory.CreateDirectory(directoryPath);
-        */
-
-        /*
-        if (File.Exists(path))
-            LoadGame();
-        else
-            SaveGame();
-        */
-
-        DontDestroyOnLoad(this);
-    }
-    
     void SaveGame()
     {
         File.WriteAllText(path, JsonUtility.ToJson(BD));
@@ -78,7 +53,9 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
 
     public static void SaveClassInPictionary<T>(string id, T data)
     {
-        string json = JsonUtility.ToJson(data);
+        string json = JsonUtility.ToJson(data, true);
+
+        Debug.Log(json);
 
         if (BD.ContainsKey(id, out int index))
             BD[index] = json;
@@ -89,7 +66,9 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
 
     public static void SaveInPictionary<T>(string id, T data)
     {
-        string json = JsonUtility.ToJson(new AuxClass<T>(data));
+        string json = JsonUtility.ToJson(new AuxClass<T>(data), true);
+
+        Debug.Log(json);
 
         if (BD.ContainsKey(id, out int index))
             BD[index] = json;
@@ -136,12 +115,33 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
         }
     }
 
+    public void Init(params object[] param)
+    {
+        path = Application.persistentDataPath + "/saveData.json";
+
+        Debug.Log("BD: \n" + BD.ToString());
+
+        //Para Computadora
+        /*
+        var directoryPath = Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Replace("\\","/")) + "/" + Application.productName;
+        
+        if (Directory.Exists(directoryPath))
+            Directory.CreateDirectory(directoryPath);
+        */
+
+        /*
+        if (File.Exists(path))
+            LoadGame();
+        else
+            SaveGame();
+        */
+    }
 }
 
 [System.Serializable]
 public class AuxClass<T>
 {
-    [SerializeField]
+    [SerializeReference]
     public T value;
 
     public AuxClass(T o)
