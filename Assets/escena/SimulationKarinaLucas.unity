@@ -1216,6 +1216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <SeekWeight>k__BackingField: 0
+  <FleeWeight>k__BackingField: 2.35
 --- !u!114 &463798063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1229,6 +1231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <SeekWeight>k__BackingField: 1.54
 --- !u!114 &463798064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1242,6 +1245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <ArriveWeight>k__BackingField: 0.81
 --- !u!114 &463798065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,6 +1346,30 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 193
     maxDetects: 5
+    minDetects: 1
+  separa:
+    radius: 7
+    distance: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    maxDetects: -1
+    minDetects: 1
+  allignment:
+    radius: 7
+    distance: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    maxDetects: -1
+    minDetects: 1
+  cohe:
+    radius: 7
+    distance: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    maxDetects: -1
     minDetects: 1
   steerings:
     pictionaries:
@@ -3534,6 +3562,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <SeekWeight>k__BackingField: 0
+  <FleeWeight>k__BackingField: 0
 --- !u!114 &1869125754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3547,6 +3577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <SeekWeight>k__BackingField: 0
 --- !u!114 &1869125755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3560,6 +3591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <ArriveWeight>k__BackingField: 0
 --- !u!114 &1869125756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3659,6 +3691,30 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 128
+    maxDetects: -1
+    minDetects: 1
+  separa:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    maxDetects: -1
+    minDetects: 1
+  allignment:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    maxDetects: -1
+    minDetects: 1
+  cohe:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
     maxDetects: -1
     minDetects: 1
   steerings:
@@ -4617,7 +4673,7 @@ MonoBehaviour:
   carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
-    total: 5
+    total: 50
     _current: 0
   _desaceleration:
     total: 10
@@ -4646,21 +4702,45 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 193
+    maxDetects: 5
+    minDetects: 1
+  separa:
+    radius: 7
+    distance: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    maxDetects: -1
+    minDetects: 1
+  allignment:
+    radius: 7
+    distance: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    maxDetects: -1
+    minDetects: 1
+  cohe:
+    radius: 7
+    distance: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
     maxDetects: -1
     minDetects: 1
   steerings:
     pictionaries:
     - key: frutas
       value:
-        steering: {fileID: 4472251128575466745}
+        steering: {fileID: 463798064}
         targets: []
     - key: enemigos
       value:
-        steering: {fileID: 4472251128575466743}
+        steering: {fileID: 463798062}
         targets: []
     - key: yos
       value:
-        steering: {fileID: 4472251128575466743}
+        steering: {fileID: 463798062}
         targets: []
 --- !u!114 &4472251128575466743
 MonoBehaviour:
@@ -4675,6 +4755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <SeekWeight>k__BackingField: 0
+  <FleeWeight>k__BackingField: 2.35
 --- !u!114 &4472251128575466744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4688,6 +4770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <SeekWeight>k__BackingField: 1.54
 --- !u!114 &4472251128575466745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4701,6 +4784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+  <ArriveWeight>k__BackingField: 0.81
 --- !u!58 &4472251128575466746
 CircleCollider2D:
   m_ObjectHideFlags: 0

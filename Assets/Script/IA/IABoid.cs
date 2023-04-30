@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class IABoid : IAFather
 {
     [SerializeField]
     protected Detect<Entity> detect;
-    //protected Detect<IABoid> a, b, c;
+    [SerializeField]
+    protected Detect<IABoid> separa, allignment, cohe;
 
     [SerializeField]
     public Pictionarys<string,SteeringWithTarger> steerings;
@@ -15,7 +15,11 @@ public class IABoid : IAFather
     MoveAbstract move;
 
     delegate void _FuncBoid(ref Vector2 desired, IABoid objective, Vector2 dirToBoid);
-    List<IABoid> list = new List<IABoid>();
+
+    Vector2 desiredSeparation = Vector2.zero;
+    Vector2 desiredAlign = Vector2.zero;
+    Vector2 desiredCohesion = Vector2.zero;
+
     public override void OnEnterState(Character param)
     {
         //esto se ejecuta cuando un character me inicia
@@ -25,7 +29,7 @@ public class IABoid : IAFather
         //Manager<IABoid>.pic.Add(GetInstanceID().ToString(), this);
         BoidsManager.list.Add(this);
 
-        //randomizar el movimiento de los boids
+        //randomizar el movimiento inicial de los boids
         Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
         move.Velocity(move.maxSpeed).Velocity(random.normalized);
 
@@ -45,6 +49,14 @@ public class IABoid : IAFather
         //añado las frutas que estan en mi area de detección, si ya esta en la lista no se añade
         steerings["frutas"].targets = recursos;
 
+        //for (int i = 0; i < recursos.ToArray().Length; i++)
+        //{
+        //    if ((param.transform.position - recursos[i].transform.position).magnitude <= param.transform.position.magnitude)
+        //        steerings[i].targets.Sort();
+        //}
+
+
+
         var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
 
         steerings["enemigos"].targets = enemigo;
@@ -58,15 +70,55 @@ public class IABoid : IAFather
         */
 
 
+        //Intento de autonomia
+        //var separation = separa.Area(param.transform.position, (boid) => { return param.team == boid.character.team; });
+        //foreach (var corderito in separation)
+        //{
+        //    var dirToCorderito = (corderito.transform.position - param.transform.position).Vect3To2();
+        //    desiredSeparation -= dirToCorderito;
+        //    Debug.Log("separacion en for " + desiredSeparation);
 
+        //}
+        //Debug.Log("separacion " + desiredSeparation);
 
-        //var separation = a.Area(param.transform.position, (algo) => { return param.team == algo.team; });
+        //var allign = allignment.Area(param.transform.position, (boid) => { return param.team == boid.character.team; });
+        //foreach (var item in allign)
+        //{
+        //    int count = 0;
+        //    var aux = (item.transform.position - param.transform.position).Vect3To2();
+        //    desiredAlign += item.move.vectorVelocity;
+        //    count++;
+
+        //    if (count > 0)
+        //        desiredAlign /= count;
+        //}
+
+        //var cohesion = cohe.Area(param.transform.position, (boid) => { return param.team == boid.character.team; });
+        //foreach (var item in cohesion)
+        //{
+        //    int count = 0;
+        //    var aux = (item.transform.position - param.transform.position).Vect3To2();
+
+        //    desiredCohesion += (item.transform.position).Vect3To2();
+        //    count++;
+
+        //    if (count > 0)
+        //        desiredCohesion /= count;
+
+        //    desiredCohesion -= (transform.position).Vect3To2();
+        //}
+
         //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
 
 
         move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
          BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
          BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
+
+        //movimiento con intento de autonomia
+        //move.Acelerator(desiredSeparation * BoidsManager.instance.SeparationWeight +
+        //               desiredAlign * BoidsManager.instance.AlignmentWeight +
+        //               desiredCohesion * BoidsManager.instance.CohesionWeight);
 
 
         /*
@@ -82,6 +134,7 @@ public class IABoid : IAFather
           
         }
         */
+
 
         foreach (var itemInPictionary in steerings)
         {
@@ -154,9 +207,9 @@ public class IABoid : IAFather
     //Ejecuto el mov flocking (align, separation, cohesion)
     void Execute()
     {
-         move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
-         BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
-         BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
+        move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
+        BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
+        BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
         //CheckBounds();
     }
