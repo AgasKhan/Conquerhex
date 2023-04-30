@@ -42,6 +42,9 @@ public class IABoid : IAFather
 
     public override void OnStayState(Character param)
     {
+        Debug.Log("enemigo " + steerings["enemigos"].targets.Count + ", recursos " + steerings["frutas"].targets.Count);
+        //if (steerings["enemigos"].targets.Count == 0 && steerings["frutas"].targets.Count == 0)
+            transform.position += transform.right * move.maxSpeed * Time.deltaTime;
 
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
         var recursos = detect.Area(param.transform.position, (target) => { return Team.recursos == target.team; });
@@ -49,12 +52,22 @@ public class IABoid : IAFather
         //añado las frutas que estan en mi area de detección, si ya esta en la lista no se añade
         steerings["frutas"].targets = recursos;
 
-        //for (int i = 0; i < recursos.ToArray().Length; i++)
-        //{
-        //    if ((param.transform.position - recursos[i].transform.position).magnitude <= param.transform.position.magnitude)
-        //        steerings[i].targets.Sort();
-        //}
+        //Si la distancia de mi fruta 1 es menor a la fruta 2, voy a acomodarla para que sea mi primer objetivo
+        for (int i = 0; i < steerings["frutas"].targets.ToArray().Length-1; i++)
+        {
+            var distance = (param.transform.position - steerings["frutas"].targets[i].transform.position).magnitude;
 
+            for (int j = 0; j < steerings["frutas"].targets.ToArray().Length; j++)
+            {
+                var distance2 = (param.transform.position - steerings["frutas"].targets[j].transform.position).magnitude;
+                if (distance <= distance2)
+                {
+                    var aux = steerings["frutas"].targets[i];
+                    steerings["frutas"].targets[i] = steerings["frutas"].targets[j];
+                    steerings["frutas"].targets[j] = aux;
+                }
+            }
+        }
 
 
         var enemigo = detect.Area(param.transform.position, (algo) => { return Team.enemy == algo.team; });
@@ -134,7 +147,7 @@ public class IABoid : IAFather
           
         }
         */
-
+       
 
         foreach (var itemInPictionary in steerings)
         {
@@ -202,16 +215,6 @@ public class IABoid : IAFather
     void CheckBounds()
     {
         transform.position = Boundaries.instance.SetObjectBoundPosition(transform.position);
-    }
-
-    //Ejecuto el mov flocking (align, separation, cohesion)
-    void Execute()
-    {
-        move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
-        BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
-        BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
-
-        //CheckBounds();
     }
 
     //Ver gizmos
