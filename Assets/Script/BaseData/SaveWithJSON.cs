@@ -6,8 +6,7 @@ using System;
 
 public class SaveWithJSON : SingletonMono<SaveWithJSON>
 {
-    
-    Pictionarys<string, string> _baseData = new Pictionarys<string, string>();
+    public Pictionarys<string, string> _baseData = new Pictionarys<string, string>();
 
     public static Pictionarys<string, string> BD
     {
@@ -24,26 +23,16 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
 
     private string path;
 
-    public int maximumGames;
+    public int gamesSlots;
 
     //BaseData json;
 
 
-    [System.Serializable]
-    public class AuxClass<T>
-    {
-        public T value;
-
-        public AuxClass(T o)
-        {
-            value = o;
-        }
-    }
-
-    
     private void Start()
     {
         path = Application.persistentDataPath + "/saveData.json";
+
+        Debug.Log("BD: \n" + BD.ToString());
 
         //Para Computadora
         /*
@@ -53,10 +42,14 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
             Directory.CreateDirectory(directoryPath);
         */
 
+        /*
         if (File.Exists(path))
             LoadGame();
         else
             SaveGame();
+        */
+
+        DontDestroyOnLoad(this);
     }
     
     void SaveGame()
@@ -87,8 +80,8 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
     {
         string json = JsonUtility.ToJson(data);
 
-        if (BD.ContainsKey(id))
-            BD[id] = json;
+        if (BD.ContainsKey(id, out int index))
+            BD[index] = json;
         else
             BD.Add(id, json);
     }
@@ -98,8 +91,8 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
     {
         string json = JsonUtility.ToJson(new AuxClass<T>(data));
 
-        if (BD.ContainsKey(id))
-            BD[id] = json;
+        if (BD.ContainsKey(id, out int index))
+            BD[index] = json;
         else
             BD.Add(id, json);
     }
@@ -145,6 +138,17 @@ public class SaveWithJSON : SingletonMono<SaveWithJSON>
 
 }
 
+[System.Serializable]
+public class AuxClass<T>
+{
+    [SerializeField]
+    public T value;
+
+    public AuxClass(T o)
+    {
+        value = o;
+    }
+}
 
 public interface IBDSave
 {

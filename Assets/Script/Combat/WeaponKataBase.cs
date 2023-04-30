@@ -160,7 +160,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     [SerializeField]
     Weapon _weapon;
+    [SerializeReference]
     protected Timer cooldown;
+    [SerializeReference]
     protected Entity caster;
     //protected Vector2Int[] indexParticles;
 

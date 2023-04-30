@@ -25,6 +25,7 @@ public abstract class StaticEntity : Entity, IItemContainer
     {
         inventory.AddRange(items);
         items.Clear();
+        Debug.Log(string.Join("", inventory));
     }
 
     public int ItemCount(string itemName)

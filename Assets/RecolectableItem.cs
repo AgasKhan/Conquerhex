@@ -13,10 +13,14 @@ public class RecolectableItem : StaticEntity
 
     [SerializeField]
     ItemBase initialItems;
+    [SerializeField]
+    int amount;
 
     Timer recolect;
 
     StaticEntity referenceToTravel;
+
+    public DropItem myDrop;
 
     protected override void Config()
     {
@@ -33,13 +37,13 @@ public class RecolectableItem : StaticEntity
             referenceToTravel.AddAllItems(this);
             gameObject.SetActive(false);
             Debug.Log("me recoge: " + referenceToTravel.name);
-
         })
         .Stop();
 
         recolect.current = 0;
 
-        AddOrSubstractItems(initialItems.nameDisplay, 5);
+        
+        AddOrSubstractItems(initialItems.nameDisplay, amount);
     }
 
     public void Recolect(StaticEntity entity)

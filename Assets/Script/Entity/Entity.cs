@@ -156,6 +156,7 @@ public class Entity : MyScripts, IDamageable
     }
 }
 
+[System.Serializable]
 public struct DropItem
 {
     public int peso;

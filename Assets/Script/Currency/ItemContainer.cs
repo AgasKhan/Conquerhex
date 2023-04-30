@@ -17,8 +17,10 @@ public class ItemContainer : MonoBehaviour
         initialItems.Init();
     }
 
+
     private void Start()
     {
+        /*
         //Solo con fines de prueba
         LoadSystem.AddPostLoadCorutine(() =>
             {
@@ -27,5 +29,41 @@ public class ItemContainer : MonoBehaviour
             }
         
         );
+        */
+        
+        
+    }
+    private void OnEnable()
+    {
+        if (SaveWithJSON.CheckKeyInBD("PlayerInventory"))
+        {
+            Debug.Log("El inventario cargo del BD:  -------------------------------");
+            Debug.Log(string.Join("", character.inventory));
+            Debug.Log("-------------------------------------------------------------");
+
+            character.inventory = SaveWithJSON.LoadClassFromPictionary<List<Item>>("PlayerInventory");
+        }
+    }
+
+    private void OnDisable()
+    {
+        //Debug.Log("Inventario en Hexagonos: \n" + string.Join("", character.inventory));
+
+        //var aux = new AuxClass<DropItem[]>(character.drops.ToArray());
+
+        //aux.value = ;
+
+        //character.drops
+
+        //Debug.Log(aux.value[0]);
+
+        //Debug.Log(JsonUtility.ToJson(aux));
+
+        SaveWithJSON.SaveInPictionary("PlayerDrops", character.inventory);
+    }
+
+    private void OnDestroy()
+    {
+        
     }
 }
