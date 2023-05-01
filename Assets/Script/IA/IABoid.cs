@@ -44,7 +44,7 @@ public class IABoid : IAFather
     {
         Debug.Log("enemigo " + steerings["enemigos"].targets.Count + ", recursos " + steerings["frutas"].targets.Count);
         //if (steerings["enemigos"].targets.Count == 0 && steerings["frutas"].targets.Count == 0)
-            transform.position += transform.right * move.maxSpeed * Time.deltaTime;
+            //transform.position += transform.right * move.maxSpeed * Time.deltaTime;
 
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
         var recursos = detect.Area(param.transform.position, (target) => { return Team.recursos == target.team; });
@@ -83,8 +83,8 @@ public class IABoid : IAFather
         */
 
 
-        //Intento de autonomia
-        //var separation = separa.Area(param.transform.position, (boid) => { return param.team == boid.character.team; });
+        ////Intento de autonomia
+        //var separation = separa.Area(param.transform.position, (boid) => { return boid.character.team == Team.hervivoro; });
         //foreach (var corderito in separation)
         //{
         //    var dirToCorderito = (corderito.transform.position - param.transform.position).Vect3To2();
@@ -121,14 +121,14 @@ public class IABoid : IAFather
         //    desiredCohesion -= (transform.position).Vect3To2();
         //}
 
-        //var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
+        var flocking = detect.Area(param.transform.position, (algo) => { return param.team == algo.team; });
 
 
         move.Acelerator(BoidIntern(Separation, false) * BoidsManager.instance.SeparationWeight +
          BoidIntern(Alignment, true) * BoidsManager.instance.AlignmentWeight +
          BoidIntern(Cohesion, true) * BoidsManager.instance.CohesionWeight);
 
-        //movimiento con intento de autonomia
+        // movimiento con intento de autonomia
         //move.Acelerator(desiredSeparation * BoidsManager.instance.SeparationWeight +
         //               desiredAlign * BoidsManager.instance.AlignmentWeight +
         //               desiredCohesion * BoidsManager.instance.CohesionWeight);
@@ -147,7 +147,7 @@ public class IABoid : IAFather
           
         }
         */
-       
+
 
         foreach (var itemInPictionary in steerings)
         {
