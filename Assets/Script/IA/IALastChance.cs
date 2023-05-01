@@ -35,7 +35,7 @@ public class IALastChance : IAFather
 
     void Attack()
     {
-        int rng = Random.Range(2, 5);
+        int rng = Random.Range(1, 3);
 
         Debug.Log("El numero magico es: " + rng);
 
