@@ -93,9 +93,8 @@ public class Entity : MyScripts, IDamageable
             if((pesoAcumulador + item.peso)> aux)
             {
                 //return item.item;
-
                 //-------------------------------------------------------------
-                Instantiate(item.item, transform.position, Quaternion.identity);
+                Instantiate(item.item, transform.position + new Vector3(Random.Range(0, 2.5f), Random.Range(0, 2.5f), 0), Quaternion.identity);
                 //-------------------------------------------------------------
             }
 
@@ -161,7 +160,7 @@ public struct DropItem
 {
     public int peso;
 
-    public ItemBase item;
+    public GameObject item;
 }
 
 [System.Serializable]

@@ -42,7 +42,6 @@ public class RecolectableItem : StaticEntity
 
         recolect.current = 0;
 
-        
         AddOrSubstractItems(initialItems.nameDisplay, amount);
     }
 

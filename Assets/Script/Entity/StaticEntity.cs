@@ -23,9 +23,16 @@ public abstract class StaticEntity : Entity, IItemContainer
 
     void AddAllItems(List<Item> items)
     {
-        inventory.AddRange(items);
-        items.Clear();
+        //inventory.AddRange(items);
         Debug.Log(string.Join("", inventory));
+
+        foreach (var item in items)
+        {
+            item.GetAmounts(out int actual, out int max);
+            AddOrSubstractItems(item.nameDisplay, actual);
+        }
+
+        items.Clear();
     }
 
     public int ItemCount(string itemName)

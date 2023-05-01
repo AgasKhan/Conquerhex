@@ -2089,9 +2089,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 166368929}
-  initialItems:
-    _itemBase: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
-    actual: 1
 --- !u!1001 &169071609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8260,7 +8257,7 @@ MonoBehaviour:
   interact:
     pictionaries: []
   inventory: []
-  customer: {fileID: 166368931}
+  customer: {fileID: 2085456264}
   coinCounter: {fileID: 280162862}
   references:
     version: 2
@@ -17428,9 +17425,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 2085456270}
-  initialItems:
-    _itemBase: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
-    actual: 20
 --- !u!58 &2085456265
 CircleCollider2D:
   m_ObjectHideFlags: 0
