@@ -48,6 +48,9 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
     public void SetWeaponKataCombo(ref WeaponKata set,WeaponKataCombo combo)
     {
+        if (combo.kata == null)
+            return;
+
         set = (WeaponKata)combo.kata.Create();
 
         var weapon = combo.weapon.Create();
