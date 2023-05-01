@@ -13,7 +13,7 @@ public abstract class FSM<T, Context> : FSMSerialize<T, Context> where T : FSM<T
 [System.Serializable]
 public abstract class FSMSerialize<T, Context> : ISwitchState<T> where T : FSMSerialize<T, Context>
 {
-
+    [HideInInspector]
     public Context context;
 
     IState<T> currentState;

@@ -38,7 +38,16 @@ public class Patrol : Init
     /// </summary>
     MonoBehaviour _mono;
 
+    [SerializeReference]
     public FSMPatrol fsmPatrol;
+
+    public Transform currentWaypoint
+    {
+        get
+        {
+            return patrolParent.GetChild(iPatrulla);
+        }
+    }
 
     /// <summary>
     /// calcula la distancia hasta el numero (pero no lo guarda) punto de patrullaje
@@ -56,6 +65,7 @@ public class Patrol : Init
     public Vector3 Distance()
     {
         _distance = patrolParent.GetChild(iPatrulla).position - _mono.transform.position;
+        Debug.Log("me ejecute");
         return _distance;
     }
 
@@ -139,7 +149,7 @@ public class Patrol : Init
     /// </summary>
     /// <param name="minimal"></param>
     /// <returns>En caso de llegar a la distancia minima devolvera un true, por lo contrario un false</returns>
-    public bool MinimalChck(float minimal, bool automatic = true)
+    public bool MinimalChck(float minimal)
     {
         if (_distance.sqrMagnitude < minimal * minimal)
         {
@@ -171,12 +181,13 @@ public interface IPatrolReturn
     Patrol PatrolReturn();
 }
 
-
+[System.Serializable]
 public class FSMPatrol : FSM<FSMPatrol, Patrol>
 {
     public IState<FSMPatrol> move = new Move();
 
-    public IState<FSMPatrol> wait;
+    [SerializeReference]
+    public Wait wait;
 
     public System.Action OnStartMove;
 
@@ -212,7 +223,7 @@ public class Move : IState<FSMPatrol>
     }
 }
 
-
+[System.Serializable]
 public class Wait : IState<FSMPatrol>
 {
     /// <summary>

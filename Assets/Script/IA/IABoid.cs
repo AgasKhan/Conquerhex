@@ -79,7 +79,7 @@ public class IABoid : IAFather
             }
         }
 
-        move.Acelerator(dir);
+        move.ControllerPressed(dir, 0);
     }
 
     public void SwitchComportomiento<T>(string key) where T : SteeringBehaviour
@@ -156,7 +156,7 @@ public class SteeringWithTarger
 
     public int Count => targets.Count;
 
-    Dictionary<Entity, MoveAbstract> lookUpTable = new Dictionary<Entity, MoveAbstract>();
+    Dictionary<Transform, MoveAbstract> lookUpTable = new Dictionary<Transform, MoveAbstract>();
 
     //version hiper justificada de un lookuptable
 
@@ -169,30 +169,32 @@ public class SteeringWithTarger
     {
         get
         {
-            MoveAbstract aux;
-
-            //en caso que mi diccionario sea muy largo es mas rapido directamente obtener el componente
-            if (lookUpTable.Count<=200)
-            {
-                if (lookUpTable.TryGetValue(targets[i], out aux))
-                {
-                    return steering.Calculate(aux)*weight;
-                }
-            }
-
-            if (!targets[i].TryGetComponent(out aux))
-            {
-                aux = targets[i].gameObject.AddComponent<MoveTr>();
-                aux.enabled = false;
-            }
-
-            lookUpTable.Add(targets[i], aux);
-  
-
-            return steering.Calculate(aux)*weight;
+            return steering.Calculate(GetMove(targets[i].transform))*weight;
 
         }
     }
 
+    public MoveAbstract GetMove(Transform tr)
+    {
+        MoveAbstract aux;
 
+        //en caso que mi diccionario sea muy largo es mas rapido directamente obtener el componente
+        if (lookUpTable.Count <= 200)
+        {
+            if (lookUpTable.TryGetValue(tr, out aux))
+            {
+                return aux;
+            }
+        }
+
+        if (!tr.TryGetComponent(out aux))
+        {
+            aux = tr.gameObject.AddComponent<MoveTr>();
+            aux.enabled = false;
+        }
+
+        lookUpTable.Add(tr.transform, aux);
+
+        return aux;
+    }
 }

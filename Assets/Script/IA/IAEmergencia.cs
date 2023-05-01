@@ -14,7 +14,7 @@ public class IAEmergencia : IAFather
     [SerializeField]
     float distanceAttack;
 
-    AutomatickAttack automatick;
+    AutomaticAttack automatick;
 
     // Update is called once per frame
     void Update()
@@ -22,7 +22,7 @@ public class IAEmergencia : IAFather
         if (enemy == null || character==null)
             return;
 
-        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && timer.Chck && automatick.attack.Chck)
+        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && timer.Chck && automatick.timerToAttack.Chck)
         {
             automatick.Attack();
         }
@@ -51,7 +51,7 @@ public class IAEmergencia : IAFather
 
         timer = TimersManager.Create(2);
 
-        automatick = new AutomatickAttack(character.ter);
+        automatick = new AutomaticAttack(character.ter);
     }
 
     public override void OnExitState(Character param)
@@ -65,73 +65,3 @@ public class IAEmergencia : IAFather
     }
 }
 
-public class AutomatickAttack
-{
-    public Timer attack;
-    WeaponKata kata;
-
-    public event System.Action onAttack;
-
-    Color attackColor
-    {
-        get
-        {
-            if (kata.reference != null)
-                return kata.reference.attackColor;
-            else
-                return Color.white;
-        }
-    }
-
-    Color areaColor
-    {
-        get
-        {
-            if (kata.reference != null)
-                return kata.reference.areaColor;
-            else
-                return Color.white;
-        }
-    }
-
-    Color actual
-    {
-        get
-        {
-            if (kata.reference != null)
-                return kata.reference.color;
-            else
-                return Color.white;
-        }
-        set
-        {
-            if (kata.reference != null) 
-                kata.reference.color = value;
-        }
-    }
-
-    public void Attack()
-    {
-        kata.ControllerDown(Vector2.zero, 0);
-
-        attack.Reset();
-    }
-
-    public AutomatickAttack(WeaponKata kata)
-    {
-        this.kata = kata;
-
-        attack = null;
-
-        attack = TimersManager.Create(Random.Range(3, 6) / 3f,()=> {
-
-            actual = Color.Lerp(areaColor, attackColor, attack.InversePercentage());
-
-        }, () =>
-        {
-            kata.ControllerUp(Vector2.zero, 0);
-
-            onAttack?.Invoke();
-        });
-    }
-}
