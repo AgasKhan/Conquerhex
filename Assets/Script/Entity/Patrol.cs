@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Patrol
+public class Patrol : Init
 {
 
     /// <summary>
@@ -19,7 +19,7 @@ public class Patrol
     /// <summary>
     /// lista que contiene todos los puntos de la patrulla
     /// </summary>
-    public List<Transform> patrol;
+    public Transform patrolParent;
 
     /// <summary>
     /// vector de distancia que falta para llegar al objetivo
@@ -46,7 +46,7 @@ public class Patrol
     /// <returns>retorna el vector de distancia</returns>
     public Vector3 Distance(int i)
     {
-        return patrol[i].position - _mono.transform.position;
+        return patrolParent.GetChild(i).position - _mono.transform.position;
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public class Patrol
     /// <returns>retorna el vector de distancia</returns>
     public Vector3 Distance()
     {
-        _distance = patrol[iPatrulla].position - _mono.transform.position;
+        _distance = patrolParent.GetChild(iPatrulla).position - _mono.transform.position;
         return _distance;
     }
 
@@ -64,6 +64,47 @@ public class Patrol
     /// </summary>
     /// <param name="reverseEffect">devuelve si retrocede o no</param>
     /// <returns>indice del patrullaje</returns>
+    /// 
+
+    int reverseEffect = 1;
+
+    int NextPointCircle()
+    {
+        int i = iPatrulla;
+
+        i += reverseEffect;
+
+        if (i <= -1 || i >= patrolParent.childCount)
+        {
+            i = reverseEffect == 1 ? i-2 : 1;
+            reverseEffect *= -1;
+        }
+
+        return i;
+    }
+
+    int NextPointLineal()
+    {
+        int i = iPatrulla;
+
+        i += reverseEffect;
+
+        if (i <= -1 || i >= patrolParent.childCount)
+        {
+            i = reverseEffect== 1 ? 0 : patrolParent.childCount;
+            reverseEffect *= -1;
+        }
+
+        return i;
+    }
+
+    public int NextPoint()
+    {
+        return reverse ? NextPointCircle() : NextPointLineal();
+    }
+
+
+    /*Version antigua
     public int NextPoint(ref bool reverseEffect)
     {
         int i = iPatrulla;
@@ -73,7 +114,7 @@ public class Patrol
         else
             i--;
 
-        if (i >= patrol.Count)
+        if (i >= patrolParent.childCount)
         {
             if (reverse)
             {
@@ -91,7 +132,7 @@ public class Patrol
         }
 
         return i;
-    }
+    }*/
 
     /// <summary>
     /// chequea si se llego a la distancia minima, y esperara a un timer para ir setear el siguiente punto de patrullaje
@@ -108,17 +149,20 @@ public class Patrol
         return false;
     }
 
-    // Start que configura todo lo necesario para usar la clase
-    public void Start(MonoBehaviour m)
+    /// <summary>
+    /// Init que se debera ejecutar para el correcto funcionamiento de la patrulla
+    /// </summary>
+    /// <param name="param">El primer parametro debe de ser el MonoBehaviour que lo crea</param>
+    public void Init(params object[] param)
     {
-        _mono = m;
+        _mono = param[0] as MonoBehaviour;
         fsmPatrol = new FSMPatrol(this);
 
-        if (patrol.Count <= 0)
+        if (patrolParent.childCount <= 0)
         {
             GameObject aux = new GameObject(_mono.name + " position");
             aux.transform.position = _mono.transform.position;
-            patrol.Add(aux.transform);
+            aux.transform.parent = patrolParent;
         }
     }
 }
@@ -134,9 +178,9 @@ public class FSMPatrol : FSM<FSMPatrol, Patrol>
 
     public IState<FSMPatrol> wait;
 
-    public System.Action OnMove;
-
     public System.Action OnStartMove;
+
+    public System.Action OnMove;
 
     public System.Action OnStartWait;
 
@@ -174,13 +218,7 @@ public class Wait : IState<FSMPatrol>
     /// <summary>
     /// Timer que espera una vez alcanzado el destino, para setear el siguiente
     /// </summary>
-    public
-    Timer timer;
-
-    /// <summary>
-    /// privada que se encarga de chequear si tiene q avanzar en la lista o no
-    /// </summary>
-    bool _reverseEffect;
+    public Timer timer;
 
     public Wait(float _waitTime)
     {
@@ -195,7 +233,7 @@ public class Wait : IState<FSMPatrol>
 
     public void OnExitState(FSMPatrol param)
     {
-        param.context.iPatrulla = param.context.NextPoint(ref _reverseEffect);
+        param.context.iPatrulla = param.context.NextPoint();
         param.context.Distance();
     }
 
