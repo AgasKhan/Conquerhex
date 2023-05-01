@@ -19,7 +19,7 @@ public class IAHunter : IABoid
     {
 
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
-        var corderos = detect.Area(param.transform.position, (target) => { return Team.hervivoro == target.team; });
+        var corderos = detectEnemy.Area(param.transform.position, (target) => { return Team.hervivoro == target.team; });
 
         //añado los corderos que estan en mi area de detección, si ya esta en la lista no se añade
         steerings["corderitos"].targets = corderos;
@@ -29,7 +29,7 @@ public class IAHunter : IABoid
         {
             for (int i = 0; i < itemInPictionary.value.Count; i++)
             {
-                param.move.Acelerator(itemInPictionary.value.steering.Calculate(itemInPictionary.value[i]));
+                param.move.Acelerator(itemInPictionary.value[i]);
             }
         }
     }

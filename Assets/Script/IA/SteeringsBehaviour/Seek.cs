@@ -5,11 +5,8 @@ using UnityEngine;
 public class Seek : SteeringBehaviour
 {
 
-    [field: SerializeField, Range(0f, 2.5f)]
-    public float SeekWeight { get; private set; }
-
-    public override Vector2 Calculate(MoveAbstract target)
+    protected override Vector2 InternalCalculate(MoveAbstract target)
     {
-        return Direction(target) * SeekWeight;
+        return Direction(target);
     }
 }

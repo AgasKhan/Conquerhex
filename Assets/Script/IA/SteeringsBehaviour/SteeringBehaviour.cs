@@ -21,18 +21,6 @@ public abstract class SteeringBehaviour : MonoBehaviour
         return aux;
     }
 
-    protected Vector2 CalculateSteering(Vector2 target)
-    {
-        //_desiredVelocity = Direction(target).normalized * _maxSpeed;
-
-        //_steering = _desiredVelocity - _velocity;
-
-        //return AddVelocity(_steering); SteeringBehaviour
-
-        return Vector2.ClampMagnitude((target.normalized * me.maxSpeed) - me.vectorVelocity, me.aceleration.current);
-    }
-
-
     protected virtual Vector2 Direction(MoveAbstract target,float multiply = 1)
     {
 
@@ -56,7 +44,12 @@ public abstract class SteeringBehaviour : MonoBehaviour
     }
     */
 
-    public abstract Vector2 Calculate(MoveAbstract target);
+    protected abstract Vector2 InternalCalculate(MoveAbstract target);
+    
+    public Vector2 Calculate(MoveAbstract target)
+    {
+        return InternalCalculate(target);
+    }
 
     private void Awake()
     {

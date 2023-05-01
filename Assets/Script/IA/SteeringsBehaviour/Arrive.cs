@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Arrive : SteeringBehaviour
 {
-    [field: SerializeField, Range(0f, 2.5f)]
-    public float ArriveWeight { get; private set; }
 
-    public override Vector2 Calculate(MoveAbstract target)
+    protected override Vector2 InternalCalculate(MoveAbstract target)
     {
         Vector2 desired = Direction(target);
         var speed = me.maxSpeed;
@@ -20,7 +18,7 @@ public class Arrive : SteeringBehaviour
         Vector2 st = desired - me.vectorVelocity;
         st = Vector2.ClampMagnitude(st, me.maxSpeed);
 
-        return st * ArriveWeight;
+        return st;
 
     }
 }

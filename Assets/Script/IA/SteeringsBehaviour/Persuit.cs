@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Persuit : SteeringBehaviour
 {
-  
 
-    public override Vector2 Calculate(MoveAbstract target)
+
+    protected override Vector2 InternalCalculate(MoveAbstract target)
     {
         //Calculo la distancia hacia el objetivo
         var ourDir = Direction(target);

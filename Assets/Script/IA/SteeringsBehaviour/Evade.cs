@@ -5,8 +5,8 @@ using UnityEngine;
 public class Evade : Persuit
 {
 
-    public override Vector2 Calculate(MoveAbstract target)
+    protected override Vector2 InternalCalculate(MoveAbstract target)
     {
-        return base.Calculate(target) * -1;
+        return base.InternalCalculate(target) * -1;
     }
 }
