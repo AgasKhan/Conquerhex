@@ -43,7 +43,7 @@ public class TeleportCollider : MonoBehaviour
 
             lado = Mathf.FloorToInt(angle / 60);
 
-            Teleport arrHexTeleport = HexagonsManager.arrHexCreados[ladosArray[lado, 0]].GetComponent<Teleport>();//accedo al script del array al que me quiero teletransportar
+            Teleport arrHexTeleport = HexagonsManager.arrHexCreados[ladosArray[lado, 0]];//accedo al script del array al que me quiero teletransportar
 
             float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), vectorVelocidad);
 
