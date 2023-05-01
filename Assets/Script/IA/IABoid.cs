@@ -8,11 +8,7 @@ public class IABoid : IAFather
     protected Detect<Entity> detectEnemy;
     [SerializeField]
     protected Detect<Entity> detectItem;
-    [SerializeField]
-    protected Detect<Entity> detectCordero;
 
-    //[SerializeField]
-    //protected Detect<IABoid> separa, allignment, cohe;
 
     [SerializeField]
     public Pictionarys<string, SteeringWithTarger> steerings;
@@ -20,10 +16,6 @@ public class IABoid : IAFather
     MoveAbstract move;
 
     delegate void _FuncBoid(ref Vector2 desired, IABoid objective, Vector2 dirToBoid);
-
-    Vector2 desiredSeparation = Vector2.zero;
-    Vector2 desiredAlign = Vector2.zero;
-    Vector2 desiredCohesion = Vector2.zero;
     
     public override void OnEnterState(Character param)
     {
@@ -143,11 +135,6 @@ public class IABoid : IAFather
         desired += (Vector2)boid.transform.position;
     }
 
-    //Veo los limites
-    void CheckBounds()
-    {
-        transform.position = Boundaries.instance.SetObjectBoundPosition(transform.position);
-    }
 
     //Ver gizmos
     private void OnDrawGizmos()

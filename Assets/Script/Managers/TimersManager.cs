@@ -298,7 +298,10 @@ public class Timer : Tim
         if (i < 0)
             freeze = true;
         else
+        {
             TimersManager.instance.timersList.RemoveAt(i);
+            _freeze = true;
+        }
 
         return this;
     }
@@ -329,14 +332,6 @@ public class Timer : Tim
         return base.Reset();
     }
 
-    /// <summary>
-    /// Efectua una resta en el contador
-    /// </summary>
-    /// <param name="n">En caso de ser negativo(-) suma al contador, siempre y cuando no este frenado</param>
-    public override float Substract(float n)
-    {
-        return base.Substract(n * _multiply);
-    }
 
     /// <summary>
     /// Realiza la resta automatica asi como las funciones necesarias dentro del TimerManager y recibe el indice dentro del manager
@@ -344,7 +339,7 @@ public class Timer : Tim
     /// <returns></returns>
     public virtual float SubsDeltaTime(int i = -1)
     {
-        var aux = Substract(deltaTime);
+        var aux = Substract(deltaTime*_multiply);
 
         if (aux <= 0)
         {
