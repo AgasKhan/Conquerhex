@@ -168,7 +168,11 @@ public class HunterChase : IState<HunterIntern>
 
         for (int i = corderitos.Count-1; i >= 0; i--)
         {
-            var distance = (corderitos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
+            var castillo = (corderitos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
+
+            var karina = (corderitos[i].GetEntity().transform.position - param.context.transform.position).sqrMagnitude;
+
+            var distance = castillo < karina ? castillo : karina ; //me quedo con el mas chiquito en caso de pasar un portal
 
             if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
             {
