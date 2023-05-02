@@ -65,7 +65,6 @@ public class Patrol : Init
     public Vector3 Distance()
     {
         _distance = patrolParent.GetChild(iPatrulla).position - _mono.transform.position;
-        Debug.Log("me ejecute");
         return _distance;
     }
 
@@ -97,12 +96,11 @@ public class Patrol : Init
     {
         int i = iPatrulla;
 
-        i += reverseEffect;
+        i ++;
 
-        if (i <= -1 || i >= patrolParent.childCount)
+        if (i >= patrolParent.childCount)
         {
-            i = reverseEffect== 1 ? 0 : patrolParent.childCount;
-            reverseEffect *= -1;
+            i = 0;
         }
 
         return i;

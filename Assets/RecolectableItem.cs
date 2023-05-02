@@ -36,7 +36,7 @@ public class RecolectableItem : StaticEntity
         {
             referenceToTravel.AddAllItems(this);
             gameObject.SetActive(false);
-            Debug.Log("me recoge: " + referenceToTravel.name);
+            
         })
         .Stop();
 

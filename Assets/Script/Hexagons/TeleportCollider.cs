@@ -22,6 +22,11 @@ public class TeleportCollider : MonoBehaviour
 
     Pictionarys<int, Teleport> activeHex => HexagonsManager.activeHex;
 
+    private void Awake()
+    {
+        teleport = GetComponentInParent<Teleport>();
+    }
+
     void OnTriggerStay2D(Collider2D other)
     {
         MoveAbstract fisicaOther = other.GetComponent<MoveAbstract>();
@@ -42,6 +47,9 @@ public class TeleportCollider : MonoBehaviour
             angle = 360 - Utilitys.DifAngulosVectores(anguloDefecto, vectorSalida);
 
             lado = Mathf.FloorToInt(angle / 60);
+
+            if (lado > 5)
+                lado = 5;
 
             Teleport arrHexTeleport = HexagonsManager.arrHexCreados[ladosArray[lado, 0]];//accedo al script del array al que me quiero teletransportar
 

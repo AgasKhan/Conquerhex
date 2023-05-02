@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MyScripts, IDamageable
+public class Entity : MyScripts, IDamageable, IGetEntity
 {
     public Team team;
 
@@ -153,6 +153,16 @@ public class Entity : MyScripts, IDamageable
             Debug.Log(item);
         }
     }
+
+    public Entity GetEntity()
+    {
+        return this;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 }
 
 [System.Serializable]
@@ -289,4 +299,11 @@ public enum LifeType
 {
     life,
     regen
+}
+
+public interface IGetEntity
+{
+    Entity GetEntity();
+
+    Transform GetTransform();
 }

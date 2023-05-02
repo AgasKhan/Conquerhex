@@ -7,9 +7,10 @@ public class IAHunter : IAFather
     [SerializeField]
     public Pictionarys<string, SteeringWithTarger> steerings;
     [SerializeField]
-    public Detect<Entity> detectCordero;
+    public Detect<IGetEntity> detectCordero;
     
     public Patrol patrol = new Patrol();
+
     [SerializeReference]
     HunterIntern fsm;
 
@@ -90,7 +91,7 @@ public class HunterIdle : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        param.energy.Substract(-param.energy.deltaTime);
+        param.energy.Substract(-param.energy.deltaTime*3);
         if(param.energy.current == param.energy.total)
         {
             param.CurrentState = param.patrol;
@@ -119,15 +120,15 @@ public class HunterPatrol : IState<HunterIntern>
     public void OnStayState(HunterIntern param)
     {
         float distance = float.PositiveInfinity;
-        var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return Team.hervivoro == target.team; });
+        var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return Team.hervivoro == target.GetEntity().team; });
 
-        Entity lamb = null;
+        IGetEntity lamb = null;
         for (int i = 0; i < corderos.Count; i++)
         {
-            if (distance > (corderos[i].transform.position - param.context.transform.position).sqrMagnitude)
+            if (distance > (corderos[i].GetTransform().position - param.context.transform.position).sqrMagnitude)
             {
                 lamb = corderos[i];
-                distance = (corderos[i].transform.position - param.context.transform.position).sqrMagnitude;
+                distance = (corderos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
             }
         }
 
@@ -167,16 +168,27 @@ public class HunterChase : IState<HunterIntern>
 
         for (int i = corderitos.Count-1; i >= 0; i--)
         {
-            var distance = (corderitos[i].transform.position - param.context.transform.position).sqrMagnitude;
+            var distance = (corderitos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
+
             if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
             {
                 corderitos.RemoveAt(i);
             }
-            else if(distance < param.context.attk.radius && param.context.attk.timerToAttack.Chck)
+            else if(distance >= param.context.detectCordero.radius/2)
+            {
+                param.context.steerings["corderitos"].SwitchSteering<Pursuit>();
+            }
+            else if(distance < param.context.detectCordero.radius/3)
+            {
+                param.context.steerings["corderitos"].SwitchSteering<Seek>();
+            }
+
+            if(distance < param.context.attk.radius && param.context.attk.timerToAttack.Chck)
             {
                 param.context.attk.Attack();
             }
         }
+
         if(corderitos.Count == 0)
         {
             param.CurrentState = param.patrol;

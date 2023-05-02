@@ -260,27 +260,19 @@ MonoBehaviour:
     total: 0
     _current: 0
   detectEnemy:
-    radius: 7
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 128
-    maxDetects: -1
-    minDetects: 1
-  detectItem:
     radius: 5
     distance: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 192
     maxDetects: -1
     minDetects: 1
-  detectCordero:
+  detectItem:
     radius: 3
     distance: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 64
     maxDetects: -1
     minDetects: 1
   steerings:
@@ -288,13 +280,11 @@ MonoBehaviour:
     - key: frutas
       value:
         steering: {fileID: 8691427261028014621}
-        weight: 5
-        targets: []
+        weight: 1
     - key: enemigos
       value:
         steering: {fileID: 8018831168674537570}
-        weight: 5
-        targets: []
+        weight: 50
 --- !u!114 &8691427261028014606
 MonoBehaviour:
   m_ObjectHideFlags: 0

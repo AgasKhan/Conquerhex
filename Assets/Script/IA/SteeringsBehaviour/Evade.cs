@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Evade : Persuit
+public class Evade : Pursuit
 {
 
     protected override Vector2 InternalCalculate(MoveAbstract target)

@@ -13,6 +13,9 @@ public abstract class SteeringBehaviour : MonoBehaviour
 
     public SteeringBehaviour SwitchSteering<T>() where T : SteeringBehaviour
     {
+        if (this is T)
+            return this;
+        
         if(!TryGetComponent<T>(out var aux))
         {
             aux = gameObject.AddComponent<T>();

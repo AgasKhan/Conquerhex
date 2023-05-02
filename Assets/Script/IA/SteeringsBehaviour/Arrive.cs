@@ -10,15 +10,13 @@ public class Arrive : SteeringBehaviour
         Vector2 desired = Direction(target);
         var speed = me.maxSpeed;
 
-        if (desired.sqrMagnitude <= (me.velocity * me.velocity / (me._desaceleration.current * me._desaceleration.current)))
-            speed = me.maxSpeed * ((desired.magnitude - 1) / me._desaceleration.current);
+        _desiredVelocity = Vector2.ClampMagnitude(desired, me.maxSpeed);
 
-        desired *= speed;
+        if (_desiredVelocity.sqrMagnitude < (me.velocity * me.velocity / (me._desaceleration.current * me._desaceleration.current)))
+            _desiredVelocity = -me.vectorVelocity * (me._desaceleration.current - 1);
 
-        Vector2 st = desired - me.vectorVelocity;
-        st = Vector2.ClampMagnitude(st, me.maxSpeed);
+        _steering = _desiredVelocity - me.vectorVelocity;
 
-        return st;
-
+        return _steering;
     }
 }

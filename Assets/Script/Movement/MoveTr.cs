@@ -32,6 +32,8 @@ public class MoveTr : MoveAbstract
             carlitos[i] = Instantiate(carlitosPrefab, transform).transform;
 
             carlitos[i].name = "Carlitos (" + i + ")";
+
+            carlitos[i].SetPositionAndRotation(transform.position, transform.rotation);
         }
     }
 

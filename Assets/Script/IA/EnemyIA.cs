@@ -8,7 +8,7 @@ public class EnemyIA : IAFather
     //MoveAbstract move;
 
     Seek seek;
-    Persuit pursuit;
+    Pursuit pursuit;
 
     [SerializeField]
     MoveAbstract me;
