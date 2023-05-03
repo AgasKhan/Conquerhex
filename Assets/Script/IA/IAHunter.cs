@@ -118,6 +118,7 @@ public class HunterPatrol : IState<HunterIntern>
 {
     IAHunter hunter;
     MoveAbstract move;
+    Vector2 dir;
     public void OnEnterState(HunterIntern param)
     {
         hunter = param.context;
@@ -145,8 +146,11 @@ public class HunterPatrol : IState<HunterIntern>
         {
             param.context.steerings["corderitos"].targets.Add(lamb);
             param.CurrentState = param.chase;
+            return;
         }
-            
+
+
+        this.move.ControllerPressed(dir, 0);
     }
     public void OnExitState(HunterIntern param)
     {
@@ -156,9 +160,7 @@ public class HunterPatrol : IState<HunterIntern>
     void Move()
     {
         var move = hunter.steerings["waypoints"].GetMove(hunter.patrol.currentWaypoint);
-        var dir = hunter.steerings["waypoints"].steering.Calculate(move);
-
-        this.move.ControllerPressed(dir, 0);
+        dir = hunter.steerings["waypoints"].steering.Calculate(move);
         hunter.patrol.MinimalChck(1);
     }
 }
@@ -176,32 +178,25 @@ public class HunterChase : IState<HunterIntern>
 
         var corderitos = steerings.targets;
 
-        for (int i = corderitos.Count-1; i >= 0; i--)
-        {
-            var distance = (corderitos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
+        var distance = (corderitos[0].GetTransform().position - param.context.transform.position).sqrMagnitude;
 
-            if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
-            {
-                corderitos.RemoveAt(i);
-            }
-            else if(distance >= param.context.detectCordero.radius/2)
-            {
-                steerings.SwitchSteering<Pursuit>();
-            }
-            else if(distance < param.context.detectCordero.radius/3)
-            {
-                steerings.SwitchSteering<Seek>();
-            }
-
-            if(distance < param.context.attk.radius && param.context.attk.timerToAttack.Chck)
-            {
-                param.context.attk.Attack();
-            }
-        }
-
-        if(corderitos.Count == 0)
+        if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
         {
             param.CurrentState = param.patrol;
+            return;
+        }
+        else if (distance >= param.context.detectCordero.radius / 2)
+        {
+            steerings.SwitchSteering<Pursuit>();
+        }
+        else if (distance < param.context.detectCordero.radius / 3)
+        {
+            steerings.SwitchSteering<Seek>();
+        }
+
+        if (distance < param.context.attk.radius && param.context.attk.timerToAttack.Chck)
+        {
+            param.context.attk.Attack();
         }
     }
 
