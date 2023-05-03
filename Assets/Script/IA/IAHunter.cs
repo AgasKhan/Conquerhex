@@ -24,6 +24,14 @@ public class IAHunter : IAFather
         }
     }
 
+    public Team team
+    {
+        get
+        {
+            return character.team;
+        }
+    }
+
     private void Start()
     {
         fsm = new HunterIntern(this);
@@ -120,7 +128,7 @@ public class HunterPatrol : IState<HunterIntern>
     public void OnStayState(HunterIntern param)
     {
         float distance = float.PositiveInfinity;
-        var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return Team.hervivoro == target.GetEntity().team; });
+        var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return param.context.team != target.GetEntity().team; });
 
         IGetEntity lamb = null;
         for (int i = 0; i < corderos.Count; i++)

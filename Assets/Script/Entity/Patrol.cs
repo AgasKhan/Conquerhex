@@ -166,6 +166,11 @@ public class Patrol : Init
         _mono = param[0] as MonoBehaviour;
         fsmPatrol = new FSMPatrol(this);
 
+        if(patrolParent == null)
+        {
+            patrolParent = new GameObject(_mono.name + " PatrolParent").transform;
+        }
+
         if (patrolParent.childCount <= 0)
         {
             GameObject aux = new GameObject(_mono.name + " position");
