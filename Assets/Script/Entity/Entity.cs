@@ -95,7 +95,11 @@ public class Entity : MyScripts, IDamageable, IGetEntity
             {
                 //return item.item;
                 //-------------------------------------------------------------
-                Instantiate(item.item, transform.position + new Vector3(Random.Range(0, 2.5f), Random.Range(0, 2.5f), 0), Quaternion.identity);
+                PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference , transform.position + new Vector3(Random.Range(0, 2.5f), Random.Range(0, 2.5f)));
+
+                var originalInventory = item.item.GetComponent<RecolectableItem>();
+
+                reference.CopyFrom(originalInventory);
                 //-------------------------------------------------------------
             }
 

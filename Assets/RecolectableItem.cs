@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class RecolectableItem : StaticEntity
 {
-    /*
-    [SerializeField]
-    Detect<Entity> detect;
-    */
-
-    //bool recolect;
-
     [SerializeField]
     ItemBase initialItems;
     [SerializeField]
@@ -19,8 +12,6 @@ public class RecolectableItem : StaticEntity
     Timer recolect;
 
     StaticEntity referenceToTravel;
-
-    public DropItem myDrop;
 
     protected override void Config()
     {
@@ -57,20 +48,10 @@ public class RecolectableItem : StaticEntity
         recolect.Reset();
     }
 
-
-    /*
-    private void Update()
+    public void CopyFrom(RecolectableItem other)
     {
-        var depredadores = detect.Area(transform.position, (algo) => { return Team.hervivoro == algo.team; });
-        Debug.Log("depredadores " + depredadores.Count);
-        foreach (var depredador in depredadores)
-        {
-            var aux = depredador.GetComponent<IABoid>();
-            aux.steerings["frutas"].targets.Remove(this);
-            Debug.Log("depredador " + depredador.name);
-            gameObject.SetActive(false);
-        }
+        AddAllItems(other.inventory);
     }
-    */
-
 }
+
+

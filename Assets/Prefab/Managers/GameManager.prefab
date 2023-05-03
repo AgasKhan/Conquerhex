@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  playerCharacter: {fileID: 0}
 --- !u!114 &7739652029663223113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,12 +82,11 @@ MonoBehaviour:
   categoriesOfPool:
   - name: Utilitys
     objectPool:
-    - prefab: {fileID: 6636733154270346112, guid: 6187da6f17fa2d247b45239a7266d8fa,
+    - prefab: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
         type: 3}
       utilityRefence:
-      - {fileID: 5057395760623579736, guid: 6187da6f17fa2d247b45239a7266d8fa, type: 3}
-      - {fileID: 698684580352829851, guid: 6187da6f17fa2d247b45239a7266d8fa, type: 3}
-      amount: 5
+      - {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
+      amount: 20
       pool: []
     - prefab: {fileID: 5962008167437987067, guid: 649fdf1904240334b93876e6dd182851,
         type: 3}

@@ -19,9 +19,10 @@ public abstract class StaticEntity : Entity, IItemContainer
     public virtual void AddAllItems(StaticEntity entity)
     {
         AddAllItems(entity.inventory);
+        entity.inventory.Clear();
     }
 
-    void AddAllItems(List<Item> items)
+    protected void AddAllItems(List<Item> items)
     {
         //inventory.AddRange(items);
         Debug.Log(string.Join("", inventory));
@@ -30,9 +31,7 @@ public abstract class StaticEntity : Entity, IItemContainer
         {
             item.GetAmounts(out int actual, out int max);
             AddOrSubstractItems(item.nameDisplay, actual);
-        }
-
-        items.Clear();
+        }        
     }
 
     public int ItemCount(string itemName)
