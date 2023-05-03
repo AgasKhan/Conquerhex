@@ -52,7 +52,7 @@ public class IAAnimator : IAFather
     {
         if(collision.TryGetComponent(out IGetEntity enemy))
         {
-            if (enemy.GetEntity().team != character.team)
+            if (enemy.GetEntity().team != character.team && enemy.GetEntity().team != Team.recursos)
                 this.enemy = enemy;
         }
     }
