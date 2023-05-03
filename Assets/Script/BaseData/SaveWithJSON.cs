@@ -25,8 +25,6 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public int gamesSlots;
 
-    //BaseData json;
-
     void SaveGame()
     {
         File.WriteAllText(path, JsonUtility.ToJson(BD));

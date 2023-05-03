@@ -8863,6 +8863,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aafeb3de00c8864690ef025d3c2afe7, type: 3}
+--- !u!1 &1006031481 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6592060790990565492, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 30914750}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &1006031484
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006031481}
+  m_Enabled: 1
 --- !u!1 &1051707306
 GameObject:
   m_ObjectHideFlags: 0
@@ -17454,8 +17468,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
-  <SeekWeight>k__BackingField: 0
-  <FleeWeight>k__BackingField: 0
 --- !u!114 &2085456267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17469,7 +17481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
-  <SeekWeight>k__BackingField: 0
 --- !u!114 &2085456268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17483,7 +17494,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
-  <ArriveWeight>k__BackingField: 0
 --- !u!114 &2085456269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17533,9 +17543,9 @@ MonoBehaviour:
       _current: 0
   drops:
   - peso: 10
-    item: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
+    item: {fileID: 0}
   - peso: 15
-    item: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
+    item: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []

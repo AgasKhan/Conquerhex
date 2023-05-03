@@ -29,11 +29,13 @@ MonoBehaviour:
     distance: 2
     layerMask:
       serializedVersion: 2
-      m_Bits: 129
+      m_Bits: 128
     maxDetects: -1
-    minDetects: 1
+    minDetects: 0
   damagesMultiply:
   - amount: 2
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
   - amount: 0
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  indexParticles:
+  - {x: 1, y: 1}

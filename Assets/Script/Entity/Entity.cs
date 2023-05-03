@@ -26,8 +26,7 @@ public class Entity : MyScripts, IDamageable, IGetEntity
     private void MyAwake()
     {
         health.Init();
-        health.death += Health_death;
-
+        health.death += Drop;
         sprite = GetComponentInChildren<SpriteRenderer>();
 
         originalColor = sprite.color;
@@ -72,6 +71,8 @@ public class Entity : MyScripts, IDamageable, IGetEntity
             sprite.color = originalColor;
 
         });
+
+        
     }
 
 
@@ -146,14 +147,6 @@ public class Entity : MyScripts, IDamageable, IGetEntity
             });
     }
 
-    private void Health_death()
-    {
-        foreach (var item in drops)
-        {
-            Debug.Log(item);
-        }
-    }
-
     public Entity GetEntity()
     {
         return this;
@@ -202,12 +195,17 @@ public class Health : Init
 
     public event System.Action death;
 
+    bool deathBool=false;
+
     public float TakeRegenDamage(float amount)
     {
         timeToRegen.Reset();
 
-        if (regen.Substract(amount) <= 0 && life.current <= 0)
+        if (regen.Substract(amount) <= 0 && life.current <= 0 && !deathBool)
+        {
             death?.Invoke();
+            deathBool = true;
+        }
 
         regenUpdate?.Invoke(regen);
         regenUpdateAmount?.Invoke(amount);
@@ -245,7 +243,7 @@ public class Health : Init
 
     void Regen()
     {
-        if (life == null && regen == null)
+        if (life == null && regen == null && deathBool)
             return;
 
         bool noLifeBool = false;

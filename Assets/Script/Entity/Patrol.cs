@@ -174,8 +174,8 @@ public class Patrol : Init
         if (patrolParent.childCount <= 0)
         {
             GameObject aux = new GameObject(_mono.name + " position");
-            aux.transform.position = _mono.transform.position;
             aux.transform.parent = patrolParent;
+            aux.transform.position = _mono.transform.position;
         }
     }
 }

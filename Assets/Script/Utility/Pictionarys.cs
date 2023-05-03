@@ -266,11 +266,9 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         if (ContainsKey(key, out int index))
             return (T)pictionaries[index].value;
 
-        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
-
         var newAux = new T();
 
-        Debug.Log("se creo a partir de un new: " + newAux);
+        //Debug.Log("se creo a partir de un new: " + newAux);
 
         Add(key, newAux);
 

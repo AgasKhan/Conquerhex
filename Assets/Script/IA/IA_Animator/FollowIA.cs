@@ -4,33 +4,43 @@ using UnityEngine;
 
 public class FollowIA : StateMachineBehaviour
 {
-    MoveAbstract me;
-    Character character;
-    Seek seek;
-
-
-    [SerializeField] float _viewRadius;
+    MoveAbstract meMove;
+    IAAnimator me;
+    Timer timer;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        character = GameManager.instance.player.GetComponent<Character>();
-
         if (me == null)
-            me = animator.GetComponent<MoveAbstract>();
-
-        seek = character.GetComponent<Seek>();
-
-        me.Velocity(5f);
+        {
+            meMove = animator.GetComponentInParent<MoveAbstract>();
+            me = animator.GetComponentInParent<IAAnimator>();
+            timer = TimersManager.Create(2);
+        }
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        me.Acelerator((character.transform.position - animator.transform.position));
+        if (me.enemy == null)
+        {
+            animator.SetTrigger("Idle");
+            return;
+        }
 
-        if ((character.transform.position - animator.transform.position).magnitude <= animator.GetFloat("MinDistance") )
-            animator.SetTrigger("Ataque");
+        var sqrmagnitude = (me.enemy.GetTransform().position - animator.transform.position).sqrMagnitude;
+
+
+        if (sqrmagnitude > (me.automatick.radius * me.automatick.radius)/4)
+            meMove.ControllerPressed((me.enemy.GetTransform().position - animator.transform.position).normalized , 0);
+
+        if (sqrmagnitude <= (me.automatick.radius * me.automatick.radius) && timer.Chck && me.automatick.timerToAttack.Chck)
+        {
+            timer.Reset();
+            animator.SetTrigger("Attack");
+        }
+            
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

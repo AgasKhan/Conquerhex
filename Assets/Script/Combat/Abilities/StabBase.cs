@@ -27,8 +27,10 @@ public class Stab : WeaponKata
     {
         Debug.Log("presionaste ataque 1, STAB");
 
-        
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
+
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeOnOff reference, caster.transform.position);
+
+        this.reference = reference;
         aux.SetParent(caster.transform);
 
         aux.localScale *= itemBase.detect.diameter;

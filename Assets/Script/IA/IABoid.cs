@@ -194,9 +194,24 @@ public class SteeringWithTarger
     {
         get
         {
-            return steering.Calculate(GetMove(targets[i].GetTransform()))*weight;
+            return steering.Calculate(GetMove(targets[i].GetTransform())) * weight;
         }
     }
+
+    /*
+    public Transform GetTransform(IGetEntity getEntity)
+    {
+        if ((getEntity.GetEntity().transform.position - steering.transform.position).sqrMagnitude > (getEntity.GetTransform().position - steering.transform.position).sqrMagnitude)
+            return getEntity.GetTransform();
+        else
+            return getEntity.GetEntity().transform;
+    }
+
+    public Transform GetTransform(int i )
+    {
+        return GetTransform(targets[i]);
+    }
+    */
 
     public MoveAbstract GetMove(Transform tr)
     {

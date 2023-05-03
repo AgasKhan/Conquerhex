@@ -146,7 +146,17 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public event System.Action finishTimer;
 
-    public FadeOnOff reference;
+    FadeOnOff _reference;
+
+    public FadeOnOff reference
+    {
+        get => _reference;
+        set
+        {
+            _reference?.Off();
+            _reference = value;
+        }
+    }
 
     public Weapon weapon
     {

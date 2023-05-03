@@ -31,7 +31,7 @@ public class RecolectableItem : StaticEntity
 
     void MyAwake()
     {
-        recolect = TimersManager.LerpInTime(() => transform.position, ()=> referenceToTravel.transform.position, 1, Vector3.Slerp, (pos) => transform.position = pos)
+        recolect = TimersManager.LerpInTime(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 1, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToEnd(() =>
         {
             referenceToTravel.AddAllItems(this);
@@ -50,11 +50,11 @@ public class RecolectableItem : StaticEntity
         if (!recolect.Chck)
             return;
 
-        Debug.Log("me quiere recoger: " + entity.name);
+        //Debug.Log("me quiere recoger: " + entity.name);
 
         referenceToTravel = entity;
 
-        recolect.Reset();  
+        recolect.Reset();
     }
 
 

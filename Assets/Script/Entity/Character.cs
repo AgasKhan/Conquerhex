@@ -70,16 +70,6 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
             }
         }
 
-        //---------------------
-        if(team == Team.enemy)
-        {
-            var aux = gameObject.GetComponent<Animator>();
-
-            if( aux!= null)
-                aux.SetTrigger("Dañado");
-        }
-        //---------------------
-
         base.TakeDamage(dmg);
     }
 
@@ -114,15 +104,12 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         health.noLife += ShowLoserWindow;
         //--------------------------
 
-        
-
         //ver move con su velocidad
     }
 
     void MyUpdate()
     {
         var recolectables = areaFarming.Area(transform.position, (algo) => { return true; });
-        Debug.Log("depredadores " + recolectables.Count);
         foreach (var recolectable in recolectables)
         {
             recolectable.Recolect(this);
@@ -145,7 +132,6 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         else
         {
             gameObject.SetActive(false);
-            Drop();
         }
     }
     //--------------------------------------------

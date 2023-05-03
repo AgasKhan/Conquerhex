@@ -51,6 +51,10 @@ public class IAHunter : IAFather
 
     public override void OnStayState(Character param)
     {
+        fsm.UpdateState();
+        patrol.fsmPatrol.UpdateState();
+
+
         foreach (var itemInPictionary in steerings)
         {
             for (int i = 0; i < itemInPictionary.value.Count; i++)
@@ -58,9 +62,6 @@ public class IAHunter : IAFather
                 move.ControllerPressed(itemInPictionary.value[i], 0);
             }
         }
-
-        fsm.UpdateState();
-        patrol.fsmPatrol.UpdateState();
     }
 
 }
@@ -109,7 +110,6 @@ public class HunterIdle : IState<HunterIntern>
     public void OnExitState(HunterIntern param)
     {
         param.energy.Start();
-        Debug.Log("salgo");
     }
 
 }
@@ -128,7 +128,7 @@ public class HunterPatrol : IState<HunterIntern>
     public void OnStayState(HunterIntern param)
     {
         float distance = float.PositiveInfinity;
-        var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return param.context.team != target.GetEntity().team; });
+        var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
 
         IGetEntity lamb = null;
         for (int i = 0; i < corderos.Count; i++)
@@ -172,15 +172,13 @@ public class HunterChase : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        var corderitos = param.context.steerings["corderitos"].targets;
+        var steerings = param.context.steerings["corderitos"];
+
+        var corderitos = steerings.targets;
 
         for (int i = corderitos.Count-1; i >= 0; i--)
         {
-            var castillo = (corderitos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
-
-            var karina = (corderitos[i].GetEntity().transform.position - param.context.transform.position).sqrMagnitude;
-
-            var distance = castillo < karina ? castillo : karina ; //me quedo con el mas chiquito en caso de pasar un portal
+            var distance = (corderitos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
 
             if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
             {
@@ -188,11 +186,11 @@ public class HunterChase : IState<HunterIntern>
             }
             else if(distance >= param.context.detectCordero.radius/2)
             {
-                param.context.steerings["corderitos"].SwitchSteering<Pursuit>();
+                steerings.SwitchSteering<Pursuit>();
             }
             else if(distance < param.context.detectCordero.radius/3)
             {
-                param.context.steerings["corderitos"].SwitchSteering<Seek>();
+                steerings.SwitchSteering<Seek>();
             }
 
             if(distance < param.context.attk.radius && param.context.attk.timerToAttack.Chck)

@@ -8,9 +8,9 @@ public class ExplocionBase : WeaponKataBase
 {
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        var aux = detect.AreaWithRay(caster.transform.position, caster.transform.position, (algo) => { return caster.transform != algo; }, (tr) => { return caster.transform == tr; });
+        var aux = detect.Area(caster.transform.position, (algo) => { return caster != algo; });
 
-        Damage(ref damages, caster, aux);
+        Damage(ref damages, caster, aux.ToArray());
     }
 
     protected override void SetCreateItemType()
@@ -26,8 +26,10 @@ public class Explocion : WeaponKata
     {
         Debug.Log("presionaste ataque 1, EXPLOCION");
 
-       
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out reference, caster.transform.position);
+
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeOnOff reference, caster.transform.position);
+
+        this.reference = reference;
         aux.SetParent(caster.transform);
 
         aux.localScale *= itemBase.detect.diameter;

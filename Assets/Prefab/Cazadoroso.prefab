@@ -121,7 +121,7 @@ MonoBehaviour:
     maxDetects: -1
     minDetects: 1
   patrol:
-    reverse: 1
+    reverse: 0
     iPatrulla: 0
     patrolParent: {fileID: 0}
     _distance: {x: 0, y: 0, z: 0}
@@ -158,7 +158,9 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
-  drops: []
+  drops:
+  - peso: 1
+    item: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
   interact:
     pictionaries: []
   inventory: []

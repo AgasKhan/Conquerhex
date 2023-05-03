@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 {
-    public Timer timerStun = null;
+    public TimedAction timerStun = null;
 
     protected Character character;
 

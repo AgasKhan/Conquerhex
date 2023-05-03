@@ -9,11 +9,15 @@ public class IAIO : IAFather
 
     public override void OnEnterState(Character param)
     {
+
+        GameManager.instance.playerCharacter = param;
+
         character = param;
 
         originalTag = param.gameObject.tag;
 
         param.gameObject.tag = "Player";
+
 
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;

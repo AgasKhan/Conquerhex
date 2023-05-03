@@ -4,25 +4,23 @@ using UnityEngine;
 
 public class IdleIA : StateMachineBehaviour
 {
-    Vector3 InitPos;
-    MoveAbstract enemy;
-
-    float distanceFollow;
+    IAAnimator me;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        InitPos = animator.transform.position;
-        enemy = GameManager.instance.player.GetComponent<MoveAbstract>();
+        if (me == null)
+        {
+            me = animator.GetComponentInParent<IAAnimator>();
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if ((enemy.transform.position - InitPos).sqrMagnitude < distanceFollow * distanceFollow)
-        {
+        if(me.enemy!=null)
             animator.SetTrigger("Follow");
-        }
+ 
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

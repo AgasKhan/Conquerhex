@@ -44,6 +44,8 @@ public class GameManager : SingletonMono<GameManager>
 
     public GameObject player;
 
+    public Character playerCharacter;
+
     protected override void Awake()
     {
         base.Awake();

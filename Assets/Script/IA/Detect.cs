@@ -57,15 +57,16 @@ public class Detect<T>
     /// <param name="chck">Si cumple con el criterio de busqueda</param>
     /// <param name="chckTr">compara si es el casteador para ver si tenemos vision directa</param>
     /// <returns></returns>
-    public T[] AreaWithRay(Vector2 pos, Vector2 caster, System.Func<T, bool> chck, System.Func<Transform, bool> chckTr)
+    
+    public T[] AreaWithRay(Vector2 pos, Vector2 caster, System.Func<T, bool> chck)
     {
         List<T> damageables = new List<T>(Area(pos, chck));
 
-        for (int i = damageables.Count; i >= 0; i--)
+        for (int i = damageables.Count-1; i >= 0; i--)
         {
             var aux = RayTransform(pos, (caster - pos), (caster - pos).magnitude);
 
-            if (aux != null && aux.Length > 0 && !chckTr(aux[minDetects]))
+            if (aux != null && aux.Length > 0 )
             {
                 damageables.RemoveAt(i);
             }
@@ -91,19 +92,25 @@ public class Detect<T>
         {
             List<Transform> tr = new List<Transform>();
 
-            Transform[] result = new Transform[maxDetects > 0 ? maxDetects : tr.ToArray().Length - minDetects];
-
             foreach (var item in aux)
             {
                 tr.Add(item.transform);
             }
 
+            var max = tr.ToArray().Length - minDetects;
+
+            Transform[] result = new Transform[max];
             //System.Array.ConstrainedCopy(tr.ToArray(), minDetects - 1, result, 0, result.Length);
 
-            for (int i = 0; i < result.Length; i++)
+            int ii = 0;
+
+            for (int i = minDetects; i < max+minDetects; i++ )
             {
-                result[i] = tr[i + minDetects];
+                result[ii] = tr[i];
+                ii++;
             }
+
+            
 
             return result;
         }
