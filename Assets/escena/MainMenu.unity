@@ -3981,7 +3981,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &422358022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4534,6 +4534,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926420586964467372, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
@@ -9022,7 +9027,7 @@ PrefabInstance:
     - target: {fileID: 2256267756387885552, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_text
-      value: TUTORIAL
+      value: HELP
       objectReference: {fileID: 0}
     - target: {fileID: 2256267756387885552, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
@@ -9782,7 +9787,7 @@ RectTransform:
   m_GameObject: {fileID: 1155314819}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 974260767}
@@ -11594,7 +11599,7 @@ PrefabInstance:
     - target: {fileID: 6925865211573401570, guid: 073f099876f570c4c859e7a20d1f2f4e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 491
+      value: 826.32996
       objectReference: {fileID: 0}
     - target: {fileID: 6925865211573401570, guid: 073f099876f570c4c859e7a20d1f2f4e,
         type: 3}
@@ -12435,7 +12440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 70084a839c7fd0547ab17f1c9a5bc83b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 74f22dedecc07444d8b6a345f37a8597, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14070,7 +14075,22 @@ PrefabInstance:
     - target: {fileID: 3731825804041587704, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
       propertyPath: m_text
-      value: 
+      value: 'Description
+
+        El arma mas comun, debido a su efectividad
+
+
+        Damages
+
+        Slash=10
+
+        Perforation=4
+
+        Impact=1
+
+
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 3731825804041587704, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
@@ -14130,7 +14150,7 @@ PrefabInstance:
     - target: {fileID: 3731825804041587707, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 421.33
       objectReference: {fileID: 0}
     - target: {fileID: 3731825804041587707, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
@@ -14140,7 +14160,7 @@ PrefabInstance:
     - target: {fileID: 3731825804041587707, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -73
+      value: -240.665
       objectReference: {fileID: 0}
     - target: {fileID: 6041445295962201076, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
@@ -14215,7 +14235,7 @@ PrefabInstance:
     - target: {fileID: 6041445295962201079, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 126
+      value: 461.33
       objectReference: {fileID: 0}
     - target: {fileID: 6041445295962201079, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
@@ -15636,6 +15656,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 2747842196569154923, guid: ded982e2c73252246b9dc2a3c4b66a86,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e29839456afc53e418f2d97c5b4a1886,
+        type: 3}
     - target: {fileID: 3723594162613740812, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -15773,13 +15799,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4545464957565679669, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545464957565679669, guid: ded982e2c73252246b9dc2a3c4b66a86,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 302.4
       objectReference: {fileID: 0}
     - target: {fileID: 4545464957565679669, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -73
+      value: -180.295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545464957565679670, guid: ded982e2c73252246b9dc2a3c4b66a86,
+        type: 3}
+      propertyPath: m_text
+      value: "Description\n\n- Usa el joystick para poder moverte \n\n- Botones para
+        las habilidades \n\n"
       objectReference: {fileID: 0}
     - target: {fileID: 5062000197167726690, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
@@ -15794,7 +15831,7 @@ PrefabInstance:
     - target: {fileID: 5062000197167726690, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 292
+      value: 506.58997
       objectReference: {fileID: 0}
     - target: {fileID: 5062000197167726690, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
@@ -15849,7 +15886,7 @@ PrefabInstance:
     - target: {fileID: 6848042078517143609, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 126
+      value: 340.59
       objectReference: {fileID: 0}
     - target: {fileID: 6848042078517143609, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
@@ -15871,6 +15908,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 699.3
       objectReference: {fileID: 0}
+    - target: {fileID: 9145992860951470209, guid: ded982e2c73252246b9dc2a3c4b66a86,
+        type: 3}
+      propertyPath: m_text
+      value: Controls
+      objectReference: {fileID: 0}
     - target: {fileID: 9145992860951470210, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -15885,6 +15927,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 564.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9145992860951470210, guid: ded982e2c73252246b9dc2a3c4b66a86,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 49.11
       objectReference: {fileID: 0}
     - target: {fileID: 9145992860951470210, guid: ded982e2c73252246b9dc2a3c4b66a86,
         type: 3}
@@ -16795,7 +16842,7 @@ PrefabInstance:
     - target: {fileID: 3731825804041587704, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
       propertyPath: m_text
-      value: 
+      value: Espada
       objectReference: {fileID: 0}
     - target: {fileID: 3731825804041587704, guid: 1853c71479c97ef4d96202051ad977e5,
         type: 3}
