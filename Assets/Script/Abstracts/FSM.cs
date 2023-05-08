@@ -43,12 +43,20 @@ public abstract class FSMSerialize<T, Context> : ISwitchState<T> where T : FSMSe
         currentState.OnStayState(FSMConvertToChild());
     }
 
+    /// <summary>
+    /// Obligatorio para setear el estado inicial
+    /// </summary>
+    /// <param name="first"></param>
     protected void Init(IState<T> first)
     {
         currentState = first;
         currentState.OnEnterState(FSMConvertToChild());
     }
 
+    /// <summary>
+    /// Obligatorio en caso de que se utilice la version serializable para unity
+    /// </summary>
+    /// <param name="reference"></param>
     public virtual void Init(Context reference)
     {
         this.context = reference;
