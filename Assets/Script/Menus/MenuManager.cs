@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Audio;
 
 
 public class MenuManager : SingletonMono<MenuManager>
@@ -9,7 +10,8 @@ public class MenuManager : SingletonMono<MenuManager>
     string firstLevel;
 
     public AudioManager audioM;
-
+    public AudioMixerGroup effects;
+    public AudioMixerGroup music;
 
     //para los eventos-------------------------------------------------------
     public Pictionarys<string, Action<GameObject>> eventListVoid = new Pictionarys<string, Action<GameObject>>();

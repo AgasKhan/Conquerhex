@@ -29,9 +29,12 @@ public class ButtonsFunctions : MonoBehaviour
             {"Store", ShowStore},
             {"Credits", DisplayWindow},
             {"Exit", Exit},
-            
-            
 
+
+            //Menu de opciones
+            {"MuteEffects", MuteEffects},
+            {"MuteMusic", MuteMusic},
+            
             //Menu de creacion de minions
             {"MBody", MBody},
             {"MArms", MArms},
@@ -74,10 +77,55 @@ public class ButtonsFunctions : MonoBehaviour
 
         });
     }
+    void MuteEffects(GameObject g)
+    {
+        var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+
+        if (textChild.text == "ON")
+        {
+            ChangeVolume(-80f, "Effects");
+            textChild.text = "MUTE";
+        }
+        else
+        {
+            ChangeVolume(1f, "Effects");
+            textChild.text = "ON";
+        }
+    }
+    void MuteMusic(GameObject g)
+    {
+        var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+
+        if (textChild.text == "ON")
+        {
+            ChangeVolume(-80f, "Music");
+            textChild.text = "MUTE";
+        }
+        else
+        {
+            ChangeVolume(1f, "Music");
+            textChild.text = "ON";
+        }
+    }
+
+    void ChangeVolume(float volume, string name)
+    {
+        if (volume == 0)
+            volume = 0.0001f;
+        var value = Mathf.Log10(volume) * 20;
+
+        if(name == "Music")
+            refMenu.music.audioMixer.SetFloat(name, value);
+        else
+            refMenu.effects.audioMixer.SetFloat(name, value);
+
+    }
+
+
     void ShowControls(GameObject g)
     {
         DisplayWindow(g);
-        refMenu.MusicInGame(false);
+        //refMenu.MusicInGame(false);
         //refMenu.PlayTutorialM(true);
     }
 
@@ -97,7 +145,6 @@ public class ButtonsFunctions : MonoBehaviour
     {
         DisplayWindow(g);
         Store.instance.RefreshPlayerCoins();
-        Debug.Log("Se metio donde no debia");
     }
 
 
