@@ -80,31 +80,37 @@ public class ButtonsFunctions : MonoBehaviour
     void MuteEffects(GameObject g)
     {
         var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        var imageChild = g.transform.GetComponent<UnityEngine.UI.Image>();
 
         if (textChild.text == "ON")
         {
             ChangeVolume(-80f, "Effects");
             textChild.text = "MUTE";
+            imageChild.color = Color.gray;
         }
         else
         {
             ChangeVolume(1f, "Effects");
             textChild.text = "ON";
+            imageChild.color = Color.white;
         }
     }
     void MuteMusic(GameObject g)
     {
         var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        var imageChild = g.transform.GetComponent<UnityEngine.UI.Image>();
 
         if (textChild.text == "ON")
         {
             ChangeVolume(-80f, "Music");
             textChild.text = "MUTE";
+            imageChild.color = Color.gray;
         }
         else
         {
             ChangeVolume(1f, "Music");
             textChild.text = "ON";
+            imageChild.color = Color.white;
         }
     }
 
