@@ -10,6 +10,10 @@ public class Entity : MyScripts, IDamageable, IGetEntity
 
     public List<DropItem> drops = new List<DropItem>();
 
+    public Color damaged1 = new Color() {r=1 ,b=0 ,g=1 ,a=1};
+
+    public Color damaged2 = new Color() { r = 1, b = 0.92f, g = 0.016f, a = 1 };
+
     SpriteRenderer sprite;
 
     Color originalColor;
@@ -55,13 +59,13 @@ public class Entity : MyScripts, IDamageable, IGetEntity
                 //parpadeo rapido
 
 
-                sprite.color = Color.magenta;
+                sprite.color = damaged1;
             }
             else
             {
                 //el mantenido
 
-                sprite.color = Color.yellow;
+                sprite.color = damaged2;
             }
 
         }, () => {
@@ -71,8 +75,6 @@ public class Entity : MyScripts, IDamageable, IGetEntity
             sprite.color = originalColor;
 
         });
-
-        
     }
 
 
