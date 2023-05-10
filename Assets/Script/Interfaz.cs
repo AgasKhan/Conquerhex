@@ -18,7 +18,7 @@ public class Interfaz : MonoBehaviour
                     float               heightDiag;
 
     public Image vida;
-    public Image energy;
+    public Image regen;
 
     static public Image health;
 
@@ -35,10 +35,10 @@ public class Interfaz : MonoBehaviour
         vida.fillAmount = getPercentage.Percentage();
     }
 
-    void UpdateEnergy(params object[] param)
+    void UpdateRegen(params object[] param)
     {
         IGetPercentage getPercentage = param[0] as IGetPercentage;
-        energy.fillAmount = getPercentage.Percentage();
+        regen.fillAmount = getPercentage.Percentage();
     }
 
     private void Awake()
@@ -81,7 +81,7 @@ public class Interfaz : MonoBehaviour
         end(true);
         yield return null;
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += UpdateLife;
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).action += UpdateEnergy;
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).action += UpdateRegen;
     }
 
     // Update is called once per frame
