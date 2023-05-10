@@ -8,6 +8,9 @@ public class AutomaticAttack
     WeaponKata kata;
 
     public event System.Action onAttack;
+
+    public float cooldown => kata.cooldownTime;
+
     public float radius
     {
         get
@@ -76,6 +79,8 @@ public class AutomaticAttack
             kata.ControllerUp(Vector2.zero, 0);
 
             onAttack?.Invoke();
-        });
+        }).Stop();
+
+        timerToAttack.current = 0;
     }
 }

@@ -47,6 +47,9 @@ public class MoveTr : MoveAbstract
     void MyUpdateRender()
     {
         rend.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
+
+        //rend.flipX = ! (Vector2.Dot(vectorVelocity, Vector2.right) > 0.5) && ;
+            
     }
 
 }

@@ -18,9 +18,16 @@ public class IdleIA : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(me.enemy!=null)
-            animator.SetTrigger("Follow");
- 
+        if(me.enemy == null)
+        {
+            animator.Play("Detect");
+            return;
+        }
+
+        if ((me.enemy.GetTransform().position - animator.transform.position).sqrMagnitude > (me.automatick.radius * me.automatick.radius) / 4)
+            animator.Play("Follow");
+        else if(me.automatick.cooldown<=0)
+            animator.Play("PreAttack");
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

@@ -326,10 +326,21 @@ public class Timer : Tim
         return this;
     }
 
+   
+
+    public Timer SetUnscaled(bool u)
+    {
+        _unscaled = u;
+
+        return this;
+    }
+
+
     public override float Reset()
     {
+        var aux = base.Reset();
         Start();
-        return base.Reset();
+        return aux;
     }
 
 
@@ -339,7 +350,7 @@ public class Timer : Tim
     /// <returns></returns>
     public virtual float SubsDeltaTime(int i = -1)
     {
-        var aux = Substract(deltaTime*_multiply);
+        var aux = Substract(deltaTime * _multiply);
 
         if (aux <= 0)
         {
@@ -351,14 +362,6 @@ public class Timer : Tim
 
         return aux;
     }
-
-    public Timer SetUnscaled(bool u)
-    {
-        _unscaled = u;
-
-        return this;
-    }
-
 
 
     /// <summary>
@@ -381,12 +384,6 @@ public class Timer : Tim
 public class TimedAction : Timer
 {    
     Action end;
-
-    public override float Reset()
-    {
-        base.Reset();
-        return total;
-    }
 
     public override float SubsDeltaTime(int i = -1)
     {

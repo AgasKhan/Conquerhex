@@ -80,11 +80,11 @@ public class IALastChance : IAFather
 
         prin = new AutomaticAttack(character.prin);
 
+        sec = new AutomaticAttack(character.sec);
+
         timer = TimersManager.Create(1);
 
         prin.onAttack += () => timer.Set(prin.timerToAttack.total);
-
-        sec = new AutomaticAttack(character.sec);
 
         sec.onAttack += () => timer.Set(sec.timerToAttack.total);
     }

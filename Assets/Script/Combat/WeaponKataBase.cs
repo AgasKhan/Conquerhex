@@ -164,6 +164,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         set => ChangeWeapon(value);
     }
 
+    public float cooldownTime => cooldown.current;
+
     System.Action<Vector2, float> pressed;
 
     System.Action<Vector2, float> up;
