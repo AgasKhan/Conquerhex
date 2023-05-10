@@ -119,7 +119,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
         Debug.Log("BD: \n" + BD.ToString());
 
-        LoadGame();
+        //LoadGame();
 
         //Para Computadora
         /*
