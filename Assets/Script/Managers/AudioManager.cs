@@ -21,7 +21,7 @@ public class AudioManager : MonoBehaviour
             pic.value = audioLink;
         }
 
-        pic.value.Init(this);
+        pic.value.Init(gameObject);
     }
 
     public void Play(string name)
@@ -44,7 +44,7 @@ public class AudioManager : MonoBehaviour
     {
         foreach (var item in audios)
         {
-            item.value.Init(this);
+            item.value.Init(gameObject);
         }
     }
 }
