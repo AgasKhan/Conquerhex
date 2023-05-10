@@ -16,14 +16,8 @@ public class ItemContainer : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("Awake----------------------------");
-
-        Debug.Log(SaveWithJSON.CheckKeyInBD("PlayerInventory"));
-
         if (SaveWithJSON.CheckKeyInBD("PlayerInventory"))
         {
-            Debug.Log("Se cargo el inventario");
-
             character.inventory = SaveWithJSON.LoadFromPictionary<List<Item>>("PlayerInventory");
         }
     }
