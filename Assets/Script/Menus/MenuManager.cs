@@ -39,18 +39,18 @@ public class MenuManager : SingletonMono<MenuManager>
 
         GetDetailsWinAndSubMenus();
 
-        LoadSystem.AddPostLoadCorutine(PLayAudios);
+        LoadSystem.AddPostLoadCorutine(InitScenes);
     }
 
-    void PLayAudios()
+    void InitScenes()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
         {
-            MusicInGame(true);
+            MusicInMenu(true);
         }
         else
         {
-            GameMusic();
+            GameMusic(true);
         }
     }
 
@@ -128,21 +128,32 @@ public class MenuManager : SingletonMono<MenuManager>
         LoadSystem.instance.Load(firstLevel, true);
     }
 
+    public void MuteCurrentMusic(bool condition)
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
+            MusicInMenu(condition);
+        else
+            GameMusic(condition);
+    }
+
     public void ClickSound()
     {
         audioM.Play("Click");
     }
-    public void MusicInGame(bool condition)
+    public void MusicInMenu(bool condition)
     {
         if(condition == true)
             audioM.Play("MusicInMenu");
         else
-            audioM.Stop("MusicInMenu");
+            audioM.Pause("MusicInMenu");
     }
 
-    public void GameMusic()
+    public void GameMusic(bool condition)
     {
-        audioM.Play("GameMusic");
+        if (condition == true)
+            audioM.Play("GameMusic");
+        else
+            audioM.Pause("GameMusic");
     }
 
     public void StartSound()
@@ -155,7 +166,7 @@ public class MenuManager : SingletonMono<MenuManager>
         if (condition == true)
             audioM.Play("TutorialMusic");
         else
-            audioM.Stop("TutorialMusic");
+            audioM.Pause("TutorialMusic");
     }
 
     /*
