@@ -143,7 +143,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
             //savePath = Application.persistentDataPath + "/saveData.json";
 
             savePath = Path.Combine(Application.persistentDataPath, "saveData.json");
-            LoadGameAndroid();
+            //LoadGameAndroid();
         }
         else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
