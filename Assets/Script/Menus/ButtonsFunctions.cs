@@ -84,15 +84,19 @@ public class ButtonsFunctions : MonoBehaviour
 
         if (textChild.text == "ON")
         {
-            ChangeVolume(-80f, "Effects");
+            ChangeVolume(0, "Effects");
             textChild.text = "MUTE";
             imageChild.color = Color.gray;
+
+            SaveWithJSON.SaveInPictionary(g.name, false);
         }
         else
         {
             ChangeVolume(1f, "Effects");
             textChild.text = "ON";
             imageChild.color = Color.white;
+
+            SaveWithJSON.SaveInPictionary(g.name, true);
         }
     }
     void MuteMusic(GameObject g)
@@ -102,15 +106,21 @@ public class ButtonsFunctions : MonoBehaviour
 
         if (textChild.text == "ON")
         {
-            ChangeVolume(-80f, "Music");
+            ChangeVolume(0, "Music");
             textChild.text = "MUTE";
             imageChild.color = Color.gray;
+            refMenu.MuteCurrentMusic(false);
+
+            SaveWithJSON.SaveInPictionary(g.name, false);
         }
         else
         {
             ChangeVolume(1f, "Music");
             textChild.text = "ON";
             imageChild.color = Color.white;
+            refMenu.MuteCurrentMusic(true);
+
+            SaveWithJSON.SaveInPictionary(g.name, true);
         }
     }
 
@@ -124,7 +134,6 @@ public class ButtonsFunctions : MonoBehaviour
             refMenu.music.audioMixer.SetFloat(name, value);
         else
             refMenu.effects.audioMixer.SetFloat(name, value);
-
     }
 
 
