@@ -25,17 +25,28 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public int gamesSlots;
 
-    public static void SaveGame()
+    public static void SaveGameAndroid()
     {
         File.WriteAllText(savePath, JsonUtility.ToJson(BD));
     }
 
-    public static void LoadGame()
+    public static void SaveGameWindows()
+    {
+        PlayerPrefs.SetString("GameData", JsonUtility.ToJson(BD));
+    }
+
+    public static void LoadGameAndroid()
     {
         string save = File.ReadAllText(savePath);
 
         if(save != null)
             BD = JsonUtility.FromJson<Pictionarys<string, string>>(save);
+    }
+
+    public static void LoadGameWindows()
+    {
+        if (PlayerPrefs.HasKey("GameData"))
+            BD = JsonUtility.FromJson <Pictionarys<string, string>> (PlayerPrefs.GetString("GameData"));
     }
 
     public static void DeleteData()
@@ -46,7 +57,11 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
         //SaveGame();
 
         BD.Clear();
-        SaveGame();
+
+        if (Application.platform == RuntimePlatform.Android)
+            SaveGameAndroid();
+        else if (Application.platform == RuntimePlatform.WindowsPlayer)
+            SaveGameWindows();
     }
 
     public static void SaveClassInPictionary<T>(string id, T data)
@@ -115,11 +130,22 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public void Init(params object[] param)
     {
-        savePath = Application.persistentDataPath + "/saveData.json";
-
         Debug.Log("BD: \n" + BD.ToString());
 
-        //LoadGame();
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            savePath = Application.persistentDataPath + "/saveData.json";
+            LoadGameAndroid();
+        }
+        else if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            Debug.Log("Estas en Windows");
+
+            if(PlayerPrefs.HasKey("GameData"))
+            {
+                LoadGameWindows();
+            }
+        }
 
         //Para Computadora
         /*
