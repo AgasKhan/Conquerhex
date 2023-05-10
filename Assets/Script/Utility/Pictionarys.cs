@@ -177,6 +177,23 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         pictionaries.Sort(comparer);
     }
 
+    public Pictionary<K, V> GetPic(int index)
+    {
+        return pictionaries[index];
+    }
+
+    public bool TryGetPic(K key, out Pictionary<K,V> pic)
+    {
+        bool ret = ContainsKey(key, out int index);
+
+        if (ret)
+            pic = pictionaries[index];
+        else
+            pic = default;
+
+        return ret;
+    }
+
     public bool TryGetValue(K key, out V value)
     {
         bool ret = ContainsKey(key, out int index);
@@ -217,12 +234,17 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         Count += aux;
     }
 
-    public void Add(K key, V value)
+    public Pictionary<K, V> Add(K key, V value)
     {
         if (ContainsKey(key))
-            return;
-        pictionaries.Add(new Pictionary<K, V>(key, value));
+            return default;
+
+        var aux = new Pictionary<K, V>(key, value);
+
+        pictionaries.Add(aux);
         Count++;
+
+        return aux;
     }
 
     public void Remove(K key)

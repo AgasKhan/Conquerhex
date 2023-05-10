@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 8691427261028014601}
   - component: {fileID: 8691427261028014610}
   - component: {fileID: 8691427261028014606}
+  - component: {fileID: -5690567857835757096}
   - component: {fileID: 8691427261028014609}
   - component: {fileID: 8691427261028014621}
   - component: {fileID: 8018831168674537570}
@@ -311,6 +312,9 @@ MonoBehaviour:
   drops:
   - peso: 1
     item: {fileID: 3307823130606803356, guid: f094c7557e0e0114f9be630e7066ec18, type: 3}
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
@@ -340,6 +344,22 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &-5690567857835757096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691427261028014608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660233c709f76f1438afa52bf6bc4785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries: []
+  damagedLifeAudio: DamagedLife
+  damagedRegenAudio: DamagedRegen
 --- !u!114 &8691427261028014609
 MonoBehaviour:
   m_ObjectHideFlags: 0

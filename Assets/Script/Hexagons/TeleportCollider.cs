@@ -65,7 +65,7 @@ public class TeleportCollider : MonoBehaviour
             if
             (anguloVelocidad < 180 && anguloVelocidad > 0)
             {
-                //tp?.Invoke();
+                fisicaOther.Teleport();
 
                 difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
                 difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.y;

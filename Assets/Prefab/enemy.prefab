@@ -120,9 +120,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7826366853568280352}
+  - component: {fileID: -8108951475103948183}
   - component: {fileID: 7826366853568280359}
   - component: {fileID: 2904035125237228758}
-  - component: {fileID: -8108951475103948183}
   - component: {fileID: 7826366853568280356}
   - component: {fileID: 7826366853568280379}
   m_Layer: 7
@@ -150,6 +150,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8108951475103948183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826366853568280377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344fce233e89ce741b6c389590b88b97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerStun:
+    total: 0
+    _current: 0
+  distanceAttack: 1
 --- !u!114 &7826366853568280359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +194,9 @@ MonoBehaviour:
     item: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
   - peso: 5
     item: {fileID: 3307823130606803356, guid: f094c7557e0e0114f9be630e7066ec18, type: 3}
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
@@ -232,22 +251,6 @@ MonoBehaviour:
   _velocity:
     total: 10
     _current: 0
---- !u!114 &-8108951475103948183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826366853568280377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 344fce233e89ce741b6c389590b88b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerStun:
-    total: 0
-    _current: 0
-  distanceAttack: 1
 --- !u!50 &7826366853568280356
 Rigidbody2D:
   serializedVersion: 4

@@ -11,8 +11,11 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     [Space]
 
-    [Header("Particulas a mostrar")]
+    [Header("FeedBack")]
     public GameObject[] particles;
+
+    [SerializeField]
+    public Pictionarys<string, AudioLink> audios = new Pictionarys<string, AudioLink>();
 
     [Header("Deteccion")]
 
@@ -51,10 +54,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
             {
                 indexParticles[i] = PoolManager.SrchInCategory("Particles", particles[i].name);
             }
-
-        });
-
-        
+        });        
     }
 
     public void Attack(Entity caster, Vector2 direction, Weapon weapon)
@@ -168,14 +168,14 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     System.Action<Vector2, float> up;
 
-
     [SerializeField]
     Weapon _weapon;
+
     [SerializeReference]
     protected Timer cooldown;
+
     [SerializeReference]
     protected Entity caster;
-    //protected Vector2Int[] indexParticles;
 
     void TriggerTimerEvent()
     {
@@ -224,7 +224,14 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             return;
 
         if (param.Length > 0)
+        {
             this.caster = param[0] as Entity;
+
+            foreach (var item in itemBase.audios)
+            {
+                caster.audioManager.AddAudio(item.key, item.value);
+            }
+        }  
 
         if (param.Length > 1)
             _weapon = param[1] as Weapon;
@@ -233,8 +240,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
         if(weapon!=null)
             weapon.Init();
-
-        
     }
 
     public void ControllerDown(Vector2 dir, float tim)
@@ -277,6 +282,20 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     {
     }
 
+    protected internal void PlayAudio(string name)
+    {
+        caster.audioManager.Play(name);
+    }
+
+    protected internal void PauseAudio(string name)
+    {
+        caster.audioManager.Pause(name);
+    }
+
+    protected internal void StopAudio(string name)
+    {
+        caster.audioManager.Stop(name);
+    }
 
     protected abstract void InternalControllerDown(Vector2 dir, float tim);
 

@@ -17,6 +17,7 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
     [SerializeField]
     protected Tim _velocity = new Tim();
 
+    public event System.Action onTeleport;
 
     public float maxSpeed
     {
@@ -124,6 +125,11 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         desaceleration = number;
 
         return this;
+    }
+
+    public void Teleport()
+    {
+        onTeleport?.Invoke();
     }
 
     public virtual void ControllerDown(Vector2 dir, float tim)

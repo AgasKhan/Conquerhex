@@ -14,6 +14,8 @@ public class Entity : MyScripts, IDamageable, IGetEntity
 
     public Color damaged2 = new Color() { r = 1, b = 0.92f, g = 0.016f, a = 1 };
 
+    public AudioManager audioManager;
+
     SpriteRenderer sprite;
 
     Color originalColor;
@@ -29,15 +31,18 @@ public class Entity : MyScripts, IDamageable, IGetEntity
 
     private void MyAwake()
     {
-        health.Init();
-        health.death += Drop;
         sprite = GetComponentInChildren<SpriteRenderer>();
+        audioManager = GetComponent<AudioManager>();
+        var aux = GetComponentsInChildren<IDamageable>();
+
+        health.Init();
+
+        health.death += Drop;
 
         originalColor = sprite.color;
 
-        var aux = GetComponentsInChildren<IDamageable>();
-
         damageables = new IDamageable[aux.Length - 1];
+
 
         //evita el bucle de llamarme a mi mmismo
         int ii = 0;
@@ -76,7 +81,6 @@ public class Entity : MyScripts, IDamageable, IGetEntity
 
         });
     }
-
 
     public void Drop()
     {

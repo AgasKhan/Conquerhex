@@ -120,12 +120,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7826366853568280352}
+  - component: {fileID: 5814050754797650346}
   - component: {fileID: 7826366853568280359}
   - component: {fileID: 2904035125237228758}
-  - component: {fileID: 5814050754797650346}
+  - component: {fileID: -781762564285894486}
   - component: {fileID: 7826366853568280356}
   - component: {fileID: 7826366853568280379}
-  - component: {fileID: 2529211607515077870}
   m_Layer: 7
   m_Name: EnemyAnimator
   m_TagString: Enemigo
@@ -151,6 +151,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5814050754797650346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826366853568280377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a307c1db84fb684590ebe8a00b261c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerStun:
+    total: 0
+    _current: 0
+  coll: {fileID: 4638205354786858129}
 --- !u!114 &7826366853568280359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +195,7 @@ MonoBehaviour:
     item: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
   damaged1: {r: 1, g: 0, b: 0.08451748, a: 1}
   damaged2: {r: 0, g: 0, b: 0, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
@@ -233,7 +250,7 @@ MonoBehaviour:
   _velocity:
     total: 6
     _current: 0
---- !u!114 &5814050754797650346
+--- !u!114 &-781762564285894486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -242,13 +259,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7826366853568280377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a307c1db84fb684590ebe8a00b261c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 660233c709f76f1438afa52bf6bc4785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerStun:
-    total: 0
-    _current: 0
-  coll: {fileID: 4638205354786858129}
+  audios:
+    pictionaries: []
+  damagedLifeAudio: DamagedLife
+  damagedRegenAudio: DamagedRegen
 --- !u!50 &7826366853568280356
 Rigidbody2D:
   serializedVersion: 4
@@ -286,20 +303,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.38}
   m_Size: {x: 0.24, y: 0.65}
   m_Direction: 0
---- !u!114 &2529211607515077870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826366853568280377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e675479cc1aa37489f79d2c52e85af8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audios:
-    pictionaries: []
 --- !u!1 &9039635426545646564
 GameObject:
   m_ObjectHideFlags: 0

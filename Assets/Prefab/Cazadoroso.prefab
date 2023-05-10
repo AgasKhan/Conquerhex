@@ -59,13 +59,13 @@ GameObject:
   - component: {fileID: 1923887133863855664}
   - component: {fileID: 1923887133863855823}
   - component: {fileID: 1923887133863855821}
+  - component: {fileID: -143505725685077172}
   - component: {fileID: 4353664715450993193}
   - component: {fileID: 1923887133863855820}
   - component: {fileID: 1923887133863855665}
   - component: {fileID: 1923887133863855666}
   - component: {fileID: 1923887133863855816}
   - component: {fileID: -2406957533503094647}
-  - component: {fileID: 3186299527723340260}
   m_Layer: 7
   m_Name: Cazadoroso
   m_TagString: Enemigo
@@ -166,6 +166,7 @@ MonoBehaviour:
     item: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
   damaged1: {r: 1, g: 0.9864793, b: 0, a: 1}
   damaged2: {r: 0, g: 0, b: 0, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
@@ -195,6 +196,22 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &-143505725685077172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660233c709f76f1438afa52bf6bc4785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries: []
+  damagedLifeAudio: DamagedLife
+  damagedRegenAudio: DamagedRegen
 --- !u!114 &4353664715450993193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,20 +325,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3186299527723340260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923887133863855815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e675479cc1aa37489f79d2c52e85af8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audios:
-    pictionaries: []
 --- !u!1 &1923887134049256736
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,9 +4,25 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
-{    
+{   
     public Pictionarys<string, AudioLink> audios = new Pictionarys<string, AudioLink>();
 
+    public void AddAudio(string key, AudioLink audioLink)
+    {
+        Internal.Pictionary<string, AudioLink> pic;
+
+        if (!audios.ContainsKey(key, out int index))
+        {
+            pic = audios.Add(key, audioLink);
+        }
+        else
+        {
+            pic = audios.GetPic(index);
+            pic.value = audioLink;
+        }
+
+        pic.value.Init(this);
+    }
 
     public void Play(string name)
     {
@@ -25,26 +41,17 @@ public class AudioManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Awake()
-    { 
+    {
         foreach (var item in audios)
         {
-            item.value.source = gameObject.AddComponent<AudioSource>();
-            item.value.source.outputAudioMixerGroup = item.value.mixer;
-            item.value.source.clip = item.value.clip;
-            item.value.source.volume = item.value.volume;
-            item.value.source.pitch = item.value.pitch;
-            item.value.source.loop = item.value.loop;
-            item.value.source.playOnAwake = item.value.onAwake;
-            item.value.source.maxDistance = item.value.maxDistance;
-            item.value.source.spatialBlend = item.value.spatialBlend;
-            item.value.source.minDistance = item.value.minDistance;
+            item.value.Init(this);
         }
     }
 }
 
 
 [System.Serializable]
-public struct AudioLink
+public struct AudioLink : Init
 {
     public AudioMixerGroup mixer;
     public AudioClip clip;
@@ -72,5 +79,23 @@ public struct AudioLink
     [HideInInspector]
     public AudioSource source;
 
-    
+    /// <summary>
+    /// Initialezer of audio clip
+    /// </summary>
+    /// <param name="param">necesita el gameobecjt de quien tendria el audio</param>
+    public void Init(params object[] param)
+    {
+        GameObject go = param[0] as GameObject;
+
+        source = go.AddComponent<AudioSource>();
+        source.outputAudioMixerGroup = mixer;
+        source.clip = clip;
+        source.volume = volume;
+        source.pitch = pitch;
+        source.loop = loop;
+        source.playOnAwake = onAwake;
+        source.maxDistance = maxDistance;
+        source.spatialBlend = spatialBlend;
+        source.minDistance = minDistance;
+    }
 }
