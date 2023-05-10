@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 5814050754797650346}
   - component: {fileID: 7826366853568280356}
   - component: {fileID: 7826366853568280379}
+  - component: {fileID: 2529211607515077870}
   m_Layer: 7
   m_Name: EnemyAnimator
   m_TagString: Enemigo
@@ -285,6 +286,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.38}
   m_Size: {x: 0.24, y: 0.65}
   m_Direction: 0
+--- !u!114 &2529211607515077870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826366853568280377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e675479cc1aa37489f79d2c52e85af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries: []
 --- !u!1 &9039635426545646564
 GameObject:
   m_ObjectHideFlags: 0

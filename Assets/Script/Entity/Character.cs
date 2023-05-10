@@ -24,6 +24,8 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
     public Damage[] additiveDamage => bodyBase.additiveDamage;
 
+    AudioManager audioM;
+
     public IState<Character> CurrentState
     {
         get => _ia;
@@ -87,6 +89,8 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
         areaFarming.radius = bodyBase.areaFarming;
 
+        audioM = GetComponent<AudioManager>();
+
         SetWeaponKataCombo(ref prin, bodyBase.principal);
 
         SetWeaponKataCombo(ref sec, bodyBase.secondary);
@@ -135,6 +139,19 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
         }
     }
     //--------------------------------------------
+
+    public void AttackSoundOne()
+    {
+        audioM.Play("Click");
+    }
+    public void AttackSoundTwo()
+    {
+        audioM.Play("Click");
+    }
+    public void AttackSoundThree()
+    {
+        audioM.Play("Click");
+    }
 
 }
 

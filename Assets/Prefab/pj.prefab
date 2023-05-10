@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6295448971589143364}
   - component: {fileID: 6295448971589143365}
   - component: {fileID: 6295448971589143363}
+  - component: {fileID: 648127265541779387}
   m_Layer: 7
   m_Name: pj
   m_TagString: Player
@@ -203,6 +204,33 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6295448971589143386}
   m_Enabled: 1
+--- !u!114 &648127265541779387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e675479cc1aa37489f79d2c52e85af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries:
+    - key: AttackOne
+      value:
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: a80ed842021364c408769cad1b704ade, type: 3}
+        volume: 0.189
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 57.9
+        minDistance: 25.1
+        loop: 0
+        onAwake: 0
+        source: {fileID: 0}
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0
