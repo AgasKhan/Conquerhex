@@ -49,4 +49,11 @@ public class Store : StaticEntity
         }
             
     }
+
+    //----------------------------------------------------
+    public void ClearCustomerInventory()
+    {
+        customer.character.inventory.Clear();
+    }
+    //----------------------------------------------------
 }

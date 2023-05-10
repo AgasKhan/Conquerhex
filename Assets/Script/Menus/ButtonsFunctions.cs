@@ -83,6 +83,7 @@ public class ButtonsFunctions : MonoBehaviour
     }
     void DeleteData(GameObject g)
     {
+        Store.instance.ClearCustomerInventory();
         SaveWithJSON.DeleteData();
         Restart(g);
         //refMenu.ChangeVolume(1f, "Effects");

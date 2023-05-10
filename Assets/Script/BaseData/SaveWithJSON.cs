@@ -21,7 +21,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     }
 
 
-    private static string savePath;
+    public static string savePath;
 
     public int gamesSlots;
 
@@ -29,7 +29,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     {
         if (Application.platform == RuntimePlatform.Android)
             SaveGameAndroid();
-        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
             SaveGameWindows();
     }
 
@@ -45,10 +45,16 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public static void LoadGameAndroid()
     {
-        string save = File.ReadAllText(savePath);
+        /*
+        string save = "";
 
-        if(save != null)
+        save += File.ReadAllText(savePath);
+
+        if(save != "")
             BD = JsonUtility.FromJson<Pictionarys<string, string>>(save);
+        */
+
+        BD = JsonUtility.FromJson<Pictionarys<string, string>>(File.ReadAllText(savePath));
     }
 
     public static void LoadGameWindows()
@@ -63,8 +69,9 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
         //json = new BaseData();
         //SaveGame();
-
         BD.Clear();
+        instance._baseData.Clear();
+        
         SaveGame();
     }
 
@@ -139,9 +146,12 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
         if(Application.platform == RuntimePlatform.Android)
         {
             savePath = Application.persistentDataPath + "/saveData.json";
+            //savePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+            
+            SaveGameAndroid();
             LoadGameAndroid();
         }
-        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             Debug.Log("Estas en Windows");
 
