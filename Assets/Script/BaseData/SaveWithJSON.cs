@@ -21,7 +21,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     }
 
 
-    private static string savePath;
+    public static string savePath;
 
     public int gamesSlots;
 
@@ -45,9 +45,11 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public static void LoadGameAndroid()
     {
-        string save = File.ReadAllText(savePath);
+        string save = "";
 
-        if(save != null)
+        save += File.ReadAllText(savePath);
+
+        if(save != "")
             BD = JsonUtility.FromJson<Pictionarys<string, string>>(save);
     }
 
@@ -138,7 +140,9 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
         if(Application.platform == RuntimePlatform.Android)
         {
-            savePath = Application.persistentDataPath + "/saveData.json";
+            //savePath = Application.persistentDataPath + "/saveData.json";
+
+            savePath = Path.Combine(Application.persistentDataPath, "saveData.json");
             LoadGameAndroid();
         }
         else if (Application.platform == RuntimePlatform.WindowsEditor)
