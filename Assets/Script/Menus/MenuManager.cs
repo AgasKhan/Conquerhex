@@ -55,13 +55,14 @@ public class MenuManager : SingletonMono<MenuManager>
         }
 
         if (SaveWithJSON.CheckKeyInBD("MusicVolume"))
-        {
             ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("MusicVolume"), "Music");
-        }
-        else if (SaveWithJSON.CheckKeyInBD("EffectsVolume"))
-        {
+        else
+            ChangeVolume(1f, "Music");
+
+        if (SaveWithJSON.CheckKeyInBD("EffectsVolume"))
             ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("EffectsVolume"), "Effects");
-        }
+        else
+            ChangeVolume(1f, "Effects");
     }
 
     void FirstStart()

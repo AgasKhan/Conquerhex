@@ -85,8 +85,8 @@ public class ButtonsFunctions : MonoBehaviour
     {
         SaveWithJSON.DeleteData();
         Restart(g);
-        refMenu.ChangeVolume(1f, "Effects");
-        refMenu.ChangeVolume(1f, "Music");
+        //refMenu.ChangeVolume(1f, "Effects");
+        //refMenu.ChangeVolume(1f, "Music");
     }
 
     void MuteEffects(GameObject g)
@@ -223,11 +223,7 @@ public class ButtonsFunctions : MonoBehaviour
     void BackMenu(GameObject g)
     {
         LoadSystem.instance.Load("MainMenu");
-
-        if (Application.platform == RuntimePlatform.Android)
-            SaveWithJSON.SaveGameAndroid();
-        else if (Application.platform == RuntimePlatform.WindowsPlayer)
-            SaveWithJSON.SaveGameWindows();
+        SaveWithJSON.SaveGame();
     }
     void SaveGame(GameObject g)
     {
@@ -266,7 +262,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void Exit(GameObject g)
     {
-        SaveWithJSON.SaveGameAndroid();
+        SaveWithJSON.SaveGame();
         Application.Quit();
     }
 

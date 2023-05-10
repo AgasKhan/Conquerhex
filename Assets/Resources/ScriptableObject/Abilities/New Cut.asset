@@ -25,7 +25,20 @@ MonoBehaviour:
   particles:
   - {fileID: 3940036432451144812, guid: e7195681d4821c847a757d5174cae6ab, type: 3}
   audios:
-    pictionaries: []
+    pictionaries:
+    - key: Cut
+      value:
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: 55d6c1590db300a438f4a574ddc0a799, type: 3}
+        volume: 0.1
+        pitch: 1
+        spatialBlend: 0
+        maxDistance: 1
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+        source: {fileID: 0}
   detect:
     radius: 2.5
     distance: 2
