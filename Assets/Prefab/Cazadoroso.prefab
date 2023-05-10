@@ -59,10 +59,12 @@ GameObject:
   - component: {fileID: 1923887133863855664}
   - component: {fileID: 1923887133863855823}
   - component: {fileID: 1923887133863855821}
+  - component: {fileID: 4353664715450993193}
   - component: {fileID: 1923887133863855820}
   - component: {fileID: 1923887133863855665}
   - component: {fileID: 1923887133863855666}
   - component: {fileID: 1923887133863855816}
+  - component: {fileID: -2406957533503094647}
   m_Layer: 7
   m_Name: Cazadoroso
   m_TagString: Enemigo
@@ -166,7 +168,7 @@ MonoBehaviour:
   interact:
     pictionaries: []
   inventory: []
-  move: {fileID: 1923887133863855820}
+  move: {fileID: 4353664715450993193}
   fsmWork:
     context: {fileID: 0}
     work:
@@ -192,7 +194,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
---- !u!114 &1923887133863855820
+--- !u!114 &4353664715450993193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,6 +202,31 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923887133863855815}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
+    type: 3}
+  carlitos: []
+  direction: {x: 0, y: 0}
+  aceleration:
+    total: 30
+    _current: 0
+  _desaceleration:
+    total: 30
+    _current: 30
+  _velocity:
+    total: 7
+    _current: 0
+--- !u!114 &1923887133863855820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
   m_Name: 
@@ -259,6 +286,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
+--- !u!50 &-2406957533503094647
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 1
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1923887134049256736
 GameObject:
   m_ObjectHideFlags: 0
