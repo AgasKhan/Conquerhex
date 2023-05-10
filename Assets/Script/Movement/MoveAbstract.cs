@@ -44,7 +44,7 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         }
     }
 
-    public Vector2 vectorVelocity => velocity * direction;
+    public virtual Vector2 vectorVelocity => velocity * direction;
 
     protected Vector2 ToVector(Tim tim)
     {
