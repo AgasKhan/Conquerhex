@@ -51,6 +51,16 @@ public class MenuManager : SingletonMono<MenuManager>
         else
         {
             GameMusic(true);
+            FirstStart();
+        }
+    }
+
+    void FirstStart()
+    {
+        if(!SaveWithJSON.CheckKeyInBD("ShowTutorial"))
+        {
+            SaveWithJSON.SaveInPictionary("ShowTutorial", false);
+            ShowWindow("ShowControls");
         }
     }
 
