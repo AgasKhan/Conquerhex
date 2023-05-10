@@ -29,7 +29,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     {
         if (Application.platform == RuntimePlatform.Android)
             SaveGameAndroid();
-        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
             SaveGameWindows();
     }
 
@@ -145,7 +145,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
             savePath = Path.Combine(Application.persistentDataPath, "saveData.json");
             LoadGameAndroid();
         }
-        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             Debug.Log("Estas en Windows");
 
