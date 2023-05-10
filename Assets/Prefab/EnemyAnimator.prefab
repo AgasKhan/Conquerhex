@@ -193,7 +193,7 @@ MonoBehaviour:
   drops:
   - peso: 10
     item: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
-  damaged1: {r: 1, g: 0, b: 0.08451748, a: 1}
+  damaged1: {r: 1, g: 0, b: 0.05043316, a: 1}
   damaged2: {r: 0, g: 0, b: 0, a: 1}
   audioManager: {fileID: 0}
   interact:
@@ -266,6 +266,7 @@ MonoBehaviour:
     pictionaries: []
   damagedLifeAudio: DamagedLife
   damagedRegenAudio: DamagedRegen
+  teleportAudio: TeleportAudio
 --- !u!50 &7826366853568280356
 Rigidbody2D:
   serializedVersion: 4

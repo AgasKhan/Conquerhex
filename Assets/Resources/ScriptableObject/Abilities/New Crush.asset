@@ -24,6 +24,8 @@ MonoBehaviour:
   joystick: 0
   particles:
   - {fileID: 6510125619236422602, guid: 6d7b01bdef4c9d44596d7108af762e72, type: 3}
+  audios:
+    pictionaries: []
   detect:
     radius: 3
     distance: 5
@@ -33,7 +35,7 @@ MonoBehaviour:
     maxDetects: -1
     minDetects: 0
   damagesMultiply:
-  - amount: 2
+  - amount: 1.5
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   - amount: 0
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
