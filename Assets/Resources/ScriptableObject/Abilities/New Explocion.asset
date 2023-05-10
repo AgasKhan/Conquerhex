@@ -26,6 +26,21 @@ MonoBehaviour:
   joystick: 0
   particles:
   - {fileID: 2312591318274358134, guid: 77da29788f3010e4396994ea52057980, type: 3}
+  audios:
+    pictionaries:
+    - key: Explocion
+      value:
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: d63852342f1804f4a881cf8514079ca2, type: 3}
+        volume: 0.1
+        pitch: 1
+        spatialBlend: 0
+        maxDistance: 1
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+        source: {fileID: 0}
   detect:
     radius: 10
     distance: 10
