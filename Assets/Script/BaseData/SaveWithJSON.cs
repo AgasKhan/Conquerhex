@@ -21,23 +21,24 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     }
 
 
-    private string path;
+    private static string savePath;
 
     public int gamesSlots;
 
-    void SaveGame()
+    public static void SaveGame()
     {
-        File.WriteAllText(path, JsonUtility.ToJson(BD));
+        File.WriteAllText(savePath, JsonUtility.ToJson(BD));
     }
 
-    public void LoadGame()
+    public static void LoadGame()
     {
-        string save = File.ReadAllText(path);
+        string save = File.ReadAllText(savePath);
 
-        BD = JsonUtility.FromJson<Pictionarys<string, string>>(save);
+        if(save != null)
+            BD = JsonUtility.FromJson<Pictionarys<string, string>>(save);
     }
 
-    public void DeleteData()
+    public static void DeleteData()
     {
         //File.Delete(path);
 
@@ -46,7 +47,6 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
         BD.Clear();
         SaveGame();
-
     }
 
     public static void SaveClassInPictionary<T>(string id, T data)
@@ -115,9 +115,11 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public void Init(params object[] param)
     {
-        path = Application.persistentDataPath + "/saveData.json";
+        savePath = Application.persistentDataPath + "/saveData.json";
 
         Debug.Log("BD: \n" + BD.ToString());
+
+        //LoadGame();
 
         //Para Computadora
         /*

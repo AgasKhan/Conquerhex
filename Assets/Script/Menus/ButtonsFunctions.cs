@@ -28,13 +28,17 @@ public class ButtonsFunctions : MonoBehaviour
             {"Settings", DisplayWindow},
             {"Store", ShowStore},
             {"Credits", DisplayWindow},
+            {"DeleteWindow", DisplayWindow},
+            {"DeleteData", DeleteData},
             {"Exit", Exit},
-
+            {"Quit", DisplayWindow},
+            
 
             //Menu de opciones
             {"MuteEffects", MuteEffects},
             {"MuteMusic", MuteMusic},
             
+
             //Menu de creacion de minions
             {"MBody", MBody},
             {"MArms", MArms},
@@ -77,6 +81,12 @@ public class ButtonsFunctions : MonoBehaviour
 
         });
     }
+    void DeleteData(GameObject g)
+    {
+        SaveWithJSON.DeleteData();
+        Restart(g);
+    }
+
     void MuteEffects(GameObject g)
     {
         var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
@@ -232,6 +242,7 @@ public class ButtonsFunctions : MonoBehaviour
     void BackMenu(GameObject g)
     {
         LoadSystem.instance.Load("MainMenu");
+        SaveWithJSON.SaveGame();
     }
     void SaveGame(GameObject g)
     {
@@ -270,6 +281,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void Exit(GameObject g)
     {
+        SaveWithJSON.SaveGame();
         Application.Quit();
     }
 
