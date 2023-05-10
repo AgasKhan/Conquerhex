@@ -9,9 +9,9 @@ public class PersistentButton : MonoBehaviour
         var textChild = transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         var imageChild = GetComponent<UnityEngine.UI.Image>();
         
-        if(SaveWithJSON.CheckKeyInBD(name))
+        if(SaveWithJSON.CheckKeyInBD(transform.parent.name))
         {
-            if (!SaveWithJSON.LoadFromPictionary<bool>(name))
+            if (SaveWithJSON.LoadFromPictionary<float>(transform.parent.name) <= 0.0001f)
             {
                 textChild.text = "MUTE";
                 imageChild.color = Color.gray;

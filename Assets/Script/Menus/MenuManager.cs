@@ -53,6 +53,15 @@ public class MenuManager : SingletonMono<MenuManager>
             GameMusic(true);
             FirstStart();
         }
+
+        if (SaveWithJSON.CheckKeyInBD("MusicVolume"))
+        {
+            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("MusicVolume"), "Music");
+        }
+        else if (SaveWithJSON.CheckKeyInBD("EffectsVolume"))
+        {
+            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("EffectsVolume"), "Effects");
+        }
     }
 
     void FirstStart()
@@ -144,6 +153,25 @@ public class MenuManager : SingletonMono<MenuManager>
             MusicInMenu(condition);
         else
             GameMusic(condition);
+    }
+
+    public void ChangeVolume(float volume, string name)
+    {
+        if (volume == 0)
+            volume = 0.0001f;
+        var value = Mathf.Log10(volume) * 20;
+
+        if (name == "Music")
+        {
+            music.audioMixer.SetFloat(name, value);
+            SaveWithJSON.SaveInPictionary("MusicVolume", volume);
+        }
+        else
+        {
+            effects.audioMixer.SetFloat(name, value);
+            SaveWithJSON.SaveInPictionary("EffectsVolume", volume);
+        }
+
     }
 
     public void ClickSound()

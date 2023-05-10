@@ -85,8 +85,8 @@ public class ButtonsFunctions : MonoBehaviour
     {
         SaveWithJSON.DeleteData();
         Restart(g);
-        ChangeVolume(1f, "Effects");
-        ChangeVolume(1f, "Music");
+        refMenu.ChangeVolume(1f, "Effects");
+        refMenu.ChangeVolume(1f, "Music");
     }
 
     void MuteEffects(GameObject g)
@@ -96,19 +96,15 @@ public class ButtonsFunctions : MonoBehaviour
 
         if (textChild.text == "ON")
         {
-            ChangeVolume(0, "Effects");
+            refMenu.ChangeVolume(0, "Effects");
             textChild.text = "MUTE";
             imageChild.color = Color.gray;
-
-            SaveWithJSON.SaveInPictionary(g.name, false);
         }
         else
         {
-            ChangeVolume(1f, "Effects");
+            refMenu.ChangeVolume(1f, "Effects");
             textChild.text = "ON";
             imageChild.color = Color.white;
-
-            SaveWithJSON.SaveInPictionary(g.name, true);
         }
     }
     void MuteMusic(GameObject g)
@@ -118,36 +114,19 @@ public class ButtonsFunctions : MonoBehaviour
 
         if (textChild.text == "ON")
         {
-            ChangeVolume(0, "Music");
+            refMenu.ChangeVolume(0, "Music");
             textChild.text = "MUTE";
             imageChild.color = Color.gray;
             refMenu.MuteCurrentMusic(false);
-
-            SaveWithJSON.SaveInPictionary(g.name, false);
         }
         else
         {
-            ChangeVolume(1f, "Music");
+            refMenu.ChangeVolume(1f, "Music");
             textChild.text = "ON";
             imageChild.color = Color.white;
             refMenu.MuteCurrentMusic(true);
-
-            SaveWithJSON.SaveInPictionary(g.name, true);
         }
     }
-
-    void ChangeVolume(float volume, string name)
-    {
-        if (volume == 0)
-            volume = 0.0001f;
-        var value = Mathf.Log10(volume) * 20;
-
-        if(name == "Music")
-            refMenu.music.audioMixer.SetFloat(name, value);
-        else
-            refMenu.effects.audioMixer.SetFloat(name, value);
-    }
-
 
     void ShowControls(GameObject g)
     {
