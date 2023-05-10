@@ -19,12 +19,19 @@ public class ItemContainer : MonoBehaviour
         if (SaveWithJSON.CheckKeyInBD("PlayerInventory"))
         {
             character.inventory = SaveWithJSON.LoadFromPictionary<List<Item>>("PlayerInventory");
+            Debug.Log("BD contains PlayerInventory");
         }
+        else
+        {
+            Debug.Log("BD doesnt contain PlayerInventory");
+        }
+
     }
 
     private void OnDisable()
     {
         SaveWithJSON.SaveInPictionary("PlayerInventory", character.inventory);
     }
+
 
 }
