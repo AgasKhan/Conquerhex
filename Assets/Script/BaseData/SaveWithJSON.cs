@@ -27,10 +27,14 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public static void SaveGame()
     {
+        SaveGameWindows();
+
+        /*
         if (Application.platform == RuntimePlatform.Android)
             SaveGameAndroid();
         else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
             SaveGameWindows();
+        */
     }
 
     public static void SaveGameAndroid()
@@ -143,11 +147,18 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     {
         Debug.Log("BD: \n" + BD.ToString());
 
-        if(Application.platform == RuntimePlatform.Android)
+        if (PlayerPrefs.HasKey("GameData"))
+        {
+            LoadGameWindows();
+        }
+
+        /*
+        if (Application.platform == RuntimePlatform.Android)
         {
             savePath = Application.persistentDataPath + "/saveData.json";
             //savePath = Path.Combine(Application.persistentDataPath, "saveData.json");
-            
+            //Directory.CreateDirectory(Environment.)
+            File.Create(savePath);
             SaveGameAndroid();
             LoadGameAndroid();
         }
@@ -160,6 +171,9 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
                 LoadGameWindows();
             }
         }
+        */
+
+
 
         //Para Computadora
         /*
