@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveTr : MoveAbstract
 {
     SpriteRenderer rend;
-
+    
     protected override void Config()
     {
         MyAwakes += MyAwake;
