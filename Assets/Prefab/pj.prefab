@@ -65,6 +65,8 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   interact:
     pictionaries: []
   inventory: []
@@ -459,6 +461,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: regen
+      value: 
+      objectReference: {fileID: 7634929337228824577}
     - target: {fileID: 3305370478208995121, guid: 80ef2a322371ecf4bb7a895ca8e32083,
         type: 3}
       propertyPath: m_Layer
@@ -501,6 +508,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80ef2a322371ecf4bb7a895ca8e32083, type: 3}
+--- !u!114 &7634929337228824577 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4515239864314726574, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+    type: 3}
+  m_PrefabInstance: {fileID: 6295448971142895791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8827870643109227059 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3305370477979890332, guid: 80ef2a322371ecf4bb7a895ca8e32083,
