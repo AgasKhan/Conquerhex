@@ -147,13 +147,21 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                     //Le vuelvo a incrementar 1 para dejarlo como estaba
                     lado++;
 
-                    int auxL, auxI;
+                    int auxL, auxI, auxRandom;
                     //Voy a guardar la cantidad maxima de indices para despues poder elegir uno al azar, dentro de la lista
                     //me encargo de no pisar un lado ya seteado
                     if (hex[hexIndex][lado, 1] == 0 && ((auxL = disponibles[ladoOpuesto].Count) > 0))
                     {
-                        //defino mi numero aleatorio en base a la disponibilidad (ya que los anteriores hexagonos ya los tengo seteados, no quiero pisarlos)
-                        auxL = Random.Range(0, auxL);
+                        
+                        do
+                        {
+                            //defino mi numero aleatorio en base a la disponibilidad (ya que los anteriores hexagonos ya los tengo seteados, no quiero pisarlos)
+                            auxRandom = Random.Range(0, auxL);
+
+                            //utilizo un while para no vincularme a mi mismo al menos que no quede otra opcion
+                        } while(auxRandom == hexIndex && auxL>1);
+
+                        auxL = auxRandom;
 
                         //obtengo el indice de los hexagonos a partir de la lista
                         auxI = disponibles[ladoOpuesto][auxL];
