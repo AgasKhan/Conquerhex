@@ -248,7 +248,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     {
         if (caster.enabled == false || caster.gameObject.activeSelf == false)
         {
-            reference.Off();
+            reference?.Off();
             return;
         }
             
@@ -265,7 +265,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     {
         if (caster.enabled == false || caster.gameObject.activeSelf == false)
         {
-            reference.Off();
+            reference?.Off();
             return;
         }
             
@@ -276,7 +276,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     {
         if (caster.enabled == false || caster.gameObject.activeSelf == false)
         {
-            reference.Off();
+            reference?.Off();
             return;
         }
             
