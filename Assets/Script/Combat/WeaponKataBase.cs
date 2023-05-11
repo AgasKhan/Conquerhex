@@ -247,7 +247,11 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     public void ControllerDown(Vector2 dir, float tim)
     {
         if (caster.enabled == false || caster.gameObject.activeSelf == false)
+        {
+            reference.Off();
             return;
+        }
+            
 
         if(cooldown.Chck)
         {
@@ -260,16 +264,22 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     public void ControllerPressed(Vector2 dir, float tim)
     {
         if (caster.enabled == false || caster.gameObject.activeSelf == false)
+        {
+            reference.Off();
             return;
-
+        }
+            
         pressed(dir, tim);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
         if (caster.enabled == false || caster.gameObject.activeSelf == false)
+        {
+            reference.Off();
             return;
-
+        }
+            
         up(dir, tim);
 
         pressed = MyControllerVOID;
