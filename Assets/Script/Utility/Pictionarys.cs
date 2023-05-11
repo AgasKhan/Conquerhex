@@ -311,7 +311,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return newAux;
     }
 
-    public void SearchOrCreate(K key, V value)
+    public void CreateOrSave(K key, V value)
     {
         if (ContainsKey(key, out int index))
         {

@@ -16,13 +16,13 @@ public abstract class MyScripts : MonoBehaviour
         {
             _update += value;
             if(gameObject.activeSelf)
-                GameManager.update.SearchOrCreate(this, _update);
+                GameManager.update.CreateOrSave(this, _update);
         }
         remove
         {
             _update -= value;
             if (gameObject.activeSelf)
-                GameManager.update.SearchOrCreate(this, _update);
+                GameManager.update.CreateOrSave(this, _update);
         }
     }
 
@@ -32,13 +32,13 @@ public abstract class MyScripts : MonoBehaviour
         {
             _fixedUpdate += value;
             if (gameObject.activeSelf)
-                GameManager.update.SearchOrCreate(this, _fixedUpdate);
+                GameManager.update.CreateOrSave(this, _fixedUpdate);
         }
         remove
         {
             _fixedUpdate -= value;
             if (gameObject.activeSelf)
-                GameManager.update.SearchOrCreate(this, _fixedUpdate);
+                GameManager.update.CreateOrSave(this, _fixedUpdate);
         }
     }
   
@@ -103,10 +103,10 @@ public abstract class MyScripts : MonoBehaviour
     private void OnEnable()
     {
         if(_update!=null)   
-            GameManager.update.SearchOrCreate(this, _update);
+            GameManager.update.CreateOrSave(this, _update);
 
         if (_fixedUpdate != null)
-            GameManager.fixedUpdate.SearchOrCreate(this, _fixedUpdate);
+            GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
     }
 
     private void OnDisable()
