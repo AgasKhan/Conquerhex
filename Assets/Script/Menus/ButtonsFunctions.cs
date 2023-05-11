@@ -81,6 +81,7 @@ public class ButtonsFunctions : MonoBehaviour
 
         });
     }
+
     void DeleteData(GameObject g)
     {
         Store.instance.ClearCustomerInventory();
@@ -131,9 +132,23 @@ public class ButtonsFunctions : MonoBehaviour
 
     void ShowControls(GameObject g)
     {
-        DisplayWindow(g);
-        //refMenu.MusicInGame(false);
-        //refMenu.PlayTutorialM(true);
+        var myImage = g.transform.GetComponent<UnityEngine.UI.Image>();
+
+        var tempColor = myImage.color;
+        tempColor.a = 1f;
+
+        var tempColor2 = myImage.color;
+        tempColor2.a = 0.49f;
+
+        if (myImage.color.a == 1f)
+        {
+            myImage.color = tempColor2;
+        }
+        else
+        {
+            myImage.color = tempColor;
+        }
+
     }
 
     void RefreshMyButton(GameObject g)

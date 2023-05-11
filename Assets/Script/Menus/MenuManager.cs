@@ -29,6 +29,7 @@ public class MenuManager : SingletonMono<MenuManager>
     //[SerializeField]
     Pictionarys<string, DetailsWindow> detailsWindows;
 
+
     protected override void Awake()
     {
         base.Awake();
