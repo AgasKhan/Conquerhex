@@ -26,7 +26,7 @@ public class IdleIA : StateMachineBehaviour
 
         if ((me.enemy.GetTransform().position - animator.transform.position).sqrMagnitude > (me.automatick.radius * me.automatick.radius) / 4)
             animator.Play("Follow");
-        else if(me.automatick.cooldown<=0)
+        else if(me.automatick.cooldown)
             animator.Play("PreAttack");
     }
 

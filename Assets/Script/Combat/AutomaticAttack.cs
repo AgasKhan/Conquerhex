@@ -9,7 +9,7 @@ public class AutomaticAttack
 
     public event System.Action onAttack;
 
-    public float cooldown => kata.cooldownTime;
+    public bool cooldown => kata.cooldownTime;
 
     public float radius
     {
