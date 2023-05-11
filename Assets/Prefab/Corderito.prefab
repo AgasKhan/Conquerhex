@@ -357,9 +357,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audios:
-    pictionaries: []
+    pictionaries:
+    - key: TeleportAudio
+      value:
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: d04817b6de89c4c4a8040a31789ce317, type: 3}
+        volume: 0.5
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 6
+        minDistance: 2.5
+        loop: 0
+        onAwake: 0
+        source: {fileID: 0}
   damagedLifeAudio: DamagedLife
   damagedRegenAudio: DamagedRegen
+  teleportAudio: TeleportAudio
 --- !u!114 &8691427261028014609
 MonoBehaviour:
   m_ObjectHideFlags: 0
