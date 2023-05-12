@@ -74,7 +74,7 @@ public class ButtonsFunctions : MonoBehaviour
             {"ShowWindow", ShowWindow},
 
             //Tutorial
-            {"ShowControls", ShowControls},
+            {"ShowControls", DisplayWindow},
 
             //Display Items Special Actions 
             {"RefreshButton", RefreshMyButton}
@@ -130,6 +130,7 @@ public class ButtonsFunctions : MonoBehaviour
         }
     }
 
+    /*
     void ShowControls(GameObject g)
     {
         var myImage = g.transform.GetComponent<UnityEngine.UI.Image>();
@@ -150,7 +151,7 @@ public class ButtonsFunctions : MonoBehaviour
         }
 
     }
-
+    */
     void RefreshMyButton(GameObject g)
     {
         var aux = g.GetComponent<DisplayItem>();
