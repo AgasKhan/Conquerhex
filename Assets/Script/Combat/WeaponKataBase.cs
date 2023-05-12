@@ -7,7 +7,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [Space]
 
     [Header("tipo de boton")]
-    public bool joystick;
+    public bool joystick;    
 
     [Space]
 
@@ -27,6 +27,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     public Vector2Int[] indexParticles;
 
+    public int damageToWeapon=1;
 
 
     public override Pictionarys<string, string> GetDetails()
@@ -58,7 +59,11 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     }
 
     public void Attack(Entity caster, Vector2 direction, Weapon weapon)
-    {       
+    {
+        if (weapon == null)
+            return;
+
+        weapon.Durability(damageToWeapon);
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
@@ -118,11 +123,6 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         }
     }
 
-    /*
-    public abstract void ControllerDown(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
-    public abstract void ControllerPressed(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
-    public abstract void ControllerUp(Entity caster, Vector2 dir, float button, Weapon weapon, Timer cooldownEnd, Vector2Int[] particles);
-    */
     protected virtual void InternalParticleSpawnToDamaged(Transform dmg)
     {
         var aux = PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
@@ -130,7 +130,6 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         //aux.SetParent(dmg);
 
     }
-
 
     protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages);
 }
@@ -204,11 +203,15 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             }
         }
 
+        this.weapon.durabilityOff -= Weapon_durabilityOff;
+
         desEquipedWeapon?.Invoke(this._weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
 
         this._weapon = weapon;
 
         equipedWeapon?.Invoke(this._weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
+
+        this.weapon.durabilityOff += Weapon_durabilityOff;
     }
 
     #region interfaces
@@ -241,7 +244,16 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, TriggerTimerFinishEvent);
 
         if(weapon!=null)
+        {
             weapon.Init();
+            weapon.durabilityOff += Weapon_durabilityOff;
+        }
+    }
+
+    private void Weapon_durabilityOff()
+    {
+        desEquipedWeapon(weapon);
+        weapon = null;
     }
 
     public void ControllerDown(Vector2 dir, float tim)
@@ -318,3 +330,58 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     #endregion
 }
 
+
+/// <summary>
+/// KataBase que tiene configurado su ataque interno en la deteccion de un area en la posicion del caster
+/// </summary>
+public abstract class AreaKataBase : WeaponKataBase
+{
+    protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
+    {
+        var aux = detect.Area(caster.transform.position, (tr) => { return caster != tr; });
+
+        Damage(ref damages, caster, aux.ToArray());
+    }
+}
+
+
+/// <summary>
+/// Controlador que ejecuta el ataque cuando se suelta el boton de la habilidad
+/// </summary>
+public class UpWeaponKata : WeaponKata
+{
+    protected override void InternalControllerDown(Vector2 dir, float button)
+    {
+        Debug.Log("presionaste ataque: " + itemBase.GetType().Name);
+
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeOnOff reference, caster.transform.position);
+
+        this.reference = reference;
+        aux.SetParent(caster.transform);
+
+        aux.localScale *= itemBase.detect.diameter;
+    }
+
+    //Durante, al mantener y moverlo
+    protected override void InternalControllerPress(Vector2 dir, float button)
+    {
+        Debug.Log("estas manteniendo ataque: " + itemBase.GetType().Name);
+    }
+
+    //Despues, al sotarlo
+    protected override void InternalControllerUp(Vector2 dir, float button)
+    {
+        Debug.Log("Soltaste ataque: " + itemBase.GetType().Name);
+
+        //comienza a bajar el cooldown
+
+        cooldown.Reset();
+
+        itemBase.Attack(caster, dir, weapon);
+
+        //PoolManager.SpawnPoolObject(itemBase.indexParticles[0], caster.transform.position);
+
+
+        reference.Off();
+    }
+}
