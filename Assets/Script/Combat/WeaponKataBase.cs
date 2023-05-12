@@ -338,7 +338,7 @@ public abstract class AreaKataBase : WeaponKataBase
 {
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
     {
-        var aux = detect.Area(caster.transform.position, (tr) => { return caster != tr; });
+        var aux = detect.Area(caster.transform.position + direction.Vec2to3(0) * detect.distance, (tr) => { return caster != tr; });
 
         Damage(ref damages, caster, aux.ToArray());
     }
