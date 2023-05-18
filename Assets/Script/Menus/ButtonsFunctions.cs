@@ -32,7 +32,8 @@ public class ButtonsFunctions : MonoBehaviour
             {"DeleteData", DeleteData},
             {"Exit", Exit},
             {"Quit", DisplayWindow},
-            
+            {"Crafting", DisplayWindow},
+            {"Inventory", DisplayWindow},
 
             //Menu de opciones
             {"MuteEffects", MuteEffects},
@@ -169,8 +170,6 @@ public class ButtonsFunctions : MonoBehaviour
         DisplayWindow(g);
         Store.instance.RefreshPlayerCoins();
     }
-
-
 
     void BuySingleItem(GameObject g)
     {
