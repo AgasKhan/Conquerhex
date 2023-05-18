@@ -517,7 +517,7 @@ RectTransform:
   m_Children:
   - {fileID: 603885724}
   m_Father: {fileID: 638750618}
-  m_RootOrder: 14
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2100,7 +2100,7 @@ RectTransform:
   - {fileID: 54412443}
   - {fileID: 456379841}
   m_Father: {fileID: 638750618}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2139,11 +2139,18 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      rid: -2
+      total: 0
+      _current: 0
     regen:
-      rid: -2
+      total: 0
+      _current: 0
     timeToRegen:
-      rid: -2
+      total: 0
+      _current: 0
+  drops: []
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
@@ -2151,9 +2158,7 @@ MonoBehaviour:
   coinCounter: {fileID: 0}
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!1001 &155139493
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6576,6 +6581,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 733509587162546273, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1009890561030537687, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_Name
@@ -8178,7 +8188,7 @@ RectTransform:
   m_Children:
   - {fileID: 1784906761}
   m_Father: {fileID: 638750618}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8636,7 +8646,7 @@ RectTransform:
   - {fileID: 2082726234}
   - {fileID: 223820225}
   m_Father: {fileID: 638750618}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8960,7 +8970,7 @@ RectTransform:
   - {fileID: 2125904955}
   - {fileID: 242541290}
   m_Father: {fileID: 638750618}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9037,11 +9047,18 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      rid: -2
+      total: 0
+      _current: 0
     regen:
-      rid: -2
+      total: 0
+      _current: 0
     timeToRegen:
-      rid: -2
+      total: 0
+      _current: 0
+  drops: []
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
@@ -9049,9 +9066,7 @@ MonoBehaviour:
   coinCounter: {fileID: 0}
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!1 &903841270
 GameObject:
   m_ObjectHideFlags: 0
@@ -12369,7 +12384,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 638750618}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -15006,6 +15021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carlitosPrefab: {fileID: 0}
   carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
@@ -15032,11 +15048,18 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      rid: -2
+      total: 0
+      _current: 0
     regen:
-      rid: -2
+      total: 0
+      _current: 0
     timeToRegen:
-      rid: -2
+      total: 0
+      _current: 0
+  drops: []
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
@@ -15094,9 +15117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 1407502435}
-  initialItems:
-    _itemBase: {fileID: 0}
-    actual: 1
 --- !u!1 &1426715488
 GameObject:
   m_ObjectHideFlags: 0
@@ -20642,12 +20662,12 @@ PrefabInstance:
     - target: {fileID: 6926420586964467372, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Interactable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Name
-      value: Credits (1)
+      value: Store
       objectReference: {fileID: 0}
     - target: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
