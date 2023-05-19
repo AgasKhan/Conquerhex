@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "BaseData/body", fileName = "new Body")]
-public class BodyBase : ItemBase
+public class BodyBase : StructureBase
 {
-    [Header("Estadisticas")]
-    public float life;
-
-    public float regen;
+    [Header("Estadisiticas")]
 
     public float velocity;
 
@@ -26,10 +23,6 @@ public class BodyBase : ItemBase
 
     public WeaponKataCombo tertiary;
 
-    [Header("Defensa")]
-
-    public Damage[] vulnerabilities;
-
     [Header("Especialization")]
 
     public Damage[] additiveDamage;
@@ -37,13 +30,13 @@ public class BodyBase : ItemBase
 
     protected override void SetCreateItemType()
     {
-        _itemType = typeof(Body);
+        _itemType = typeof(BodyDiagram);
     }
 }
 
 
 
-public class Body : Item<BodyBase>
+public class BodyDiagram : Item<BodyBase>
 {
     public override void Init(params object[] param)
     {

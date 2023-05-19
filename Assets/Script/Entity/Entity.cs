@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MyScripts, IDamageable, IGetEntity
+public abstract class Entity : MyScripts, IDamageable, IGetEntity
 {
     public Team team;
 
@@ -15,6 +15,8 @@ public class Entity : MyScripts, IDamageable, IGetEntity
     public Color damaged2 = new Color() { r = 1, b = 0.92f, g = 0.016f, a = 1 };
 
     public AudioManager audioManager;
+
+    protected abstract Damage[] vulnerabilities { get; }
 
     SpriteRenderer sprite;
 
@@ -117,6 +119,15 @@ public class Entity : MyScripts, IDamageable, IGetEntity
     public virtual void TakeDamage(Damage dmg)
     {
         tim.Reset();
+
+        for (int i = 0; i < vulnerabilities.Length; i++)
+        {
+            if(dmg.typeInstance == vulnerabilities[i].typeInstance)
+            {
+                dmg.amount *= vulnerabilities[i].amount;
+                break;
+            }
+        }
 
         dmg.ActionInitialiced(this);
         health.TakeLifeDamage(dmg.amount);

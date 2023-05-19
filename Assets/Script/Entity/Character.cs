@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : DinamicEntityWork, ISwitchState<Character>
+public class Character : DinamicEntity, ISwitchState<Character>
 {
     [field: SerializeField]
     public BodyBase bodyBase
@@ -24,6 +24,8 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
 
     public Damage[] additiveDamage => bodyBase.additiveDamage;
 
+    protected override Damage[] vulnerabilities => bodyBase.vulnerabilities;
+
     AudioManager audioM;
 
     public IState<Character> CurrentState
@@ -44,6 +46,8 @@ public class Character : DinamicEntityWork, ISwitchState<Character>
             _ia.OnEnterState(this);
         }
     }
+
+    
 
     [SerializeField]
     IState<Character> _ia;

@@ -105,30 +105,6 @@ public abstract class StaticEntity : Entity, IItemContainer
 }
 
 
-public abstract class StaticEntityWork : StaticEntity
-{
-    [SerializeField]
-    FSMWork fsmWork;
-
-    protected override void Config()
-    {
-        base.Config();
-        MyAwakes += MyAwake;
-        MyUpdates += MyUpdate;
-    }
-
-    private void MyAwake()
-    {
-        fsmWork.Init(this);
-    }
-
-    private void MyUpdate()
-    {
-        fsmWork.UpdateState();
-    }
-}
-
-
 public interface IItemContainer
 {
     bool Contains(Item item);

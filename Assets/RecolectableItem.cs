@@ -9,6 +9,10 @@ public class RecolectableItem : StaticEntity
     [SerializeField]
     int amount;
 
+    [SerializeField]
+    StructureBase structureBase;
+    protected override Damage[] vulnerabilities => structureBase.vulnerabilities;
+
     Timer recolect;
 
     StaticEntity referenceToTravel;
@@ -22,6 +26,8 @@ public class RecolectableItem : StaticEntity
 
     void MyAwake()
     {
+        health.Init(structureBase.life, structureBase.regen);
+
         recolect = TimersManager.LerpInTime(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 1, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToEnd(() =>
         {
