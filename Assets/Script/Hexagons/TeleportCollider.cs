@@ -40,6 +40,7 @@ public class TeleportCollider : MonoBehaviour
 
             Vector2 vectorSalida = (other.gameObject.transform.position - this.gameObject.transform.position).normalized;
 
+            //le doy un empujon para que no se quede en el medio
             fisicaOther.Acelerator(velocityTransfer * fisicaOther.direction);
 
             Vector2 vectorVelocidad = fisicaOther.vectorVelocity;
@@ -95,7 +96,7 @@ public class TeleportCollider : MonoBehaviour
                     arrHexTeleport.gameObject.SetActive(false);
                 }
                 
-                //le doy un empujon para que no se quede en el medio
+
                 if (fisicaOther.carlitos != null)
                     for (int i = 0; i < fisicaOther.carlitos.Length; i++)
                     {
