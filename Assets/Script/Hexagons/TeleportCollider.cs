@@ -9,7 +9,7 @@ public class TeleportCollider : MonoBehaviour
     Teleport teleport;
 
     //hacia donde se teletransporta, el primer indice es el lado del propio hexagono, y el segundo es el destino (0 para la id y 1 para el lado)
-    int[,] ladosArray => teleport.ladosArray;
+    Teleport[] ladosArray => teleport.ladosArray;
 
     //pareja de coordenadas
     float[,] ladosPuntos => teleport.ladosPuntos;
@@ -51,7 +51,7 @@ public class TeleportCollider : MonoBehaviour
             if (lado > 5)
                 lado = 5;
 
-            Teleport arrHexTeleport = HexagonsManager.arrHexCreados[ladosArray[lado, 0]];//accedo al script del array al que me quiero teletransportar
+            Teleport arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
 
             float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), vectorVelocidad);
 
@@ -65,7 +65,7 @@ public class TeleportCollider : MonoBehaviour
             if
             (anguloVelocidad < 180 && anguloVelocidad > 0)
             {
-                fisicaOther.Teleport();
+                fisicaOther.Teleport(arrHexTeleport);
 
                 difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
                 difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.y;
@@ -81,8 +81,10 @@ public class TeleportCollider : MonoBehaviour
 
                 other.gameObject.transform.position =
                     new Vector3(
-                        arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 0] - difEspejada[0],
-                        arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 1] - difEspejada[1],
+                        //arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 0] - difEspejada[0],
+                        //arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 1] - difEspejada[1],
+                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - difEspejada[0],
+                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1],
                         other.gameObject.transform.position.z);
 
                 other.gameObject.transform.SetParent(arrHexTeleport.gameObject.transform);
@@ -97,27 +99,27 @@ public class TeleportCollider : MonoBehaviour
                 if (fisicaOther.carlitos != null)
                     for (int i = 0; i < fisicaOther.carlitos.Length; i++)
                     {
-                        fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), fisicaOther.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexCreados[ladosArray[lado, 0]].transform.position);
+                        fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexTeleport.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), fisicaOther.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexTeleport.transform.position);
                     }
 
 
                 if (other.CompareTag("Player"))
                 {
                     MainCamera.instance.gameObject.transform.position = new Vector3(
-                        arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 0] - (ladosPuntos[lado, 0] - Camera.main.gameObject.transform.position.x),
-                        arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 1] - (ladosPuntos[lado, 1] - Camera.main.gameObject.transform.position.y),
+                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - (ladosPuntos[lado, 0] - Camera.main.gameObject.transform.position.x),
+                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - (ladosPuntos[lado, 1] - Camera.main.gameObject.transform.position.y),
                         Camera.main.gameObject.transform.position.z);
 
                     for (int i = 0; i < LoadMap.instance.renders.Length; i++)
                     {
-                        arrHexCreados[arrHexTeleport.ladosArray[i, 0]].gameObject.SetActive(true);
-                        activeHex.Add(arrHexTeleport.ladosArray[i, 0], arrHexCreados[arrHexTeleport.ladosArray[i, 0]]);
+                        arrHexTeleport.ladosArray[i].gameObject.SetActive(true);
+                        activeHex.Add(arrHexTeleport.ladosArray[i].id, arrHexTeleport.ladosArray[i]);
 
-                        LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[ladosArray[lado, 0]].transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
+                        LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexTeleport.transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
 
                         LoadMap.instance.cameras[i].gameObject.transform.position = new Vector2(
-                            arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.x,
-                            arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.y
+                            arrHexTeleport.ladosArray[i].transform.position.x,
+                            arrHexTeleport.ladosArray[i].transform.position.y
                             );
                     }
 
@@ -128,7 +130,7 @@ public class TeleportCollider : MonoBehaviour
 
                         for (int l = 0; l < 6; l++)
                         {
-                            if (arrHexTeleport.id == activeHex[i].id || arrHexTeleport.ladosArray[l, 0] == HexagonsManager.activeHex[i].id)
+                            if (arrHexTeleport.id == activeHex[i].id || arrHexTeleport.ladosArray[l].id == HexagonsManager.activeHex[i].id)
                             {
                                 off = false;
                                 break;
@@ -137,7 +139,7 @@ public class TeleportCollider : MonoBehaviour
 
                         if (off)
                         {
-                            arrHexCreados[activeHex[i].id].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+                            activeHex[i].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
                             activeHex.RemoveAt(i);
                         }
                     }

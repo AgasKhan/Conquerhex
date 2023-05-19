@@ -17,7 +17,7 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
     [SerializeField]
     protected Tim _velocity = new Tim();
 
-    public event System.Action onTeleport;
+    public event System.Action<Teleport> onTeleport;
 
     public float maxSpeed
     {
@@ -127,9 +127,9 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         return this;
     }
 
-    public void Teleport()
+    public void Teleport(Teleport hexagone)
     {
-        onTeleport?.Invoke();
+        onTeleport?.Invoke(hexagone);
     }
 
     public virtual void ControllerDown(Vector2 dir, float tim)

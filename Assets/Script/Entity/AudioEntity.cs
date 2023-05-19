@@ -48,7 +48,7 @@ public class AudioEntity : AudioManager
         DamagedLifeAudio(arg3);
     }
 
-    private void TeleportAudio()
+    private void TeleportAudio(Teleport teleport)
     {
         Play(teleportAudio);
     }

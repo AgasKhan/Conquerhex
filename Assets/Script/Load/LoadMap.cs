@@ -143,9 +143,6 @@ public class LoadMap : SingletonMono<LoadMap>
 
             arrHexTeleport.name = "Hexagono " + i;
 
-            arrHexTeleport.ladosArray = new int[6, 2];//Lo uso para definir A DONDE me voy a teletransportar
-            arrHexTeleport.ladosPuntos = new float[6, 2];//Lo uso para guardar la coordenadas de cada lado
-
             rng = Random.Range(0, terreno.GetLength(0));
 
             FillTilePos(terreno[rng], arrHexCreados[i].transform.position, 42);
@@ -234,41 +231,43 @@ public class LoadMap : SingletonMono<LoadMap>
         
         yield return new WaitForCorutines(this, LoadHex, (s) => msg(s));
 
-        //prototipo de us
-
-        //audioListener.enabled = false;
 
         //configuro las camaras y los carlitos para el primer hexagono
 
-        arrHexTeleport = arrHexCreados[0];
+        LoadSystem.AddPostLoadCorutine(() => {
 
-        arrHexCreados[0].gameObject.SetActive(true);
+            arrHexTeleport = arrHexCreados[0];
 
-        activeHex.Add(0, arrHexCreados[0]);
+            arrHexCreados[0].gameObject.SetActive(true);
 
-        for (int i = 0; i < cameras.Length; i++)
-        {
-            arrHexCreados[arrHexTeleport.ladosArray[i, 0]].gameObject.SetActive(true);
+            activeHex.Add(0, arrHexCreados[0]);
 
-            activeHex.Add(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].id, arrHexCreados[arrHexTeleport.ladosArray[i, 0]]);
+            for (int i = 0; i < cameras.Length; i++)
+            {
+                arrHexTeleport.ladosArray[i].gameObject.SetActive(true);
 
-            cameras[i].gameObject.transform.position = new Vector3(
-                arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.x,
-                arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position.y,
-                cameras[i].gameObject.transform.position.z
-            );
+                activeHex.Add(arrHexTeleport.ladosArray[i].id, arrHexTeleport.ladosArray[i]);
 
-            //cameras[i].orthographicSize = correcionZoom;
+                cameras[i].gameObject.transform.position = new Vector3(
+                    arrHexTeleport.ladosArray[i].transform.position.x,
+                    arrHexTeleport.ladosArray[i].transform.position.y,
+                    cameras[i].gameObject.transform.position.z
+                );
 
-            renders[i] = GameObject.Find("render (" + i + ")");
+                //cameras[i].orthographicSize = correcionZoom;
 
-            renders[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[0].transform.position, i, renders[i].transform.position.z, 2);
+                renders[i] = GameObject.Find("render (" + i + ")");
 
-            //renders[i].transform.localScale = Vector3.one * scala;
+                renders[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[0].transform.position, i, renders[i].transform.position.z, 2);
 
-            if(playerPublic != null)
-                carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexCreados[arrHexTeleport.ladosArray[i, 0]].transform.position, ((i - 3) >= 0) ? (i - 3) : (i + 3), carlitos[i].transform.position.z, 2);
-        }
+                //renders[i].transform.localScale = Vector3.one * scala;
+
+                if (playerPublic != null)
+                    carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexTeleport.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), carlitos[i].transform.position.z, 2);
+            }
+        });
+
+        
 
         if (arrHexCreados.GetLength(0) > 1 && victoria!=null)
         {

@@ -157,10 +157,17 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         }
     }
 
+    int weaponIndex=-1;
+
     public Weapon weapon
     {
-        get => _weapon;
-        set => ChangeWeapon(value);
+        get
+        {
+            if (weaponIndex >= 0)
+                return caster.inventory[weaponIndex] as Weapon;
+            else
+                return null;
+        }
     }
 
     public bool cooldownTime => cooldown.Chck;
@@ -169,14 +176,11 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     System.Action<Vector2, float> up;
 
-    [SerializeField]
-    Weapon _weapon;
-
     [SerializeReference]
     protected Timer cooldown;
 
     [SerializeReference]
-    protected Entity caster;
+    protected StaticEntity caster;
 
     void TriggerTimerEvent()
     {
@@ -188,8 +192,17 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         finishTimer?.Invoke();
     }
 
-    void ChangeWeapon(Weapon weapon)
+    public void ChangeWeapon(int weaponIndex)
     {
+        if(! (caster.inventory[weaponIndex] is Weapon))
+        {
+            Debug.Log("No es un arma");
+            return;
+        }
+
+        Weapon weapon = (Weapon)caster.inventory[weaponIndex];
+
+
         foreach (var ability in itemBase.damages)
         {
             foreach (var dmg in weapon.damages)
@@ -205,11 +218,11 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
         this.weapon.durabilityOff -= Weapon_durabilityOff;
 
-        desEquipedWeapon?.Invoke(this._weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
+        desEquipedWeapon?.Invoke(this.weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
 
-        this._weapon = weapon;
+        this.weaponIndex = weaponIndex;
 
-        equipedWeapon?.Invoke(this._weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
+        equipedWeapon?.Invoke(this.weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
 
         this.weapon.durabilityOff += Weapon_durabilityOff;
     }
@@ -230,7 +243,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
         if (param.Length > 0)
         {
-            this.caster = param[0] as Entity;
+            this.caster = param[0] as StaticEntity;
 
             foreach (var item in itemBase.audios)
             {
@@ -239,7 +252,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         }  
 
         if (param.Length > 1)
-            _weapon = param[1] as Weapon;
+            weaponIndex = (int)param[1];
 
         cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, TriggerTimerFinishEvent);
 
@@ -253,7 +266,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     private void Weapon_durabilityOff()
     {
         desEquipedWeapon(weapon);
-        weapon = null;
+        weaponIndex = -1;
     }
 
     public void ControllerDown(Vector2 dir, float tim)

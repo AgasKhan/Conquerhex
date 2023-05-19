@@ -40,6 +40,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         instance._arrHexCreados = new Teleport[instance._hexagonos.GetLength(0)];
     }
 
+    public static int LadoOpuesto(int lado)
+    {
+        return ((lado - 3) >= 0) ? (lado - 3) : (lado + 3);
+    }
+
     public static void LocalSidePosHex(float apotema, float magnitud = 1f)
     {
         DebugPrint.Log("Calculo de posición de lados");

@@ -59,9 +59,9 @@ public class Character : DinamicEntity, ISwitchState<Character>
 
         set = (WeaponKata)combo.kata.Create();
 
-        var weapon = combo.weapon.Create();
+        inventory.Add(combo.weapon.Create());
 
-        set.Init(this, weapon);
+        set.Init(this, inventory.Count-1);
     }
 
     public override void TakeDamage(Damage dmg)
