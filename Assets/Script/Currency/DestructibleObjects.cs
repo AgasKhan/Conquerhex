@@ -13,7 +13,11 @@ public class DestructibleObjects : StaticEntity
     [SerializeField]
     StructureBase _structure;
 
+
+    
     float _pendingShake;
+
+    [SerializeField]
     Vector3 _initialPosition;
 
     protected override Damage[] vulnerabilities => _structure.vulnerabilities;
@@ -39,7 +43,7 @@ public class DestructibleObjects : StaticEntity
         var startTime = Time.realtimeSinceStartup;
         while (Time.realtimeSinceStartup < startTime + _pendingShake)
         {
-            Vector3 randomPoint = new Vector3(Random.Range(-1f, 1f) * _shakeIntensity, Random.Range(-1f, 1f) * _shakeIntensity, _initialPosition.z);
+            Vector3 randomPoint = new Vector3(Random.Range(_initialPosition.x - 0.5f, _initialPosition.x + 0.5f) * _shakeIntensity, Random.Range(_initialPosition.y - 0.5f, _initialPosition.y + 0.5f) * _shakeIntensity, _initialPosition.z);
             transform.position = randomPoint;
             yield return null;
         }

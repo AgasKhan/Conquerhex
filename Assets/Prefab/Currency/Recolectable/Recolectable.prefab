@@ -59,14 +59,15 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
   initialItems: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
   amount: 10
-  myDrop:
-    peso: 0
-    item: {fileID: 0}
+  structureBase: {fileID: 11400000, guid: 9d23f95dc7180424792ab17ffaa127a1, type: 2}
   references:
     version: 2
     RefIds: []

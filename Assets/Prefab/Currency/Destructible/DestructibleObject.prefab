@@ -49,7 +49,7 @@ MonoBehaviour:
   team: 1
   health:
     life:
-      total: 35
+      total: 0
       _current: 0
     regen:
       total: 0
@@ -59,17 +59,18 @@ MonoBehaviour:
       _current: 0
   drops:
   - peso: 80
-    item: {fileID: 0}
+    item: {fileID: 2635538499860542619, guid: 7c6fb66452e8bed458d3ce88950dedc5, type: 3}
   - peso: 20
-    item: {fileID: 0}
+    item: {fileID: 1521959271052507739, guid: 94bcf0b4b6299d441851294be4ad415d, type: 3}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
-  _shakeIntensity: 0
-  _shakeDuration: 0
+  _shakeIntensity: 0.4
+  _shakeDuration: 1
+  _structure: {fileID: 11400000, guid: d6f85c225cd843e43abbe912af8d3f6f, type: 2}
   references:
     version: 2
     RefIds: []
