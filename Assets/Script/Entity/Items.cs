@@ -13,7 +13,7 @@ public abstract class ItemBase : ShowDetails
     protected System.Type _itemType;
     protected abstract void SetCreateItemType();
     
-    public Item Create() 
+    public virtual Item Create()
     {
         var aux = System.Activator.CreateInstance(_itemType) as Item;
 

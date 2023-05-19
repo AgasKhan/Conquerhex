@@ -23,7 +23,7 @@ public class IAIO : IAFather
         param.health.regenUpdate += UpdateRegen;
 
 
-        if (param.prin.itemBase !=null)
+        if (param.prin !=null)
         {
             VirtualControllers.principal.SuscribeController(param.prin);
             param.prin.updateTimer += PrinUi;
@@ -31,7 +31,7 @@ public class IAIO : IAFather
         }
             
 
-        if (param.sec.itemBase != null)
+        if (param.sec != null)
         {
             VirtualControllers.secondary.SuscribeController(param.sec);
             param.sec.updateTimer += SecUi;
@@ -39,7 +39,7 @@ public class IAIO : IAFather
         }
             
 
-        if (param.ter.itemBase != null)
+        if (param.ter != null)
         {
             VirtualControllers.terciary.SuscribeController(param.ter);
             param.ter.updateTimer += TerUi;

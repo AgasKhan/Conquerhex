@@ -104,8 +104,14 @@ MonoBehaviour:
     rid: -2
   onTimer:
     rid: -2
+  attackTimer:
+    rid: -2
+  noAttackTimer:
+    rid: -2
   fadeOn: 0.1
   fadeOff: 0.1
+  fadeAttack: 0.01
+  fadeNoAttack: 1
   references:
     version: 2
     RefIds:

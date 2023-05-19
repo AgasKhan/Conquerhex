@@ -209,7 +209,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             {
                 if(ability.typeInstance == dmg.typeInstance && ability.amount>dmg.amount)
                 {
-                    rejectedWeapon(weapon);
+                    rejectedWeapon?.Invoke(weapon);
                     Debug.Log("arma no aceptada");
                     return;
                 }
@@ -265,7 +265,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     private void Weapon_durabilityOff()
     {
-        desEquipedWeapon(weapon);
+        desEquipedWeapon?.Invoke(weapon);
         weaponIndex = -1;
     }
 
@@ -277,13 +277,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             return;
         }
             
-
-        if(cooldown.Chck)
-        {
-            InternalControllerDown(dir, tim);
-            pressed = InternalControllerPress;
-            up = InternalControllerUp;
-        }
+        InternalControllerDown(dir, tim);
+        pressed = InternalControllerPress;
+        up = InternalControllerUp;
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
@@ -293,8 +289,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             reference?.Off();
             return;
         }
-            
+
         pressed(dir, tim);
+
     }
 
     public void ControllerUp(Vector2 dir, float tim)
@@ -304,8 +301,11 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             reference?.Off();
             return;
         }
-            
+
         up(dir, tim);
+
+
+        reference.Off();
 
         pressed = MyControllerVOID;
         up = MyControllerVOID;
@@ -357,6 +357,46 @@ public abstract class AreaKataBase : WeaponKataBase
     }
 }
 
+public class PressWeaponKata : WeaponKata
+{
+    public Timer pressCooldown;
+
+    protected override void InternalControllerDown(Vector2 dir, float tim)
+    {
+        if (!cooldown.Chck)
+            return;
+
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeOnOff reference, caster.transform.position);
+
+        this.reference = reference;
+        aux.SetParent(caster.transform);
+
+        aux.localScale *= itemBase.detect.diameter;
+
+        this.reference.Attack();
+
+        itemBase.Attack(caster, dir, weapon);
+        pressCooldown.Reset();
+    }
+
+    protected override void InternalControllerPress(Vector2 dir, float tim)
+    {
+        if(pressCooldown.Chck)
+        {
+            itemBase.Attack(caster, dir, weapon);
+            reference.Attack();
+            pressCooldown.Reset();
+        }
+    }
+
+    protected override void InternalControllerUp(Vector2 dir, float tim)
+    {
+        reference.Off();
+        cooldown.Reset();
+        pressCooldown.Reset();
+    }
+}
+
 
 /// <summary>
 /// Controlador que ejecuta el ataque cuando se suelta el boton de la habilidad
@@ -393,8 +433,6 @@ public class UpWeaponKata : WeaponKata
         itemBase.Attack(caster, dir, weapon);
 
         //PoolManager.SpawnPoolObject(itemBase.indexParticles[0], caster.transform.position);
-
-
-        reference.Off();
+        reference.Off().Attack();
     }
 }
