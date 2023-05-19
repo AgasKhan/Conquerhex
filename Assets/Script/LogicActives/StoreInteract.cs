@@ -9,16 +9,24 @@ public class StoreInteract : LogicActive<Character>
     [SerializeField]
     Character character;
 
-    public static StoreInteract storeInteract;
-
     public List<Recipes> recipes = new List<Recipes>();
+
+
+    //Parche-----------------------------------------
+    public static StoreInteract instance;
+
+    public override void Activate()
+    {
+        Activate(character, store);
+    }
+    //-----------------------------------------------
 
     private void Awake()
     {
         store = GetComponent<StaticEntity>();
         //obtenes la instancia del character
 
-        storeInteract = this;
+        instance = this;
     }
 
     protected override void InternalActivate(params Character[] specificParam)
@@ -29,14 +37,10 @@ public class StoreInteract : LogicActive<Character>
         //ejecuta las funciones de configuracion
     }
 
-    public override void Activate()
-    {
-        Activate(character, store);
-    }
 
-    public bool BuyAnItem(string recipeName, Character customer) //(ItemContainer customer, string recipeName)
+    public bool BuyAnItem(string recipeName) //(Character customer, string recipeName)
     {
-        if (customer == null)
+        if (character == null)
             return false;
 
         bool aux = true;
@@ -59,9 +63,9 @@ public class StoreInteract : LogicActive<Character>
             return false;
         }
 
-        if (recipe.CanCraft(customer))
+        if (recipe.CanCraft(character))
         {
-            recipe.Craft(customer);
+            recipe.Craft(character);
             recipes.Remove(recipe);
             return true;
         }
@@ -69,4 +73,11 @@ public class StoreInteract : LogicActive<Character>
             return false;
 
     }
+
+    public void ClearCustomerInventory()
+    {
+        character.inventory.Clear();
+    }
+
+
 }

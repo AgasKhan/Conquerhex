@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48b1c2f8970e79348b9011dfead2730a, type: 3}
-  m_Name: MartilloRecipe
+  m_Name: PicoDiamanteRecipe
   m_EditorClassIdentifier: 
-  _nameDisplay: MartilloRecipe
+  _nameDisplay: PicoDiamanteRecipe
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
   weight: 0
   materials:
   - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
+    Amount: 2
+  - Item: {fileID: 11400000, guid: 7247b3748717e0d4bb98ba638d24d0b3, type: 2}
     Amount: 3
-  - Item: {fileID: 11400000, guid: b8fcf2ebf3055d6448f2e27f48406fc4, type: 2}
-    Amount: 4
   result:
-    Item: {fileID: 11400000, guid: 42d5a7e28c1367a46937aeb369adf5cf, type: 2}
-    Amount: 1
+    Item: {fileID: 0}
+    Amount: 0
