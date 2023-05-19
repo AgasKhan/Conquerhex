@@ -65,9 +65,7 @@ MonoBehaviour:
   interact:
     pictionaries: []
   inventory: []
-  initialItems: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
-  amount: 10
-  structureBase: {fileID: 11400000, guid: 9d23f95dc7180424792ab17ffaa127a1, type: 2}
+  mySprite: {fileID: 5196309304934902380}
   references:
     version: 2
     RefIds: []
@@ -175,6 +173,12 @@ PrefabInstance:
 --- !u!4 &3915412827694575198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4646386922858054440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5196309304934902380 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
     type: 3}
   m_PrefabInstance: {fileID: 4646386922858054440}
   m_PrefabAsset: {fileID: 0}

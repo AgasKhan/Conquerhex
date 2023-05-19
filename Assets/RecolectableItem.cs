@@ -5,13 +5,14 @@ using UnityEngine;
 public class RecolectableItem : StaticEntity
 {
     [SerializeField]
-    ItemBase initialItems;
-    [SerializeField]
-    int amount;
+    SpriteRenderer mySprite;
 
-    [SerializeField]
-    StructureBase structureBase;
-    protected override Damage[] vulnerabilities => structureBase.vulnerabilities;
+    int minDrop;
+    int maxDrop;
+    
+    StructureBase myStructureBase;
+
+    protected override Damage[] vulnerabilities => myStructureBase.vulnerabilities;
 
     Timer recolect;
 
@@ -26,8 +27,6 @@ public class RecolectableItem : StaticEntity
 
     void MyAwake()
     {
-        health.Init(structureBase.life, structureBase.regen);
-
         recolect = TimersManager.LerpInTime(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 1, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToEnd(() =>
         {
@@ -38,8 +37,6 @@ public class RecolectableItem : StaticEntity
         .Stop();
 
         recolect.current = 0;
-
-        AddOrSubstractItems(initialItems.nameDisplay, amount);
     }
 
     public void Recolect(StaticEntity entity)
@@ -58,6 +55,21 @@ public class RecolectableItem : StaticEntity
     {
         AddAllItems(other.inventory);
     }
+
+
+    public void Init(ResourcesBase_ItemBase item, StructureBase structureBase)
+    {
+        health.Init(structureBase.life, structureBase.regen);
+
+        mySprite.sprite = item.image;
+
+        minDrop = item.minDrop;
+
+        maxDrop = item.maxDrop;
+
+        AddOrSubstractItems(item.nameDisplay, 1);
+    }
+
 }
 
 

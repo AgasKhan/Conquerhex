@@ -87,7 +87,7 @@ public abstract class StaticEntity : Entity, IItemContainer
 
         AddOrCreate(myItemBase, amount);
 
-        Debug.Log(string.Join("", inventory));
+        //Debug.Log(string.Join("", inventory));
     }
 
     void AddOrCreate(ItemBase itemBase, int amount)

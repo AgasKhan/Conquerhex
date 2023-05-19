@@ -10,6 +10,12 @@ public abstract class MyScripts : MonoBehaviour
 
     protected Action MyStarts;
 
+    protected Action MyOnEnables;
+
+    protected Action MyOnDisables;
+
+    protected Action MyOnDestroys;
+
     protected event Action MyUpdates
     {
         add
@@ -102,6 +108,8 @@ public abstract class MyScripts : MonoBehaviour
 
     private void OnEnable()
     {
+        MyOnEnables?.Invoke();
+        
         if(_update!=null)   
             GameManager.update.CreateOrSave(this, _update);
 
@@ -111,11 +119,15 @@ public abstract class MyScripts : MonoBehaviour
 
     private void OnDisable()
     {
+        MyOnDisables?.Invoke();
+        
         GameManager.update.Remove(this);
         GameManager.fixedUpdate.Remove(this);
     }
     private void OnDestroy()
     {
+        MyOnDestroys?.Invoke();
+
         GameManager.onPlay -= GameManager_onPlay;
 
         GameManager.onPause -= GameManager_onPause;

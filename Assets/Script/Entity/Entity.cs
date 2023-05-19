@@ -26,6 +26,10 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     IDamageable[] damageables;
 
+    //No se que tan bien este esto---------------------------------
+    public event System.Action onTakeDamage;
+    //-------------------------------------------------------------
+
     protected override void Config()
     {
         MyAwakes += MyAwake;
@@ -45,6 +49,15 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
         damageables = new IDamageable[aux.Length - 1];
 
+        /*
+        if(drops.Count > 0)
+        {
+            for (int i = 0; i < drops.Count; i++)
+            {
+                drops[i].prefab.Init(drops[i].item, drops[i].structureBase);
+            }
+        }
+        */
 
         //evita el bucle de llamarme a mi mmismo
         int ii = 0;
@@ -103,11 +116,17 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             {
                 //return item.item;
                 //-------------------------------------------------------------
-                PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference , transform.position + new Vector3(Random.Range(0, 2.5f), Random.Range(0, 2.5f)));
 
-                var originalInventory = item.item.GetComponent<RecolectableItem>();
+                for (int i = 0; i < Random.Range(item.item.minDrop, item.item.maxDrop + 1); i++)
+                {
+                    PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference, transform.position + new Vector3(Random.Range(0, 2.5f), Random.Range(0, 2.5f)));
 
-                reference.CopyFrom(originalInventory);
+                    reference.Init(item.item, item.structureBase);
+
+                    Debug.Log("-----------------------------------------------\n" + "SE DROPEO: " + item.item.name);
+
+                    reference.CopyFrom(item.prefab);
+                }
                 //-------------------------------------------------------------
             }
 
@@ -119,6 +138,8 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
     public virtual void TakeDamage(Damage dmg)
     {
         tim.Reset();
+        onTakeDamage?.Invoke();
+
 
         for (int i = 0; i < vulnerabilities.Length; i++)
         {
@@ -184,7 +205,11 @@ public struct DropItem
 {
     public int peso;
 
-    public GameObject item;
+    public RecolectableItem prefab;
+
+    public ResourcesBase_ItemBase item;
+
+    public StructureBase structureBase;
 }
 
 [System.Serializable]
@@ -251,10 +276,10 @@ public class Health : Init
         }
         else
         {
-            life.Substract(amount);                
+            life.Substract(amount);
         }
 
-        lifeUpdate?.Invoke(life, actualLife, amount);        
+        lifeUpdate?.Invoke(life, actualLife, amount);
 
         //actualizar ui
         return life.Percentage();

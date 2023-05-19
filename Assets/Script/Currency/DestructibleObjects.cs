@@ -16,22 +16,37 @@ public class DestructibleObjects : StaticEntity
 
     
     float _pendingShake;
-
-    [SerializeField]
     Vector3 _initialPosition;
 
     protected override Damage[] vulnerabilities => _structure.vulnerabilities;
-    private void OnEnable()
-    {
-        _initialPosition = transform.position;
 
-        health.noLife += ShakeSprite;
+    protected override void Config()
+    {
+        base.Config();
+
+        MyAwakes += MyOnEnable;
     }
 
 
+    private void MyOnEnable()
+    {
+        _initialPosition = transform.position;
+
+        onTakeDamage += ShakeSprite;
+
+        health.noLife += Health_noLife;
+
+        health.Init(_structure.life, _structure.regen);
+    }
+
+    private void Health_noLife()
+    {
+        gameObject.SetActive(false);
+    }
+
     void ShakeSprite()
     {
-        if(_shakeDuration > 0)
+        if(_shakeDuration > 0 && gameObject.active == true)
         {
             _pendingShake += _shakeDuration;
             StartCoroutine(Shake());
@@ -43,7 +58,7 @@ public class DestructibleObjects : StaticEntity
         var startTime = Time.realtimeSinceStartup;
         while (Time.realtimeSinceStartup < startTime + _pendingShake)
         {
-            Vector3 randomPoint = new Vector3(Random.Range(_initialPosition.x - 0.5f, _initialPosition.x + 0.5f) * _shakeIntensity, Random.Range(_initialPosition.y - 0.5f, _initialPosition.y + 0.5f) * _shakeIntensity, _initialPosition.z);
+            Vector3 randomPoint = new Vector3(Random.Range(_initialPosition.x - _shakeIntensity, _initialPosition.x + _shakeIntensity), Random.Range(_initialPosition.y - _shakeIntensity, _initialPosition.y + _shakeIntensity), _initialPosition.z);
             transform.position = randomPoint;
             yield return null;
         }
