@@ -25,6 +25,11 @@ public class Interfaz : MonoBehaviour
     TextCompleto tiempo;
     TextCompleto subtitulo;
 
+    public Character numLife;
+
+    public TMPro.TextMeshProUGUI numHealth;
+    public TMPro.TextMeshProUGUI numRegen;
+
     /// <summary>
     /// el primer parametro debe de ser un IGetPercentage
     /// </summary>
@@ -33,12 +38,14 @@ public class Interfaz : MonoBehaviour
     {
         IGetPercentage getPercentage = param[0] as IGetPercentage;
         vida.fillAmount = getPercentage.Percentage();
+        numHealth.text = numLife.health.actualLife.ToString();
     }
 
     void UpdateRegen(params object[] param)
     {
         IGetPercentage getPercentage = param[0] as IGetPercentage;
         regen.fillAmount = getPercentage.Percentage();
+        numRegen.text = numLife.health.actualRegen.ToString();
     }
 
     private void Awake()
@@ -73,7 +80,6 @@ public class Interfaz : MonoBehaviour
         Dialogo.rectTransform.sizeDelta = Vector2.zero;
        
         LoadSystem.AddPostLoadCorutine(MyCoroutine);
- 
     }
 
     IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
@@ -115,7 +121,7 @@ public class Interfaz : MonoBehaviour
             {
                 Dialogo.enabled = false;
             }   
-        }   
+        }
     }
 
     static public TextCompleto TitleSrchByName(string name)
