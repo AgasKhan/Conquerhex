@@ -34,6 +34,8 @@ public class ButtonsFunctions : MonoBehaviour
             {"Quit", DisplayWindow},
             {"Crafting", DisplayWindow},
             {"Inventory", DisplayWindow},
+            {"MenuDetails", DisplayWindow},
+            
 
             //Menu de opciones
             {"MuteEffects", MuteEffects},
