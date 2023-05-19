@@ -97,7 +97,7 @@ public class Vida : MonoBehaviour
 
             if (this.CompareTag("Player"))
             {
-                Interfaz.health.fillAmount = hp / maxHp;
+                //Interfaz.health.fillAmount = hp / maxHp;
 
                 if (hp <= 0)
                 {

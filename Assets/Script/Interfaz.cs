@@ -17,10 +17,12 @@ public class Interfaz : MonoBehaviour
                     float               widthDiag;
                     float               heightDiag;
 
-    public Image vida;
-    public Image regen;
 
-    static public Image health;
+    [Header("vida")]
+    public Image vida;
+    public TextMeshProUGUI textVida;
+    public Image regen;
+    public TextMeshProUGUI textRegen;
 
     TextCompleto tiempo;
     TextCompleto subtitulo;
@@ -33,19 +35,19 @@ public class Interfaz : MonoBehaviour
     {
         IGetPercentage getPercentage = param[0] as IGetPercentage;
         vida.fillAmount = getPercentage.Percentage();
+        textVida.text = ((int)(float)param[1]).ToString();
     }
 
     void UpdateRegen(params object[] param)
     {
         IGetPercentage getPercentage = param[0] as IGetPercentage;
         regen.fillAmount = getPercentage.Percentage();
+        textRegen.text = ((int)(float)param[1]).ToString();
     }
 
     private void Awake()
     {
         titulosC.Clear();
-
-        health = vida;
 
         foreach (var item in titulos)
         {
