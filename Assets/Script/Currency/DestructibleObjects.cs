@@ -14,9 +14,9 @@ public class DestructibleObjects : StaticEntity
     StructureBase _structure;
 
 
-    
     float _pendingShake;
     Vector3 _initialPosition;
+
 
     protected override Damage[] vulnerabilities => _structure.vulnerabilities;
 
@@ -46,7 +46,7 @@ public class DestructibleObjects : StaticEntity
 
     void ShakeSprite()
     {
-        if(_shakeDuration > 0 && gameObject.active == true)
+        if(_shakeDuration > 0 && gameObject.activeSelf)
         {
             _pendingShake += _shakeDuration;
             StartCoroutine(Shake());
