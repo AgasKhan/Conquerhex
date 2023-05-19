@@ -46,4 +46,3 @@ public abstract class LogicActive<T> : LogicActive
 
     protected abstract void InternalActivate(params T[] specificParam);
 }
-

@@ -9,7 +9,7 @@ public abstract class StaticEntity : Entity, IItemContainer
     [SerializeReference]
     public List<Item> inventory = new List<Item>();
 
-    Pictionarys<string, LogicActive> actions; //funciones de un uso para cuestiones internas
+    //Pictionarys<string, LogicActive> actions; //funciones de un uso para cuestiones internas
 
     public bool Contains(Item item)
     {

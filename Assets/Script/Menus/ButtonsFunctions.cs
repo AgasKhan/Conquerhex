@@ -85,7 +85,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void DeleteData(GameObject g)
     {
-        Store.instance.ClearCustomerInventory();
+        Building.instance.ClearCustomerInventory();
         SaveWithJSON.DeleteData();
         Restart(g);
         //refMenu.ChangeVolume(1f, "Effects");
@@ -168,12 +168,12 @@ public class ButtonsFunctions : MonoBehaviour
     void ShowStore(GameObject g)
     {
         DisplayWindow(g);
-        Store.instance.RefreshPlayerCoins();
+        Building.instance.RefreshPlayerCoins();
     }
 
     void BuySingleItem(GameObject g)
     {
-        if (Store.instance.BuyAnItem(g.transform.parent.name))
+        if (Building.instance.BuyAnItem(g.transform.parent.name))
         {
             var aux = g.GetComponent<UnityEngine.UI.Button>();
             aux.interactable = false;
@@ -181,7 +181,7 @@ public class ButtonsFunctions : MonoBehaviour
             BaseData.playerInventory.Add(g.transform.parent.name);
             
             DetailsWindow.instance.EnableButton();
-            Store.instance.RefreshPlayerCoins();
+            Building.instance.RefreshPlayerCoins();
         }
     }
 
