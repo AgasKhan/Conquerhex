@@ -55,7 +55,7 @@ public class DetailsWindow : MonoBehaviour
     }
     public void ShowOrHide(bool condition)
     {
-        this.gameObject.SetActive(condition);
+        gameObject.SetActive(condition);
     }
 
 
@@ -176,6 +176,18 @@ public class DetailsWindow : MonoBehaviour
 
             button.name = buttonsNames[i];
         }
+    }
+
+    public void CreateStoreButton(string itemName, string buttonName)
+    {
+        var father = Instantiate(buttonPrefab, buttonsGrid);
+        father.name = itemName;
+
+        var button = father.GetComponentInChildren<Button>();
+        button.name = buttonName;
+
+        var text = button.GetComponentInChildren<TextMeshProUGUI>();
+        text.text = itemName;
     }
     //--------------------------------------------------------
 

@@ -169,8 +169,10 @@ public class ButtonsFunctions : MonoBehaviour
     
     void ShowStore(GameObject g)
     {
-        DisplayWindow(g);
+        DisplayWindow(g); 
         //Building.instance.RefreshPlayerCoins();
+
+
     }
 
     void BuySingleItem(GameObject g)
