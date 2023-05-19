@@ -115,14 +115,14 @@ public class IAIO : IAFather
         EventManager.events.SearchOrCreate<EventTimer>(ControllerEnum.terciary).ExecuteEnd();
     }
 
-    void UpdateLife(IGetPercentage getPercentage)
+    void UpdateLife(IGetPercentage arg1, float arg2, float arg3)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).Execute(getPercentage);
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).Execute(arg1, arg2, arg3);
     }
 
-    void UpdateRegen(IGetPercentage getPercentage)
+    void UpdateRegen(IGetPercentage arg1, float arg2, float arg3)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(getPercentage);
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(arg1, arg2, arg3);
     }
 
 }

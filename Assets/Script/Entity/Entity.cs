@@ -191,13 +191,15 @@ public class Health : Init
     public float maxRegen => regen.total;
     public float actualRegen => regen.current;
 
-    public event System.Action<IGetPercentage> lifeUpdate;
+    /// <summary>
+    /// porcentage actual e input
+    /// </summary>
+    public event System.Action<IGetPercentage, float, float> lifeUpdate;
 
-    public event System.Action<IGetPercentage> regenUpdate;
-
-    public event System.Action<float> lifeUpdateAmount;
-
-    public event System.Action<float> regenUpdateAmount;
+    /// <summary>
+    /// porcentage actual e input
+    /// </summary>
+    public event System.Action<IGetPercentage, float, float> regenUpdate;
 
     public event System.Action noLife;
 
@@ -217,8 +219,7 @@ public class Health : Init
             deathBool = true;
         }
 
-        regenUpdate?.Invoke(regen);
-        regenUpdateAmount?.Invoke(amount);
+        regenUpdate?.Invoke(regen, actualRegen, amount);
 
         return regen.Percentage();
     }
@@ -242,10 +243,7 @@ public class Health : Init
             life.Substract(amount);                
         }
 
-        lifeUpdate?.Invoke(life);
-        
-        lifeUpdateAmount?.Invoke(amount);
-        
+        lifeUpdate?.Invoke(life, actualLife, amount);        
 
         //actualizar ui
         return life.Percentage();
@@ -261,16 +259,18 @@ public class Health : Init
         if (life.current <= 0)
             noLifeBool = true;
 
+        /*
         life.Substract(-1 * (regen.current / 100f) * life.total);
         regen.Substract(-1);
+        */
 
-        if(noLifeBool && life.current>0)
+        TakeLifeDamage(-1 * (regen.current / 100f) * life.total);
+        TakeRegenDamage(-1);
+
+        if (noLifeBool && life.current>0)
         {
             reLife?.Invoke();
         }
-
-        lifeUpdate?.Invoke(life);
-        regenUpdate?.Invoke(regen);
     }
 
     /// <summary>
