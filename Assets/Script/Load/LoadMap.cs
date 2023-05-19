@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class LoadMap : SingletonMono<LoadMap>
 {
+    public bool execute = true;
+
     public Transform[] carlitos;
 
     public Camera[] cameras;
@@ -38,10 +40,14 @@ public class LoadMap : SingletonMono<LoadMap>
     int[][,] hexagonos => HexagonsManager.hexagonos;
 
     // Start is called before the first frame update
+
+    
+
     protected override void Awake()
     {
         base.Awake();
-        LoadSystem.AddPostLoadCorutine(CargaHexagonos);
+        if(execute)
+            LoadSystem.AddPostLoadCorutine(CargaHexagonos);
     }
 
     public Vector3 CalculateHexagonoPos(int index)
