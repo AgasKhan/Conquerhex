@@ -5,7 +5,7 @@ using TMPro;
 
 public class StoreInteract : LogicActive<Character>
 {
-    StaticEntity store;
+    //StaticEntity store;
 
     [SerializeField]
     Character character;
@@ -18,7 +18,7 @@ public class StoreInteract : LogicActive<Character>
 
     public override void Activate()
     {
-        Activate(character, store);
+        //Activate(character, store);
     }
     //-----------------------------------------------
 
@@ -30,7 +30,7 @@ public class StoreInteract : LogicActive<Character>
 
     private void Awake()
     {
-        store = GetComponent<StaticEntity>();
+        //store = GetComponent<StaticEntity>();
         //obtenes la instancia del character
 
         instance = this;
