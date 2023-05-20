@@ -25,7 +25,7 @@ public class StoreInteract : LogicActive<Character>
     //ParcheFeo--------------------------------------
     public DisplayMaterials[] materialsPrefab;
 
-    public TextMeshProUGUI inventarioEmergencia;
+    //public TextMeshProUGUI inventarioEmergencia;
     //-----------------------------------------------
 
     private void Awake()
@@ -111,7 +111,7 @@ public class StoreInteract : LogicActive<Character>
 
     public void RefreshInventory()
     {
-        inventarioEmergencia.text = string.Join("", character.inventory);
+        //inventarioEmergencia.text = string.Join("", character.inventory);
     }
 
 }

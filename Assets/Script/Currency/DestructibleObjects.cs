@@ -24,11 +24,16 @@ public class DestructibleObjects : StaticEntity
     {
         base.Config();
 
-        MyAwakes += MyOnEnable;
+        MyAwakes += MyAwake;
     }
 
 
-    private void MyOnEnable()
+    private void MyAwake()
+    {
+        LoadSystem.AddPostLoadCorutine(InitDestructibleObjs);
+    }
+
+    void InitDestructibleObjs()
     {
         _initialPosition = transform.position;
 
