@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class DetailsWindow : MonoBehaviour
 {
-    public static DetailsWindow instance;
-
     [SerializeField]
     TextMeshProUGUI myTitle;
 
@@ -40,8 +38,6 @@ public class DetailsWindow : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
-
         //gameObject.SetActive(false);
 
         /*
@@ -59,34 +55,34 @@ public class DetailsWindow : MonoBehaviour
     }
 
 
-    public static void ModifyTexts(DoubleString d)
+    public void ModifyTexts(DoubleString d)
     {
-        instance.myTitle.text = d.superior;
-        instance.myDescription.text = d.inferior;
+        myTitle.text = d.superior;
+        myDescription.text = d.inferior;
 
         //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
 
     }
-    public static void ModifyTexts(string title, string description)
+    public void ModifyTexts(string title, string description)
     {
-        instance.myTitle.text = title;
-        instance.myDescription.text = description;
+        myTitle.text = title;
+        myDescription.text = description;
 
         //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
 
     }
 
-    public static void ActiveButtons(bool value)
+    public void ActiveButtons(bool value)
     {
-        for (int i = 0; i < instance.buttonsGrid.childCount; i++)
+        for (int i = 0; i < buttonsGrid.childCount; i++)
         {
-            instance.buttonsGrid.GetChild(i).gameObject.SetActive(value);
+            buttonsGrid.GetChild(i).gameObject.SetActive(value);
         }
 
-        instance.buttonsGrid.parent.GetChild(0).gameObject.SetActive(value);
+        buttonsGrid.parent.GetChild(0).gameObject.SetActive(value);
     }
 
-    public static void GenerateButtons(DoubleString[] d)
+    public void GenerateButtons(DoubleString[] d)
     {
         ActiveButtons(true);
         /*
@@ -141,12 +137,12 @@ public class DetailsWindow : MonoBehaviour
     }
     */
 
-    static public void PreviewImage(bool active, Sprite sprite = null)
+    public void PreviewImage(bool active, Sprite sprite = null)
     {
-        instance.previewImage.gameObject.SetActive(active);
+        previewImage.gameObject.SetActive(active);
 
         if (sprite != null)
-            instance.previewImage.sprite = sprite;
+            previewImage.sprite = sprite;
     }
 
     public void SetWindow(Sprite sprite, DoubleString ds)
@@ -178,6 +174,8 @@ public class DetailsWindow : MonoBehaviour
         }
     }
 
+    string[] storeButtonsNames;
+
     public void CreateStoreButton(string itemName, string buttonName)
     {
         var father = Instantiate(buttonPrefab, buttonsGrid);
@@ -188,6 +186,7 @@ public class DetailsWindow : MonoBehaviour
 
         var text = button.GetComponentInChildren<TextMeshProUGUI>();
         text.text = itemName;
+        
     }
     //--------------------------------------------------------
 

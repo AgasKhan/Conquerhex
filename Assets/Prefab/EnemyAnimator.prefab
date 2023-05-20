@@ -191,8 +191,11 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops:
-  - peso: 10
-    item: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
+  - peso: 100
+    prefab: {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
+      type: 3}
+    item: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
+    structureBase: {fileID: 11400000, guid: 9d23f95dc7180424792ab17ffaa127a1, type: 2}
   damaged1: {r: 1, g: 0, b: 0.05043316, a: 1}
   damaged2: {r: 0, g: 0, b: 0, a: 1}
   audioManager: {fileID: 0}
@@ -200,10 +203,6 @@ MonoBehaviour:
     pictionaries: []
   inventory: []
   move: {fileID: 2904035125237228758}
-  fsmWork:
-    context: {fileID: 0}
-    work:
-      pictionaries: []
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
   prin:

@@ -32,7 +32,9 @@ public class ButtonsFunctions : MonoBehaviour
             {"DeleteData", DeleteData},
             {"Exit", Exit},
             {"Quit", DisplayWindow},
-            {"Crafting", DisplayWindow},
+
+
+            {"Crafting", Crafting},
             {"Inventory", DisplayWindow},
             {"MenuDetails", DisplayWindow},
             
@@ -68,6 +70,7 @@ public class ButtonsFunctions : MonoBehaviour
             {"MenuInGame", PauseMenu},
             {"BuySingleItem", BuySingleItem},
             {"EquipItem", EquipItem},
+
 
             {"ItemsButtons_1", DisplayStore},
             {"ItemsButtons_2", DisplayStore},
@@ -169,11 +172,17 @@ public class ButtonsFunctions : MonoBehaviour
     
     void ShowStore(GameObject g)
     {
-        //DisplayWindow(g);
+        DisplayWindow(g);
         //Building.instance.RefreshPlayerCoins();
-
-        StoreInteract.instance.Activate();
     }
+
+    void Crafting(GameObject g)
+    {
+        StoreInteract.instance.ShowCraftingW();
+    }
+
+
+    
 
     void BuySingleItem(GameObject g)
     {
@@ -184,7 +193,7 @@ public class ButtonsFunctions : MonoBehaviour
 
             BaseData.playerInventory.Add(g.transform.parent.name);
             
-            DetailsWindow.instance.EnableButton();
+            //DetailsWindow.EnableButton();
             //Building.instance.RefreshPlayerCoins();
         }
     }

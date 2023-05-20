@@ -27,7 +27,7 @@ public class MenuManager : SingletonMono<MenuManager>
     public Pictionarys<string, GameObject> subMenus = new Pictionarys<string, GameObject>();
 
     //[SerializeField]
-    Pictionarys<string, DetailsWindow> detailsWindows;
+    public Pictionarys<string, DetailsWindow> detailsWindows;
 
 
     protected override void Awake()

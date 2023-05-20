@@ -16,14 +16,17 @@ public class StoreInteract : LogicActive<Character>
     //Parche-----------------------------------------
     public static StoreInteract instance;
 
+
     public override void Activate()
     {
-        //Activate(character, store);
+        Activate(character);
     }
     //-----------------------------------------------
 
     //ParcheFeo--------------------------------------
     public DisplayMaterials[] materialsPrefab;
+
+
 
     //public TextMeshProUGUI inventarioEmergencia;
     //-----------------------------------------------
@@ -36,21 +39,59 @@ public class StoreInteract : LogicActive<Character>
         instance = this;
     }
 
-    protected override void InternalActivate(params Character[] specificParam)
+    bool myBool = true;
+    public void ShowCraftingW()
     {
-        MenuManager.instance.ShowWindow("Store");
+        MenuManager.instance.ShowWindow("Crafting");
         //aca se configuraria
 
         //ejecuta las funciones de configuracion
 
+        if(myBool)
+        {
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                //Se que esta horrible, sepa disculpar--------------------------------------------------------------------------
+
+                MenuManager.instance.detailsWindows["Crafting"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "Crafting");
+
+
+                if (i == 0)
+                {
+                    var aux = Manager<DetailsWindow>.pic["Crafting"].buttonsGrid.GetChild(0).GetComponentInChildren<UnityEngine.UI.Button>();
+                    aux.onClick?.Invoke();
+                }
+
+                //----------------------------------------------------------------------------------------------------------------
+            }
+
+            myBool = false;
+        }
+        
+    }
+
+
+    protected override void InternalActivate(params Character[] specificParam)
+    {
+        MenuManager.instance.ShowWindow("Crafting");
+        //aca se configuraria
+
+        //ejecuta las funciones de configuracion
+
+        Debug.Log("LLego a ShowWindow");
+
+        Debug.Log("Cantidad de recetas: " + recipes.Count);
+
         for (int i = 0; i < recipes.Count; i++)
         {
             //Se que esta horrible, sepa disculpar--------------------------------------------------------------------------
-            Manager<DetailsWindow>.pic["Store"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "Store");
+            Manager<DetailsWindow>.pic["Crafting"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "Crafting");
 
-            if(i==0)
+            Debug.Log("Entro al for");
+
+            if (i==0)
             {
-                var aux = Manager<DetailsWindow>.pic["Store"].buttonsGrid.GetChild(0).GetComponent<UnityEngine.UI.Button>();
+                var aux = Manager<DetailsWindow>.pic["Crafting"].buttonsGrid.GetChild(0).GetComponent<UnityEngine.UI.Button>();
                 aux.onClick.Invoke();
             }
             //----------------------------------------------------------------------------------------------------------------
