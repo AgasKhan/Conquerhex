@@ -36,7 +36,7 @@ public class ButtonsFunctions : MonoBehaviour
 
             {"CraftingMenu", Crafting},
             {"InventoryMenu", DisplayWindow},
-            {"MenuDetails", DisplayWindow},
+            {"MenuDetails", PauseMenu},
             
 
             //Menu de opciones
