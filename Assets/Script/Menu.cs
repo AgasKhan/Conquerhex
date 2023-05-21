@@ -22,7 +22,7 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     //    bool loadscene = false;
 
-    Teleport[] arrHexCreados => HexagonsManager.arrHexCreados;
+    Hexagone[] arrHexCreados => HexagonsManager.arrHexCreados;
 
     public void ChangeHex(string number)
     {

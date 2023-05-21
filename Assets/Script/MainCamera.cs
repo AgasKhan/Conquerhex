@@ -11,6 +11,6 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         if (obj == null)
             return;
-        transform.position  = obj.position.Vect3To2().Vec2to3(0);
+        transform.position  = obj.position.Vect3To2().Vec2to3(transform.position.z);
     }
 }

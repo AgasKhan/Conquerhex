@@ -6,10 +6,10 @@ public class TeleportCollider : MonoBehaviour
 {
 
     [SerializeField]
-    Teleport teleport;
+    Hexagone teleport;
 
     //hacia donde se teletransporta, el primer indice es el lado del propio hexagono, y el segundo es el destino (0 para la id y 1 para el lado)
-    Teleport[] ladosArray => teleport.ladosArray;
+    Hexagone[] ladosArray => teleport.ladosArray;
 
     //pareja de coordenadas
     float[,] ladosPuntos => teleport.ladosPuntos;
@@ -18,13 +18,11 @@ public class TeleportCollider : MonoBehaviour
 
     Vector2 anguloDefecto => teleport.anguloDefecto;
 
-    Teleport[] arrHexCreados => HexagonsManager.arrHexCreados;
-
-    Pictionarys<int, Teleport> activeHex => HexagonsManager.activeHex;
+    Pictionarys<int, Hexagone> activeHex => HexagonsManager.activeHex;
 
     private void Awake()
     {
-        teleport = GetComponentInParent<Teleport>();
+        teleport = GetComponentInParent<Hexagone>();
     }
 
     void OnTriggerStay2D(Collider2D other)
@@ -52,7 +50,7 @@ public class TeleportCollider : MonoBehaviour
             if (lado > 5)
                 lado = 5;
 
-            Teleport arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
+            Hexagone arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
 
             float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), vectorVelocidad);
 
@@ -106,46 +104,14 @@ public class TeleportCollider : MonoBehaviour
 
                 if (other.CompareTag("Player"))
                 {
-                    MainCamera.instance.gameObject.transform.position = new Vector3(
-                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - (ladosPuntos[lado, 0] - Camera.main.gameObject.transform.position.x),
-                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - (ladosPuntos[lado, 1] - Camera.main.gameObject.transform.position.y),
-                        Camera.main.gameObject.transform.position.z);
-
-                    for (int i = 0; i < LoadMap.instance.renders.Length; i++)
-                    {
-                        arrHexTeleport.ladosArray[i].gameObject.SetActive(true);
-                        activeHex.Add(arrHexTeleport.ladosArray[i].id, arrHexTeleport.ladosArray[i]);
-
-                        LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexTeleport.transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
-
-                        LoadMap.instance.cameras[i].gameObject.transform.position = new Vector2(
-                            arrHexTeleport.ladosArray[i].transform.position.x,
-                            arrHexTeleport.ladosArray[i].transform.position.y
-                            );
-                    }
-
-
-                    for (int i = activeHex.Count - 1; i >= 0; i--)
-                    {
-                        bool off = true;
-
-                        for (int l = 0; l < 6; l++)
-                        {
-                            if (arrHexTeleport.id == activeHex[i].id || arrHexTeleport.ladosArray[l].id == HexagonsManager.activeHex[i].id)
-                            {
-                                off = false;
-                                break;
-                            }
-                        }
-
-                        if (off)
-                        {
-                            activeHex[i].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
-                            activeHex.RemoveAt(i);
-                        }
-                    }
+                    arrHexTeleport.SetRenders(HexagonsManager.LadoOpuesto(lado));
                 }
             }
         }
+
+
     }
+
+    
+    
 }

@@ -44,31 +44,40 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     //delegado especifico
 
-    public static void AddPreLoadCorutine(WaitForCorutines.MyCoroutine myCoroutine)
+    public static void AddPreLoadCorutine(WaitForCorutines.MyCoroutine myCoroutine, int insert=-1)
     {
-        preLoad.Add(myCoroutine);
+        preLoad.AddOrInsert(myCoroutine, insert);
     }
 
-    public static void AddPostLoadCorutine(WaitForCorutines.MyCoroutine myCoroutine)
+    public static void AddPostLoadCorutine(WaitForCorutines.MyCoroutine myCoroutine, int insert = -1)
     {
-        postLoad.Add(myCoroutine);
+        postLoad.AddOrInsert(myCoroutine, insert);
     }
 
    
     //delegado adaptado
-    public static void AddPreLoadCorutine(System.Action myCoroutine)
+    public static void AddPreLoadCorutine(System.Action myCoroutine, int insert = -1)
     {
-        preLoadEvent.Add(myCoroutine);
+        preLoadEvent.AddOrInsert(myCoroutine, insert);
     }
 
-    public static void AddPostLoadCorutine(System.Action myCoroutine)
+    public static void AddPostLoadCorutine(System.Action myCoroutine, int insert = -1)
     {
-        postLoadEvent.Add(myCoroutine);
+        postLoadEvent.AddOrInsert(myCoroutine, insert);
     }
 
-    public static Object[] LoadAsset(string path)
+    public static Object[] LoadAssets(string path)
     {
         Object[] aux = Resources.LoadAll(path);
+
+        //Debug.Log("Cantidad de assets cargados: " + aux.Length.ToString());
+
+        return aux;
+    }
+
+    public static T[] LoadAssets<T>(string path) where T : Object
+    {
+        T[] aux = Resources.LoadAll<T>(path);
 
         //Debug.Log("Cantidad de assets cargados: " + aux.Length.ToString());
 

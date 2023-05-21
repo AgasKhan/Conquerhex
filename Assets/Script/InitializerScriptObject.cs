@@ -13,7 +13,7 @@ public class InitializerScriptObject : MonoBehaviour
     void Awake()
     {
         string path = "ScriptableObject";
-        var aux = LoadSystem.LoadAsset(path);
+        var aux = LoadSystem.LoadAssets(path);
 
         EnabledDebug = enabled ? EnabledDebug : false;
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HexagonsManager : SingletonMono<HexagonsManager>
 {
-    public static Teleport[] arrHexCreados => instance._arrHexCreados;
+    public static Hexagone[] arrHexCreados => instance._arrHexCreados;
 
-    public static Pictionarys<int, Teleport> activeHex => instance._activeHex;
+    public static Pictionarys<int, Hexagone> activeHex => instance._activeHex;
 
     public static float[,] auxCalc => instance._auxCalc;
 
@@ -14,11 +14,17 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static int[][,] hexagonos => instance._hexagonos;
 
+    public static float scala;
+
+    public static float lado;
+
+    public static float apotema;
+
     [SerializeReference]
-    Teleport[] _arrHexCreados;
+    Hexagone[] _arrHexCreados;
 
     [SerializeField]
-    Pictionarys<int, Teleport> _activeHex = new Pictionarys<int, Teleport>();
+    Pictionarys<int, Hexagone> _activeHex = new Pictionarys<int, Hexagone>();
 
     [SerializeReference]
     float[,] _auxCalc = new float[6, 2];
@@ -37,7 +43,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             instance._hexagonos[i] = new int[7, 2];
         }
 
-        instance._arrHexCreados = new Teleport[instance._hexagonos.GetLength(0)];
+        instance._arrHexCreados = new Hexagone[instance._hexagonos.GetLength(0)];
     }
 
     public static int LadoOpuesto(int lado)
@@ -45,7 +51,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         return ((lado - 3) >= 0) ? (lado - 3) : (lado + 3);
     }
 
-    public static void LocalSidePosHex(float apotema, float magnitud = 1f)
+    public void LocalSidePosHex(float magnitud = 1f)
     {
         DebugPrint.Log("Calculo de posición de lados");
 
@@ -191,9 +197,6 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                     }
                     //print(hexagonos[h, l, 0]);
                 }
-
-
-
             }
         }
         //correcion si por casualidad un hexagono se vinculo totalmente asi mismo
@@ -274,5 +277,32 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             DebugPrint.Log(pantalla);
         }
         return reload;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        scala = hexagono.transform.localScale.x;
+
+        lado = scala / 2; //+ correccionScala;
+
+        apotema = Mathf.Sqrt(Mathf.Pow(lado, 2) - Mathf.Pow(lado / 2, 2));
+
+        LocalSidePosHex();
+
+        DebugPrint.Log("Informacion de seteo");
+
+        DebugPrint.Log("lado" + lado);
+
+        DebugPrint.Log("apotema " + apotema);
+
+        LoadSystem.AddPostLoadCorutine(() => {
+
+            arrHexCreados[0].gameObject.SetActive(true);
+
+            activeHex.Add(0, arrHexCreados[0]);
+
+            arrHexCreados[0].SetRenders();
+        });
     }
 }

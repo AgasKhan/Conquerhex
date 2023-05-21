@@ -30,6 +30,4 @@ public class RenderTexture : MonoBehaviour
         sprite.material.SetFloat("_OverrideColor", overrideColor);
       */
     }
-
-    
 }

@@ -233,4 +233,9 @@ public static class Extensions
 
         return aux;
     }
+
+    static public void AddOrInsert<T>(this List<T> list, T toAdd ,int insert)
+    {
+        list.Insert(insert >= 0 ? insert : list.Count, toAdd);
+    }
 }
