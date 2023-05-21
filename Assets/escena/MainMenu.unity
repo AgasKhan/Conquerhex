@@ -11966,6 +11966,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2645146491418413512, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 2085456270}
     - target: {fileID: 2984370465521999757, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: audios.pictionaries.Array.size
@@ -18197,7 +18202,6 @@ GameObject:
   - component: {fileID: 2085456267}
   - component: {fileID: 2085456266}
   - component: {fileID: 2085456265}
-  - component: {fileID: 2085456264}
   m_Layer: 7
   m_Name: JSon Tester
   m_TagString: Enemigo
@@ -18205,19 +18209,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2085456264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2085456263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eceeddd4cce0aed4ebe5c322b0aadc7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 2085456270}
 --- !u!58 &2085456265
 CircleCollider2D:
   m_ObjectHideFlags: 0

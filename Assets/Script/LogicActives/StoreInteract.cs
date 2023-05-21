@@ -42,7 +42,7 @@ public class StoreInteract : LogicActive<Character>
     bool myBool = true;
     public void ShowCraftingW()
     {
-        MenuManager.instance.ShowWindow("Crafting");
+        MenuManager.instance.ShowWindow("CraftingMenu");
         //aca se configuraria
 
         //ejecuta las funciones de configuracion
@@ -53,12 +53,12 @@ public class StoreInteract : LogicActive<Character>
             {
                 //Se que esta horrible, sepa disculpar--------------------------------------------------------------------------
 
-                MenuManager.instance.detailsWindows["Crafting"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "Crafting");
+                MenuManager.instance.detailsWindows["CraftingMenu"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "CraftingMenu");
 
 
                 if (i == 0)
                 {
-                    var aux = Manager<DetailsWindow>.pic["Crafting"].buttonsGrid.GetChild(0).GetComponentInChildren<UnityEngine.UI.Button>();
+                    var aux = Manager<DetailsWindow>.pic["CraftingMenu"].buttonsGrid.GetChild(0).GetComponentInChildren<UnityEngine.UI.Button>();
                     aux.onClick?.Invoke();
                 }
 
@@ -73,7 +73,7 @@ public class StoreInteract : LogicActive<Character>
 
     protected override void InternalActivate(params Character[] specificParam)
     {
-        MenuManager.instance.ShowWindow("Crafting");
+        MenuManager.instance.ShowWindow("CraftingMenu");
         //aca se configuraria
 
         //ejecuta las funciones de configuracion
@@ -85,13 +85,13 @@ public class StoreInteract : LogicActive<Character>
         for (int i = 0; i < recipes.Count; i++)
         {
             //Se que esta horrible, sepa disculpar--------------------------------------------------------------------------
-            Manager<DetailsWindow>.pic["Crafting"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "Crafting");
+            Manager<DetailsWindow>.pic["CraftingMenu"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "CraftingMenu");
 
             Debug.Log("Entro al for");
 
             if (i==0)
             {
-                var aux = Manager<DetailsWindow>.pic["Crafting"].buttonsGrid.GetChild(0).GetComponent<UnityEngine.UI.Button>();
+                var aux = Manager<DetailsWindow>.pic["CraftingMenu"].buttonsGrid.GetChild(0).GetComponent<UnityEngine.UI.Button>();
                 aux.onClick.Invoke();
             }
             //----------------------------------------------------------------------------------------------------------------
