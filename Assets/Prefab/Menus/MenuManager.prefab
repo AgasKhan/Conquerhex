@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 4418523952358345047}
   - component: {fileID: 7370776945268583976}
   - component: {fileID: 2984370465521999757}
+  - component: {fileID: 2645146491418413512}
   m_Layer: 5
   m_Name: MenuManager
   m_TagString: Untagged
@@ -134,6 +135,8 @@ MonoBehaviour:
     pictionaries: []
   subMenus:
     pictionaries: []
+  detailsWindows:
+    pictionaries: []
 --- !u!114 &5768513404646989340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbbb45ecf6ac894cbddc3a89ebc4a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  _button: {fileID: 0}
 --- !u!114 &6227486016251379411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +253,26 @@ MonoBehaviour:
         loop: 1
         onAwake: 0
         source: {fileID: 0}
+--- !u!114 &2645146491418413512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009890561030537687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  recipes:
+  - {fileID: 11400000, guid: 994beb7009ac885449ffa73177ee5b4e, type: 2}
+  - {fileID: 11400000, guid: c88757d1fa1c552489f76dace6b7124c, type: 2}
+  - {fileID: 11400000, guid: ccbe21c7b61c7b045a18c001558a38a7, type: 2}
+  - {fileID: 11400000, guid: ee1ae9ab41fb239459c01fafda656d5f, type: 2}
+  - {fileID: 11400000, guid: 2bef3613204d4504ca04a2e8d175af7b, type: 2}
+  - {fileID: 11400000, guid: d6cdd456010f0684aabb2433dc5bfe36, type: 2}
 --- !u!1 &3894021886798516308
 GameObject:
   m_ObjectHideFlags: 0

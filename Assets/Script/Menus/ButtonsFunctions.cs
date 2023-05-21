@@ -34,9 +34,9 @@ public class ButtonsFunctions : MonoBehaviour
             {"Quit", DisplayWindow},
 
 
-            {"Crafting", Crafting},
-            {"Inventory", DisplayWindow},
-            {"MenuDetails", DisplayWindow},
+            {"CraftingMenu", Crafting},
+            {"InventoryMenu", DisplayWindow},
+            {"MenuDetails", PauseMenu},
             
 
             //Menu de opciones
@@ -275,7 +275,7 @@ public class ButtonsFunctions : MonoBehaviour
     #region Static Buttons
     void Example(GameObject g)
     {
-        Debug.Log("Apretaste el boton");
+        //Debug.Log("Apretaste el boton");
     }
 
     void StartGame(GameObject g)
