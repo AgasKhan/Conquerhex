@@ -236,6 +236,13 @@ public static class Extensions
 
     static public void AddOrInsert<T>(this List<T> list, T toAdd ,int insert)
     {
-        list.Insert(insert >= 0 ? insert : list.Count, toAdd);
+        if(insert<0 || insert>= list.Count)
+        {
+            list.Add(toAdd);
+        }
+        else
+        {
+            list.Insert(insert, toAdd);
+        }
     }
 }
