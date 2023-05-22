@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Arrive : SteeringBehaviour
 {
-
     protected override Vector2 InternalCalculate(MoveAbstract target)
     {
         Vector2 desired = Direction(target);

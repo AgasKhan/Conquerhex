@@ -84,11 +84,6 @@ public class IABoid : IAFather
         move.ControllerPressed(dir, 0);
     }
 
-    public void SwitchComportomiento<T>(string key) where T : SteeringBehaviour
-    {
-        steerings[key].steering = steerings[key].steering.SwitchSteering<T>();
-    }
-
     Vector2 BoidIntern(_FuncBoid func, bool promedio, float radius)
     {
         Vector2 desired = Vector2.zero;
@@ -197,21 +192,6 @@ public class SteeringWithTarger
             return steering.Calculate(GetMove(targets[i].GetTransform())) * weight;
         }
     }
-
-    /*
-    public Transform GetTransform(IGetEntity getEntity)
-    {
-        if ((getEntity.GetEntity().transform.position - steering.transform.position).sqrMagnitude > (getEntity.GetTransform().position - steering.transform.position).sqrMagnitude)
-            return getEntity.GetTransform();
-        else
-            return getEntity.GetEntity().transform;
-    }
-
-    public Transform GetTransform(int i )
-    {
-        return GetTransform(targets[i]);
-    }
-    */
 
     public MoveAbstract GetMove(Transform tr)
     {
