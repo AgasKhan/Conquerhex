@@ -45,8 +45,6 @@ public class JoyController : MonoBehaviour
         EventManager.events.SearchOrCreate<EventTimer>(eventController).end += JoyController_end;
 
         LoadSystem.AddPostLoadCorutine(SetStick);
-
-        //rutina = TimersManager.Create(3, SetStick, false);
     }
 
     

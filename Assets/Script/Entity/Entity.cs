@@ -140,7 +140,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         tim.Reset();
         onTakeDamage?.Invoke();
 
-
         for (int i = 0; i < vulnerabilities.Length; i++)
         {
             if(dmg.typeInstance == vulnerabilities[i].typeInstance)
@@ -157,6 +156,8 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         {
             item.TakeDamage(dmg);
         }
+
+        health.StartRegenTimer();
     }
 
     /// <summary>
@@ -245,6 +246,11 @@ public class Health : Init
 
     bool deathBool=false;
 
+    public void StartRegenTimer()
+    {
+        timeToRegen.Start();
+    }
+
     public float TakeRegenDamage(float amount)
     {
         timeToRegen.Reset();
@@ -307,6 +313,10 @@ public class Health : Init
         {
             reLife?.Invoke();
         }
+
+        
+        if (regen.current == regen.total && life.current == life.total)
+            timeToRegen.Stop();
     }
 
     /// <summary>
@@ -326,7 +336,7 @@ public class Health : Init
         }
 
         timeToRegen = TimersManager.Create(3, Regen);
-        timeToRegen.SetLoop(true);
+        timeToRegen.SetLoop(true).Stop();
     }
 }
 

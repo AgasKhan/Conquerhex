@@ -38,6 +38,16 @@ public class IAHunter : IAFather
         patrol.Init(this);
     }
 
+    private void OnEnable()
+    {
+        fsm?.energy.Start();
+    }
+
+    private void OnDisable()
+    {
+        fsm?.energy.Stop();
+    }
+
     public override void OnEnterState(Character param)
     {
         character = param;
@@ -86,7 +96,6 @@ public class HunterIntern : FSM<HunterIntern, IAHunter>
     {
         energy = TimersManager.Create(15, IdleEvent);
         Init(idle);
-
     }
 }
 

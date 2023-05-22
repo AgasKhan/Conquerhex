@@ -241,7 +241,8 @@ public class Wait : IState<FSMPatrol>
 
     public void OnEnterState(FSMPatrol param)
     {
-        timer.Reset();
+        if(param.context.patrolParent.childCount>1)
+            timer.Reset();
         param.OnStartWait?.Invoke();
     }
 

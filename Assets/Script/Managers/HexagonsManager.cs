@@ -94,8 +94,6 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         int[][,] hex = hexagonos;
 
-        bool aislado = false;
-
         //if (comprobacion)
             for (int h = 0; h < hex.GetLength(0); h++)
             {
@@ -106,7 +104,6 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                         hex[h][l, i] = 0;
                     }
                 }
-
             }
 
 
@@ -153,31 +150,21 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                     lado--;
 
                     //calculo el lado opuesto (cuando quiera trabajarlo para mi array de hexagonos voy a tener que sumarle 1 para equivaler los indices)
-                    int ladoOpuesto = ((lado - 3) >= 0) ? (lado - 3) : (lado + 3);
+                    int ladoOpuesto = LadoOpuesto(lado);
 
                     //Le vuelvo a incrementar 1 para dejarlo como estaba
                     lado++;
 
-                    int auxL, auxI, auxRandom;
+                    int auxL, auxI;
                     //Voy a guardar la cantidad maxima de indices para despues poder elegir uno al azar, dentro de la lista
                     //me encargo de no pisar un lado ya seteado
                     if (hex[hexIndex][lado, 1] == 0 && ((auxL = disponibles[ladoOpuesto].Count) > 0))
                     {
-                        
-                        do
-                        {
-                            //defino mi numero aleatorio en base a la disponibilidad (ya que los anteriores hexagonos ya los tengo seteados, no quiero pisarlos)
-                            auxRandom = Random.Range(0, auxL);
 
-                            //utilizo un while para no vincularme a mi mismo al menos que no quede otra opcion
-                        } while(auxRandom == hexIndex && auxL>1);
-
-                        auxL = auxRandom;
+                        auxL = Random.Range(0, auxL);
 
                         //obtengo el indice de los hexagonos a partir de la lista
                         auxI = disponibles[ladoOpuesto][auxL];
-
-                        //print("lado " + ladoOpuesto + " ID " + disponibles[ladoOpuesto][auxL]);
 
                         //quito tanto el elegido de forma aleatoria como el que estoy parado ahora
                         disponibles[ladoOpuesto].RemoveAt(auxL);
@@ -199,25 +186,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 }
             }
         }
-        //correcion si por casualidad un hexagono se vinculo totalmente asi mismo
-        for (int h = 0; h < hex.GetLength(0); h++)
-        {
-            bool auxAislado = true;
+      
 
-            for (int l = 1; l < hex[h].GetLength(0); l++)
-            {
-                if (hex[h][l, 0] != h)
-                {
-                    auxAislado = false;
-                }
-            }
-            if (auxAislado)
-            {
-                aislado = true;
-            }
-        }
-
-        if (ImprimirHexagonos(hex) || (aislado && hex.GetLength(0) > 1))
+        if (ChequeoHexagonos(hex))
         {
             DebugPrint.Warning("Generacion no grata, rearmando");
             Debug.LogWarning("warning, rearmando");
@@ -225,7 +196,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             msg("Generacion no grata, rearmando");
             yield return null;
             yield return new WaitForCorutines(this,VincularHexagonos,(s)=>msg(s));
-            msg("rearmando exitoso");
+            msg("rearmado exitoso");
         }
         else
         {
@@ -242,12 +213,13 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     /// </summary>
     /// <param name="hexagonos"></param>
     /// <returns></returns>
-    bool ImprimirHexagonos(int[][,] hexagonos)
+    bool ChequeoHexagonos(int[][,] hexagonos)
     {
         /*
             Ademas de mostrar en consola el valor del array 
             muestra errores de relacion, en caso de que existan
         */
+
         bool reload = false;
 
         DebugPrint.Log("Mapeado de hexagonos");
@@ -276,6 +248,34 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             }
             DebugPrint.Log(pantalla);
         }
+
+        if(reload)
+            return reload;
+
+        List<int> checkedList = new List<int>();//historial
+        Queue<int> toCheck = new Queue<int>();
+
+        toCheck.Enqueue(0);//agrego mi comienzo
+        checkedList.Add(0); //lo agrego como ya verificado, solo por ser el comienzo
+
+        while (toCheck.TryDequeue(out int current))//si ya no tengo nada mas que chequear significa que ya recorri todos los posibles hexagonos desde el comienzo
+        {
+            for (int l = 1; l < hexagonos[current].GetLength(0); l++)
+            {
+                if(!checkedList.Contains(hexagonos[current][l,0]))
+                {
+                    toCheck.Enqueue(hexagonos[current][l, 0]);
+                    checkedList.Add(hexagonos[current][l, 0]);
+                }
+            }
+        }
+
+        if(checkedList.Count != hexagonos.Length)//si mi cantidad de hexagonos no es la misma que la que puedo recorrer re armo el recorrido
+        {
+            reload = true;
+            Debug.Log(checkedList.Count + " " + hexagonos.GetLength(0));
+        }
+
         return reload;
     }
 
