@@ -81,7 +81,7 @@ public class Hexagone : MonoBehaviour
         {
             for (int ii = y; ii < yFin; ii++)
             {
-                map.SetTile(new Vector3Int(i, ii, 20), biomes.tile[Random.Range(0, biomes.tile.Length)]);
+                map.SetTile(new Vector3Int(i, ii, 0), biomes.tile[Random.Range(0, biomes.tile.Length)]);
             }
         }
 
@@ -200,7 +200,7 @@ public class Hexagone : MonoBehaviour
 
     private void Start()
     {
-        if (manualTiles)
+        if (!manualTiles)
             FillTilePos();
 
         if (manualSetEdge)
