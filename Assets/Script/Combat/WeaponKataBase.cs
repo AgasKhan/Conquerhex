@@ -305,7 +305,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         up(dir, tim);
 
 
-        reference.Off();
+        reference?.Off();
 
         pressed = MyControllerVOID;
         up = MyControllerVOID;

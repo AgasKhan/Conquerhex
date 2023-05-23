@@ -17,7 +17,10 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
     [SerializeField]
     protected Tim _velocity = new Tim();
 
-    public event System.Action<Hexagone> onTeleport;
+    /// <summary>
+    /// primer parametro hexagono, segundo es el lado del cual se le teletransporta
+    /// </summary>
+    public event System.Action<Hexagone, int> onTeleport;
 
     public float maxSpeed
     {
@@ -127,9 +130,9 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         return this;
     }
 
-    public void Teleport(Hexagone hexagone)
+    public void Teleport(Hexagone hexagone, int lado)
     {
-        onTeleport?.Invoke(hexagone);
+        onTeleport?.Invoke(hexagone, lado);
     }
 
     public virtual void ControllerDown(Vector2 dir, float tim)

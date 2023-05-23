@@ -18,6 +18,7 @@ public class IAIO : IAFather
 
         param.gameObject.tag = "Player";
 
+        param.move.onTeleport += TeleportEvent;
 
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
@@ -46,15 +47,18 @@ public class IAIO : IAFather
             param.ter.finishTimer += TerUiFinish;
         }
             
-
-
         VirtualControllers.movement.SuscribeController(param.move);
     }
 
-
+    private void TeleportEvent(Hexagone obj, int lado)
+    {
+        obj.SetRenders(HexagonsManager.LadoOpuesto(lado));
+    }
 
     public override void OnExitState(Character param)
     {
+        param.move.onTeleport -= TeleportEvent;
+
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
 

@@ -26,8 +26,8 @@ public class AudioEntity : AudioManager
         }
         if (audios.ContainsKey(damagedRegenAudio))
         {
-            entity.health.regenUpdate += Health_regenUpdate; ;
-        }    
+            entity.health.regenUpdate += Health_regenUpdate;
+        }
 
         if(entity is DinamicEntity)
         {
@@ -35,7 +35,7 @@ public class AudioEntity : AudioManager
 
             if(audios.ContainsKey(teleportAudio))
                 aux.move.onTeleport += TeleportAudio;
-        }    
+        }
     }
 
     private void Health_regenUpdate(IGetPercentage arg1, float arg2, float arg3)
@@ -48,7 +48,7 @@ public class AudioEntity : AudioManager
         DamagedLifeAudio(arg3);
     }
 
-    private void TeleportAudio(Hexagone teleport)
+    private void TeleportAudio(Hexagone teleport, int lado)
     {
         Play(teleportAudio);
     }

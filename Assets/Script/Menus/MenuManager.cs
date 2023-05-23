@@ -15,13 +15,9 @@ public class MenuManager : SingletonMono<MenuManager>
 
     //para los eventos-------------------------------------------------------
     public Pictionarys<string, Action<GameObject>> eventListVoid = new Pictionarys<string, Action<GameObject>>();
-    public Pictionarys<string, Action<GameObject, float>> eventListFloat = new Pictionarys<string, Action<GameObject, float>>();
-    public Pictionarys<string, Action<GameObject, string>> eventListString = new Pictionarys<string, Action<GameObject, string>>();
 
-    //public Pictionarys<string, Action<Slider>> eventListSliderOn = new Pictionarys<string, Action<Slider>>();
     public Pictionarys<string, Action<Button>> eventListButtoOn = new Pictionarys<string, Action<Button>>();
     //-----------------------------------------------------------------------
-
 
     //[SerializeField]
     public Pictionarys<string, GameObject> subMenus = new Pictionarys<string, GameObject>();
@@ -35,8 +31,6 @@ public class MenuManager : SingletonMono<MenuManager>
         base.Awake();
 
         audioM = GetComponent<AudioManager>();
-
-        detailsWindows = Manager<DetailsWindow>.pic;
 
         GetDetailsWinAndSubMenus();
 
@@ -77,27 +71,14 @@ public class MenuManager : SingletonMono<MenuManager>
 
     void GetDetailsWinAndSubMenus()
     {
-        for (int i = 0; i < transform.childCount; i++)
+
+        var allDetailsWindows = GetComponentsInChildren<DetailsWindow>();
+
+        foreach (var item in allDetailsWindows)
         {
-            GameObject aux = transform.GetChild(i).gameObject;
-
-            for (int j = 0; j < aux.transform.childCount; j++)
-            {
-                GameObject aux2 = aux.transform.GetChild(j).gameObject;
-
-                var detailsWin2 = aux2.GetComponent<DetailsWindow>();
-
-                if (detailsWin2 != null)
-                    detailsWindows.Add(aux2.name, detailsWin2);
-            }
-
-            var detailsW= aux.GetComponent<DetailsWindow>();
-
-            if (detailsW != null)
-                detailsWindows.Add(aux.name, detailsW);
-            else
-                subMenus.Add(aux.name, aux);
+            detailsWindows.Add(item.name, item);
         }
+
     }
 
     public void ShowWindow(string key)

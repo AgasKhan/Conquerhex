@@ -7,5 +7,5 @@ using UnityEngine.Tilemaps;
 public class Biomes : ShowDetails
 {
     public Tile[] tile;
-    public GameObject[] props;
+    public List<GameObject> props;
 }

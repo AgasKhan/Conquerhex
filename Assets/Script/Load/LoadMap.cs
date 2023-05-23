@@ -69,7 +69,11 @@ public class LoadMap : SingletonMono<LoadMap>
         {
             string path = "Props/" + biomes[i].nameDisplay + "/";
 
-            biomes[i].props = LoadSystem.LoadAssets<GameObject>(path);
+            foreach (var item in LoadSystem.LoadAssets<GameObject>(path))
+            {
+                if (!biomes[i].props.Contains(item))
+                    biomes[i].props.Add(item);
+            }
         }
 
         //StartCoroutine(VincularHexagonos());

@@ -229,12 +229,12 @@ public class Health : Init
     public float actualRegen => regen.current;
 
     /// <summary>
-    /// porcentaje actual e input
+    /// porcentaje, actual e input
     /// </summary>
     public event System.Action<IGetPercentage, float, float> lifeUpdate;
 
     /// <summary>
-    /// porcentaje actual e input
+    /// porcentaje, actual e input
     /// </summary>
     public event System.Action<IGetPercentage, float, float> regenUpdate;
 

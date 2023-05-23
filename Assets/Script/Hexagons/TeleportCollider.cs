@@ -64,19 +64,8 @@ public class TeleportCollider : MonoBehaviour
             if
             (anguloVelocidad < 180 && anguloVelocidad > 0)
             {
-                fisicaOther.Teleport(arrHexTeleport);
-
                 difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
                 difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.y;
-
-                /*
-                 DebugPrint.Log("Efectuado teletransporte");
-
-                 DebugPrint.Log("Salio del hexagono " + other.name + " con el angulo: "+angle + " y el lado: " + lado);
-
-                 DebugPrint.Log("transportando al ID: " + (ladosArray[lado,0]) + " Y al lado " + (ladosArray[lado, 1]));
-                 */
-                
 
                 other.gameObject.transform.position =
                     new Vector3(
@@ -94,18 +83,13 @@ public class TeleportCollider : MonoBehaviour
                     arrHexTeleport.gameObject.SetActive(false);
                 }
                 
-
                 if (fisicaOther.carlitos != null)
                     for (int i = 0; i < fisicaOther.carlitos.Length; i++)
                     {
                         fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexTeleport.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), fisicaOther.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexTeleport.transform.position);
                     }
 
-
-                if (other.CompareTag("Player"))
-                {
-                    arrHexTeleport.SetRenders(HexagonsManager.LadoOpuesto(lado));
-                }
+                fisicaOther.Teleport(arrHexTeleport, lado);
             }
         }
 
