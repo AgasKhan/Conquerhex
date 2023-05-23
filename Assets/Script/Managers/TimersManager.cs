@@ -390,7 +390,7 @@ public class TimedAction : Timer
         var aux = base.SubsDeltaTime(i);
         if(aux<=0)
         {
-            end();
+            end?.Invoke();
         }
 
         return aux;
