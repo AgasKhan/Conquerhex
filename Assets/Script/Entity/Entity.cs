@@ -117,11 +117,11 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
                 //return item.item;
                 //-------------------------------------------------------------
 
-                for (int i = 0; i < Random.Range(item.item.minDrop, item.item.maxDrop + 1); i++)
+                for (int i = 1; i <= Random.Range(item.minDrop, item.maxDrop); i++)
                 {
                     PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference, transform.position + new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(-1.2f, 1.2f)));
 
-                    reference.Init(item.item, item.structureBase);
+                    reference.Init(item.item);
 
                     //Debug.Log("-----------------------------------------------\n" + "SE DROPEO: " + item.item.name);
 
@@ -206,11 +206,13 @@ public struct DropItem
 {
     public int peso;
 
+    public int minDrop;
+
+    public int maxDrop;
+
     public RecolectableItem prefab;
 
     public ResourcesBase_ItemBase item;
-
-    public StructureBase structureBase;
 }
 
 [System.Serializable]

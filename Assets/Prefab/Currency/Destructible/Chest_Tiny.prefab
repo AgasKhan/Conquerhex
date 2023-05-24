@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8061100368356924094
+--- !u!1001 &5152462817036771432
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,12 +11,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6032b6b206039e74894edb135ec5a569,
+      objectReference: {fileID: 21300000, guid: 51a12207f747a324786ff0d4e97e2b27,
         type: 3}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
@@ -71,33 +86,90 @@ PrefabInstance:
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.21066518
+      value: 1.3743917
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.110673994
+      value: 0.8986456
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Offset.x
-      value: 0.0063946624
+      value: 0.000000055594068
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Offset.y
-      value: -0.12328276
+      value: 0.4663569
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[0].peso
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: drops.Array.data[1].item
       value: 
-      objectReference: {fileID: 11400000, guid: 7247b3748717e0d4bb98ba638d24d0b3,
+      objectReference: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09,
         type: 2}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[1].peso
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[2].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c8be1a9653095041a2472a8d81e30f5,
+        type: 2}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[2].peso
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef,
+        type: 3}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[0].maxDrop
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[0].minDrop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[1].maxDrop
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[1].minDrop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[2].maxDrop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7226389105525512022, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Name
-      value: DiamondOre
+      value: Chest_Tiny
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea48d693586de264c8315dc22f407809, type: 3}
