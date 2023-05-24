@@ -7,10 +7,6 @@ public class DestructibleObjects : StaticEntity
     [SerializeField, Range (0f, 2f)]
     float _shakeIntensity;
 
-    [SerializeField, Range(0.1f, 100f)]
-    float _shakeFrecuency=10;
-
-
     [SerializeField, Range (0f, 2f)]
     float _shakeDuration;
 
@@ -33,7 +29,6 @@ public class DestructibleObjects : StaticEntity
     private void MyAwake()
     {
         LoadSystem.AddPostLoadCorutine(InitDestructibleObjs);
-        
     }
 
     void InitDestructibleObjs()
@@ -64,10 +59,6 @@ public class DestructibleObjects : StaticEntity
 
     void Shake()
     {
-        /*
-        if ((int)(Time.realtimeSinceStartup * _shakeFrecuency) % 2 == 0)
-            return;
-        */
         Vector3 randomPoint = new Vector3(Random.Range(_initialPosition.x - _shakeIntensity, _initialPosition.x + _shakeIntensity), Random.Range(_initialPosition.y - _shakeIntensity, _initialPosition.y + _shakeIntensity), _initialPosition.z);
         transform.position = randomPoint;
     }

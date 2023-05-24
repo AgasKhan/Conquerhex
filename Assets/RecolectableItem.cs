@@ -7,9 +7,6 @@ public class RecolectableItem : StaticEntity
     [SerializeField]
     SpriteRenderer mySprite;
 
-    int minDrop;
-    int maxDrop;
-    
     StructureBase myStructureBase;
 
     protected override Damage[] vulnerabilities => myStructureBase.vulnerabilities;
@@ -57,15 +54,11 @@ public class RecolectableItem : StaticEntity
     }
 
 
-    public void Init(ResourcesBase_ItemBase item, StructureBase structureBase)
+    public void Init(ResourcesBase_ItemBase item)
     {
-        health.Init(structureBase.life, structureBase.regen);
+        health.Init(item.structure.life, item.structure.regen);
 
         mySprite.sprite = item.image;
-
-        minDrop = item.minDrop;
-
-        maxDrop = item.maxDrop;
 
         AddOrSubstractItems(item.nameDisplay, 1);
     }

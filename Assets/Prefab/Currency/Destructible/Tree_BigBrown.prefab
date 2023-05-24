@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &754762113244484983
+--- !u!1001 &6408516540336106650
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b450799f5f6bed74ea28101735fbf98e,
+      objectReference: {fileID: 21300000, guid: 5a0ea1a99af5d2e488145c31c9c9b76a,
         type: 3}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
@@ -21,17 +21,17 @@ PrefabInstance:
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
@@ -86,28 +86,33 @@ PrefabInstance:
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.20523396
+      value: 0.20847762
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.09728609
+      value: 0.51562417
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Offset.x
-      value: -0.000000005981928
+      value: -0.0039044023
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Offset.y
-      value: -0.17518008
+      value: 0.29063585
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074027, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: m_Direction
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: _structure
       value: 
-      objectReference: {fileID: 11400000, guid: 4a0a3714cd4292c4c9155f0ae5de9d05,
+      objectReference: {fileID: 11400000, guid: 36dbd93ab1b2f174695a88e07824ba00,
         type: 2}
     - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
@@ -118,22 +123,27 @@ PrefabInstance:
         type: 3}
       propertyPath: drops.Array.data[0].item
       value: 
-      objectReference: {fileID: 11400000, guid: 7247b3748717e0d4bb98ba638d24d0b3,
+      objectReference: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09,
         type: 2}
     - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: drops.Array.data[0].peso
       value: 100
       objectReference: {fileID: 0}
-    - target: {fileID: 4219633283119954169, guid: ea48d693586de264c8315dc22f407809,
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
+      propertyPath: drops.Array.data[0].maxDrop
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: drops.Array.data[0].minDrop
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7226389105525512022, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Name
-      value: BruteDiamondOre
+      value: Tree_BigBrown
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea48d693586de264c8315dc22f407809, type: 3}
