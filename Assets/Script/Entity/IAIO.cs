@@ -23,6 +23,8 @@ public class IAIO : IAFather
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
 
+        param.health.noLife += ShowLoserWindow;
+
 
         if (param.prin !=null)
         {
@@ -62,6 +64,8 @@ public class IAIO : IAFather
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
 
+        param.health.noLife -= ShowLoserWindow;
+
         //if (param.prin.itemBase != null)
         VirtualControllers.principal.DesuscribeController(param.prin);
         param.prin.updateTimer -= PrinUi;
@@ -87,6 +91,12 @@ public class IAIO : IAFather
     public override void OnStayState(Character param)
     {
         
+    }
+
+    void ShowLoserWindow()
+    {
+        GameManager.instance.Pause(false);
+        Manager<ManagerSubMenus>.pic["Principal"].ShowWindow("PopUp");     
     }
 
     void PrinUi(float f)

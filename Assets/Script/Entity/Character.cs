@@ -107,12 +107,6 @@ public class Character : DinamicEntity, ISwitchState<Character>
             _ia.OnEnterState(this);
             MyUpdates += IAUpdate;
         }
-
-        //--------------------------
-        health.noLife += ShowLoserWindow;
-        //--------------------------
-
-        //ver move con su velocidad
     }
 
     void MyUpdate()
@@ -128,21 +122,6 @@ public class Character : DinamicEntity, ISwitchState<Character>
     {
         _ia.OnStayState(this);
     }
-
-    //--------------------------------------------
-    void ShowLoserWindow()
-    {
-        if (team == Team.player)
-        {
-            GameManager.instance.Pause(false);
-            Manager<ManagerSubMenus>.pic["Principal"].ShowWindow("PopUp");
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
-    }
-    //--------------------------------------------
 
     public void AttackSoundOne()
     {
