@@ -9,7 +9,7 @@ public class Salida : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            MenuManager.instance.ShowWindow("Victory");
+            //MenuManager.instance.ShowWindow("Victory");
             //menu.ShowMenu("Victoria!", "Has logrado llegar hasta el dirigible para escapar", false, true);
             Time.timeScale = 0;
         }

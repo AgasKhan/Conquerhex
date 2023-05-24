@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Audio;
-
+using System.Collections.Generic;
 
 public class MenuManager : SingletonMono<MenuManager>
 {
@@ -20,10 +20,10 @@ public class MenuManager : SingletonMono<MenuManager>
     //-----------------------------------------------------------------------
 
     //[SerializeField]
-    public Pictionarys<string, GameObject> subMenus = new Pictionarys<string, GameObject>();
-
-    //[SerializeField]
     public Pictionarys<string, DetailsWindow> detailsWindows;
+
+    [SerializeField]
+    public ManagerSubMenus subMenus;
 
 
     protected override void Awake()
@@ -35,6 +35,18 @@ public class MenuManager : SingletonMono<MenuManager>
         GetDetailsWinAndSubMenus();
 
         LoadSystem.AddPostLoadCorutine(InitScenes);
+
+        subMenus.Init();
+    }
+
+    void GetDetailsWinAndSubMenus()
+    {
+        var allDetailsWindows = GetComponentsInChildren<DetailsWindow>();
+
+        foreach (var item in allDetailsWindows)
+        {
+            detailsWindows.Add(item.name, item);
+        }
     }
 
     void InitScenes()
@@ -65,63 +77,8 @@ public class MenuManager : SingletonMono<MenuManager>
         if(!SaveWithJSON.CheckKeyInBD("ShowTutorial"))
         {
             SaveWithJSON.SaveInPictionary("ShowTutorial", false);
-            ShowWindow("ShowControls");
+            subMenus.ShowWindow("ShowControls");
         }
-    }
-
-    void GetDetailsWinAndSubMenus()
-    {
-
-        var allDetailsWindows = GetComponentsInChildren<DetailsWindow>();
-
-        foreach (var item in allDetailsWindows)
-        {
-            detailsWindows.Add(item.name, item);
-        }
-
-    }
-
-    public void ShowWindow(string key)
-    {
-        if (subMenus.ContainsKey(key))
-        {
-            subMenus[key].SetActive(true);
-            subMenus[key].transform.SetAsLastSibling();
-        }
-        else if (detailsWindows.ContainsKey(key))
-        {
-            detailsWindows[key].ShowOrHide(true);
-            detailsWindows[key].transform.SetAsLastSibling();
-        }
-        else
-            Debug.Log("No se encontro: " + key + " en los pictionarys");
-    }
-
-
-
-    public void CloseLastWindow()
-    {
-        var lastChild = transform.GetChild(transform.childCount - 1);
-        var aux = lastChild.GetComponent<DetailsWindow>();
-
-        if (aux != null)
-            aux.ShowOrHide(false);
-        else
-            lastChild.gameObject.SetActive(false);
-
-        lastChild.SetAsFirstSibling();
-    }
-    public void CloseLastWindow(Transform tr)
-    {
-        var lastChild = tr.GetChild(tr.childCount - 1);
-        var aux = lastChild.GetComponent<DetailsWindow>();
-
-        if (aux != null)
-            aux.ShowOrHide(false);
-        else
-            lastChild.gameObject.SetActive(false);
-
-        lastChild.SetAsFirstSibling();
     }
 
     public void StartGame()
@@ -235,3 +192,80 @@ public struct DoubleString
         this.inferior = inferior;
     }
 }
+
+[System.Serializable]
+public class ManagerSubMenus : Init
+{
+    /// <summary>
+    /// Variable que contiene el transform que almacena todos los submenus
+    /// </summary>
+    public Transform reference;
+
+    public List<GameObject> subMenus = new List<GameObject>();
+    public Transform LastWindow
+    {
+        get
+        {
+            return reference.GetChild(reference.childCount - 1);
+        }
+    }
+
+    public void ShowWindow(string key)
+    {
+        Open();
+
+        foreach (var item in subMenus)
+        {
+            if (item.name == key)
+            {
+                item.gameObject.SetActive(true);
+                item.transform.SetAsLastSibling();
+            }
+            else
+            {
+                item.gameObject.SetActive(false);
+            }
+        } 
+    }
+
+    public void CloseLastWindow()
+    {
+        LastWindow.gameObject.SetActive(false);
+
+        LastWindow.SetAsFirstSibling();
+    }
+
+    public void PreviusWindow()
+    {
+        CloseLastWindow();
+
+        LastWindow.gameObject.SetActive(true);
+    }
+
+    public void Close()
+    {
+        reference.gameObject.SetActive(false);
+    }
+
+    public void Open()
+    {
+        reference.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// El primer parametro debe de ser el transform que contenga los submenus
+    /// </summary>
+    /// <param name="param"></param>
+    public void Init(params object[] param)
+    {
+        for (int i = 0; i < reference.childCount; i++)
+        {
+            subMenus.Add(reference.GetChild(i).gameObject);
+        }
+
+        Manager<ManagerSubMenus>.pic.Add(reference.name, this);
+    }
+}
+
+
+

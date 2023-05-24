@@ -42,7 +42,7 @@ public class StoreInteract : LogicActive<Character>
     bool myBool = true;
     public void ShowCraftingW()
     {
-        MenuManager.instance.ShowWindow("CraftingMenu");
+        //MenuManager.instance.ShowWindow("CraftingMenu");
         //aca se configuraria
 
         //ejecuta las funciones de configuracion
@@ -73,7 +73,7 @@ public class StoreInteract : LogicActive<Character>
 
     protected override void InternalActivate(params Character[] specificParam)
     {
-        MenuManager.instance.ShowWindow("CraftingMenu");
+        //MenuManager.instance.ShowWindow("CraftingMenu");
         //aca se configuraria
 
         //ejecuta las funciones de configuracion

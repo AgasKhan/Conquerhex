@@ -166,8 +166,8 @@ public class ButtonsFunctions : MonoBehaviour
 
     void DisplayStore(GameObject g)
     {
-        refMenu.CloseLastWindow(g.transform.parent.parent.parent.parent);
-        refMenu.ShowWindow(g.name);
+        //refMenu.subMenus.CloseLastWindow(g.transform.parent.parent.parent.parent);
+        refMenu.subMenus.ShowWindow(g.name);
     }
     
     void ShowStore(GameObject g)
@@ -241,13 +241,13 @@ public class ButtonsFunctions : MonoBehaviour
 
     void Resume(GameObject g)
     {
-        refMenu.CloseLastWindow();
+        refMenu.subMenus.CloseLastWindow();
         GameManager.instance.TogglePause();
     }
     void Restart(GameObject g)
     {
         LoadSystem.instance.Reload();
-        refMenu.CloseLastWindow();
+        refMenu.subMenus.CloseLastWindow();
     }
     void BackMenu(GameObject g)
     {
@@ -266,7 +266,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void CloseWindow (GameObject g)
     {
-        refMenu.CloseLastWindow();
+        refMenu.subMenus.CloseLastWindow();
     }
 
 
@@ -286,7 +286,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void DisplayWindow(GameObject g)
     {
-        refMenu.ShowWindow(g.name);
+        refMenu.subMenus.ShowWindow(g.name);
     }
 
     void Exit(GameObject g)

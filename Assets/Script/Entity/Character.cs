@@ -135,7 +135,7 @@ public class Character : DinamicEntity, ISwitchState<Character>
         if (team == Team.player)
         {
             GameManager.instance.Pause(false);
-            MenuManager.instance.ShowWindow("Defeat");
+            Manager<ManagerSubMenus>.pic["Principal"].ShowWindow("PopUp");
         }
         else
         {
