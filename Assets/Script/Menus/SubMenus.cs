@@ -22,6 +22,8 @@ public class SubMenus : MonoBehaviour
     [SerializeField]
     float subdivisions;
 
+    int maxDivision;
+
     private void Awake()
     {
         var aux = Screen.width - margin*7;
@@ -47,6 +49,14 @@ public class SubMenus : MonoBehaviour
 
     public RectTransform CreateSection(int comienzo, int final)
     {
+        if(final> maxDivision)
+        {
+            maxDivision = final;
+
+            horizontalContainer.sizeDelta = new Vector2(Width(maxDivision) + margin*2, horizontalContainer.sizeDelta.y);
+        }
+            
+
         return SetWidth(Instantiate(sectionPrefab, horizontalContainer), comienzo, final);
     }
 
@@ -54,13 +64,16 @@ public class SubMenus : MonoBehaviour
     {
         var x = comienzo * subdivisions + (comienzo + 1) * margin;
 
-        var width = (final - comienzo) * subdivisions + (final - comienzo - 1) * margin;
-
         rect.position = new Vector3(x, rect.position.y, rect.position.z);
 
-        rect.sizeDelta = new Vector2(width, rect.sizeDelta.y);
+        rect.sizeDelta = new Vector2(Width(final- comienzo), rect.sizeDelta.y);
 
         return rect;
+    }
+
+    float Width(int w)
+    {
+       return w * subdivisions + (w - 1) * margin;
     }
 
 }
