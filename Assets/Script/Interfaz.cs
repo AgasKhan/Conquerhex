@@ -6,16 +6,14 @@ using UnityEngine.UI;
 
 public class Interfaz : MonoBehaviour
 {
-    static  public  Pictionarys<string,TextCompleto>  titulosC = new Pictionarys<string, TextCompleto>();
+    static public Interfaz instance;
 
-            public  TextMeshProUGUI[]   titulos;
+    public List<TextCompleto> textC = new List<TextCompleto>();
 
-            public  float               tiempoEntreLetrasPublic;
+    public  Image   Dialogo;
 
-            public  Image               Dialogo;
-
-                    float               widthDiag;
-                    float               heightDiag;
+    float   widthDiag;
+    float   heightDiag;
 
 
     [Header("vida")]
@@ -24,8 +22,24 @@ public class Interfaz : MonoBehaviour
     public Image regen;
     public TextMeshProUGUI textRegen;
 
-    TextCompleto tiempo;
-    TextCompleto subtitulo;
+    public TextCompleto this[string name]
+    {
+        get
+        {
+            foreach (var item in textC)
+            {
+                if (item.name == name)
+                    return item;
+            }
+
+            return null;
+        }
+    }
+
+    static public TextCompleto SearchTitle(string name)
+    {
+        return instance[name];
+    }
 
     /// <summary>
     /// el primer parametro debe de ser un IGetPercentage
@@ -47,29 +61,21 @@ public class Interfaz : MonoBehaviour
 
     private void Awake()
     {
-        titulosC.Clear();
+        instance = this;
 
-        foreach (var item in titulos)
+        foreach (var item in textC)
         {
-            item.text = "";
-            titulosC.Add(item.name,new TextCompleto(item, tiempoEntreLetrasPublic));
+            item.Init();
         }
     }
-
 
     void Start()
     {
         //defino la propiedad de vida
-        tiempo = TitleSrchByName("Tiempo");
-        tiempo.fade = false;
+        //TitleSrchByName("Titulo secundario").timer.Set(6);
+        SearchTitle("Titulo secundario").AddMsg("Presiona T para ver el tutorial");
 
-        TitleSrchByName("Titulo secundario").timer.Set(6);
-        //TitleSrchByName("Titulo secundario").Message("Presiona T para ver el tutorial");
-
-        subtitulo = TitleSrchByName("Subtitulo");
-        subtitulo.timer.Set(6);
-
-        widthDiag =Dialogo.rectTransform.rect.width;
+        widthDiag = Dialogo.rectTransform.rect.width;
         heightDiag=Dialogo.rectTransform.rect.height;
 
         Dialogo.rectTransform.sizeDelta = Vector2.zero;
@@ -87,6 +93,7 @@ public class Interfaz : MonoBehaviour
     }
 
     // Update is called once per frame
+    /*
     void Update()
     {
         foreach (var item in titulosC)
@@ -119,44 +126,41 @@ public class Interfaz : MonoBehaviour
             }   
         }   
     }
-
-    static public TextCompleto TitleSrchByName(string name)
-    {
-        TextCompleto aux = null;
-
-        titulosC.TryGetValue(name, out aux);
-
-        return aux;
-    }
+    */
 
 }
 
-
-public class TextCompleto
+[System.Serializable]
+public class TextCompleto : Init
 {
+    public string name => texto.name;
     public TextMeshProUGUI texto;
+    [SerializeReference]
     public Timer timer;
+    [SerializeReference]
     public Timer letras;
     public string final;
-    public bool fade;
 
-    public void Show(string palabra)
+    public float tiempoEntreLetras;
+
+    [SerializeField]
+    FadeMenu fadeMenu;
+
+    private void FadeMenu_alphas(float obj)
     {
-        texto.color = new Color(texto.color.r, texto.color.g, texto.color.b, 1);
-        texto.text = palabra;
-        final = palabra;
+        texto.color = texto.color.ChangeAlphaCopy(obj);
     }
 
-    public void Message(string palabra)
+    public void ClearMsg()
     {
-        if (final=="")
-            final = (texto.text + "\n" + palabra).Trim();
-        
-        else
-            final += "\n" + palabra;
+        final = "";
+        texto.text = "";
+    }
 
-        if(fade)
-            texto.color = new Color(texto.color.r, texto.color.g, texto.color.b, 1);
+    public void ShowMsg(string msg)
+    {
+        final = msg;
+        texto.text = msg;
     }
 
     public bool Write()
@@ -172,48 +176,67 @@ public class TextCompleto
         }
         else if(final != "")
         {
-            if (letras.Chck)
-            {
-                texto.text += final[texto.text.Length];
+        if (final == "")
+            msg = texto.text + msg;
 
-                //AudioManager.instance.Play("tec"+Random.Range(1,4));
+        final += msg + "\n";
 
-                letras.Reset();
-                timer.Reset();
-            }
-            return false;
-        }
-        return true;
+        On();
     }
 
-    public void Fade(float t, float a)
+    void On()
     {
-        if((texto.color.a - a) != 0)
+        SetFade(1);
+        timer.Reset();
+        letras.Start();
+    }
+
+    void SetFade(float end)
+    {
+        fadeMenu.SetFade(texto.color.a, end);
+    }
+
+    void Write()
+    {
+        if (texto.isTextOverflowing)
         {
-            if (Mathf.Abs(texto.color.a - a) * 100 < 1)
-                texto.color = new Color(texto.color.r, texto.color.g, texto.color.b, a);
-            else if (Mathf.Abs(texto.color.a - a) * 100 < 15)
-                t *= 4;
-            else if (Mathf.Abs(texto.color.a - a) * 100 < 30)
-                t *= 2;
+            final = final.Substring(final.IndexOf("\n") + 1);
+            texto.text = texto.text.Substring(texto.text.IndexOf("\n") + 1);
         }
-        if (texto.color.a!=a)
+        if (texto.text == final && final != "")
         {
-            texto.color = new Color(texto.color.r, texto.color.g, texto.color.b, Mathf.Lerp(texto.color.a, a, t));
-        }
-        else if (a==0)
-        {
-            texto.text = "";
             final = "";
         }
+        else if (final != "")
+        {
+            texto.text += final[texto.text.Length];
+            timer.Reset();
+        }
     }
 
-    public TextCompleto(TextMeshProUGUI o, float t=0 , bool fadeActivacion=true,string palabraInicial="")
+    public void Init(params object[] param)
     {
-        texto = o;
-        letras = TimersManager.Create(t);
-        final = palabraInicial;
-        fade = fadeActivacion;
-        timer = TimersManager.Create(3);
+        fadeMenu.alphas += FadeMenu_alphas;
+
+        fadeMenu.end += FadeMenu_end;
+
+        fadeMenu.Init();
+
+        letras = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
+
+        timer = TimersManager.Create(3, () => {
+
+            SetFade(0);
+            letras.Stop();
+
+            });
+    }
+
+    private void FadeMenu_end()
+    {
+        if(final=="")
+        {
+            texto.text = "";
+        }
     }
 }

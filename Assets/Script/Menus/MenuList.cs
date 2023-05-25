@@ -81,7 +81,7 @@ public class MenuList : MonoBehaviour
     {
         eventsCalls.Add(prefab.Clone(text, action, buttonName, content));
 
-        eventsCalls[eventsCalls.Count - 1].fadeMenu.OnFade().Set(eventsCalls.Count * durationWait);
+        eventsCalls[eventsCalls.Count - 1].fadeMenu.FadeOn().Set(eventsCalls.Count * durationWait);
     }
 
     private void Awake()

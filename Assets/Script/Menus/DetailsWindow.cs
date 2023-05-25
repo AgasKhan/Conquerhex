@@ -83,7 +83,7 @@ public class DetailsWindow : MonoBehaviour
 
     private void OnEnable()
     {
-        fadeMenu.OnFade();
+        fadeMenu.FadeOn();
     }
 
 }

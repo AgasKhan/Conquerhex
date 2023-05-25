@@ -48,7 +48,7 @@ public class Vida : MonoBehaviour
         if(rend!=null)
             normal = rend.color;
 
-        UIdanio = Interfaz.TitleSrchByName("Danio");
+        //UIdanio = Interfaz.TitleSrchByName("Danio");
 
         coll = GetComponentsInChildren<Collider2D>();
     }
@@ -80,7 +80,7 @@ public class Vida : MonoBehaviour
 
             //pantallas.Add("El objeto " + this.name + " recibio " + danio + " de daño");
 
-            UIdanio.Message(this.name + " recibio " + danio + " de daño");
+            UIdanio.AddMsg(this.name + " recibio " + danio + " de daño");
 
             if (hp <= 0)
             {
@@ -101,7 +101,7 @@ public class Vida : MonoBehaviour
 
                 if (hp <= 0)
                 {
-                    Interfaz.TitleSrchByName("Titulo").Message("Segui participando" + "\n" + "Maquinola");
+                    //Interfaz.TitleSrchByName("Titulo").Message("Segui participando" + "\n" + "Maquinola");
                 }
             }
 

@@ -43,7 +43,7 @@ public class EventsCall : MonoBehaviour
 
     private void OnEnable()
     {
-        fadeMenu.OnFade();
+        fadeMenu.FadeOn();
     }
 
     public void Event(GameObject g)
@@ -104,27 +104,42 @@ public class FadeMenu : Init
 
     public float durationWait = 0.1f;
 
+    [SerializeReference]
     public Timer timerOn;
+
+    public bool unscaled = true;
+
+    Vector2 fades;
 
     Timer fadeOn;
 
     public event System.Action<float> alphas;
+    public event System.Action end;
 
     public void Init(params object[] param)
     {
-        fadeOn = TimersManager.LerpInTime(0f, 1, durationAnim, Mathf.Lerp, alphas).SetUnscaled(true).Stop();
+        fadeOn = TimersManager.LerpInTime(()=>fades.x, ()=>fades.y, durationAnim, Mathf.Lerp, alphas).AddToEnd(()=> end?.Invoke()).SetUnscaled(unscaled).Stop();
 
         timerOn = TimersManager.Create(durationWait, () =>
         {
             fadeOn.Reset();
 
-        }).SetUnscaled(true).Stop();
+        }).SetUnscaled(unscaled).Stop();
     }
 
-    public Timer OnFade()
+    public Timer FadeOn()
     {
-        alphas(0);
+        return SetFade(0, 1);
+    }
+
+    public Timer SetFade(float init, float end)
+    {
+        alphas(init);
+        fades.x = init;
+        fades.y = end;
+
         timerOn.Reset();
+
         return timerOn;
     }
 
