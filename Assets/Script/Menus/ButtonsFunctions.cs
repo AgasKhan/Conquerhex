@@ -68,6 +68,7 @@ public class ButtonsFunctions : MonoBehaviour
             {"BackMenu", BackMenu},
             {"SaveGame", SaveGame},
             {"MenuInGame", PauseMenu},
+            {"PopUp", PopUp},
             {"BuySingleItem", BuySingleItem},
             {"EquipItem", EquipItem},
 
@@ -161,7 +162,7 @@ public class ButtonsFunctions : MonoBehaviour
     void RefreshMyButton(GameObject g)
     {
         var aux = g.GetComponent<DisplayItem>();
-        aux.myDetailWindow.RefreshButton(aux.myItem.nameDisplay);
+        //aux.myDetailWindow.RefreshButton(aux.myItem.nameDisplay);
     }
 
     void DisplayStore(GameObject g)
@@ -182,7 +183,10 @@ public class ButtonsFunctions : MonoBehaviour
     }
 
 
-    
+    void PopUp(GameObject g)
+    {
+        refMenu.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("hola", "Mundo");
+    }
 
     void BuySingleItem(GameObject g)
     {
@@ -238,7 +242,7 @@ public class ButtonsFunctions : MonoBehaviour
         DisplayWindow(g);
         GameManager.instance.TogglePause();
         */
-        refMenu.ObtainMenu<MenuList>(false).SetActiveGameObject(true).CreateDefault();
+        refMenu.modulesMenu.ObtainMenu<MenuList>(false).SetActiveGameObject(true).CreateDefault();
         GameManager.instance.Pause(true);
 
         //Despausar
@@ -246,7 +250,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void Resume(GameObject g)
     {
-        refMenu.ObtainMenu<MenuList>(false);
+        refMenu.modulesMenu.ObtainMenu<MenuList>(false);
         GameManager.instance.Pause(false);
     }
     void Restart(GameObject g)

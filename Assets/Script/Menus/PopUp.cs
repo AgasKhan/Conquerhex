@@ -6,33 +6,32 @@ using UnityEngine.UI;
 
 public class PopUp : MonoBehaviour
 {
-    //List<DoubleString> messages = new List<DoubleString>();
+    [SerializeField]
+    DetailsWindow detailsWindow;
 
-    TextMeshProUGUI myText;
-    Button boton;
+    [SerializeField]
+    MenuList menuList;
 
-    void SetText(DoubleString text)
+    public PopUp SetWindow(string titulo, string text, Sprite sprite = null)
     {
-        string aux = "";
-
-        aux += text.superior.RichText("size", "45").RichText("color", "yellow") + "\n" + "\n";
-
-        aux += text.inferior.RichText("size", "35");
-
-        myText.text = aux;
+        detailsWindow.SetWindow(sprite, titulo, text);
+        menuList.DestroyAll();
+        menuList.SetActiveGameObject(false);
+        return this;
     }
 
-
-    void OnClickBack()
+    public PopUp AddButton(string text, string buttonName)
     {
-        gameObject.SetActive(false);
+        menuList.SetActiveGameObject(true);
+        menuList.Create(text, buttonName);
+        return this;
     }
 
-    private void Awake()
+    public PopUp AddButton(string text, UnityEngine.Events.UnityAction action)
     {
-        myText = GetComponentInChildren<TextMeshProUGUI>();
-        boton = GetComponentInChildren<Button>();
-        boton.onClick.AddListener(OnClickBack);
+        menuList.SetActiveGameObject(true);
+        menuList.Create(text, action);
+        return this;
     }
 
 }

@@ -89,3 +89,21 @@ public class ManagerComponentMenu
         return Object.Instantiate(SearchComponent<T>(), parent);
     }
 }
+
+[System.Serializable]
+public class ManagerModulesMenu
+{
+    [SerializeField]
+    ManagerComponentMenu componentMenu;
+
+    public T ObtainMenu<T>(bool view) where T : MonoBehaviour
+    {
+        componentMenu.container.gameObject.SetActive(true);
+        return componentMenu.SearchComponent<T>().SetActiveGameObject(view);
+    }
+
+    public void CloseMenus()
+    {
+        componentMenu.container.gameObject.SetActive(false);
+    }
+}

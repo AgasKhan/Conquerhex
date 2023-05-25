@@ -53,13 +53,13 @@ public class StoreInteract : LogicActive<Character>
             {
                 //Se que esta horrible, sepa disculpar--------------------------------------------------------------------------
 
-                MenuManager.instance.detailsWindows["CraftingMenu"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "CraftingMenu");
+                //MenuManager.instance.detailsWindows["CraftingMenu"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "CraftingMenu");
 
 
                 if (i == 0)
                 {
-                    var aux = Manager<DetailsWindow>.pic["CraftingMenu"].buttonsGrid.GetChild(0).GetComponentInChildren<UnityEngine.UI.Button>();
-                    aux.onClick?.Invoke();
+                    //var aux = Manager<DetailsWindow>.pic["CraftingMenu"].buttonsGrid.GetChild(0).GetComponentInChildren<UnityEngine.UI.Button>();
+                    //aux.onClick?.Invoke();
                 }
 
                 //----------------------------------------------------------------------------------------------------------------
@@ -85,14 +85,14 @@ public class StoreInteract : LogicActive<Character>
         for (int i = 0; i < recipes.Count; i++)
         {
             //Se que esta horrible, sepa disculpar--------------------------------------------------------------------------
-            Manager<DetailsWindow>.pic["CraftingMenu"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "CraftingMenu");
+            //Manager<DetailsWindow>.pic["CraftingMenu"].CreateStoreButton(recipes[i].result.Item.nameDisplay, "CraftingMenu");
 
             Debug.Log("Entro al for");
 
             if (i==0)
             {
-                var aux = Manager<DetailsWindow>.pic["CraftingMenu"].buttonsGrid.GetChild(0).GetComponent<UnityEngine.UI.Button>();
-                aux.onClick.Invoke();
+                //var aux = Manager<DetailsWindow>.pic["CraftingMenu"].buttonsGrid.GetChild(0).GetComponent<UnityEngine.UI.Button>();
+                //aux.onClick.Invoke();
             }
             //----------------------------------------------------------------------------------------------------------------
 

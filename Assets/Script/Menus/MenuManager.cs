@@ -22,11 +22,13 @@ public class MenuManager : SingletonMono<MenuManager>
     //[SerializeField]
     public Pictionarys<string, DetailsWindow> detailsWindows;
 
+
+    //se debe eliminar este
     [SerializeField]
     public ManagerSubMenus subMenus;
 
     [SerializeField]
-    public ManagerComponentMenu ComponentMenu;
+    public ManagerModulesMenu modulesMenu;
 
 
     protected override void Awake()
@@ -117,16 +119,7 @@ public class MenuManager : SingletonMono<MenuManager>
 
     }
 
-    public T ObtainMenu<T>(bool view) where T : MonoBehaviour
-    {
-        ComponentMenu.container.gameObject.SetActive(true);
-        return ComponentMenu.SearchComponent<T>().SetActiveGameObject(view);
-    }
 
-    public void CloseMenus()
-    {
-        ComponentMenu.container.gameObject.SetActive(false);
-    }
 
     public void ClickSound()
     {

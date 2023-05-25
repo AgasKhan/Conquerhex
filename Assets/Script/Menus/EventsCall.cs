@@ -13,15 +13,7 @@ public class EventsCall : MonoBehaviour
 
     public bool empty=true;
 
-    public float durationAnim=0.3f;
-
-    public float durationWait = 0.1f;
-
-    public Timer timerOn;
-
-    Timer textOn;
-
-    Timer imageOn;
+    public FadeMenu fadeMenu;
 
     public event UnityEngine.Events.UnityAction listeners
     {
@@ -38,26 +30,20 @@ public class EventsCall : MonoBehaviour
 
     private void Awake()
     {
-        textOn = TimersManager.LerpInTime(0f, 1, durationAnim, Mathf.Lerp, (save) => textButton.color = textButton.color.ChangeAlphaCopy(save)).SetUnscaled(true).Stop();
-
-        imageOn = TimersManager.LerpInTime(0f, 1, durationAnim, Mathf.Lerp, (save) => image.color = image.color.ChangeAlphaCopy(save)).SetUnscaled(true).Stop();
-
-        timerOn = TimersManager.Create(durationWait, () =>
-        {
-            textOn.Reset();
-
-            imageOn.Reset();
-
-        }).SetUnscaled(true).Stop();
+        fadeMenu.alphas += Text_alphas;
+        fadeMenu.Init();
     }
+
+    private void Text_alphas(float obj)
+    {
+        textButton.color = textButton.color.ChangeAlphaCopy(obj);
+        image.color = image.color.ChangeAlphaCopy(obj);
+    }
+
 
     private void OnEnable()
     {
-        textButton.color = textButton.color.ChangeAlphaCopy(0);
-
-        image.color = image.color.ChangeAlphaCopy(0);
-
-        timerOn.Reset();
+        fadeMenu.OnFade();
     }
 
     public void Event(GameObject g)
@@ -106,8 +92,45 @@ public class EventsCall : MonoBehaviour
 
     private void OnDestroy()
     {
+        fadeMenu.Stop();
+    }
+}
+
+
+[System.Serializable]
+public class FadeMenu : Init
+{
+    public float durationAnim = 0.3f;
+
+    public float durationWait = 0.1f;
+
+    public Timer timerOn;
+
+    Timer fadeOn;
+
+    public event System.Action<float> alphas;
+
+    public void Init(params object[] param)
+    {
+        fadeOn = TimersManager.LerpInTime(0f, 1, durationAnim, Mathf.Lerp, alphas).SetUnscaled(true).Stop();
+
+        timerOn = TimersManager.Create(durationWait, () =>
+        {
+            fadeOn.Reset();
+
+        }).SetUnscaled(true).Stop();
+    }
+
+    public Timer OnFade()
+    {
+        alphas(0);
+        timerOn.Reset();
+        return timerOn;
+    }
+
+    public void Stop()
+    {
         timerOn.Stop();
-        textOn.Stop();
-        imageOn.Stop();
+        fadeOn.Stop();
     }
 }
