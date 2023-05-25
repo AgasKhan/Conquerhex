@@ -149,7 +149,6 @@ public class TextCompleto
 
     public void Message(string palabra)
     {
-
         if (final=="")
             final = (texto.text + "\n" + palabra).Trim();
         
@@ -158,19 +157,15 @@ public class TextCompleto
 
         if(fade)
             texto.color = new Color(texto.color.r, texto.color.g, texto.color.b, 1);
-        
     }
 
     public bool Write()
     {
-        
-
         if(texto.isTextOverflowing)
         {
             final = final.Substring(final.IndexOf("\n")+1);
             texto.text = texto.text.Substring(texto.text.IndexOf("\n")+1);
         }
-
         if (texto.text == final && final!="")
         {
             final = "";            
@@ -193,7 +188,6 @@ public class TextCompleto
 
     public void Fade(float t, float a)
     {
-
         if((texto.color.a - a) != 0)
         {
             if (Mathf.Abs(texto.color.a - a) * 100 < 1)
@@ -203,7 +197,6 @@ public class TextCompleto
             else if (Mathf.Abs(texto.color.a - a) * 100 < 30)
                 t *= 2;
         }
-    
         if (texto.color.a!=a)
         {
             texto.color = new Color(texto.color.r, texto.color.g, texto.color.b, Mathf.Lerp(texto.color.a, a, t));
