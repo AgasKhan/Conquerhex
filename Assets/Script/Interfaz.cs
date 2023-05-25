@@ -161,21 +161,11 @@ public class TextCompleto : Init
     {
         final = msg;
         texto.text = msg;
+        On();
     }
 
-    public bool Write()
+    public void AddMsg(string msg)
     {
-        if(texto.isTextOverflowing)
-        {
-            final = final.Substring(final.IndexOf("\n")+1);
-            texto.text = texto.text.Substring(texto.text.IndexOf("\n")+1);
-        }
-        if (texto.text == final && final!="")
-        {
-            final = "";            
-        }
-        else if(final != "")
-        {
         if (final == "")
             msg = texto.text + msg;
 
