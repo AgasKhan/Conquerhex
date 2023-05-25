@@ -227,8 +227,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -305,7 +305,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 60}
+  m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1759002638691397182
 MonoBehaviour:
@@ -319,5 +319,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbbb45ecf6ac894cbddc3a89ebc4a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 6926420586964467372}
   image: {fileID: 4741700821661415422}
+  textButton: {fileID: 2256267756387885552}
+  button: {fileID: 6926420586964467372}
+  empty: 1
+  durationAnim: 0.5
+  durationWait: 0.1
+  timerOn:
+    total: 0
+    _current: 0

@@ -152,12 +152,12 @@ public static class Extensions
     #region eventos botones
 
     
-    public static void Event(this Button b)
+    public static void Event(this Button b, bool remove = true)
     {
         var menu = MenuManager.instance;
         
-
-        b.onClick.RemoveAllListeners();
+        if(remove)
+            b.onClick.RemoveAllListeners();
 
         UnityEngine.Events.UnityAction unityAction;
 
@@ -244,5 +244,23 @@ public static class Extensions
         {
             list.Insert(insert, toAdd);
         }
+    }
+
+    /// <summary>
+    /// Retorna una copia del color con el alpha cambiado
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="alpha"></param>
+    /// <returns></returns>
+    static public Color ChangeAlphaCopy(this Color color, float alpha)
+    {
+        return new Color(color.r, color.g, color.b, alpha);
+    }
+
+
+    static public T SetActiveGameObject<T>(this T mono, bool active) where T : MonoBehaviour
+    {
+        mono.gameObject.SetActive(active);
+        return mono;
     }
 }

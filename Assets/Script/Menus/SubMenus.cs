@@ -8,13 +8,10 @@ public class SubMenus : MonoBehaviour
     GameObject navbar;
 
     [SerializeField]
-    MonoBehaviour[] prefabs;
-
-    [SerializeField]
     RectTransform sectionPrefab;
 
     [SerializeField]
-    RectTransform horizontalContainer;
+    ManagerComponentMenu componentMenu;
 
     [SerializeField]
     float margin;
@@ -35,29 +32,17 @@ public class SubMenus : MonoBehaviour
         CreateSection(4, 8);
     }
 
-    public T CreateModule<T>(Transform parent) where T : MonoBehaviour
-    {
-        foreach (var item in prefabs)
-        {
-            if(item is T)
-            {
-                return Instantiate((T)item, parent);
-            }
-        }
-        return default;
-    }
-
     public RectTransform CreateSection(int comienzo, int final)
     {
         if(final> maxDivision)
         {
             maxDivision = final;
 
-            horizontalContainer.sizeDelta = new Vector2(Width(maxDivision) + margin*2, horizontalContainer.sizeDelta.y);
+            componentMenu.container.sizeDelta = new Vector2(Width(maxDivision) + margin*2, componentMenu.container.sizeDelta.y);
         }
             
 
-        return SetWidth(Instantiate(sectionPrefab, horizontalContainer), comienzo, final);
+        return SetWidth(Instantiate(sectionPrefab, componentMenu.container), comienzo, final);
     }
 
     public RectTransform SetWidth(RectTransform rect, int comienzo, int final)
@@ -76,4 +61,31 @@ public class SubMenus : MonoBehaviour
        return w * subdivisions + (w - 1) * margin;
     }
 
+}
+
+[System.Serializable]
+public class ManagerComponentMenu
+{
+    [SerializeField]
+    public RectTransform container;
+
+    [SerializeField]
+    MonoBehaviour[] components;
+
+    public T SearchComponent<T>() where T : MonoBehaviour
+    {
+        foreach (var item in components)
+        {
+            if (item is T)
+            {
+                return (T)item;
+            }
+        }
+        return default;
+    }
+
+    public T CreateComponent<T>(Transform parent) where T : MonoBehaviour
+    {
+        return Object.Instantiate(SearchComponent<T>(), parent);
+    }
 }

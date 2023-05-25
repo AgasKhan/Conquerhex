@@ -61,7 +61,7 @@ public class GameManager : SingletonMono<GameManager>
 
     public void Pause(bool pause)
     {
-        fsmGameMaganer.CurrentState = (pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+        fsmGameMaganer.CurrentState = (!pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
     }
 
     private void Update()
@@ -145,12 +145,12 @@ public class Gameplay : IState<FSMGameMaganer>
 {
     public void OnEnterState(FSMGameMaganer param)
     {
-        param.context.gameObject.SetActive(true);
+        param.context.enabled = true;
     }
 
     public void OnExitState(FSMGameMaganer param)
     {
-        param.context.gameObject.SetActive(false);
+        param.context.enabled=(false);
     }
 
     public void OnStayState(FSMGameMaganer param)
