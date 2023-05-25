@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PriorityQueue<T>
 {
-    Dictionary<T, int> _allElements;
+    Dictionary<T, float> _allElements;
 
     public int Count { get { return _allElements.Count; } }
 
     public PriorityQueue()
     {
-        _allElements = new Dictionary<T, int>();
+        _allElements = new Dictionary<T, float>();
     }
 
-    public void Enqueue(T elem, int cost)
+    public void Enqueue(T elem, float cost)
     {
         //Si no contiene la key en el diccionario, creamos el par
         if (!_allElements.ContainsKey(elem))
@@ -27,7 +27,7 @@ public class PriorityQueue<T>
         T elem = default;
 
         //Empiezo a chequear costos desde el valor maximo que se puede tener
-        int currentValue = int.MaxValue;
+        var currentValue = float.MaxValue;
 
         //Itero cada elemento (par) del diccionario
         foreach (var item in _allElements)

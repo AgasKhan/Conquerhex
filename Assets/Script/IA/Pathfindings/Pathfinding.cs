@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
-
+    #region Dijsktra
     public Stack<Node> Dijkstra(Node startingNode, Node goalNode)
     {
         //Genero una lista donde voy a guardar cada Nodo que genere el camino
@@ -138,4 +138,125 @@ public class Pathfinding : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region A*
+        float Heuristic(Node currentNode, Node goalNode)
+    {
+        return Mathf.Abs(currentNode.transform.position.x - goalNode.transform.position.x) +
+                    Mathf.Abs(currentNode.transform.position.z - goalNode.transform.position.z);
+    }
+
+    public Stack<Node> AStar(Node startingNode, Node goalNode)
+    {
+        Stack<Node> path = new Stack<Node>();
+
+        if (startingNode == null || goalNode == null) return path;
+
+        PriorityQueue<Node> frontier = new PriorityQueue<Node>();
+        frontier.Enqueue(startingNode, 0);
+
+        Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
+        cameFrom.Add(startingNode, null);
+
+        Dictionary<Node, int> costSoFar = new Dictionary<Node, int>();
+        costSoFar.Add(startingNode, 0);
+
+        while (frontier.Count > 0)
+        {
+            Node current = frontier.Dequeue();
+
+            if (current == goalNode)
+            {
+                while (current != null)
+                {
+                    path.Push(current);
+                    current = cameFrom[current];
+                }
+
+                return path;
+            }
+
+            foreach (var next in current.GetNeighbors())
+            {
+                if (next.IsBlocked) continue;
+
+                int newCost = costSoFar[current] + next.cost;
+
+                float priority = newCost + Heuristic(next, goalNode);
+
+                if (!costSoFar.ContainsKey(next))
+                {
+                    frontier.Enqueue(next, priority);
+                    cameFrom.Add(next, current);
+                    costSoFar.Add(next, newCost);
+                }
+                else if (newCost < costSoFar[next])
+                {
+                    frontier.Enqueue(next, priority);
+                    cameFrom[next] = current;
+                    costSoFar[next] = newCost;
+                }
+            }
+        }
+        return path;
+    }
+
+    public IEnumerator PaintAStar(Node startingNode, Node goalNode)
+    {
+        PriorityQueue<Node> frontier = new PriorityQueue<Node>();
+        frontier.Enqueue(startingNode, 0);
+
+        Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
+        cameFrom.Add(startingNode, null);
+
+        Dictionary<Node, int> costSoFar = new Dictionary<Node, int>();
+        costSoFar.Add(startingNode, 0);
+
+        WaitForSeconds time = new WaitForSeconds(0.1f);
+
+        while (frontier.Count > 0)
+        {
+            Node current = frontier.Dequeue();
+
+            PathManager.instance.ChangeObjColor(current.gameObject, Color.blue);
+            yield return time;
+
+            if (current == goalNode)
+            {
+                while (current != null)
+                {
+                    PathManager.instance.ChangeObjColor(current.gameObject, Color.yellow);
+                    yield return time;
+                    current = cameFrom[current];
+                }
+
+                break;
+            }
+
+            foreach (var next in current.GetNeighbors())
+            {
+                if (next.IsBlocked) continue;
+
+                int newCost = costSoFar[current] + next.cost;
+
+                float priority = newCost + Heuristic(next, goalNode);
+
+                if (!costSoFar.ContainsKey(next))
+                {
+                    frontier.Enqueue(next, priority);
+                    cameFrom.Add(next, current);
+                    costSoFar.Add(next, newCost);
+                }
+                else if (newCost < costSoFar[next])
+                {
+                    frontier.Enqueue(next, priority);
+                    cameFrom[next] = current;
+                    costSoFar[next] = newCost;
+                }
+            }
+        }
+    }
+
+    #endregion
 }
