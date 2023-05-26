@@ -6,13 +6,8 @@ using System;
 
 public class Building : StaticEntity
 {
-    /*
-    [SerializeField]
-    ItemContainer customer;
+    public Pictionarys<string, Action> buttonsFuncs = new Pictionarys<string, Action>();
 
-    [SerializeField]
-    TextMeshProUGUI coinCounter;
-    */
 
     [SerializeField]
     StructureBase structureBase;
@@ -27,30 +22,17 @@ public class Building : StaticEntity
 
     private void MyOnEnable()
     {
-        
+
+        buttonsFuncs.AddRange(new Pictionarys<string, Action>()
+        {
+            // Static Buttons
+            {"Open", Example}
+        });
+
     }
 
-
-    /*
-    protected override void Config()
+    void Example()
     {
-        MyAwakes += MyAwake;
+
     }
-
-    public void RefreshPlayerCoins()
-    {
-        coinCounter.text = customer.character.ItemCount("Coin").ToString();
-    }
-
-        //----------------------------------------------------
-    public void ClearCustomerInventory()
-    {
-        character.inventory.Clear();
-    }
-    //----------------------------------------------------
-    */
-
-
-
-
 }

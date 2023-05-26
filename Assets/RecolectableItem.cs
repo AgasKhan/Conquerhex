@@ -62,7 +62,6 @@ public class RecolectableItem : StaticEntity
 
         AddOrSubstractItems(item.nameDisplay, 1);
     }
-
 }
 
 
