@@ -3,130 +3,85 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MenuList : MonoBehaviour
+public class MenuList : PopUp
 {
-    [SerializeField]
-    Transform content;
 
-    public EventsCall prefab;
+    List<DoubleString> defaultOptions = new List<DoubleString>();
 
-    public float durationWait = 0.5f;
+    public MenuList CreateConfigured(params DoubleString[] stringActions)
+    {
+        foreach (var item in stringActions)
+        {
+            AddButton(item.superior, item.inferior);
+        }
 
-    List<StringAction> defaultOptions = new List<StringAction>();
-
-    List<EventsCall> eventsCalls = new List<EventsCall>();
+        return this;
+    }
 
     public MenuList CreateDefault()
     {
-        CreateConfigured(defaultOptions.ToArray());
-
-        return this;
+        return CreateConfigured(defaultOptions.ToArray()); ;
     }
 
-    public MenuList CreateConfigured(params StringAction[] stringActions)
-    {
-        foreach (var item in stringActions)
-        {
-            Create(item.text, item.buttonName);
-        }
-
-        return this;
-    }
-
-    public MenuList Create(params StringAction[] stringActions)
-    {
-        foreach (var item in stringActions)
-        {
-            Create(item.text, item.action);
-        }
-
-        return this;
-    }
-
-    public MenuList Create(Pictionarys<string, LogicActive> pictionaries)
+    public MenuList AddButton(Pictionarys<string, LogicActive> pictionaries)
     {
         foreach (var item in pictionaries)
         {
-            Create(item.key, item.value.Activate);
+            AddButton(item.key, item.value.Activate);
         }
 
         return this;
     }
 
-    public MenuList Create(string text, string buttonName)
+    private void Awake()
     {
-        Create(text, buttonName, null);
-        return this;
-    }
+        buttonFactory.eventsCalls.AddRange(buttonFactory.content.GetComponentsInChildren<EventsCall>());
 
-    public MenuList Create(string text, UnityEngine.Events.UnityAction action)
-    {
-        Create(text, "", action);
-        return this;
-    }
-
-    public MenuList DestroyAll()
-    {
-        for (int i = 0; i < eventsCalls.Count; i++)
+        foreach (var item in buttonFactory.eventsCalls)
         {
-            Destroy(eventsCalls[i].gameObject);
+            item.button.Event();
+
+            //crear remplazo vacio
+
+            defaultOptions.Add(new DoubleString(item.textButton.text, item.button.name));
         }
 
-        eventsCalls.Clear();
-
-        return this;
+        buttonFactory.DestroyAll();
     }
 
-    void Create(string text, string buttonName, UnityEngine.Events.UnityAction action)
+    private void OnDisable()
+    {
+        buttonFactory.DestroyAll();
+    }
+}
+
+[System.Serializable]
+public class ButtonFactory
+{
+    public EventsCall prefab;
+
+    public List<EventsCall> eventsCalls = new List<EventsCall>();
+
+    public float durationWait = 0.5f;
+
+    public Transform content;
+
+    public void Create(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {
         eventsCalls.Add(prefab.Clone(text, action, buttonName, content));
 
         eventsCalls[eventsCalls.Count - 1].fadeMenu.FadeOn().Set(eventsCalls.Count * durationWait);
     }
 
-    private void Awake()
+    public ButtonFactory DestroyAll()
     {
-        eventsCalls.AddRange(content.GetComponentsInChildren<EventsCall>());
-
-        foreach (var item in eventsCalls)
+        for (int i = 0; i < eventsCalls.Count; i++)
         {
-            item.button.Event();
-
-            //crear remplazo vacio
-
-            defaultOptions.Add(new StringAction(item.textButton.text, item.button.name));
+            Object.Destroy(eventsCalls[i].gameObject);
         }
 
-        DestroyAll();
-    }
+        eventsCalls.Clear();
 
-    private void OnDisable()
-    {
-        DestroyAll();
-    }
-}
-
-
-[System.Serializable]
-public struct StringAction
-{
-    public string text;
-
-    public string buttonName;
-
-    public UnityEngine.Events.UnityAction action;
-
-    public StringAction(string text, UnityAction action)
-    {
-        this.text = text;
-        this.action = action;
-        buttonName = "";
-    }
-
-    public StringAction(string text, string buttonName)
-    {
-        this.text = text;
-        this.action = null;
-        this.buttonName = buttonName;
-    }
+        return this;
+    }   
 }

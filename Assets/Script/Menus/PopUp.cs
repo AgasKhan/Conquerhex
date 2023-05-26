@@ -7,30 +7,30 @@ using UnityEngine.UI;
 public class PopUp : MonoBehaviour
 {
     [SerializeField]
-    DetailsWindow detailsWindow;
+    protected DetailsWindow detailsWindow;
 
     [SerializeField]
-    MenuList menuList;
+    protected ButtonFactory buttonFactory;
 
     public PopUp SetWindow(string titulo, string text, Sprite sprite = null)
     {
         detailsWindow.SetWindow(sprite, titulo, text);
-        menuList.DestroyAll();
-        menuList.SetActiveGameObject(false);
+        buttonFactory.DestroyAll();
+        buttonFactory.content.gameObject.SetActive(false);
         return this;
     }
 
     public PopUp AddButton(string text, string buttonName)
     {
-        menuList.SetActiveGameObject(true);
-        menuList.Create(text, buttonName);
+        buttonFactory.content.gameObject.SetActive(true);
+        buttonFactory.Create(text, buttonName, null);
         return this;
     }
 
     public PopUp AddButton(string text, UnityEngine.Events.UnityAction action)
     {
-        menuList.SetActiveGameObject(true);
-        menuList.Create(text, action);
+        buttonFactory.content.gameObject.SetActive(true);
+        buttonFactory.Create(text, "", action);
         return this;
     }
 

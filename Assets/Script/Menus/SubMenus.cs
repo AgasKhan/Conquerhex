@@ -76,7 +76,7 @@ public class ManagerComponentMenu
     {
         foreach (var item in components)
         {
-            if (item is T)
+            if (item.GetType() == typeof(T))
             {
                 return (T)item;
             }
