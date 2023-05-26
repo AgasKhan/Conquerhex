@@ -13,7 +13,7 @@ public class EventsCall : MonoBehaviour
 
     public bool empty=true;
 
-    public FadeMenu fadeMenu;
+    public FadeOnOff fadeMenu;
 
     public event UnityEngine.Events.UnityAction listeners
     {
@@ -98,7 +98,7 @@ public class EventsCall : MonoBehaviour
 
 
 [System.Serializable]
-public class FadeMenu : Init
+public class FadeOnOff : Init
 {
     public float durationAnim = 0.3f;
 
@@ -132,9 +132,14 @@ public class FadeMenu : Init
         return SetFade(0, 1);
     }
 
+    public Timer FadeOff()
+    {
+        return SetFade(1, 0);
+    }
+
     public Timer SetFade(float init, float end)
     {
-        alphas(init);
+        alphas?.Invoke(init);
         fades.x = init;
         fades.y = end;
 

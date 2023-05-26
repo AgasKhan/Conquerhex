@@ -8,6 +8,12 @@ public class MenuList : PopUp
 
     List<DoubleString> defaultOptions = new List<DoubleString>();
 
+    public override PopUp SetWindow(string titulo, string text, Sprite sprite = null)
+    {
+        detailsWindow.transform.parent.gameObject.SetActive(true);
+        return base.SetWindow(titulo, text, sprite);
+    }
+
     public MenuList CreateConfigured(params DoubleString[] stringActions)
     {
         foreach (var item in stringActions)
@@ -49,6 +55,11 @@ public class MenuList : PopUp
         buttonFactory.DestroyAll();
     }
 
+    private void OnEnable()
+    {
+        detailsWindow.transform.parent.gameObject.SetActive(false);
+    }
+
     private void OnDisable()
     {
         buttonFactory.DestroyAll();
@@ -66,11 +77,15 @@ public class ButtonFactory
 
     public Transform content;
 
-    public void Create(string text, string buttonName, UnityEngine.Events.UnityAction action)
+    
+
+    public ButtonFactory Create(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {
         eventsCalls.Add(prefab.Clone(text, action, buttonName, content));
 
         eventsCalls[eventsCalls.Count - 1].fadeMenu.FadeOn().Set(eventsCalls.Count * durationWait);
+
+        return this;
     }
 
     public ButtonFactory DestroyAll()

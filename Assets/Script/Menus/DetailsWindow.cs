@@ -16,14 +16,12 @@ public class DetailsWindow : MonoBehaviour
     Image previewImage;
 
     [SerializeField]
-    FadeMenu fadeMenu;
+    FadeOnOff fadeMenu;
 
-  
     public void ShowOrHide(bool condition)
     {
         gameObject.SetActive(condition);
     }
-
 
     public void ModifyTexts(DoubleString d)
     {
@@ -39,7 +37,6 @@ public class DetailsWindow : MonoBehaviour
         myDescription.text = description;
 
         //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
-
     }
 
  
@@ -61,11 +58,8 @@ public class DetailsWindow : MonoBehaviour
     {
         PreviewImage(sprite!=null, sprite);
         ModifyTexts(title, description);
-    }
-
-    public void SetWindow(string title, string description)
-    {
-        ModifyTexts(title, description);
+        ShowOrHide(false);
+        ShowOrHide(true);
     }
 
     private void Awake()

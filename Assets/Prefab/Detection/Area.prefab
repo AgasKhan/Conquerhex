@@ -100,10 +100,6 @@ MonoBehaviour:
   sprite: {fileID: 4063266774000420313}
   areaColor: {r: 1, g: 0.7709075, b: 0, a: 1}
   attackColor: {r: 1, g: 0, b: 0, a: 1}
-  offTimer:
-    rid: -2
-  onTimer:
-    rid: -2
   attackTimer:
     rid: -2
   noAttackTimer:
@@ -112,6 +108,12 @@ MonoBehaviour:
   fadeOff: 0.1
   fadeAttack: 0.01
   fadeNoAttack: 1
+  fadeOnOff:
+    durationAnim: 0.3
+    durationWait: 0
+    timerOn:
+      rid: -2
+    unscaled: 0
   references:
     version: 2
     RefIds:

@@ -28,8 +28,7 @@ public class ButtonsFunctions : MonoBehaviour
             {"Settings", DisplayWindow},
             {"Store", ShowStore},
             {"Credits", DisplayWindow},
-            {"DeleteWindow", DisplayWindow},
-            {"DeleteData", DeleteData},
+            {"DeleteWindow", DeleteData},
             {"Exit", Exit},
             {"Quit", DisplayWindow},
 
@@ -91,9 +90,21 @@ public class ButtonsFunctions : MonoBehaviour
 
     void DeleteData(GameObject g)
     {
-        StoreInteract.instance.ClearCustomerInventory();
-        SaveWithJSON.DeleteData();
-        Restart(g);
+        refMenu.modulesMenu.ObtainMenu<PopUp>(true)
+            .SetWindow("Borrar partida","¿Estas seguro que deseas borrar toda la configuracion y progreso?")
+            .AddButton("Confirmar", ()=> {
+
+                StoreInteract.instance.ClearCustomerInventory();
+                SaveWithJSON.DeleteData();
+                Restart(g);
+
+            })
+            .AddButton("Cancelar", ()=> {
+
+                refMenu.modulesMenu.ObtainMenu<PopUp>(false);
+            });
+
+        
         //refMenu.ChangeVolume(1f, "Effects");
         //refMenu.ChangeVolume(1f, "Music");
     }

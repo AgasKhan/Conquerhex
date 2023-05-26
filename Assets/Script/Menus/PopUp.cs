@@ -12,7 +12,7 @@ public class PopUp : MonoBehaviour
     [SerializeField]
     protected ButtonFactory buttonFactory;
 
-    public PopUp SetWindow(string titulo, string text, Sprite sprite = null)
+    public virtual PopUp SetWindow(string titulo, string text, Sprite sprite = null)
     {
         detailsWindow.SetWindow(sprite, titulo, text);
         buttonFactory.DestroyAll();

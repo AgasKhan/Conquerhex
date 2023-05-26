@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FadeOnOff : MonoBehaviour
+public class FadeColorAttack : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
@@ -14,11 +14,13 @@ public class FadeOnOff : MonoBehaviour
     [SerializeField]
     public Color attackColor;
 
+    /*
     [SerializeReference]
     TimedAction offTimer;
 
     [SerializeReference]
     TimedAction onTimer;
+    */
 
     [SerializeReference]
     TimedAction attackTimer;
@@ -38,6 +40,9 @@ public class FadeOnOff : MonoBehaviour
     [SerializeField]
     float fadeNoAttack;
 
+    [SerializeField]
+    FadeOnOff fadeOnOff;
+
     public Color color
     {
         get => sprite.color;
@@ -46,11 +51,16 @@ public class FadeOnOff : MonoBehaviour
 
     private void Awake()
     {
+        /*
         offTimer = TimersManager.LerpInTime(1f, 0, fadeOff, Mathf.Lerp, (fadecolor) => sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, fadecolor));
-
+        onTimer =  TimersManager.LerpInTime(0f, 1, fadeOn,  Mathf.Lerp, (fadecolor) => sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, fadecolor));
         offTimer.AddToEnd(() => gameObject.SetActive(false));
+        */
 
-        onTimer = TimersManager.LerpInTime(0f, 1, fadeOn, Mathf.Lerp, (fadecolor) => sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, fadecolor));
+        fadeOnOff.alphas += FadeMenu_alphas;
+
+        fadeOnOff.Init();
+        
 
         attackTimer = TimersManager.LerpInTime(() => sprite.color, attackColor, fadeAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
 
@@ -59,37 +69,53 @@ public class FadeOnOff : MonoBehaviour
         attackTimer.AddToEnd(()=> NoAttack());
     }
 
-    public FadeOnOff On()
+    private void FadeMenu_alphas(float obj)
+    {
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, obj);
+    }
+
+    public FadeColorAttack On()
     {
         gameObject.SetActive(true);
 
         return this;
     }
 
-    public FadeOnOff Attack()
+    public FadeColorAttack Attack()
     {
         attackTimer.Reset();
         return this;
     }
 
-    FadeOnOff NoAttack()
+    FadeColorAttack NoAttack()
     {
         noAttackTimer.Reset();
         return this;
     }
 
-    public FadeOnOff Off()
+    public FadeColorAttack Off()
     {
-        offTimer.Reset();
+        fadeOnOff.end += FadeMenu_end;
+        fadeOnOff.FadeOff().Set(fadeOff);
+
+
+        //offTimer.Reset();
 
         return this;
     }
 
+    private void FadeMenu_end()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnEnable()
     {
-        sprite.color = new Color(areaColor.r, areaColor.g, areaColor.b, 0);
+        sprite.color = areaColor.ChangeAlphaCopy(0);
 
-        onTimer.Reset();
+        fadeOnOff.end -= FadeMenu_end;
+        fadeOnOff.FadeOn().Set(fadeOn);
+        //onTimer.Reset();
     }
 
     

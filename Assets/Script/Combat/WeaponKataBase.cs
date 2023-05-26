@@ -145,9 +145,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public event System.Action finishTimer;
 
-    FadeOnOff _reference;
+    FadeColorAttack _reference;
 
-    public FadeOnOff reference
+    public FadeColorAttack reference
     {
         get => _reference;
         set
@@ -366,7 +366,7 @@ public class PressWeaponKata : WeaponKata
         if (!cooldown.Chck)
             return;
 
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeOnOff reference, caster.transform.position);
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
 
         this.reference = reference;
         aux.SetParent(caster.transform);
@@ -407,7 +407,7 @@ public class UpWeaponKata : WeaponKata
     {
         Debug.Log("presionaste ataque: " + itemBase.GetType().Name);
 
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeOnOff reference, caster.transform.position);
+        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
 
         this.reference = reference;
         aux.SetParent(caster.transform);

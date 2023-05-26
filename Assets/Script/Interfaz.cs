@@ -144,7 +144,7 @@ public class TextCompleto : Init
     public float tiempoEntreLetras;
 
     [SerializeField]
-    FadeMenu fadeMenu;
+    FadeOnOff fadeMenu;
 
     private void FadeMenu_alphas(float obj)
     {
