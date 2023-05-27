@@ -14,7 +14,7 @@ public class PopUp : MonoBehaviour
 
     public virtual PopUp SetWindow(string titulo, string text, Sprite sprite = null)
     {
-        detailsWindow.SetWindow(sprite, titulo, text);
+        detailsWindow.SetTexts(titulo, text).SetImage(sprite);
         buttonFactory.DestroyAll();
         buttonFactory.content.gameObject.SetActive(false);
         return this;

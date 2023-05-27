@@ -485,10 +485,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8712075800380389794}
+  - component: {fileID: 6195483880860301815}
   - component: {fileID: 8712075800380389790}
   - component: {fileID: 8712075800380389792}
   - component: {fileID: 8712075800380389793}
-  - component: {fileID: 6195483880860301815}
   m_Layer: 5
   m_Name: SubMenu
   m_TagString: Untagged
@@ -518,6 +518,32 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 10}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &6195483880860301815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8712075800380389795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d866d7de28cf4eb5a1ade68639eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sectionPrefab: {fileID: 337803477443200835, guid: 2f5cbd713faba3c449055b7245df941f,
+    type: 3}
+  componentMenu:
+    components:
+    - {fileID: 4601771053681614578, guid: b2bffbb2746dec14ba3a13425e4f553c, type: 3}
+  navbar:
+    prefab: {fileID: 1759002638691397182, guid: 8aafeb3de00c8864690ef025d3c2afe7,
+      type: 3}
+    eventsCalls: []
+    durationWait: 0.5
+    content: {fileID: 4124285577562220100}
+  body: {fileID: 4124285578480492384}
+  margin: 0
+  subdivisions: 0
 --- !u!222 &8712075800380389790
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -566,25 +592,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &6195483880860301815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8712075800380389795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 375d866d7de28cf4eb5a1ade68639eb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  navbar: {fileID: 4124285577562220101}
-  prefabs: []
-  sectionPrefab: {fileID: 337803477443200835, guid: 2f5cbd713faba3c449055b7245df941f,
-    type: 3}
-  horizontalContainer: {fileID: 4124285578480492384}
-  margin: 0
-  subdivisions: 0
 --- !u!1001 &1799785631561950932
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1839,12 +1846,6 @@ RectTransform:
 --- !u!224 &4124285577562220100 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2433765271971881400, guid: 7ba827bae67c93d4f8191dd39c863cde,
-    type: 3}
-  m_PrefabInstance: {fileID: 1799785633091946492}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4124285577562220101 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2433765271971881401, guid: 7ba827bae67c93d4f8191dd39c863cde,
     type: 3}
   m_PrefabInstance: {fileID: 1799785633091946492}
   m_PrefabAsset: {fileID: 0}

@@ -267,10 +267,15 @@ public class ManagerSubMenus : Init
     /// <param name="param"></param>
     public void Init(params object[] param)
     {
+        if (reference == null)
+            return;
+
         for (int i = 0; i < reference.childCount; i++)
         {
             subMenus.Add(reference.GetChild(i).gameObject);
         }
+        
+           
 
         Manager<ManagerSubMenus>.pic.Add(reference.name, this);
     }

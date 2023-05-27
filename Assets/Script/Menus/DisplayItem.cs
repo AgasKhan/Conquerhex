@@ -44,7 +44,7 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
             return;
         }
 
-        myDetailWindow.SetWindow(myItem.image, myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n"));
+        myDetailWindow.SetTexts(myItem.nameDisplay, myItem.GetDetails().ToString("\n", "\n \n")).SetImage(myItem.image);
 
         SpecialButton(gameObject);
     }

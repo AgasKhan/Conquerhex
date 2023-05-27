@@ -1,17 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SubMenus : MonoBehaviour
 {
-    [SerializeField]
-    GameObject navbar;
+    
+    [Header("Prefabs")]
 
     [SerializeField]
     RectTransform sectionPrefab;
 
     [SerializeField]
     ManagerComponentMenu componentMenu;
+
+    [Header("Elementos")]
+    [SerializeField]
+    public ButtonFactory navbar;
+
+    [SerializeField]
+    RectTransform body;
+
+    [SerializeField]
+    float width;
 
     [SerializeField]
     float margin;
@@ -21,31 +32,89 @@ public class SubMenus : MonoBehaviour
 
     int maxDivision;
 
+    Stack<RectTransform> secctions = new Stack<RectTransform>();
+
+    RectTransform lastSection
+    {
+        get
+        {
+            if (secctions.TryPeek(out var result))
+                return result;
+            else
+                return null;
+        }
+        set
+        {
+            secctions.Push(value);
+        }
+    }    
+
     private void Awake()
     {
-        var aux = Screen.width - margin*7;
+        var aux = width - margin * 7;
 
         subdivisions = aux / 6;
 
-        CreateSection(0,4);
+        CreateSection(0, 4);
+
+            AddComponent<DetailsWindow>().SetTexts("Hola", "Muuundo");
 
         CreateSection(4, 8);
+
+            CreateChildrenSection<HorizontalLayoutGroup>(); //de ejemplo
+
+                AddComponent<DetailsWindow>().SetTexts("Hola" + " otra cosa", "SEGUNDA seccion").SetAlignment(TMPro.TextAlignmentOptions.Justified, TMPro.TextAlignmentOptions.TopRight);
+
+                AddComponent<DetailsWindow>().SetTexts("Segunda parte", "DERECHA").SetAlignment(TMPro.TextAlignmentOptions.Justified, TMPro.TextAlignmentOptions.TopRight);
+
+            FatherSection();
+
+            AddComponent<DetailsWindow>().SetTexts("Hola", "SEGUNDA seccion segundo componente");
     }
 
-    public RectTransform CreateSection(int comienzo, int final)
+    public SubMenus CreateSection(int comienzo, int final)
     {
         if(final> maxDivision)
         {
             maxDivision = final;
 
-            componentMenu.container.sizeDelta = new Vector2(Width(maxDivision) + margin*2, componentMenu.container.sizeDelta.y);
-        }
-            
+            var width = Width(maxDivision) + margin * 2;
 
-        return SetWidth(Instantiate(sectionPrefab, componentMenu.container), comienzo, final);
+            if (width < Screen.width)
+                width = Screen.width;
+
+            body.sizeDelta = new Vector2(width, body.sizeDelta.y);
+        }
+
+        secctions.Clear();
+
+        lastSection = SetWidth(Instantiate(sectionPrefab, body), comienzo, final);
+
+        return this;
     }
 
-    public RectTransform SetWidth(RectTransform rect, int comienzo, int final)
+    public SubMenus FatherSection()
+    {
+        secctions.Pop();
+
+        return this;
+    }
+
+    public T AddComponent<T>() where T : MonoBehaviour
+    {
+        return componentMenu.CreateComponent<T>(lastSection);
+    }
+
+    public T CreateChildrenSection<T>() where T : LayoutGroup
+    {
+        var result = componentMenu.CreateComponent<T>(lastSection);
+
+        lastSection = result.GetComponent<RectTransform>();
+
+        return result;
+    }
+
+    RectTransform SetWidth(RectTransform rect, int comienzo, int final)
     {
         var x = comienzo * subdivisions + (comienzo + 1) * margin;
 
@@ -60,19 +129,15 @@ public class SubMenus : MonoBehaviour
     {
        return w * subdivisions + (w - 1) * margin;
     }
-
 }
 
 [System.Serializable]
 public class ManagerComponentMenu
 {
     [SerializeField]
-    public RectTransform container;
+    Component[] components;
 
-    [SerializeField]
-    MonoBehaviour[] components;
-
-    public T SearchComponent<T>() where T : MonoBehaviour
+    public T SearchComponent<T>() where T : Component
     {
         foreach (var item in components)
         {
@@ -84,26 +149,33 @@ public class ManagerComponentMenu
         return default;
     }
 
-    public T CreateComponent<T>(Transform parent) where T : MonoBehaviour
+    public T CreateComponent<T>(Transform parent) where T : Component
     {
         return Object.Instantiate(SearchComponent<T>(), parent);
     }
 }
 
+
+
 [System.Serializable]
 public class ManagerModulesMenu
 {
+
+    [SerializeField]
+    public RectTransform container;
+
     [SerializeField]
     ManagerComponentMenu componentMenu;
 
+
     public T ObtainMenu<T>(bool view) where T : MonoBehaviour
     {
-        componentMenu.container.gameObject.SetActive(true);
+        container.gameObject.SetActive(true);
         return componentMenu.SearchComponent<T>().SetActiveGameObject(view);
     }
 
     public void CloseMenus()
     {
-        componentMenu.container.gameObject.SetActive(false);
+        container.gameObject.SetActive(false);
     }
 }

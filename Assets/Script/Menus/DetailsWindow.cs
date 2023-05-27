@@ -18,49 +18,60 @@ public class DetailsWindow : MonoBehaviour
     [SerializeField]
     FadeOnOff fadeMenu;
 
-    public void ShowOrHide(bool condition)
+
+
+
+
+    public DetailsWindow ShowOrHide(bool condition)
     {
         gameObject.SetActive(condition);
+        return this;
     }
 
-    public void ModifyTexts(DoubleString d)
+    public DetailsWindow SetTexts(DoubleString d)
     {
-        myTitle.text = d.superior;
-        myDescription.text = d.inferior;
+        SetTexts(d.superior, d.inferior);
 
         //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
 
+        return this;
     }
-    public void ModifyTexts(string title, string description)
+    public DetailsWindow SetTexts(string title, string description)
     {
         myTitle.text = title;
         myDescription.text = description;
 
+        previewImage.gameObject.SetActive(false);
+
         //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
+
+        return this;
     }
 
- 
-    public void PreviewImage(bool active, Sprite sprite = null)
+    public DetailsWindow SetAlignment(TextAlignmentOptions alignmentOptions)
     {
-        previewImage.gameObject.SetActive(active);
+        return SetAlignment(alignmentOptions, alignmentOptions);
+    }
+
+    public DetailsWindow SetAlignment(TextAlignmentOptions titleAlignment, TextAlignmentOptions descriptionAlignment)
+    {
+        myTitle.alignment = titleAlignment;
+
+        myDescription.alignment = descriptionAlignment;
+
+        return this;
+    }
+
+    public DetailsWindow SetImage(Sprite sprite = null)
+    {
+        previewImage.gameObject.SetActive(sprite != null);
 
         if (sprite != null)
             previewImage.sprite = sprite;
+
+        return this;
     }
 
-    public void SetWindow(Sprite sprite, DoubleString ds)
-    {
-        PreviewImage(true, sprite);
-        ModifyTexts(ds);
-    }
-
-    public void SetWindow(Sprite sprite, string title, string description)
-    {
-        PreviewImage(sprite!=null, sprite);
-        ModifyTexts(title, description);
-        ShowOrHide(false);
-        ShowOrHide(true);
-    }
 
     private void Awake()
     {
