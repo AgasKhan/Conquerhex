@@ -90,7 +90,7 @@ public class IAIO : IAFather
 
     public override void OnStayState(Character param)
     {
-        
+        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).Execute(transform.position);
     }
 
     void ShowLoserWindow()
@@ -138,5 +138,9 @@ public class IAIO : IAFather
     {
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(arg1, arg2, arg3);
     }
+}
 
+public enum EnumPlayer
+{
+    move
 }

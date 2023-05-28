@@ -133,6 +133,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             pesoAcumulador += item.peso;
         }
 
+        gameObject.SetActive(false);
     }
 
     public virtual void TakeDamage(Damage dmg)

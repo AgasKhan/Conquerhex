@@ -7,7 +7,10 @@ public class AnimPerspecitve : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField]
-    Material material;
+    Material shadowMaterial;
+
+    [SerializeField]
+    Material transparentMaterial;
 
     public bool shadow;
 
@@ -21,15 +24,36 @@ public class AnimPerspecitve : MonoBehaviour
     [SerializeField]
     SpriteRenderer originalSprite;
 
-    SpriteRenderer shadowSprite;    
+    SpriteRenderer shadowSprite;
 
     private void Awake()
     {
         originalSprite = GetComponentInChildren<SpriteRenderer>();
         var aux = GetComponentInChildren<Animator>();
 
-        if(aux!=null)
+        originalSprite.material = transparentMaterial;
+
+
+
+        if (aux!=null)
             aux.enabled = animator;
+    }
+
+    private void UpdateTransparent(params object[] param)
+    {
+        if (!gameObject.activeSelf)
+            return;
+
+        Vector3 posPlayer = (Vector3)param[0];
+
+        if(posPlayer.y>transform.position.y)
+        {
+            originalSprite.material.SetInt("_transparent", 1);
+        }
+        else
+        {
+            originalSprite.material.SetInt("_transparent", 0);
+        }
     }
 
     void CreateShadow()
@@ -38,7 +62,7 @@ public class AnimPerspecitve : MonoBehaviour
 
         Destroy(shadowSprite.GetComponent<Animator>());
 
-        shadowSprite.material = material;
+        shadowSprite.material = shadowMaterial;
 
         originalSprite.RegisterSpriteChangeCallback(UpdateShadowSprite);
 
@@ -64,9 +88,6 @@ public class AnimPerspecitve : MonoBehaviour
         shadowSprite.bounds = aux;
 
         */
-
-
-
     }
 
     void UpdateShadowSprite(SpriteRenderer sprite)
@@ -96,6 +117,8 @@ public class AnimPerspecitve : MonoBehaviour
     {
         transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
 
+        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action += UpdateTransparent;
+
         if (!shadow)
             return;
 
@@ -103,6 +126,11 @@ public class AnimPerspecitve : MonoBehaviour
             CreateShadow();
 
         UpdateShadow();
+    }
+
+    private void OnDisable()
+    {
+        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action += UpdateTransparent;
     }
 
     IEnumerator UpdatePostFrame(System.Action action)
