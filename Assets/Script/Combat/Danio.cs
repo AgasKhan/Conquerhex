@@ -22,7 +22,7 @@ public struct Damage
 
 public abstract class ClassDamage : ShowDetails
 {
-    public Color color;
+    //public Vector4 color;
     public abstract void IntarnalAction(Entity go, float amount);
 }
 

@@ -2532,7 +2532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc4b86777cc114983a53b0e4ea4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 337d60be4bdd2d24db6085cfa810b3f4, type: 2}
+  shadowMaterial: {fileID: 0}
+  transparentMaterial: {fileID: 0}
   shadow: 1
   animator: 0
   dirVector: {x: 1, y: 1}
@@ -19132,7 +19133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &2085456265
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -19235,17 +19236,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
-  drops:
-  - peso: 10
-    minDrop: 0
-    maxDrop: 0
-    prefab: {fileID: 0}
-    item: {fileID: 0}
-  - peso: 15
-    minDrop: 0
-    maxDrop: 0
-    prefab: {fileID: 0}
-    item: {fileID: 0}
+  drops: []
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   audioManager: {fileID: 0}

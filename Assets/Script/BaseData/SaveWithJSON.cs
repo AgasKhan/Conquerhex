@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 {
     public Pictionarys<string, string> _baseData = new Pictionarys<string, string>();
+
+    
 
     public static Pictionarys<string, string> BD
     {
@@ -95,6 +98,8 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     public static void SaveInPictionary<T>(string id, T data)
     {
         string json = JsonUtility.ToJson(new AuxClass<T>(data), true);
+
+        //string json = JsonConvert.SerializeObject(data);
 
         Debug.Log(json);
 
