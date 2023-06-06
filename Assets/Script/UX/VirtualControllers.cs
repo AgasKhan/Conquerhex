@@ -20,7 +20,7 @@ public class VirtualControllers : MonoBehaviour
 
     static public Button parry = new Button("Parry");
 
-    static public T Search<T>(ControllerEnum e) where T : FatherKey
+    static public T Search<T>(EnumController e) where T : FatherKey
     {
         List<T> aux = new List<T>();
 
@@ -390,7 +390,7 @@ public class VirtualControllers : MonoBehaviour
     #endregion
 }
 
-public enum ControllerEnum
+public enum EnumController
 {
     movement,
     principal,

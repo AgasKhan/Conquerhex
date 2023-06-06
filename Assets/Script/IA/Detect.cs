@@ -5,12 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class Detect<T>
 {
+    [Tooltip("Radio de deteccion")]
     public float radius;
-
-    public float diameter => radius * 2;
 
     public float distance;
 
+    [Tooltip("Layer de deteccion")]
     public LayerMask layerMask;
 
     /// <summary>
@@ -23,13 +23,16 @@ public class Detect<T>
     /// </summary>
     public int minDetects = 1;
 
+    public float diameter => radius * 2;
+
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="chck">Criterio de busqueda</param>
     /// <returns></returns>
-    public List<T> Area(Vector2 pos, System.Func<T, bool> chck)
+    public List<T> Area(Vector2 pos, System.Func<T, bool> chck, float radius)
     {
         var aux = Physics2D.OverlapCircleAll(pos, radius, layerMask);
 
@@ -47,6 +50,17 @@ public class Detect<T>
         }
 
         return damageables;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="chck">Criterio de busqueda</param>
+    /// <returns></returns>
+    public List<T> Area(Vector2 pos, System.Func<T, bool> chck)
+    {
+        return Area(pos, chck, radius);
     }
 
     /// <summary>

@@ -58,7 +58,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         });        
     }
 
-    public void Attack(Entity caster, Vector2 direction, Weapon weapon)
+    public void Attack(Entity caster, Vector2 direction, Weapon weapon, float range)
     {
         if (weapon == null)
             return;
@@ -107,7 +107,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
             }
         }
 
-        InternalAttack(caster, direction, damagesCopy);
+        InternalAttack(caster, direction, damagesCopy, range);
     }
 
     protected void Damage(ref Damage[] damages, Entity caster, params Entity[] damageables)
@@ -131,7 +131,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     }
 
-    protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages);
+    protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages, float range);
 }
 
 [System.Serializable]
@@ -145,7 +145,25 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public event System.Action finishTimer;
 
+    [SerializeReference]
+    protected Timer cooldown;
+
+    [SerializeReference]
+    protected StaticEntity caster;
+
     FadeColorAttack _reference;
+
+    int weaponIndex = -1;
+
+    System.Action<Vector2, float> pressed;
+
+    System.Action<Vector2, float> up;
+
+    public bool cooldownTime => cooldown.Chck;
+
+    public float finalVelocity => itemBase.velocity * weapon.itemBase.velocity;
+
+    public float finalRange => itemBase.range + weapon.itemBase.range;
 
     public FadeColorAttack reference
     {
@@ -157,8 +175,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         }
     }
 
-    int weaponIndex=-1;
-
     public Weapon weapon
     {
         get
@@ -168,28 +184,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             else
                 return null;
         }
-    }
-
-    public bool cooldownTime => cooldown.Chck;
-
-    System.Action<Vector2, float> pressed;
-
-    System.Action<Vector2, float> up;
-
-    [SerializeReference]
-    protected Timer cooldown;
-
-    [SerializeReference]
-    protected StaticEntity caster;
-
-    void TriggerTimerEvent()
-    {
-        updateTimer?.Invoke(cooldown.InversePercentage());
-    }
-
-    void TriggerTimerFinishEvent()
-    {
-        finishTimer?.Invoke();
     }
 
     public void ChangeWeapon(int weaponIndex)
@@ -225,6 +219,23 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         equipedWeapon?.Invoke(this.weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
 
         this.weapon.durabilityOff += Weapon_durabilityOff;
+
+        cooldown.Set(finalVelocity);
+    }
+
+    protected void Attack(Vector2 dir)
+    {
+        itemBase.Attack(caster, dir, weapon, finalRange);
+    }
+
+    void TriggerTimerEvent()
+    {
+        updateTimer?.Invoke(cooldown.InversePercentage());
+    }
+
+    void TriggerTimerFinishEvent()
+    {
+        finishTimer?.Invoke();
     }
 
     #region interfaces
@@ -260,6 +271,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         {
             weapon.Init();
             weapon.durabilityOff += Weapon_durabilityOff;
+            cooldown.Set(finalVelocity);
         }
     }
 
@@ -349,9 +361,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 /// </summary>
 public abstract class AreaKataBase : WeaponKataBase
 {
-    protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages)
+    protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages, float range)
     {
-        var aux = detect.Area(caster.transform.position + direction.Vec2to3(0) * detect.distance, (tr) => { return caster != tr; });
+        var aux = detect.Area(caster.transform.position + direction.Vec2to3(0) * detect.distance, (tr) => { return caster != tr; }, range);
 
         Damage(ref damages, caster, aux.ToArray());
     }
@@ -371,11 +383,11 @@ public class PressWeaponKata : WeaponKata
         this.reference = reference;
         aux.SetParent(caster.transform);
 
-        aux.localScale *= itemBase.detect.diameter;
+        aux.localScale *= finalRange*2;
 
         this.reference.Attack();
 
-        itemBase.Attack(caster, dir, weapon);
+        Attack(dir);
         pressCooldown.Reset();
     }
 
@@ -383,7 +395,7 @@ public class PressWeaponKata : WeaponKata
     {
         if(pressCooldown.Chck)
         {
-            itemBase.Attack(caster, dir, weapon);
+            Attack(dir);
             reference.Attack();
             pressCooldown.Reset();
         }
@@ -412,7 +424,7 @@ public class UpWeaponKata : WeaponKata
         this.reference = reference;
         aux.SetParent(caster.transform);
 
-        aux.localScale *= itemBase.detect.diameter;
+        aux.localScale *= finalRange * 2;
     }
 
     //Durante, al mantener y moverlo
@@ -430,7 +442,7 @@ public class UpWeaponKata : WeaponKata
 
         cooldown.Reset();
 
-        itemBase.Attack(caster, dir, weapon);
+        Attack(dir);
 
         //PoolManager.SpawnPoolObject(itemBase.indexParticles[0], caster.transform.position);
         reference.Off().Attack();

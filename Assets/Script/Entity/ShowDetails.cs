@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "BaseData/DetailsObject", fileName = "Details")]
 public class ShowDetails : ScriptableObject, IShowDetails
 {
+    [Header("ShowDetails")]
     [SerializeField]
     string _nameDisplay;
 

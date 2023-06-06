@@ -157,7 +157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1966565009403962113
 RectTransform:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1966565009440941388
 RectTransform:
   m_ObjectHideFlags: 0
@@ -599,6 +599,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
+      propertyPath: joystick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
+        type: 3}
       propertyPath: eventController
       value: 3
       objectReference: {fileID: 0}
@@ -715,7 +720,7 @@ PrefabInstance:
     - target: {fileID: 7959073666282391923, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32c7b3ce4565b134f8708bf123471612, type: 3}
@@ -732,6 +737,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1966565008478253923}
     m_Modifications:
+    - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
+        type: 3}
+      propertyPath: joystick
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
       propertyPath: eventController
@@ -850,7 +860,7 @@ PrefabInstance:
     - target: {fileID: 7959073666282391923, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32c7b3ce4565b134f8708bf123471612, type: 3}
@@ -867,6 +877,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1966565009403962113}
     m_Modifications:
+    - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
+        type: 3}
+      propertyPath: joystick
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
       propertyPath: eventController
@@ -985,7 +1000,7 @@ PrefabInstance:
     - target: {fileID: 7959073666282391923, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32c7b3ce4565b134f8708bf123471612, type: 3}

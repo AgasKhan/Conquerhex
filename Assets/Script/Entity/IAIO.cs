@@ -23,38 +23,15 @@ public class IAIO : IAFather
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
 
-        param.health.noLife += ShowLoserWindow;
+        param.health.noLife += ShowLoserWindow;            
 
+        SetJoystick(param.prin, VirtualControllers.principal, EnumController.principal, PrinUi, PrinUiFinish);
 
-        if (param.prin !=null)
-        {
-            VirtualControllers.principal.SuscribeController(param.prin);
-            param.prin.updateTimer += PrinUi;
-            param.prin.finishTimer += PrinUiFinish;
-        }
-            
+        SetJoystick(param.sec, VirtualControllers.secondary, EnumController.secondary, SecUi, SecUiFinish);
 
-        if (param.sec != null)
-        {
-            VirtualControllers.secondary.SuscribeController(param.sec);
-            param.sec.updateTimer += SecUi;
-            param.sec.finishTimer += SecUiFinish;
-        }
-            
-
-        if (param.ter != null)
-        {
-            VirtualControllers.terciary.SuscribeController(param.ter);
-            param.ter.updateTimer += TerUi;
-            param.ter.finishTimer += TerUiFinish;
-        }
-            
+        SetJoystick(param.ter, VirtualControllers.terciary, EnumController.terciary, TerUi, TerUiFinish);
+        
         VirtualControllers.movement.SuscribeController(param.move);
-    }
-
-    private void TeleportEvent(Hexagone obj, int lado)
-    {
-        obj.SetRenders(HexagonsManager.LadoOpuesto(lado));
     }
 
     public override void OnExitState(Character param)
@@ -93,6 +70,26 @@ public class IAIO : IAFather
         EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).Execute(transform.position);
     }
 
+    private void SetJoystick(WeaponKata weaponKata, VirtualControllers.AxisButton axisButton, EnumController enumController, System.Action<float> ui, System.Action uifinish)
+    {
+        if (weaponKata != null)
+        {
+            axisButton.SuscribeController(weaponKata);
+            weaponKata.updateTimer += ui;
+            weaponKata.finishTimer += uifinish;
+            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(true, weaponKata.itemBase.joystick);
+        }
+        else
+        {
+            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(false, false);
+        }
+    }
+
+    private void TeleportEvent(Hexagone obj, int lado)
+    {
+        obj.SetRenders(HexagonsManager.LadoOpuesto(lado));
+    }
+
     void ShowLoserWindow()
     {
         GameManager.instance.Pause(false);
@@ -101,32 +98,32 @@ public class IAIO : IAFather
 
     void PrinUi(float f)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.principal).Execute(f);
+        EventManager.events.SearchOrCreate<EventGeneric>(EnumController.principal).Execute(f);
     }
 
     void SecUi(float f)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.secondary).Execute(f);
+        EventManager.events.SearchOrCreate<EventGeneric>(EnumController.secondary).Execute(f);
     }
 
     void TerUi(float f)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(ControllerEnum.terciary).Execute(f);
+        EventManager.events.SearchOrCreate<EventGeneric>(EnumController.terciary).Execute(f);
     }
 
     void PrinUiFinish()
     {
-        EventManager.events.SearchOrCreate<EventTimer>(ControllerEnum.principal).ExecuteEnd();
+        EventManager.events.SearchOrCreate<EventTimer>(EnumController.principal).ExecuteEnd();
     }
 
     void SecUiFinish()
     {
-        EventManager.events.SearchOrCreate<EventTimer>(ControllerEnum.secondary).ExecuteEnd();
+        EventManager.events.SearchOrCreate<EventTimer>(EnumController.secondary).ExecuteEnd();
     }
 
     void TerUiFinish()
     {
-        EventManager.events.SearchOrCreate<EventTimer>(ControllerEnum.terciary).ExecuteEnd();
+        EventManager.events.SearchOrCreate<EventTimer>(EnumController.terciary).ExecuteEnd();
     }
 
     void UpdateLife(IGetPercentage arg1, float arg2, float arg3)

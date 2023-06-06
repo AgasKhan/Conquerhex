@@ -142,7 +142,10 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public virtual void ControllerPressed(Vector2 dir, float tim)
     {
-        Acelerator(dir* aceleration.total);
+        var aux = dir * aceleration.total;
+
+        if(aux.sqrMagnitude>0)
+            Acelerator(aux);
         //velocity += aceleration.current * Time.deltaTime;
     }
 

@@ -35,6 +35,16 @@ public class EventTimer : EventGeneric
     }
 }
 
+public class EventJoystick : EventTimer
+{
+    public event _Event set;
+
+    public virtual void ExecuteSet(params object[] param)
+    {
+        set?.Invoke(param);
+    }
+}
+
 /*
 public enum InterfazController
 {

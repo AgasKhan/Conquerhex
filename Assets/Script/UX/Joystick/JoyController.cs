@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class JoyController : MonoBehaviour
 {
     [SerializeField]
-    ControllerEnum eventController;
+    bool joystick;
+
+    [SerializeField]
+    EnumController eventController;
 
     [SerializeField]
     Stick stick;
@@ -40,14 +42,21 @@ public class JoyController : MonoBehaviour
 
         axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
 
-        EventManager.events.SearchOrCreate<EventTimer>(eventController).action += JoyController_action;
+        var events = EventManager.events.SearchOrCreate<EventJoystick>(eventController);
 
-        EventManager.events.SearchOrCreate<EventTimer>(eventController).end += JoyController_end;
+        events.action += JoyController_action;
+
+        events.end += JoyController_end;
+
+        events.set += Set;
 
         LoadSystem.AddPostLoadCorutine(SetStick);
     }
 
-    
+    void Set(params object[] param)
+    {
+        gameObject.SetActive((bool)param[0] && (bool)param[1] == joystick);
+    }
 
     void SetStick()
     {
@@ -74,3 +83,5 @@ public class JoyController : MonoBehaviour
         fill = 1;
     }
 }
+
+

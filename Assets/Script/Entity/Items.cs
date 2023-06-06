@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class ItemBase : ShowDetails
 {
+    [Header("Items")]
     [Range(1, 1000)]
     public int maxAmount = 1;
 
