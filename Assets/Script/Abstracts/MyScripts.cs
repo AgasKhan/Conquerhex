@@ -81,6 +81,8 @@ public abstract class MyScripts : MonoBehaviour
 
     System.Action _fixedUpdate;
 
+    bool active=true;
+
     internal void Awake()
     {
         GameManager.onPlay += GameManager_onPlay;
@@ -93,12 +95,14 @@ public abstract class MyScripts : MonoBehaviour
 
     private void GameManager_onPlay()
     {
-        gameObject.SetActive(true);
+        enabled = active;
     }
 
     private void GameManager_onPause()
     {
-        gameObject.SetActive(false);
+        active = enabled;
+
+        enabled = false;
     }
 
     internal void Start()

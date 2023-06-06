@@ -58,7 +58,6 @@ public class IAIO : IAFather
         param.ter.updateTimer -= TerUi;
         param.ter.finishTimer -= TerUiFinish;
 
-
         VirtualControllers.movement.DesuscribeController(param.move);
 
         param.gameObject.tag = originalTag;
