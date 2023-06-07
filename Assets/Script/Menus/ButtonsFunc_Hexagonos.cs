@@ -98,4 +98,40 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         //------------------------------------------------------------------------
     }
 
+
+    void ShowMenu(GameObject g)
+    {
+        CreateSubMenu body = new CreateBodySubMenu(BodyCreate);
+
+        CreateSubMenu navBar = new CreateNavBarSubMenu(
+            (submenu) =>
+            {
+                submenu.AddNavBarButton("Menu", "Menu").AddNavBarButton("opciones", "Options").AddNavBarButton("creacion", () => { });
+            }
+            );
+        
+
+        navBar.Create();
+
+        body.Create();
+    }
+
+    void ShowMenuStatic(GameObject g)
+    {
+        StaticCreateSubMenu.CreateBody(BodyCreate);
+
+        StaticCreateSubMenu.CreateNavBar
+        (
+            (submenu) =>
+            {
+                submenu.AddNavBarButton("Menu", "Menu").AddNavBarButton("opciones", "Options").AddNavBarButton("creacion", () => { });
+            }
+        );
+
+    }
+
+    void BodyCreate(SubMenus submenu)
+    {
+        submenu.CreateSection(0, 5);
+    }
 }

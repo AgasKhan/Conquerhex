@@ -114,6 +114,28 @@ public class SubMenus : MonoBehaviour
         return result;
     }
 
+    public void ClearBody()
+    {
+        for (int i = 0; i < body.childCount; i++)
+        {
+            Destroy(body.GetChild(i).gameObject);
+        }
+
+        body.sizeDelta = new Vector2(width, body.sizeDelta.y);
+    }
+
+    public SubMenus AddNavBarButton(string text, string buttonName)
+    {
+        navbar.Create(text, buttonName, null);
+        return this;
+    }
+
+    public SubMenus AddNavBarButton(string text, UnityEngine.Events.UnityAction action)
+    {
+        navbar.Create(text, "", action);
+        return this;
+    }
+
     RectTransform SetWidth(RectTransform rect, int comienzo, int final)
     {
         var x = comienzo * subdivisions + (comienzo + 1) * margin;
@@ -155,18 +177,14 @@ public class ManagerComponentMenu
     }
 }
 
-
-
 [System.Serializable]
 public class ManagerModulesMenu
 {
-
     [SerializeField]
     public RectTransform container;
 
     [SerializeField]
     ManagerComponentMenu componentMenu;
-
 
     public T ObtainMenu<T>(bool view) where T : MonoBehaviour
     {
@@ -177,5 +195,90 @@ public class ManagerModulesMenu
     public void CloseMenus()
     {
         container.gameObject.SetActive(false);
+    }
+}
+
+/// <summary>
+/// Version estatica para crear menus
+/// </summary>
+public static class StaticCreateSubMenu
+{
+    static SubMenus subMenus => MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
+
+    static public void CreateBody(System.Action<SubMenus> action)
+    {
+        subMenus.ClearBody();
+
+        Create(action);
+    }
+
+    static public void CreateNavBar(System.Action<SubMenus> action)
+    {
+        subMenus.navbar.DestroyAll();
+
+        Create(action);
+    }
+
+    static void Create(System.Action<SubMenus> action)
+    {
+        //subMenu.ClearBody();
+
+        action(subMenus);
+
+        subMenus.SetActiveGameObject(true);
+    }
+}
+
+
+
+/// <summary>
+/// Version por objetos para crear menus
+/// </summary>
+public abstract class CreateSubMenu
+{
+    protected SubMenus subMenu;
+
+    public System.Action<SubMenus> action;
+
+    public CreateSubMenu(System.Action<SubMenus> action)
+    {
+        subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
+
+        this.action = action;
+    }
+
+    public virtual void Create()
+    {
+        //subMenu.ClearBody();
+
+        action(subMenu);
+
+        subMenu.SetActiveGameObject(true);
+    }
+}
+
+public class CreateBodySubMenu : CreateSubMenu
+{
+    public CreateBodySubMenu(System.Action<SubMenus> action) : base(action)
+    {
+    }
+
+    public override void Create()
+    {
+        subMenu.ClearBody();
+        base.Create();
+    }
+}
+
+public class CreateNavBarSubMenu : CreateSubMenu
+{
+    public CreateNavBarSubMenu(System.Action<SubMenus> action) : base(action)
+    {
+    }
+
+    public override void Create()
+    {
+        subMenu.navbar.DestroyAll();
+        base.Create();
     }
 }

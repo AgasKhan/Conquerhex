@@ -44,7 +44,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     protected void DisplayWindow(GameObject g)
     {
-        refMenu.subMenus.ShowWindow(g.name);
+        //refMenu.subMenus.ShowWindow(g.name);
     }
 
     protected void MuteEffects(GameObject g)
@@ -89,7 +89,7 @@ public class ButtonsFunctions : MonoBehaviour
     protected void Restart(GameObject g)
     {
         LoadSystem.instance.Reload();
-        refMenu.subMenus.CloseLastWindow();
+        //refMenu.subMenus.CloseLastWindow();
     }
 
     /*
@@ -128,7 +128,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     protected void CloseWindow(GameObject g)
     {
-        refMenu.subMenus.CloseLastWindow();
+        //refMenu.subMenus.CloseLastWindow();
     }
 
     #endregion

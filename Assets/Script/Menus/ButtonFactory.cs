@@ -13,8 +13,6 @@ public class ButtonFactory
 
     public Transform content;
 
-
-
     public ButtonFactory Create(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {
         eventsCalls.Add(prefab.Clone(text, action, buttonName, content));

@@ -19,17 +19,8 @@ public class MenuManager : SingletonMono<MenuManager>
     public Pictionarys<string, Action<Button>> eventListButtoOn = new Pictionarys<string, Action<Button>>();
     //-----------------------------------------------------------------------
 
-    //[SerializeField]
-    public Pictionarys<string, DetailsWindow> detailsWindows;
-
-
-    //se debe eliminar este
-    [SerializeField]
-    public ManagerSubMenus subMenus;
-
     [SerializeField]
     public ManagerModulesMenu modulesMenu;
-
 
     protected override void Awake()
     {
@@ -37,23 +28,10 @@ public class MenuManager : SingletonMono<MenuManager>
 
         audioM = GetComponent<AudioManager>();
 
-        GetDetailsWinAndSubMenus();
-
         LoadSystem.AddPostLoadCorutine(InitScenes);
-
-        subMenus.Init();
     }
 
-    void GetDetailsWinAndSubMenus()
-    {
-        var allDetailsWindows = GetComponentsInChildren<DetailsWindow>();
-
-        foreach (var item in allDetailsWindows)
-        {
-            detailsWindows.Add(item.name, item);
-        }
-    }
-
+    
     void InitScenes()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
@@ -82,7 +60,8 @@ public class MenuManager : SingletonMono<MenuManager>
         if(!SaveWithJSON.CheckKeyInBD("ShowTutorial"))
         {
             SaveWithJSON.SaveInPictionary("ShowTutorial", false);
-            subMenus.ShowWindow("ShowControls");
+            //subMenus.ShowWindow("ShowControls");
+            //aqui se debe abrir el mostrar controles
         }
     }
 
@@ -154,33 +133,6 @@ public class MenuManager : SingletonMono<MenuManager>
             audioM.Pause("TutorialMusic");
     }
 
-    /*
-     * Sonidos
-    public void ClickSound()
-    {
-        audioM.Play("Click");
-    }
-
-    public void ClickAccept()
-    {
-        audioM.Play("ClickAccept");
-    }
-
-    public void ClaimSound()
-    {
-        audioM.Play("Claim");
-    }
-
-    public void FireworksSound()
-    {
-        audioM.Play("Fireworks");
-    }
-    */
-
-    private void OnDestroy()
-    {
-        detailsWindows.Clear();
-    }
 }
 
 
@@ -202,6 +154,9 @@ public struct DoubleString
 
 
 
+/// <summary>
+/// version antigua de menu, previa al submenu por componente
+/// </summary>
 [System.Serializable]
 public class ManagerSubMenus : Init
 {
