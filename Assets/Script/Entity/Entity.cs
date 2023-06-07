@@ -10,7 +10,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public List<DropItem> drops = new List<DropItem>();
 
-    public Color damaged1 = new Color() {r=1 ,b=0 ,g=1 ,a=1};
+    public Color damaged1 = new Color() { r = 1, b = 0, g = 1, a = 1 };
 
     public Color damaged2 = new Color() { r = 1, b = 0.92f, g = 0.016f, a = 1 };
 
@@ -64,14 +64,14 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
         for (int i = 0; i < aux.Length; i++)
         {
-            if((Object)aux[i]!=this)
+            if ((Object)aux[i] != this)
             {
                 damageables[ii] = aux[i];
                 ii++;
             }
         }
 
-   
+
         tim = TimersManager.Create(0.33f, () => {
 
             if (((int)(tim.Percentage() * 10)) % 2 == 0)
@@ -99,40 +99,18 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public void Drop()
     {
-        int aux=0;
-
-        foreach (var item in drops)
+        for (int i = 0; i < drops.Count; i++)
         {
-            aux += item.peso;
-        }
+            DropItem dropItem = drops[i];
 
-        aux = Random.Range(0, aux);
+            var rng = dropItem.maxMinDrops.RandomPic();
 
-        int pesoAcumulador = 0;
-
-        foreach (var item in drops)
-        {
-            if((pesoAcumulador + item.peso)> aux)
+            for (int ii = 0; ii < rng; ii++)
             {
-                //return item.item;
-                //-------------------------------------------------------------
+                PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference, transform.position + new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(-1.2f, 1.2f)));
 
-                int aux2 = Random.Range(item.minDrop, item.maxDrop);
-
-                for (int i = 1; i <= aux2; i++)
-                {
-                    PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference, transform.position + new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(-1.2f, 1.2f)));
-
-                    reference.Init(item.item);
-
-                    //Debug.Log("-----------------------------------------------\n" + "SE DROPEO: " + item.item.name);
-
-                    reference.CopyFrom(item.prefab);
-                }
-                //-------------------------------------------------------------
+                reference.Init(dropItem.item);
             }
-
-            pesoAcumulador += item.peso;
         }
 
         gameObject.SetActive(false);
@@ -143,14 +121,15 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         tim.Reset();
         onTakeDamage?.Invoke();
 
-        for (int i = 0; i < vulnerabilities.Length; i++)
-        {
-            if(dmg.typeInstance == vulnerabilities[i].typeInstance)
+        if(vulnerabilities!=null)
+            for (int i = 0; i < vulnerabilities.Length; i++)
             {
-                dmg.amount *= vulnerabilities[i].amount;
-                break;
+                if (dmg.typeInstance == vulnerabilities[i].typeInstance)
+                {
+                    dmg.amount *= vulnerabilities[i].amount;
+                    break;
+                }
             }
-        }
 
         dmg.ActionInitialiced(this);
         health.TakeLifeDamage(dmg.amount);
@@ -174,7 +153,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         Tim tim = null;
 
         //se ejecutara cuando muere el personaje
-        System.Action internalEnd = 
+        System.Action internalEnd =
         () =>
         {
             //lleva el timer a 0, haciendo que la funcion de fin del timer
@@ -185,7 +164,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         health.death += internalEnd;
 
         //creo el timer, que se encargara de manejar el flujo
-        tim = TimersManager.Create(time,update,
+        tim = TimersManager.Create(time, update,
             () =>
             {
                 end?.Invoke();
@@ -207,13 +186,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 [System.Serializable]
 public struct DropItem
 {
-    public int peso;
-
-    public int minDrop;
-
-    public int maxDrop;
-
-    public RecolectableItem prefab;
+    public Pictionarys<int, int> maxMinDrops;
 
     public ResourcesBase_ItemBase item;
 }
@@ -249,7 +222,7 @@ public class Health : Init
 
     public event System.Action death;
 
-    bool deathBool=false;
+    bool deathBool = false;
 
     public void StartRegenTimer()
     {
@@ -278,7 +251,7 @@ public class Health : Init
         if (life.current - amount <= 0)
         {
             var aux = amount - life.current;
-            
+
             noLife?.Invoke();
 
             life.Substract(amount);
@@ -314,12 +287,12 @@ public class Health : Init
         TakeLifeDamage(-1 * (regen.current / 100f) * life.total);
         TakeRegenDamage(-1);
 
-        if (noLifeBool && life.current>0)
+        if (noLifeBool && life.current > 0)
         {
             reLife?.Invoke();
         }
 
-        
+
         if (regen.current == regen.total && life.current == life.total)
             timeToRegen.Stop();
     }
@@ -333,7 +306,7 @@ public class Health : Init
         if (timeToRegen != null)
             TimersManager.Destroy(timeToRegen);
 
-        if(param!=null && param.Length>0)
+        if (param != null && param.Length > 0)
         {
             life = new Tim((float)param[0]);
 
