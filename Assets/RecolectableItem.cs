@@ -7,11 +7,11 @@ public class RecolectableItem : StaticEntity
     [SerializeField]
     SpriteRenderer mySprite;
 
-    StructureBase myStructureBase;
+    ResourcesBase_ItemBase itemBase;
 
-    public float weight;
+    public float weight => itemBase.weight;
 
-    protected override Damage[] vulnerabilities => myStructureBase.vulnerabilities;
+    protected override Damage[] vulnerabilities => null;
 
     Timer recolect;
 
@@ -66,7 +66,7 @@ public class RecolectableItem : StaticEntity
 
         AddOrSubstractItems(item.nameDisplay, 1);
 
-        weight = item.weight;
+        itemBase = item;
     }
 }
 
