@@ -8,13 +8,16 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
     [Space]
 
     [Header("Estadisticas")]
-    public Damage[] damages = new Damage[1];
+    
 
-    [Header("Para habilidades: valores por defecto\nPara armas: modificadores")]
+    [Header("Para habilidades: modificadores\nPara armas: valores por defecto\nExcepto velocidad")]
     [Tooltip("velocidad de ejecusion")]
     public float velocity;
     [Tooltip("rango de deteccion")]
     public float range;
+    [Tooltip("array de danios")]
+    public Damage[] damages = new Damage[1];
+
 }
 
 
