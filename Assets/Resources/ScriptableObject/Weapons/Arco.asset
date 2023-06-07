@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c099813f932ef264eac0655a77a6ef5b, type: 3}
+  m_Name: Arco
+  m_EditorClassIdentifier: 
+  _nameDisplay: Arco
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
+  weight: 2
+  damages:
+  - amount: 10
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  velocity: 1
+  range: 10
+  durability: 150
+  magazine: 30

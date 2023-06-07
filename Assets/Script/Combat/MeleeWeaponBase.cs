@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Weapons/plantilla", fileName = "New weapons")]
-public class WeaponBase : FatherWeaponAbility<WeaponBase>//, Init
+[CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
+public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 {
 
     public float durability;
@@ -51,29 +51,23 @@ public class WeaponBase : FatherWeaponAbility<WeaponBase>//, Init
     }
     */
 
-    protected override void MyEnable()
-    {
-        base.MyEnable();
-        //Init();
-    }
-
     protected override void SetCreateItemType()
     {
-        _itemType = typeof(Weapon);
+        _itemType = typeof(MeleeWeapon);
     }
     #endregion
 }
 
 
 [System.Serializable]
-public class Weapon : Item<WeaponBase>, IGetPercentage
+public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 {
     [SerializeField]
     Tim durability;
 
     public Damage[] damages => itemBase.damages;
 
-    public event System.Action durabilityOff;
+    public event System.Action off;
 
     public override void Init(params object[] param)
     {
@@ -84,15 +78,10 @@ public class Weapon : Item<WeaponBase>, IGetPercentage
             durability = new Tim(itemBase.durability);
     }
 
-    public void Durability()
-    {
-        Durability(1);
-    }
-
-    public void Durability(float damageToDurability)
+    public virtual void Durability(float damageToDurability)
     {
         if (durability.Substract(damageToDurability) <= 0)
-            durabilityOff?.Invoke();
+            TriggerOff();
     }
 
     public override Pictionarys<string,string> GetDetails()
@@ -114,5 +103,10 @@ public class Weapon : Item<WeaponBase>, IGetPercentage
     public float InversePercentage()
     {
         return durability.InversePercentage();
+    }
+
+    protected void TriggerOff()
+    {
+        off?.Invoke();
     }
 }

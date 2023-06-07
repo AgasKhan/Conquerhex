@@ -124,7 +124,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
             rng = Random.Range(0, biomes.Length);
 
-            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes[rng]).SetTeleportEdge(hexagonos[i]).FillTilePos().FillPropsPos(spawner,i != 0, i == 0 || i == hexagonos.GetLength(0) - 1);
+            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes[rng]).SetTeleportEdge(hexagonos[i]).FillTilePos().FillPropsPos(spawner,i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
 
             arrHexTeleport.name = "Hexagono " + i;
         }
@@ -197,7 +197,7 @@ public class LoadMap : SingletonMono<LoadMap>
         if (arrHexCreados.GetLength(0) > 1 && victoria!=null)
         {
             victoria = Instantiate(victoria);
-            victoria.transform.position = arrHexCreados[arrHexCreados.GetLength(0) - 1].transform.position;
+            victoria.transform.position = arrHexCreados[HexagonsManager.idMaxLevel].transform.position;
         }        
 
         tiempoCarga += Time.unscaledDeltaTime;
@@ -215,14 +215,5 @@ public class LoadMap : SingletonMono<LoadMap>
         //AudioManager.instance.Play("ambiente").source.loop = true;
         end(true);
     }
-
-
-    
-
-   
-
-    
-
-   
 }
 

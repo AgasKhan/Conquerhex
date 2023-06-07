@@ -58,7 +58,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         });        
     }
 
-    public void Attack(Entity caster, Vector2 direction, Weapon weapon, float range)
+    public void Attack(Entity caster, Vector2 direction, MeleeWeapon weapon, float range)
     {
         if (weapon == null)
             return;
@@ -137,9 +137,9 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 [System.Serializable]
 public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 {
-    public event System.Action<Weapon> equipedWeapon;
-    public event System.Action<Weapon> desEquipedWeapon;
-    public event System.Action<Weapon> rejectedWeapon;
+    public event System.Action<MeleeWeapon> equipedWeapon;
+    public event System.Action<MeleeWeapon> desEquipedWeapon;
+    public event System.Action<MeleeWeapon> rejectedWeapon;
 
     public event System.Action<float> updateTimer;
 
@@ -163,7 +163,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public float finalVelocity => itemBase.velocity * weapon.itemBase.velocity;
 
-    public float finalRange => itemBase.range + weapon.itemBase.range;
+    public float finalRange => itemBase.range * weapon.itemBase.range;
 
     public FadeColorAttack reference
     {
@@ -175,12 +175,12 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         }
     }
 
-    public Weapon weapon
+    public MeleeWeapon weapon
     {
         get
         {
             if (weaponIndex >= 0)
-                return caster.inventory[weaponIndex] as Weapon;
+                return caster.inventory[weaponIndex] as MeleeWeapon;
             else
                 return null;
         }
@@ -188,13 +188,13 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public void ChangeWeapon(int weaponIndex)
     {
-        if(! (caster.inventory[weaponIndex] is Weapon))
+        if(! (caster.inventory[weaponIndex] is MeleeWeapon))
         {
             Debug.Log("No es un arma");
             return;
         }
 
-        Weapon weapon = (Weapon)caster.inventory[weaponIndex];
+        MeleeWeapon weapon = (MeleeWeapon)caster.inventory[weaponIndex];
 
 
         foreach (var ability in itemBase.damages)
@@ -210,7 +210,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             }
         }
 
-        this.weapon.durabilityOff -= Weapon_durabilityOff;
+        this.weapon.off -= Weapon_durabilityOff;
 
         desEquipedWeapon?.Invoke(this.weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
 
@@ -218,7 +218,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
         equipedWeapon?.Invoke(this.weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
 
-        this.weapon.durabilityOff += Weapon_durabilityOff;
+        this.weapon.off += Weapon_durabilityOff;
 
         cooldown.Set(finalVelocity);
     }
@@ -270,7 +270,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         if(weapon!=null)
         {
             weapon.Init();
-            weapon.durabilityOff += Weapon_durabilityOff;
+            weapon.off += Weapon_durabilityOff;
             cooldown.Set(finalVelocity);
         }
     }
@@ -361,6 +361,15 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 /// </summary>
 public abstract class AreaKataBase : WeaponKataBase
 {
+    public override Pictionarys<string, string> GetDetails()
+    {
+        var aux = base.GetDetails();
+
+        aux.Add("Attack description", "Genera un area de ataque circular en base a un rango");
+
+        return aux;
+    }
+
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages, float range)
     {
         var aux = detect.Area(caster.transform.position + direction.Vec2to3(0) * detect.distance, (tr) => { return caster != tr; }, range);
@@ -369,9 +378,22 @@ public abstract class AreaKataBase : WeaponKataBase
     }
 }
 
+
+/// <summary>
+/// Controlador que ejecuta el ataque cuando se presiona el boton y mientas esta presionado (con mayor espera)
+/// </summary>
 public class PressWeaponKata : WeaponKata
 {
     public Timer pressCooldown;
+
+    public override Pictionarys<string, string> GetDetails()
+    {
+        var aux = base.GetDetails();
+
+        aux.Add("Attack execution", "Ejecuta el ataque cuando se presiona el boton y mientas esta presionado (con mayor espera)");
+
+        return aux;
+    }
 
     protected override void InternalControllerDown(Vector2 dir, float tim)
     {
@@ -415,6 +437,16 @@ public class PressWeaponKata : WeaponKata
 /// </summary>
 public class UpWeaponKata : WeaponKata
 {
+
+    public override Pictionarys<string, string> GetDetails()
+    {
+        var aux = base.GetDetails();
+
+        aux.Add("Attack execution", "Ejecuta el ataque cuando se suelta el boton de la habilidad");
+
+        return aux;
+    }
+
     protected override void InternalControllerDown(Vector2 dir, float button)
     {
         Debug.Log("presionaste ataque: " + itemBase.GetType().Name);

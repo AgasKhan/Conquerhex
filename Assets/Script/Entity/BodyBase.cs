@@ -47,7 +47,7 @@ public class BodyDiagram : Item<BodyBase>
 [System.Serializable]
 public class WeaponKataCombo
 {
-    public WeaponBase weapon;
+    public MeleeWeaponBase weapon;
 
     public WeaponKataBase kata;
 }

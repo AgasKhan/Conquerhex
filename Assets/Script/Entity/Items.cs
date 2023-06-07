@@ -152,7 +152,7 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
     public override Pictionarys<string, string> GetDetails()
     {
         var aux = base.GetDetails();
-        aux.Add("Cantidad: ", actual + " / "+ itemBase.maxAmount);
+        aux.Add("Cantidad", actual + " / "+ itemBase.maxAmount);
 
         return aux;
     }

@@ -20,6 +20,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static float apotema;
 
+    public static int idMaxLevel;
+
     [SerializeReference]
     Hexagone[] _arrHexCreados;
 
@@ -142,7 +144,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             if (hex[hexIndex][0, 0] == 0) //if que se encarga de preguntar si alguno ya esta completo,
                                           //esto puede pasar en caso de que el array tenga algun hexagono seteado de antemano
             {
-                hex[hexIndex][0, 0] = 1;
+                hex[hexIndex][0, 0] = 1;//nivel del hexagono
 
                 for (int lado = 1; lado < hex[hexIndex].GetLength(0); lado++)
                 {
@@ -258,6 +260,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         toCheck.Enqueue(0);//agrego mi comienzo
         checkedList.Add(0); //lo agrego como ya verificado, solo por ser el comienzo
 
+        hexagonos[0][0, 0] = 0;
+
+        int maxLevel = 0;
+
         while (toCheck.TryDequeue(out int current))//si ya no tengo nada mas que chequear significa que ya recorri todos los posibles hexagonos desde el comienzo
         {
             for (int l = 1; l < hexagonos[current].GetLength(0); l++)
@@ -266,6 +272,13 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 {
                     toCheck.Enqueue(hexagonos[current][l, 0]);
                     checkedList.Add(hexagonos[current][l, 0]);
+                    hexagonos[hexagonos[current][l, 0]][0, 0] = hexagonos[current][0, 0] + 1;
+                    
+                    if (maxLevel < hexagonos[hexagonos[current][l, 0]][0, 0])
+                    {
+                        maxLevel = hexagonos[hexagonos[current][l, 0]][0, 0];
+                        idMaxLevel = hexagonos[current][l, 0];
+                    }
                 }
             }
         }

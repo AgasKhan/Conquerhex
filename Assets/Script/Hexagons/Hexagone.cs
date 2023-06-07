@@ -7,6 +7,8 @@ public class Hexagone : MonoBehaviour
 {
     public int id;
 
+    public int level;
+
     //hacia donde se teletransporta, el primer indice es el lado del propio hexagono, y el segundo es el destino (0 para la id y 1 para el lado)
     //public int[,] ladosArray;
 
@@ -54,6 +56,8 @@ public class Hexagone : MonoBehaviour
 
     public Hexagone SetTeleportEdge(int[,] ladosArray)
     {
+        level = ladosArray[0, 0];
+
         LoadSystem.AddPostLoadCorutine(() => {
 
             for (int ii = 0; ii < ladosArray.GetLength(0) - 1; ii++)
@@ -125,8 +129,6 @@ public class Hexagone : MonoBehaviour
 
                         //prop.transform.localScale = new Vector3(prop.transform.localScale.x * (Random.Range(0, 2) == 0 ? -1 : 1), prop.transform.localScale.y, prop.transform.localScale.z);
 
-
-
                         prop.transform.SetParent(transform);
                     }
                     else if (Random.Range(0, 3) == 0 && spawn)
@@ -135,8 +137,6 @@ public class Hexagone : MonoBehaviour
                         Instantiate(spawner, new Vector3(i, ii, center.z), Quaternion.identity).transform.SetParent(transform);
                     }
                 }
-
-
             }
         }
     }
