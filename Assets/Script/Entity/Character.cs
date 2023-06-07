@@ -93,6 +93,8 @@ public class Character : DinamicEntity, ISwitchState<Character>
 
         areaFarming.radius = bodyBase.areaFarming;
 
+        weightCapacity = bodyBase.weightCapacity;
+
         audioM = GetComponent<AudioManager>();
 
         SetWeaponKataCombo(ref prin, bodyBase.principal);
@@ -114,7 +116,10 @@ public class Character : DinamicEntity, ISwitchState<Character>
         var recolectables = areaFarming.Area(transform.position, (algo) => { return true; });
         foreach (var recolectable in recolectables)
         {
-            recolectable.Recolect(this);
+            if (currentWeight + recolectable.weight <= weightCapacity)
+            {
+                recolectable.Recolect(this);
+            }
         }
     }
 

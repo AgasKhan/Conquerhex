@@ -19,8 +19,11 @@ MonoBehaviour:
   weight: 0
   life: 100
   regen: 10
+  vulnerabilities:
+  - amount: 0.9
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   velocity: 5
-  weightCapacity: 0
+  weightCapacity: 50
   stunTime: 0
   areaFarming: 0.1
   principal:
@@ -32,7 +35,4 @@ MonoBehaviour:
   tertiary:
     weapon: {fileID: 0}
     kata: {fileID: 0}
-  vulnerabilities:
-  - amount: 0.9
-    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   additiveDamage: []

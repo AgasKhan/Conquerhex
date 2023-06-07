@@ -18,6 +18,14 @@ public class Recipes : ItemBase
                 Debug.Log("No posees los items necesarios para el crafteo");
                 return false;
             }
+
+            /*
+            if (container.weightCapacity < result.Item.weight)
+            {
+                Debug.Log("Espacio insuficiente para el crafteo");
+                return false;
+            }
+            */
         }
         return true;
     }

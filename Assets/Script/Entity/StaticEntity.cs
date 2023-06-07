@@ -9,7 +9,13 @@ public abstract class StaticEntity : Entity, IItemContainer
     [SerializeReference]
     public List<Item> inventory = new List<Item>();
 
+    public float weightCapacity;
+
+    public float currentWeight = 0f;
+
     //Pictionarys<string, LogicActive> actions; //funciones de un uso para cuestiones internas
+
+    public List<Timer> travelItem = new List<Timer>();
 
     public bool Contains(Item item)
     {
@@ -31,6 +37,18 @@ public abstract class StaticEntity : Entity, IItemContainer
         {
             item.GetAmounts(out int actual, out int max);
             AddOrSubstractItems(item.nameDisplay, actual);
+
+            if (currentWeight + item.GetItemBase().weight <= weightCapacity)
+            {
+                currentWeight += item.GetItemBase().weight;
+            }
+            else
+            {
+                foreach (var timer in travelItem)
+                {
+                    timer.Stop();
+                }
+            }
         }        
     }
 

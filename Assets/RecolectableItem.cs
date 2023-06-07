@@ -9,6 +9,8 @@ public class RecolectableItem : StaticEntity
 
     StructureBase myStructureBase;
 
+    public float weight;
+
     protected override Damage[] vulnerabilities => myStructureBase.vulnerabilities;
 
     Timer recolect;
@@ -45,6 +47,8 @@ public class RecolectableItem : StaticEntity
 
         referenceToTravel = entity;
 
+        entity.travelItem.Add(recolect);
+
         recolect.Reset();
     }
 
@@ -61,6 +65,8 @@ public class RecolectableItem : StaticEntity
         mySprite.sprite = item.image;
 
         AddOrSubstractItems(item.nameDisplay, 1);
+
+        weight = item.weight;
     }
 }
 

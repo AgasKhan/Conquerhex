@@ -117,7 +117,9 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
                 //return item.item;
                 //-------------------------------------------------------------
 
-                for (int i = 1; i <= Random.Range(item.minDrop, item.maxDrop); i++)
+                int aux2 = Random.Range(item.minDrop, item.maxDrop);
+
+                for (int i = 1; i <= aux2; i++)
                 {
                     PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference, transform.position + new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(-1.2f, 1.2f)));
 
