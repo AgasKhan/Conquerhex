@@ -71,8 +71,8 @@ public class LoadMap : SingletonMono<LoadMap>
 
             foreach (var item in LoadSystem.LoadAssets<GameObject>(path))
             {
-                if (!biomes[i].props.Contains(item))
-                    biomes[i].props.Add(item);
+                if (!biomes[i].props.ContainsKey(item))
+                    biomes[i].props.Add(item,10);
             }
         }
 

@@ -263,4 +263,34 @@ public static class Extensions
         mono.gameObject.SetActive(active);
         return mono;
     }
+
+    static public T RandomPic<T>(this Pictionarys<T,int> pictionaries)
+    {
+        float acumTotal = 0;
+
+        float acumPercentage = 0;
+
+        float rng = Random.Range(0, 1f);
+
+        T lastItem = default;
+
+        foreach (var item in pictionaries)
+        {
+            acumTotal += item.value;
+        }
+
+        foreach (var item in pictionaries)
+        {
+            acumPercentage += item.value / acumTotal;
+
+            if(rng<= acumPercentage)
+            {
+                return item.key;
+            }
+
+            lastItem = item.key;
+        }
+
+        return lastItem;
+    }
 }

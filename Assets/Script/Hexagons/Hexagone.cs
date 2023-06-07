@@ -117,7 +117,7 @@ public class Hexagone : MonoBehaviour
                     {
                         float rng1 = Random.Range(1, 31);
                         float rng2 = Random.Range(1, 31);
-                        GameObject prop = Instantiate(biomes.props[Random.Range(0, biomes.props.Count)]);
+                        GameObject prop = Instantiate(biomes.props.RandomPic());
 
                         prop.transform.position = new Vector3((i - 1.5f) + rng1 / 10f, (ii - 1.5f) + rng2 / 10f, center.z);
 
