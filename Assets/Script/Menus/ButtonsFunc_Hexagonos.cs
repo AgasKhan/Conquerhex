@@ -15,7 +15,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
 
             {"Resume", Resume},
             {"Restart", Restart},
-            {"ShowControls", DisplayWindow},
+            {"ShowControls", ShowControls},
             {"BackMenu", BackMenu},
 
             {"MenuDetails", PauseMenu},
@@ -130,8 +130,20 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
 
     }
 
+
+
+
+
+    void ShowControls(GameObject g)
+    {
+        StaticCreateSubMenu.CreateBody(BodyCreate);
+        StaticCreateSubMenu.CreateNavBar((submenu) => { submenu.AddNavBarButton("Controls", "Controls").AddNavBarButton("Loot", "Loot").AddNavBarButton("Objetive", "Objetive"); });
+    }
     void BodyCreate(SubMenus submenu)
     {
-        submenu.CreateSection(0, 5);
+        submenu.CreateSection(0, 4);
+        submenu.AddComponent<DetailsWindow>().SetTexts("Title", "Description");
+        submenu.CreateSection(4, 8);
+        submenu.AddComponent<DetailsWindow>().SetImage();
     }
 }

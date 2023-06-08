@@ -58,6 +58,7 @@ public class SubMenus : MonoBehaviour
         CreateSection(0, 4);
 
             AddComponent<DetailsWindow>().SetTexts("Hola", "Muuundo");
+        
 
         CreateSection(4, 8);
 
