@@ -72,12 +72,6 @@ public class DetailsWindow : MonoBehaviour
 
     private void Awake()
     {
-        myTitle.SetActiveGameObject(false);
-
-        myDescription.SetActiveGameObject(false);
-
-        previewImage.SetActiveGameObject(false);
-
         fadeMenu.alphas += Fade_Event;
 
         fadeMenu.Init();
@@ -93,6 +87,11 @@ public class DetailsWindow : MonoBehaviour
     private void OnEnable()
     {
         fadeMenu.FadeOn();
+    }
+
+    private void OnDestroy()
+    {
+        fadeMenu.Stop();
     }
 
 }

@@ -31,23 +31,24 @@ public class ButtonsFunctions : MonoBehaviour
             {"PopUp", PopUp},
             {"ShowWindow", ShowWindow},
             {"CloseWindow", CloseWindow},
+            {"ExitSubMenu", ExitSubMenu}
 
         });
     }
 
    
     #region Static Buttons
-    protected void Example(GameObject g)
+    void Example(GameObject g)
     {
         //Debug.Log("Apretaste el boton");
     }
 
-    protected void DisplayWindow(GameObject g)
+    void DisplayWindow(GameObject g)
     {
         //refMenu.subMenus.ShowWindow(g.name);
     }
 
-    protected void MuteEffects(GameObject g)
+    void MuteEffects(GameObject g)
     {
         var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         var imageChild = g.transform.GetComponent<UnityEngine.UI.Image>();
@@ -65,7 +66,7 @@ public class ButtonsFunctions : MonoBehaviour
             imageChild.color = Color.white;
         }
     }
-    protected void MuteMusic(GameObject g)
+    void MuteMusic(GameObject g)
     {
         var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         var imageChild = g.transform.GetComponent<UnityEngine.UI.Image>();
@@ -115,7 +116,7 @@ public class ButtonsFunctions : MonoBehaviour
     }
     */
 
-    protected void PopUp(GameObject g)
+    void PopUp(GameObject g)
     {
         refMenu.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("hola", "Mundo");
     }
@@ -124,6 +125,11 @@ public class ButtonsFunctions : MonoBehaviour
     {
         Debug.Log("Apretaste un boton Draggeable");
         //DetailsWindow.instance.SetWindow(_mySprite, _information);
+    }
+
+    void ExitSubMenu(GameObject g)
+    {
+        refMenu.modulesMenu.ObtainMenu<SubMenus>(false);
     }
 
     protected void CloseWindow(GameObject g)

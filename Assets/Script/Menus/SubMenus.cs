@@ -19,6 +19,9 @@ public class SubMenus : MonoBehaviour
 
     public LayoutGroup lastSectionLayputGroup;
 
+    [SerializeField]
+    CanvasGroup canvasGroup;
+
     [Header("Prefabs")]
 
     [SerializeField]
@@ -26,6 +29,11 @@ public class SubMenus : MonoBehaviour
 
     [SerializeField]
     RectTransform body;
+
+    [Header("Configuracion")]
+
+    [SerializeField]
+    FadeOnOff fadeMenu;
 
     [SerializeField]
     float width;
@@ -68,6 +76,20 @@ public class SubMenus : MonoBehaviour
         var aux = width - margin * 7;
 
         subdivisions = aux / 6;
+
+        fadeMenu.alphas += FadeMenu_alphas;
+
+        fadeMenu.Init();
+    }
+
+    private void FadeMenu_alphas(float obj)
+    {
+        //canvasGroup.alpha = obj;
+    }
+
+    private void OnEnable()
+    {
+        fadeMenu.FadeOn();
     }
 
     public SubMenus CreateSection(int comienzo, int final)
@@ -99,8 +121,11 @@ public class SubMenus : MonoBehaviour
     }
 
     public T AddComponent<T>() where T : MonoBehaviour
-    {
-        return componentMenu.CreateComponent<T>(lastSection);
+    {           
+        
+        var aux = componentMenu.CreateComponent<T>(lastSection);
+        StartCoroutine(RetardedOn(lastSection.gameObject));
+        return aux;
     }
 
     public T CreateChildrenSection<T>() where T : UnityEngine.EventSystems.UIBehaviour
@@ -160,6 +185,18 @@ public class SubMenus : MonoBehaviour
     float Width(int w)
     {
        return w * subdivisions + (w - 1) * margin;
+    }
+
+    //la magia potagia, para refrezcar lo creado
+    IEnumerator RetardedOn(GameObject gameObject)
+    {
+        yield return new WaitForEndOfFrame();
+
+        gameObject.SetActive(false);
+
+        yield return null;
+
+        gameObject.SetActive(true);
     }
 }
 

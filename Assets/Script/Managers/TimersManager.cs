@@ -396,6 +396,17 @@ public class TimedAction : Timer
         return aux;
     }
 
+    public override float Reset()
+    {
+        if(total <= 0)
+        {
+            end?.Invoke();
+            return 0;
+        }
+
+        return base.Reset();
+    }
+
     public TimedAction AddToEnd(Action end)
     {
         this.end += end;

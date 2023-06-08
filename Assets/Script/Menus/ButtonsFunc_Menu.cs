@@ -15,10 +15,10 @@ public class ButtonsFunc_Menu : ButtonsFunctions
             {"Dungeons", Dungeons},
             {"LoadGame", LoadGame},
             {"Store", ShowStore},
-            {"Credits", DisplayWindow},
+            //{"Credits", DisplayWindow},
             {"DeleteWindow", DeleteData},
             {"Exit", Exit},
-            {"Quit", DisplayWindow},
+            //{"Quit", DisplayWindow},
 
         });
 
@@ -42,7 +42,7 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
     void ShowStore(GameObject g)
     {
-        DisplayWindow(g);
+        //DisplayWindow(g);
         //Building.instance.RefreshPlayerCoins();
     }
 
@@ -54,7 +54,7 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
                 StoreInteract.instance.ClearCustomerInventory();
                 SaveWithJSON.DeleteData();
-                Restart(g);
+                //Restart(g);
 
             })
             .AddButton("Cancelar", () => {

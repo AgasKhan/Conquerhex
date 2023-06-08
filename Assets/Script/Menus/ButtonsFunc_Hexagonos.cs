@@ -23,9 +23,9 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
 
             {"MenuDetails", PauseMenu},
             {"CraftingMenu", Crafting},
-            {"InventoryMenu", DisplayWindow},
+            //{"InventoryMenu", DisplayWindow},
 
-            {"Details", DisplayWindow},
+            //{"Details", DisplayWindow},
 
             //Store
             {"BuySingleItem", BuySingleItem},

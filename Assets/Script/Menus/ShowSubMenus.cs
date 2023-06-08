@@ -13,6 +13,7 @@ public class ShowSubMenus : CreateBodySubMenu
     string title;
 
     [SerializeField]
+    [TextArea(3,6)]
     string text;
 
     [SerializeField]
@@ -27,7 +28,7 @@ public class ShowSubMenus : CreateBodySubMenu
         subMenu.AddComponent<DetailsWindow>().SetTexts(title, text).SetAlignment(TMPro.TextAlignmentOptions.Top, TMPro.TextAlignmentOptions.TopJustified);
             
 
-        subMenu.CreateSection(3, 6).lastSectionAlign = childAlignment; ;
+        subMenu.CreateSection(3, 6);
         
         subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
 
