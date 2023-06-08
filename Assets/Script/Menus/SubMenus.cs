@@ -84,7 +84,7 @@ public class SubMenus : MonoBehaviour
 
     private void FadeMenu_alphas(float obj)
     {
-        //canvasGroup.alpha = obj;
+        canvasGroup.alpha = obj;
     }
 
     private void OnEnable()
