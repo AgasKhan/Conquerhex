@@ -5,7 +5,7 @@ using UnityEngine;
 public class ButtonsFunc_Hexagonos : ButtonsFunctions
 {
     [SerializeField]
-    ShowControll showControll;
+    ShowSubMenus showSubMenus;
 
     protected override void LoadButtons()
     {
@@ -104,14 +104,20 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
 
     void ShowControls(GameObject g)
     {
+
         CreateSubMenu.CreateNavBar
         (
             (submenu) =>
             {
-                submenu.AddNavBarButton("Menu", "Menu").AddNavBarButton("opciones", "Options").AddNavBarButton("creacion", () => { });
+                submenu.AddNavBarButton("Controls", "Controls").AddNavBarButton("Loot", "Loot").AddNavBarButton("objetive","Obejtive");
             }
         );
-        showControll.Create();
+        showSubMenus.Create();
+    }
+
+    void Controls(GameObject g )
+    {
+
     }
 
     void ShowMenuStatic(GameObject g)
