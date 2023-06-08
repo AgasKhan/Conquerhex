@@ -6,6 +6,12 @@ public class NodeGrid : MonoBehaviour
 {
     //Nodo será un objeto vacío
 
+    List<GameObject> nodes = new List<GameObject>();
+
+
+
+
+
     Node[,] _grid;
 
     [SerializeField] int _width;
