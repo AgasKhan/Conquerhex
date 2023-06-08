@@ -1603,7 +1603,7 @@ PrefabInstance:
     - target: {fileID: 756574909905490943, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 510
+      value: -1900
       objectReference: {fileID: 0}
     - target: {fileID: 756574909951751123, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -1623,7 +1623,7 @@ PrefabInstance:
     - target: {fileID: 756574910674497897, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.79012346
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 756574910674497897, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -3055,6 +3055,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -60
       objectReference: {fileID: 0}
+    - target: {fileID: 7402023316621954124, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: navbar.firstOpaque
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7664356648481163937, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3335,6 +3340,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 9018090919472937176}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1018981717 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7402023316621954124, guid: a432204a98b06884c82bb61a7ffb51bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 586654909}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d866d7de28cf4eb5a1ade68639eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1071990371
 GameObject:
   m_ObjectHideFlags: 0
@@ -4522,6 +4539,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca2f82a8a974eb449275e9db5ef3337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showControll:
+    subMenu: {fileID: 1018981717}
+    sprite: {fileID: 21300000, guid: 33b736c9c96e26a43b1e43eff995c982, type: 3}
+    text: asdjkanskdjnasda
 --- !u!1001 &1693742205
 PrefabInstance:
   m_ObjectHideFlags: 0

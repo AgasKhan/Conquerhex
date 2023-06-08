@@ -75,6 +75,9 @@ public class DetailsWindow : MonoBehaviour
 
     private void Awake()
     {
+        myTitle.text = "";
+        myDescription.text = "";
+
         fadeMenu.alphas += Fade_Event;
         fadeMenu.Init();
     }

@@ -54,23 +54,6 @@ public class SubMenus : MonoBehaviour
         var aux = width - margin * 7;
 
         subdivisions = aux / 6;
-
-        CreateSection(0, 4);
-
-            AddComponent<DetailsWindow>().SetTexts("Hola", "Muuundo");
-        
-
-        CreateSection(4, 8);
-
-            CreateChildrenSection<HorizontalLayoutGroup>(); //de ejemplo
-
-                AddComponent<DetailsWindow>().SetTexts("Hola" + " otra cosa", "SEGUNDA seccion").SetAlignment(TMPro.TextAlignmentOptions.Justified, TMPro.TextAlignmentOptions.TopRight);
-
-                AddComponent<DetailsWindow>().SetTexts("Segunda parte", "DERECHA").SetAlignment(TMPro.TextAlignmentOptions.Justified, TMPro.TextAlignmentOptions.TopRight);
-
-            FatherSection();
-
-            AddComponent<DetailsWindow>().SetTexts("Hola", "SEGUNDA seccion segundo componente");
     }
 
     public SubMenus CreateSection(int comienzo, int final)
@@ -193,77 +176,67 @@ public class ManagerModulesMenu
         return componentMenu.SearchComponent<T>().SetActiveGameObject(view);
     }
 
+    public T ObtainMenu<T>() where T : MonoBehaviour
+    {
+        container.gameObject.SetActive(true);
+        return componentMenu.SearchComponent<T>();
+    }
+
     public void CloseMenus()
     {
         container.gameObject.SetActive(false);
     }
 }
 
+
 /// <summary>
-/// Version estatica para crear menus
+/// Version por objetos para crear menus
 /// </summary>
-public static class StaticCreateSubMenu
+public abstract class CreateSubMenu : Init
 {
-    static SubMenus subMenus => MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
+    static SubMenus staticSubMenu => MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
 
     static public void CreateBody(System.Action<SubMenus> action)
     {
-        subMenus.ClearBody();
+        staticSubMenu.ClearBody();
 
         Create(action);
     }
 
     static public void CreateNavBar(System.Action<SubMenus> action)
     {
-        subMenus.navbar.DestroyAll();
+        staticSubMenu.navbar.DestroyAll();
 
         Create(action);
     }
 
     static void Create(System.Action<SubMenus> action)
     {
-        //subMenu.ClearBody();
-
-        action(subMenus);
-
-        subMenus.SetActiveGameObject(true);
+        staticSubMenu.SetActiveGameObject(true);
+        action(staticSubMenu);
     }
-}
 
-
-
-/// <summary>
-/// Version por objetos para crear menus
-/// </summary>
-public abstract class CreateSubMenu
-{
+    [SerializeField]
     protected SubMenus subMenu;
-
-    public System.Action<SubMenus> action;
-
-    public CreateSubMenu(System.Action<SubMenus> action)
-    {
-        subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
-
-        this.action = action;
-    }
 
     public virtual void Create()
     {
-        //subMenu.ClearBody();
-
-        action(subMenu);
-
         subMenu.SetActiveGameObject(true);
+        InternalCreate();
     }
+    public void Init(params object[] param)
+    {
+        if (subMenu == null)
+            subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
+    }
+
+    protected abstract void InternalCreate();
+
+    
 }
 
-public class CreateBodySubMenu : CreateSubMenu
+public abstract class CreateBodySubMenu : CreateSubMenu
 {
-    public CreateBodySubMenu(System.Action<SubMenus> action) : base(action)
-    {
-    }
-
     public override void Create()
     {
         subMenu.ClearBody();
@@ -271,15 +244,43 @@ public class CreateBodySubMenu : CreateSubMenu
     }
 }
 
-public class CreateNavBarSubMenu : CreateSubMenu
+public abstract class CreateNavBarSubMenu : CreateSubMenu
 {
-    public CreateNavBarSubMenu(System.Action<SubMenus> action) : base(action)
-    {
-    }
-
     public override void Create()
     {
         subMenu.navbar.DestroyAll();
         base.Create();
+    }
+}
+
+[System.Serializable]
+public class ShowControll : CreateBodySubMenu
+{
+    [SerializeField]
+    Sprite sprite;
+
+    [SerializeField]
+    string text;
+
+    protected override void InternalCreate()
+    {
+       
+        subMenu.CreateSection(1, 5);
+
+            subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
+
+
+        subMenu.CreateSection(5, 8);
+
+            subMenu.AddComponent<DetailsWindow>().SetTexts("Titulo", text);
+    }
+
+
+    public void Create(Sprite sprite, string text)
+    {
+        this.sprite = sprite;
+        this.text = text;
+
+        Create();
     }
 }
