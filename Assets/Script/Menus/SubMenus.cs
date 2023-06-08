@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SubMenus : MonoBehaviour
 {
-    
+
+    [Header("Elementos")]
+    [SerializeField]
+    ManagerComponentMenu componentMenu;
+
+    [SerializeField]
+    public ButtonFactory navbar;
+
+    [SerializeField]
+    TextMeshProUGUI title;
+
+    public LayoutGroup lastSectionLayputGroup;
+
     [Header("Prefabs")]
 
     [SerializeField]
     RectTransform sectionPrefab;
-
-    [SerializeField]
-    ManagerComponentMenu componentMenu;
-
-    [Header("Elementos")]
-    [SerializeField]
-    public ButtonFactory navbar;
 
     [SerializeField]
     RectTransform body;
@@ -32,6 +38,12 @@ public class SubMenus : MonoBehaviour
 
     int maxDivision;
 
+    public TextAnchor lastSectionAlign
+    {
+        set => lastSectionLayputGroup.childAlignment = value;
+        get => lastSectionLayputGroup.childAlignment;
+    }
+
     Stack<RectTransform> secctions = new Stack<RectTransform>();
 
     RectTransform lastSection
@@ -46,6 +58,8 @@ public class SubMenus : MonoBehaviour
         set
         {
             secctions.Push(value);
+
+            lastSectionLayputGroup = lastSection.GetComponent<LayoutGroup>();
         }
     }    
 
@@ -80,7 +94,7 @@ public class SubMenus : MonoBehaviour
     public SubMenus FatherSection()
     {
         secctions.Pop();
-
+        lastSectionLayputGroup = lastSection.GetComponent<LayoutGroup>();
         return this;
     }
 
@@ -89,11 +103,11 @@ public class SubMenus : MonoBehaviour
         return componentMenu.CreateComponent<T>(lastSection);
     }
 
-    public T CreateChildrenSection<T>() where T : LayoutGroup
+    public T CreateChildrenSection<T>() where T : UnityEngine.EventSystems.UIBehaviour
     {
         var result = componentMenu.CreateComponent<T>(lastSection);
 
-        lastSection = result.GetComponent<RectTransform>();
+        lastSection = result.GetComponent<ContentRectTransform>().rectTransform;
 
         return result;
     }
@@ -105,18 +119,30 @@ public class SubMenus : MonoBehaviour
             Destroy(body.GetChild(i).gameObject);
         }
 
+        maxDivision = 0;
+
         body.sizeDelta = new Vector2(width, body.sizeDelta.y);
     }
 
     public SubMenus AddNavBarButton(string text, string buttonName)
     {
-        navbar.Create(text, buttonName, null);
-        return this;
+        return AddNavbarButton(text, buttonName, null);
     }
 
     public SubMenus AddNavBarButton(string text, UnityEngine.Events.UnityAction action)
     {
-        navbar.Create(text, "", action);
+        return AddNavbarButton(text, "", null);
+    }
+
+    SubMenus AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)
+    {
+        action += () => title.text = text;
+
+        navbar.Create(text, buttonName, action);
+
+        if(navbar.eventsCalls.Count == 1)
+            title.text = text;
+
         return this;
     }
 

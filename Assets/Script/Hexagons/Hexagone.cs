@@ -117,13 +117,10 @@ public class Hexagone : MonoBehaviour
                     {
                         float rng1 = Random.Range(1, 31);
                         float rng2 = Random.Range(1, 31);
-                        GameObject prop = Instantiate(biomes.props.RandomPic());
 
-                        prop.transform.position = new Vector3((i - 1.5f) + rng1 / 10f, (ii - 1.5f) + rng2 / 10f, center.z);
+                        GameObject prop = Instantiate(biomes.props.RandomPic(), new Vector3((i - 1.5f) + rng1 / 10f, (ii - 1.5f) + rng2 / 10f, center.z), Quaternion.identity);
 
                         var aux = prop.GetComponentInChildren<SpriteRenderer>();
-
-                        aux.sortingOrder = Mathf.RoundToInt(prop.transform.position.y * -100);
 
                         aux.flipX = (Random.Range(0, 2) == 0);
 

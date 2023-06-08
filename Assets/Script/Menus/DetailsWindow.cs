@@ -19,9 +19,6 @@ public class DetailsWindow : MonoBehaviour
     FadeOnOff fadeMenu;
 
 
-
-
-
     public DetailsWindow ShowOrHide(bool condition)
     {
         gameObject.SetActive(condition);
@@ -41,9 +38,9 @@ public class DetailsWindow : MonoBehaviour
         myTitle.text = title;
         myDescription.text = description;
 
-        previewImage.gameObject.SetActive(false);
+        myTitle.SetActiveGameObject(title!="");
 
-        //Utilitys.LerpInTime(() => instance.scrollbar.value, 1, 0.3f, Mathf.Lerp, (save) => { instance.scrollbar.value = save; });
+        myDescription.SetActiveGameObject(description != "");
 
         return this;
     }
@@ -64,7 +61,7 @@ public class DetailsWindow : MonoBehaviour
 
     public DetailsWindow SetImage(Sprite sprite = null)
     {
-        previewImage.gameObject.SetActive(sprite != null);
+        previewImage.SetActiveGameObject(sprite != null);
 
         if (sprite != null)
             previewImage.sprite = sprite;
@@ -75,10 +72,14 @@ public class DetailsWindow : MonoBehaviour
 
     private void Awake()
     {
-        myTitle.text = "";
-        myDescription.text = "";
+        myTitle.SetActiveGameObject(false);
+
+        myDescription.SetActiveGameObject(false);
+
+        previewImage.SetActiveGameObject(false);
 
         fadeMenu.alphas += Fade_Event;
+
         fadeMenu.Init();
     }
 

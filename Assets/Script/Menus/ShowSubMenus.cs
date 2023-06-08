@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class ShowSubMenus : CreateBodySubMenu
@@ -9,25 +10,35 @@ public class ShowSubMenus : CreateBodySubMenu
     Sprite sprite;
 
     [SerializeField]
+    string title;
+
+    [SerializeField]
     string text;
+
+    [SerializeField]
+    TextAnchor childAlignment = TextAnchor.UpperCenter;
+
 
     protected override void InternalCreate()
     {
-        subMenu.CreateSection(0, 4);
 
-            subMenu.AddComponent<DetailsWindow>().SetTexts("Titulo", text);
+        subMenu.CreateSection(0, 3).lastSectionAlign = childAlignment;
+        
+        subMenu.AddComponent<DetailsWindow>().SetTexts(title, text).SetAlignment(TMPro.TextAlignmentOptions.Top, TMPro.TextAlignmentOptions.TopJustified);
+            
 
-        subMenu.CreateSection(0, 8);
+        subMenu.CreateSection(3, 6).lastSectionAlign = childAlignment; ;
+        
+        subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
 
-            subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
     }
 
 
-    public void Create(Sprite sprite, string text)
+    public void Create(Sprite sprite, string title, string text)
     {
         this.sprite = sprite;
         this.text = text;
-
+        this.title = title;
         Create();
     }
 }

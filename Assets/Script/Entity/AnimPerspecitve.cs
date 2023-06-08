@@ -31,8 +31,9 @@ public class AnimPerspecitve : MonoBehaviour
         originalSprite = GetComponentInChildren<SpriteRenderer>();
         var aux = GetComponentInChildren<Animator>();
 
-        originalSprite.material = transparentMaterial;
+        originalSprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 
+        originalSprite.material = transparentMaterial;
 
 
         if (aux!=null)
