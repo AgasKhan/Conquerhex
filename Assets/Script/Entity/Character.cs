@@ -116,7 +116,8 @@ public class Character : DinamicEntity, ISwitchState<Character>
         var recolectables = areaFarming.Area(transform.position, (algo) => { return true; });
         foreach (var recolectable in recolectables)
         {
-            if (currentWeight + recolectable.weight <= weightCapacity)
+
+            //if (currentWeight + recolectable.weight <= weightCapacity)
             {
                 recolectable.Recolect(this);
             }
