@@ -33,13 +33,4 @@ public class ShowSubMenus : CreateBodySubMenu
         subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
 
     }
-
-
-    public void Create(Sprite sprite, string title, string text)
-    {
-        this.sprite = sprite;
-        this.text = text;
-        this.title = title;
-        Create();
-    }
 }

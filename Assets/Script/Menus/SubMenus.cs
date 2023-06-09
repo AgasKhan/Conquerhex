@@ -178,7 +178,7 @@ public class SubMenus : MonoBehaviour
 
     public SubMenus AddNavBarButton(string text, UnityEngine.Events.UnityAction action)
     {
-        return AddNavbarButton(text, "", null);
+        return AddNavbarButton(text, "", action);
     }
 
     SubMenus AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)

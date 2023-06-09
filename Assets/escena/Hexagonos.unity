@@ -2033,6 +2033,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4681758207518010854, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -36.180176
+      objectReference: {fileID: 0}
     - target: {fileID: 4743046627327500591, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -3259,18 +3264,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 9018090919472937176}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1018981717 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7402023316621954124, guid: a432204a98b06884c82bb61a7ffb51bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 586654909}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 375d866d7de28cf4eb5a1ade68639eb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1071990371
 GameObject:
   m_ObjectHideFlags: 0
@@ -4458,13 +4451,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca2f82a8a974eb449275e9db5ef3337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showSubMenus:
-    subMenu: {fileID: 1018981717}
+  controlSubMenus:
+    subMenu: {fileID: 0}
     sprite: {fileID: 21300000, guid: e29839456afc53e418f2d97c5b4a1886, type: 3}
-    title: Description
-    text: "\n\n- Usa el joystick para poder moverte   \n\n- Botones para las habilidades 
-      \n\n\n"
+    title: 
+    text: '
+
+      -con las teclas te moves capo'
+    childAlignment: 4
+  lootSubMenus:
+    subMenu: {fileID: 0}
+    sprite: {fileID: 21300000, guid: e38c89683de2efa4dbce89fb6c14d3d4, type: 3}
+    title: 
+    text: '
+
+      -Los cofres te dan cosas genio'
     childAlignment: 1
+  objectivesSubMenus:
+    subMenu: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 4c3ca63f91abefe4880a4cc5af654d0e, type: 3}
+    title: 
+    text: '
+
+      -Si te queres pirar pirate'
+    childAlignment: 7
 --- !u!1001 &1693742205
 PrefabInstance:
   m_ObjectHideFlags: 0

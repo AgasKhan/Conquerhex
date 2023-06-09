@@ -5,7 +5,13 @@ using UnityEngine;
 public class ButtonsFunc_Hexagonos : ButtonsFunctions
 {
     [SerializeField]
-    ShowSubMenus showSubMenus;
+    ShowSubMenus controlSubMenus;
+
+    [SerializeField]
+    ShowSubMenus lootSubMenus;
+
+    [SerializeField]
+    ShowSubMenus objectivesSubMenus;
 
     protected override void LoadButtons()
     {
@@ -25,7 +31,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
             {"CraftingMenu", Crafting},
             //{"InventoryMenu", DisplayWindow},
 
-            //{"Details", DisplayWindow},
+
 
             //Store
             {"BuySingleItem", BuySingleItem},
@@ -104,20 +110,36 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
 
     void ShowControls(GameObject g)
     {
-
         CreateSubMenu.CreateNavBar
         (
             (submenu) =>
             {
-                submenu.AddNavBarButton("Controls", "Controls").AddNavBarButton("Loot", "Loot").AddNavBarButton("objetive","Obejtive");
+                submenu.AddNavBarButton("Controls", Controls).AddNavBarButton("Loot", Loot).AddNavBarButton("Objective", Objective);
             }
         );
-        showSubMenus.Create();
+
+        controlSubMenus.Init();
+
+        objectivesSubMenus.Init();
+
+        lootSubMenus.Init();
+
+        Controls();
     }
 
-    void Controls(GameObject g )
+    void Controls()
     {
+        controlSubMenus.Create();
+    }
 
+    void Objective()
+    {
+        objectivesSubMenus.Create();
+    }
+
+    void Loot()
+    {
+        lootSubMenus.Create();
     }
 
     void ShowMenuStatic(GameObject g)
