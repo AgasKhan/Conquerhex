@@ -68,11 +68,6 @@ public class JoyController : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        SetStick();
-    }
-
     private void JoyController_action(params object[] param)
     {
         fill = (float)param[0];

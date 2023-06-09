@@ -42,7 +42,7 @@ public class SubMenus : MonoBehaviour
     float fixedWidth;
 
     [SerializeField]
-    float fixValue;
+    float fixedValue;
 
     [SerializeField]
     float margin;
@@ -107,7 +107,7 @@ public class SubMenus : MonoBehaviour
 
         fixedWidth = realacion * width / (16 / 9f);
 
-        fixValue = fixedWidth / Screen.width;
+        fixedValue = fixedWidth / Screen.width;
 
         var aux = fixedWidth - margin * 7;
 
@@ -197,7 +197,7 @@ public class SubMenus : MonoBehaviour
     {
         var x = comienzo * subdivisions + (comienzo + 1) * margin;
 
-        rect.position = new Vector3(x / fixValue, rect.position.y, rect.position.z) ;
+        rect.position = new Vector3(x / fixedValue, rect.position.y, rect.position.z) ;
 
         rect.sizeDelta = new Vector2(Width(final- comienzo), rect.sizeDelta.y);
 
