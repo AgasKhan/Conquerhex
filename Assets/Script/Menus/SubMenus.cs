@@ -79,8 +79,6 @@ public class SubMenus : MonoBehaviour
 
     private void Awake()
     {
-        
-
         fadeMenu.alphas += FadeMenu_alphas;
 
         fadeMenu.Init();
@@ -89,9 +87,6 @@ public class SubMenus : MonoBehaviour
     private void FadeMenu_alphas(float obj)
     {
         canvasGroup.alpha = obj;
-
-
-        
     }
 
     private void OnEnable()
