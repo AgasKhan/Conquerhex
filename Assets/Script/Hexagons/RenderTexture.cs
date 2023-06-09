@@ -35,7 +35,13 @@ public class RenderTexture : MonoBehaviour
         */
     }
 
-    private void Update()
+    private void OnEnable()
+    {
+        var aux = MainCamera.instance.perspective ? 1 : 0;
+        spriteRenderer.material.SetInt("_DeActiveEffect", aux);
+    }
+
+    private void LateUpdate()
     {
         if (spriteRenderer.isVisible)
         {

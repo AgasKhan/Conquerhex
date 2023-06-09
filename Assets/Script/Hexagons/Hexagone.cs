@@ -147,13 +147,15 @@ public class Hexagone : MonoBehaviour
         var activeHex = HexagonsManager.activeHex;
 
         if (lado >= 0)
+        {
             MainCamera.instance.transform.position = new Vector3(
                  ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - (ladosPuntos[lado, 0] - Camera.main.transform.position.x),
                  ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - (ladosPuntos[lado, 1] - Camera.main.transform.position.y),
                  MainCamera.instance.transform.position.z);
 
-        //LoadMap.instance.cameras[HexagonsManager.LadoOpuesto(lado)].gameObject.SetActive(true);
-
+            LoadMap.instance.cameras[lado].gameObject.SetActive(true);
+        }
+            
         for (int i = 0; i < LoadMap.instance.renders.Length; i++)
         {
             ladosArray[i].gameObject.SetActive(true);
@@ -161,7 +163,7 @@ public class Hexagone : MonoBehaviour
 
             LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
 
-            LoadMap.instance.cameras[i].gameObject.SetActive(true);
+            //LoadMap.instance.cameras[i].gameObject.SetActive(true);
 
             LoadMap.instance.cameras[i].position = new Vector3(
                 ladosArray[i].transform.position.x,
