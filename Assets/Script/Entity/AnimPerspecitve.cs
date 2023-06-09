@@ -131,7 +131,7 @@ public class AnimPerspecitve : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action += UpdateTransparent;
+        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action -= UpdateTransparent;
     }
 
     IEnumerator UpdatePostFrame(System.Action action)

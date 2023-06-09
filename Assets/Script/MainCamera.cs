@@ -6,6 +6,13 @@ public class MainCamera : SingletonMono<MainCamera>
 {
     public Transform obj;
 
+    public bool perspective;
+
+    private void OnEnable()
+    {
+        Camera.main.orthographic = !perspective;
+    }
+
     // Update is called once per frame
     private void LateUpdate()
     {

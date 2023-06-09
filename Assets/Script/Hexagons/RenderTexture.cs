@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class RenderTexture : MonoBehaviour
 {
-
     [SerializeField]
     Material material;
 
     [SerializeField]
     Texture texture;
 
+    [SerializeField]
+    public GameObject cameraRelated;
     /*
     [SerializeField]
     Vector2 waves;
@@ -18,16 +19,41 @@ public class RenderTexture : MonoBehaviour
     [SerializeField]
     float overrideColor;
     */
+
+    SpriteRenderer spriteRenderer;
+
     void Awake()
     {
-        var sprite = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
-        sprite.material = material;
+        spriteRenderer.material = material;
 
-        sprite.material.SetTexture("_Emission", texture);
-      /*
-        sprite.material.SetVector("_Waves", waves);
-        sprite.material.SetFloat("_OverrideColor", overrideColor);
-      */
+        spriteRenderer.material.SetTexture("_Emission", texture);
+        /*
+          spriteRenderer.material.SetVector("_Waves", waves);
+          spriteRenderer.material.SetFloat("_OverrideColor", overrideColor);
+        */
+    }
+
+    private void Update()
+    {
+        if (spriteRenderer.isVisible)
+        {
+            cameraRelated.SetActive(true);
+        }
+        else if (cameraRelated.activeSelf)
+        {
+            //cameraRelated.SetActive(false);
+            StartCoroutine(RetardedOf());
+        }
+    }
+
+    IEnumerator RetardedOf()
+    {
+        yield return null;
+        if (!spriteRenderer.isVisible)
+        {
+            cameraRelated.SetActive(false);
+        }
     }
 }

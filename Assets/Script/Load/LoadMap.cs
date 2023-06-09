@@ -5,13 +5,31 @@ using UnityEngine.Tilemaps;
 
 public class LoadMap : SingletonMono<LoadMap>
 {
+    [System.Serializable]
+    public class MapTransform
+    {
+        public RenderTexture[] renders;
+
+        public Transform this [int index]
+        {
+            get
+            {
+                return renders[index].cameraRelated.transform;
+            }
+        }
+    }
+
     public bool execute = true;
 
     public Transform[] carlitos;
 
-    public Camera[] cameras;
 
-    public GameObject[] renders;
+    public MapTransform cameras;
+   
+    public RenderTexture[] renders
+    {
+        get => cameras.renders;
+    }
 
     public int rng;
 
