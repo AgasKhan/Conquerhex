@@ -116,7 +116,10 @@ public class AnimPerspecitve : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
+        if (MainCamera.instance.perspective)
+            transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
+        else
+            transform.rotation = Quaternion.identity;
 
         EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action += UpdateTransparent;
 
