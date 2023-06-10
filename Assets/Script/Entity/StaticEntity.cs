@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StaticEntity : Entity, IItemContainer
+public abstract class StaticEntity : Entity //, IItemContainer
 {
     public Pictionarys<string,LogicActive> interact; //funciones de un uso para la interaccion
 
@@ -35,11 +35,11 @@ public abstract class StaticEntity : Entity, IItemContainer
 
         foreach (var item in items)
         {
-            item.GetAmounts(out int actual, out int max);
-            AddOrSubstractItems(item.nameDisplay, actual);
-
             if (currentWeight + item.GetItemBase().weight <= weightCapacity)
             {
+                item.GetAmounts(out int actual, out int max);
+                AddOrSubstractItems(item.nameDisplay, actual);
+
                 currentWeight += item.GetItemBase().weight;
             }
             else
@@ -120,12 +120,4 @@ public abstract class StaticEntity : Entity, IItemContainer
         }
     }
 
-}
-
-
-public interface IItemContainer
-{
-    bool Contains(Item item);
-    int ItemCount(string item);
-    void AddOrSubstractItems(string item, int amount);
 }

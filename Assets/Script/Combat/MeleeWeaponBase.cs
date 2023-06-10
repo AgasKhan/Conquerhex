@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
 public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 {
-
     public float durability;
+
+    public bool isImproved = false;
 
     #region FUNCIONES
 
@@ -63,7 +64,7 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 {
     [SerializeField]
-    Tim durability;
+    public Tim durability;
 
     public Damage[] damages => itemBase.damages;
 

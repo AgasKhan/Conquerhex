@@ -6,6 +6,9 @@ using System;
 
 public class NotificationsSystem : MonoBehaviour
 {
+    DateTime savedTime;
+    //DateTime timePassed;
+
     void Start()
     {
         /* Cancelar Notificaciones
@@ -31,4 +34,22 @@ public class NotificationsSystem : MonoBehaviour
         AndroidNotificationCenter.SendNotification(notification, chanel.Id);
 
     }
+
+    public void SaveTime()
+    {
+        savedTime = DateTime.Now;
+        SaveWithJSON.SaveInPictionary("SavedTime", savedTime.ToString());
+    }
+
+    public void TimePassed()
+    {
+        if (!SaveWithJSON.BD.ContainsKey("SavedTime"))
+            return;
+
+        string timeAsString = SaveWithJSON.LoadFromPictionary<string>("SavedTime");
+        savedTime = DateTime.Parse(timeAsString);
+
+        TimeSpan timePassed = DateTime.Now - savedTime; 
+    }
+
 }

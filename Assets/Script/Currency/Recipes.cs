@@ -9,7 +9,9 @@ public class Recipes : ItemBase
 
     public Ingredient result;
 
-    public bool CanCraft(IItemContainer container)
+    public Color resultColor;
+
+    public bool CanCraft(StaticEntity container)
     {
         foreach (var ingredient in materials)
         {
@@ -19,18 +21,16 @@ public class Recipes : ItemBase
                 return false;
             }
 
-            /*
             if (container.weightCapacity < result.Item.weight)
             {
                 Debug.Log("Espacio insuficiente para el crafteo");
                 return false;
             }
-            */
         }
         return true;
     }
 
-    public void Craft(IItemContainer container)
+    public void Craft(StaticEntity container)
     {
         foreach (var ingredient in materials)
         {

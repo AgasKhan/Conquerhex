@@ -7,9 +7,6 @@ using System;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
-    //------------------------------------------------------
-    public BodyPart SlotOf;
-    //------------------------------------------------------
 
     protected DragItem draggableItem;
 
@@ -40,21 +37,6 @@ public class Slot : MonoBehaviour, IDropHandler
         //dropped.transform.SetAsLastSibling();
 
         draggableItem = dropped.GetComponent<DragItem>();
-
-        //------------------------------------------------------
-        var modObject = dropped.GetComponent<ModsManager>();
-
-        if (modObject != null)
-        {
-            if (modObject.myPart == SlotOf)
-                AcceptedDrop();
-            else
-                DeclinedDrop();
-        }
-        else if (draggableItem != null)
-            AcceptedDrop();
-
-        //------------------------------------------------------
 
     }
 

@@ -26,9 +26,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     IDamageable[] damageables;
 
-    //No se que tan bien este esto---------------------------------
     public event System.Action onTakeDamage;
-    //-------------------------------------------------------------
 
     protected override void Config()
     {
