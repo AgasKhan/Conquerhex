@@ -25,11 +25,12 @@ public class MenuList : PopUp
     }
 
     /// <summary>
-    /// Permite crear y configurar el menú con opciones personalizadas
+    /// Permite crear y configurar el menú con los botones personalizados.
+    /// Toma una serie de variable DoubleString como parámetros y devuelve una instancia de MenuList.
     /// </summary>
     /// <param name="stringActions"></param>
     /// <returns></returns>
-    public MenuList CreateConfigured(params DoubleString[] stringActions)//Toma una serie de obj DoubleString como parámetros y devuelve una instancia de MenuList.
+    public MenuList CreateConfigured(params DoubleString[] stringActions)
     {
         foreach (var item in stringActions)
         {

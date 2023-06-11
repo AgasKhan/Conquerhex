@@ -13,6 +13,9 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     [SerializeField]
     ShowSubMenus objectivesSubMenus;
 
+    [SerializeField]
+    string sss;
+
     protected override void LoadButtons()
     {
         base.LoadButtons();
@@ -26,6 +29,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
             {"Restart", Restart},
             {"ShowControls", ShowControls},
             {"BackMenu", BackMenu},
+            {"Inventory", Inventory },
 
             {"MenuDetails", PauseMenu},
             {"CraftingMenu", Crafting},
@@ -46,7 +50,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         DisplayWindow(g);
         GameManager.instance.TogglePause();
         */
-        refMenu.modulesMenu.ObtainMenu<MenuList>(false).SetActiveGameObject(true).CreateDefault();
+        //refMenu.modulesMenu.ObtainMenu<MenuList>(false).SetActiveGameObject(true).CreateConfigured(sss);
         GameManager.instance.Pause(true);
 
         //Despausar
@@ -140,6 +144,11 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     void Loot()
     {
         lootSubMenus.Create();
+    }
+
+    void Inventory(GameObject g)
+    {
+        refMenu.modulesMenu.ObtainMenu<SubMenus>(true);
     }
 
     void ShowMenuStatic(GameObject g)
