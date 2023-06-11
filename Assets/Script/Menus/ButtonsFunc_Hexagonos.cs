@@ -5,13 +5,13 @@ using UnityEngine;
 public class ButtonsFunc_Hexagonos : ButtonsFunctions
 {
     [SerializeField]
-    ShowSubMenus controlSubMenus;
+    ShowSubMenuControls controlSubMenus;
 
     [SerializeField]
-    ShowSubMenus lootSubMenus;
+    ShowSubMenuControls lootSubMenus;
 
     [SerializeField]
-    ShowSubMenus objectivesSubMenus;
+    ShowSubMenuControls objectivesSubMenus;
 
     [SerializeField]
     string sss;
@@ -112,7 +112,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     }
 
 
-    void ShowControls(GameObject g)
+    void ShowControls2(GameObject g)
     {
         CreateSubMenu.CreateNavBar
         (
@@ -164,7 +164,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         );
     }
 
-    void ShowControls2(GameObject g)
+    void ShowControls(GameObject g)
     {
         CreateSubMenu.CreateNavBar((submenu) => { submenu.AddNavBarButton("Controls", "Controls").AddNavBarButton("Loot", "Loot").AddNavBarButton("Objetive", "Objetive"); });
         CreateSubMenu.CreateBody(BodyCreate);

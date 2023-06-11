@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class ShowSubMenus : CreateBodySubMenu
+public class ShowSubMenuControls : CreateBodySubMenu
 {
     [SerializeField]
     Sprite sprite;
