@@ -31,6 +31,7 @@ public class ShowSubMenus : CreateBodySubMenu
         subMenu.CreateSection(3, 6);
         
         subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
+        //subMenu.AddComponent<ButtonA>().AddButtonA(sprite,"Hola",()=> { }, text);
 
     }
 }

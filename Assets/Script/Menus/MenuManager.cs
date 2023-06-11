@@ -145,6 +145,11 @@ public struct DoubleString
     [TextArea(3, 6)]
     public string inferior;
 
+    /// <summary>
+    /// Este es el constructor de la estructura DoubleString. Recibe dos cadenas de texto como parámetros: superior y inferior.
+    /// </summary>
+    /// <param name="superior"></param>
+    /// <param name="inferior"></param>
     public DoubleString(string superior, string inferior)
     {
         this.superior = superior;
