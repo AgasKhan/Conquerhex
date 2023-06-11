@@ -17,7 +17,7 @@ public class SubMenus : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI title;
 
-    public LayoutGroup lastSectionLayputGroup;
+    public LayoutGroup lastSectionLayoutGroup;
 
     [SerializeField]
     CanvasGroup canvasGroup;
@@ -54,8 +54,8 @@ public class SubMenus : MonoBehaviour
 
     public TextAnchor lastSectionAlign
     {
-        set => lastSectionLayputGroup.childAlignment = value;
-        get => lastSectionLayputGroup.childAlignment;
+        set => lastSectionLayoutGroup.childAlignment = value;
+        get => lastSectionLayoutGroup.childAlignment;
     }
 
     Stack<RectTransform> secctions = new Stack<RectTransform>();
@@ -73,7 +73,7 @@ public class SubMenus : MonoBehaviour
         {
             secctions.Push(value);
 
-            lastSectionLayputGroup = lastSection.GetComponent<LayoutGroup>();
+            lastSectionLayoutGroup = lastSection.GetComponent<LayoutGroup>();
         }
     }    
 
@@ -103,9 +103,9 @@ public class SubMenus : MonoBehaviour
 
         //1920/ Screen.width = x
 
-        float realacion = (float)Screen.width / Screen.height;
+        float relacion = (float)Screen.width / Screen.height;
 
-        fixedWidth = realacion * width / (16 / 9f);
+        fixedWidth = relacion * width / (16 / 9f);
 
         fixedValue = fixedWidth / Screen.width;
 
@@ -138,13 +138,12 @@ public class SubMenus : MonoBehaviour
     public SubMenus FatherSection()
     {
         secctions.Pop();
-        lastSectionLayputGroup = lastSection.GetComponent<LayoutGroup>();
+        lastSectionLayoutGroup = lastSection.GetComponent<LayoutGroup>();
         return this;
     }
 
     public T AddComponent<T>() where T : MonoBehaviour
-    {           
-        
+    {      
         var aux = componentMenu.CreateComponent<T>(lastSection);
         StartCoroutine(RetardedOn(lastSection.gameObject));
         return aux;

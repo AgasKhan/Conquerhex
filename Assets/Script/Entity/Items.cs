@@ -11,6 +11,8 @@ public abstract class ItemBase : ShowDetails
 
     public float weight;
 
+    public ItemType itemType;
+
     protected System.Type _itemType;
     protected abstract void SetCreateItemType();
     
@@ -49,6 +51,8 @@ public abstract class Item : IShowDetails, Init
     public string nameDisplay => _itemBase.nameDisplay;
 
     public Sprite image => _itemBase.image;
+
+    public ItemType itemType => _itemBase.itemType;
 
     public virtual Pictionarys<string, string> GetDetails()
     {
@@ -156,4 +160,14 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 
         return aux;
     }
+}
+
+public enum ItemType
+{
+    Other,
+    Mineral,
+    Gemstone,
+    Resource,
+    Equipment,
+    Ability
 }
