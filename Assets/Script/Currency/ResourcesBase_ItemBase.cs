@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Currency/Resource", fileName = "Resource")]
-public abstract class ResourcesBase_ItemBase : ItemBase
+public class ResourcesBase_ItemBase : ItemBase
 {
     public StructureBase structure;
 
@@ -13,6 +13,7 @@ public abstract class ResourcesBase_ItemBase : ItemBase
     }
 }
 
+/*
 
 public abstract class Gemstone : ResourcesBase_ItemBase
 {
@@ -24,3 +25,5 @@ public abstract class Gemstone : ResourcesBase_ItemBase
 public class GemstoneBase : Gemstone
 {
 }
+
+*/
