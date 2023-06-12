@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 /// <summary>
 /// Version por objetos para crear menus
 /// </summary>
@@ -40,6 +40,13 @@ public abstract class CreateSubMenu : Init
         staticSubMenu.SetActiveGameObject(true);
         action(staticSubMenu);
     }
+
+
+    
+    /////////////////////////////////////////////////
+    ///NO ESTATICA
+    ////////////////////////////////////////////////
+    
 
 
     [SerializeField]
@@ -90,5 +97,54 @@ public abstract class CreateNavBarSubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
         base.Create();
+    }
+}
+
+
+public class InventorySubMenuLucas : CreateSubMenu
+{
+    public List<Item> items;
+
+    public override void Create()
+    {
+        subMenu.ClearBody();
+        subMenu.navbar.DestroyAll();
+        base.Create();
+    }
+
+    public T ObtainItem<T>(ItemType itemType) where T : ItemBase
+    {
+        foreach (var item in items)
+        {
+            if (item.itemType == itemType)
+            {
+                var aux = AutoCaster<T>(item);
+
+                if(aux != null)
+                    return aux;
+            }
+        }
+
+        return default;
+    }
+
+
+    public T AutoCaster<T>(Item item) where T : ItemBase
+    {
+        return item.GetItemBase() as T;
+    }
+
+    protected override void InternalCreate()
+    {
+        subMenu.CreateSection(0,3);
+
+        subMenu.CreateChildrenSection<ScrollRect>();
+
+        for (int i = 0; i < items.Count; i++)
+        {
+
+        }
+
+        subMenu.CreateSection(3, 6);
     }
 }
