@@ -36,7 +36,6 @@ public class MenuList : PopUp
         {
             AddButton(item.superior, item.inferior);
         }
-
         return this;
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ButtonsFunc_Menu : ButtonsFunctions
 {
@@ -14,14 +15,13 @@ public class ButtonsFunc_Menu : ButtonsFunctions
             {"StartGame", StartGame},
             {"Dungeons", Dungeons},
             {"LoadGame", LoadGame},
-            {"Store", ShowStore},
-            //{"Credits", DisplayWindow},
+            //{"Settings", Settings},
+            {"Credits", Credits},
             {"DeleteWindow", DeleteData},
             {"Exit", Exit},
+            {"ShowSettings", ShowSettings}
             //{"Quit", DisplayWindow},
-
         });
-
     }
 
     void StartGame(GameObject g)
@@ -40,10 +40,21 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
     }
 
-    void ShowStore(GameObject g)
+    void ShowSettings(GameObject g)
     {
-        //DisplayWindow(g);
-        //Building.instance.RefreshPlayerCoins();
+        CreateSubMenu.CreateNavBar((submenu) => { submenu.AddNavBarButton("Sounds", "Sounds"); });
+        CreateSubMenu.CreateBody(BodyCreateSettings);
+    }
+
+    void Credits (GameObject g)
+    {
+        refMenu.modulesMenu.ObtainMenu<PopUp>(true)
+           .SetWindow("Creditos:", "Lucas Galardo"+ "\n" + "karina Revelli" + "\n" + "Jhamil Castillo"+ "\n" + "Lider Huamantuco")
+           .AddButton("Close", () => {
+
+               refMenu.modulesMenu.ObtainMenu<PopUp>(false);
+           });
+
     }
 
     void DeleteData(GameObject g)
@@ -61,18 +72,31 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
                 refMenu.modulesMenu.ObtainMenu<PopUp>(false);
             });
-
-
         //refMenu.ChangeVolume(1f, "Effects");
         //refMenu.ChangeVolume(1f, "Music");
     }
 
     void Exit(GameObject g)
     {
-        SaveWithJSON.SaveGame();
-        Application.Quit();
+        refMenu.modulesMenu.ObtainMenu<PopUp>(true)
+            .SetWindow("Salir del Juego", "¿Estas seguro que deseas Salir?")
+            .AddButton("Confirmar", () => {
+
+                SaveWithJSON.SaveGame();
+                Application.Quit();
+            })
+            .AddButton("Cancelar", () => {
+
+                refMenu.modulesMenu.ObtainMenu<PopUp>(false);
+
+             });
     }
 
+    void BodyCreateSettings(SubMenus submenu)
+    {
+        submenu.CreateSection(0, 6);
 
+            submenu.AddComponent<PopUp>().SetWindow("Title", "Description");
 
+    }
 }
