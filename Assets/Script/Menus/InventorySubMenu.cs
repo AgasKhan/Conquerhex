@@ -18,12 +18,12 @@ public class InventorySubMenu : MonoBehaviour
     {
         subMenu.CreateSection(0, 3);
             itemList = subMenu.AddComponent<ScrollVertComponent>();
-        //aux.listItems.AddRange(player.inventory);
             itemList.GenerateButtonsList(character.inventory);
-        /*
-        CreateSection(3, 6);
-            AddComponent<DetailsWindow>().SetTexts("", "").SetImage();
-        */
+        
+
+        subMenu.CreateSection(3, 6);
+        subMenu.AddComponent<DetailsWindow>().SetTexts("dfdfsdf", "dfsfdsfdsf").SetImage();
+        
     }
 
     public void RefreshInventory()
