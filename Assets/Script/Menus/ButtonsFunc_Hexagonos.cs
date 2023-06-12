@@ -31,6 +31,8 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
             {"BackMenu", BackMenu},
             {"Inventory", Inventory },
 
+            {"Try1", Try1},
+
             {"MenuDetails", PauseMenu},
             {"CraftingMenu", Crafting},
             //{"InventoryMenu", DisplayWindow},
@@ -50,7 +52,18 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         DisplayWindow(g);
         GameManager.instance.TogglePause();
         */
-        //refMenu.modulesMenu.ObtainMenu<MenuList>(false).SetActiveGameObject(true).CreateConfigured(sss);
+        refMenu.modulesMenu.ObtainMenu<MenuList>(false).SetActiveGameObject(true).CreateDefault();
+        GameManager.instance.Pause(true);
+
+        //Despausar
+    }
+    void Try1(GameObject g)
+    {
+        /*
+        DisplayWindow(g);
+        GameManager.instance.TogglePause();
+        */
+        refMenu.modulesMenu.ObtainMenu<InventorySubMenu>(false).SetActiveGameObject(true).BodyCreate();
         GameManager.instance.Pause(true);
 
         //Despausar
@@ -112,7 +125,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     }
 
 
-    void ShowControls2(GameObject g)
+    void ShowControls(GameObject g)
     {
         CreateSubMenu.CreateNavBar
         (
@@ -164,7 +177,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         );
     }
 
-    void ShowControls(GameObject g)
+    void ShowControls2(GameObject g)
     {
         CreateSubMenu.CreateNavBar((submenu) => { submenu.AddNavBarButton("Controls", "Controls").AddNavBarButton("Loot", "Loot").AddNavBarButton("Objetive", "Objetive"); });
         CreateSubMenu.CreateBody(BodyCreate);

@@ -17,11 +17,13 @@ MonoBehaviour:
   _details: Lento pero efectivo
   maxAmount: 1
   weight: 0
+  itemType: 4
+  velocity: 0.5
+  range: 1.8
   damages:
   - amount: 8
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   - amount: 2
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  velocity: 0.5
-  range: 1.8
   durability: 100
+  isImproved: 0

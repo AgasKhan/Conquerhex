@@ -128,44 +128,7 @@ public class CraftingBuild : BuildingBase
 
     //---------------------------------------------------------------------
 
-    List<Item> ItemBuffer = new List<Item>();
-
-    public List<Item> CompareType(GameObject g)
-    {
-        ItemBuffer = character.inventory;
-
-        for (int i = 0; i < ItemBuffer.Count; i++)
-        {
-            if (ItemBuffer[i].itemType.ToString() != g.name)
-            {
-                ItemBuffer.RemoveAt(i);
-            }
-        }
-
-        return ItemBuffer;
-    }
-
-    public List<Item> RemoveItem(GameObject g)
-    {
-        character.AddOrSubstractItems(g.name, 1);
-        ItemBuffer = character.inventory;
-
-        return ItemBuffer;
-    }
-    public List<Item> RemoveItem(string itemName, int amount)
-    {
-        character.AddOrSubstractItems(itemName, -amount);
-        ItemBuffer = character.inventory;
-
-        return ItemBuffer;
-    }
-
-    public void ExchangeItems(StaticEntity playerInv, StaticEntity storageInv, Item itemToMove)
-    {
-        itemToMove.GetAmounts(out int actual, out int max);
-        playerInv.AddOrSubstractItems(itemToMove.nameDisplay, - actual);
-        storageInv.AddOrSubstractItems(itemToMove.nameDisplay, actual);
-    }
+    
 
 
 

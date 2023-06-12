@@ -17,11 +17,13 @@ MonoBehaviour:
   _details: Pesada pero muy peligrosa
   maxAmount: 1
   weight: 0
+  itemType: 4
+  velocity: 0.5
+  range: 2
   damages:
   - amount: 10
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   - amount: 12
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
-  velocity: 0.5
-  range: 2
   durability: 120
+  isImproved: 0
