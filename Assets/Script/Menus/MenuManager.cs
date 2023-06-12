@@ -85,7 +85,11 @@ public class MenuManager : SingletonMono<MenuManager>
             volume = 0.0001f;
         var value = Mathf.Log10(volume) * 20;
 
-        if (name == "Music")
+        music.audioMixer.SetFloat(name, value);
+        SaveWithJSON.SaveInPictionary(name, volume);
+
+        /*
+        if (name == "MusicVolume")
         {
             music.audioMixer.SetFloat(name, value);
             SaveWithJSON.SaveInPictionary("MusicVolume", volume);
@@ -95,7 +99,7 @@ public class MenuManager : SingletonMono<MenuManager>
             effects.audioMixer.SetFloat(name, value);
             SaveWithJSON.SaveInPictionary("EffectsVolume", volume);
         }
-
+        */
     }
 
 
