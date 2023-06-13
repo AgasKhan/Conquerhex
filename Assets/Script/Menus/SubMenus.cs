@@ -9,7 +9,7 @@ public class SubMenus : MonoBehaviour
 
     [Header("Elementos")]
     [SerializeField]
-    ManagerComponentMenu componentMenu;
+    public ManagerComponentMenu componentMenu;
 
     [SerializeField]
     public ButtonFactory navbar;
@@ -149,7 +149,7 @@ public class SubMenus : MonoBehaviour
         return aux;
     }
 
-    public T CreateChildrenSection<T>() where T : UnityEngine.EventSystems.UIBehaviour
+    public T CreateChildrenSection<T>() where T : MonoBehaviour
     {
         var result = componentMenu.CreateComponent<T>(lastSection);
 

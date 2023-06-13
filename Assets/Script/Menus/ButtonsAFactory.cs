@@ -28,7 +28,7 @@ public class ButtonsAFactory : ButtonFactory
              ;
 
         //Se crea una nueva instancia de botón utilizando el método Clone del objeto prefab y se agrega a la lista eventsCalls.
-        eventsCalls.Add(newPrefab.CloneA(text, sprite, otherText, action, buttonName, content));
+        //eventsCalls.Add(newPrefab.CloneA(text, sprite, otherText, action, buttonName, content));
 
         //Se activa una animación dentro del menu del botón recién creado utilizando el obj fadeMenu. La duración se establece en función del número de botones existentes en eventsCalls y el valor de durationWait.
         eventsCalls[eventsCalls.Count - 1].fadeMenu.FadeOn().Set(eventsCalls.Count * durationWait);

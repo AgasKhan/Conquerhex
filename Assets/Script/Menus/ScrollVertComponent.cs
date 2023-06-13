@@ -2,40 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollVertComponent : MonoBehaviour
+public class ScrollVertComponent : ContentRectTransform
 {
-    [SerializeField]
     public List<Item> listItems = new List<Item>();
 
-    [SerializeField]
-    public ButtonsAFactory buttons;
+    public Transform content;
 
-    public void AddItemToList(Item item)
-    {
-        listItems.Add(item);
-    }
-    public void RemoveItemToList(Item item)
-    {
-        listItems.Remove(item);
-    }
+    ButtonA prefab;
 
-    public void GenerateButtonsList(List<Item> list)
+    public void GenerateButtonsList()
     {
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < listItems.Count; i++)
         {
-            var item = list[i];
-            if(item.itemType == ItemType.Equipment)
-            {
-                var aux = item as MeleeWeapon;
-                buttons.CreateAButtons(item.nameDisplay, "ModifierDW", item.image, aux.durability.current.ToString(), null);
-            }
-            else
+            foreach (var item in listItems)
             {
                 item.GetAmounts(out int actual, out int max);
-                buttons.CreateAButtons(item.nameDisplay, "ModifierDW", item.image, actual + " / " + max, null);
+                prefab.SetButtonA(item.nameDisplay, item.image, actual + " / " + max, null, item.nameDisplay);
+
+                Instantiate(prefab, content);
             }
-            
+
         }
     }
 
+    public Component GenerateComp(Component comp)
+    {
+        return Instantiate(comp, content);
+    }
+
+    public EventsCall GenerateButton(EventsCall obj)
+    {
+        return Instantiate(obj, content);
+    }
 }

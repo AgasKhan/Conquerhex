@@ -703,7 +703,6 @@ GameObject:
   - component: {fileID: 8712075800380389793}
   - component: {fileID: 3666695599191885288}
   - component: {fileID: 3036580855071301306}
-  - component: {fileID: 3051650809460344824}
   - component: {fileID: 3944624051253305198}
   m_Layer: 5
   m_Name: InventorySubMenu
@@ -826,21 +825,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &3051650809460344824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8712075800380389795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27457c224d7cf7d47a0282b22b4db915, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  subMenu: {fileID: 3944624051253305198}
-  character: {fileID: 0}
-  itemList: {fileID: 0}
 --- !u!114 &3944624051253305198
 MonoBehaviour:
   m_ObjectHideFlags: 0

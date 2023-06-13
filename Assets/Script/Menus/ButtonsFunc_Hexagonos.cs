@@ -14,6 +14,9 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     ShowSubMenuControls objectivesSubMenus;
 
     [SerializeField]
+    InventorySubMenu inventorySubMenu;
+
+    [SerializeField]
     string sss;
 
     protected override void LoadButtons()
@@ -63,8 +66,9 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         DisplayWindow(g);
         GameManager.instance.TogglePause();
         */
-        refMenu.modulesMenu.ObtainMenu<InventorySubMenu>(false).SetActiveGameObject(true).BodyCreate();
-        GameManager.instance.Pause(true);
+        //refMenu.modulesMenu.ObtainMenu<InventorySubMenu>(false).SetActiveGameObject(true).Create();
+        inventorySubMenu.Create();
+        //GameManager.instance.Pause(true);
 
         //Despausar
     }
