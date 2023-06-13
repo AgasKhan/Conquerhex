@@ -54,39 +54,48 @@ public class InventorySubMenu : CreateSubMenu
         storageInv.AddOrSubstractItems(itemToMove.nameDisplay, actual);
     }
 
+    public override void Create()
+    {
+        buttonsList.Clear();
+        subMenu.ClearBody();
+        base.Create();
+    }
+
     protected override void InternalCreate()
     {
-        subMenu.ClearBody();
-        
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
 
         foreach (var item in character.inventory)
         {
-            ButtonA button;
-            
-            if(item.itemType == ItemType.Equipment)
-            {
-                var aux = item as MeleeWeapon;
-                var aux2 = item as RangeWeapon;
+            ButtonA button = subMenu.AddComponent<ButtonA>();
 
-                if(aux != null || aux2 != null)
-                {
-                    button = subMenu.AddComponent<ButtonA>();
-                    buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, "Uses: " + aux.durability.current, () => { ShowEquipDetails(button); }, item.nameDisplay));
-                }
+            string details = "";
+
+            UnityEngine.Events.UnityAction action;
+
+            if (item.itemType == ItemType.Equipment && item is MeleeWeapon)
+            {
+                details = "Uses: " + ((MeleeWeapon)item).durability.current;
+                action = () =>  ShowEquipDetails(button);
             }
             else
             {
-                button = subMenu.AddComponent<ButtonA>();
                 item.GetAmounts(out int actual, out int max);
-                buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, actual + " / " + max, () => { ShowItemDetails(button); }, item.nameDisplay));
+                details = actual + " / " + max;
+                action = () => ShowItemDetails(button);
             }
+
+            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, details, action, item.nameDisplay));
         }
 
         subMenu.CreateSection(3, 6);
         subMenu.CreateChildrenSection<ScrollRect>();
         myPopUp = subMenu.AddComponent<PopUp>().SetActiveGameObject(true);
+
+        subMenu.CreateChildrenSection<HorizontalLayoutGroup>();
+
+        
 
         //myPopUp = MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true);
 
@@ -105,6 +114,15 @@ public class InventorySubMenu : CreateSubMenu
         );
         
     }
+
+
+    ButtonA ButtonFactory()
+    {
+        buttonsList.Add(subMenu.AddComponent<ButtonA>());
+
+        return buttonsList[buttonsList.Count - 1];
+    }
+
     void ShowItemDetails(ButtonA button)
     {
         myPopUp.SetWindow(button.myItem.nameDisplay, button.myItem.GetDetails().ToString(), button.myItem.image);
@@ -147,6 +165,7 @@ public class InventorySubMenu : CreateSubMenu
 
         itemList.GenerateButtonsList();
     }
+
     void RefreshList()
     {
         itemList.listItems = character.inventory;
