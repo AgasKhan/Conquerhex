@@ -179,7 +179,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     {
         get
         {
-            if (weaponIndex >= 0)
+            if (weaponIndex >= 0 && weaponIndex < caster.inventory.Count)
                 return caster.inventory[weaponIndex] as MeleeWeapon;
             else
                 return null;

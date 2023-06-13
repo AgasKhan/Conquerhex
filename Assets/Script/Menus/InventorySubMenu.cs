@@ -11,41 +11,11 @@ public class InventorySubMenu : CreateSubMenu
 
     public ScrollVertComponent itemList;
 
-    List<Item> ItemBuffer = new List<Item>();
-
     List<ButtonA> buttonsList = new List<ButtonA>();
 
+    List<EventsCall> buttonsListActions = new List<EventsCall>();
+
     DetailsWindow myDetailsW;
-
-    public List<Item> CompareType(GameObject g)
-    {
-        ItemBuffer = character.inventory;
-
-        for (int i = 0; i < ItemBuffer.Count; i++)
-        {
-            if (ItemBuffer[i].itemType.ToString() != g.name)
-            {
-                ItemBuffer.RemoveAt(i);
-            }
-        }
-
-        return ItemBuffer;
-    }
-
-    public List<Item> RemoveItem(GameObject g)
-    {
-        character.AddOrSubstractItems(g.name, 1);
-        ItemBuffer = character.inventory;
-
-        return ItemBuffer;
-    }
-    public List<Item> RemoveItem(string itemName, int amount)
-    {
-        character.AddOrSubstractItems(itemName, -amount);
-        ItemBuffer = character.inventory;
-
-        return ItemBuffer;
-    }
 
     public void ExchangeItems(StaticEntity playerInv, StaticEntity storageInv, Item itemToMove)
     {
@@ -63,6 +33,16 @@ public class InventorySubMenu : CreateSubMenu
 
     protected override void InternalCreate()
     {
+        CreateNavBar
+        (
+            (submenu) =>
+            {
+                submenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ItemType.Equipment); })
+                    .AddNavBarButton("Mineral", () => { ButtonAct(ItemType.Mineral); }).AddNavBarButton("Gemstone", () => { ButtonAct(ItemType.Gemstone); })
+                    .AddNavBarButton("Other", () => { ButtonAct(ItemType.Other); });
+            }
+        );
+
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
 
@@ -72,18 +52,23 @@ public class InventorySubMenu : CreateSubMenu
 
             string details = "";
 
-            UnityEngine.Events.UnityAction action;
+            UnityEngine.Events.UnityAction action = 
+                () => 
+                { 
+                    ShowItemDetails(button);
+                    CreateButtonsActions(item.GetItemBase().buttonsAcctions);
+                };
 
             if (item.itemType == ItemType.Equipment && item is MeleeWeapon)
             {
                 details = "Uses: " + ((MeleeWeapon)item).durability.current;
-                action = () =>  ShowEquipDetails(button);
+
             }
             else
             {
                 item.GetAmounts(out int actual, out int max);
                 details = actual + " / " + max;
-                action = () => ShowItemDetails(button);
+
             }
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, details, action, item.nameDisplay));
@@ -92,48 +77,28 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.CreateSection(3, 6);
         //subMenu.CreateChildrenSection<ScrollRect>();
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
-
-        subMenu.CreateChildrenSection<HorizontalLayoutGroup>();
-
-        
-
-        //myPopUp = MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true);
-
-
-        //myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("","");
-
-
-        CreateNavBar
-        (
-            (submenu) =>
-            {
-            submenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment",()=>{ ButtonAct(ItemType.Equipment);})
-                .AddNavBarButton("Mineral",()=>{ButtonAct(ItemType.Mineral);}).AddNavBarButton("Gemstone",()=>{ButtonAct(ItemType.Gemstone);})
-                .AddNavBarButton("Other",()=>{ButtonAct(ItemType.Other);});
-            }
-        );
-        
     }
 
-
-    ButtonA ButtonFactory()
+    public void CreateButtonsActions(Dictionary<string, System.Action<Character>> dic)
     {
-        buttonsList.Add(subMenu.AddComponent<ButtonA>());
+        foreach (var item in buttonsListActions)
+        {
+            Object.Destroy(item.gameObject);
+        }
 
-        return buttonsList[buttonsList.Count - 1];
+        buttonsListActions.Clear();
+
+        foreach (var item in dic)
+        {
+            buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set(item.Key, () => item.Value(character), ""));
+        }
     }
 
     void ShowItemDetails(ButtonA button)
     {
         myDetailsW.SetTexts(button.myItem.nameDisplay, button.myItem.GetDetails().ToString()).SetImage(button.myItem.image);
-    }
-    void ShowEquipDetails(ButtonA button)
-    {
-        myDetailsW.SetTexts(button.myItem.nameDisplay, button.myItem.GetDetails().ToString()).SetImage(button.myItem.image);
 
-        //myPopUp.AddButton("Equip", "Equip");
-
-        //subMenu.AddComponent<EventsCall>().Clone("Equip", null, "Equip", subMenu.lastSectionLayoutGroup.transform);
+        subMenu.RetardedOn(myDetailsW.gameObject);
     }
 
     void ButtonAct(ItemType type)
@@ -145,7 +110,10 @@ public class InventorySubMenu : CreateSubMenu
             else
                 item.SetActiveGameObject(true);
         }
+
+        myDetailsW.SetActiveGameObject(false);
     }
+
     void ButtonAct()
     {
         foreach (var item in buttonsList)

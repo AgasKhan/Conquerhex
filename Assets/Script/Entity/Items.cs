@@ -13,8 +13,10 @@ public abstract class ItemBase : ShowDetails
 
     public ItemType itemType;
 
+    public Dictionary<string, System.Action<Character>> buttonsAcctions = new Dictionary<string, System.Action<Character>>();
+
     protected System.Type _itemType;
-    protected abstract void SetCreateItemType();
+    
     
     public virtual Item Create()
     {
@@ -35,6 +37,8 @@ public abstract class ItemBase : ShowDetails
         SetCreateItemType();
         Manager<ItemBase>.pic.Add(nameDisplay, this);
     }
+
+    protected abstract void SetCreateItemType();
 }
 
 

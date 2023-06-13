@@ -153,6 +153,8 @@ public class Hexagone : MonoBehaviour
                  ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - (ladosPuntos[lado, 1] - Camera.main.transform.position.y),
                  MainCamera.instance.transform.position.z);
 
+            LoadMap.instance.cameras[HexagonsManager.LadoOpuesto(lado)].gameObject.SetActive(false);
+
             LoadMap.instance.cameras[lado].gameObject.SetActive(true);
         }
             
