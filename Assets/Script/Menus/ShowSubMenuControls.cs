@@ -20,6 +20,13 @@ public class ShowSubMenuControls : CreateBodySubMenu
     TextAnchor childAlignment = TextAnchor.UpperCenter;
 
 
+    public override void Create()
+    {
+        subMenu.navbar.DestroyAll();
+        subMenu.ClearBody();
+        base.Create();
+    }
+
     protected override void InternalCreate()
     {
 
@@ -30,7 +37,9 @@ public class ShowSubMenuControls : CreateBodySubMenu
 
         subMenu.CreateSection(3, 6);
         
-        subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
+        
+        //subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
+        subMenu.AddComponent<PopUp>().SetWindow("","");
         //subMenu.AddComponent<ButtonA>().AddButtonA(sprite,"Hola",()=> { }, text);
 
     }

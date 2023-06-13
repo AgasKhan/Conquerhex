@@ -94,9 +94,36 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
     void BodyCreateSettings(SubMenus submenu)
     {
-        submenu.CreateSection(0, 6);
+        submenu.CreateSection(0, 3);
 
-            submenu.AddComponent<PopUp>().SetWindow("Title", "Description");
+        submenu.AddComponent<PopUp>().SetWindow("", "").SetActiveGameObject(true)
+           .AddButton("Subir", () =>
+           {
 
+           })
+           .AddButton("Bajar", () =>
+           {
+
+           });
+        submenu.CreateSection(3, 6);
+
+            pop1 = submenu.AddComponent<PopUp>().SetWindow("Efectos", SaveWithJSON.LoadFromPictionary<float>("EffectsVolume").ToString()).SetActiveGameObject(true)
+           .AddButton("Subir", () =>
+           {
+               pop1.SetWindow("Title", SaveWithJSON.LoadFromPictionary<float>("EffectsVolume").ToString());
+           })
+           .AddButton("Bajar", () =>
+           {
+               var aux = SaveWithJSON.LoadFromPictionary<float>("EffectsVolume") - 5f;
+
+               if (aux < 0)
+                   aux = 0;
+
+               refMenu.ChangeVolume(aux, "EffectsVolume");
+
+               //Refresca la descripcion
+               pop1.SetWindow("Title", SaveWithJSON.LoadFromPictionary<float>("EffectsVolume").ToString());
+           });
     }
+    PopUp pop1;
 }
