@@ -15,7 +15,7 @@ public class InventorySubMenu : CreateSubMenu
 
     List<ButtonA> buttonsList = new List<ButtonA>();
 
-    PopUp myPopUp;
+    DetailsWindow myDetailsW;
 
     public List<Item> CompareType(GameObject g)
     {
@@ -90,8 +90,8 @@ public class InventorySubMenu : CreateSubMenu
         }
 
         subMenu.CreateSection(3, 6);
-        subMenu.CreateChildrenSection<ScrollRect>();
-        myPopUp = subMenu.AddComponent<PopUp>().SetActiveGameObject(true);
+        //subMenu.CreateChildrenSection<ScrollRect>();
+        myDetailsW = subMenu.AddComponent<DetailsWindow>();
 
         subMenu.CreateChildrenSection<HorizontalLayoutGroup>();
 
@@ -125,12 +125,13 @@ public class InventorySubMenu : CreateSubMenu
 
     void ShowItemDetails(ButtonA button)
     {
-        myPopUp.SetWindow(button.myItem.nameDisplay, button.myItem.GetDetails().ToString(), button.myItem.image);
+        myDetailsW.SetTexts(button.myItem.nameDisplay, button.myItem.GetDetails().ToString()).SetImage(button.myItem.image);
     }
     void ShowEquipDetails(ButtonA button)
     {
-        myPopUp.SetWindow(button.myItem.nameDisplay, button.myItem.GetDetails().ToString(), button.myItem.image);
-        myPopUp.AddButton("Equip", "Equip");
+        myDetailsW.SetTexts(button.myItem.nameDisplay, button.myItem.GetDetails().ToString()).SetImage(button.myItem.image);
+
+        //myPopUp.AddButton("Equip", "Equip");
 
         //subMenu.AddComponent<EventsCall>().Clone("Equip", null, "Equip", subMenu.lastSectionLayoutGroup.transform);
     }
