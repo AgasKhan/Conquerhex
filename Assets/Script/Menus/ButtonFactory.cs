@@ -28,21 +28,27 @@ public class ButtonFactory
     public ButtonFactory Create(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {
         if(selectOpaque)
-            action += () =>
-             {
-                 foreach (var item in eventsCalls)
-                 {
-                     if(EventSystem.current.currentSelectedGameObject == item.button.gameObject)
-                     {
-                         item.button.interactable = false;
-                     }
-                     else
-                     {
-                         item.button.interactable = true;
-                     }
-                 }
-             }
+        {
+            UnityEngine.Events.UnityAction aux = action;
+
+            action = () =>
+            {
+                foreach (var item in eventsCalls)
+                {
+                    if (EventSystem.current.currentSelectedGameObject == item.button.gameObject)
+                    {
+                        item.button.interactable = false;
+                    }
+                    else
+                    {
+                        item.button.interactable = true;
+                    }
+                }
+            }
              ;
+
+            action += aux;
+        }
 
         //Se crea una nueva instancia de botón utilizando el método Clone del objeto prefab y se agrega a la lista eventsCalls.
         eventsCalls.Add(prefab.Clone(text, action, buttonName, content));
@@ -53,7 +59,7 @@ public class ButtonFactory
         //Si este es el primer botón creado y firstOpaque da true se desactiva la interacción del botón para que no se pueda hacer clic en él.
         if (eventsCalls.Count==1 && firstOpaque)
         {
-            eventsCalls[eventsCalls.Count - 1].button.interactable = false;
+            eventsCalls[0].button.interactable = false;
         }
 
         return this;

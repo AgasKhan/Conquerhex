@@ -11,21 +11,13 @@ public class StatisticsSubMenu : CreateSubMenu
     [SerializeField]
     InventorySubMenu inventorySubMenu;
 
-    public override void Create()
-    {
-        subMenu.ClearBody();
-        base.Create();
-    }
-
     protected override void InternalCreate()
     {
-        CreateNavBar
-        (
-            (submenu) =>
-            {
-                submenu.AddNavBarButton("Statistics", Create).AddNavBarButton("Inventory", () => inventorySubMenu.Create());
-            }
-        );
+        subMenu.navbar.DestroyAll();
+
+        subMenu.AddNavBarButton("Statistics", Create).AddNavBarButton("Inventory", inventorySubMenu.Create);
+
+        subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
         subMenu.AddComponent<DetailsWindow>().SetImage(character.bodyBase.image).SetTexts(character.bodyBase.nameDisplay, character.bodyBase.GetDetails().ToString());
@@ -34,29 +26,22 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.CreateChildrenSection<ScrollRect>();
 
         CreateWeaponButtons(character);
-        /*
-        ItemIsNull(character.prin.weapon);
-        ItemIsNull(character.sec.weapon);
-        ItemIsNull(character.ter.weapon);
-        */
-    }
-
-    void ItemIsNull(Item item)
-    {
-        if(item != null)
-        {
-            subMenu.AddComponent<ButtonA>().SetButtonA(item.nameDisplay, item.image, "Uses: " + ((MeleeWeapon)item).durability.current, null);
-        }
     }
 
     void CreateWeaponButtons(Character charac)
     {
-        if(charac.prin != null)
-            ItemIsNull(charac.prin.weapon);
-        if (charac.sec != null)
-            ItemIsNull(charac.prin.weapon);
-        if (charac.ter != null)
-            ItemIsNull(charac.prin.weapon);
+        CreateWeaponButtons(charac.prin);
+        CreateWeaponButtons(charac.sec);
+        CreateWeaponButtons(charac.ter);
+    }
+
+
+    void CreateWeaponButtons(WeaponKata kata)
+    {
+        if (kata != null && kata.weapon!=null)
+        {   
+            subMenu.AddComponent<ButtonA>().SetButtonA(kata.weapon.nameDisplay, kata.weapon.image, "Uses: " + kata.weapon.durability.current, null);       
+        }
     }
 
 }

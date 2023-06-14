@@ -42,7 +42,7 @@ public abstract class ItemBase : ShowDetails
 
     protected virtual void DestroyItem(Character character)
     {
-        character.AddOrSubstractItems(nameDisplay, 1);
+        character.AddOrSubstractItems(nameDisplay, -1);
     }
 
     protected abstract void SetCreateItemType();

@@ -12,9 +12,7 @@ public class ButtonA : EventsCall
     [SerializeField]
     TextMeshProUGUI myNum;
 
-
-    public Item myItem;
-
+    public string type;
 
     public ButtonA SetItemSprite(Sprite sprite)
     {
@@ -26,6 +24,14 @@ public class ButtonA : EventsCall
     {
         textButton.text = name;
         return this;
+    }
+
+    public ButtonA SetType(string type)
+    {
+        this.type = type;
+
+        return this;
+
     }
 
     public ButtonA SetButtonAction(UnityEngine.Events.UnityAction action)
@@ -41,14 +47,6 @@ public class ButtonA : EventsCall
         return this;
     }
 
-
-    public ButtonA SetButtonA(string nameDisplay)
-    {
-        var item = Manager<ItemBase>.pic[nameDisplay];
-
-        return SetButtonA(item.nameDisplay, item.image, item.nameDisplay, null);
-    }
-
     /// <summary>
     /// Crea un ButonA
     /// </summary>
@@ -59,8 +57,6 @@ public class ButtonA : EventsCall
     /// <returns></returns>
     public ButtonA SetButtonA(string itemName, Sprite sprite , string textNum, UnityEngine.Events.UnityAction action)
     {
-        myItem = Manager<ItemBase>.pic[itemName].Create();
-
         textButton.text = itemName;
 
         previewImage.sprite = sprite;

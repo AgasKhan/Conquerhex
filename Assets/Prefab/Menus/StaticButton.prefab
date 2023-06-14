@@ -319,12 +319,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbbb45ecf6ac894cbddc3a89ebc4a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 2504966867939098540}
   image: {fileID: 4741700821661415422}
   textButton: {fileID: 2256267756387885552}
   button: {fileID: 6926420586964467372}
   empty: 1
-  durationAnim: 0.5
-  durationWait: 0.1
-  timerOn:
-    total: 0
-    _current: 0
+  fadeMenu:
+    durationAnim: 0.3
+    durationWait: 0.1
+    timerOn:
+      rid: -2
+    unscaled: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

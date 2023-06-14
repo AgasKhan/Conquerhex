@@ -50,6 +50,9 @@ public class SubMenus : MonoBehaviour
     [SerializeField]
     float subdivisions;
 
+    [SerializeField]
+    string titleString;
+
     int maxDivision;
 
     public TextAnchor lastSectionAlign
@@ -112,6 +115,18 @@ public class SubMenus : MonoBehaviour
         var aux = fixedWidth - margin * 7;
 
         subdivisions = aux / 6;
+    }
+
+    public SubMenus CreateTitle(string title)
+    {
+        titleString = title;
+
+        this.title.text = titleString;
+
+        if (navbar.eventsCalls.Count >= 1)
+            this.title.text += "/" + navbar.eventsCalls[0].textButton.text;
+            
+        return this;
     }
 
     public SubMenus CreateSection(int comienzo, int final)
@@ -182,12 +197,17 @@ public class SubMenus : MonoBehaviour
 
     SubMenus AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {
-        action += () => title.text = text;
+        UnityEngine.Events.UnityAction aux = action; 
 
-        navbar.Create(text, buttonName, action);
+        action = () => SetText(text);
 
-        if(navbar.eventsCalls.Count == 1)
-            title.text = text;
+        action += aux;
+
+        navbar.Create(text, buttonName, aux);
+
+        
+        SetText(navbar.eventsCalls[0].textButton.text);
+        
 
         return this;
     }
@@ -215,7 +235,13 @@ public class SubMenus : MonoBehaviour
        return (w * subdivisions + (w - 1) * margin);
     }
 
-
+    void SetText(string str)
+    {
+        if (titleString != "")
+            title.text = titleString + "/" + str;
+        else
+            title.text = str;
+    }
 
     //la magia potagia, para refrezcar lo creado
     IEnumerator RetardedOnCoroutine(GameObject gameObject)

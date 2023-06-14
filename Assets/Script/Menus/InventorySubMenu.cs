@@ -24,24 +24,22 @@ public class InventorySubMenu : CreateSubMenu
         storageInv.AddOrSubstractItems(itemToMove.nameDisplay, actual);
     }
 
-    public override void Create()
-    {
-        buttonsList.Clear();
-        subMenu.ClearBody();
-        base.Create();
-    }
-
     protected override void InternalCreate()
     {
-        CreateNavBar
-        (
-            (submenu) =>
-            {
-                submenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ItemType.Equipment); })
-                    .AddNavBarButton("Mineral", () => { ButtonAct(ItemType.Mineral); }).AddNavBarButton("Gemstone", () => { ButtonAct(ItemType.Gemstone); })
-                    .AddNavBarButton("Other", () => { ButtonAct(ItemType.Other); });
-            }
-        );
+        subMenu.navbar.DestroyAll();
+
+        subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ItemType.Equipment.ToString()); })
+                    .AddNavBarButton("Mineral", () => { ButtonAct(ItemType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { ButtonAct(ItemType.Gemstone.ToString()); })
+                    .AddNavBarButton("Other", () => { ButtonAct(ItemType.Other.ToString()); });
+
+        subMenu.CreateTitle("Inventary");
+
+        CreateBody();
+    }
+
+    void CreateBody()
+    {
+        subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
@@ -55,11 +53,6 @@ public class InventorySubMenu : CreateSubMenu
 
     public void CreateButtons()
     {
-        foreach (var item in buttonsList)
-        {
-            Object.Destroy(item.gameObject);
-        }
-
         buttonsList.Clear();
 
         foreach (var item in character.inventory)
@@ -69,26 +62,37 @@ public class InventorySubMenu : CreateSubMenu
             UnityEngine.Events.UnityAction action =
                 () =>
                 {
-                    ShowItemDetails(button);
+                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
+                    DestroyButtonsActions();
                     CreateButtonsActions(item.GetItemBase().buttonsAcctions);
                 };
 
-            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action));
+            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
     }
 
-    public void CreateButtonsActions(Dictionary<string, System.Action<Character>> dic)
+    void DestroyButtonsActions()
     {
+
         foreach (var item in buttonsListActions)
         {
-            Object.Destroy(item.gameObject);
+            if (item != null)
+                Object.Destroy(item.gameObject);
         }
 
         buttonsListActions.Clear();
+    }
+
+    void CreateButtonsActions(Dictionary<string, System.Action<Character>> dic)
+    {
 
         foreach (var item in dic)
         {
-            buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set(item.Key, () => item.Value(character), ""));
+            buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set(item.Key, 
+                () => {
+                    item.Value(character);
+                    CreateBody();
+                }, ""));
 
             buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(300, 75);
 
@@ -97,43 +101,30 @@ public class InventorySubMenu : CreateSubMenu
     }
 
 
-    void ShowItemDetails(ButtonA button)
+    void ShowItemDetails(string nameDisplay, string details, Sprite Image)
     {
-        myDetailsW.SetTexts(button.myItem.nameDisplay, button.myItem.GetDetails().ToString()).SetImage(button.myItem.image);
+        myDetailsW.SetTexts(nameDisplay,details).SetImage(Image);
 
         subMenu.RetardedOn(myDetailsW.gameObject);
     }
 
-    void ButtonAct(ItemType type)
+    void ButtonAct(string type)
     {
         foreach (var item in buttonsList)
         {
-            if (item.myItem.itemType != type)
+            if (item.type != type && type != "")
                 item.SetActiveGameObject(false);
             else
                 item.SetActiveGameObject(true);
         }
 
         myDetailsW.SetActiveGameObject(false);
+        DestroyButtonsActions();
     }
 
     void ButtonAct()
     {
-        foreach (var item in buttonsList)
-        {
-            item.SetActiveGameObject(true);
-        }
-    }
-
-    void RefreshList()
-    {
-        for (int i = 0; i < buttonsList.Count; i++)
-        {
-            if(buttonsList[i].myItem == character.inventory[i])
-            {
-                buttonsList[i].textButton.text = SetTextforItem(character.inventory[i]);
-            }
-        }
+        ButtonAct("");
     }
 
     string SetTextforItem(Item item)
