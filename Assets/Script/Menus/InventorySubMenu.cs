@@ -73,7 +73,7 @@ public class InventorySubMenu : CreateSubMenu
                     CreateButtonsActions(item.GetItemBase().buttonsAcctions);
                 };
 
-            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action, item.nameDisplay));
+            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action));
         }
     }
 

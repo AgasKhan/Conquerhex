@@ -17,7 +17,7 @@ public class ScrollVertComponent : ContentRectTransform
             foreach (var item in listItems)
             {
                 item.GetAmounts(out int actual, out int max);
-                prefab.SetButtonA(item.nameDisplay, item.image, actual + " / " + max, null, item.nameDisplay);
+                prefab.SetButtonA(item.nameDisplay, item.image, actual + " / " + max, null);
 
                 Instantiate(prefab, content);
             }

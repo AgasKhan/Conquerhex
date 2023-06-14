@@ -45,7 +45,7 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         if(item != null)
         {
-            subMenu.AddComponent<ButtonA>().SetButtonA(item.nameDisplay, item.image, "Uses: " + ((MeleeWeapon)item).durability.current, null, item.nameDisplay);
+            subMenu.AddComponent<ButtonA>().SetButtonA(item.nameDisplay, item.image, "Uses: " + ((MeleeWeapon)item).durability.current, null);
         }
     }
 

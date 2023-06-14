@@ -15,17 +15,10 @@ public class ButtonA : EventsCall
 
     public Item myItem;
 
-    public ButtonA SetButtonA(Sprite sprite, EventsCall buttonEventsCall, string text)
+
+    public ButtonA SetItemSprite(Sprite sprite)
     {
         previewImage.sprite = sprite;
-
-        // Configuracion del botón 
-        button = buttonEventsCall.button;
-        textButton = buttonEventsCall.textButton;
-        fadeMenu = buttonEventsCall.fadeMenu;
-
-        textButton.text = text;
-
         return this;
     }
 
@@ -34,50 +27,45 @@ public class ButtonA : EventsCall
         textButton.text = name;
         return this;
     }
-    public ButtonA SetItemNum(string num)
-    {
-        myNum.text = num;
-        return this;
-    }
-    public ButtonA SetItemSprite(Sprite sprite)
-    {
-        previewImage.sprite = sprite;
-        return this;
-    }
+
     public ButtonA SetButtonAction(UnityEngine.Events.UnityAction action)
     {
         listeners += action;
         empty = false;
         return this;
     }
-    public ButtonA SetButtonName(string buttonName)
+
+    public ButtonA SetItemNum(string num)
     {
-        button.name = buttonName;
+        myNum.text = num;
         return this;
     }
+
 
     public ButtonA SetButtonA(string nameDisplay)
     {
         var item = Manager<ItemBase>.pic[nameDisplay];
 
-        return SetButtonA(item.nameDisplay, item.image, item.nameDisplay, null, item.nameDisplay);
+        return SetButtonA(item.nameDisplay, item.image, item.nameDisplay, null);
     }
-    public ButtonA SetButtonA(string buttonText, Sprite sprite, string otherText, UnityEngine.Events.UnityAction action, string buttonName)
-    {
-        myItem = Manager<ItemBase>.pic[buttonName].Create();
 
-        textButton.text = buttonText;
+    /// <summary>
+    /// Crea un ButonA
+    /// </summary>
+    /// <param name="itemName"></param>
+    /// <param name="sprite"></param>
+    /// <param name="textNum"></param>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    public ButtonA SetButtonA(string itemName, Sprite sprite , string textNum, UnityEngine.Events.UnityAction action)
+    {
+        myItem = Manager<ItemBase>.pic[itemName].Create();
+
+        textButton.text = itemName;
 
         previewImage.sprite = sprite;
 
-        myNum.text = otherText;
-
-        if (buttonName != "")
-            button.name = buttonName;
-        else
-        {
-            button.onClick.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.Off);
-        }
+        myNum.text = textNum;
 
         if (action != null)
         {
