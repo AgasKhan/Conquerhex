@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class EventsCall : MonoBehaviour
+public class EventsCall : ContentRectTransform
 {
     [SerializeField]
     public Image image;
@@ -30,12 +30,12 @@ public class EventsCall : MonoBehaviour
         }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         fadeMenu.alphas += Text_alphas;
         fadeMenu.Init();
     }
-
     private void Text_alphas(float obj)
     {
         textButton.color = textButton.color.ChangeAlphaCopy(obj);

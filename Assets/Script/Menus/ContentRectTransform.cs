@@ -6,7 +6,7 @@ public class ContentRectTransform : MonoBehaviour
 {
     public RectTransform rectTransform;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (rectTransform == null)
             rectTransform = GetComponent<RectTransform>();

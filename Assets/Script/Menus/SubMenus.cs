@@ -145,7 +145,7 @@ public class SubMenus : MonoBehaviour
     public T AddComponent<T>() where T : MonoBehaviour
     {      
         var aux = componentMenu.CreateComponent<T>(lastSection);
-        RetardedOn(aux.gameObject);
+        RetardedOn(lastSection.gameObject);
         return aux;
     }
 

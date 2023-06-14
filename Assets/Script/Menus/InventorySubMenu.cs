@@ -46,37 +46,35 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
 
-        foreach (var item in character.inventory)
-        {
-            ButtonA button = subMenu.AddComponent<ButtonA>();
-
-            string details = "";
-
-            UnityEngine.Events.UnityAction action = 
-                () => 
-                { 
-                    ShowItemDetails(button);
-                    CreateButtonsActions(item.GetItemBase().buttonsAcctions);
-                };
-
-            if (item.itemType == ItemType.Equipment && item is MeleeWeapon)
-            {
-                details = "Uses: " + ((MeleeWeapon)item).durability.current;
-
-            }
-            else
-            {
-                item.GetAmounts(out int actual, out int max);
-                details = actual + " / " + max;
-
-            }
-
-            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, details, action, item.nameDisplay));
-        }
+        CreateButtons();
 
         subMenu.CreateSection(3, 6);
         //subMenu.CreateChildrenSection<ScrollRect>();
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
+    }
+
+    public void CreateButtons()
+    {
+        foreach (var item in buttonsList)
+        {
+            Object.Destroy(item.gameObject);
+        }
+
+        buttonsList.Clear();
+
+        foreach (var item in character.inventory)
+        {
+            ButtonA button = subMenu.AddComponent<ButtonA>();
+
+            UnityEngine.Events.UnityAction action =
+                () =>
+                {
+                    ShowItemDetails(button);
+                    CreateButtonsActions(item.GetItemBase().buttonsAcctions);
+                };
+
+            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action, item.nameDisplay));
+        }
     }
 
     public void CreateButtonsActions(Dictionary<string, System.Action<Character>> dic)
@@ -91,8 +89,13 @@ public class InventorySubMenu : CreateSubMenu
         foreach (var item in dic)
         {
             buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set(item.Key, () => item.Value(character), ""));
+
+            buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(300, 75);
+
+            //subMenu.AddComponent<EventsCall>().Set(item.Key, () => item.Value(character), "");
         }
     }
+
 
     void ShowItemDetails(ButtonA button)
     {
@@ -122,36 +125,34 @@ public class InventorySubMenu : CreateSubMenu
         }
     }
 
-    void RefreshList(ItemType type)
-    {
-        foreach (var item in character.inventory)
-        {
-            if (item.itemType != type)
-                continue;
-
-            itemList.listItems.Add(item);
-        }
-
-        itemList.GenerateButtonsList();
-    }
-
     void RefreshList()
     {
-        itemList.listItems = character.inventory;
-        itemList.GenerateButtonsList();
-    }
-
-    void RefreshEquipList()
-    {
-        foreach (var item in character.inventory)
+        for (int i = 0; i < buttonsList.Count; i++)
         {
-            if (item.itemType != ItemType.Equipment)
-                continue;
-
-            var aux = subMenu.componentMenu.SearchComponent<ButtonA>();
-            aux.SetButtonA(item.nameDisplay, item.image, "", null, item.nameDisplay);
-
-            itemList.GenerateButton(aux);
+            if(buttonsList[i].myItem == character.inventory[i])
+            {
+                buttonsList[i].textButton.text = SetTextforItem(character.inventory[i]);
+            }
         }
     }
+
+    string SetTextforItem(Item item)
+    {
+        string details = "";
+
+        if (item.itemType == ItemType.Equipment && item is MeleeWeapon)
+        {
+            details = "Uses: " + ((MeleeWeapon)item).durability.current;
+
+        }
+        else
+        {
+            item.GetAmounts(out int actual, out int max);
+            details = actual + " / " + max;
+
+        }
+
+        return details;
+    }
+
 }

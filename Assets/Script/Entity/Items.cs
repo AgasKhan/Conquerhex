@@ -36,6 +36,13 @@ public abstract class ItemBase : ShowDetails
     {
         SetCreateItemType();
         Manager<ItemBase>.pic.Add(nameDisplay, this);
+        buttonsAcctions.Clear();
+        buttonsAcctions.Add("Destroy", DestroyItem);
+    }
+
+    protected virtual void DestroyItem(Character character)
+    {
+        character.AddOrSubstractItems(nameDisplay, 1);
     }
 
     protected abstract void SetCreateItemType();
