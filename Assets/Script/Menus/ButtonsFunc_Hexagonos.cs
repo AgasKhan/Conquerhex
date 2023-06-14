@@ -14,7 +14,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     ShowSubMenuControls objectivesSubMenus;
 
     [SerializeField]
-    InventorySubMenu inventorySubMenu;
+    StatisticsSubMenu statisticsSubMenu;
 
     [SerializeField]
     string sss;
@@ -62,15 +62,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     }
     void Try1(GameObject g)
     {
-        /*
-        DisplayWindow(g);
-        GameManager.instance.TogglePause();
-        */
-        //refMenu.modulesMenu.ObtainMenu<InventorySubMenu>(false).SetActiveGameObject(true).Create();
-        inventorySubMenu.Create();
-        //GameManager.instance.Pause(true);
-
-        //Despausar
+        statisticsSubMenu.Create();
     }
 
     void Resume(GameObject g)

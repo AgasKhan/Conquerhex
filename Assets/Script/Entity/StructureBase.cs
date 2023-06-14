@@ -18,6 +18,28 @@ public class StructureBase : ItemBase
     {
         _itemType = typeof(StructureDiagram);
     }
+
+    public override Pictionarys<string, string> GetDetails()
+    {
+        Pictionarys<string, string> aux = new Pictionarys<string, string>();
+
+        aux.Add("\nMaximum Life ", life.ToString());
+        aux.Add("Maximum Regeneration ", regen.ToString());
+
+        if(vulnerabilities.Length > 0)
+        {
+            aux.Add("\nDamages Multipliers ", "");
+
+            aux.Add(vulnerabilities.ToString(" x ", ""), "\n");
+            /*
+            for (int i = 0; i < vulnerabilities.Length; i++)
+            {
+                aux.Add(vulnerabilities[i].typeInstance.name + " x ", vulnerabilities[i].amount.ToString());
+            }*/
+        }
+        
+        return aux;
+    }
 }
 
 

@@ -32,6 +32,17 @@ public class BodyBase : StructureBase
     {
         _itemType = typeof(BodyDiagram);
     }
+
+    public override Pictionarys<string, string> GetDetails()
+    {
+        var aux = base.GetDetails();
+
+        aux.Add("Velocity ", velocity.ToString());
+        aux.Add("Weight Capacity ", weightCapacity.ToString());
+        aux.Add("Area Farming ", areaFarming.ToString() + "\n");
+
+        return aux;
+    }
 }
 
 
