@@ -75,16 +75,19 @@ public abstract class StaticEntity : Entity //, IItemContainer
         {
             if (itemName == inventory[i].nameDisplay)
             {
-                inventory[i].AddAmount(amount, out amount);
-                myItemBase = inventory[i].GetItemBase();
-
                 inventory[i].GetAmounts(out int actual, out int max);
 
-                if (actual <= 0)
+                if((amount + actual)<=0)
                 {
                     inventory.RemoveAt(i);
+                    amount += actual;
                 }
-                
+                else
+                {
+                    inventory[i].AddAmount(amount, out amount);
+                    myItemBase = inventory[i].GetItemBase();
+                }
+
                 if (amount == 0)
                     return;
             }
