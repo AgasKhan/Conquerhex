@@ -26,14 +26,12 @@ public class MenuManager : SingletonMono<MenuManager>
     {
         base.Awake();
 
+        eventListVoid.Add("Settings", (g)=> showSubMenuSettings.Create());
+
         showSubMenuSettings.Init(GetComponent<AudioManager>());
 
         LoadSystem.AddPostLoadCorutine(showSubMenuSettings.InitScenes);
     }
-
-    
-
-
 
     public void StartGame()
     {

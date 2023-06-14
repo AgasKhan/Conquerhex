@@ -119,10 +119,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstLevel: Hexagonos
-  audioM: {fileID: 0}
-  effects: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
-    type: 2}
-  music: {fileID: 212219229990447299, guid: bf2733c8308b68b459088c5aaa1b81c6, type: 2}
+  showSubMenuSettings:
+    subMenu: {fileID: 7402023316621954124}
+    audioM: {fileID: 2984370465521999757}
+    music: {fileID: 212219229990447299, guid: bf2733c8308b68b459088c5aaa1b81c6, type: 2}
+    effects: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+      type: 2}
   eventListVoid:
     pictionaries: []
   eventListButtoOn:

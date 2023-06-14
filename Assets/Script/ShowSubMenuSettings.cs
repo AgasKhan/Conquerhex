@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class ShowSubMenuSettings : CreateSubMenu
 {
 
-    public AudioMixerGroup music;
     public AudioManager audioM;
+    public AudioMixerGroup music;
     public AudioMixerGroup effects;
 
     public override void Init(params object[] param)
@@ -37,24 +37,13 @@ public class ShowSubMenuSettings : CreateSubMenu
  
             subMenu.AddComponent<DetailsWindow>().SetTexts("Music Volumen","");
                 
-            subMenu.AddComponent<ButtonB>();
+            subMenu.AddComponent<ButtonB>().SetLeftButton(SubsMusicVol).SetRightButton(AddMusicVol);
 
         subMenu.CreateSection(3, 6);
 
             subMenu.AddComponent<DetailsWindow>().SetTexts("Effects Volumen", "");
 
-            subMenu.AddComponent<ButtonB>();
-
-
-        if (SaveWithJSON.CheckKeyInBD("MusicVolume"))
-            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("MusicVolume"), "Music");
-        else
-            ChangeVolume(1f, "Music");
-
-        if (SaveWithJSON.CheckKeyInBD("EffectsVolume"))
-            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("EffectsVolume"), "Effects");
-        else
-            ChangeVolume(1f, "Effects");
+            subMenu.AddComponent<ButtonB>().SetLeftButton(SubsEffectsVol).SetRightButton(AddEffectsVol);
     }
 
 
@@ -70,6 +59,16 @@ public class ShowSubMenuSettings : CreateSubMenu
             FirstStart();
         }
 
+        if (SaveWithJSON.CheckKeyInBD("MusicVolume"))
+            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("MusicVolume"), "Music");
+        else
+            ChangeVolume(1f, "Music");
+
+        if (SaveWithJSON.CheckKeyInBD("EffectsVolume"))
+            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("EffectsVolume"), "Effects");
+        else
+            ChangeVolume(1f, "Effects");
+
     }
 
     void FirstStart()
@@ -83,18 +82,7 @@ public class ShowSubMenuSettings : CreateSubMenu
     }
 
 
-    public void ChangeVolume(float volume, string name)
-    {
-        if (volume == 0)
-            volume = 0.0001f;
-        var value = Mathf.Log10(volume) * 20;
-
-        music.audioMixer.SetFloat(name, value);
-        SaveWithJSON.SaveInPictionary(name, volume);
-
-  
-    }
-
+    
     public void MuteCurrentMusic(bool condition)
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
@@ -120,78 +108,48 @@ public class ShowSubMenuSettings : CreateSubMenu
     }
 
     //////////////////////////////////buttonFunctions////////
-    void MuteMusic(Image g)
-    {
-        var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
-
-        if (textChild.text == "ON")
-        {
-            ChangeVolume(0, "Music");
-            textChild.text = "MUTE";
-            MuteCurrentMusic(false);
-        }
-        else
-        {
-            ChangeVolume(1f, "Music");
-            textChild.text = "ON";
-            MuteCurrentMusic(true);
-        }
-    }
-    void MuteEffects(Image g)
-    {
-        var textChild = g.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
-        
-        if (textChild.text == "ON")
-        {
-            ChangeVolume(0, "Effects");
-            textChild.text = "MUTE";
-        }
-        else
-        {
-            ChangeVolume(1f, "Effects");
-            textChild.text = "ON";
-        }
-    }
     void AddEffectsVol(Image g)
     {
-        var aux = SaveWithJSON.LoadFromPictionary<float>("EffectsVolume") + 5f;
-
-        if (aux > 100)
-            aux = 100;
-
-        ChangeVolume(aux, "EffectsVolume");
+        UpdateVol(g, "EffectsVolume", 0.1f);
     }
 
     void SubsEffectsVol(Image g)
     {
-        var aux = SaveWithJSON.LoadFromPictionary<float>("EffectsVolume") - 5f;
-
-        if (aux < 0)
-            aux = 0;
-
-        ChangeVolume(aux, "EffectsVolume");
+        UpdateVol(g, "EffectsVolume", -0.1f);
     }
-
 
     void AddMusicVol(Image g)
     {
-        var aux = SaveWithJSON.LoadFromPictionary<float>("MusicVolume") + 5f;
-
-        if (aux > 100)
-            aux = 100;
-
-        ChangeVolume(aux, "MusicVolume");
+        UpdateVol(g, "MusicVolume", 0.1f);
     }
 
     void SubsMusicVol(Image g)
     {
-        var aux = SaveWithJSON.LoadFromPictionary<float>("MusicVolume") - 5f;
+        UpdateVol(g, "MusicVolume", -0.1f);
+    }
+
+    void UpdateVol(Image g, string str, float number)
+    {
+        var aux = SaveWithJSON.LoadFromPictionary<float>(str) + number;
 
         if (aux < 0)
             aux = 0;
+        else if (aux > 1)
+            aux = 1;
 
-        ChangeVolume(aux, "MusicVolume");
+        g.fillAmount = aux;
+
+        ChangeVolume(aux, str);
     }
 
+    void ChangeVolume(float volume, string name)
+    {
+        if (volume == 0)
+            volume = 0.0001f;
+        var value = Mathf.Log10(volume) * 20;
+
+        music.audioMixer.SetFloat(name, value);
+        SaveWithJSON.SaveInPictionary(name, volume);
+    }
 
 }
