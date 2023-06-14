@@ -4,43 +4,52 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class ShowSubMenuControls : CreateBodySubMenu
+public class ShowSubMenuControls : CreateSubMenu
 {
     [SerializeField]
-    Sprite sprite;
+    ShowDetails[] scriptObjects;
 
-    [SerializeField]
-    string title;
-
-    [SerializeField]
-    [TextArea(3,6)]
-    string text;
-
-    [SerializeField]
-    TextAnchor childAlignment = TextAnchor.UpperCenter;
-
+    DetailsWindow myDetailsWindow;
+    DetailsWindow myDetailsWindow2;
 
     public override void Create()
     {
-        subMenu.navbar.DestroyAll();
-        subMenu.ClearBody();
-        base.Create();
+       subMenu.navbar.DestroyAll();
+       subMenu.ClearBody();
+       base.Create();
+       
     }
 
     protected override void InternalCreate()
     {
+        CreateNavBar((SubMenu) =>
+        {
 
-        subMenu.CreateSection(0, 3).lastSectionAlign = childAlignment;
-        
-        subMenu.AddComponent<DetailsWindow>().SetTexts(title, text).SetAlignment(TMPro.TextAlignmentOptions.Top, TMPro.TextAlignmentOptions.TopJustified);
-            
+            foreach (var item in scriptObjects)
+            {
+                subMenu.AddNavBarButton(item.nameDisplay, () => SetControls(item));
+            }
+
+        });
+
+        subMenu.CreateSection(0, 3);
+
+            myDetailsWindow = subMenu.AddComponent<DetailsWindow>().SetActiveGameObject(true);
+
 
         subMenu.CreateSection(3, 6);
-        
-        
-        //subMenu.AddComponent<DetailsWindow>().SetImage(sprite);
-        subMenu.AddComponent<PopUp>().SetWindow("","");
-        //subMenu.AddComponent<ButtonA>().AddButtonA(sprite,"Hola",()=> { }, text);
+            
+            myDetailsWindow2 = subMenu.AddComponent<DetailsWindow>().SetActiveGameObject(true);
+
+        SetControls(scriptObjects[0]);
 
     }
+    void SetControls(ShowDetails scriptObj)
+    {
+        subMenu.RetardedOn(myDetailsWindow.gameObject);
+        subMenu.RetardedOn(myDetailsWindow2.gameObject);
+        myDetailsWindow2.SetImage(scriptObj.image);
+        myDetailsWindow.SetTexts(scriptObj.nameDisplay, scriptObj.GetDetails().ToString());
+    }
+
 }

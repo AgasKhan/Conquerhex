@@ -12726,7 +12726,7 @@ PrefabInstance:
     - target: {fileID: 6169225729113630144, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_Name
-      value: ShowControls
+      value: ShowSettings
       objectReference: {fileID: 0}
     - target: {fileID: 6225163993044880103, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -12944,6 +12944,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1427589115}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1427589117 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7402023316621954124, guid: a432204a98b06884c82bb61a7ffb51bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1427589115}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d866d7de28cf4eb5a1ade68639eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1441993569 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7726025419895215522, guid: 8aafeb3de00c8864690ef025d3c2afe7,
@@ -19551,6 +19563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42fd9c1addc0d743bcc3b1d338c9bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowSubMenuSettings:
+    subMenu: {fileID: 1427589117}
 --- !u!1 &2085456263
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,9 @@ using TMPro;
 
 public class ButtonsFunc_Menu : ButtonsFunctions
 {
+    [SerializeField]
+    ShowSubMenuSettings ShowSubMenuSettings;
+
     protected override void LoadButtons()
     {
         base.LoadButtons();
@@ -42,8 +45,9 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
     void ShowSettings(GameObject g)
     {
-        CreateSubMenu.CreateNavBar((submenu) => { submenu.AddNavBarButton("Sounds", "Sounds"); });
-        CreateSubMenu.CreateBody(BodyCreateSettings);
+        //CreateSubMenu.CreateNavBar((submenu) => { submenu.AddNavBarButton("Sounds", "Sounds"); });
+        //CreateSubMenu.CreateBody(BodyCreateSettings);
+        ShowSubMenuSettings.Create();
     }
 
     void Credits (GameObject g)
@@ -91,6 +95,13 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
              });
     }
+
+
+
+
+
+
+
 
     void BodyCreateSettings(SubMenus submenu)
     {
