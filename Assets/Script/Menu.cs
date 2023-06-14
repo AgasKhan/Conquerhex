@@ -9,7 +9,7 @@ public class Menu : MonoBehaviour
 {
     public GameObject canvas;
 
-    public List<SubMenu> subMenus;
+    public List<OldSubMenu> subMenus;
 
     public TextMeshProUGUI[] textMesh;
 
@@ -164,7 +164,7 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
-        subMenus.Add(new SubMenu("Default", canvas.transform.GetChild(3).gameObject));
+        subMenus.Add(new OldSubMenu("Default", canvas.transform.GetChild(3).gameObject));
 
         if (subMenuCargado != null)
             subMenuCargado = Instantiate(subMenuCargado, canvas.transform);
@@ -203,12 +203,12 @@ public class Menu : MonoBehaviour
 }
 
 [System.Serializable]
-public struct SubMenu
+public struct OldSubMenu
 {
     public string name;
     public GameObject prefab;
 
-    public SubMenu(string n, GameObject g)
+    public OldSubMenu(string n, GameObject g)
     {
         name = n;
         prefab = g;

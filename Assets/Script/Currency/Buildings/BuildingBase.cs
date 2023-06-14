@@ -7,7 +7,6 @@ using System;
 public class BuildingBase : StaticEntity
 {
     public Pictionarys<string, Action> buttonsFuncs = new Pictionarys<string, Action>();
-    public float workTime;
 
     protected Character character;
     public int maxLevel;
