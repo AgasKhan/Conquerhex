@@ -36,13 +36,14 @@ public class ShowSubMenuSettings : CreateSubMenu
         subMenu.CreateSection(0, 3);
  
             subMenu.AddComponent<DetailsWindow>().SetTexts("Music Volumen","");
-        subMenu.AddComponent<ButtonB>();
+                
+            subMenu.AddComponent<ButtonB>();
 
         subMenu.CreateSection(3, 6);
 
             subMenu.AddComponent<DetailsWindow>().SetTexts("Effects Volumen", "");
-            subMenu.AddComponent<ButtonB>().SetActiveGameObject(true);
 
+            subMenu.AddComponent<ButtonB>();
 
 
         if (SaveWithJSON.CheckKeyInBD("MusicVolume"))
@@ -116,16 +117,6 @@ public class ShowSubMenuSettings : CreateSubMenu
             audioM.Play("GameMusic");
         else
             audioM.Pause("GameMusic");
-    }
-
-    public void ClickSound()
-    {
-        audioM.Play("Click");
-    }
-
-    public void StartSound()
-    {
-        audioM.Play("MusicInMenu");
     }
 
     //////////////////////////////////buttonFunctions////////
