@@ -9,9 +9,9 @@ public class MenuManager : SingletonMono<MenuManager>
     [SerializeField]
     string firstLevel;
 
-    public AudioManager audioM;
-    public AudioMixerGroup effects;
-    public AudioMixerGroup music;
+    [SerializeField]
+    ShowSubMenuSettings showSubMenuSettings;
+
 
     //para los eventos-------------------------------------------------------
     public Pictionarys<string, Action<GameObject>> eventListVoid = new Pictionarys<string, Action<GameObject>>();
@@ -26,117 +26,20 @@ public class MenuManager : SingletonMono<MenuManager>
     {
         base.Awake();
 
-        audioM = GetComponent<AudioManager>();
+        showSubMenuSettings.Init(GetComponent<AudioManager>());
 
-        LoadSystem.AddPostLoadCorutine(InitScenes);
+        LoadSystem.AddPostLoadCorutine(showSubMenuSettings.InitScenes);
     }
 
     
-    void InitScenes()
-    {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
-        {
-            MusicInMenu(true);
-        }
-        else
-        {
-            GameMusic(true);
-            FirstStart();
-        }
 
-        if (SaveWithJSON.CheckKeyInBD("MusicVolume"))
-            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("MusicVolume"), "Music");
-        else
-            ChangeVolume(1f, "Music");
 
-        if (SaveWithJSON.CheckKeyInBD("EffectsVolume"))
-            ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("EffectsVolume"), "Effects");
-        else
-            ChangeVolume(1f, "Effects");
-    }
-
-    void FirstStart()
-    {
-        if(!SaveWithJSON.CheckKeyInBD("ShowTutorial"))
-        {
-            SaveWithJSON.SaveInPictionary("ShowTutorial", false);
-            //subMenus.ShowWindow("ShowControls");
-            //aqui se debe abrir el mostrar controles
-        }
-    }
 
     public void StartGame()
     {
         //ClickAccept();
         LoadSystem.instance.Load(firstLevel, true);
     }
-
-    public void MuteCurrentMusic(bool condition)
-    {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
-            MusicInMenu(condition);
-        else
-            GameMusic(condition);
-    }
-
-    public void ChangeVolume(float volume, string name)
-    {
-        if (volume == 0)
-            volume = 0.0001f;
-        var value = Mathf.Log10(volume) * 20;
-
-        music.audioMixer.SetFloat(name, value);
-        SaveWithJSON.SaveInPictionary(name, volume);
-
-        /*
-        if (name == "MusicVolume")
-        {
-            music.audioMixer.SetFloat(name, value);
-            SaveWithJSON.SaveInPictionary("MusicVolume", volume);
-        }
-        else
-        {
-            effects.audioMixer.SetFloat(name, value);
-            SaveWithJSON.SaveInPictionary("EffectsVolume", volume);
-        }
-        */
-    }
-
-
-
-    public void ClickSound()
-    {
-        audioM.Play("Click");
-    }
-    public void MusicInMenu(bool condition)
-    {
-        if(condition == true)
-            audioM.Play("MusicInMenu");
-        else
-            audioM.Pause("MusicInMenu");
-    }
-
-    public void GameMusic(bool condition)
-    {
-        if (condition == true)
-            audioM.Play("GameMusic");
-        else
-            audioM.Pause("GameMusic");
-    }
-
-    public void StartSound()
-    {
-        audioM.Play("MusicInMenu");
-    }
-
-    public void PlayTutorialM(bool condition)
-    {
-        if (condition == true)
-            audioM.Play("TutorialMusic");
-        else
-            audioM.Pause("TutorialMusic");
-    }
-
 }
 
 

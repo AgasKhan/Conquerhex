@@ -155,7 +155,6 @@ public static class Extensions
     public static void Event(this Button b, bool remove = true)
     {
         var menu = MenuManager.instance;
-        
         if(remove)
             b.onClick.RemoveAllListeners();
 
@@ -184,7 +183,6 @@ public static class Extensions
             };
         }
 
-        unityAction += menu.ClickSound;
         //UnityEventTools.RemovePersistentListener(b.onClick, 0);
         b.onClick.AddListener(unityAction);
         //menu.eventListVoid[b.name](b.gameObject);

@@ -67,7 +67,7 @@ public abstract class CreateSubMenu : Init
     /// Init inicializa la instancia del menú subMenu si no ha sido asignada previamente.
     /// </summary>
     /// <param name="param"></param>
-    public void Init(params object[] param)
+    public virtual void Init(params object[] param)
     {
         if (subMenu == null)
             subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
