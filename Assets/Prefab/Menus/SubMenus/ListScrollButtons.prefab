@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ListButtonsA:
   - {fileID: 973520469625787796, guid: 0f9ce36f9a137694f891533f7238962c, type: 3}
-  content: {fileID: 361001871114983444}
+  content: {fileID: 0}
 --- !u!1001 &5063997978284447750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +130,11 @@ PrefabInstance:
       propertyPath: m_text
       value: 0/0
       objectReference: {fileID: 0}
+    - target: {fileID: 1962400456917045001, guid: b91efa05199fdbf429e1783718e2f22a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 540
+      objectReference: {fileID: 0}
     - target: {fileID: 3538501980757487655, guid: b91efa05199fdbf429e1783718e2f22a,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -149,6 +154,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4847111380163868777, guid: b91efa05199fdbf429e1783718e2f22a,
+        type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4847111380163868777, guid: b91efa05199fdbf429e1783718e2f22a,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4847111380219610114, guid: b91efa05199fdbf429e1783718e2f22a,
         type: 3}
@@ -347,12 +362,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b91efa05199fdbf429e1783718e2f22a, type: 3}
---- !u!224 &361001871114983444 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4847111381180186642, guid: b91efa05199fdbf429e1783718e2f22a,
-    type: 3}
-  m_PrefabInstance: {fileID: 5063997978284447750}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &361001872468169937 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4847111381973437655, guid: b91efa05199fdbf429e1783718e2f22a,
