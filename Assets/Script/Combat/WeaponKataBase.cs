@@ -20,7 +20,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [Header("Deteccion")]
 
     [SerializeField]
-    public Detect<Entity> detect;
+    public DetectSort<Entity> detect;
 
     [Header("Multiplicadores danio")]
     public Damage[] damagesMultiply = new Damage[0];
@@ -372,9 +372,11 @@ public abstract class AreaKataBase : WeaponKataBase
 
     protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages, float range)
     {
-        var aux = detect.Area(caster.transform.position + direction.Vec2to3(0) * detect.distance, (tr) => { return caster != tr; }, range);
+        var pos = caster.transform.position + direction.Vec2to3(0) * detect.distance;
 
-        Damage(ref damages, caster, aux.ToArray());
+        var aux = detect.AreaWithRay(caster.transform, (tr) => { return caster != tr; }, range);
+
+        Damage(ref damages, caster, aux);
     }
 }
 

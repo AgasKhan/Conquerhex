@@ -80,12 +80,15 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  damaged1: {r: 1, g: 0.3066038, b: 0.62188214, a: 1}
+  damaged2: {r: 0, g: 0, b: 0, a: 1}
   audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
+  weightCapacity: 0
+  currentWeight: 0
+  travelItem: []
   move: {fileID: 6295448971589143362}
   <bodyBase>k__BackingField: {fileID: 11400000, guid: e37b635edcfd6c94d9ac1a797d531f41,
     type: 2}
@@ -96,13 +99,13 @@ MonoBehaviour:
   ter:
     rid: -2
   areaFarming:
-    radius: 0
-    distance: 0
+    radius: 1
+    distance: 1
     layerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 64
     maxDetects: -1
-    minDetects: 1
+    minDetects: 0
   references:
     version: 2
     RefIds:
