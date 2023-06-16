@@ -16,12 +16,12 @@ public class Detect<T>
     /// <summary>
     /// numero maximo de objetos detectados
     /// </summary>
-    public int maxDetects = -1;
+    public int maxDetects;
 
     /// <summary>
     /// numero minimo de objetos detectados
     /// </summary>
-    public int minDetects = 0;
+    public int minDetects;
 
     public float diameter => radius * 2;
 

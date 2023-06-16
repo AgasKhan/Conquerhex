@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+public enum EnumController
+{
+    movement,
+    principal,
+    secondary,
+    terciary,
+    interact
+}
+
 public class VirtualControllers : MonoBehaviour
 {
     #region static classes
@@ -18,7 +27,7 @@ public class VirtualControllers : MonoBehaviour
 
     static public AxisButton terciary = new AxisButton("Mouse X", "Mouse Y", "Fire3");
 
-    static public Button parry = new Button("Parry");
+    static public AxisButton interact = new AxisButton("Mouse X", "Mouse Y", "Interact");
 
     static public T Search<T>(EnumController e) where T : FatherKey
     {
@@ -390,10 +399,4 @@ public class VirtualControllers : MonoBehaviour
     #endregion
 }
 
-public enum EnumController
-{
-    movement,
-    principal,
-    secondary,
-    terciary
-}
+

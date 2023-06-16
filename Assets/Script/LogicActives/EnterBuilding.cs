@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Client / Controller
-public class EnterBuilding : LogicActive<BuildingBase>
+public class EnterBuilding : LogicActive<Building>
 {
-    protected override void InternalActivate(params BuildingBase[] specificParam)
+    protected override void InternalActivate(params Building[] specificParam)
     {
         specificParam[0].EnterBuild();
         specificParam[0].myBuildSubMenu.DestroyCraftButtons();

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingBuild : BuildingBase
+public class CraftingBuild : Building
 {
     public Pictionarys<int, List<Recipes>> levelRecipes = new Pictionarys<int, List<Recipes>>();
     public CraftingSubMenu createSubMenu;

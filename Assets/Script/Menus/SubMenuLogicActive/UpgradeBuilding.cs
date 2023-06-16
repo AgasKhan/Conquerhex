@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeBuilding : LogicActive<BuildingBase>
+public class UpgradeBuilding : LogicActive<Building>
 {
-    protected override void InternalActivate(params BuildingBase[] specificParam)
+    protected override void InternalActivate(params Building[] specificParam)
     {
         var aux = specificParam[0];
         if (aux.currentLevel < aux.maxLevel)
@@ -23,7 +23,7 @@ public class UpgradeBuilding : LogicActive<BuildingBase>
             
     }
 
-    void RefreshUpgrade(BuildingBase aux)
+    void RefreshUpgrade(Building aux)
     {
 
     }

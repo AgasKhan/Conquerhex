@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AutoMinerBuild : BuildingBase
+public class AutoMinerBuild : Building
 {
     public float timeToGenerate;
 

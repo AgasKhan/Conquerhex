@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BuildingsSubMenu : CreateSubMenu
 {
     [SerializeField]
-    BuildingBase buildingBase;
+    Building buildingBase;
 
     [HideInInspector]
     public DetailsWindow detailsWindow;

@@ -44,13 +44,3 @@ public class EventJoystick : EventTimer
         set?.Invoke(param);
     }
 }
-
-/*
-public enum InterfazController
-{
-    move,
-    principal,
-    secondary,
-    tertiary,
-    life
-}*/

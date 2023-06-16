@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BuildingBase : StaticEntity
+public abstract class Building : StaticEntity
 {
     public Character character;
     public StructureBase structureBase;

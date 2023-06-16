@@ -22,6 +22,9 @@ public class JoyController : MonoBehaviour
     [SerializeField]
     UnityEngine.UI.Image imageToFill;
 
+    [SerializeField]
+    UnityEngine.UI.Image imageToReplace;
+
     //Timer rutina;
 
     public float fill
@@ -56,6 +59,8 @@ public class JoyController : MonoBehaviour
     void Set(params object[] param)
     {
         gameObject.SetActive((bool)param[0] && (bool)param[1] == joystick);
+
+        imageToReplace.sprite = param[2] as Sprite;
     }
 
     void SetStick()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PortalBuild : BuildingBase
+public class PortalBuild : Building
 {
     public  override string rewardNextLevel => throw new System.NotImplementedException();
 
@@ -25,7 +25,7 @@ public class PortalBuild : BuildingBase
 
 public class PortalSubMenu : CreateSubMenu
 {
-    public BuildingBase buildingBase;
+    public Building buildingBase;
 
     protected override void InternalCreate()
     {

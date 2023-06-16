@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
-public class AdsBuilding : BuildingBase, IUnityAdsListener
+public class AdsBuilding : Building, IUnityAdsListener
 {
     [SerializeField] string adToShow = "Rewarded_Android";
     public override string rewardNextLevel => throw new System.NotImplementedException();

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class IAIO : IAFather
 {
-
     string originalTag;
+
+    [SerializeField]
+    DetectSort<Building> detectBuilding = new DetectSort<Building>();
+
+    Building lastBuilding;
 
     public override void OnEnterState(Character param)
     {
@@ -30,7 +34,7 @@ public class IAIO : IAFather
         SetJoystick(param.sec, VirtualControllers.secondary, EnumController.secondary, SecUi, SecUiFinish);
 
         SetJoystick(param.ter, VirtualControllers.terciary, EnumController.terciary, TerUi, TerUiFinish);
-        
+
         VirtualControllers.movement.SuscribeController(param.move);
     }
 
@@ -67,6 +71,28 @@ public class IAIO : IAFather
     public override void OnStayState(Character param)
     {
         EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).Execute(transform.position);
+
+        var buildings = detectBuilding.Area(transform.position, (edificio) => { return true; });
+
+        if(buildings == null || buildings.Count == 0)
+        {
+            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact).ExecuteSet(false, false, null);
+        }
+        else if (buildings[0] != lastBuilding)
+        {
+            VirtualControllers.interact.eventDown -= Interact_eventDown;
+
+            lastBuilding = buildings[0];
+
+            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact).ExecuteSet(true, false, lastBuilding.structureBase.image);
+
+            VirtualControllers.interact.eventDown += Interact_eventDown;
+        }
+    }
+
+    private void Interact_eventDown(Vector2 arg1, float arg2)
+    {
+        lastBuilding.myBuildSubMenu.Create();
     }
 
     private void SetJoystick(WeaponKata weaponKata, VirtualControllers.AxisButton axisButton, EnumController enumController, System.Action<float> ui, System.Action uifinish)
@@ -76,11 +102,11 @@ public class IAIO : IAFather
             axisButton.SuscribeController(weaponKata);
             weaponKata.updateTimer += ui;
             weaponKata.finishTimer += uifinish;
-            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(true, weaponKata.itemBase.joystick);
+            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(true, weaponKata.itemBase.joystick, weaponKata.itemBase.image);
         }
         else
         {
-            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(false, false);
+            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(false, false, null);
         }
     }
 
