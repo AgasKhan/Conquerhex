@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
+using UnityEngine.UI;
 
-public class AdsManager : BuildingBase, IUnityAdsListener
+public class AdsBuilding : BuildingBase, IUnityAdsListener
 {
     [SerializeField] string adToShow = "Rewarded_Android";
-
     public override string rewardNextLevel => throw new System.NotImplementedException();
+
+    //---------------------------------
+    public MenuManager refMenu;
+    //---------------------------------
 
     protected override void Config()
     {
@@ -17,24 +21,29 @@ public class AdsManager : BuildingBase, IUnityAdsListener
     }
     void MyAwake()
     {
-        
-    }
+        Advertisement.AddListener(this);
+        if (Application.platform == RuntimePlatform.Android)
+            Advertisement.Initialize("5307781");
+        else
+            Advertisement.Initialize("5307781", true);
 
+        //---------------------------------
+        refMenu.eventListVoid.Add("Try4", Try4);
+        //---------------------------------
+    }
+    //---------------------------------
+    void Try4(GameObject g)
+    {
+        myBuildSubMenu.ClearSubMenu();
+        myBuildSubMenu.Create();
+    }
+    //---------------------------------
     void Internal()
     {
 
     }
 
     /*
-    private void Awake()
-    {
-        Advertisement.AddListener(this);
-        if (Application.platform == RuntimePlatform.Android)
-            Advertisement.Initialize("5307781");
-        else
-            Advertisement.Initialize("5307781", true);
-    }
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.J))
@@ -81,5 +90,19 @@ public class AdsManager : BuildingBase, IUnityAdsListener
     public void OnUnityAdsReady(string placementId)
     {
 
+    }
+}
+
+[System.Serializable]
+public class AdsSubMenu : CreateSubMenu
+{
+    protected override void InternalCreate()
+    {
+        subMenu.CreateSection(0, 2);
+        subMenu.CreateChildrenSection<ScrollRect>();
+
+        subMenu.CreateSection(2, 6);
+        subMenu.AddComponent<DetailsWindow>();
+        subMenu.AddComponent<EventsCall>();
     }
 }
