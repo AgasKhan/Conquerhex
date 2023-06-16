@@ -66,7 +66,7 @@ public class ButtonsFunc_Menu : ButtonsFunctions
             .SetWindow("Borrar partida", "¿Estas seguro que deseas borrar toda la configuracion y progreso?")
             .AddButton("Confirmar", () => {
 
-                StoreInteract.instance.ClearCustomerInventory();
+                //BuildingInteract.instance.ClearCustomerInventory();
                 SaveWithJSON.DeleteData();
                 //Restart(g);
 

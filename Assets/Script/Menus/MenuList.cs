@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class MenuList : PopUp
 {
-
     List<DoubleString> defaultOptions = new List<DoubleString>();
 
     /// <summary>
@@ -39,6 +38,15 @@ public class MenuList : PopUp
         return this;
     }
 
+    public MenuList CreateConfigured(Pictionarys<string, UnityAction> buttons)
+    {
+        foreach (var item in buttons)
+        {
+            AddButton(item.key, item.value);
+        }
+        return this;
+    }
+
     /// <summary>
     /// crea y configura el menú con las opciones predeterminadas guardadas en defaultOptions
     /// </summary>
@@ -64,17 +72,13 @@ public class MenuList : PopUp
             //Se agrega un nuevo objeto DoubleString a la lista defaultOptions con el texto y el nombre del botón del objeto EventsCall actual.
             defaultOptions.Add(new DoubleString(item.textButton.text, item.button.name));
         }
-        buttonFactory.DestroyAll();
+
+        gameObject.SetActive(false);
     }
 
 
     private void OnEnable()
     {
         detailsWindow.transform.parent.gameObject.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        buttonFactory.DestroyAll();
     }
 }

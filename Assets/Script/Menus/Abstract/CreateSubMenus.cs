@@ -5,6 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Version por objetos para crear menus
 /// </summary>
+[System.Serializable]
 public abstract class CreateSubMenu : Init
 {
     static SubMenus staticSubMenu => MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();

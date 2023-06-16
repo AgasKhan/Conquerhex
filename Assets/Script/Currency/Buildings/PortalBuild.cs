@@ -4,18 +4,38 @@ using UnityEngine;
 
 public class PortalBuild : BuildingBase
 {
-    protected override void InternalAction()
-    {
-        base.InternalAction();
+    public  override string rewardNextLevel => throw new System.NotImplementedException();
 
-        buttonsFuncs.AddRange(new Pictionarys<string, System.Action>()
-        {
-            {"Open", Internal}
-        });
+    protected override void Config()
+    {
+        base.Config();
+
+        MyAwakes += MyAwake;
+    }
+    void MyAwake()
+    {
+        
     }
 
     void Internal()
     {
+
+    }
+}
+
+public class PortalSubMenu : CreateSubMenu
+{
+    public BuildingBase buildingBase;
+
+    protected override void InternalCreate()
+    {
+        subMenu.ClearBody();
+
+        subMenu.CreateSection(1, 5);
+        subMenu.AddComponent<DetailsWindow>().SetTexts(buildingBase.structureBase.nameDisplay, buildingBase.structureBase.GetDetails().ToString());
+        subMenu.AddComponent<DetailsWindow>().SetTexts("", "Costo del viaje: ");
+        subMenu.AddComponent<EventsCall>().Set("Viajar al mundo aleatorio",null,"");
+        subMenu.AddComponent<EventsCall>().Set("Viajar a mazmorras", null, "");
 
     }
 }

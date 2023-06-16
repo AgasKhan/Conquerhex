@@ -180,5 +180,6 @@ public enum ItemType
     Gemstone,
     Resource,
     Equipment,
-    Ability
+    Ability,
+    Modules
 }

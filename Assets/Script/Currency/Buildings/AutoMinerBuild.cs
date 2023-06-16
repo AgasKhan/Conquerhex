@@ -12,14 +12,17 @@ public class AutoMinerBuild : BuildingBase
 
     public Pictionarys<int, Pictionarys<ItemBase, int>> levelItems = new Pictionarys<int, Pictionarys<ItemBase, int>>();
 
-    protected override void InternalAction()
-    {
-        base.InternalAction();
+    public override string rewardNextLevel => throw new System.NotImplementedException();
 
-        buttonsFuncs.AddRange(new Pictionarys<string, System.Action>()
-        {
-            {"Open", Internal}
-        });
+    protected override void Config()
+    {
+        base.Config();
+
+        MyAwakes += MyAwake;
+    }
+    void MyAwake()
+    {
+        
     }
 
     void Internal()

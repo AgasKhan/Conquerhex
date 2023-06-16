@@ -6,7 +6,6 @@ using TMPro;
 
 public class SubMenus : MonoBehaviour
 {
-
     [Header("Elementos")]
     [SerializeField]
     public ManagerComponentMenu componentMenu;

@@ -10,6 +10,8 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     [SerializeField]
     StatisticsSubMenu statisticsSubMenu;
 
+    //[SerializeField]
+    //BuildingsSubMenu buildingsSubMenu;
     protected override void LoadButtons()
     {
         base.LoadButtons();
@@ -19,6 +21,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
             //In Game
             {"MenuInGame", PauseMenu},
             {"Try1", Try1},
+            {"Try2", Try2},
 
             //Menu in game
             {"Resume", Resume},
@@ -40,6 +43,11 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     void Try1(GameObject g)
     {
         statisticsSubMenu.Create();
+    }
+
+    void Try2(GameObject g)
+    {
+        //buildingsSubMenu.Create();
     }
 
     void Resume(GameObject g)

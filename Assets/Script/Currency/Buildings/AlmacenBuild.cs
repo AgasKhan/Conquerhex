@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class AlmacenBuild : BuildingBase
 {
-    protected override void InternalAction()
-    {
-        base.InternalAction();
+    public override string rewardNextLevel => throw new System.NotImplementedException();
 
-        buttonsFuncs.AddRange(new Pictionarys<string, System.Action>()
-        {
-            {"Open", Internal}
-        });
+    protected override void Config()
+    {
+        base.Config();
+
+        MyAwakes += MyAwake;
+    }
+    void MyAwake()
+    {
+        
     }
 
     void Internal()

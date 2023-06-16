@@ -22,7 +22,6 @@ public class PopUp : MonoBehaviour
     public virtual PopUp SetWindow(string titulo, string text, Sprite sprite = null)
     {
         detailsWindow.SetTexts(titulo, text).SetImage(sprite);
-        buttonFactory.DestroyAll();
         buttonFactory.content.gameObject.SetActive(false);
         return this;
     }
@@ -51,5 +50,10 @@ public class PopUp : MonoBehaviour
         buttonFactory.content.gameObject.SetActive(true);
         buttonFactory.Create(text, "", action);
         return this;
+    }
+
+    private void OnDisable()
+    {
+        buttonFactory.DestroyAll();
     }
 }

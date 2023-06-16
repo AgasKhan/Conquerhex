@@ -37,12 +37,46 @@ public class Recipes : ItemBase
             container.AddOrSubstractItems(ingredient.Item.nameDisplay, - ingredient.Amount);
         }
 
-        container.AddOrSubstractItems(result.Item.nameDisplay, result.Amount);
+        if(result.Item != null)
+            container.AddOrSubstractItems(result.Item.nameDisplay, result.Amount);
 
         foreach (var ingredient in materials)
         {
             Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item.nameDisplay).ToString() + " " + ingredient.Item.nameDisplay);
         }
+    }
+
+    public List<string> GetRequiresList()
+    {
+        List<string> aux = new List<string>();
+
+        for (int i = 0; i < materials.Count; i++)
+        {
+            aux.Add(materials[i].Item.nameDisplay + " " + materials[i].Amount);
+        }
+        return aux;
+    }
+
+    public string GetRequiresString()
+    {
+        string aux = "";
+
+        for (int i = 0; i < materials.Count; i++)
+        {
+            aux  += materials[i].Item.nameDisplay + " " + materials[i].Amount + "\n";
+        }
+        return aux;
+    }
+    public Pictionarys<string, Sprite> GetRequireItems()
+    {
+        Pictionarys<string, Sprite> aux = new Pictionarys<string, Sprite>();
+
+        for (int i = 0; i < materials.Count; i++)
+        {
+            aux.Add(materials[i].Item.nameDisplay + " " + materials[i].Amount, materials[i].Item.image);
+        }
+
+        return aux;
     }
 
     protected override void SetCreateItemType()
