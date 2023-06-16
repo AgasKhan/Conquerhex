@@ -162,6 +162,9 @@ public class Detect<T>
 [System.Serializable]
 public class DetectSort<T> : Detect<T> where T : Component
 {
+    [Tooltip("si arranca por el mas lejano, en vez del mas cercano")]
+    public bool inverse;
+
     /// <summary>
     /// 
     /// </summary>
@@ -234,6 +237,8 @@ public class DetectSort<T> : Detect<T> where T : Component
     {
         CompareDist<Generic> compareDist = new CompareDist<Generic>();
 
+        compareDist.inverse = inverse;
+
         compareDist.me = pos;
 
         //busqueda binaria para determinar el candidato a comparar mas cercano
@@ -258,7 +263,7 @@ public class DetectSort<T> : Detect<T> where T : Component
         //una vez que encontre el lugar mas cercano para comparar ahora me fijo, si va antes o despues
         if(list.Count>0)
         {
-            searchIndex =  compareDist.Compare(add, list[searchIndex]) + searchIndex;
+            searchIndex = compareDist.Compare(add, list[searchIndex]) + searchIndex;
         }
 
         list.AddOrInsert(add, searchIndex);
@@ -281,11 +286,15 @@ public class CompareDist<T> : IComparer<T> where T: Component
 {
     public Vector3 me;
 
+    public bool inverse=false;
+
     public int Compare(T x, T y)
     {
-        if ((x.transform.position - me).magnitude > (y.transform.position - me).magnitude)
-            return 1;
-        else
-            return 0;
+        var aux = (x.transform.position - me).magnitude > (y.transform.position - me).magnitude;
+
+        if (inverse)
+            aux = !aux;
+
+        return System.Convert.ToInt32(aux);
     }
 }
