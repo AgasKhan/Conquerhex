@@ -256,9 +256,15 @@ public static class Extensions
     }
 
 
-    static public T SetActiveGameObject<T>(this T mono, bool active) where T : MonoBehaviour
+    static public T SetActiveGameObject<T>(this T component, bool active) where T : Component
     {
-        mono.gameObject.SetActive(active);
+        component.gameObject.SetActive(active);
+        return component;
+    }
+
+    static public T SetActive<T>(this T mono, bool active) where T : MonoBehaviour
+    {
+        mono.enabled = active;
         return mono;
     }
 

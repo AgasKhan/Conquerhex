@@ -46,8 +46,6 @@ public class ShowSubMenuControls : CreateSubMenu
     }
     void SetControls(ShowDetails scriptObj)
     {
-        subMenu.RetardedOn(myDetailsWindow.gameObject);
-        subMenu.RetardedOn(myDetailsWindow2.gameObject);
         myDetailsWindow2.SetImage(scriptObj.image);
         myDetailsWindow.SetTexts(scriptObj.nameDisplay, scriptObj.GetDetails().ToString());
     }

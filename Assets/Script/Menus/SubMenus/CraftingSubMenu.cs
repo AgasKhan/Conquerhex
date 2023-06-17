@@ -112,7 +112,6 @@ public class CraftingSubMenu : CreateSubMenu
     {
         DestroyButtonCraft();
         myDetailsW.SetTexts(nameDisplay, details).SetImage(Image);
-        subMenu.RetardedOn(myDetailsW.gameObject);
     }
 
     void ButtonAct(string type)

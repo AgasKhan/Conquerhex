@@ -159,7 +159,7 @@ public class SubMenus : MonoBehaviour
     public T AddComponent<T>() where T : MonoBehaviour
     {      
         var aux = componentMenu.CreateComponent<T>(lastSection);
-        RetardedOn(lastSection.gameObject);
+        RetardedOn((_bool)=> lastSectionLayoutGroup?.SetActive(_bool));
         return aux;
     }
 
@@ -211,9 +211,9 @@ public class SubMenus : MonoBehaviour
         return this;
     }
 
-    public SubMenus RetardedOn(GameObject gameObject)
+    public SubMenus RetardedOn(System.Action<bool> retardedOrder)
     {
-        StartCoroutine(RetardedOnCoroutine(gameObject));
+        StartCoroutine(RetardedOnCoroutine(retardedOrder));
 
         return this;
     }
@@ -243,15 +243,28 @@ public class SubMenus : MonoBehaviour
     }
 
     //la magia potagia, para refrezcar lo creado
-    IEnumerator RetardedOnCoroutine(GameObject gameObject)
+    IEnumerator RetardedOnCoroutine(System.Action<bool> retardedOrder)
     {
+        yield return null;
+        yield return null;
+        yield return null;
+
+        retardedOrder?.Invoke(false);
+        retardedOrder?.Invoke(true);
+        /*
         yield return new WaitForEndOfFrame();
 
         gameObject.SetActive(false);
-
+        
         yield return null;
 
         gameObject.SetActive(true);
+
+        yield return new WaitForEndOfFrame();
+
+        retardedOrder?.Invoke(false);
+        retardedOrder?.Invoke(true);
+        */
     }
 }
 

@@ -18,12 +18,8 @@ public class DetailsWindow : MonoBehaviour
     [SerializeField]
     FadeOnOff fadeMenu;
 
-
-    public DetailsWindow ShowOrHide(bool condition)
-    {
-        gameObject.SetActive(condition);
-        return this;
-    }
+    [SerializeField]
+    LayoutGroup layoutGroup;
 
     public DetailsWindow SetTexts(DoubleString d)
     {
@@ -41,6 +37,8 @@ public class DetailsWindow : MonoBehaviour
         myTitle.SetActiveGameObject(title!="");
 
         myDescription.SetActiveGameObject(description != "");
+
+        GameManager.RetardedOn((_bool)=> layoutGroup.SetActive(_bool));
 
         return this;
     }
@@ -65,6 +63,8 @@ public class DetailsWindow : MonoBehaviour
 
         if (sprite != null)
             previewImage.sprite = sprite;
+
+        GameManager.RetardedOn((_bool) => layoutGroup.SetActive(_bool));
 
         return this;
     }

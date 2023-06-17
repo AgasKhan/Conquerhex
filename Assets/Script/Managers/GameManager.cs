@@ -46,11 +46,22 @@ public class GameManager : SingletonMono<GameManager>
 
     public Character playerCharacter;
 
-    protected override void Awake()
+    public static void RetardedOn(System.Action<bool> retardedOrder)
     {
-        base.Awake();
-        fsmGameMaganer = new FSMGameMaganer(this);
+        instance.StartCoroutine(instance.RetardedOnCoroutine(retardedOrder));
     }
+
+    IEnumerator RetardedOnCoroutine(System.Action<bool> retardedOrder)
+    {
+        yield return new WaitForEndOfFrame();
+
+        retardedOrder?.Invoke(false);
+        yield return null;
+        retardedOrder?.Invoke(true);
+    }
+
+
+
 
     #region funciones
 
@@ -62,6 +73,12 @@ public class GameManager : SingletonMono<GameManager>
     public void Pause(bool pause)
     {
         fsmGameMaganer.CurrentState = (!pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        fsmGameMaganer = new FSMGameMaganer(this);
     }
 
     private void Update()

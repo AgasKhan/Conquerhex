@@ -102,10 +102,9 @@ public class InventorySubMenu : CreateSubMenu
 
 
     void ShowItemDetails(string nameDisplay, string details, Sprite Image)
-    {
+    {       
         myDetailsW.SetTexts(nameDisplay,details).SetImage(Image);
-
-        subMenu.RetardedOn(myDetailsW.gameObject);
+        myDetailsW.SetActiveGameObject(true);
     }
 
     void ButtonAct(string type)
