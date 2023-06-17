@@ -202,7 +202,7 @@ public class SubMenus : MonoBehaviour
 
         action += aux;
 
-        navbar.Create(text, buttonName, aux);
+        navbar.Create(text, buttonName, action);
 
         
         SetText(navbar.eventsCalls[0].textButton.text);
