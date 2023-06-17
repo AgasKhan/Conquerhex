@@ -247,7 +247,6 @@ public class SubMenus : MonoBehaviour
     {
         yield return null;
         yield return null;
-        yield return null;
 
         retardedOrder?.Invoke(false);
         retardedOrder?.Invoke(true);
