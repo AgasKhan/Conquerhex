@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 2842887271746667778}
   - component: {fileID: 6227486016251379411}
   - component: {fileID: 2984370465521999757}
-  - component: {fileID: 2645146491418413512}
   m_Layer: 5
   m_Name: MenuManager
   m_TagString: Untagged
@@ -214,26 +213,6 @@ MonoBehaviour:
         loop: 1
         onAwake: 0
         source: {fileID: 0}
---- !u!114 &2645146491418413512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009890561030537687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 0}
-  recipes:
-  - {fileID: 11400000, guid: 994beb7009ac885449ffa73177ee5b4e, type: 2}
-  - {fileID: 11400000, guid: c88757d1fa1c552489f76dace6b7124c, type: 2}
-  - {fileID: 11400000, guid: ccbe21c7b61c7b045a18c001558a38a7, type: 2}
-  - {fileID: 11400000, guid: ee1ae9ab41fb239459c01fafda656d5f, type: 2}
-  - {fileID: 11400000, guid: 2bef3613204d4504ca04a2e8d175af7b, type: 2}
-  - {fileID: 11400000, guid: d6cdd456010f0684aabb2433dc5bfe36, type: 2}
 --- !u!1 &3277770239481101261
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,11 +510,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ListMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 1341296076988659816, guid: cb5187813f3fc1842b5743aa6757206e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1341296076988659823, guid: cb5187813f3fc1842b5743aa6757206e,
         type: 3}
@@ -851,36 +825,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -334.92
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213838920459705858, guid: cb5187813f3fc1842b5743aa6757206e,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213838920459705858, guid: cb5187813f3fc1842b5743aa6757206e,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213838920459705858, guid: cb5187813f3fc1842b5743aa6757206e,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213838920459705858, guid: cb5187813f3fc1842b5743aa6757206e,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 402.80002
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213838920459705858, guid: cb5187813f3fc1842b5743aa6757206e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 250
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213838920459705858, guid: cb5187813f3fc1842b5743aa6757206e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -540
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb5187813f3fc1842b5743aa6757206e, type: 3}
@@ -1434,7 +1378,7 @@ PrefabInstance:
     - target: {fileID: 4010141340871702410, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
       propertyPath: m_Name
-      value: MenuDetails
+      value: Try1
       objectReference: {fileID: 0}
     - target: {fileID: 4741700821661415422, guid: 8aafeb3de00c8864690ef025d3c2afe7,
         type: 3}
