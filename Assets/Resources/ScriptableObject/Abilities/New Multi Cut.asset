@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New Multi Cut
   m_EditorClassIdentifier: 
   _nameDisplay: MultiCut
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 33b736c9c96e26a43b1e43eff995c982, type: 3}
   _details: 
   maxAmount: 1
   weight: 0
@@ -53,6 +53,7 @@ MonoBehaviour:
       m_Bits: 128
     maxDetects: -1
     minDetects: 0
+    inverse: 0
   damagesMultiply:
   - amount: 1.5
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
