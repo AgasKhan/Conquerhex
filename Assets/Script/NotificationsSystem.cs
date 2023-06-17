@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Notifications.Android;
 using System;
+
+#if UNITY_ANDROID
+using Unity.Notifications.Android;
+#endif
 
 public class NotificationsSystem : MonoBehaviour
 {
+    #if UNITY_ANDROID
     DateTime savedTime;
     //DateTime timePassed;
 
@@ -51,5 +55,5 @@ public class NotificationsSystem : MonoBehaviour
 
         TimeSpan timePassed = DateTime.Now - savedTime; 
     }
-
+    #endif
 }
