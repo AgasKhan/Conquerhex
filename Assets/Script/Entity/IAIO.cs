@@ -77,6 +77,8 @@ public class IAIO : IAFather
         if(buildings == null || buildings.Count == 0)
         {
             EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact).ExecuteSet(false, false, null);
+
+            lastBuilding = null;
         }
         else if (buildings[0] != lastBuilding)
         {

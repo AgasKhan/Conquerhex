@@ -742,7 +742,6 @@ MonoBehaviour:
   currentLevel: 0
   myBuildSubMenu:
     subMenu: {fileID: 1220004563}
-    buildingBase: {fileID: 431886759}
     detailsWindow: {fileID: 0}
   levelRecipes:
     pictionaries:
@@ -756,8 +755,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: ccbe21c7b61c7b045a18c001558a38a7, type: 2}
   createSubMenu:
     subMenu: {fileID: 1220004563}
-    buildingBase: {fileID: 431886759}
-  recipes: []
+  currentRecipes: []
   refMenu: {fileID: 1126908642}
   references:
     version: 2
@@ -1264,7 +1262,6 @@ MonoBehaviour:
   currentLevel: 0
   myBuildSubMenu:
     subMenu: {fileID: 1220004563}
-    buildingBase: {fileID: 1381207843}
     detailsWindow: {fileID: 0}
   adToShow: Rewarded_Android
   refMenu: {fileID: 1126908642}
@@ -7705,6 +7702,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pj
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143387, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: detectBuilding.radius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143387, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: detectBuilding.layerMask.m_Bits
+      value: 129
       objectReference: {fileID: 0}
     - target: {fileID: 6302332642276028445, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
