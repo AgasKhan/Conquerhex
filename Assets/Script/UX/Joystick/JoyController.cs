@@ -12,18 +12,26 @@ public class JoyController : MonoBehaviour
     EnumController eventController;
 
     [SerializeField]
-    Stick stick;
-    RectTransform rect;
-
-    [SerializeField]
     [Range(0.05f, 1)]
     float deadzone;
+
+    [SerializeField]
+    FadeOnOff fadeOn;
+
+    [SerializeField]
+    Stick stick;
 
     [SerializeField]
     UnityEngine.UI.Image imageToFill;
 
     [SerializeField]
     UnityEngine.UI.Image imageToReplace;
+
+    RectTransform rect;
+
+    float imageToFillAlpha;
+
+    float imageToReplaceAlpha;
 
     //Timer rutina;
 
@@ -54,6 +62,21 @@ public class JoyController : MonoBehaviour
         events.set += Set;
 
         LoadSystem.AddPostLoadCorutine(SetStick);
+
+        imageToFillAlpha = imageToFill.color.a;
+
+        imageToReplaceAlpha = imageToReplace.color.a;
+
+        fadeOn.alphas += FadeOn_alphas;
+
+        fadeOn.Init();
+    }
+
+    private void FadeOn_alphas(float obj)
+    {
+        imageToFill.color = imageToFill.color.ChangeAlphaCopy(obj * imageToFillAlpha);
+
+        imageToReplace.color = imageToReplace.color.ChangeAlphaCopy(obj * imageToReplaceAlpha);
     }
 
     void Set(params object[] param)
@@ -81,6 +104,11 @@ public class JoyController : MonoBehaviour
     private void JoyController_end()
     {
         fill = 1;
+    }
+
+    private void OnEnable()
+    {
+        fadeOn.FadeOn();
     }
 }
 
