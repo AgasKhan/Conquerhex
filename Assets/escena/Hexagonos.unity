@@ -495,6 +495,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PruebaEdificios
       objectReference: {fileID: 0}
+    - target: {fileID: 882307430347231996, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
       propertyPath: m_RootOrder
@@ -503,12 +508,12 @@ PrefabInstance:
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 77.19369
+      value: 90.68
       objectReference: {fileID: 0}
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.837627
+      value: 18.44
       objectReference: {fileID: 0}
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
@@ -573,12 +578,82 @@ PrefabInstance:
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 77.19369
+      value: 75.4
       objectReference: {fileID: 0}
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 18.837627
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6605238269230921158, guid: 3f100754b166c9e4bb8b665e345e9c08, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 3f100754b166c9e4bb8b665e345e9c08, type: 3}
+--- !u!1001 &391775270
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 882307430347231996, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_Name
+      value: SaveEdificio
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 81.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.76
       objectReference: {fileID: 0}
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
@@ -1206,18 +1281,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 244211901}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1381207842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1381207841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a347a91933bfd73409e9ccaebb1f484e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1381207843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1250,13 +1313,13 @@ MonoBehaviour:
     - key: "Informatci\xF3n"
       value: {fileID: 1381207844}
     - key: Ver Anuncio
-      value: {fileID: 0}
+      value: {fileID: 1381207847}
   inventory: []
   weightCapacity: 0
   currentWeight: 0
   travelItem: []
   character: {fileID: 1504004412}
-  structureBase: {fileID: 11400000, guid: accad2f938781454b9188bd703de44f3, type: 2}
+  structureBase: {fileID: 11400000, guid: d6b7539da6140034c83ff67302e2bee3, type: 2}
   upgradesRequirements: []
   NavBarButtons: 
   currentLevel: 0
@@ -1278,6 +1341,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e268d94a8d5836041809a78d4e7ce960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1381207847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381207841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1413322246
@@ -1541,6 +1616,87 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1440865998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 882307430347231996, guid: 3f100754b166c9e4bb8b665e345e9c08,
+    type: 3}
+  m_PrefabInstance: {fileID: 391775270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1440865999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440865998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff60e4f5859255e458508e6ec030f2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  health:
+    life:
+      total: 0
+      _current: 0
+    regen:
+      total: 0
+      _current: 0
+    timeToRegen:
+      total: 0
+      _current: 0
+  drops: []
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  audioManager: {fileID: 0}
+  interact:
+    pictionaries:
+    - key: "Informatci\xF3n"
+      value: {fileID: 1440866001}
+    - key: Guardar Partida
+      value: {fileID: 1440866000}
+  inventory: []
+  weightCapacity: 0
+  currentWeight: 0
+  travelItem: []
+  character: {fileID: 1504004412}
+  structureBase: {fileID: 11400000, guid: b2729e55fe5889f45a9beae8d13807ad, type: 2}
+  upgradesRequirements: []
+  NavBarButtons: 
+  currentLevel: 0
+  myBuildSubMenu:
+    subMenu: {fileID: 0}
+    detailsWindow: {fileID: 0}
+  allInventories:
+    pictionaries: []
+  refMenu: {fileID: 1126908642}
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &1440866000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440865998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1440866001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440865998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e268d94a8d5836041809a78d4e7ce960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1447854524
 GameObject:
   m_ObjectHideFlags: 0
