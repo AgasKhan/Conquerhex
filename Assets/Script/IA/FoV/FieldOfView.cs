@@ -7,8 +7,8 @@ public class FieldOfView : MonoBehaviour
     public float viewRadius;
     [Range(0, 360)] public float viewAngle;
 
-    public LayerMask targetMask;
-    public LayerMask obstableMask;
+    [SerializeField] LayerMask targetMask;
+    [SerializeField] LayerMask obstableMask;
 
     [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();

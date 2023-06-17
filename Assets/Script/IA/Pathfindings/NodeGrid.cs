@@ -6,58 +6,74 @@ public class NodeGrid : MonoBehaviour
 {
     //Nodo será un objeto vacío
 
-    List<GameObject> nodes = new List<GameObject>();
+   // List<GameObject> _nodes = new List<GameObject>();
 
+    public int[] carlitosGroup = new int[0];
+    public GameObject[] carlitos = new GameObject[0];
 
+    [SerializeField] float _viewRadius;
+    [SerializeField] LayerMask obstacleLayer;
 
+    //Node[,] _grid;
 
+    //[SerializeField] int _width;
+    //[SerializeField] int _height;
 
-    Node[,] _grid;
+    //[SerializeField] GameObject nodePrefab;
 
-    [SerializeField] int _width;
-    [SerializeField] int _height;
-
-    [SerializeField] GameObject nodePrefab;
-
-    [Range(1f, 5f), SerializeField]
-    float _nodeOffset;
+    //[Range(1f, 5f), SerializeField]
+    //float _nodeOffset;
 
     void Start()
     {
-        CreateGrid();
+        //CreateGrid();
     }
 
-    void CreateGrid()
+    //void CreateGrid()
+    //{
+    //    _grid = new Node[_width, _height];
+
+    //    for (int i = 0; i < _width; i++)
+    //    {
+    //        for (int j = 0; j < _height; j++)
+    //        {
+    //            GameObject obj = Instantiate(nodePrefab);
+
+    //            obj.transform.position = new Vector3(i * _nodeOffset, 0, j * _nodeOffset);
+
+    //            Node node = obj.GetComponent<Node>();
+
+    //            node.Initialize(this, new Vector2Int(i, j));
+
+    //            _grid[i, j] = node;
+    //        }
+    //    }
+    //}
+
+    public List<GameObject> GetNeighborsFromPosition()
     {
-        _grid = new Node[_width, _height];
+        int id = 0;
+        List<GameObject> neighborsCarlitos = new List<GameObject>();
 
-        for (int i = 0; i < _width; i++)
+        if (Physics.Raycast(transform.position, carlitos[id].transform.position, _viewRadius, obstacleLayer))
         {
-            for (int j = 0; j < _height; j++)
+            for (int i = 0; i < carlitos.Length; i++)
             {
-                GameObject obj = Instantiate(nodePrefab);
+                if(!neighborsCarlitos.Contains(carlitos[id]))
+                     neighborsCarlitos.Add(carlitos[id]);
 
-                obj.transform.position = new Vector3(i * _nodeOffset, 0, j * _nodeOffset);
-
-                Node node = obj.GetComponent<Node>();
-
-                node.Initialize(this, new Vector2Int(i, j));
-
-                _grid[i, j] = node;
+                id++;
             }
         }
-    }
 
-    public List<Node> GetNeighborsFromPosition(int row, int column)
-    {
-        List<Node> neighbors = new List<Node>();
+        
 
-        if (column + 1 < _height) neighbors.Add(_grid[row, column + 1]);
-        if (row + 1 < _width) neighbors.Add(_grid[row + 1, column]);
-        if (column - 1 >= 0) neighbors.Add(_grid[row, column - 1]);
-        if (row - 1 >= 0) neighbors.Add(_grid[row - 1, column]);
+        //if (column + 1 < _height) neighbors.Add(_grid[row, column + 1]);
+        //if (row + 1 < _width) neighbors.Add(_grid[row + 1, column]);
+        //if (column - 1 >= 0) neighbors.Add(_grid[row, column - 1]);
+        //if (row - 1 >= 0) neighbors.Add(_grid[row - 1, column]);
 
-        return neighbors;
+        return neighborsCarlitos;
     }
 }
 

@@ -6,6 +6,11 @@ using TMPro;
 public class Node : MonoBehaviour
 {
 
+    //public int[] carlitosGroup = new int[0];
+    //public int[] carlitos = new int[0];
+
+
+
     List<Node> _neighbors = new List<Node>();
 
     NodeGrid _grid;
@@ -31,8 +36,8 @@ public class Node : MonoBehaviour
             PathManager.instance.SetStartingNode(this);
         else if (Input.GetMouseButtonDown(1))
             PathManager.instance.SetGoalNode(this);
-        else if (Input.GetMouseButtonDown(2))
-            SetBlocked(!IsBlocked);
+        //else if (Input.GetMouseButtonDown(2))
+        //    SetBlocked(!IsBlocked);
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -59,19 +64,20 @@ public class Node : MonoBehaviour
 
     public List<Node> GetNeighbors()
     {
-        if (_neighbors.Count == 0)
-            _neighbors = _grid.GetNeighborsFromPosition(_gridPosition.x, _gridPosition.y);
+
+        //if (_neighbors.Count == 0)
+        //    _neighbors = _grid.GetNeighborsFromPosition();
 
         return _neighbors;
     }
 
-    void SetBlocked(bool isBlock)
-    {
-        IsBlocked = isBlock;
-        Color color = isBlock ? Color.black : Color.white;
+    //void SetBlocked(bool isBlock)
+    //{
+    //    IsBlocked = isBlock;
+    //    Color color = isBlock ? Color.black : Color.white;
 
-        PathManager.instance.ChangeObjColor(gameObject, color);
-    }
+    //    PathManager.instance.ChangeObjColor(gameObject, color);
+    //}
 
     public void CheckNode()
     {
