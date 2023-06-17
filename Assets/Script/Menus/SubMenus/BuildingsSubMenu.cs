@@ -14,6 +14,13 @@ public class BuildingsSubMenu : CreateSubMenu
 
     EventsCall lastButton = null;
 
+    public override void Create()
+    {
+        subMenu.ClearBody();
+        DestroyCraftButtons();
+        subMenu.CreateTitle(buildingBase.name);
+        base.Create();
+    }
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
@@ -36,12 +43,6 @@ public class BuildingsSubMenu : CreateSubMenu
     {
         DestroyCraftButtons();
         lastButton = subMenu.AddComponent<EventsCall>().Set(text, action, "");
-    }
-
-    public void ClearSubMenu()
-    {
-        subMenu.ClearBody();
-        DestroyCraftButtons();
     }
 
     public void DestroyCraftButtons()

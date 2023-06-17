@@ -54,6 +54,7 @@ public abstract class Building : StaticEntity
     {
         
     }
+
     public virtual void PopUpAction(UnityEngine.Events.UnityAction action)
     {
         var aux = MenuManager.instance.modulesMenu;

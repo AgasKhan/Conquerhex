@@ -34,7 +34,6 @@ public class AdsBuilding : Building, IUnityAdsListener
     //---------------------------------
     void Try4(GameObject g)
     {
-        myBuildSubMenu.ClearSubMenu();
         myBuildSubMenu.Create();
     }
     //---------------------------------
@@ -42,16 +41,6 @@ public class AdsBuilding : Building, IUnityAdsListener
     {
 
     }
-
-    /*
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.J))
-        {
-            ShowAd();
-        }
-    }
-    */
 
     public void ShowAd()
     {
@@ -65,6 +54,10 @@ public class AdsBuilding : Building, IUnityAdsListener
         Advertisement.Show(adToShow);
     }
 
+    public override void EnterBuild()
+    {
+        ShowAd();
+    }
 
     public void OnUnityAdsDidError(string message)
     {

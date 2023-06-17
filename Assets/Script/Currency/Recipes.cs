@@ -65,6 +65,7 @@ public class Recipes : ItemBase
         {
             aux  += materials[i].Item.nameDisplay + " " + materials[i].Amount + "\n";
         }
+        aux = System.Drawing.Color.Yellow.ToString();
         return aux;
     }
     public Pictionarys<string, Sprite> GetRequireItems()
@@ -99,4 +100,10 @@ public struct Ingredient
 
     [Range(1, 50)]
     public int Amount;
+
+    public Ingredient(ItemBase item, int amount)
+    {
+        Item = item;
+        Amount = amount;
+    }
 }

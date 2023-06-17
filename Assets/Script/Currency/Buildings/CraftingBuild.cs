@@ -40,7 +40,6 @@ public class CraftingBuild : Building
     //---------------------------------
     void Try3 (GameObject g)
     {
-        myBuildSubMenu.ClearSubMenu();
         myBuildSubMenu.Create();
     }
     //---------------------------------
@@ -63,10 +62,9 @@ public class CraftingBuild : Building
 
         if(currentLevel == 1)
         {
-            //buttonsFuncs.Add("Craft", ShowCraftingW);
+            interact.Add("Craftear", GetComponent<EnterBuilding>());
         }
 
-        myBuildSubMenu.ClearSubMenu();
         myBuildSubMenu.Create();
     }
 }
