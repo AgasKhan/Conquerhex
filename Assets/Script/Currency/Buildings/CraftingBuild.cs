@@ -5,9 +5,11 @@ using UnityEngine;
 public class CraftingBuild : Building
 {
     public Pictionarys<int, List<Recipes>> levelRecipes = new Pictionarys<int, List<Recipes>>();
+
+    [HideInInspector]
     public CraftingSubMenu createSubMenu;
 
-    public List<Recipes> recipes = new List<Recipes>();
+    public List<Recipes> currentRecipes = new List<Recipes>();
     //---------------------------------
     public MenuManager refMenu;
     //---------------------------------
@@ -33,9 +35,20 @@ public class CraftingBuild : Building
 
     void MyAwake()
     {
+        createSubMenu = new CraftingSubMenu(this);
         //---------------------------------
         refMenu.eventListVoid.Add("Try3", Try3);
         //---------------------------------
+        if (SaveWithJSON.BD.ContainsKey(structureBase.nameDisplay + "Level"))
+        {
+            interact.Add("Craftear", GetComponent<EnterBuilding>());
+            currentRecipes = SaveWithJSON.LoadFromPictionary<List<Recipes>>(structureBase.nameDisplay + "Recipes");
+        }
+        else
+        {
+            interact.Remove("Craftear");
+            currentRecipes.Clear();
+        }
     }
     //---------------------------------
     void Try3 (GameObject g)
@@ -55,16 +68,17 @@ public class CraftingBuild : Building
     {
         base.UpgradeLevel();
 
-        for (int i = 0; i <levelRecipes[currentLevel].Count; i++)
+        for (int i = 0; i < levelRecipes[currentLevel].Count; i++)
         {
-            recipes.Add(levelRecipes[currentLevel][i]);
+            currentRecipes.Add(levelRecipes[currentLevel][i]);
         }
 
-        if(currentLevel == 1)
+        if (currentLevel == 1)
         {
             interact.Add("Craftear", GetComponent<EnterBuilding>());
         }
 
+        SaveWithJSON.SaveInPictionary(structureBase.nameDisplay + "Recipes", currentRecipes);
         myBuildSubMenu.Create();
     }
 }

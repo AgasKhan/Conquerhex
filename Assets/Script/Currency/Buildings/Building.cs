@@ -8,8 +8,14 @@ public abstract class Building : StaticEntity
     public StructureBase structureBase;
     public Recipes[] upgradesRequirements;
     public ItemType[] NavBarButtons;
+
+
+    [HideInInspector]
     public int currentLevel = 0;
+
+    [HideInInspector]
     public BuildingsSubMenu myBuildSubMenu;
+
     public abstract string rewardNextLevel
     {
         get;
@@ -22,7 +28,6 @@ public abstract class Building : StaticEntity
         }
     }
     
-
     protected override Damage[] vulnerabilities => structureBase.vulnerabilities;
     
     protected override void Config()
@@ -34,7 +39,10 @@ public abstract class Building : StaticEntity
 
     void MyAwake()
     {
+        myBuildSubMenu = new BuildingsSubMenu(this);
 
+        if (SaveWithJSON.BD.ContainsKey(structureBase.nameDisplay + "Level"))
+            currentLevel = SaveWithJSON.LoadFromPictionary<int>(structureBase.nameDisplay + "Level");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,6 +56,7 @@ public abstract class Building : StaticEntity
         if (currentLevel > maxLevel)
             currentLevel = maxLevel;
 
+        SaveWithJSON.SaveInPictionary(structureBase.nameDisplay + "Level", currentLevel);
     }
 
     public virtual void EnterBuild()

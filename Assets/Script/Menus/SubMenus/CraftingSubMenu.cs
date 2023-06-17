@@ -6,21 +6,24 @@ using UnityEngine.UI;
 [System.Serializable]
 public class CraftingSubMenu : CreateSubMenu
 {
-    public CraftingBuild buildingBase;
-    
+    CraftingBuild buildingBase;
+
     List<ButtonA> buttonsList = new List<ButtonA>();
 
     EventsCall lastButtonCraft;
 
     DetailsWindow myDetailsW;
 
-    //public List<Recipes> recipes;
-
+    public override void Create()
+    {
+        subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
+        base.Create();
+    }
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
 
-        if(buildingBase.NavBarButtons.Length > 1)
+        if (buildingBase.NavBarButtons.Length > 1)
         {
             subMenu.AddNavBarButton("All", ButtonAct);
             foreach (var item in buildingBase.NavBarButtons)
@@ -51,7 +54,7 @@ public class CraftingSubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
-        foreach (var item in buildingBase.recipes)
+        foreach (var item in buildingBase.currentRecipes)
         {
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
@@ -69,7 +72,7 @@ public class CraftingSubMenu : CreateSubMenu
     }
     void DestroyButtonCraft()
     {
-        if(lastButtonCraft!=null)
+        if (lastButtonCraft != null)
             Object.Destroy(lastButtonCraft.gameObject);
     }
 
@@ -82,7 +85,7 @@ public class CraftingSubMenu : CreateSubMenu
 
         Recipes recipe = null;
 
-        foreach (var item in buildingBase.recipes)
+        foreach (var item in buildingBase.currentRecipes)
         {
             if (recipeName == item.name)
             {
@@ -131,5 +134,10 @@ public class CraftingSubMenu : CreateSubMenu
     void ButtonAct()
     {
         ButtonAct("");
+    }
+
+    public CraftingSubMenu(CraftingBuild _buildingBase)
+    {
+        buildingBase = _buildingBase;
     }
 }

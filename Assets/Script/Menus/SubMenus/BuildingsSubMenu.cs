@@ -6,7 +6,6 @@ using UnityEngine.UI;
 [System.Serializable]
 public class BuildingsSubMenu : CreateSubMenu
 {
-    [SerializeField]
     Building buildingBase;
 
     [HideInInspector]
@@ -16,6 +15,8 @@ public class BuildingsSubMenu : CreateSubMenu
 
     public override void Create()
     {
+        subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
+        
         subMenu.ClearBody();
         DestroyCraftButtons();
         subMenu.CreateTitle(buildingBase.name);
@@ -49,5 +50,10 @@ public class BuildingsSubMenu : CreateSubMenu
     {
         if (lastButton != null)
             Object.Destroy(lastButton.gameObject);
+    }
+
+    public BuildingsSubMenu(Building _buildingBase)
+    {
+        buildingBase = _buildingBase;
     }
 }

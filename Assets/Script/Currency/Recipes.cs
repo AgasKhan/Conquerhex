@@ -21,11 +21,13 @@ public class Recipes : ItemBase
                 return false;
             }
 
+            /*
             if (container.weightCapacity < result.Item.weight)
             {
                 Debug.Log("Espacio insuficiente para el crafteo");
                 return false;
             }
+            */
         }
         return true;
     }
@@ -65,7 +67,7 @@ public class Recipes : ItemBase
         {
             aux  += materials[i].Item.nameDisplay + " " + materials[i].Amount + "\n";
         }
-        aux = System.Drawing.Color.Yellow.ToString();
+        
         return aux;
     }
     public Pictionarys<string, Sprite> GetRequireItems()
