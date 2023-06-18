@@ -13,15 +13,21 @@ public class Detect<T>
     [Tooltip("Layer de deteccion")]
     public LayerMask layerMask;
 
+    [SerializeField]
+    int _maxDetects;
+
+    [SerializeField]
+    int _minDetects;
+
     /// <summary>
     /// numero maximo de objetos detectados
     /// </summary>
-    public int maxDetects;
+    public int maxDetects => _maxDetects;
 
     /// <summary>
     /// numero minimo de objetos detectados
     /// </summary>
-    public int minDetects;
+    public int minDetects => _minDetects;
 
     public float diameter => radius * 2;
 
@@ -177,6 +183,8 @@ public class DetectSort<T> : Detect<T> where T : Component
     {
         List<T> damageables = new List<T>(Area(caster.position, 0, 0, chck, radius));
 
+        var max = maxDetects;
+
         for (int i = damageables.Count - 1; i >= 0; i--)
         {
             var posDamageable = damageables[i].transform.position.Vect3To2();
@@ -202,16 +210,14 @@ public class DetectSort<T> : Detect<T> where T : Component
             }
         }
 
-        if (maxDetects > 0)
+        if (max > 0)
         {
             if (damageables.Count < maxDetects)
-                maxDetects = damageables.Count;
+                max = damageables.Count;
 
-            var aux = damageables.Count;
-
-            for (int i = 0; i < (aux - maxDetects); i++)
+            for (int i = 0; i < (max - maxDetects); i++)
             {
-                damageables.RemoveAt(aux - 1 - (1*i));
+                damageables.RemoveAt(max - 1 - (1*i));
             }
         }
 
