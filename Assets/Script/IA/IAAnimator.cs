@@ -8,9 +8,9 @@ public class IAAnimator : IAFather
 
     public AutomaticAttack automatick;
 
-    Animator anim;
-
     public CircleCollider2D coll;
+
+    Animator anim;
 
     public override void OnEnterState(Character param)
     {
@@ -38,7 +38,7 @@ public class IAAnimator : IAFather
     private void OnDisable()
     {
         if(anim != null && anim.gameObject.activeSelf)
-        anim.SetTrigger("Damaged");
+            anim.SetTrigger("Damaged");
         if (character != null)
             character.enabled = false;
     }

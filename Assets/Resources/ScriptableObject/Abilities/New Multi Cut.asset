@@ -18,7 +18,7 @@ MonoBehaviour:
   maxAmount: 1
   weight: 0
   itemType: 5
-  velocity: 1
+  velocity: 1.5
   range: 1
   damages:
   - amount: 5
@@ -27,8 +27,6 @@ MonoBehaviour:
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   joystick: 0
   particles:
-  - {fileID: 3940036432451144812, guid: e7195681d4821c847a757d5174cae6ab, type: 3}
-  - {fileID: 3940036432451144812, guid: e7195681d4821c847a757d5174cae6ab, type: 3}
   - {fileID: 3940036432451144812, guid: e7195681d4821c847a757d5174cae6ab, type: 3}
   audios:
     pictionaries:
@@ -58,8 +56,6 @@ MonoBehaviour:
   - amount: 1.5
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
   indexParticles:
-  - {x: 1, y: 2}
-  - {x: 1, y: 2}
   - {x: 1, y: 2}
   damageToWeapon: 1
   timeToAttackPress: 1.5
