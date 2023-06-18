@@ -10,7 +10,7 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
     [Header("Estadisticas")]
 
     [Header("Para habilidades: modificadores\nPara armas: valores por defecto\nExcepto velocidad")]
-    [Tooltip("velocidad de ejecusion")]
+    [Tooltip("cooldown")]
     public float velocity;
     [Tooltip("rango de deteccion")]
     public float range;

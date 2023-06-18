@@ -417,7 +417,12 @@ public class PressWeaponKata : WeaponKata
 
     protected override void InternalControllerPress(Vector2 dir, float tim)
     {
-        if(pressCooldown.Chck)
+        if (!cooldown.Chck)
+        {
+            cooldown.Reset();
+        }
+
+        if (pressCooldown.Chck)
         {
             Attack(dir);
             reference.Attack();
@@ -451,6 +456,9 @@ public class UpWeaponKata : WeaponKata
 
     protected override void InternalControllerDown(Vector2 dir, float button)
     {
+        if (!cooldown.Chck)
+            return;
+
         Debug.Log("presionaste ataque: " + itemBase.GetType().Name);
 
         var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
@@ -464,12 +472,20 @@ public class UpWeaponKata : WeaponKata
     //Durante, al mantener y moverlo
     protected override void InternalControllerPress(Vector2 dir, float button)
     {
+        if (!cooldown.Chck)
+        {
+            cooldown.Reset();
+        }
+
         Debug.Log("estas manteniendo ataque: " + itemBase.GetType().Name);
     }
 
     //Despues, al sotarlo
     protected override void InternalControllerUp(Vector2 dir, float button)
     {
+        if (!cooldown.Chck)
+            return;
+
         Debug.Log("Soltaste ataque: " + itemBase.GetType().Name);
 
         //comienza a bajar el cooldown
