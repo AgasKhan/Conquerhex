@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de17b9099fa682c469a81cc1cc102c28, type: 3}
-  m_Name: New Stab
+  m_Name: Stab
   m_EditorClassIdentifier: 
   _nameDisplay: Stab
   _image: {fileID: 21300000, guid: 0a0ef624c48c29e4986ca2fc9f01e021, type: 3}
@@ -18,10 +18,10 @@ MonoBehaviour:
   maxAmount: 1
   weight: 0
   itemType: 5
-  velocity: 1
-  range: 0.75
+  velocity: 1.5
+  range: 2
   damages:
-  - amount: 10
+  - amount: 5
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
   joystick: 0
   particles:

@@ -420,6 +420,7 @@ public class PressWeaponKata : WeaponKata
         if (!cooldown.Chck)
         {
             cooldown.Reset();
+            return;
         }
 
         if (pressCooldown.Chck)

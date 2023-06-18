@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/MultiCut")]
-public class MultiCutBase : AreaKataBase
+public class MultiHitBase : AreaKataBase
 {
     [Tooltip("Multiplicador de espera para el golpe automatico")]
     public float timeToAttackPress;

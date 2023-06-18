@@ -9,30 +9,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e0362914bd55b247b87f7d9c8a4d0b4, type: 3}
-  m_Name: New Crush
+  m_Script: {fileID: 11500000, guid: 6188f181b43bdaa439c5c2c1eaf0f864, type: 3}
+  m_Name: Cut
   m_EditorClassIdentifier: 
-  _nameDisplay: Crush
+  _nameDisplay: Cut
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
   weight: 0
   itemType: 5
-  velocity: 5
-  range: 1
+  velocity: 1.5
+  range: 1.5
   damages:
-  - amount: 3
-    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  - amount: 5
+    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
   joystick: 0
   particles:
-  - {fileID: 6510125619236422602, guid: 6d7b01bdef4c9d44596d7108af762e72, type: 3}
+  - {fileID: 3940036432451144812, guid: e7195681d4821c847a757d5174cae6ab, type: 3}
   audios:
     pictionaries:
-    - key: Crush
+    - key: Cut
       value:
         mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
           type: 2}
-        clip: {fileID: 8300000, guid: be1bf4b543860ba41966e21b0d0df827, type: 3}
+        clip: {fileID: 8300000, guid: 55d6c1590db300a438f4a574ddc0a799, type: 3}
         volume: 0.1
         pitch: 1
         spatialBlend: 0
@@ -42,20 +42,19 @@ MonoBehaviour:
         onAwake: 0
         source: {fileID: 0}
   detect:
-    radius: 3
-    distance: 5
+    radius: 2.5
+    distance: 2
     layerMask:
       serializedVersion: 2
-      m_Bits: 128
-    maxDetects: -1
+      m_Bits: 129
+    maxDetects: 2
     minDetects: 0
+    inverse: 0
   damagesMultiply:
-  - amount: 1.5
-    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
-  - amount: 0
+  - amount: 0.75
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
   - amount: 0
-    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   indexParticles:
-  - {x: 1, y: 0}
+  - {x: 1, y: 2}
   damageToWeapon: 1
