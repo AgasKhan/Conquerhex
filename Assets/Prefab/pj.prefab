@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6295448971589143362}
   - component: {fileID: 6295448971589143367}
   - component: {fileID: 6295448971589143364}
-  - component: {fileID: 6295448971589143365}
   - component: {fileID: 6295448971589143363}
   m_Layer: 7
   m_Name: pj
@@ -56,6 +55,15 @@ MonoBehaviour:
   timerStun:
     total: 0
     _current: 0
+  detectBuilding:
+    radius: 5
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 129
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
 --- !u!114 &6295448971589143385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,8 +112,8 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 64
-    maxDetects: -1
-    minDetects: 0
+    _maxDetects: 0
+    _minDetects: 0
   references:
     version: 2
     RefIds:
@@ -168,22 +176,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
     type: 3}
-  carlitos:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
-    total: 100
+    total: 70
     _current: 0
   _desaceleration:
     total: 10
     _current: 10
   _velocity:
-    total: 10
+    total: 7.5
     _current: 0
 --- !u!50 &6295448971589143367
 Rigidbody2D:
@@ -219,24 +221,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.38}
-  m_Size: {x: 0.24, y: 0.65}
-  m_Direction: 0
---- !u!70 &6295448971589143365
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6295448971589143386}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.64}
-  m_Size: {x: 0.32, y: 1.24}
+  m_Offset: {x: 0, y: 0.19}
+  m_Size: {x: 0.24, y: 0.41}
   m_Direction: 0
 --- !u!81 &6295448971589143363
 AudioListener:
@@ -385,6 +371,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3115218222824334144, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: transparentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6512603503947103261, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Layer
@@ -413,7 +404,7 @@ PrefabInstance:
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.051
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

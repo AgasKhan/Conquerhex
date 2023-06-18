@@ -1795,8 +1795,8 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 64
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
   references:
     version: 2
     RefIds:
@@ -3629,8 +3629,8 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 0
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
   references:
     version: 2
     RefIds:
@@ -3716,16 +3716,16 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 0
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
   detectItem:
     radius: 0
     distance: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 0
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
   steerings:
     pictionaries: []
 --- !u!1001 &4509053339615691219
@@ -3946,21 +3946,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: _velocity.total
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: aceleration.total
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: carlitos.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_RootOrder
@@ -4016,60 +4001,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: damaged1.b
-      value: 0.62188214
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: damaged1.g
-      value: 0.3066038
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: damaged1.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: damaged2.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: damaged2.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: damaged2.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: areaFarming.layerMask.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: interact.pictionaries.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143386, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_Name
       value: pj
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143387, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: detectBuilding.radius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295448971589143387, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      propertyPath: detectBuilding.layerMask.m_Bits
-      value: 129
       objectReference: {fileID: 0}
     - target: {fileID: 6302332642276028445, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}

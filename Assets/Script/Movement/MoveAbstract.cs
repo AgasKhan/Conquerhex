@@ -50,11 +50,6 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public virtual Vector2 vectorVelocity => velocity * direction;
 
-    protected Vector2 ToVector(Tim tim)
-    {
-        return direction * tim.current;
-    }
-
     protected void Set(Tim tim, float number)
     {
         //tim.Substract(-(number- tim.current));
@@ -62,19 +57,14 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         tim.current = number;
     }
 
-
-    public virtual MoveAbstract Director(Vector2 dir)
-    {
-        direction = dir;
-
-        return this;
-    }
-
     public virtual MoveAbstract Acelerator(Vector2 dir)
     {
+        if (velocity > aceleration.current)
+            return this;
+
         var vecVelocity = vectorVelocity;
 
-        vecVelocity +=  Time.deltaTime * dir;
+        vecVelocity += Vector2.ClampMagnitude(Time.deltaTime * dir + vecVelocity, aceleration.current) - vecVelocity;
 
         aceleration.current = dir.magnitude;
 
@@ -100,32 +90,11 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
     }
     */
 
-    public virtual MoveAbstract MaxAcelerator(float number)
-    {
-        aceleration.total = number;
-
-        return this;
-    }
-
     public virtual MoveAbstract Velocity(Vector2 dir)
     {
         velocity = dir.magnitude;
 
         direction = dir.normalized;
-
-        return this;
-    }
-
-    public virtual MoveAbstract Velocity(float number)
-    {
-        velocity = number;
-
-        return this;
-    }
-
-    public virtual MoveAbstract Desacelerator(float number)
-    {
-        desaceleration = number;
 
         return this;
     }
@@ -142,7 +111,7 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public virtual void ControllerPressed(Vector2 dir, float tim)
     {
-        var aux = dir * aceleration.total;
+        var aux = dir * _velocity.total;
 
         if(aux.sqrMagnitude>0)
             Acelerator(aux);

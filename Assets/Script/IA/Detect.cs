@@ -99,18 +99,21 @@ public class Detect<T>
         {
             List<Transform> tr = new List<Transform>();
 
+            string str = "";
+
             foreach (var item in aux)
             {
+                str += item.transform.name +"- ";
                 Add(tr, item.transform, pos);
             }
+
+            Debug.Log(str);
 
             if(max>0)
                 for (int i = 1; i <= (tr.Count - max); i++)
                 {
                     tr.RemoveAt(tr.Count - i);
                 }
-
-            Debug.Log("cantidad detectada: " + tr.Count);
 
             return tr.ToArray();
         }
@@ -183,23 +186,22 @@ public class DetectSort<T> : Detect<T> where T : Component
     {
         List<T> damageables = new List<T>(Area(caster.position, 0, 0, chck, radius));
 
-        var max = maxDetects;
+        var pos = caster.position.Vect3To2();
 
         for (int i = damageables.Count - 1; i >= 0; i--)
         {
             var posDamageable = damageables[i].transform.position.Vect3To2();
 
-            var pos = caster.position.Vect3To2();
-
             var aux = RayTransform(posDamageable, (pos - posDamageable), 0, 0, (pos - posDamageable).magnitude);
 
-            if (aux != null  )//si colisiono significa q no tengo vision directa
+            if (aux != null && aux.Length > 0)//si colisiono significa q no tengo vision directa
             {
                 bool chckCaster = true;
 
-                for (int ii = 0; ii < Mathf.Clamp(aux.Length,0,2); ii++)//Para 
+                //Para chequear si en algunos de los primeros esta el player
+                for (int ii = 0; ii < Mathf.Clamp(aux.Length,0,2); ii++)
                 {
-                    if(aux[ii] != caster)
+                    if(aux[ii] == caster)
                     {
                         chckCaster = false;
                     }
@@ -210,14 +212,19 @@ public class DetectSort<T> : Detect<T> where T : Component
             }
         }
 
-        if (max > 0)
+        if (maxDetects > 0)
         {
-            if (damageables.Count < maxDetects)
-                max = damageables.Count;
+            var max = maxDetects;
+            var count = damageables.Count;
 
-            for (int i = 0; i < (max - maxDetects); i++)
+            if (max > count)
             {
-                damageables.RemoveAt(max - 1 - (1*i));
+                max = count;
+            }
+
+            for (int i = 0; i < (count - max); i++)
+            {
+                damageables.RemoveAt(count - (1 + 1*i));
             }
         }
 

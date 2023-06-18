@@ -331,21 +331,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     {
     }
 
-    protected internal void PlayAudio(string name)
-    {
-        caster.audioManager.Play(name);
-    }
-
-    protected internal void PauseAudio(string name)
-    {
-        caster.audioManager.Pause(name);
-    }
-
-    protected internal void StopAudio(string name)
-    {
-        caster.audioManager.Stop(name);
-    }
-
     protected abstract void InternalControllerDown(Vector2 dir, float tim);
 
     protected abstract void InternalControllerPress(Vector2 dir, float tim);
@@ -460,8 +445,6 @@ public class UpWeaponKata : WeaponKata
         if (!cooldown.Chck)
             return;
 
-        Debug.Log("presionaste ataque: " + itemBase.GetType().Name);
-
         var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
 
         this.reference = reference;
@@ -477,8 +460,6 @@ public class UpWeaponKata : WeaponKata
         {
             cooldown.Reset();
         }
-
-        Debug.Log("estas manteniendo ataque: " + itemBase.GetType().Name);
     }
 
     //Despues, al sotarlo
@@ -486,8 +467,6 @@ public class UpWeaponKata : WeaponKata
     {
         if (!cooldown.Chck)
             return;
-
-        Debug.Log("Soltaste ataque: " + itemBase.GetType().Name);
 
         //comienza a bajar el cooldown
 
