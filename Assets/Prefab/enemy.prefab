@@ -190,9 +190,11 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops:
-  - peso: 10
+  - maxMinDrops:
+      pictionaries: []
     item: {fileID: 2790657688179249189, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
-  - peso: 5
+  - maxMinDrops:
+      pictionaries: []
     item: {fileID: 3307823130606803356, guid: f094c7557e0e0114f9be630e7066ec18, type: 3}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
@@ -200,11 +202,10 @@ MonoBehaviour:
   interact:
     pictionaries: []
   inventory: []
+  weightCapacity: 0
+  currentWeight: 0
+  travelItem: []
   move: {fileID: 2904035125237228758}
-  fsmWork:
-    context: {fileID: 0}
-    work:
-      pictionaries: []
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
   prin:
@@ -219,8 +220,8 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 0
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
   references:
     version: 2
     RefIds:
@@ -249,8 +250,9 @@ MonoBehaviour:
     total: 10
     _current: 10
   _velocity:
-    total: 10
+    total: 50
     _current: 0
+  objectiveVelocity: 10
 --- !u!50 &7826366853568280356
 Rigidbody2D:
   serializedVersion: 4

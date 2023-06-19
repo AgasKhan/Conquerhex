@@ -39,7 +39,7 @@ public class TeleportCollider : MonoBehaviour
             Vector2 vectorSalida = (other.gameObject.transform.position - this.gameObject.transform.position).normalized;
 
             //le doy un empujon para que no se quede en el medio
-            fisicaOther.Acelerator(velocityTransfer * fisicaOther.direction);
+            fisicaOther.Acelerator(velocityTransfer * fisicaOther.direction, velocityTransfer);
 
             Vector2 vectorVelocidad = fisicaOther.vectorVelocity;
 

@@ -121,8 +121,8 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 192
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
   patrol:
     reverse: 0
     iPatrulla: 0
@@ -195,8 +195,8 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 0
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
   references:
     version: 2
     RefIds:
@@ -268,8 +268,9 @@ MonoBehaviour:
     total: 30
     _current: 30
   _velocity:
-    total: 7
+    total: 50
     _current: 0
+  objectiveVelocity: 7
 --- !u!114 &1923887133863855820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +296,7 @@ MonoBehaviour:
   _velocity:
     total: 7
     _current: 0
+  objectiveVelocity: 0
 --- !u!114 &1923887133863855665
 MonoBehaviour:
   m_ObjectHideFlags: 0

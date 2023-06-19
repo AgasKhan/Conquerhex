@@ -22,6 +22,8 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
     /// </summary>
     public event System.Action<Hexagone, int> onTeleport;
 
+    public float objectiveVelocity;
+
     public float maxSpeed
     {
         get => _velocity.total;
@@ -57,14 +59,14 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         tim.current = number;
     }
 
-    public virtual MoveAbstract Acelerator(Vector2 dir)
+    public virtual MoveAbstract Acelerator(Vector2 dir, float objectiveVelocity)
     {
-        if (velocity > aceleration.current)
+        if (velocity > objectiveVelocity)
             return this;
 
         var vecVelocity = vectorVelocity;
 
-        vecVelocity += Vector2.ClampMagnitude(Time.deltaTime * dir + vecVelocity, aceleration.current) - vecVelocity;
+        vecVelocity += Vector2.ClampMagnitude(Time.deltaTime * dir + vecVelocity, objectiveVelocity) - vecVelocity;
 
         aceleration.current = dir.magnitude;
 
@@ -111,10 +113,10 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public virtual void ControllerPressed(Vector2 dir, float tim)
     {
-        var aux = dir * _velocity.total;
+        var aux = dir * aceleration.total;
 
         if(aux.sqrMagnitude>0)
-            Acelerator(aux);
+            Acelerator(aux, dir.magnitude * objectiveVelocity);
         //velocity += aceleration.current * Time.deltaTime;
     }
 
