@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crush
   m_EditorClassIdentifier: 
   _nameDisplay: Crush
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 36e6970b84831434a9eac79abd03700b, type: 3}
   _details: 
   maxAmount: 1
   weight: 0
@@ -47,9 +47,11 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 129
-    maxDetects: -1
-    minDetects: 0
+    _maxDetects: 0
+    _minDetects: 0
     inverse: 0
+  velocityCharge: 1
+  damageToWeapon: 1
   damagesMultiply:
   - amount: 1.5
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
@@ -59,4 +61,3 @@ MonoBehaviour:
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
   indexParticles:
   - {x: 1, y: 0}
-  damageToWeapon: 1

@@ -23,11 +23,14 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     public DetectSort<Entity> detect;
 
     [Header("Multiplicadores danio")]
+
+    public float velocityCharge = 1;
+
+    public int damageToWeapon = 1;
+
     public Damage[] damagesMultiply = new Damage[0];
 
     public Vector2Int[] indexParticles;
-
-    public int damageToWeapon=1;
 
 
     public override Pictionarys<string, string> GetDetails()
@@ -58,10 +61,10 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         });        
     }
 
-    public void Attack(Entity caster, Vector2 direction, MeleeWeapon weapon, float range)
+    public Entity[] Attack(Entity caster, Vector2 direction, MeleeWeapon weapon, int numObjectives ,float range)
     {
         if (weapon == null)
-            return;
+            return null;
 
         weapon.Durability(damageToWeapon);
 
@@ -107,7 +110,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
             }
         }
 
-        InternalAttack(caster, direction, damagesCopy, range);
+        return InternalAttack(caster, direction, damagesCopy, numObjectives, range);
     }
 
     protected void Damage(ref Damage[] damages, Entity caster, params Entity[] damageables)
@@ -131,7 +134,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     }
 
-    protected abstract void InternalAttack(Entity caster, Vector2 direction, Damage[] damages, float range);
+    protected abstract Entity[] InternalAttack(Entity caster, Vector2 direction, Damage[] damages, int numObjectives, float range);
 }
 
 [System.Serializable]
@@ -161,9 +164,11 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public bool cooldownTime => cooldown.Chck;
 
-    public float finalVelocity => itemBase.velocity * weapon.itemBase.velocity;
+    public virtual float finalVelocity => itemBase.velocity * weapon.itemBase.velocity;
 
-    public float finalRange => itemBase.range * weapon.itemBase.range;
+    public virtual float finalRange => itemBase.range * weapon.itemBase.range;
+
+    float actualVelocity;
 
     public FadeColorAttack reference
     {
@@ -223,9 +228,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         cooldown.Set(finalVelocity);
     }
 
-    protected void Attack(Vector2 dir)
+    protected virtual Entity[] Attack(Vector2 dir, float timePressed = 0)
     {
-        itemBase.Attack(caster, dir, weapon, finalRange);
+        return itemBase.Attack(caster, dir, weapon, itemBase.detect.maxDetects, finalRange);
     }
 
     void TriggerTimerEvent()
@@ -288,7 +293,13 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             reference?.Off();
             return;
         }
-            
+
+        if (caster is DinamicEntity)
+        {
+            actualVelocity = ((DinamicEntity)caster).move.objectiveVelocity;
+            ((DinamicEntity)caster).move.objectiveVelocity /= 2;
+        }
+
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
         up = InternalControllerUp;
@@ -314,8 +325,12 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             return;
         }
 
-        up(dir, tim);
+        if (caster is DinamicEntity)
+        {
+            ((DinamicEntity)caster).move.objectiveVelocity = actualVelocity;
+        }
 
+        up(dir, tim);
 
         reference?.Off();
 
@@ -338,143 +353,4 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     protected abstract void InternalControllerUp(Vector2 dir, float tim);
 
     #endregion
-}
-
-
-/// <summary>
-/// KataBase que tiene configurado su ataque interno en la deteccion de un area en la posicion del caster
-/// </summary>
-public abstract class AreaKataBase : WeaponKataBase
-{
-    public override Pictionarys<string, string> GetDetails()
-    {
-        var aux = base.GetDetails();
-
-        aux.Add("Attack description", "Genera un area de ataque circular en base a un rango");
-
-        return aux;
-    }
-
-    protected override void InternalAttack(Entity caster, Vector2 direction, Damage[] damages, float range)
-    {
-        var pos = caster.transform.position + direction.Vec2to3(0) * detect.distance;
-
-        var aux = detect.AreaWithRay(caster.transform, (tr) => { return caster != tr; }, range);
-
-        Damage(ref damages, caster, aux);
-    }
-}
-
-
-/// <summary>
-/// Controlador que ejecuta el ataque cuando se presiona el boton y mientas esta presionado (con mayor espera)
-/// </summary>
-public class PressWeaponKata : WeaponKata
-{
-    public Timer pressCooldown;
-
-    public override Pictionarys<string, string> GetDetails()
-    {
-        var aux = base.GetDetails();
-
-        aux.Add("Attack execution", "Ejecuta el ataque cuando se presiona el boton y mientas esta presionado (con mayor espera)");
-
-        return aux;
-    }
-
-    protected override void InternalControllerDown(Vector2 dir, float tim)
-    {
-        if (!cooldown.Chck)
-            return;
-
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
-
-        this.reference = reference;
-        aux.SetParent(caster.transform);
-
-        aux.localScale *= finalRange*2;
-
-        this.reference.Attack();
-
-        Attack(dir);
-        pressCooldown.Reset();
-    }
-
-    protected override void InternalControllerPress(Vector2 dir, float tim)
-    {
-        if (!cooldown.Chck)
-        {
-            cooldown.Reset();
-            return;
-        }
-
-        if (pressCooldown.Chck)
-        {
-            Attack(dir);
-            reference.Attack();
-            pressCooldown.Reset();
-        }
-    }
-
-    protected override void InternalControllerUp(Vector2 dir, float tim)
-    {
-        reference.Off();
-        cooldown.Reset();
-        pressCooldown.Reset();
-    }
-}
-
-
-/// <summary>
-/// Controlador que ejecuta el ataque cuando se suelta el boton de la habilidad
-/// </summary>
-public class UpWeaponKata : WeaponKata
-{
-
-    public override Pictionarys<string, string> GetDetails()
-    {
-        var aux = base.GetDetails();
-
-        aux.Add("Attack execution", "Ejecuta el ataque cuando se suelta el boton de la habilidad");
-
-        return aux;
-    }
-
-    protected override void InternalControllerDown(Vector2 dir, float button)
-    {
-        if (!cooldown.Chck)
-            return;
-
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
-
-        this.reference = reference;
-        aux.SetParent(caster.transform);
-
-        aux.localScale *= finalRange * 2;
-    }
-
-    //Durante, al mantener y moverlo
-    protected override void InternalControllerPress(Vector2 dir, float button)
-    {
-        if (!cooldown.Chck)
-        {
-            cooldown.Reset();
-        }
-    }
-
-    //Despues, al sotarlo
-    protected override void InternalControllerUp(Vector2 dir, float button)
-    {
-        if (!cooldown.Chck)
-            return;
-
-        //comienza a bajar el cooldown
-
-        cooldown.Reset();
-
-        Attack(dir);
-
-        //PoolManager.SpawnPoolObject(itemBase.indexParticles[0], caster.transform.position);
-        reference.Off().Attack();
-    }
 }

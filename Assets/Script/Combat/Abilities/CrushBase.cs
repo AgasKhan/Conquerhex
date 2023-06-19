@@ -7,6 +7,6 @@ public class CrushBase : AreaKataBase
 {
     protected override void SetCreateItemType()
     {
-        _itemType = typeof(UpWeaponKata);
+        _itemType = typeof(ChargeRangeUpWeaponKata);
     }
 }

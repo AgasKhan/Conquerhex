@@ -182,7 +182,7 @@ public class DetectSort<T> : Detect<T> where T : Component
     /// <param name="chck">Si cumple con el criterio de busqueda</param>
     /// <returns></returns>
 
-    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, float radius)
+    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects ,float radius)
     {
         List<T> damageables = new List<T>(Area(caster.position, 0, 0, chck, radius));
 
@@ -214,15 +214,14 @@ public class DetectSort<T> : Detect<T> where T : Component
 
         if (maxDetects > 0)
         {
-            var max = maxDetects;
             var count = damageables.Count;
 
-            if (max > count)
+            if (maxDetects > count)
             {
-                max = count;
+                maxDetects = count;
             }
 
-            for (int i = 0; i < (count - max); i++)
+            for (int i = 0; i < (count - maxDetects); i++)
             {
                 damageables.RemoveAt(count - (1 + 1*i));
             }
@@ -233,7 +232,7 @@ public class DetectSort<T> : Detect<T> where T : Component
 
     public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck)
     {
-        return AreaWithRay(caster, chck, radius);
+        return AreaWithRay(caster, chck, maxDetects,  radius);
     }
 
     protected override void Add(List<T> list, T add, Vector3 pos)
