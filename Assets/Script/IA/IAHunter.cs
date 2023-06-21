@@ -137,29 +137,18 @@ public class HunterPatrol : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        float distance = float.PositiveInfinity;
         var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
 
-        IGetEntity lamb = null;
-        for (int i = 0; i < corderos.Count; i++)
-        {
-            if (distance > (corderos[i].GetTransform().position - param.context.transform.position).sqrMagnitude)
-            {
-                lamb = corderos[i];
-                distance = (corderos[i].GetTransform().position - param.context.transform.position).sqrMagnitude;
-            }
-        }
-
         param.context.steerings["corderitos"].targets.Clear();
-        if (lamb != null)
+
+        if (corderos.Count > 0)
         {
-            param.context.steerings["corderitos"].targets.Add(lamb);
+            param.context.steerings["corderitos"].targets.Add(corderos[0]);
             param.CurrentState = param.chase;
             return;
-        }
+        }   
 
-
-        this.move.ControllerPressed(dir, 0);
+        this.move.ControllerPressed(dir.normalized, 0);
     }
     public void OnExitState(HunterIntern param)
     {
@@ -187,7 +176,7 @@ public class HunterChase : IState<HunterIntern>
 
         var corderitos = steerings.targets;
 
-        var distance = (corderitos[0].GetTransform().position - param.context.transform.position).sqrMagnitude;
+        var distance = ((corderitos[0] as Component).transform.position - param.context.transform.position).sqrMagnitude;
 
         if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
         {

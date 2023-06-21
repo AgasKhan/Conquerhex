@@ -12,6 +12,7 @@ public class MoveRb : MoveTr
     {
         base.Config();
         MyAwakes += MyAwake;
+        MyFixedUpdates += MyFixedUpdate;
     }
 
 
@@ -20,11 +21,15 @@ public class MoveRb : MoveTr
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public override void MyUpdate()
+    void MyFixedUpdate()
     {
         rb.velocity = (direction * _velocity.current).Vec2to3(0);
 
         _velocity.Substract(_desaceleration.current * Time.deltaTime);
+    }
+
+    public override void MyUpdate()
+    {
     }
 
 }

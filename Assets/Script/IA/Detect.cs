@@ -175,7 +175,7 @@ public class Detect<T> where T : class
     /// <param name="chck">Si cumple con el criterio de busqueda</param>
     /// <returns></returns>
 
-    public T[] ConeWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius, float dot)
+    public T[] ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck, int maxDetects, float radius, float dot)
     {
         List<T> damageables = new List<T>(Area(caster.position, 0, 0, chck, radius));
 
@@ -185,7 +185,7 @@ public class Detect<T> where T : class
         {
             var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
 
-            if (dot > Vector2.Dot((posDamageable - pos).normalized, caster.right))
+            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
             {
                 damageables.RemoveAt(i);
                 continue;
@@ -231,12 +231,12 @@ public class Detect<T> where T : class
 
     public T[] ConeWithRay(Transform caster, System.Func<T, bool> chck)
     {
-        return ConeWithRay(caster, chck, maxDetects, radius, dot);
+        return ConeWithRay(caster, caster.right, chck, maxDetects, radius, dot);
     }
 
     public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius)
     {
-        return ConeWithRay(caster, chck, maxDetects, radius, -1);
+        return ConeWithRay(caster, caster.right, chck, maxDetects, radius, -1);
     }
 
     public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck)
@@ -254,9 +254,9 @@ public class Detect<T> where T : class
         list.Add(add);
     }
 
-    void InternalAdd<Generic>(List<T> list, Generic add, Vector3 pos) where Generic : Component
+    void InternalAdd(List<T> list, Component add, Vector3 pos)
     {
-        CompareDist<Generic> compareDist = new CompareDist<Generic>();
+        CompareDist<Component> compareDist = new CompareDist<Component>();
 
         compareDist.inverse = inverse;
 
@@ -269,7 +269,7 @@ public class Detect<T> where T : class
         {
             searchIndex = ((max - min) / 2) + min;
 
-            cmp = compareDist.Compare(add, list[searchIndex] as Generic);
+            cmp = compareDist.Compare(add, list[searchIndex] as Component);
 
             if (cmp > 0)
             {
@@ -284,7 +284,7 @@ public class Detect<T> where T : class
         //una vez que encontre el lugar mas cercano para comparar ahora me fijo, si va antes o despues
         if (list.Count > 0)
         {
-            searchIndex = compareDist.Compare(add, list[searchIndex] as Generic) + searchIndex;
+            searchIndex = compareDist.Compare(add, list[searchIndex] as Component) + searchIndex;
         }
 
         list.AddOrInsert(add as T, searchIndex);

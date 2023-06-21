@@ -331,12 +331,7 @@ public enum LifeType
     regen
 }
 
-public interface IGetEntity : IGetTransform
+public interface IGetEntity
 {
     Entity GetEntity();
-}
-
-public interface IGetTransform
-{
-    Transform GetTransform();
 }

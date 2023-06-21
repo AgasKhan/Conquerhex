@@ -63,7 +63,7 @@ public class IAAnimator : IAFather
         if (enemy == null)
             return;
         
-        if (Mathf.Pow(coll.radius,2) < (enemy.GetTransform().position - transform.position).sqrMagnitude)
+        if (Mathf.Pow(coll.radius,2) < ((enemy as Component).transform.position - transform.position).sqrMagnitude)
             enemy = null;
         
     }

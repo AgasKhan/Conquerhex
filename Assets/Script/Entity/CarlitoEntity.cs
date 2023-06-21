@@ -12,11 +12,6 @@ public class CarlitoEntity : MonoBehaviour, IGetEntity
         return entity;
     }
 
-    public Transform GetTransform()
-    {
-        return transform;
-    }
-
     // Start is called before the first frame update
     void Awake()
     {
