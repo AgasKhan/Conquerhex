@@ -91,6 +91,8 @@ public class Detect<T> where T : class
     {
         var damageables = Area(pos, 0, 0, chck, radius);
 
+        dir.Normalize();
+
         for (int i = damageables.Count - 1; i >= 0; i--)
         {
             var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
@@ -101,6 +103,14 @@ public class Detect<T> where T : class
                 continue;
             }
         }
+
+        dir *= radius;
+
+        Debug.DrawRay(pos, dir, Color.red);
+
+        Debug.DrawRay(pos, Quaternion.Euler(0, 0, Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
+
+        Debug.DrawRay(pos, Quaternion.Euler(0, 0, -Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
 
         return damageables;
     }
@@ -129,7 +139,7 @@ public class Detect<T> where T : class
                 Add(tr, item.transform, pos);
             }
 
-            Debug.Log(str);
+            //Debug.Log(str);
 
             if(max>0)
                 for (int i = 1; i <= (tr.Count - max); i++)
@@ -154,9 +164,6 @@ public class Detect<T> where T : class
     {
         return RayTransform(pos, dir, minDetects, maxDetects, distance);
     }
-
-
-
 
     public List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
     {
@@ -205,6 +212,11 @@ public class Detect<T> where T : class
     public List<T> ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck, int maxDetects, float radius, float dot)
     {
         return WithRay(caster, Cone(caster.position, dir, 0, 0, chck, radius, dot), maxDetects);
+    }
+
+    public List<T> ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck)
+    {
+        return ConeWithRay(caster, dir, chck, maxDetects, radius, dot);
     }
 
     public List<T> ConeWithRay(Transform caster, System.Func<T, bool> chck)

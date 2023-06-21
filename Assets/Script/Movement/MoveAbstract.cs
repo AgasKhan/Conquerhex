@@ -99,6 +99,9 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public virtual void ControllerPressed(Vector2 dir, float tim)
     {
+        if (dir.sqrMagnitude > 1)
+            dir.Normalize();
+
         var aux = dir * aceleration.total;
 
         if(aux.sqrMagnitude>0)

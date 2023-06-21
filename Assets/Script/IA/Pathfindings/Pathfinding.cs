@@ -2,8 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding : MonoBehaviour
+public class Pathfinding : SingletonMono<Pathfinding>
 {
+
+    public event System.Action<Vector3> newObjective;
+
+    public void NotifyNewObjective(Vector3 pos)
+    {
+        newObjective(pos);
+    }
+
+    public Stack<Transform> CalculatePath(Vector3 init, Vector3 end)
+    {
+        var aux = AStar(NodeManager.instance.GetNeighborFromPosition(init), NodeManager.instance.GetNeighborFromPosition(end));
+
+        Stack<Transform> retorno = new Stack<Transform>();
+
+        foreach (var item in aux)
+        {
+            retorno.Push(item.transform);
+        }
+
+        return retorno;
+    }
+
     #region Dijsktra
     public Stack<Node> Dijkstra(Node startingNode, Node goalNode)
     {

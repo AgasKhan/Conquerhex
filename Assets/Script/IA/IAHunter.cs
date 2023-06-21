@@ -5,17 +5,20 @@ using UnityEngine;
 public class IAHunter : IAFather
 {
     [SerializeField]
-    public Pictionarys<string, SteeringWithTarger> steerings;
+    public Pictionarys<string, SteeringWithTarget> steerings;
     [SerializeField]
     public Detect<IGetEntity> detectCordero;
     
     public Patrol patrol = new Patrol();
 
     [SerializeReference]
-    HunterIntern fsm;
+    protected HunterIntern fsm;
 
     [SerializeField]
     public float minimalDistance;
+
+    public virtual Transform currentObjective => patrol.currentWaypoint;
+
 
     public AutomaticAttack attk;
 
@@ -75,11 +78,37 @@ public class HunterIntern : FSM<HunterIntern, IAHunter>
 {
     public IState<HunterIntern> patrol = new HunterPatrol();
 
-    public IState<HunterIntern> chase = new HunterChase();
+    public HunterChase chase = new HunterChase();
 
     public IState<HunterIntern> idle = new HunterIdle();
 
     public TimedAction energy;
+
+    public event System.Action<Vector3> detectEnemy
+    {
+        add
+        {
+            chase.detectEnemy += value;
+        }
+
+        remove
+        {
+            chase.detectEnemy -= value;
+        }
+    }
+
+    public event System.Action<Vector3> noDetectEnemy
+    {
+        add
+        {
+            chase.noDetectEnemy += value;
+        }
+
+        remove
+        {
+            chase.noDetectEnemy -= value;
+        }
+    }
 
     void IdleEvent()
     {
@@ -93,35 +122,14 @@ public class HunterIntern : FSM<HunterIntern, IAHunter>
     }
 }
 
-public class HunterIdle : IState<HunterIntern>
-{
-
-    public void OnEnterState(HunterIntern param)
-    {
-        param.energy.Stop();
-    }
-
-    public void OnStayState(HunterIntern param)
-    {
-        param.energy.Substract(-param.energy.deltaTime*3);
-        if(param.energy.current == param.energy.total)
-        {
-            param.CurrentState = param.patrol;
-        }
-    }
-
-    public void OnExitState(HunterIntern param)
-    {
-        param.energy.Start();
-    }
-
-}
-
 public class HunterPatrol : IState<HunterIntern>
 {
     IAHunter hunter;
     MoveAbstract move;
     Vector2 dir;
+
+    Vector2 conoDir;
+
     public void OnEnterState(HunterIntern param)
     {
         hunter = param.context;
@@ -131,7 +139,10 @@ public class HunterPatrol : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        var corderos = param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
+        if (move.vectorVelocity.sqrMagnitude >= 0.01f)
+            conoDir = Vector2.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
+
+        var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
 
         param.context.steerings["corderitos"].targets.Clear();
 
@@ -142,7 +153,7 @@ public class HunterPatrol : IState<HunterIntern>
             return;
         }   
 
-        this.move.ControllerPressed(Vector2.ClampMagnitude(dir, 1), 0);
+        this.move.ControllerPressed(dir, 0);
     }
     public void OnExitState(HunterIntern param)
     {
@@ -151,7 +162,7 @@ public class HunterPatrol : IState<HunterIntern>
 
     void Move()
     {
-        var move = hunter.steerings["waypoints"].GetMove(hunter.patrol.currentWaypoint);
+        var move = hunter.steerings["waypoints"].GetMove(hunter.currentObjective);
         dir = hunter.steerings["waypoints"].steering.Calculate(move);
         hunter.patrol.MinimalChck(hunter.minimalDistance);
     }
@@ -159,18 +170,27 @@ public class HunterPatrol : IState<HunterIntern>
 
 public class HunterChase : IState<HunterIntern>
 {
+    public event System.Action<Vector3> detectEnemy;
+
+    public event System.Action<Vector3> noDetectEnemy;
+
+    SteeringWithTarget steerings;
+
+    Vector3 enemyPos;
     public void OnEnterState(HunterIntern param)
     {
         param.energy.SetMultiply(1.5f);
+
+        steerings = param.context.steerings["corderitos"];
     }
 
     public void OnStayState(HunterIntern param)
     {
-        var steerings = param.context.steerings["corderitos"];
+        var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
-        var corderitos = steerings.targets;
+        enemyPos = (steerings.targets[0] as Component).transform.position;
 
-        var distance = ((corderitos[0] as Component).transform.position - param.context.transform.position).sqrMagnitude;
+        detectEnemy?.Invoke(enemyPos);
 
         if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
         {
@@ -191,12 +211,39 @@ public class HunterChase : IState<HunterIntern>
             param.context.attk.Attack();
         }
 
-        param.context.move.ControllerPressed(Vector2.ClampMagnitude(steerings[0], 1), 0);
+        param.context.move.ControllerPressed(steerings[0], 0);
     }
 
     public void OnExitState(HunterIntern param)
     {
+        noDetectEnemy?.Invoke(enemyPos);
         param.energy.SetMultiply(1);
         param.context.steerings["corderitos"].targets.Clear();
+        param.context.patrol.fsmPatrol.CurrentState = param.context.patrol.fsmPatrol.wait;
     }
+}
+
+
+public class HunterIdle : IState<HunterIntern>
+{
+
+    public void OnEnterState(HunterIntern param)
+    {
+        param.energy.Stop();
+    }
+
+    public void OnStayState(HunterIntern param)
+    {
+        param.energy.Substract(-param.energy.deltaTime * 3);
+        if (param.energy.current == param.energy.total)
+        {
+            param.CurrentState = param.patrol;
+        }
+    }
+
+    public void OnExitState(HunterIntern param)
+    {
+        param.energy.Start();
+    }
+
 }

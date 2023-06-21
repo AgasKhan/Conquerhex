@@ -146,6 +146,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   nodesList: []
+--- !u!114 &12630592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12630584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d207a273b056d84eaaf1c2f1d3bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &19547937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2035,6 +2047,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 162199553}
   - {fileID: 1671561329}
+  - {fileID: 468234880}
   cost: 1
 --- !u!1 &391700904
 GameObject:
@@ -2232,6 +2245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 498399224}
+  - {fileID: 376660450}
   cost: 1
 --- !u!1 &498399222
 GameObject:
@@ -2452,41 +2466,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: patrol.reverse
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: minimalDistance
-      value: 0.1
+      propertyPath: objectiveVelocity
+      value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: patrol.patrolParent
       value: 
       objectReference: {fileID: 69728249}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: detectCordero.layerMask.m_Bits
-      value: 193
+      value: 129
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: steerings.pictionaries.Array.data[0].key
-      value: corderitos
+      propertyPath: steerings.pictionaries.Array.data[0].value.weight
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: steerings.pictionaries.Array.data[1].value.steering
-      value: 
-      objectReference: {fileID: 567572141}
-    m_RemovedComponents:
-    - {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
+      propertyPath: steerings.pictionaries.Array.data[1].value.weight
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
 --- !u!1 &567572129 stripped
 GameObject:
@@ -2512,18 +2530,6 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &567572141 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1923887133863855666, guid: 0caed8012f6007c42a139da69ab99538,
-    type: 3}
-  m_PrefabInstance: {fileID: 567572128}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567572129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8926cebf671874842b3c22cfca8fa9ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &594261805
 GameObject:
   m_ObjectHideFlags: 0
@@ -2925,6 +2931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 498399224}
+  - {fileID: 752704400}
   cost: 1
 --- !u!1 &695602372
 GameObject:
@@ -3752,36 +3759,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: patrol.reverse
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: minimalDistance
-      value: 0.1
+      propertyPath: objectiveVelocity
+      value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: patrol.patrolParent
       value: 
       objectReference: {fileID: 1569257090}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: detectCordero.layerMask.m_Bits
-      value: 193
+      value: 129
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: steerings.pictionaries.Array.data[0].key
-      value: corderitos
+      propertyPath: steerings.pictionaries.Array.data[0].value.weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: steerings.pictionaries.Array.data[1].value.weight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
 --- !u!1 &886086614 stripped
 GameObject:
@@ -4599,7 +4616,7 @@ PrefabInstance:
     - target: {fileID: 1923887133863855664, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.6
+      value: 24.48
       objectReference: {fileID: 0}
     - target: {fileID: 1923887133863855664, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
@@ -4654,36 +4671,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: patrol.reverse
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: minimalDistance
-      value: 0.1
+      propertyPath: objectiveVelocity
+      value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: patrol.patrolParent
       value: 
       objectReference: {fileID: 613944600}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: detectCordero.layerMask.m_Bits
-      value: 193
+      value: 129
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: steerings.pictionaries.Array.data[0].key
-      value: corderitos
+      propertyPath: steerings.pictionaries.Array.data[0].value.weight
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: steerings.pictionaries.Array.data[1].value.weight
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
 --- !u!1 &1123628576 stripped
 GameObject:
@@ -5371,7 +5397,7 @@ Transform:
   m_GameObject: {fileID: 1280592060}
   m_LocalRotation: {x: -0, y: -0, z: -0.70710576, w: 0.70710784}
   m_LocalPosition: {x: -1.76, y: -10.45, z: 0}
-  m_LocalScale: {x: 19.374247, y: 1, z: 1}
+  m_LocalScale: {x: 10.2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1569235442}
@@ -5747,23 +5773,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: patrol.reverse
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
-        type: 3}
-      propertyPath: patrol.patrolParent
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
-        type: 3}
-      propertyPath: detectCordero.layerMask.m_Bits
-      value: 193
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
 --- !u!1 &1362712295
 GameObject:
@@ -6771,8 +6787,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569235441}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.055, y: 0, z: 0}
+  m_LocalScale: {x: 0.81, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1280592061}
@@ -7595,7 +7611,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682596624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 85.08, y: 8.14, z: 0}
+  m_LocalPosition: {x: 85.71, y: 8.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8557,26 +8573,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: patrol.reverse
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
-      propertyPath: minimalDistance
-      value: 0.1
+      propertyPath: objectiveVelocity
+      value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 1923887133863855823, guid: 0caed8012f6007c42a139da69ab99538,
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: patrol.patrolParent
       value: 
       objectReference: {fileID: 1092685852}
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: detectCordero.layerMask.m_Bits
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: steerings.pictionaries.Array.data[0].value.weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: steerings.pictionaries.Array.data[1].value.weight
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
 --- !u!114 &1861441918
 MonoBehaviour:
@@ -9815,6 +9851,7 @@ MonoBehaviour:
   - {fileID: 1682596626}
   - {fileID: 108461613}
   - {fileID: 752704400}
+  - {fileID: 676671294}
   cost: 1
 --- !u!1 &2136166897
 GameObject:

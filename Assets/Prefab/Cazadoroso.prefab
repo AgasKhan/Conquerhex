@@ -57,15 +57,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1923887133863855664}
-  - component: {fileID: 1923887133863855823}
+  - component: {fileID: 7703062913578005909}
   - component: {fileID: 1923887133863855821}
   - component: {fileID: -143505725685077172}
-  - component: {fileID: 4353664715450993193}
   - component: {fileID: 1923887133863855820}
   - component: {fileID: 1923887133863855665}
   - component: {fileID: 1923887133863855666}
   - component: {fileID: 1923887133863855816}
-  - component: {fileID: -2406957533503094647}
   m_Layer: 7
   m_Name: Cazadoroso
   m_TagString: Enemigo
@@ -90,7 +88,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1923887133863855823
+--- !u!114 &7703062913578005909
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +97,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1923887133863855815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cdcd3e5b4df5ae4dbded73b1c6b7dbe, type: 3}
+  m_Script: {fileID: 11500000, guid: 7dcede834ac528e41af1bcf89df31af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timerStun:
@@ -110,11 +108,11 @@ MonoBehaviour:
     - key: corderitos
       value:
         steering: {fileID: 1923887133863855665}
-        weight: 1
+        weight: 0
     - key: waypoints
       value:
         steering: {fileID: 1923887133863855666}
-        weight: 1
+        weight: 0
   detectCordero:
     radius: 8
     distance: 0
@@ -124,9 +122,9 @@ MonoBehaviour:
     _maxDetects: 0
     _minDetects: 0
     inverse: 0
-    dot: 1
+    dot: 0.7
   patrol:
-    reverse: 0
+    reverse: 1
     iPatrulla: 0
     patrolParent: {fileID: 0}
     _distance: {x: 0, y: 0, z: 0}
@@ -135,7 +133,7 @@ MonoBehaviour:
       rid: -2
   fsm:
     rid: -2
-  minimalDistance: 0.5
+  minimalDistance: 1
   references:
     version: 2
     RefIds:
@@ -183,7 +181,7 @@ MonoBehaviour:
   weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  move: {fileID: 4353664715450993193}
+  move: {fileID: 1923887133863855820}
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
   prin:
@@ -250,32 +248,6 @@ MonoBehaviour:
   damagedLifeAudio: DamagedLifeOso
   damagedRegenAudio: DamagedRegen
   teleportAudio: TeleportAudio
---- !u!114 &4353664715450993193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923887133863855815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
-  carlitos: []
-  direction: {x: 0, y: 0}
-  aceleration:
-    total: 30
-    _current: 0
-  _desaceleration:
-    total: 30
-    _current: 30
-  _velocity:
-    total: 50
-    _current: 0
-  objectiveVelocity: 7
 --- !u!114 &1923887133863855820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,30 +313,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.24}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!50 &-2406957533503094647
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923887133863855815}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!1001 &4492813437207219381
 PrefabInstance:
   m_ObjectHideFlags: 0

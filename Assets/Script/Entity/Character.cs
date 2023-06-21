@@ -85,6 +85,7 @@ public class Character : DinamicEntity, ISwitchState<Character>
         base.Config();
         MyAwakes += MyAwake;
         MyUpdates += MyUpdate;
+        MyStarts += MyStart;
     }
 
     void MyAwake()
@@ -104,6 +105,10 @@ public class Character : DinamicEntity, ISwitchState<Character>
         SetWeaponKataCombo(ref ter, bodyBase.tertiary);
 
         _ia = GetComponent<IState<Character>>();
+    }
+
+    void MyStart()
+    {
         if (_ia != null)
         {
             _ia.OnEnterState(this);

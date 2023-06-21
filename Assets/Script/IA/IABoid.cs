@@ -11,7 +11,7 @@ public class IABoid : IAFather
 
 
     [SerializeField]
-    public Pictionarys<string, SteeringWithTarger> steerings;
+    public Pictionarys<string, SteeringWithTarget> steerings;
 
     MoveAbstract move;
 
@@ -162,7 +162,7 @@ public class IABoid : IAFather
 
 
 [System.Serializable]
-public class SteeringWithTarger
+public class SteeringWithTarget
 {
     public SteeringBehaviour steering;
     public float weight = 1;
