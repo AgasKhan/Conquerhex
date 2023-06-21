@@ -720,8 +720,6 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 1776495119}
   - {fileID: 202145598}
-  - {fileID: 1682596626}
-  - {fileID: 2108615844}
   cost: 1
 --- !u!1 &124063256
 GameObject:
@@ -1299,7 +1297,6 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 108461613}
   - {fileID: 1671561329}
-  - {fileID: 376660450}
   - {fileID: 1682596626}
   cost: 1
 --- !u!1001 &239973248
@@ -2004,7 +2001,7 @@ GameObject:
   m_Layer: 0
   m_Name: Nodes_4
   m_TagString: Untagged
-  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2020,8 +2017,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1092685852}
-  m_RootOrder: 4
+  m_Father: {fileID: 2136166898}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &376660450
 MonoBehaviour:
@@ -2036,11 +2033,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _neighbors:
-  - {fileID: 1421115251}
-  - {fileID: 2054696927}
   - {fileID: 162199553}
   - {fileID: 1671561329}
-  - {fileID: 202145598}
   cost: 1
 --- !u!1 &391700904
 GameObject:
@@ -2237,7 +2231,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _neighbors:
-  - {fileID: 0}
   - {fileID: 498399224}
   cost: 1
 --- !u!1 &498399222
@@ -3406,7 +3399,6 @@ MonoBehaviour:
   - {fileID: 1005181364}
   - {fileID: 1653182697}
   - {fileID: 1997094165}
-  - {fileID: 2054696927}
   cost: 1
 --- !u!1001 &800180537
 PrefabInstance:
@@ -4084,8 +4076,6 @@ Transform:
   - {fileID: 2054696926}
   - {fileID: 162199552}
   - {fileID: 2045319566}
-  - {fileID: 376660449}
-  - {fileID: 1671561328}
   m_Father: {fileID: 0}
   m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6189,7 +6179,6 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 2054696927}
   - {fileID: 1651559800}
-  - {fileID: 162199553}
   cost: 1
 --- !u!4 &1421115252
 Transform:
@@ -6204,7 +6193,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2136166898}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1460634656
 PrefabInstance:
@@ -7099,7 +7088,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2136166898}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1653182695
 GameObject:
@@ -7221,7 +7210,7 @@ GameObject:
   m_Layer: 0
   m_Name: Nodes_5
   m_TagString: Untagged
-  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -7237,8 +7226,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1092685852}
-  m_RootOrder: 5
+  m_Father: {fileID: 2136166898}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1671561329
 MonoBehaviour:
@@ -7254,7 +7243,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 376660450}
-  - {fileID: 162199553}
   - {fileID: 202145598}
   cost: 1
 --- !u!1001 &1672281443
@@ -7628,8 +7616,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 202145598}
-  - {fileID: 108461613}
-  - {fileID: 2108615844}
   cost: 1
 --- !u!1001 &1722347821
 PrefabInstance:
@@ -9087,7 +9073,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _neighbors:
-  - {fileID: 783020324}
   - {fileID: 1653182697}
   - {fileID: 2054696927}
   - {fileID: 2045319567}
@@ -9444,7 +9429,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 1997094165}
-  - {fileID: 162199553}
   - {fileID: 162199553}
   - {fileID: 1421115251}
   cost: 1
@@ -9860,6 +9844,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 376660449}
+  - {fileID: 1671561328}
   - {fileID: 1421115252}
   - {fileID: 1651559801}
   m_Father: {fileID: 0}
