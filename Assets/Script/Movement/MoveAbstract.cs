@@ -77,20 +77,6 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         return this;
     }
 
-    /*
-    public virtual MoveAbstract Acelerator(Vector2 dir)
-    {
-        var vecVelocity = vectorVelocity;
-
-        vecVelocity += dir;
-
-        velocity = vecVelocity.magnitude;
-
-        direction = vecVelocity.normalized;
-
-        return this;
-    }
-    */
 
     public virtual MoveAbstract Velocity(Vector2 dir)
     {
