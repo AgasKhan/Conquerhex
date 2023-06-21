@@ -21,13 +21,13 @@ public class FollowIA : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (me.enemy == null || (me.enemy.GetTransform().position - animator.transform.position).sqrMagnitude < (me.automatick.radius * me.automatick.radius) / 4)
+        if (me.enemy == null || ((me.enemy as Component).transform.position - animator.transform.position).sqrMagnitude < (me.automatick.radius * me.automatick.radius) / 4)
         {
             animator.Play("Idle");
             return;
         }
 
-        meMove.ControllerPressed((me.enemy.GetTransform().position - animator.transform.position).normalized, 0);
+        meMove.ControllerPressed(((me.enemy as Component).transform.position - animator.transform.position).normalized, 0);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

@@ -254,9 +254,9 @@ public class Detect<T> where T : class
         list.Add(add);
     }
 
-    void InternalAdd<Generic>(List<T> list, Generic add, Vector3 pos) where Generic : Component
+    void InternalAdd(List<T> list, Component add, Vector3 pos)
     {
-        CompareDist<Generic> compareDist = new CompareDist<Generic>();
+        CompareDist<Component> compareDist = new CompareDist<Component>();
 
         compareDist.inverse = inverse;
 
@@ -269,7 +269,7 @@ public class Detect<T> where T : class
         {
             searchIndex = ((max - min) / 2) + min;
 
-            cmp = compareDist.Compare(add, list[searchIndex] as Generic);
+            cmp = compareDist.Compare(add, list[searchIndex] as Component);
 
             if (cmp > 0)
             {
@@ -284,7 +284,7 @@ public class Detect<T> where T : class
         //una vez que encontre el lugar mas cercano para comparar ahora me fijo, si va antes o despues
         if (list.Count > 0)
         {
-            searchIndex = compareDist.Compare(add, list[searchIndex] as Generic) + searchIndex;
+            searchIndex = compareDist.Compare(add, list[searchIndex] as Component) + searchIndex;
         }
 
         list.AddOrInsert(add as T, searchIndex);

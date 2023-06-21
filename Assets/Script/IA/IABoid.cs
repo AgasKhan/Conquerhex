@@ -189,7 +189,7 @@ public class SteeringWithTarger
     {
         get
         {
-            return steering.Calculate(GetMove(targets[i].GetTransform())) * weight;
+            return steering.Calculate(GetMove((targets[i] as Component).transform)) * weight;
         }
     }
 
