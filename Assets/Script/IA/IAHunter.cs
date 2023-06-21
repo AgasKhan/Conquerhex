@@ -14,6 +14,9 @@ public class IAHunter : IAFather
     [SerializeReference]
     HunterIntern fsm;
 
+    [SerializeField]
+    public float minimalDistance;
+
     public AutomaticAttack attk;
 
     public MoveAbstract move
@@ -63,15 +66,6 @@ public class IAHunter : IAFather
     {
         fsm.UpdateState();
         patrol.fsmPatrol.UpdateState();
-
-
-        foreach (var itemInPictionary in steerings)
-        {
-            for (int i = 0; i < itemInPictionary.value.Count; i++)
-            {
-                move.ControllerPressed(itemInPictionary.value[i], 0);
-            }
-        }
     }
 
 }
@@ -148,7 +142,7 @@ public class HunterPatrol : IState<HunterIntern>
             return;
         }   
 
-        this.move.ControllerPressed(dir.normalized, 0);
+        this.move.ControllerPressed(Vector2.ClampMagnitude(dir, 1), 0);
     }
     public void OnExitState(HunterIntern param)
     {
@@ -159,7 +153,7 @@ public class HunterPatrol : IState<HunterIntern>
     {
         var move = hunter.steerings["waypoints"].GetMove(hunter.patrol.currentWaypoint);
         dir = hunter.steerings["waypoints"].steering.Calculate(move);
-        hunter.patrol.MinimalChck(1);
+        hunter.patrol.MinimalChck(hunter.minimalDistance);
     }
 }
 
@@ -196,6 +190,8 @@ public class HunterChase : IState<HunterIntern>
         {
             param.context.attk.Attack();
         }
+
+        param.context.move.ControllerPressed(Vector2.ClampMagnitude(steerings[0], 1), 0);
     }
 
     public void OnExitState(HunterIntern param)

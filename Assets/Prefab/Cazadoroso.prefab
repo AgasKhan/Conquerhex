@@ -120,9 +120,11 @@ MonoBehaviour:
     distance: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 192
+      m_Bits: 193
     _maxDetects: 0
     _minDetects: 0
+    inverse: 0
+    dot: 1
   patrol:
     reverse: 0
     iPatrulla: 0
@@ -133,6 +135,7 @@ MonoBehaviour:
       rid: -2
   fsm:
     rid: -2
+  minimalDistance: 0.5
   references:
     version: 2
     RefIds:
@@ -197,6 +200,8 @@ MonoBehaviour:
       m_Bits: 0
     _maxDetects: 0
     _minDetects: 0
+    inverse: 0
+    dot: 1
   references:
     version: 2
     RefIds:
