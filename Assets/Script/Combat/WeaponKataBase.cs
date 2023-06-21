@@ -20,7 +20,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [Header("Deteccion")]
 
     [SerializeField]
-    public DetectSort<Entity> detect;
+    public Detect<Entity> detect;
 
     [Header("Multiplicadores danio")]
 

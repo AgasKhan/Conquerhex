@@ -9,6 +9,7 @@ public class FoVEditor : Editor
 {
     private void OnSceneGUI()
     {
+        /*
         FieldOfView fow = (FieldOfView)target;
         Handles.color = Color.white;
         //Circulo
@@ -27,7 +28,7 @@ public class FoVEditor : Editor
         {
             Handles.DrawLine(fow.transform.position, visibleTarget.position);
         }
-
+        */
     }
 
 }

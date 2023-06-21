@@ -7,7 +7,7 @@ public class IAIO : IAFather
     string originalTag;
 
     [SerializeField]
-    DetectSort<Building> detectBuilding = new DetectSort<Building>();
+    Detect<Building> detectBuilding = new Detect<Building>();
 
     Building lastBuilding;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Detect<T>
+public class Detect<T> where T : class
 {
     [Tooltip("Radio de deteccion")]
     public float radius;
@@ -19,6 +19,13 @@ public class Detect<T>
     [SerializeField]
     int _minDetects;
 
+
+    [Tooltip("si arranca por el mas lejano, en vez del mas cercano")]
+    public bool inverse;
+
+    [Tooltip("Producto punto utilizado para el calculo del cono")]
+    public float dot = 1;
+
     /// <summary>
     /// numero maximo de objetos detectados
     /// </summary>
@@ -29,6 +36,9 @@ public class Detect<T>
     /// </summary>
     public int minDetects => _minDetects;
 
+    /// <summary>
+    /// diametro
+    /// </summary>
     public float diameter => radius * 2;
 
     /// <summary>
@@ -156,23 +166,6 @@ public class Detect<T>
             return null;
     }
 
-    protected virtual void Add(List<T> list, T add, Vector3 pos)
-    {
-        list.Add(add);
-    }
-
-    protected virtual void Add(List<Transform> list, Transform add, Vector3 pos)
-    {
-        list.Add(add);
-    }
-}
-
-
-[System.Serializable]
-public class DetectSort<T> : Detect<T> where T : Component
-{
-    [Tooltip("si arranca por el mas lejano, en vez del mas cercano")]
-    public bool inverse;
 
     /// <summary>
     /// 
@@ -182,7 +175,7 @@ public class DetectSort<T> : Detect<T> where T : Component
     /// <param name="chck">Si cumple con el criterio de busqueda</param>
     /// <returns></returns>
 
-    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects ,float radius)
+    public T[] ConeWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius, float dot)
     {
         List<T> damageables = new List<T>(Area(caster.position, 0, 0, chck, radius));
 
@@ -190,7 +183,13 @@ public class DetectSort<T> : Detect<T> where T : Component
 
         for (int i = damageables.Count - 1; i >= 0; i--)
         {
-            var posDamageable = damageables[i].transform.position.Vect3To2();
+            var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
+
+            if (dot > Vector2.Dot((posDamageable - pos).normalized, caster.right))
+            {
+                damageables.RemoveAt(i);
+                continue;
+            }
 
             var aux = RayTransform(posDamageable, (pos - posDamageable), 0, 0, (pos - posDamageable).magnitude);
 
@@ -199,15 +198,15 @@ public class DetectSort<T> : Detect<T> where T : Component
                 bool chckCaster = true;
 
                 //Para chequear si en algunos de los primeros esta el player
-                for (int ii = 0; ii < Mathf.Clamp(aux.Length,0,2); ii++)
+                for (int ii = 0; ii < Mathf.Clamp(aux.Length, 0, 2); ii++)
                 {
-                    if(aux[ii] == caster)
+                    if (aux[ii] == caster)
                     {
                         chckCaster = false;
                     }
                 }
 
-                if(chckCaster)
+                if (chckCaster)
                     damageables.RemoveAt(i);
             }
         }
@@ -223,29 +222,39 @@ public class DetectSort<T> : Detect<T> where T : Component
 
             for (int i = 0; i < (count - maxDetects); i++)
             {
-                damageables.RemoveAt(count - (1 + 1*i));
+                damageables.RemoveAt(count - (1 + 1 * i));
             }
         }
 
         return damageables.ToArray();
     }
 
+    public T[] ConeWithRay(Transform caster, System.Func<T, bool> chck)
+    {
+        return ConeWithRay(caster, chck, maxDetects, radius, dot);
+    }
+
+    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius)
+    {
+        return ConeWithRay(caster, chck, maxDetects, radius, -1);
+    }
+
     public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck)
     {
-        return AreaWithRay(caster, chck, maxDetects,  radius);
+        return AreaWithRay(caster, chck, maxDetects, radius);
     }
 
-    protected override void Add(List<T> list, T add, Vector3 pos)
+    protected virtual void Add(List<T> list, T add, Vector3 pos)
     {
-        InternalAdd(list, add, pos);
+        InternalAdd(list, add as Component, pos);
     }
 
-    protected override void Add(List<Transform> list, Transform add, Vector3 pos)
+    protected virtual void Add(List<Transform> list, Transform add, Vector3 pos)
     {
-        InternalAdd(list, add, pos);
+        list.Add(add);
     }
 
-    void InternalAdd<Generic>(List<Generic> list, Generic add, Vector3 pos) where Generic : Component
+    void InternalAdd<Generic>(List<T> list, Generic add, Vector3 pos) where Generic : Component
     {
         CompareDist<Generic> compareDist = new CompareDist<Generic>();
 
@@ -254,13 +263,13 @@ public class DetectSort<T> : Detect<T> where T : Component
         compareDist.me = pos;
 
         //busqueda binaria para determinar el candidato a comparar mas cercano
-        int cmp, max = list.Count-1, min = 0, searchIndex = 0;
+        int cmp, max = list.Count - 1, min = 0, searchIndex = 0;
 
-        while (min <= max) 
+        while (min <= max)
         {
             searchIndex = ((max - min) / 2) + min;
 
-            cmp = compareDist.Compare(add, list[searchIndex]);
+            cmp = compareDist.Compare(add, list[searchIndex] as Generic);
 
             if (cmp > 0)
             {
@@ -270,29 +279,17 @@ public class DetectSort<T> : Detect<T> where T : Component
             {
                 max = searchIndex - 1;
             }
-        }        
+        }
 
         //una vez que encontre el lugar mas cercano para comparar ahora me fijo, si va antes o despues
-        if(list.Count>0)
+        if (list.Count > 0)
         {
-            searchIndex = compareDist.Compare(add, list[searchIndex]) + searchIndex;
+            searchIndex = compareDist.Compare(add, list[searchIndex] as Generic) + searchIndex;
         }
 
-        list.AddOrInsert(add, searchIndex);
-
-        /*
-        string aux = "";
-
-        foreach (var item in list)
-        {
-            aux += (item.transform.position - pos).magnitude + "-";
-        }
-
-        Debug.Log(aux);
-        */
+        list.AddOrInsert(add as T, searchIndex);
     }
 }
-
 
 public class CompareDist<T> : IComparer<T> where T: Component
 {

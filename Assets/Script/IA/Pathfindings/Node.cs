@@ -11,4 +11,9 @@ public class Node : MonoBehaviour
     public int cost = 1;
 
     public List<Node> getNeighbors => _neighbors;
+
+    private void Start()
+    {
+        NodeManager.instance.saveNode = this;
+    }
 }

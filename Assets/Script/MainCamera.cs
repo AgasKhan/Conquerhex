@@ -8,9 +8,26 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public bool perspective;
 
+    [SerializeField]
+    Vector3 rotationPerspective;
+
+    [SerializeField]
+    Vector3 vectorPerspective;
+
     private void OnEnable()
     {
         Camera.main.orthographic = !perspective;
+
+        if(!perspective)
+        {
+            transform.rotation = Quaternion.identity;
+            transform.GetChild(0).localPosition = Vector3.zero;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(rotationPerspective);
+            transform.GetChild(0).localPosition = vectorPerspective;
+        }
     }
 
     // Update is called once per frame

@@ -96,8 +96,6 @@ public class Pathfinding : MonoBehaviour
         {
             Node current = frontier.Dequeue();
 
-            PathManager.instance.ChangeObjColor(current.gameObject, Color.blue);
-
             yield return timeToWait;
 
             if (current == goalNode)
@@ -105,8 +103,6 @@ public class Pathfinding : MonoBehaviour
                 //Si no es el mismo del inicio
                 while (current != null)
                 {
-                    PathManager.instance.ChangeObjColor(current.gameObject, Color.yellow);
-
                     yield return timeToWait;
 
                     current = cameFrom[current];
@@ -213,14 +209,12 @@ public class Pathfinding : MonoBehaviour
         {
             Node current = frontier.Dequeue();
 
-            PathManager.instance.ChangeObjColor(current.gameObject, Color.blue);
             yield return time;
 
             if (current == goalNode)
             {
                 while (current != null)
                 {
-                    PathManager.instance.ChangeObjColor(current.gameObject, Color.yellow);
                     yield return time;
                     current = cameFrom[current];
                 }

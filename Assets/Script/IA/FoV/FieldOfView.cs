@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    public float viewRadius;
     [Range(0, 360)] public float viewAngle;
 
-    [SerializeField] LayerMask targetMask;
-    [SerializeField] LayerMask obstableMask;
+    [SerializeField]
+    Detect<Transform> detect;
 
     [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
 
     private void Start()
     {
+        detect.dot = Mathf.Cos(viewAngle);
         StartCoroutine("FindTargetsWithDelay", .2f);
     }
 
@@ -30,35 +30,7 @@ public class FieldOfView : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
-        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetMask);
 
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
-        {
-            Transform target = targetsInViewRadius[i].transform;
-            Vector2 dirToTarget = (target.position - transform.position).normalized;
-
-            if(Vector2.Angle(transform.right, dirToTarget) < viewAngle/2)
-            {
-                float distToTarget = Vector2.Distance(transform.position, target.position);
-
-                if(!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstableMask))
-                {
-                    visibleTargets.Add(target);
-                }
-            }
-        }
+        visibleTargets.AddRange(detect.ConeWithRay(transform, (toChck)=> { return toChck != transform;}));
     }
-
-    public Vector2 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
-    {
-        if (!angleIsGlobal)
-        {
-            angleInDegrees -= transform.eulerAngles.z;
-        }
-    
-        return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-
-    }
-
-
 }
