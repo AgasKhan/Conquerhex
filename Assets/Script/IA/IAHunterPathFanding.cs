@@ -12,17 +12,25 @@ public class IAHunterPathFanding : IAHunter
     {
         get
         {
-            if(!nodes.TryPeek(out var nodo))
+
+            if (nodes.Count>0)
+            {
+                var node = nodes.Peek();
+
+                if ((node.position - transform.position).sqrMagnitude < minimalDistance * minimalDistance)
+                {
+                    nodes.Pop();
+                    if (!nodes.TryPeek(out node))
+                    {
+                        return patrol.currentWaypoint;
+                    }
+                }
+                return node;
+            }
+            else
             {
                 return patrol.currentWaypoint;
             }
-            if ((nodo.transform.position - transform.position).sqrMagnitude < minimalDistance * minimalDistance)
-                if (nodes.TryPop(out nodo) && !nodes.TryPeek(out nodo))
-                {
-                    return patrol.currentWaypoint;
-                }
-
-            return nodo.transform;
         }
     }
 
@@ -36,7 +44,7 @@ public class IAHunterPathFanding : IAHunter
 
         fsm.noDetectEnemy += Fsm_noDetectEnemy;
 
-        patrol.fsmPatrol.OnStartMove += OnStartPatrol;
+        patrol.fsmPatrol.OnMove += OnStartPatrol;
     }
 
  
@@ -48,7 +56,9 @@ public class IAHunterPathFanding : IAHunter
 
         fsm.detectEnemy -= Fsm_detectEnemy;
 
-        patrol.fsmPatrol.OnStartMove -= OnStartPatrol;
+        fsm.noDetectEnemy -= Fsm_noDetectEnemy;
+
+        patrol.fsmPatrol.OnMove -= OnStartPatrol;
     }
 
     private void Fsm_noDetectEnemy(Vector3 obj)
@@ -58,15 +68,18 @@ public class IAHunterPathFanding : IAHunter
             lastPositionPlayer = new GameObject("lastPosition Player").transform;
         }
 
-        lastPositionPlayer.transform.position = obj;
+        lastPositionPlayer.position = obj;
+        
+        Stack<Transform> aux = Pathfinding.instance.CalculatePath(obj, transform.position);
 
-        nodes.Push(lastPositionPlayer.transform);
+        nodes.Clear();
 
-        foreach (var item in Pathfinding.instance.CalculatePath(transform.position, obj))
+        nodes.Push(lastPositionPlayer);
+
+        while (aux.TryPop(out var node))
         {
-            nodes.Push(item);
+            nodes.Push(node);
         }
-
     }
 
     private void Fsm_detectEnemy(Vector3 obj)
@@ -84,7 +97,7 @@ public class IAHunterPathFanding : IAHunter
 
         if(aux!= null && aux.Length>1)
         {
-            nodes = Pathfinding.instance.CalculatePath(transform.position, currentObjective.position);
+            nodes = Pathfinding.instance.CalculatePath(transform.position, patrol.currentWaypoint.position);
         }
     }
 }

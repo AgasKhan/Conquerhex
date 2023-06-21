@@ -60,10 +60,12 @@ GameObject:
   - component: {fileID: 7703062913578005909}
   - component: {fileID: 1923887133863855821}
   - component: {fileID: -143505725685077172}
+  - component: {fileID: 4467972175993570692}
   - component: {fileID: 1923887133863855820}
   - component: {fileID: 1923887133863855665}
   - component: {fileID: 1923887133863855666}
   - component: {fileID: 1923887133863855816}
+  - component: {fileID: 8570676347774531570}
   m_Layer: 7
   m_Name: Cazadoroso
   m_TagString: Enemigo
@@ -181,7 +183,7 @@ MonoBehaviour:
   weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  move: {fileID: 1923887133863855820}
+  move: {fileID: 4467972175993570692}
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
   prin:
@@ -248,6 +250,32 @@ MonoBehaviour:
   damagedLifeAudio: DamagedLifeOso
   damagedRegenAudio: DamagedRegen
   teleportAudio: TeleportAudio
+--- !u!114 &4467972175993570692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
+    type: 3}
+  carlitos: []
+  direction: {x: 0, y: 0}
+  aceleration:
+    total: 30
+    _current: 30
+  _desaceleration:
+    total: 30
+    _current: 30
+  _velocity:
+    total: 15
+    _current: 10
+  objectiveVelocity: 15
 --- !u!114 &1923887133863855820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +344,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.24}
   serializedVersion: 2
   m_Radius: 0.3
+--- !u!50 &8570676347774531570
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1001 &4492813437207219381
 PrefabInstance:
   m_ObjectHideFlags: 0

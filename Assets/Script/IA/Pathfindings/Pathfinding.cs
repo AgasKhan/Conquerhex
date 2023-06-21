@@ -14,13 +14,14 @@ public class Pathfinding : SingletonMono<Pathfinding>
 
     public Stack<Transform> CalculatePath(Vector3 init, Vector3 end)
     {
-        var aux = AStar(NodeManager.instance.GetNeighborFromPosition(init), NodeManager.instance.GetNeighborFromPosition(end));
+        var aux = AStar(NodeManager.instance.GetNeighborFromPosition(end), NodeManager.instance.GetNeighborFromPosition(init));
 
+        //tengo que recorrerlo invertido
         Stack<Transform> retorno = new Stack<Transform>();
 
-        foreach (var item in aux)
+        while (aux.TryPop(out var node))
         {
-            retorno.Push(item.transform);
+            retorno.Push(node.transform);
         }
 
         return retorno;

@@ -135,13 +135,11 @@ public class HunterPatrol : IState<HunterIntern>
         hunter = param.context;
         move = hunter.move;
         param.context.patrol.fsmPatrol.OnMove += Move;
+        param.context.patrol.fsmPatrol.OnStartWait += StartWait;
     }
 
     public void OnStayState(HunterIntern param)
     {
-        if (move.vectorVelocity.sqrMagnitude >= 0.01f)
-            conoDir = Vector2.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
-
         var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
 
         param.context.steerings["corderitos"].targets.Clear();
@@ -151,13 +149,22 @@ public class HunterPatrol : IState<HunterIntern>
             param.context.steerings["corderitos"].targets.Add(corderos[0]);
             param.CurrentState = param.chase;
             return;
-        }   
+        }
+
+        if (move.vectorVelocity.sqrMagnitude >= 0.01f)
+            conoDir = Vector2.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
 
         this.move.ControllerPressed(dir, 0);
     }
     public void OnExitState(HunterIntern param)
     {
         param.context.patrol.fsmPatrol.OnMove -= Move;
+        param.context.patrol.fsmPatrol.OnStartWait -= StartWait;
+    }
+
+    void StartWait()
+    {
+        dir = Vector2.zero;
     }
 
     void Move()
@@ -186,11 +193,11 @@ public class HunterChase : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
-
         enemyPos = (steerings.targets[0] as Component).transform.position;
 
         detectEnemy?.Invoke(enemyPos);
+
+        var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
         if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
         {
