@@ -47,10 +47,8 @@ public class Pathfinding : MonoBehaviour
             }
 
             //Analizamos sus vecinos
-            foreach (var next in current.GetNeighbors())
+            foreach (var next in current.getNeighbors)
             {
-                if (next.IsBlocked) continue;
-
                 //Obtenemos el costo total entre el costo actual que nos devuelve nuestro costSoFar
                 //y el costo del next
                 int newCost = costSoFar[current] + next.cost;
@@ -117,10 +115,8 @@ public class Pathfinding : MonoBehaviour
                 break;
             }
 
-            foreach (var next in current.GetNeighbors())
+            foreach (var next in current.getNeighbors)
             {
-                if (next.IsBlocked) continue;
-
                 int newCost = costSoFar[current] + next.cost;
 
                 if (!costSoFar.ContainsKey(next))
@@ -141,7 +137,7 @@ public class Pathfinding : MonoBehaviour
     #endregion
 
     #region A*
-        float Heuristic(Node currentNode, Node goalNode)
+    float Heuristic(Node currentNode, Node goalNode)
     {
         return Mathf.Abs(currentNode.transform.position.x - goalNode.transform.position.x) +
                     Mathf.Abs(currentNode.transform.position.z - goalNode.transform.position.z);
@@ -177,10 +173,8 @@ public class Pathfinding : MonoBehaviour
                 return path;
             }
 
-            foreach (var next in current.GetNeighbors())
+            foreach (var next in current.getNeighbors)
             {
-                if (next.IsBlocked) continue;
-
                 int newCost = costSoFar[current] + next.cost;
 
                 float priority = newCost + Heuristic(next, goalNode);
@@ -234,9 +228,8 @@ public class Pathfinding : MonoBehaviour
                 break;
             }
 
-            foreach (var next in current.GetNeighbors())
+            foreach (var next in current.getNeighbors)
             {
-                if (next.IsBlocked) continue;
 
                 int newCost = costSoFar[current] + next.cost;
 
