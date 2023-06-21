@@ -137,7 +137,7 @@ public class HunterPatrol : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        var corderos = param.context.detectCordero.Area(param.context.transform.position, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
+        var corderos = param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
 
         param.context.steerings["corderitos"].targets.Clear();
 

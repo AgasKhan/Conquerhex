@@ -158,7 +158,7 @@ public class Detect<T> where T : class
 
 
 
-    public T[] Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
+    public List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
     {
         List<T> result = new List<T>();
 
@@ -176,7 +176,7 @@ public class Detect<T> where T : class
         }
 
         if (result.Count > 0)
-            return result.ToArray();
+            return result;
         else
             return null;
     }
@@ -188,7 +188,7 @@ public class Detect<T> where T : class
     /// <param name="dir"></param>
     /// <param name="distance"></param>
     /// <returns></returns>
-    public T[] Ray(Vector2 pos, Vector2 dir, float distance = -1)
+    public List<T> Ray(Vector2 pos, Vector2 dir, float distance = -1)
     {
         return Ray(pos, dir, (entity) => true, distance);
     }
@@ -202,22 +202,22 @@ public class Detect<T> where T : class
     /// <param name="chck">Si cumple con el criterio de busqueda</param>
     /// <returns></returns>
 
-    public T[] ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck, int maxDetects, float radius, float dot)
+    public List<T> ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck, int maxDetects, float radius, float dot)
     {
-        return WithRay(caster, Cone(caster.position, dir, 0, 0, chck, radius, dot), maxDetects).ToArray();
+        return WithRay(caster, Cone(caster.position, dir, 0, 0, chck, radius, dot), maxDetects);
     }
 
-    public T[] ConeWithRay(Transform caster, System.Func<T, bool> chck)
+    public List<T> ConeWithRay(Transform caster, System.Func<T, bool> chck)
     {
         return ConeWithRay(caster, caster.right, chck, maxDetects, radius, dot);
     }
 
-    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius)
+    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius)
     {
-        return WithRay(caster, Area(caster.transform.position, minDetects, 0, chck, radius), maxDetects).ToArray();
+        return WithRay(caster, Area(caster.transform.position, minDetects, 0, chck, radius), maxDetects);
     }
 
-    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck)
+    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck)
     {
         return AreaWithRay(caster, chck, maxDetects, radius);
     }

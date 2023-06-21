@@ -22,9 +22,9 @@ public abstract class AreaKataBase : WeaponKataBase
 
         var aux = detect.AreaWithRay(caster.transform, (entity) => { return caster != entity; }, numObjectives, range);
 
-        Damage(ref damages, caster, aux);
+        Damage(ref damages, caster, aux.ToArray());
 
-        return aux;
+        return aux.ToArray();
     }
 }
 
