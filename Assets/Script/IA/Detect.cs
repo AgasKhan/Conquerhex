@@ -87,18 +87,30 @@ public class Detect<T> where T : class
         return Area(pos, minDetects , maxDetects, chck, radius);
     }
 
-    /// <summary>
-    /// Ray que devuelve el transform
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <param name="dir"></param>
-    /// <param name="distance"></param>
-    /// <returns></returns>
-    public Transform[] RayTransform(Vector2 pos, Vector2 dir, float distance = -1)
+    public List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float radius, float dot)
     {
-        return RayTransform(pos, dir, minDetects, maxDetects, distance);
+        var damageables = Area(pos, 0, 0, chck, radius);
+
+        for (int i = damageables.Count - 1; i >= 0; i--)
+        {
+            var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
+
+            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
+            {
+                damageables.RemoveAt(i);
+                continue;
+            }
+        }
+
+        return damageables;
     }
 
+    public List<T> Cone(Vector2 pos, Vector2 dir,System.Func<T, bool> chck)
+    {
+        return Cone(pos,dir,minDetects, maxDetects, chck, radius, dot);
+    }
+
+ 
     public Transform[] RayTransform(Vector2 pos, Vector2 dir, int min, int max , float distance = -1)
     {
         var aux = Physics2D.RaycastAll(pos, dir, distance < 0 ? this.distance : distance, layerMask);
@@ -132,16 +144,19 @@ public class Detect<T> where T : class
     }
 
     /// <summary>
-    /// Ray que devuelve el tipo de la clase
+    /// Ray que devuelve el transform
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="dir"></param>
     /// <param name="distance"></param>
     /// <returns></returns>
-    public T[] Ray(Vector2 pos, Vector2 dir, float distance = -1)
+    public Transform[] RayTransform(Vector2 pos, Vector2 dir, float distance = -1)
     {
-        return Ray(pos, dir, (entity) => true, distance);
+        return RayTransform(pos, dir, minDetects, maxDetects, distance);
     }
+
+
+
 
     public T[] Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
     {
@@ -166,6 +181,18 @@ public class Detect<T> where T : class
             return null;
     }
 
+    /// <summary>
+    /// Ray que devuelve el tipo de la clase
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="dir"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    public T[] Ray(Vector2 pos, Vector2 dir, float distance = -1)
+    {
+        return Ray(pos, dir, (entity) => true, distance);
+    }
+
 
     /// <summary>
     /// 
@@ -177,19 +204,38 @@ public class Detect<T> where T : class
 
     public T[] ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck, int maxDetects, float radius, float dot)
     {
-        List<T> damageables = new List<T>(Area(caster.position, 0, 0, chck, radius));
+        return WithRay(caster, Cone(caster.position, dir, 0, 0, chck, radius, dot), maxDetects).ToArray();
+    }
 
+    public T[] ConeWithRay(Transform caster, System.Func<T, bool> chck)
+    {
+        return ConeWithRay(caster, caster.right, chck, maxDetects, radius, dot);
+    }
+
+    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius)
+    {
+        return WithRay(caster, Area(caster.transform.position, minDetects, 0, chck, radius), maxDetects).ToArray();
+    }
+
+    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck)
+    {
+        return AreaWithRay(caster, chck, maxDetects, radius);
+    }
+
+    /// <summary>
+    /// Remueve de la lista aquellos que no tienen vision directa con el caster
+    /// </summary>
+    /// <param name="caster"></param>
+    /// <param name="damageables"></param>
+    /// <param name="maxDetects"></param>
+    /// <returns></returns>
+    List<T> WithRay(Transform caster, List<T> damageables, int maxDetects)
+    {
         var pos = caster.position.Vect3To2();
 
         for (int i = damageables.Count - 1; i >= 0; i--)
         {
             var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
-
-            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
-            {
-                damageables.RemoveAt(i);
-                continue;
-            }
 
             var aux = RayTransform(posDamageable, (pos - posDamageable), 0, 0, (pos - posDamageable).magnitude);
 
@@ -226,22 +272,7 @@ public class Detect<T> where T : class
             }
         }
 
-        return damageables.ToArray();
-    }
-
-    public T[] ConeWithRay(Transform caster, System.Func<T, bool> chck)
-    {
-        return ConeWithRay(caster, caster.right, chck, maxDetects, radius, dot);
-    }
-
-    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float radius)
-    {
-        return ConeWithRay(caster, caster.right, chck, maxDetects, radius, -1);
-    }
-
-    public T[] AreaWithRay(Transform caster, System.Func<T, bool> chck)
-    {
-        return AreaWithRay(caster, chck, maxDetects, radius);
+        return damageables;
     }
 
     protected virtual void Add(List<T> list, T add, Vector3 pos)
