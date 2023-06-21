@@ -61,6 +61,12 @@ public class IAHunterPathFanding : IAHunter
         lastPositionPlayer.transform.position = obj;
 
         nodes.Push(lastPositionPlayer.transform);
+
+        foreach (var item in Pathfinding.instance.CalculatePath(transform.position, obj))
+        {
+            nodes.Push(item);
+        }
+
     }
 
     private void Fsm_detectEnemy(Vector3 obj)

@@ -24,11 +24,10 @@ public class MoveRb : MoveTr
     void MyFixedUpdate()
     {
         rb.velocity = (direction * _velocity.current).Vec2to3(0);
+        _velocity.Substract(_desaceleration.current * Time.fixedDeltaTime);
     }
 
     public override void MyUpdate()
     {
-        _velocity.Substract(_desaceleration.current * Time.deltaTime);
     }
-
 }
