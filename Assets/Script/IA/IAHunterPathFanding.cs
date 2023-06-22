@@ -27,10 +27,8 @@ public class IAHunterPathFanding : IAHunter
                 }
                 return node;
             }
-            else
-            {
-                return patrol.currentWaypoint;
-            }
+
+            return patrol.currentWaypoint;
         }
     }
 
@@ -44,7 +42,7 @@ public class IAHunterPathFanding : IAHunter
 
         fsm.noDetectEnemy += Fsm_noDetectEnemy;
 
-        patrol.fsmPatrol.OnMove += OnStartPatrol;
+        patrol.fsmPatrol.OnMove += OnPatrol;
     }
 
  
@@ -58,7 +56,7 @@ public class IAHunterPathFanding : IAHunter
 
         fsm.noDetectEnemy -= Fsm_noDetectEnemy;
 
-        patrol.fsmPatrol.OnMove -= OnStartPatrol;
+        patrol.fsmPatrol.OnMove -= OnPatrol;
     }
 
     private void Fsm_noDetectEnemy(Vector3 obj)
@@ -91,9 +89,10 @@ public class IAHunterPathFanding : IAHunter
     {
         nodes = Pathfinding.instance.CalculatePath(transform.position, obj);
     }
-    void OnStartPatrol()
+
+    void OnPatrol()
     {
-        var aux = detectCordero.RayTransform(transform.position, (currentObjective.position - transform.position), (currentObjective.position - transform.position).magnitude);
+        var aux = detectCordero.RayTransform(transform.position, (currentObjective.position - transform.position), (cmp)=> { return cmp!=transform; },(currentObjective.position - transform.position).magnitude);
 
         if(aux!= null && aux.Length>1)
         {

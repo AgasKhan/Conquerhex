@@ -189,13 +189,15 @@ public class HunterChase : IState<HunterIntern>
         param.energy.SetMultiply(1.5f);
 
         steerings = param.context.steerings["corderitos"];
+
+        enemyPos = (steerings.targets[0] as Component).transform.position;
+
+        detectEnemy?.Invoke(enemyPos);
     }
 
     public void OnStayState(HunterIntern param)
     {
         enemyPos = (steerings.targets[0] as Component).transform.position;
-
-        detectEnemy?.Invoke(enemyPos);
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
@@ -226,7 +228,7 @@ public class HunterChase : IState<HunterIntern>
         noDetectEnemy?.Invoke(enemyPos);
         param.energy.SetMultiply(1);
         param.context.steerings["corderitos"].targets.Clear();
-        param.context.patrol.fsmPatrol.CurrentState = param.context.patrol.fsmPatrol.wait;
+        //param.context.patrol.fsmPatrol.CurrentState = param.context.patrol.fsmPatrol.wait;
     }
 }
 

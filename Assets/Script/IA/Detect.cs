@@ -121,7 +121,7 @@ public class Detect<T> where T : class
     }
 
  
-    public Transform[] RayTransform(Vector2 pos, Vector2 dir, int min, int max , float distance = -1)
+    public Transform[] RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck , int min, int max , float distance = -1)
     {
         var aux = Physics2D.RaycastAll(pos, dir, distance < 0 ? this.distance : distance, layerMask);
 
@@ -134,9 +134,12 @@ public class Detect<T> where T : class
             string str = "";
 
             foreach (var item in aux)
-            {
-                str += item.transform.name +"- ";
-                Add(tr, item.transform, pos);
+            {   
+                if(chck(item.transform))
+                {
+                    Add(tr, item.transform, pos);
+                    str += item.transform.name + "- ";
+                }
             }
 
             //Debug.Log(str);
@@ -160,16 +163,16 @@ public class Detect<T> where T : class
     /// <param name="dir"></param>
     /// <param name="distance"></param>
     /// <returns></returns>
-    public Transform[] RayTransform(Vector2 pos, Vector2 dir, float distance = -1)
+    public Transform[] RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, float distance = -1)
     {
-        return RayTransform(pos, dir, minDetects, maxDetects, distance);
+        return RayTransform(pos, dir, chck, minDetects, maxDetects, distance);
     }
 
     public List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
     {
         List<T> result = new List<T>();
 
-        var tr = RayTransform(pos, dir, distance);
+        var tr = RayTransform(pos, dir, (tr)=> true ,distance);
 
         foreach (var item in tr)
         {
@@ -249,7 +252,7 @@ public class Detect<T> where T : class
         {
             var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
 
-            var aux = RayTransform(posDamageable, (pos - posDamageable), 0, 0, (pos - posDamageable).magnitude);
+            var aux = RayTransform(posDamageable, (pos - posDamageable), (tr)=> true, 0, 0, (pos - posDamageable).magnitude);
 
             if (aux != null && aux.Length > 0)//si colisiono significa q no tengo vision directa
             {

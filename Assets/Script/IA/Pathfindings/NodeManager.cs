@@ -28,7 +28,7 @@ public class NodeManager : SingletonMono<NodeManager>
 
         for (int i = nearest.Count - 1; i >= 0; i--)
         {
-            if (Physics.Raycast(pos, (nearest[i].transform.position - pos), (nearest[i].transform.position - pos).magnitude, obstacleLayer))
+            if (Physics2D.Raycast(pos, (nearest[i].transform.position - pos), (nearest[i].transform.position - pos).magnitude, obstacleLayer))
             {
                 nearest.RemoveAt(i);
             }

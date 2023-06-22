@@ -57,6 +57,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1923887133863855664}
+  - component: {fileID: 2363031325646665074}
   - component: {fileID: 7703062913578005909}
   - component: {fileID: 1923887133863855821}
   - component: {fileID: -143505725685077172}
@@ -90,6 +91,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2363031325646665074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cdcd3e5b4df5ae4dbded73b1c6b7dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerStun:
+    total: 0
+    _current: 0
+  steerings:
+    pictionaries:
+    - key: corderitos
+      value:
+        steering: {fileID: 1923887133863855665}
+        weight: 1
+    - key: waypoints
+      value:
+        steering: {fileID: 1923887133863855666}
+        weight: 1
+  detectCordero:
+    radius: 8
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 193
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 0.7
+  patrol:
+    reverse: 0
+    iPatrulla: 0
+    patrolParent: {fileID: 0}
+    _distance: {x: 0, y: 0, z: 0}
+    _waitTime: 1
+    fsmPatrol:
+      rid: -2
+  fsm:
+    rid: -2
+  minimalDistance: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &7703062913578005909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,11 +162,11 @@ MonoBehaviour:
     - key: corderitos
       value:
         steering: {fileID: 1923887133863855665}
-        weight: 0
+        weight: 1
     - key: waypoints
       value:
         steering: {fileID: 1923887133863855666}
-        weight: 0
+        weight: 1
   detectCordero:
     radius: 8
     distance: 0
@@ -283,7 +335,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923887133863855815}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
   m_Name: 
@@ -301,7 +353,7 @@ MonoBehaviour:
   _velocity:
     total: 7
     _current: 0
-  objectiveVelocity: 0
+  objectiveVelocity: 7
 --- !u!114 &1923887133863855665
 MonoBehaviour:
   m_ObjectHideFlags: 0
