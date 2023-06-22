@@ -107,18 +107,18 @@ public class Hexagone : MonoBehaviour
         int xFin = x + lenght;
         int yFin = y + lenght;
 
-        for (int i = x; i < xFin; i += 4)
+        for (int i = x; i < xFin; i += biomes.inversaDensidad+1)
         {
-            for (int ii = y; ii < yFin; ii += 4)
+            for (int ii = y; ii < yFin; ii += biomes.inversaDensidad+1)
             {
-                if ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude > 9 || !centro))
+                if ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude > Mathf.Pow(biomes.inversaDensidad,2) || !centro))
                 {
                     if (Random.Range(0, 100) > biomes.chanceEmptyOrEnemy)
                     {
-                        float rng1 = Random.Range(1, 31);
-                        float rng2 = Random.Range(1, 31);
+                        float rng1 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
+                        float rng2 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
 
-                        GameObject prop = Instantiate(biomes.props.RandomPic(), new Vector3((i - 1.5f) + rng1 / 10f, (ii - 1.5f) + rng2 / 10f, center.z), Quaternion.identity);
+                        GameObject prop = Instantiate(biomes.props.RandomPic(), new Vector3((i - biomes.inversaDensidad/2f) + rng1 / 10f, (ii - biomes.inversaDensidad / 2f) + rng2 / 10f, center.z), Quaternion.identity);
 
                         var aux = prop.GetComponentInChildren<SpriteRenderer>();
 

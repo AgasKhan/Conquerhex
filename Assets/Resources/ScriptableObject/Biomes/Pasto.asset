@@ -33,7 +33,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2661d514dfa73e04d9776bdda5b44ef4, type: 2}
   - {fileID: 11400000, guid: b666ed9e9493bee49ab13f7104d1e645, type: 2}
   - {fileID: 11400000, guid: f7baa5c9347ff4149a044ed014df6224, type: 2}
-  chanceEmptyWeight: 100
+  chanceEmptyOrEnemy: 60
+  inversaDensidad: 3
+  spawner: {fileID: -5676458598891892511, guid: ecf5bace16d838041a93341ef03cc01d,
+    type: 3}
   props:
     pictionaries:
     - key: {fileID: 6671859561811960973, guid: 5525e013dbd9c074f99b5857da58101b, type: 3}
@@ -127,4 +130,10 @@ MonoBehaviour:
     - key: {fileID: 3766210931211273545, guid: fcab1079396ba964f9448cd17c41a042, type: 3}
       value: 10
     - key: {fileID: 3710095644653045925, guid: 52c68aa177231a141b2e391e3de7e9df, type: 3}
+      value: 10
+    - key: {fileID: 6773200482067112399, guid: 0287f6d3431d8bc49bf6ea457f016b5e, type: 3}
+      value: 10
+    - key: {fileID: 6773200482067112399, guid: 75dac5283f05583459beb549d5296d2f, type: 3}
+      value: 10
+    - key: {fileID: 6773200482067112399, guid: 40b553fd6decbe44e834808f8f777097, type: 3}
       value: 10
