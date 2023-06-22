@@ -2,16 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimPerspecitve : MonoBehaviour
+public class AnimPerspecitve : TransparentMaterial
 {
-    // Start is called before the first frame update
-
-    [SerializeField]
-    Material shadowMaterial;
-
-    [SerializeField]
-    Material transparentMaterial;
-
     public bool shadow;
 
     public bool animator;
@@ -22,50 +14,34 @@ public class AnimPerspecitve : MonoBehaviour
     public string sortingLayer;
 
     [SerializeField]
-    SpriteRenderer originalSprite;
+    Material shadowMaterial;
+
 
     SpriteRenderer shadowSprite;
 
-    private void Awake()
+    override protected void Awake()
     {
-        originalSprite = GetComponentInChildren<SpriteRenderer>();
+        base.Awake();
+
         var aux = GetComponentInChildren<Animator>();
 
         originalSprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
-
-        originalSprite.material = transparentMaterial;
-
 
         if (aux!=null)
             aux.enabled = animator;
     }
 
-    private void UpdateTransparent(params object[] param)
-    {
-        if (!gameObject.activeSelf)
-            return;
-
-        Vector3 posPlayer = (Vector3)param[0];
-
-        if(posPlayer.y>transform.position.y)
-        {
-            originalSprite.material.SetInt("_transparent", 1);
-        }
-        else
-        {
-            originalSprite.material.SetInt("_transparent", 0);
-        }
-    }
+  
 
     void CreateShadow()
     {
-        shadowSprite = Instantiate(originalSprite, transform);
+        shadowSprite = Instantiate(originalSprite, transform) as SpriteRenderer;
 
         Destroy(shadowSprite.GetComponent<Animator>());
 
         shadowSprite.material = shadowMaterial;
 
-        originalSprite.RegisterSpriteChangeCallback(UpdateShadowSprite);
+        ((SpriteRenderer)originalSprite).RegisterSpriteChangeCallback(UpdateShadowSprite);
 
         shadowSprite.gameObject.transform.rotation = Quaternion.identity;
 
@@ -114,14 +90,14 @@ public class AnimPerspecitve : MonoBehaviour
         StartCoroutine(UpdatePostFrame(() => shadowSprite.localBounds = UpdateBounds(shadowSprite.sprite.bounds)));   
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         if (MainCamera.instance.perspective)
             transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
         else
             transform.rotation = Quaternion.identity;
-
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action += UpdateTransparent;
 
         if (!shadow)
             return;
@@ -132,10 +108,7 @@ public class AnimPerspecitve : MonoBehaviour
         UpdateShadow();
     }
 
-    private void OnDisable()
-    {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action -= UpdateTransparent;
-    }
+   
 
     IEnumerator UpdatePostFrame(System.Action action)
     {

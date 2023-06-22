@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4885918877547016591}
   - component: {fileID: 2431665004938861734}
   - component: {fileID: 8211220022093465186}
+  - component: {fileID: 7191933886037025124}
   m_Layer: 9
   m_Name: werw (1)
   m_TagString: Untagged
@@ -98,6 +99,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7191933886037025124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815151540131209307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ae0ca32929e94b8a435384b851ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalSprite: {fileID: 2431665004938861734}
+  transparentMaterial: {fileID: 2100000, guid: db72b3bd8fcd88a47a5f817ad289b18e, type: 2}
+  mainTexture: {fileID: 2800000, guid: c390da8ac1ce40f4e942a0d4468094d4, type: 3}
 --- !u!1 &6250072117785812823
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5514196540695920436}
+  - component: {fileID: 3599399536610704512}
   - component: {fileID: 4449981746218299956}
   - component: {fileID: 5101456480726918097}
   - component: {fileID: 5454273990791750619}
@@ -232,6 +249,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3599399536610704512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7760682470450240429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ae0ca32929e94b8a435384b851ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalSprite: {fileID: 5101456480726918097}
+  transparentMaterial: {fileID: 2100000, guid: db72b3bd8fcd88a47a5f817ad289b18e, type: 2}
+  mainTexture: {fileID: 2800000, guid: 7f716ce429eccee47ae6ca60bf9a4563, type: 3}
 --- !u!33 &4449981746218299956
 MeshFilter:
   m_ObjectHideFlags: 0
