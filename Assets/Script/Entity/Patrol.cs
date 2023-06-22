@@ -179,9 +179,9 @@ public class Patrol : Init
         }
     }
 }
-public interface IPatrolReturn
+public interface IGetPatrol
 {
-    Patrol PatrolReturn();
+    Patrol GetPatrol();
 }
 
 [System.Serializable]

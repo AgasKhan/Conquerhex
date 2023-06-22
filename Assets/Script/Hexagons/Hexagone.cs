@@ -98,7 +98,7 @@ public class Hexagone : MonoBehaviour
         this.ladosPuntos[i, 1] = transform.position.y + HexagonsManager.auxCalc[i, 1];
     }
    
-    public void FillPropsPos(GameObject spawner, bool spawn, bool centro = false)
+    public void FillPropsPos(bool spawn, bool centro = false)
     {
         Vector3 center = transform.position;
         int x = Vector3Int.RoundToInt(center).x - (lenght / 2);
@@ -113,7 +113,7 @@ public class Hexagone : MonoBehaviour
             {
                 if ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude > 9 || !centro))
                 {
-                    if (Random.Range(0, 2) == 0)
+                    if (Random.Range(0, 100) > biomes.chanceEmptyOrEnemy)
                     {
                         float rng1 = Random.Range(1, 31);
                         float rng2 = Random.Range(1, 31);
@@ -128,10 +128,10 @@ public class Hexagone : MonoBehaviour
 
                         prop.transform.SetParent(transform);
                     }
-                    else if (Random.Range(0, 3) == 0 && spawn)
+                    else if (spawn)
                     {
                         //SpawnEnemy(hex.transform, new Vector3(i, ii, center.z));
-                        Instantiate(spawner, new Vector3(i, ii, center.z), Quaternion.identity).transform.SetParent(transform);
+                        Instantiate(biomes.spawner, new Vector3(i, ii, center.z), Quaternion.identity).transform.SetParent(transform);
                     }
                 }
             }

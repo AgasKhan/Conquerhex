@@ -41,8 +41,6 @@ public class LoadMap : SingletonMono<LoadMap>
 
     public MoveAbstract playerPublic;
 
-    public GameObject spawner;
-
     public GameObject victoria;
 
     public Vector3 basePos= new Vector3 {x=2, y=20, z=10 };
@@ -142,7 +140,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
             rng = Random.Range(0, biomes.Length);
 
-            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes[rng]).SetTeleportEdge(hexagonos[i]).FillTilePos().FillPropsPos(spawner,i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
+            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes[rng]).SetTeleportEdge(hexagonos[i]).FillTilePos().FillPropsPos(i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
 
             arrHexTeleport.name = "Hexagono " + i;
         }

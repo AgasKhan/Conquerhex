@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 public class Biomes : ShowDetails
 {
     public Tile[] tile;
-    public int chanceEmptyWeight=100;
+    public int chanceEmptyOrEnemy=10;
+    public Spawner spawner;
     public Pictionarys<GameObject, int> props= new Pictionarys<GameObject, int>();
 }

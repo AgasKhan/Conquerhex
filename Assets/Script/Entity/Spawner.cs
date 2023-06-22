@@ -5,19 +5,36 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField]
-    protected GameObject[] objects;
+    protected Pictionarys<GameObject, int> objects;
 
     protected GameObject spawneado;
+
+    Transform patrolParent;
+
+    [SerializeField]
+    protected int percentageToSpawn=100;
+
+    [SerializeField]
+    bool autoDestroy=true;
 
     protected virtual void Awake()
     {
         LoadSystem.AddPostLoadCorutine(()=> {
 
-            int aux = Random.Range(0, objects.Length);
-            spawneado = Instantiate(objects[aux], transform.position, transform.rotation);
+            if (autoDestroy)
+                Destroy(gameObject);
+
+            if (percentageToSpawn < Random.Range(0, 100))
+                return;
+
+            spawneado = Instantiate(objects.RandomPic(), transform.position, transform.rotation);
 
             spawneado.GetComponent<Init>()?.Init();
+
             spawneado.transform.SetParent(transform.parent);
+
+            if (spawneado.TryGetComponent(out IGetPatrol patrolReturn))
+                patrolReturn.GetPatrol().patrolParent = patrolParent;
 
             var rend = GetComponentInChildren<SpriteRenderer>();
 

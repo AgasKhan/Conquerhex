@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IAHunter : IAFather
+public class IAHunter : IAFather, IGetPatrol
 {
     [SerializeField]
     public Pictionarys<string, SteeringWithTarget> steerings;
@@ -71,6 +71,10 @@ public class IAHunter : IAFather
         patrol.fsmPatrol.UpdateState();
     }
 
+    public Patrol GetPatrol()
+    {
+        return patrol;
+    }
 }
 
 [System.Serializable]
@@ -140,7 +144,9 @@ public class HunterPatrol : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
+        //var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
+
+        var corderos = param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
 
         param.context.steerings["corderitos"].targets.Clear();
 
