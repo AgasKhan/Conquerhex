@@ -35,7 +35,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
     public int loadPerFrame;
 
-    public Biomes[] biomes;
+    public Pictionarys<Biomes, int> biomes;
 
     public Tilemap map;
 
@@ -81,14 +81,14 @@ public class LoadMap : SingletonMono<LoadMap>
 
         basePos.x = HexagonsManager.lado * basePos.x * basePos.x;
 
-        for (int i = 0; i < biomes.Length; i++)
+        foreach (var biome in biomes)
         {
-            string path = "Props/" + biomes[i].nameDisplay + "/";
+            string path = "Props/" + biome.key.nameDisplay + "/";
 
             foreach (var item in LoadSystem.LoadAssets<GameObject>(path))
             {
-                if (!biomes[i].props.ContainsKey(item))
-                    biomes[i].props.Add(item,10);
+                if (!biome.key.props.ContainsKey(item))
+                    biome.key.props.Add(item, 10);
             }
         }
 
@@ -138,9 +138,7 @@ public class LoadMap : SingletonMono<LoadMap>
             //arrHexCreados[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(Random.Range(1, 11)/10f, Random.Range(1, 11) / 10f, Random.Range(1, 11) / 10f, 1f));
             arrHexTeleport.transform.position = CalculateHexagonoPos(i);
 
-            rng = Random.Range(0, biomes.Length);
-
-            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes[rng]).SetTeleportEdge(hexagonos[i]).FillTilePos().FillPropsPos(i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
+            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes.RandomPic()).SetTeleportEdge(hexagonos[i]).FillTilePos().FillPropsPos(i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
 
             arrHexTeleport.name = "Hexagono " + i;
         }

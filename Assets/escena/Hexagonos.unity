@@ -726,25 +726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6753b4cd037825e4992c4f8922faec28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalNumber: 0
-  premios:
-  - nombre: taza
-    probabilidad: 10
-  - nombre: alfa-jor
-    probabilidad: 50
-  - nombre: jor-jito
-    probabilidad: 100
-  - nombre: jito-tor
-    probabilidad: 5
-  - nombre: tor-tilla
-    probabilidad: 20
-  - nombre: tilla-jor
-    probabilidad: 200
-  - nombre: jor-g
-    probabilidad: 5
-  alumnoStruct:
-    nombre: 
-    probabilidad: 0
 --- !u!114 &427852823 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4873598649842200668, guid: bfb2da842e3e44845a9810a86affe264,
@@ -802,14 +783,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc4b86777cc114983a53b0e4ea4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowMaterial: {fileID: 0}
+  originalSprite: {fileID: 0}
   transparentMaterial: {fileID: 0}
+  mainTexture: {fileID: 0}
   shadow: 1
   animator: 0
   dirVector: {x: 1, y: 1}
   colorShadow: {r: 0, g: 0, b: 0, a: 1}
   sortingLayer: Shadow
-  originalSprite: {fileID: 0}
+  shadowMaterial: {fileID: 0}
 --- !u!1 &431886758 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 882307430347231996, guid: 3f100754b166c9e4bb8b665e345e9c08,
@@ -1118,11 +1100,13 @@ MonoBehaviour:
   rng: 5
   loadPerFrame: 5
   biomes:
-  - {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
-  - {fileID: 11400000, guid: e3d7a5bb6d2b7754d98e4cfd25e3414d, type: 2}
+    pictionaries:
+    - key: {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
+      value: 2
+    - key: {fileID: 11400000, guid: e3d7a5bb6d2b7754d98e4cfd25e3414d, type: 2}
+      value: 1
   map: {fileID: 1540370208}
   playerPublic: {fileID: 1504004406}
-  spawner: {fileID: 5223350694060523476, guid: ecf5bace16d838041a93341ef03cc01d, type: 3}
   victoria: {fileID: 0}
   basePos: {x: 2, y: 20, z: 0}
 --- !u!4 &1071990373
@@ -1835,6 +1819,8 @@ MonoBehaviour:
       m_Bits: 64
     _maxDetects: 0
     _minDetects: 0
+    inverse: 0
+    dot: 1
   references:
     version: 2
     RefIds:
@@ -2960,14 +2946,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc4b86777cc114983a53b0e4ea4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowMaterial: {fileID: 0}
+  originalSprite: {fileID: 0}
   transparentMaterial: {fileID: 0}
+  mainTexture: {fileID: 0}
   shadow: 1
   animator: 0
   dirVector: {x: 1, y: 1}
   colorShadow: {r: 0, g: 0, b: 0, a: 1}
   sortingLayer: Shadow
-  originalSprite: {fileID: 0}
+  shadowMaterial: {fileID: 0}
 --- !u!1001 &1530160774488048415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3669,6 +3656,8 @@ MonoBehaviour:
       m_Bits: 0
     _maxDetects: 0
     _minDetects: 0
+    inverse: 0
+    dot: 1
   references:
     version: 2
     RefIds:
@@ -3757,6 +3746,8 @@ MonoBehaviour:
       m_Bits: 0
     _maxDetects: 0
     _minDetects: 0
+    inverse: 0
+    dot: 1
   detectItem:
     radius: 0
     distance: 0
@@ -3765,6 +3756,8 @@ MonoBehaviour:
       m_Bits: 0
     _maxDetects: 0
     _minDetects: 0
+    inverse: 0
+    dot: 1
   steerings:
     pictionaries: []
 --- !u!1001 &4509053339615691219
