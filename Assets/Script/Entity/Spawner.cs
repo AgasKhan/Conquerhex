@@ -9,7 +9,10 @@ public class Spawner : MonoBehaviour
 
     protected GameObject spawneado;
 
+    [SerializeField]
     Transform patrolParent;
+    [SerializeField]
+    bool patrolReverse;
 
     [SerializeField]
     protected int percentageToSpawn=100;
@@ -34,7 +37,12 @@ public class Spawner : MonoBehaviour
             spawneado.transform.SetParent(transform.parent);
 
             if (spawneado.TryGetComponent(out IGetPatrol patrolReturn))
-                patrolReturn.GetPatrol().patrolParent = patrolParent;
+            {
+                var patrol = patrolReturn.GetPatrol();
+                patrol.patrolParent = patrolParent;
+                patrol.reverse = patrolReverse;
+            }
+                
 
             var rend = GetComponentInChildren<SpriteRenderer>();
 
