@@ -26,11 +26,12 @@ public class PressWeaponKata : WeaponKata
         var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
 
         this.reference = reference;
+
         aux.SetParent(caster.transform);
 
-        aux.localScale *= finalRange * 2;
+        reference.Area(finalRange);
 
-        this.reference.Attack();
+        reference.Attack();
 
         Attack(dir);
         pressCooldown.Reset();
@@ -67,7 +68,7 @@ public class PressWeaponKata : WeaponKata
 /// </summary>
 public class UpWeaponKata : WeaponKata
 {
-    protected Vector3 originalScale;
+    protected float originalScale;
 
     public override Pictionarys<string, string> GetDetails()
     {
@@ -88,7 +89,7 @@ public class UpWeaponKata : WeaponKata
         this.reference = reference;
         aux.SetParent(caster.transform);
 
-        originalScale = aux.localScale;
+        reference.Area(out originalScale);
     }
 
     //Durante, al mantener y moverlo
@@ -99,7 +100,7 @@ public class UpWeaponKata : WeaponKata
             cooldown.Reset();
         }
 
-        reference.transform.localScale = originalScale * finalRange * 2;
+        reference.Area(originalScale* finalRange);
     }
 
     //Despues, al sotarlo

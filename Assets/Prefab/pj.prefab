@@ -64,6 +64,7 @@ MonoBehaviour:
     _maxDetects: 0
     _minDetects: 0
     inverse: 0
+    dot: 1
 --- !u!114 &6295448971589143385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +115,8 @@ MonoBehaviour:
       m_Bits: 64
     _maxDetects: 0
     _minDetects: 0
+    inverse: 0
+    dot: 1
   references:
     version: 2
     RefIds:
@@ -354,12 +357,12 @@ PrefabInstance:
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.24
+      value: 3.125
       objectReference: {fileID: 0}
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.24
+      value: 1.71875
       objectReference: {fileID: 0}
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

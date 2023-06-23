@@ -43,6 +43,9 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     FadeOnOff fadeOnOff;
 
+    [SerializeField]
+    UnityEngine.Rendering.Universal.Light2D light2D;
+
     public Color color
     {
         get => sprite.color;
@@ -60,7 +63,6 @@ public class FadeColorAttack : MonoBehaviour
         fadeOnOff.alphas += FadeMenu_alphas;
 
         fadeOnOff.Init();
-        
 
         attackTimer = TimersManager.LerpInTime(() => sprite.color, attackColor, fadeAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
 
@@ -71,7 +73,8 @@ public class FadeColorAttack : MonoBehaviour
 
     private void FadeMenu_alphas(float obj)
     {
-        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, obj);
+        sprite.color = sprite.color.ChangeAlphaCopy(obj);
+        light2D.color = attackColor.ChangeAlphaCopy(obj/2);
     }
 
     public FadeColorAttack On()
@@ -87,12 +90,6 @@ public class FadeColorAttack : MonoBehaviour
         return this;
     }
 
-    FadeColorAttack NoAttack()
-    {
-        noAttackTimer.Reset();
-        return this;
-    }
-
     public FadeColorAttack Off()
     {
         fadeOnOff.end += FadeMenu_end;
@@ -104,6 +101,25 @@ public class FadeColorAttack : MonoBehaviour
         return this;
     }
 
+    public FadeColorAttack Area(out float number)
+    {
+        number = transform.localScale.x;
+        return this;
+    }
+
+    public FadeColorAttack Area(float number)
+    {
+        transform.localScale = Vector3.one * 2 * number;
+        light2D.pointLightOuterRadius = number;
+        return this;
+    }
+
+    FadeColorAttack NoAttack()
+    {
+        noAttackTimer.Reset();
+        return this;
+    }
+
     private void FadeMenu_end()
     {
         gameObject.SetActive(false);
@@ -112,11 +128,7 @@ public class FadeColorAttack : MonoBehaviour
     private void OnEnable()
     {
         sprite.color = areaColor.ChangeAlphaCopy(0);
-
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);
-        //onTimer.Reset();
     }
-
-    
 }
