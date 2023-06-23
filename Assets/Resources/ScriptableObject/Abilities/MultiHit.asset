@@ -23,7 +23,7 @@ MonoBehaviour:
   damages: []
   joystick: 0
   particles:
-  - {fileID: 3940036432451144812, guid: e7195681d4821c847a757d5174cae6ab, type: 3}
+  - {fileID: 8674655284560437757, guid: b834047ce940c174cadfed17a3046f31, type: 3}
   audios:
     pictionaries:
     - key: MultiCut
@@ -45,11 +45,13 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 129
-    maxDetects: -1
-    minDetects: 0
+    _maxDetects: 0
+    _minDetects: 0
     inverse: 0
+    dot: 1
+  velocityCharge: 1
+  damageToWeapon: 1
   damagesMultiply: []
   indexParticles:
-  - {x: 1, y: 2}
-  damageToWeapon: 1
+  - {x: 1, y: 4}
   timeToAttackPress: 1.5

@@ -27,7 +27,7 @@ MonoBehaviour:
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
   joystick: 0
   particles:
-  - {fileID: 2312591318274358134, guid: 77da29788f3010e4396994ea52057980, type: 3}
+  - {fileID: 4045377163621132951, guid: 70fab5130edcc7b4d9dde891f1df18e5, type: 3}
   audios:
     pictionaries:
     - key: Explocion
@@ -49,14 +49,16 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 129
-    maxDetects: -1
-    minDetects: 0
+    _maxDetects: 0
+    _minDetects: 0
     inverse: 0
+    dot: 1
+  velocityCharge: 1
+  damageToWeapon: 1
   damagesMultiply:
   - amount: 3
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   - amount: 2
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
   indexParticles:
-  - {x: 1, y: -1}
-  damageToWeapon: 1
+  - {x: 1, y: 6}
