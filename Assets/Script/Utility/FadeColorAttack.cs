@@ -50,7 +50,7 @@ public class FadeColorAttack : MonoBehaviour
     {
         get => sprite.color;
         set => sprite.color = value;
-    }
+    } 
 
     private void Awake()
     {
@@ -94,9 +94,6 @@ public class FadeColorAttack : MonoBehaviour
     {
         fadeOnOff.end += FadeMenu_end;
         fadeOnOff.FadeOff().Set(fadeOff);
-
-
-        //offTimer.Reset();
 
         return this;
     }
