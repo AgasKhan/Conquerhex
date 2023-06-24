@@ -19,7 +19,7 @@ MonoBehaviour:
   weight: 0
   itemType: 0
   life: 100
-  regen: 100
+  regen: 10
   vulnerabilities:
   - amount: 0.75
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
@@ -28,12 +28,12 @@ MonoBehaviour:
   stunTime: 0.5
   areaFarming: 1
   principal:
-    weapon: {fileID: 11400000, guid: 31c92f0ddeb8e924baab553382004b30, type: 2}
+    weapon: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
     kata: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91, type: 2}
   secondary:
-    weapon: {fileID: 11400000, guid: 3385f69350ec53241822acc73a292f10, type: 2}
-    kata: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
   tertiary:
-    weapon: {fileID: 11400000, guid: a16cec6ee255cad4bafca55a213482c1, type: 2}
-    kata: {fileID: 11400000, guid: c2c5d29945102f54aae4bc5685040b32, type: 2}
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
   additiveDamage: []
