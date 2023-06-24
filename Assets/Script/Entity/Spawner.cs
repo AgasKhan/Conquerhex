@@ -32,9 +32,9 @@ public class Spawner : MonoBehaviour
 
             spawneado = Instantiate(objects.RandomPic(), transform.position, transform.rotation);
 
-            spawneado.GetComponent<Init>()?.Init();
-
             spawneado.transform.SetParent(transform.parent);
+
+            spawneado.GetComponent<Init>()?.Init();
 
             if (spawneado.TryGetComponent(out IGetPatrol patrolReturn))
             {
@@ -42,7 +42,6 @@ public class Spawner : MonoBehaviour
                 patrol.patrolParent = patrolParent;
                 patrol.reverse = patrolReverse;
             }
-                
 
             var rend = GetComponentInChildren<SpriteRenderer>();
 

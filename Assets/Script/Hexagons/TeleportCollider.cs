@@ -83,11 +83,7 @@ public class TeleportCollider : MonoBehaviour
                     arrHexTeleport.gameObject.SetActive(false);
                 }
                 
-                if (fisicaOther.carlitos != null)
-                    for (int i = 0; i < fisicaOther.carlitos.Length; i++)
-                    {
-                        fisicaOther.carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(arrHexTeleport.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), fisicaOther.carlitos[i].transform.position.z, 2) + (other.gameObject.transform.position - arrHexTeleport.transform.position);
-                    }
+                
 
                 fisicaOther.Teleport(arrHexTeleport, lado);
             }

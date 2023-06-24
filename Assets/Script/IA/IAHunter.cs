@@ -8,6 +8,8 @@ public class IAHunter : IAFather, IGetPatrol
     public Pictionarys<string, SteeringWithTarget> steerings;
     [SerializeField]
     public Detect<IGetEntity> detectCordero;
+
+    public int energy=15;
     
     public Patrol patrol = new Patrol();
 
@@ -121,7 +123,7 @@ public class HunterIntern : FSM<HunterIntern, IAHunter>
 
     public HunterIntern(IAHunter reference) : base(reference)
     {
-        energy = TimersManager.Create(15, IdleEvent);
+        energy = TimersManager.Create(reference.energy, IdleEvent);
         Init(idle);
     }
 }
@@ -221,7 +223,7 @@ public class HunterChase : IState<HunterIntern>
             steerings.SwitchSteering<Seek>();
         }
 
-        if (distance < param.context.attk.radius && param.context.attk.timerToAttack.Chck)
+        if (distance <= (param.context.attk.radius * param.context.attk.radius) && param.context.attk.cooldown)
         {
             param.context.attk.Attack();
         }

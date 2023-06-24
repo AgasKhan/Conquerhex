@@ -90,6 +90,11 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
     public void Teleport(Hexagone hexagone, int lado)
     {
         onTeleport?.Invoke(hexagone, lado);
+
+        for (int i = 0; i < carlitos.Length; i++)
+        {
+            carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(hexagone.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), carlitos[i].transform.position.z, 2) + (transform.position - hexagone.transform.position);
+        }
     }
 
     public virtual void ControllerDown(Vector2 dir, float tim)

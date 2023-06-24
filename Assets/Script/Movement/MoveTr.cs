@@ -35,6 +35,11 @@ public class MoveTr : MoveAbstract
 
             carlitos[i].SetPositionAndRotation(transform.position, transform.rotation);
         }
+
+        if (transform.parent != null && transform.parent.TryGetComponent(out Hexagone hexagone))
+        {
+            Teleport(hexagone, 0);
+        }
     }
 
     public virtual void MyUpdate()

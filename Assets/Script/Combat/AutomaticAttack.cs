@@ -9,13 +9,13 @@ public class AutomaticAttack
 
     public event System.Action onAttack;
 
-    public bool cooldown => kata.cooldownTime;
+    public bool cooldown => kata.cooldownTime && timerToAttack.Chck;
 
     public float radius
     {
         get
         {
-            return kata.itemBase.detect.radius;
+            return kata.finalRange;
         }
     }
 
@@ -70,13 +70,15 @@ public class AutomaticAttack
 
         timerToAttack = null;
 
-        timerToAttack = TimersManager.Create(Random.Range(3, 7) / 3f, () => {
+        timerToAttack = TimersManager.Create(2, () => {
 
             actual = Color.Lerp(areaColor, attackColor, timerToAttack.InversePercentage());
 
+            this.kata.ControllerPressed(Vector2.zero, timerToAttack.total - timerToAttack.current);
+
         }, () =>
         {
-            kata.ControllerUp(Vector2.zero, 0);
+            this.kata.ControllerUp(Vector2.zero, timerToAttack.total);
 
             onAttack?.Invoke();
         }).Stop();
