@@ -10,23 +10,33 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public List<DropItem> drops = new List<DropItem>();
 
-    public Color damaged1 = new Color() { r = 1, b = 0, g = 1, a = 1 };
-
-    public Color damaged2 = new Color() { r = 1, b = 0.92f, g = 0.016f, a = 1 };
+    public event System.Action onTakeDamage;
 
     public AudioManager audioManager;
 
     protected abstract Damage[] vulnerabilities { get; }
 
+    [SerializeField]
+    Color damaged1 = new Color() { r = 1, b = 0, g = 1, a = 1 };
+
+    [SerializeField]
+    Color damaged2 = new Color() { r = 1, b = 0.92f, g = 0.016f, a = 1 };
+
+    [SerializeField]
+    Color detected = new Color() { r = 1, b = 0.5f, g = 0.5f, a = 1 };
+
+
     SpriteRenderer sprite;
 
     Color originalColor;
 
-    Timer tim = null;
+    Timer timDamaged = null;
+
+    Timer timDetected = null;
 
     IDamageable[] damageables;
 
-    public event System.Action onTakeDamage;
+   
 
     protected override void Config()
     {
@@ -45,34 +55,11 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
         originalColor = sprite.color;
 
-        damageables = new IDamageable[aux.Length - 1];
+        timDetected = TimersManager.LerpInTime(detected, originalColor, 0.1f, Color.Lerp, (save) => sprite.color = save);
 
-        /*
-        if(drops.Count > 0)
-        {
-            for (int i = 0; i < drops.Count; i++)
-            {
-                drops[i].prefab.Init(drops[i].item, drops[i].structureBase);
-            }
-        }
-        */
+        timDamaged = TimersManager.Create(0.33f, () => {
 
-        //evita el bucle de llamarme a mi mmismo
-        int ii = 0;
-
-        for (int i = 0; i < aux.Length; i++)
-        {
-            if ((Object)aux[i] != this)
-            {
-                damageables[ii] = aux[i];
-                ii++;
-            }
-        }
-
-
-        tim = TimersManager.Create(0.33f, () => {
-
-            if (((int)(tim.Percentage() * 10)) % 2 == 0)
+            if (((int)(timDamaged.Percentage() * 10)) % 2 == 0)
             {
                 //parpadeo rapido
 
@@ -93,6 +80,26 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             sprite.color = originalColor;
 
         });
+
+        damageables = new IDamageable[aux.Length - 1];
+
+        int ii = 0;
+
+        for (int i = 0; i < aux.Length; i++)
+        {
+            if ((Object)aux[i] != this)
+            {
+                damageables[ii] = aux[i];
+                ii++;
+            }
+        }
+
+       
+    }
+
+    public void Detect()
+    {
+        timDetected.Reset();
     }
 
     public void Drop()
@@ -116,7 +123,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public virtual void TakeDamage(Damage dmg)
     {
-        tim.Reset();
+        timDamaged.Reset();
         onTakeDamage?.Invoke();
 
         if(vulnerabilities!=null)

@@ -14,6 +14,9 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     public Color attackColor;
 
+    [SerializeField]
+    public Color lightColor;
+
     /*
     [SerializeReference]
     TimedAction offTimer;
@@ -54,11 +57,7 @@ public class FadeColorAttack : MonoBehaviour
 
     private void Awake()
     {
-        /*
-        offTimer = TimersManager.LerpInTime(1f, 0, fadeOff, Mathf.Lerp, (fadecolor) => sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, fadecolor));
-        onTimer =  TimersManager.LerpInTime(0f, 1, fadeOn,  Mathf.Lerp, (fadecolor) => sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, fadecolor));
-        offTimer.AddToEnd(() => gameObject.SetActive(false));
-        */
+        lightColor = light2D.color;
 
         fadeOnOff.alphas += FadeMenu_alphas;
 
@@ -74,7 +73,7 @@ public class FadeColorAttack : MonoBehaviour
     private void FadeMenu_alphas(float obj)
     {
         sprite.color = sprite.color.ChangeAlphaCopy(obj);
-        light2D.color = attackColor.ChangeAlphaCopy(obj/2);
+        light2D.color = lightColor.ChangeAlphaCopy(obj/2);
     }
 
     public FadeColorAttack On()

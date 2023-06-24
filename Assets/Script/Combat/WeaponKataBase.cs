@@ -61,7 +61,15 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         });        
     }
 
-    public Entity[] Attack(Entity caster, Vector2 direction, MeleeWeapon weapon, int numObjectives ,float range)
+    public Entity[] DetectAndAtack(Entity caster, Vector2 direction, MeleeWeapon weapon, int numObjectives, float range)
+    {
+        var aux = Detect(caster, direction, numObjectives, range);
+
+        return Attack(caster, weapon, aux);
+    }
+
+
+    public Entity[] Attack(Entity caster, MeleeWeapon weapon, params Entity[] entities)
     {
         if (weapon == null)
             return null;
@@ -97,7 +105,6 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
         }
 
-
         for (int i = 0; i < damagesMultiply.Length; i++)
         {
             for (int ii = 0; ii < damagesCopy.Length; ii++)
@@ -110,10 +117,12 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
             }
         }
 
-        return InternalAttack(caster, direction, damagesCopy, numObjectives, range);
+        Damage(ref damagesCopy, entities);
+
+        return entities;
     }
 
-    protected void Damage(ref Damage[] damages, Entity caster, params Entity[] damageables)
+    protected void Damage(ref Damage[] damages, params Entity[] damageables)
     {
         foreach (var entitys in damageables)
         {
@@ -134,7 +143,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     }
 
-    protected abstract Entity[] InternalAttack(Entity caster, Vector2 direction, Damage[] damages, int numObjectives, float range);
+    public abstract Entity[] Detect(Entity caster, Vector2 direction, int numObjectives, float range);
 }
 
 [System.Serializable]
@@ -153,6 +162,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     [SerializeReference]
     protected StaticEntity caster;
+
+    protected Entity[] affected;
 
     FadeColorAttack _reference;
 
@@ -228,9 +239,26 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         cooldown.Set(finalVelocity);
     }
 
-    protected virtual Entity[] Attack(Vector2 dir, float timePressed = 0)
+    protected Entity[] Attack()
     {
-        return itemBase.Attack(caster, dir, weapon, itemBase.detect.maxDetects, finalRange);
+        return itemBase.Attack(caster, weapon, affected);
+    }
+
+    protected Entity[] Detect(Vector2 dir, float timePressed = 0)
+    {
+        affected = InternalDetect(dir, timePressed);
+
+        foreach (var item in affected)
+        {
+            item.Detect();
+        }
+
+        return affected;
+    }
+
+    protected virtual Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
+    {
+        return itemBase.Detect(caster, dir, itemBase.detect.maxDetects, finalRange);
     }
 
     void TriggerTimerEvent()

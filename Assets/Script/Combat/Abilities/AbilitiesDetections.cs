@@ -16,15 +16,9 @@ public abstract class AreaKataBase : WeaponKataBase
         return aux;
     }
 
-    protected override Entity[] InternalAttack(Entity caster, Vector2 direction, Damage[] damages, int numObjectives, float range)
+    public override Entity[] Detect(Entity caster, Vector2 direction, int numObjectives, float range)
     {
-        var pos = caster.transform.position + direction.Vec2to3(0) * detect.distance;
-
-        var aux = detect.AreaWithRay(caster.transform, (entity) => { return caster != entity; }, numObjectives, range);
-
-        Damage(ref damages, caster, aux.ToArray());
-
-        return aux.ToArray();
+        return detect.AreaWithRay(caster.transform, (entity) => { return caster != entity; }, numObjectives, range).ToArray();
     }
 }
 

@@ -33,7 +33,9 @@ public class PressWeaponKata : WeaponKata
 
         reference.Attack();
 
-        Attack(dir);
+        Detect(dir);
+
+        Attack();
         pressCooldown.Reset();
     }
 
@@ -46,9 +48,11 @@ public class PressWeaponKata : WeaponKata
             return;
         }
 
+        Detect(dir, tim);
+
         if (pressCooldown.Chck)
         {
-            Attack(dir, tim);
+            Attack();
             reference.Attack();
             pressCooldown.Reset();
         }
@@ -98,9 +102,11 @@ public class UpWeaponKata : WeaponKata
         if (!cooldown.Chck)
         {
             cooldown.Reset();
+            return;
         }
 
         reference.Area(originalScale* finalRange);
+        Detect(dir, button);
     }
 
     //Despues, al sotarlo
@@ -113,7 +119,7 @@ public class UpWeaponKata : WeaponKata
 
         cooldown.Reset();
 
-        Attack(dir, button);
+        Attack();
 
         reference.Off().Attack();
     }
@@ -128,14 +134,14 @@ public class DashUpWeaponKata : UpWeaponKata
 
         cooldown.Reset();
 
-        var entities = Attack(dir, button);
-
-        if (entities != null && entities.Length!=0 && caster is DinamicEntity)
+        if (affected != null && affected.Length!=0 && caster is DinamicEntity)
         {
             var aux = caster as DinamicEntity;
 
-            aux.move.Velocity((entities[0].transform.position - caster.transform.position).normalized * itemBase.velocityCharge);
+            aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * itemBase.velocityCharge);
         }
+
+        Attack();
 
         reference.Off().Attack();
     }
@@ -146,9 +152,9 @@ public class DashUpWeaponKata : UpWeaponKata
 /// </summary>
 public class ChargeAffectedUpWeaponKata : UpWeaponKata
 {
-    protected override Entity[] Attack(Vector2 dir, float timePressed = 0)
+    protected override Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
     {
-        return itemBase.Attack(caster, dir, weapon, (int)Mathf.Clamp(timePressed * itemBase.velocityCharge, 1, itemBase.detect.maxDetects), finalRange);
+        return itemBase.Detect(caster, dir ,(int)Mathf.Clamp(timePressed * itemBase.velocityCharge, 1, itemBase.detect.maxDetects), finalRange);
     }
 }
 
@@ -161,21 +167,15 @@ public class ChargeRangeUpWeaponKata : UpWeaponKata
 
     float range;
 
+    protected override void InternalControllerDown(Vector2 dir, float button)
+    {
+        range = 0;
+        base.InternalControllerDown(dir, button);
+    }
+
     protected override void InternalControllerPress(Vector2 dir, float button)
     {
         range = button;
         base.InternalControllerPress(dir, button);
-    }
-
-    protected override void InternalControllerUp(Vector2 dir, float button)
-    {
-        range = button;
-        base.InternalControllerUp(dir, button);
-        range = 0;
-    }
-
-    protected override Entity[] Attack(Vector2 dir, float timePressed = 0)
-    {
-        return itemBase.Attack(caster, dir, weapon, itemBase.detect.maxDetects, finalRange);
     }
 }
