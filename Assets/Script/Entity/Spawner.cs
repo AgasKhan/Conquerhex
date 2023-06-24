@@ -43,9 +43,11 @@ public class Spawner : MonoBehaviour
                 patrol.reverse = patrolReverse;
             }
 
+            /*
             var rend = GetComponentInChildren<SpriteRenderer>();
 
             rend.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
+            */
         });
     }
 }
