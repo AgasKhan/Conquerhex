@@ -61,14 +61,6 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         });        
     }
 
-    public Entity[] DetectAndAtack(Entity caster, Vector2 direction, MeleeWeapon weapon, int numObjectives, float range)
-    {
-        var aux = Detect(caster, direction, numObjectives, range);
-
-        return Attack(caster, weapon, aux);
-    }
-
-
     public Entity[] Attack(Entity caster, MeleeWeapon weapon, params Entity[] entities)
     {
         if (weapon == null)
