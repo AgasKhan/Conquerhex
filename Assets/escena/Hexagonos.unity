@@ -822,9 +822,10 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
+  audioManager: {fileID: 0}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  audioManager: {fileID: 0}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries:
     - key: Informacion
@@ -1107,7 +1108,8 @@ MonoBehaviour:
       value: 1
   map: {fileID: 1540370208}
   playerPublic: {fileID: 1504004406}
-  victoria: {fileID: 0}
+  victoria: {fileID: 3019227970276860375, guid: d231685d877d2f842855491e00130042,
+    type: 3}
   basePos: {x: 2, y: 20, z: 0}
 --- !u!4 &1071990373
 Transform:
@@ -1457,9 +1459,10 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
+  audioManager: {fileID: 0}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  audioManager: {fileID: 0}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries:
     - key: "Informaci\xF3n"
@@ -1529,9 +1532,10 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
+  audioManager: {fileID: 0}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  audioManager: {fileID: 0}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries:
     - key: "Informatci\xF3n"
@@ -1793,9 +1797,10 @@ MonoBehaviour:
   - maxMinDrops:
       pictionaries: []
     item: {fileID: 0}
+  audioManager: {fileID: 0}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  audioManager: {fileID: 0}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries: []
   inventory: []
@@ -1873,9 +1878,10 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
+  audioManager: {fileID: 0}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  audioManager: {fileID: 0}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries:
     - key: "Informatci\xF3n"
@@ -3213,7 +3219,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3223,7 +3229,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3248,7 +3254,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 144.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3258,7 +3264,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3278,7 +3284,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 197.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3288,7 +3294,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3308,7 +3314,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3318,7 +3324,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3630,9 +3636,10 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
+  audioManager: {fileID: 0}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  audioManager: {fileID: 0}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries: []
   inventory: []
