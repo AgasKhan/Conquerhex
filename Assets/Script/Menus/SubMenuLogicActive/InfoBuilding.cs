@@ -7,7 +7,7 @@ public class InfoBuilding : LogicActive<Building>
     protected override void InternalActivate(params Building[] specificParam)
     {
         var aux = specificParam[0];
-        aux.myBuildSubMenu.detailsWindow.SetTexts("", aux.structureBase.GetDetails().ToString()).SetImage(aux.structureBase.image);
+        aux.myBuildSubMenu.detailsWindow.SetTexts("", aux.structureBase.GetDetails()["Description"]).SetImage(aux.structureBase.image);
         aux.myBuildSubMenu.DestroyCraftButtons();
     }
 }

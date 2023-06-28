@@ -21,7 +21,7 @@ public class StructureBase : ItemBase
 
     public override Pictionarys<string, string> GetDetails()
     {
-        Pictionarys<string, string> aux = new Pictionarys<string, string>();
+        Pictionarys<string, string> aux = base.GetDetails();
 
         aux.Add("\nMaximum Life ", life.ToString());
         aux.Add("Maximum Regeneration ", regen.ToString());

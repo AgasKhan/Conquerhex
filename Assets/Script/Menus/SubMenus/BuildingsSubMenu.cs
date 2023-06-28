@@ -33,7 +33,7 @@ public class BuildingsSubMenu : CreateSubMenu
         }
 
         subMenu.CreateSection(2, 6);
-        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", buildingBase.structureBase.GetDetails().ToString()).SetImage(buildingBase.structureBase.image);
+        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", buildingBase.structureBase.GetDetails()["Description"]).SetImage(buildingBase.structureBase.image);
 
         subMenu.CreateTitle(buildingBase.name);
     }

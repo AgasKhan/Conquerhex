@@ -11,8 +11,13 @@ public class SaveBuild : Building
     //---------------------------------
     public override void EnterBuild()
     {
-        SaveWithJSON.SaveGame();
-        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "Tu progreso ha sido guardado exitosamente").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+        //SaveWithJSON.SaveGame();
+        //MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "Tu progreso ha sido guardado exitosamente").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "¿Deseas guardar tu progreso?")
+            .AddButton("Si", () => { SaveWithJSON.SaveInPictionary("PlayerInventory", character.inventory); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false); SaveWithJSON.SaveGame(); })
+            .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+
+        
     }
     protected override void Config()
     {
