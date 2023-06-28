@@ -15,12 +15,12 @@ public class Dissolve : MonoBehaviour
         if (isDissolve)
         {
             dissolveAmount = Mathf.Clamp01(dissolveAmount + Time.deltaTime);
-            material.SetFloat("_Dessolve", dissolveAmount);
+            material.SetFloat("_Dissolve", dissolveAmount);
         }
         else
         {
             dissolveAmount = Mathf.Clamp01(dissolveAmount - Time.deltaTime);
-            material.SetFloat("_Dessolve", dissolveAmount);
+            material.SetFloat("_Dissolve", dissolveAmount);
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
