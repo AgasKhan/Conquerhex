@@ -11,14 +11,22 @@ public class TransparentMaterial : MonoBehaviour
     protected Material transparentMaterial;
 
     [SerializeField]
+    protected List<Material> auxiliarMaterials;
+
+    [SerializeField]
     Texture mainTexture;
 
     protected virtual void Awake()
     {
+        auxiliarMaterials.Insert(0, transparentMaterial);
+
         //originalSprite = GetComponentInChildren<Renderer>();
-        originalSprite.material = transparentMaterial;
-        
-        if(mainTexture!=null)
+        //originalSprite.material = transparentMaterial;
+
+        originalSprite.materials = auxiliarMaterials.ToArray();
+
+
+        if (mainTexture!=null)
             originalSprite.material.SetTexture("_MainTex", mainTexture);
     }
 
