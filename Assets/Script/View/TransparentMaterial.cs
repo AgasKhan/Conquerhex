@@ -14,6 +14,9 @@ public class TransparentMaterial : MonoBehaviour
     Texture mainTexture;
 
     [SerializeField]
+    bool defaultRight = true;
+
+    [SerializeField]
     Color damaged1 = new Color() { r = 1, b = 0, g = 1, a = 1 };
 
     [SerializeField]
@@ -68,6 +71,11 @@ public class TransparentMaterial : MonoBehaviour
 
         entity.onDetected += Entity_onDetected;
 
+        if(entity is DinamicEntity)
+        {
+            ((DinamicEntity)entity).move.onMove += Move_onMove;
+        }
+
         shakeManager = TimersManager.Create(_shakeDuration, Shake, EndShake).Stop();
 
         timDetected = TimersManager.LerpInTime(detected, Color.white, 0.1f, Color.Lerp, (save) => colorSetter.multiply = save);
@@ -96,6 +104,19 @@ public class TransparentMaterial : MonoBehaviour
 
         });
 
+    }
+
+    private void Move_onMove(Vector2 obj)
+    {
+        if(obj.x < 0)
+        {
+            ((SpriteRenderer)originalSprite).flipX = defaultRight;
+        }
+        else if(obj.x > 0)
+        {
+            ((SpriteRenderer)originalSprite).flipX = !defaultRight;
+        }
+               
     }
 
     private void Entity_onDetected()
