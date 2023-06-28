@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: HachaRecipe
   m_EditorClassIdentifier: 
   _nameDisplay: HachaRecipe
-  _image: {fileID: 0}
+  _image: {fileID: -319660322, guid: 6791bee1e1102eb4ea87f19178ce305d, type: 3}
   _details: 
   maxAmount: 1
   weight: 0
+  itemType: 0
   materials:
   - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
     Amount: 2
@@ -25,3 +26,4 @@ MonoBehaviour:
   result:
     Item: {fileID: 11400000, guid: 31c92f0ddeb8e924baab553382004b30, type: 2}
     Amount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}

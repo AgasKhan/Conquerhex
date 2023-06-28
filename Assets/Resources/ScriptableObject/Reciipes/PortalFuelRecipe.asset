@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48b1c2f8970e79348b9011dfead2730a, type: 3}
-  m_Name: PicoRecipe
+  m_Name: PortalFuelRecipe
   m_EditorClassIdentifier: 
-  _nameDisplay: PicoRecipe
-  _image: {fileID: 759726957, guid: 2dc073ac9dc3a0648b1ac305b66b2115, type: 3}
+  _nameDisplay: PortalFuelRecipe
+  _image: {fileID: 0}
   _details: 
   maxAmount: 1
   weight: 0
   itemType: 0
   materials:
-  - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
-    Amount: 2
-  - Item: {fileID: 11400000, guid: fc99028267533e841aef98591c473d27, type: 2}
-    Amount: 3
+  - Item: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
+    Amount: 5
   result:
-    Item: {fileID: 0}
-    Amount: 0
+    Item: {fileID: 11400000, guid: 604b57f7544820c4cae8b795267f8f5e, type: 2}
+    Amount: 1
   resultColor: {r: 0, g: 0, b: 0, a: 0}

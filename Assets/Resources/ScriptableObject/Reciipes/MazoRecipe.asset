@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: MazoRecipe
   m_EditorClassIdentifier: 
   _nameDisplay: MazoRecipe
-  _image: {fileID: 0}
+  _image: {fileID: -952896710, guid: 3eccb40d931d728418b6515882ed0ab8, type: 3}
   _details: 
   maxAmount: 1
   weight: 0
+  itemType: 0
   materials:
   - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
     Amount: 6
   result:
     Item: {fileID: 11400000, guid: a16cec6ee255cad4bafca55a213482c1, type: 2}
     Amount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}

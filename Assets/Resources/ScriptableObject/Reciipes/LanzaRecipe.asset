@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: LanzaRecipe
   m_EditorClassIdentifier: 
   _nameDisplay: LanzaRecipe
-  _image: {fileID: 0}
+  _image: {fileID: -696645285, guid: 17d90ad2b19afdb409c147bd3ff6fd9b, type: 3}
   _details: 
   maxAmount: 1
   weight: 0
+  itemType: 0
   materials:
   - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
     Amount: 5
@@ -25,3 +26,4 @@ MonoBehaviour:
   result:
     Item: {fileID: 11400000, guid: 3385f69350ec53241822acc73a292f10, type: 2}
     Amount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
