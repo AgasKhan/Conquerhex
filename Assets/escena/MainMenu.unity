@@ -6388,6 +6388,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -217.04001
       objectReference: {fileID: 0}
+    - target: {fileID: 148638885192998324, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 208872223761977553, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6836,7 +6841,7 @@ PrefabInstance:
     - target: {fileID: 1690937612893337047, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1718999408114075172, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -6979,6 +6984,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3316359798803677849, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3317636768661439591, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -7112,7 +7122,7 @@ PrefabInstance:
     - target: {fileID: 4681758207518010854, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4753957573938755171, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -7208,6 +7218,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5470509534770558906, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5523988198486791543, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -7446,6 +7461,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5508337182564850474, guid: f53f86b6ffd70f64bb98a98f64238a25,
         type: 3}
+    - target: {fileID: 7493187814470428823, guid: a432204a98b06884c82bb61a7ffb51bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7569176996707358161, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10697,12 +10717,9 @@ MonoBehaviour:
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
   katas:
-  - character: {fileID: 0}
-    indexEquipedItem: -1
-  - character: {fileID: 0}
-    indexEquipedItem: -1
-  - character: {fileID: 0}
-    indexEquipedItem: -1
+  - indexEquipedItem: -1
+  - indexEquipedItem: -1
+  - indexEquipedItem: -1
   weaponKataIndex: 0
   areaFarming:
     radius: 0
