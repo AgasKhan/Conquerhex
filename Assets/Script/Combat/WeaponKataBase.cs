@@ -196,6 +196,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public int indexWeapon => equipedWeapon.indexEquipedItem;
 
+    [SerializeField]
     EquipedItem<MeleeWeapon> equipedWeapon = new EquipedItem<MeleeWeapon>();
 
     float actualCharacterVelocity;
