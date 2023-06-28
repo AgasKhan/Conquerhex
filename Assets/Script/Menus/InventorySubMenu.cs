@@ -55,9 +55,29 @@ public class InventorySubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
-        foreach (var item in character.inventory)
+        for (int i = 0; i < character.inventory.Count; i++)
         {
             ButtonA button = subMenu.AddComponent<ButtonA>();
+
+            var item = character.inventory[i];
+
+            var index = i;
+
+            UnityEngine.Events.UnityAction action =
+               () =>
+               {
+                   ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
+                   DestroyButtonsActions();
+                   CreateButtonsActions(index, item.GetItemBase().buttonsAcctions);
+               };
+
+            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
+        }
+
+        /*
+        foreach (var item in character.inventory)
+        {
+            
 
             UnityEngine.Events.UnityAction action =
                 () =>
@@ -69,6 +89,7 @@ public class InventorySubMenu : CreateSubMenu
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
+        */
     }
 
     void DestroyButtonsActions()
@@ -83,7 +104,7 @@ public class InventorySubMenu : CreateSubMenu
         buttonsListActions.Clear();
     }
 
-    void CreateButtonsActions(Item myItem, Dictionary<string, System.Action<Character, Item>> dic)
+    void CreateButtonsActions(int myItem, Dictionary<string, System.Action<Character, int>> dic)
     {
 
         foreach (var item in dic)

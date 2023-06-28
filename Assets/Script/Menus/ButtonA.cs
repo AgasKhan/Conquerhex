@@ -61,6 +61,9 @@ public class ButtonA : EventsCall
 
         previewImage.sprite = sprite;
 
+        if (sprite == null)
+            previewImage.SetActiveGameObject(false);
+
         if (textNum != "")
             myNum.text = textNum;
         else

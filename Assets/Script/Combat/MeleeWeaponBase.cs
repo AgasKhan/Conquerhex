@@ -60,12 +60,12 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
     protected override void CreateButtonsAcctions()
     {
         buttonsAcctions.Add("Equip", Equip);
-        base.CreateButtonsAcctions();
+        //base.CreateButtonsAcctions();
     }
 
-    void Equip(Character chr, Item item)
+    void Equip(Character chr, int item)
     {
-        chr.actualKata.equiped.ChangeWeapon((MeleeWeapon)item);
+        chr.actualKata.equiped?.ChangeWeapon(item);
     }
 
     #endregion

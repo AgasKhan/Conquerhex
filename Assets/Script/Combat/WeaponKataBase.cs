@@ -49,7 +49,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     protected override void CreateButtonsAcctions()
     {
         //base.CreateButtonsAcctions();
-        buttonsAcctions.Add("Equip", Equip);
+        //buttonsAcctions.Add("Equip", Equip);
     }
 
     protected override void MyEnable()
@@ -143,9 +143,9 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     public abstract Entity[] Detect(Entity caster, Vector2 direction, int numObjectives, float range);
 
-    void Equip(Character chr, Item item)
+    void Equip(Character chr, int item)
     {
-        chr.actualKata.indexEquipedItem = chr.inventory.IndexOf(item);
+        chr.actualKata.indexEquipedItem = item;
     }
 }
 
@@ -208,7 +208,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public void ChangeWeapon(int weaponIndex)
     {
-        if(! (caster.inventory[weaponIndex] is MeleeWeapon) || weaponIndex<0)
+        if(! (caster.inventory[weaponIndex] is MeleeWeapon) || weaponIndex < 0)
         {
             Debug.Log("No es un arma");
             return;

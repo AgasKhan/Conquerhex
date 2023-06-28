@@ -13,7 +13,7 @@ public abstract class ItemBase : ShowDetails
 
     public ItemType itemType;
 
-    public Dictionary<string, System.Action<Character, Item>> buttonsAcctions = new Dictionary<string, System.Action<Character, Item>>();
+    public Dictionary<string, System.Action<Character, int>> buttonsAcctions = new Dictionary<string, System.Action<Character, int>>();
 
     protected System.Type _itemType;
     
@@ -45,7 +45,7 @@ public abstract class ItemBase : ShowDetails
         buttonsAcctions.Add("Destroy", DestroyItem);
     }
 
-    protected virtual void DestroyItem(Character character, Item item)
+    protected virtual void DestroyItem(Character character, int item)
     {
         character.AddOrSubstractItems(nameDisplay, -1);
     }
