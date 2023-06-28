@@ -9,7 +9,11 @@ public class Salida : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            //MenuManager.instance.ShowWindow("Victory");
+            var aux = collision.GetComponent<Character>();
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("Victoria", "Has logrado llegar hasta el dirigible para escapar \n\n"+ "¿Deseas volver a la base con todo lo recolectado?".RichText("color", "#00ffffff"))
+            .AddButton("Si", () => { SaveWithJSON.SaveInPictionary("PlayerInventory", aux.inventory); LoadSystem.instance.Load("Base", true); })
+            .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+
             //menu.ShowMenu("Victoria!", "Has logrado llegar hasta el dirigible para escapar", false, true);
             Time.timeScale = 0;
         }

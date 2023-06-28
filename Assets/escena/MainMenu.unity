@@ -1046,8 +1046,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 2085456270}
-  recipes: []
 --- !u!4 &118140360
 Transform:
   m_ObjectHideFlags: 0
@@ -1314,14 +1312,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc4b86777cc114983a53b0e4ea4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowMaterial: {fileID: 0}
+  originalSprite: {fileID: 0}
   transparentMaterial: {fileID: 0}
+  mainTexture: {fileID: 0}
+  defaultRight: 1
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _shakeIntensity: 0
+  _shakeDuration: 0
   shadow: 1
   animator: 0
   dirVector: {x: 1, y: 1}
   colorShadow: {r: 0, g: 0, b: 0, a: 1}
   sortingLayer: Shadow
-  originalSprite: {fileID: 0}
+  shadowMaterial: {fileID: 0}
 --- !u!1001 &175257110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6566,7 +6571,7 @@ PrefabInstance:
     - target: {fileID: 649582122578642920, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 728889697274968405, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -10656,6 +10661,7 @@ MonoBehaviour:
   _velocity:
     total: 5
     _current: 0
+  objectiveVelocity: 0
 --- !u!114 &2085456270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10680,8 +10686,6 @@ MonoBehaviour:
       total: 0
       _current: 0
   drops: []
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   audioManager: {fileID: 0}
   interact:
     pictionaries: []
@@ -10692,25 +10696,27 @@ MonoBehaviour:
   move: {fileID: 2085456269}
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
-  prin:
-    rid: -2
-  sec:
-    rid: -2
-  ter:
-    rid: -2
+  katas:
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  weaponKataIndex: 0
   areaFarming:
     radius: 0
     distance: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 64
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 1
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!4 &2085456271
 Transform:
   m_ObjectHideFlags: 0
