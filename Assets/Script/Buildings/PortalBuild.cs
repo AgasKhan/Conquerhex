@@ -34,21 +34,23 @@ public class PortalSubMenu : CreateSubMenu
     public override void Create()
     {
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
+
+        subMenu.ClearBody();
+        subMenu.navbar.DestroyAll();
         base.Create();
     }
     protected override void InternalCreate()
     {
-        subMenu.ClearBody();
-        subMenu.navbar.DestroyAll(); 
         DestroyLastButton();
 
-        subMenu.CreateSection(1, 2);
+        subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
         CreateButtons();
 
-        subMenu.CreateSection(2, 6);
-        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts(portalBuilding.structureBase.nameDisplay, portalBuilding.structureBase.GetDetails().ToString());
+        subMenu.CreateSection(3, 6);
+        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("", "\nDependiendo del lugar al que quieras viajar el costo cambiará\n\n");
 
+        subMenu.CreateTitle("Elige la ubicación");
     }
 
     void CreateButtons()
