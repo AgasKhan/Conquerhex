@@ -118,7 +118,7 @@ public class Hexagone : MonoBehaviour
                         float rng1 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
                         float rng2 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
 
-                        GameObject prop = Instantiate(biomes.props.RandomPic(), new Vector3((i - biomes.inversaDensidad/2f) + rng1 / 10f, (ii - biomes.inversaDensidad / 2f) + rng2 / 10f, center.z), Quaternion.identity);
+                        GameObject prop = Instantiate(biomes.props.RandomPic(level), new Vector3((i - biomes.inversaDensidad/2f) + rng1 / 10f, (ii - biomes.inversaDensidad / 2f) + rng2 / 10f, center.z), Quaternion.identity);
 
                         var aux = prop.GetComponentInChildren<SpriteRenderer>();
 
