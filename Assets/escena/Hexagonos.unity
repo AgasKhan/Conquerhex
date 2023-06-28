@@ -426,6 +426,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chest_Big
       objectReference: {fileID: 0}
+    - target: {fileID: 3238813437061671215, guid: 25fcdc4a1a866c94484ac0de50478272,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8891939041667796499, guid: 25fcdc4a1a866c94484ac0de50478272,
         type: 3}
       propertyPath: m_RootOrder
@@ -768,6 +773,12 @@ MonoBehaviour:
   originalSprite: {fileID: 0}
   transparentMaterial: {fileID: 0}
   mainTexture: {fileID: 0}
+  defaultRight: 1
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _shakeIntensity: 0
+  _shakeDuration: 0
   shadow: 1
   animator: 0
   dirVector: {x: 1, y: 1}
@@ -805,9 +816,6 @@ MonoBehaviour:
       _current: 0
   drops: []
   audioManager: {fileID: 0}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries:
     - key: Informacion
@@ -1321,9 +1329,6 @@ MonoBehaviour:
       _current: 0
   drops: []
   audioManager: {fileID: 0}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries:
     - key: "Informatci\xF3n"
@@ -1586,9 +1591,6 @@ MonoBehaviour:
       pictionaries: []
     item: {fileID: 0}
   audioManager: {fileID: 0}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries: []
   inventory: []
@@ -1667,9 +1669,6 @@ MonoBehaviour:
       _current: 0
   drops: []
   audioManager: {fileID: 0}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries:
     - key: "Informatci\xF3n"
@@ -1993,6 +1992,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chest_Tiny
       objectReference: {fileID: 0}
+    - target: {fileID: 2578437473918744382, guid: 1a80cf7a3af8c54439828cb879a7b551,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8384686436936355842, guid: 1a80cf7a3af8c54439828cb879a7b551,
         type: 3}
       propertyPath: m_RootOrder
@@ -2061,6 +2065,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Chest_Giant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2828345305182809873, guid: 60335e6f6cbf26d46982ce58caf9c402,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8130226352684746797, guid: 60335e6f6cbf26d46982ce58caf9c402,
         type: 3}
@@ -2142,6 +2151,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Chest_Normal
+      objectReference: {fileID: 0}
+    - target: {fileID: 882307430347231996, guid: 3f100754b166c9e4bb8b665e345e9c08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6605238269230921152, guid: 3f100754b166c9e4bb8b665e345e9c08,
         type: 3}
@@ -2576,6 +2590,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeleportBuilding
       objectReference: {fileID: 0}
+    - target: {fileID: 6773200482067112399, guid: 65f71fa8f4d832746ac88d3388cba63d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6773200482067112401, guid: 65f71fa8f4d832746ac88d3388cba63d,
         type: 3}
       propertyPath: m_RootOrder
@@ -2831,6 +2850,12 @@ MonoBehaviour:
   originalSprite: {fileID: 0}
   transparentMaterial: {fileID: 0}
   mainTexture: {fileID: 0}
+  defaultRight: 1
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _shakeIntensity: 0
+  _shakeDuration: 0
   shadow: 1
   animator: 0
   dirVector: {x: 1, y: 1}
@@ -3095,7 +3120,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3105,7 +3130,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3130,7 +3155,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 144.29
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3140,7 +3165,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3160,7 +3185,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 197.25
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3170,7 +3195,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3190,7 +3215,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3200,7 +3225,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3513,9 +3538,6 @@ MonoBehaviour:
       _current: 0
   drops: []
   audioManager: {fileID: 0}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   interact:
     pictionaries: []
   inventory: []
