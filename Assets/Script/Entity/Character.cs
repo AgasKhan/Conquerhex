@@ -60,6 +60,9 @@ public class Character : DinamicEntity, ISwitchState<Character>
 
         weaponKataIndex = index;
 
+        if (actualKata.equiped != null)
+            return;
+
         inventory.Add(combo.kata.Create());
 
         actualKata.indexEquipedItem = inventory.Count-1;
