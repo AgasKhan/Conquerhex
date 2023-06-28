@@ -17,7 +17,7 @@ public class UpgradeBuilding : LogicActive<Building>
         }
         else
         {
-            aux.myBuildSubMenu.detailsWindow.SetTexts(aux.structureBase.nameDisplay + " Nivel Máximo", "\nHas llegado al nivel máximo de esta estructura\n");
+            aux.myBuildSubMenu.detailsWindow.SetTexts(aux.structureBase.nameDisplay + " Nivel Máximo", "\nHas llegado al nivel máximo de esta estructura\n\n");
             aux.myBuildSubMenu.detailsWindow.SetImage(null);
             aux.myBuildSubMenu.DestroyCraftButtons();
         }
