@@ -194,6 +194,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         get => equipedWeapon.equiped;
     }
 
+    public int indexWeapon => equipedWeapon.indexEquipedItem;
+
     EquipedItem<MeleeWeapon> equipedWeapon = new EquipedItem<MeleeWeapon>();
 
     float actualCharacterVelocity;
