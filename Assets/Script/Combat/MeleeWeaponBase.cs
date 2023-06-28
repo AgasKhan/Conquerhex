@@ -56,6 +56,18 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
     {
         _itemType = typeof(MeleeWeapon);
     }
+
+    protected override void CreateButtonsAcctions()
+    {
+        buttonsAcctions.Add("Equip", Equip);
+        base.CreateButtonsAcctions();
+    }
+
+    void Equip(Character chr, Item item)
+    {
+        chr.actualKata.equiped.ChangeWeapon((MeleeWeapon)item);
+    }
+
     #endregion
 }
 

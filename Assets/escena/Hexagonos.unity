@@ -708,24 +708,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6605238269230921158, guid: 3f100754b166c9e4bb8b665e345e9c08, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3f100754b166c9e4bb8b665e345e9c08, type: 3}
---- !u!1 &395740760 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6592060790990565492, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1125739740292512843}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &395740763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 395740760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6753b4cd037825e4992c4f8922faec28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &427852823 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4873598649842200668, guid: bfb2da842e3e44845a9810a86affe264,
@@ -1616,12 +1598,14 @@ MonoBehaviour:
   move: {fileID: 1417820771}
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
-  prin:
-    rid: -2
-  sec:
-    rid: -2
-  ter:
-    rid: -2
+  katas:
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  weaponKataIndex: 0
   areaFarming:
     radius: 0
     distance: 0
@@ -1634,9 +1618,7 @@ MonoBehaviour:
     dot: 1
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!4 &1417820774
 Transform:
   m_ObjectHideFlags: 0
@@ -3113,7 +3095,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3123,7 +3105,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3148,7 +3130,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 144.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3158,7 +3140,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3178,7 +3160,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 197.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3188,7 +3170,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3208,7 +3190,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3218,7 +3200,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3543,12 +3525,14 @@ MonoBehaviour:
   move: {fileID: 4472251128575466741}
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
-  prin:
-    rid: -2
-  sec:
-    rid: -2
-  ter:
-    rid: -2
+  katas:
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  - character: {fileID: 0}
+    indexEquipedItem: -1
+  weaponKataIndex: 0
   areaFarming:
     radius: 0
     distance: 0
@@ -3561,9 +3545,7 @@ MonoBehaviour:
     dot: 1
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!4 &4472251128575466733
 Transform:
   m_ObjectHideFlags: 0

@@ -46,6 +46,12 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         return aux;
     }
 
+    protected override void CreateButtonsAcctions()
+    {
+        //base.CreateButtonsAcctions();
+        buttonsAcctions.Add("Equip", Equip);
+    }
+
     protected override void MyEnable()
     {
         base.MyEnable();
@@ -136,14 +142,19 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     }
 
     public abstract Entity[] Detect(Entity caster, Vector2 direction, int numObjectives, float range);
+
+    void Equip(Character chr, Item item)
+    {
+        chr.actualKata.indexEquipedItem = chr.inventory.IndexOf(item);
+    }
 }
 
 [System.Serializable]
 public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 {
-    public event System.Action<MeleeWeapon> equipedWeapon;
-    public event System.Action<MeleeWeapon> desEquipedWeapon;
-    public event System.Action<MeleeWeapon> rejectedWeapon;
+    public event System.Action<MeleeWeapon> onEquipedWeapon;
+    public event System.Action<MeleeWeapon> onDesEquipedWeapon;
+    public event System.Action<MeleeWeapon> onRejectedWeapon;
 
     public event System.Action<float> updateTimer;
 
@@ -151,15 +162,11 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     [SerializeReference]
     protected Timer cooldown;
-
-    [SerializeReference]
-    protected StaticEntity caster;
+    protected Character caster => equipedWeapon.character;
 
     protected Entity[] affected;
 
     FadeColorAttack _reference;
-
-    int weaponIndex = -1;
 
     System.Action<Vector2, float> pressed;
 
@@ -170,8 +177,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     public virtual float finalVelocity => itemBase.velocity * weapon.itemBase.velocity;
 
     public virtual float finalRange => itemBase.range * weapon.itemBase.range;
-
-    float actualVelocity;
 
     public FadeColorAttack reference
     {
@@ -185,18 +190,21 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public MeleeWeapon weapon
     {
-        get
-        {
-            if (weaponIndex >= 0 && weaponIndex < caster.inventory.Count)
-                return caster.inventory[weaponIndex] as MeleeWeapon;
-            else
-                return null;
-        }
+        get => equipedWeapon.equiped;
+    }
+
+    EquipedItem<MeleeWeapon> equipedWeapon = new EquipedItem<MeleeWeapon>();
+
+    float actualCharacterVelocity;
+
+    public void ChangeWeapon(MeleeWeapon weapon)
+    {
+        ChangeWeapon(caster.inventory.IndexOf(weapon));
     }
 
     public void ChangeWeapon(int weaponIndex)
     {
-        if(! (caster.inventory[weaponIndex] is MeleeWeapon))
+        if(! (caster.inventory[weaponIndex] is MeleeWeapon) || weaponIndex<0)
         {
             Debug.Log("No es un arma");
             return;
@@ -211,24 +219,29 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             {
                 if(ability.typeInstance == dmg.typeInstance && ability.amount>dmg.amount)
                 {
-                    rejectedWeapon?.Invoke(weapon);
+                    onRejectedWeapon?.Invoke(weapon);
                     Debug.Log("arma no aceptada");
                     return;
                 }
             }
         }
 
-        this.weapon.off -= Weapon_durabilityOff;
+        TakeOutWeapon();
 
-        desEquipedWeapon?.Invoke(this.weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
+        equipedWeapon.indexEquipedItem = weaponIndex;
 
-        this.weaponIndex = weaponIndex;
-
-        equipedWeapon?.Invoke(this.weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
+        onEquipedWeapon?.Invoke(this.weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
 
         this.weapon.off += Weapon_durabilityOff;
 
         cooldown.Set(finalVelocity);
+    }
+
+    public void TakeOutWeapon()
+    {
+        this.weapon.off -= Weapon_durabilityOff;
+
+        onDesEquipedWeapon?.Invoke(this.weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
     }
 
     protected Entity[] Attack()
@@ -279,7 +292,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
         if (param.Length > 0)
         {
-            this.caster = param[0] as StaticEntity;
+            equipedWeapon.character = param[0] as Character;
 
             foreach (var item in itemBase.audios)
             {
@@ -288,7 +301,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         }  
 
         if (param.Length > 1)
-            weaponIndex = (int)param[1];
+            equipedWeapon.indexEquipedItem = (int)param[1];
 
         cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, TriggerTimerFinishEvent);
 
@@ -302,8 +315,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     private void Weapon_durabilityOff()
     {
-        desEquipedWeapon?.Invoke(weapon);
-        weaponIndex = -1;
+        onDesEquipedWeapon?.Invoke(weapon);
+        equipedWeapon.indexEquipedItem = -1;
     }
 
     public void ControllerDown(Vector2 dir, float tim)
@@ -314,11 +327,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             return;
         }
 
-        if (caster is DinamicEntity)
-        {
-            actualVelocity = ((DinamicEntity)caster).move.objectiveVelocity;
-            ((DinamicEntity)caster).move.objectiveVelocity /= 2;
-        }
+        actualCharacterVelocity = caster.move.objectiveVelocity;
+        caster.move.objectiveVelocity /= 2;
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
@@ -347,7 +357,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
         if (caster is DinamicEntity)
         {
-            ((DinamicEntity)caster).move.objectiveVelocity = actualVelocity;
+            ((DinamicEntity)caster).move.objectiveVelocity = actualCharacterVelocity;
         }
 
         up(dir, tim);

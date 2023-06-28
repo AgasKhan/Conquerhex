@@ -13,7 +13,7 @@ public abstract class ItemBase : ShowDetails
 
     public ItemType itemType;
 
-    public Dictionary<string, System.Action<Character>> buttonsAcctions = new Dictionary<string, System.Action<Character>>();
+    public Dictionary<string, System.Action<Character, Item>> buttonsAcctions = new Dictionary<string, System.Action<Character, Item>>();
 
     protected System.Type _itemType;
     
@@ -37,10 +37,15 @@ public abstract class ItemBase : ShowDetails
         SetCreateItemType();
         Manager<ItemBase>.pic.Add(nameDisplay, this);
         buttonsAcctions.Clear();
+        CreateButtonsAcctions();
+    }
+
+    protected virtual void CreateButtonsAcctions()
+    {
         buttonsAcctions.Add("Destroy", DestroyItem);
     }
 
-    protected virtual void DestroyItem(Character character)
+    protected virtual void DestroyItem(Character character, Item item)
     {
         character.AddOrSubstractItems(nameDisplay, -1);
     }
