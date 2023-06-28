@@ -14,6 +14,10 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
     public Tim _desaceleration = new Tim();
 
+    public event System.Action<Vector2> onMove;
+
+    public event System.Action onIdle;
+
     [SerializeField]
     protected Tim _velocity = new Tim();
 
@@ -110,12 +114,18 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         var aux = dir * aceleration.total;
 
         if(aux.sqrMagnitude>0)
+        {
             Acelerator(aux, dir.magnitude * objectiveVelocity);
+            onMove?.Invoke(dir);
+        }
+            
         //velocity += aceleration.current * Time.deltaTime;
     }
 
     public virtual void ControllerUp(Vector2 dir, float tim)
     {
         //_desaceleration.Reset();
+
+        onIdle?.Invoke();
     }
 }

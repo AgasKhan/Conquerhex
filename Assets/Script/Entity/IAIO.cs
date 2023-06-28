@@ -23,6 +23,8 @@ public class IAIO : IAFather
         param.gameObject.tag = "Player";
 
         param.move.onTeleport += TeleportEvent;
+        param.move.onMove += MoveAnimation;
+        param.move.onIdle += IdleAnimation;
 
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
@@ -35,12 +37,16 @@ public class IAIO : IAFather
 
         SetJoystick(param.ter, VirtualControllers.terciary, EnumController.terciary, TerUi, TerUiFinish);
 
+
+
         VirtualControllers.movement.SuscribeController(param.move);
     }
 
     public override void OnExitState(Character param)
     {
         param.move.onTeleport -= TeleportEvent;
+        param.move.onMove -= MoveAnimation;
+        param.move.onIdle -= IdleAnimation;
 
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
@@ -51,16 +57,19 @@ public class IAIO : IAFather
         VirtualControllers.principal.DesuscribeController(param.prin);
         param.prin.updateTimer -= PrinUi;
         param.prin.finishTimer -= PrinUiFinish;
+        param.prin.onAttack -= AttackAnimation;
 
         //if (param.sec.itemBase != null)
         VirtualControllers.secondary.DesuscribeController(param.sec);
         param.sec.updateTimer -= SecUi;
         param.sec.finishTimer -= SecUiFinish;
+        param.sec.onAttack -= AttackAnimation;
 
         //if (param.ter.itemBase != null)
         VirtualControllers.terciary.DesuscribeController(param.ter);
         param.ter.updateTimer -= TerUi;
         param.ter.finishTimer -= TerUiFinish;
+        param.ter.onAttack -= AttackAnimation;
 
         VirtualControllers.movement.DesuscribeController(param.move);
 
@@ -104,6 +113,7 @@ public class IAIO : IAFather
             axisButton.SuscribeController(weaponKata);
             weaponKata.updateTimer += ui;
             weaponKata.finishTimer += uifinish;
+            weaponKata.onAttack += AttackAnimation; 
             EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(true, weaponKata.itemBase.joystick, weaponKata.itemBase.image);
         }
         else
@@ -111,6 +121,8 @@ public class IAIO : IAFather
             EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(false, false, null);
         }
     }
+
+
 
     private void TeleportEvent(Hexagone obj, int lado)
     {

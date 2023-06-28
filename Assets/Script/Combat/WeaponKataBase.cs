@@ -155,6 +155,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
     public event System.Action<MeleeWeapon> onEquipedWeapon;
     public event System.Action<MeleeWeapon> onDesEquipedWeapon;
     public event System.Action<MeleeWeapon> onRejectedWeapon;
+    public event System.Action onAttack;
 
     public event System.Action<float> updateTimer;
 
@@ -246,6 +247,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     protected Entity[] Attack()
     {
+        onAttack?.Invoke();
         return itemBase.Attack(caster, weapon, affected);
     }
 
