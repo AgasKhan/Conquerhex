@@ -63,7 +63,7 @@ public class ButtonsFunc_Menu : ButtonsFunctions
     void DeleteData(GameObject g)
     {
         refMenu.modulesMenu.ObtainMenu<PopUp>(true)
-            .SetWindow("Borrar partida", "¿Estas seguro que deseas borrar toda la configuracion y progreso?")
+            .SetWindow("Borrar partida", "¿Estas seguro que deseas borrar todo tu progreso?")
             .AddButton("Confirmar", () => {
 
                 //BuildingInteract.instance.ClearCustomerInventory();
