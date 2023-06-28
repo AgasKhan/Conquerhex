@@ -70,9 +70,17 @@ public class AdsBuilding : Building, IUnityAdsListener
             return;
 
         if (showResult == ShowResult.Finished)
+        {
             Debug.Log("Te doy una recompensa");
+            character.AddOrSubstractItems("PortalFuel", 5);
+        }
+            
         else
+        {
             Debug.Log("No te doy nada");
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No conseguiste la recompensa por saltar el anuncio").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+        }
+            
     }
 
     public void OnUnityAdsDidStart(string placementId)
