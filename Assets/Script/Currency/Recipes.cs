@@ -59,16 +59,16 @@ public class Recipes : ItemBase
         return aux;
     }
 
-    public string GetRequiresString()
+    public string GetRequiresString(StaticEntity container)
     {
         string aux = "";
 
         for (int i = 0; i < materials.Count; i++)
         {
-            aux  += materials[i].Item.nameDisplay + " " + materials[i].Amount + "\n";
+            aux  += materials[i].Item.nameDisplay + " "+ container.ItemCount(materials[i].Item.nameDisplay) + " / "+ materials[i].Amount + "\n";
         }
         
-        return aux;
+        return aux.RichText("color", "#ffa500ff");
     }
     public Pictionarys<string, Sprite> GetRequireItems()
     {

@@ -14,6 +14,8 @@ public class CraftingSubMenu : CreateSubMenu
 
     DetailsWindow myDetailsW;
 
+    public event System.Action onCraft;
+
     public override void Create()
     {
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
@@ -61,13 +63,10 @@ public class CraftingSubMenu : CreateSubMenu
             UnityEngine.Events.UnityAction action =
                 () =>
                 {
-                    ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(), item.result.Item.image);
-                    DestroyButtonCraft();
-                    lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => { CraftAnItem(item.nameDisplay); }, "");
-
+                    RefreshDetailW(item);
                 };
 
-            buttonsList.Add(button.SetButtonA(item.result.Item.nameDisplay, item.result.Item.image, "", action).SetType(item.result.Item.itemType.ToString()));
+            buttonsList.Add(button.SetButtonA(item.result.Item.nameDisplay, item.result.Item.image,"", action).SetType(item.result.Item.itemType.ToString()));
         }
     }
     void DestroyButtonCraft()
@@ -104,11 +103,21 @@ public class CraftingSubMenu : CreateSubMenu
         if (recipe.CanCraft(buildingBase.character))
         {
             recipe.Craft(buildingBase.character);
+            RefreshDetailW(recipe);
             return true;
         }
         else
             return false;
 
+    }
+
+    void RefreshDetailW(Recipes item)
+    {
+        ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(buildingBase.character), item.result.Item.image);
+
+        lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => { CraftAnItem(item.nameDisplay); onCraft?.Invoke(); }, "");
+
+        lastButtonCraft.button.interactable = item.CanCraft(buildingBase.character);
     }
 
     void ShowResultDetails(string nameDisplay, string details, Sprite Image)
@@ -127,7 +136,7 @@ public class CraftingSubMenu : CreateSubMenu
                 item.SetActiveGameObject(true);
         }
 
-        myDetailsW.SetActiveGameObject(false);
+        myDetailsW.SetTexts("", "").SetImage(null);
         DestroyButtonCraft();
     }
 

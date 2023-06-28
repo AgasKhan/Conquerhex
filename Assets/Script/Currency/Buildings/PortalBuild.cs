@@ -62,7 +62,7 @@ public class PortalSubMenu : CreateSubMenu
     void ButtonAct(ShowDetails item, Recipes requirement)
     {
         DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString() + "Costo del viaje: \n" + requirement.GetRequiresString());
+        myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString() + "Costo del viaje: \n" + requirement.GetRequiresString(portalBuilding.character));
         myDetailsW.SetImage(item.image);
         lastButton = subMenu.AddComponent<EventsCall>().Set("Viajar", () => { Travel(item, requirement); }, "");
     }

@@ -16,17 +16,14 @@ public class BuildingsSubMenu : CreateSubMenu
     public override void Create()
     {
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
-        
+
+        subMenu.navbar.DestroyAll();
         subMenu.ClearBody();
         DestroyCraftButtons();
-        subMenu.CreateTitle(buildingBase.name);
         base.Create();
     }
     protected override void InternalCreate()
     {
-        subMenu.navbar.DestroyAll();
-        subMenu.ClearBody();
-        
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
 
@@ -35,15 +32,17 @@ public class BuildingsSubMenu : CreateSubMenu
             subMenu.AddComponent<EventsCall>().Set(item.key, () => { item.value.Activate(buildingBase); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
 
-
         subMenu.CreateSection(2, 6);
-        detailsWindow = subMenu.AddComponent<DetailsWindow>();
+        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", buildingBase.structureBase.GetDetails().ToString()).SetImage(buildingBase.structureBase.image);
+
+        subMenu.CreateTitle(buildingBase.name);
     }
 
-    public void CreateButton(string text, UnityEngine.Events.UnityAction action)
+    public EventsCall CreateButton(string text, UnityEngine.Events.UnityAction action)
     {
         DestroyCraftButtons();
         lastButton = subMenu.AddComponent<EventsCall>().Set(text, action, "");
+        return lastButton;
     }
 
     public void DestroyCraftButtons()

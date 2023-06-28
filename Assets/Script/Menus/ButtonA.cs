@@ -10,7 +10,7 @@ public class ButtonA : EventsCall
     Image previewImage;
 
     [SerializeField]
-    TextMeshProUGUI myNum;
+    public TextMeshProUGUI myNum;
 
     public string type;
 
@@ -61,7 +61,10 @@ public class ButtonA : EventsCall
 
         previewImage.sprite = sprite;
 
-        myNum.text = textNum;
+        if (textNum != "")
+            myNum.text = textNum;
+        else
+            myNum.SetActiveGameObject(false);
 
         if (action != null)
         {
