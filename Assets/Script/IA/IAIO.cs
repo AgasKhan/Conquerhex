@@ -11,6 +11,13 @@ public class IAIO : IAFather
 
     Building lastBuilding;
 
+    private void Start()
+    {
+        LoadSystem.AddPreLoadCorutine(()=> {
+            OnExitState(character);
+        });
+    }
+
     public override void OnEnterState(Character param)
     {
 

@@ -20,7 +20,18 @@ public class Character : DinamicEntity, ISwitchState<Character>
 
     public int weaponKataIndex = 0;
 
-    public EquipedItem<WeaponKata> actualKata => katas[weaponKataIndex];
+    public EquipedItem<WeaponKata> actualKata
+    {
+        get
+        {
+            return katas[weaponKataIndex];
+        }
+        set
+        {
+            katas[weaponKataIndex] = value;
+        }
+    }
+        
 
     [SerializeField]
     Detect<RecolectableItem> areaFarming;
@@ -125,17 +136,19 @@ public class Character : DinamicEntity, ISwitchState<Character>
             katas[i].character = (this);
         }
 
-        SetWeaponKataCombo(0, bodyBase.principal);
 
-        SetWeaponKataCombo(1, bodyBase.secondary);
-
-        SetWeaponKataCombo(2, bodyBase.tertiary);
 
         _ia = GetComponent<IState<Character>>();
     }
 
     void MyStart()
     {
+        SetWeaponKataCombo(0, bodyBase.principal);
+
+        SetWeaponKataCombo(1, bodyBase.secondary);
+
+        SetWeaponKataCombo(2, bodyBase.tertiary);
+
         if (_ia != null)
         {
             _ia.OnEnterState(this);
@@ -165,14 +178,14 @@ public class Character : DinamicEntity, ISwitchState<Character>
 [System.Serializable]
 public class EquipedItem<T> where T : Item
 {
-    [HideInInspector]
+    [System.NonSerialized]
     public Character character;
 
     public T equiped
     {
         get
         {
-            if (indexEquipedItem < 0 || character ==null  || indexEquipedItem >= character.inventory.Count || !(character.inventory[indexEquipedItem] is T))
+            if (indexEquipedItem < 0 || character == null  || indexEquipedItem >= character.inventory.Count || !(character.inventory[indexEquipedItem] is T))
                 return default;
             else
                 return (T)character.inventory[indexEquipedItem];

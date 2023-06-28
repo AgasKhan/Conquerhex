@@ -296,17 +296,18 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             return;
 
         if (param.Length > 0)
-        {
             equipedWeapon.character = param[0] as Character;
 
+        if (param.Length > 1)
+            equipedWeapon.indexEquipedItem = (int)param[1];
+
+        if (equipedWeapon.character!=null)
+        {
             foreach (var item in itemBase.audios)
             {
                 caster.audioManager.AddAudio(item.key, item.value);
             }
         }  
-
-        if (param.Length > 1)
-            equipedWeapon.indexEquipedItem = (int)param[1];
 
         cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, TriggerTimerFinishEvent);
 
@@ -326,7 +327,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        if (caster.enabled == false || caster.gameObject.activeSelf == false)
+        if (caster == null || caster.enabled == false || caster.gameObject.activeSelf == false)
         {
             reference?.Off();
             return;
@@ -342,7 +343,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        if (caster.enabled == false || caster.gameObject.activeSelf == false)
+        if (caster==null || caster.enabled == false || caster.gameObject.activeSelf == false)
         {
             reference?.Off();
             return;
@@ -354,7 +355,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        if (caster.enabled == false || caster.gameObject.activeSelf == false)
+        if (caster == null || caster.enabled == false || caster.gameObject.activeSelf == false)
         {
             reference?.Off();
             return;
