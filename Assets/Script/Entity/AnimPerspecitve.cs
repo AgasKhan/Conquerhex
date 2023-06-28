@@ -16,7 +16,6 @@ public class AnimPerspecitve : TransparentMaterial
     [SerializeField]
     Material shadowMaterial;
 
-
     SpriteRenderer shadowSprite;
 
     override protected void Awake()
@@ -108,7 +107,7 @@ public class AnimPerspecitve : TransparentMaterial
         UpdateShadow();
     }
 
-   
+
 
     IEnumerator UpdatePostFrame(System.Action action)
     {

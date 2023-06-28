@@ -12,31 +12,13 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public event System.Action onTakeDamage;
 
+    public event System.Action onDetected;
+
     public AudioManager audioManager;
 
     protected abstract Damage[] vulnerabilities { get; }
 
-    [SerializeField]
-    Color damaged1 = new Color() { r = 1, b = 0, g = 1, a = 1 };
-
-    [SerializeField]
-    Color damaged2 = new Color() { r = 1, b = 0.92f, g = 0.016f, a = 1 };
-
-    [SerializeField]
-    Color detected = new Color() { r = 1, b = 0.5f, g = 0.5f, a = 1 };
-
-
-    SpriteRenderer sprite;
-
-    Color originalColor;
-
-    Timer timDamaged = null;
-
-    Timer timDetected = null;
-
     IDamageable[] damageables;
-
-   
 
     protected override void Config()
     {
@@ -45,41 +27,12 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     private void MyAwake()
     {
-        sprite = GetComponentInChildren<SpriteRenderer>();
         audioManager = GetComponent<AudioManager>();
         var aux = GetComponentsInChildren<IDamageable>();
 
         health.Init();
 
         health.death += Drop;
-
-        originalColor = sprite.color;
-
-        timDetected = TimersManager.LerpInTime(detected, originalColor, 0.1f, Color.Lerp, (save) => sprite.color = save);
-
-        timDamaged = TimersManager.Create(0.33f, () => {
-
-            if (((int)(timDamaged.Percentage() * 10)) % 2 == 0)
-            {
-                //parpadeo rapido
-
-
-                sprite.color = damaged1;
-            }
-            else
-            {
-                //el mantenido
-
-                sprite.color = damaged2;
-            }
-
-        }, () => {
-
-            //volver al original
-
-            sprite.color = originalColor;
-
-        });
 
         damageables = new IDamageable[aux.Length - 1];
 
@@ -92,14 +45,14 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
                 damageables[ii] = aux[i];
                 ii++;
             }
-        }
-
-       
+        }       
     }
 
     public void Detect()
     {
-        timDetected.Reset();
+        //timDetected.Reset();
+
+        onDetected?.Invoke();
     }
 
     public void Drop()
@@ -123,7 +76,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public virtual void TakeDamage(Damage dmg)
     {
-        timDamaged.Reset();
         onTakeDamage?.Invoke();
 
         if(vulnerabilities!=null)
