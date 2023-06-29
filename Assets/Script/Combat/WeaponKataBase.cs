@@ -334,7 +334,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         }
 
         actualCharacterVelocity = caster.move.objectiveVelocity;
-        caster.move.objectiveVelocity /= 2;
+        caster.move.objectiveVelocity = -2;
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
@@ -363,7 +363,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
         if (caster is DinamicEntity)
         {
-            ((DinamicEntity)caster).move.objectiveVelocity = actualCharacterVelocity;
+            ((DinamicEntity)caster).move.objectiveVelocity += 2;
         }
 
         up(dir, tim);
