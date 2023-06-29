@@ -334,7 +334,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         }
 
         actualCharacterVelocity = caster.move.objectiveVelocity;
-        caster.move.objectiveVelocity = -2;
+        caster.move.objectiveVelocity += -2;
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
