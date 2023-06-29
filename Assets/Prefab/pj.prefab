@@ -102,12 +102,9 @@ MonoBehaviour:
   <bodyBase>k__BackingField: {fileID: 11400000, guid: e37b635edcfd6c94d9ac1a797d531f41,
     type: 2}
   katas:
-  - character: {fileID: 0}
-    indexEquipedItem: -1
-  - character: {fileID: 0}
-    indexEquipedItem: -1
-  - character: {fileID: 0}
-    indexEquipedItem: -1
+  - indexEquipedItem: -1
+  - indexEquipedItem: -1
+  - indexEquipedItem: -1
   weaponKataIndex: 0
   areaFarming:
     radius: 1
@@ -240,8 +237,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.19}
-  m_Size: {x: 0.24, y: 0.41}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.25, y: 0.25}
   m_Direction: 0
 --- !u!81 &6295448971589143363
 AudioListener:

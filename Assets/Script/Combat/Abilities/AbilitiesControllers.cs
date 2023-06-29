@@ -9,6 +9,19 @@ public class PressWeaponKata : WeaponKata
 {
     public Timer pressCooldown;
 
+    public override void Init(params object[] param)
+    {
+        base.Init(param);
+        if (weapon != null)
+            pressCooldown = TimersManager.Create(finalVelocity*1.5f);
+    }
+
+    public override void ChangeWeapon(int weaponIndex)
+    {
+        base.ChangeWeapon(weaponIndex);
+        pressCooldown.Set(finalVelocity * 1.5f);
+    }
+
     public override Pictionarys<string, string> GetDetails()
     {
         var aux = base.GetDetails();

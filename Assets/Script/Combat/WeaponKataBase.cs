@@ -206,7 +206,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         ChangeWeapon(caster.inventory.IndexOf(weapon));
     }
 
-    public void ChangeWeapon(int weaponIndex)
+    public virtual void ChangeWeapon(int weaponIndex)
     {
         if(! (caster.inventory[weaponIndex] is MeleeWeapon) || weaponIndex < 0)
         {
