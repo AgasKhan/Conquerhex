@@ -301,7 +301,8 @@ public class VirtualControllers : MonoBehaviour
 
         public void OnEnterState(Vector2 param)
         {
-            eventDown?.Invoke(param, 0);
+            timePressed = 0;
+            eventDown?.Invoke(param, timePressed);
         }
 
         public void OnStayState(Vector2 param)

@@ -123,7 +123,6 @@ public class FadeColorAttack : MonoBehaviour
 
     private void OnEnable()
     {
-        Area(0.5f);
         sprite.color = areaColor.ChangeAlphaCopy(0);
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);
