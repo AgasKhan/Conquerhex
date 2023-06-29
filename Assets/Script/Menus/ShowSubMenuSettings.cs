@@ -110,22 +110,22 @@ public class ShowSubMenuSettings : CreateSubMenu
     //////////////////////////////////buttonFunctions////////
     void AddEffectsVol(Image g)
     {
-        UpdateVol(g, "EffectsVolume", 0.1f);
+        UpdateVol(g, "Effects", 0.1f);
     }
 
     void SubsEffectsVol(Image g)
     {
-        UpdateVol(g, "EffectsVolume", -0.1f);
+        UpdateVol(g, "Effects", -0.1f);
     }
 
     void AddMusicVol(Image g)
     {
-        UpdateVol(g, "MusicVolume", 0.1f);
+        UpdateVol(g, "Music", 0.1f);
     }
 
     void SubsMusicVol(Image g)
     {
-        UpdateVol(g, "MusicVolume", -0.1f);
+        UpdateVol(g, "Music", -0.1f);
     }
 
     void UpdateVol(Image g, string str, float number)
