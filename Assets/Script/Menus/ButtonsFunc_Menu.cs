@@ -68,7 +68,7 @@ public class ButtonsFunc_Menu : ButtonsFunctions
 
                 //BuildingInteract.instance.ClearCustomerInventory();
                 SaveWithJSON.DeleteData();
-                //Restart(g);
+                Restart(g);
 
             })
             .AddButton("Cancelar", () => {
