@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Portal
-  m_Shader: {fileID: -6465566751694194690, guid: f68e6169428d952408842dc047f5c69d, type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: -6465566751694194690, guid: 429d9f83f82af4242a21ef41ad116e4e,
+    type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -35,6 +37,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_1ae9a61af2c643d88283413ed2048e6b: 0.8
     - Vector1_72c446e023774509bdee48229e1f80a9: 20
@@ -45,9 +48,26 @@ Material:
     - Vector1_d64a92495c13443c99743903fcf0d645: 10
     - Vector1_e492cd9147b943e4a221edae44d9bce5: 3
     - Vector1_ec653919bf5b47d897a951f04ca7021b: 30
+    - _QueueControl: 0
+    - _QueueOffset: 0
     m_Colors:
-    - Color_0667befcddd0401bae74aa34dd0176a9: {r: 5.595964, g: 1.7685356, b: 5.2740307, a: 1}
-    - Color_63f1345d54be4890ba4ff8b987c5399a: {r: 1.1308899, g: 2.3455493, b: 2.6701567, a: 1}
+    - Color_0667befcddd0401bae74aa34dd0176a9: {r: 5.595964, g: 1.7685356, b: 5.2740307,
+        a: 1}
+    - Color_63f1345d54be4890ba4ff8b987c5399a: {r: 1.1308899, g: 2.3455493, b: 2.6701567,
+        a: 1}
     - Vector2_23cf59dab098484493b8a2900004782b: {r: 0, g: 0.2, b: 0, a: 0}
     - Vector2_e7abf7cc6bdd47898b29063233353e27: {r: 8, g: 8, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &1451993452546860491
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5

@@ -22,11 +22,11 @@ public class Dissolve : MonoBehaviour
             dissolveAmount = Mathf.Clamp01(dissolveAmount - Time.deltaTime);
             material.SetFloat("_Dissolve", dissolveAmount);
         }
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             isDissolve = true;
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             isDissolve = false;
         }
