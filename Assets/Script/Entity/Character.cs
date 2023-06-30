@@ -64,25 +64,6 @@ public class Character : DinamicEntity, ISwitchState<Character>
     [SerializeField]
     IState<Character> _ia;
 
-    public void SetWeaponKataCombo(int index, WeaponKataCombo combo)
-    {
-        if (combo.kata == null)
-            return;
-
-        weaponKataIndex = index;
-
-        if (actualKata.equiped != null)
-            return;
-
-        inventory.Add(combo.kata.Create());
-
-        actualKata.indexEquipedItem = inventory.Count-1;
-
-        inventory.Add(combo.weapon.Create());
-
-        actualKata.equiped.Init(this, inventory.Count-1);
-    }
-
     public int EquipedKata(WeaponKata weaponKata)
     {
         foreach (var item in katas)
@@ -96,6 +77,10 @@ public class Character : DinamicEntity, ISwitchState<Character>
         return -1;
     }
 
+    public EquipedItem<WeaponKata> ActualKata(int index)
+    {
+        return katas[index];
+    }
 
     public override void TakeDamage(Damage dmg)
     {
@@ -173,6 +158,25 @@ public class Character : DinamicEntity, ISwitchState<Character>
     {
         _ia.OnStayState(this);
     }
+
+    void SetWeaponKataCombo(int index, WeaponKataCombo combo)
+    {
+        if (combo.kata == null)
+            return;
+
+        weaponKataIndex = index;
+
+        if (actualKata.equiped != null)
+            return;
+
+        inventory.Add(combo.kata.Create());
+
+        actualKata.indexEquipedItem = inventory.Count - 1;
+
+        inventory.Add(combo.weapon.Create());
+
+        actualKata.equiped.Init(this, inventory.Count - 1);
+    }
 }
 
 [System.Serializable]
@@ -180,6 +184,8 @@ public class EquipedItem<T> where T : Item
 {
     [System.NonSerialized]
     public Character character;
+
+    public event System.Action<int,T> toChange;
 
     public T equiped
     {
@@ -192,5 +198,16 @@ public class EquipedItem<T> where T : Item
         }
     }
 
-    public int indexEquipedItem = -1;
+    [SerializeField]
+    int _indexEquipedItem = -1;
+
+    public int indexEquipedItem
+    {
+        get => _indexEquipedItem;
+        set
+        {
+            _indexEquipedItem = value;
+            toChange?.Invoke(_indexEquipedItem, equiped);
+        }
+    }
 }

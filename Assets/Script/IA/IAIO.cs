@@ -11,6 +11,12 @@ public class IAIO : IAFather
 
     Building lastBuilding;
 
+    ControllerIAIO prin;
+
+    ControllerIAIO sec;
+
+    ControllerIAIO ter;
+
     private void Start()
     {
         LoadSystem.AddPreLoadCorutine(()=> {
@@ -20,10 +26,15 @@ public class IAIO : IAFather
 
     public override void OnEnterState(Character param)
     {
-
         GameManager.instance.playerCharacter = param;
 
         character = param;
+
+        prin = new ControllerIAIO(EnumController.principal, character.ActualKata(0), AttackAnimation);
+
+        sec = new ControllerIAIO(EnumController.secondary, character.ActualKata(1), AttackAnimation);
+
+        ter = new ControllerIAIO(EnumController.terciary, character.ActualKata(2), AttackAnimation);
 
         originalTag = param.gameObject.tag;
 
@@ -36,17 +47,15 @@ public class IAIO : IAFather
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
 
-        param.health.noLife += ShowLoserWindow;            
-
-        SetJoystick(param.prin, VirtualControllers.principal, EnumController.principal, PrinUi, PrinUiFinish);
-
-        SetJoystick(param.sec, VirtualControllers.secondary, EnumController.secondary, SecUi, SecUiFinish);
-
-        SetJoystick(param.ter, VirtualControllers.terciary, EnumController.terciary, TerUi, TerUiFinish);
-
-
+        param.health.noLife += ShowLoserWindow;
 
         VirtualControllers.movement.SuscribeController(param.move);
+
+        VirtualControllers.principal.SuscribeController(prin);
+
+        VirtualControllers.secondary.SuscribeController(sec);
+
+        VirtualControllers.terciary.SuscribeController(ter);
     }
 
     public override void OnExitState(Character param)
@@ -60,17 +69,16 @@ public class IAIO : IAFather
 
         param.health.noLife -= ShowLoserWindow;
 
-        RemoveJoystick(param.prin ,VirtualControllers.principal, EnumController.principal, PrinUi, PrinUiFinish);
-
-        RemoveJoystick(param.sec, VirtualControllers.secondary, EnumController.secondary, SecUi, SecUiFinish);
-
-        RemoveJoystick(param.ter, VirtualControllers.terciary, EnumController.terciary, TerUi, TerUiFinish);
-
         VirtualControllers.movement.DesuscribeController(param.move);
+
+        VirtualControllers.principal.DesuscribeController(prin);
+
+        VirtualControllers.secondary.DesuscribeController(sec);
+
+        VirtualControllers.terciary.DesuscribeController(ter);
 
         param.gameObject.tag = originalTag;
     }
-
 
     public override void OnStayState(Character param)
     {
@@ -101,34 +109,6 @@ public class IAIO : IAFather
         lastBuilding.myBuildSubMenu.Create();
     }
 
-    private void SetJoystick(WeaponKata weaponKata, VirtualControllers.AxisButton axisButton, EnumController enumController, System.Action<float> ui, System.Action uifinish)
-    {
-        if (weaponKata != null)
-        {
-            axisButton.SuscribeController(weaponKata);
-            weaponKata.updateTimer += ui;
-            weaponKata.finishTimer += uifinish;
-            weaponKata.onAttack += AttackAnimation; 
-            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(true, weaponKata.itemBase.joystick, weaponKata.itemBase.image);
-        }
-        else
-        {
-            EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(false, false, null);
-        }
-    }
-
-    private void RemoveJoystick(WeaponKata weaponKata, VirtualControllers.AxisButton axisButton, EnumController enumController, System.Action<float> ui, System.Action uifinish)
-    {
-        if (weaponKata != null)
-        {
-            axisButton.DesuscribeController(weaponKata);
-            weaponKata.updateTimer -= ui;
-            weaponKata.finishTimer -= uifinish;
-            weaponKata.onAttack -= AttackAnimation;
-        }
-
-        EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(false, false, null);
-    }
 
     private void TeleportEvent(Hexagone obj, int lado)
     {
@@ -139,36 +119,6 @@ public class IAIO : IAFather
     {
         GameManager.instance.Pause(false);
         Manager<ManagerSubMenus>.pic["Principal"].ShowWindow("PopUp");     
-    }
-
-    void PrinUi(float f)
-    {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumController.principal).Execute(f);
-    }
-
-    void SecUi(float f)
-    {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumController.secondary).Execute(f);
-    }
-
-    void TerUi(float f)
-    {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumController.terciary).Execute(f);
-    }
-
-    void PrinUiFinish()
-    {
-        EventManager.events.SearchOrCreate<EventTimer>(EnumController.principal).ExecuteEnd();
-    }
-
-    void SecUiFinish()
-    {
-        EventManager.events.SearchOrCreate<EventTimer>(EnumController.secondary).ExecuteEnd();
-    }
-
-    void TerUiFinish()
-    {
-        EventManager.events.SearchOrCreate<EventTimer>(EnumController.terciary).ExecuteEnd();
     }
 
     void UpdateLife(IGetPercentage arg1, float arg2, float arg3)
@@ -185,4 +135,95 @@ public class IAIO : IAFather
 public enum EnumPlayer
 {
     move
+}
+
+public class ControllerIAIO : IControllerDir
+{
+    EventJoystick _Event;
+
+    WeaponKata previusControllerDir;
+
+    System.Action attackAnim;
+
+    //System.Func<WeaponKata> controllerDir;
+
+    EquipedItem<WeaponKata> kata;
+
+    public void ControllerDown(Vector2 dir, float tim)
+    {
+        kata.equiped?.ControllerDown(dir,tim);
+    }
+
+    public void ControllerPressed(Vector2 dir, float tim)
+    {
+        kata.equiped?.ControllerPressed(dir, tim);
+    }
+
+    public void ControllerUp(Vector2 dir, float tim)
+    {
+        kata.equiped?.ControllerUp(dir, tim);
+    }
+
+    public void SetJoystick(int arg1, WeaponKata arg2)
+    {
+        if (previusControllerDir != null)
+        {
+            previusControllerDir.updateTimer -= Ui;
+            previusControllerDir.finishTimer -= UiFinish;
+            previusControllerDir.onAttack -= attackAnim;
+        }
+
+        if (kata.equiped != null)
+        {
+            kata.equiped.updateTimer += Ui;
+            kata.equiped.finishTimer += UiFinish;
+            kata.equiped.onAttack += attackAnim;
+        }
+
+        RefreshJoystickUI();
+
+        previusControllerDir = kata.equiped;
+    }
+
+    void Ui(float f)
+    {
+        _Event.Execute(f);
+    }
+
+    void UiFinish()
+    {
+        _Event.ExecuteEnd();
+    }
+
+    void RefreshJoystickUI()
+    {
+        if (kata.equiped != null)
+        {
+            _Event.ExecuteSet(true, kata.equiped.itemBase.joystick, kata.equiped.image);
+        }
+        else
+        {
+            _Event.ExecuteSet(false, false, null);
+        }
+    }
+
+    public ControllerIAIO(EnumController enumController, EquipedItem<WeaponKata> kata, System.Action attackAnim)
+    {
+        _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController);
+
+        this.kata = kata;
+        this.attackAnim = attackAnim;
+
+        kata.toChange += SetJoystick;
+
+        SetJoystick(0, null);
+    }
+
+    ~ControllerIAIO()
+    {
+        kata.toChange -= SetJoystick;
+        kata.equiped.updateTimer -= Ui;
+        kata.equiped.finishTimer -= UiFinish;
+        kata.equiped.onAttack -= attackAnim;
+    }
 }
