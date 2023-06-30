@@ -60,23 +60,11 @@ public class IAIO : IAFather
 
         param.health.noLife -= ShowLoserWindow;
 
-        //if (param.prin.itemBase != null)
-        VirtualControllers.principal.DesuscribeController(param.prin);
-        param.prin.updateTimer -= PrinUi;
-        param.prin.finishTimer -= PrinUiFinish;
-        param.prin.onAttack -= AttackAnimation;
+        RemoveJoystick(param.prin ,VirtualControllers.principal, EnumController.principal, PrinUi, PrinUiFinish);
 
-        //if (param.sec.itemBase != null)
-        VirtualControllers.secondary.DesuscribeController(param.sec);
-        param.sec.updateTimer -= SecUi;
-        param.sec.finishTimer -= SecUiFinish;
-        param.sec.onAttack -= AttackAnimation;
+        RemoveJoystick(param.sec, VirtualControllers.secondary, EnumController.secondary, SecUi, SecUiFinish);
 
-        //if (param.ter.itemBase != null)
-        VirtualControllers.terciary.DesuscribeController(param.ter);
-        param.ter.updateTimer -= TerUi;
-        param.ter.finishTimer -= TerUiFinish;
-        param.ter.onAttack -= AttackAnimation;
+        RemoveJoystick(param.ter, VirtualControllers.terciary, EnumController.terciary, TerUi, TerUiFinish);
 
         VirtualControllers.movement.DesuscribeController(param.move);
 
@@ -129,7 +117,18 @@ public class IAIO : IAFather
         }
     }
 
+    private void RemoveJoystick(WeaponKata weaponKata, VirtualControllers.AxisButton axisButton, EnumController enumController, System.Action<float> ui, System.Action uifinish)
+    {
+        if (weaponKata != null)
+        {
+            axisButton.DesuscribeController(weaponKata);
+            weaponKata.updateTimer -= ui;
+            weaponKata.finishTimer -= uifinish;
+            weaponKata.onAttack -= AttackAnimation;
+        }
 
+        EventManager.events.SearchOrCreate<EventJoystick>(enumController).ExecuteSet(false, false, null);
+    }
 
     private void TeleportEvent(Hexagone obj, int lado)
     {
