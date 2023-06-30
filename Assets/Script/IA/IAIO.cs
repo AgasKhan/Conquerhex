@@ -30,19 +30,17 @@ public class IAIO : IAFather
 
         character = param;
 
-        prin = new ControllerIAIO(EnumController.principal, character.ActualKata(0), AttackAnimation);
+        prin = new ControllerIAIO(EnumController.principal, character.ActualKata(0), param.AttackEvent);
 
-        sec = new ControllerIAIO(EnumController.secondary, character.ActualKata(1), AttackAnimation);
+        sec = new ControllerIAIO(EnumController.secondary, character.ActualKata(1), param.AttackEvent);
 
-        ter = new ControllerIAIO(EnumController.terciary, character.ActualKata(2), AttackAnimation);
+        ter = new ControllerIAIO(EnumController.terciary, character.ActualKata(2), param.AttackEvent);
 
         originalTag = param.gameObject.tag;
 
         param.gameObject.tag = "Player";
 
         param.move.onTeleport += TeleportEvent;
-        param.move.onMove += MoveAnimation;
-        param.move.onIdle += IdleAnimation;
 
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
@@ -61,8 +59,6 @@ public class IAIO : IAFather
     public override void OnExitState(Character param)
     {
         param.move.onTeleport -= TeleportEvent;
-        param.move.onMove -= MoveAnimation;
-        param.move.onIdle -= IdleAnimation;
 
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
@@ -117,8 +113,23 @@ public class IAIO : IAFather
 
     void ShowLoserWindow()
     {
-        GameManager.instance.Pause(false);
-        Manager<ManagerSubMenus>.pic["Principal"].ShowWindow("PopUp");     
+        OnExitState(character);
+
+        TimersManager.LerpInTime(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
+        {
+            GameManager.instance.Pause(true);
+            //Invocar aqui el menu de derrota
+            /*
+             
+             
+             
+             AQUI POP UP MUERTE
+             
+             
+             
+             
+             */
+        }).SetUnscaled(true);
     }
 
     void UpdateLife(IGetPercentage arg1, float arg2, float arg3)

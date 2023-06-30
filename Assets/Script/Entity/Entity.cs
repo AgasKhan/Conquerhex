@@ -34,6 +34,8 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
         health.death += Drop;
 
+        health.death += () => { if (gameObject.tag != "Player") gameObject.SetActive(false); };
+
         damageables = new IDamageable[aux.Length - 1];
 
         int ii = 0;
@@ -70,8 +72,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
                 reference.Init(dropItem.item);
             }
         }
-
-        gameObject.SetActive(false);
     }
 
     public virtual void TakeDamage(Damage dmg)

@@ -14,6 +14,14 @@ public class Character : DinamicEntity, ISwitchState<Character>
     [SerializeField]
     EquipedItem<WeaponKata>[] katas = new EquipedItem<WeaponKata>[3];
 
+
+    [SerializeField]
+    Detect<RecolectableItem> areaFarming;
+
+
+    [SerializeField]
+    IState<Character> _ia;
+
     public WeaponKata prin => katas[0].equiped;
     public WeaponKata sec => katas[1].equiped;
     public WeaponKata ter => katas[2].equiped;
@@ -31,10 +39,9 @@ public class Character : DinamicEntity, ISwitchState<Character>
             katas[weaponKataIndex] = value;
         }
     }
-        
 
-    [SerializeField]
-    Detect<RecolectableItem> areaFarming;
+    public event System.Action onAttack;
+
 
     public Damage[] additiveDamage => bodyBase.additiveDamage;
 
@@ -61,8 +68,6 @@ public class Character : DinamicEntity, ISwitchState<Character>
         }
     }
 
-    [SerializeField]
-    IState<Character> _ia;
 
     public int EquipedKata(WeaponKata weaponKata)
     {
@@ -97,6 +102,10 @@ public class Character : DinamicEntity, ISwitchState<Character>
         base.TakeDamage(dmg);
     }
 
+    public void AttackEvent()
+    {
+        onAttack?.Invoke();
+    }
 
     protected override void Config()
     {

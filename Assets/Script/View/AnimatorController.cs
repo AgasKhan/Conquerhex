@@ -13,18 +13,24 @@ public class AnimatorController : MonoBehaviour
     [SerializeField]
     string moveNameAnim = "Move";
 
+    [SerializeField]
+    string deathNameAnim = "Death";
+
     void Awake()
     {
-        var ia = GetComponent<IAFather>();
+        var ia = GetComponent<Character>();
 
         animator = GetComponentInChildren<Animator>();
 
         ia.onAttack += Ia_onAttack;
 
-        ia.onIdle += Ia_onIdle;
+        ia.move.onIdle += Ia_onIdle;
 
-        ia.onMove += Ia_onMove;
+        ia.move.onMove += Ia_onMove;
+
+        ia.health.death += Ia_onDeath;
     }
+
 
     private void Ia_onMove(Vector2 obj)
     {
@@ -39,5 +45,9 @@ public class AnimatorController : MonoBehaviour
     private void Ia_onAttack()
     {
         animator.SetTrigger(attackNameAnim);
+    }
+    private void Ia_onDeath()
+    {
+        animator.SetTrigger(deathNameAnim);
     }
 }
