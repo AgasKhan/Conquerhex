@@ -118,17 +118,7 @@ public class IAIO : IAFather
         TimersManager.LerpInTime(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
         {
             GameManager.instance.Pause(true);
-            //Invocar aqui el menu de derrota
-            /*
-             
-             
-             
-             AQUI POP UP MUERTE
-             
-             
-             
-             
-             */
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Has muerto", "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Volver a la base", () => LoadSystem.instance.Load("Base"));
         }).SetUnscaled(true);
     }
 
