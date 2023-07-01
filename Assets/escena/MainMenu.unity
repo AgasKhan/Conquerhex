@@ -6901,7 +6901,7 @@ PrefabInstance:
     - target: {fileID: 2842887271746667778, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
       propertyPath: firstLevel
-      value: Base
+      value: Level_02
       objectReference: {fileID: 0}
     - target: {fileID: 2923361779017177701, guid: a432204a98b06884c82bb61a7ffb51bf,
         type: 3}
@@ -10722,10 +10722,9 @@ MonoBehaviour:
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
   katas:
-  - indexEquipedItem: -1
-  - indexEquipedItem: -1
-  - indexEquipedItem: -1
-  weaponKataIndex: 0
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
   areaFarming:
     radius: 0
     distance: 0
@@ -10736,6 +10735,7 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
+  weaponKataIndex: 0
   references:
     version: 2
     RefIds: []
