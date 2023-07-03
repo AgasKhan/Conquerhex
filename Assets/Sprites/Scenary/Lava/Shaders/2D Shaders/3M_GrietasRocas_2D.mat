@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 3M_GrietasRocas_2D
+  m_Shader: {fileID: -6465566751694194690, guid: 44d4953d6ab77374e83df0669933a74e,
+    type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Lava_Texture:
+        m_Texture: {fileID: 2800000, guid: e15f403645d7ed14bb44f5214203149f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_09ba7f709bae429c969080268492979f_Texture_1:
+        m_Texture: {fileID: 2800000, guid: d08b6f1b6da09b745b24f015940354f9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3b1bc87aac5644fb8616798b8788ff94_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 31cad555692547d49a2c770de8116e2a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sprite:
+        m_Texture: {fileID: 2800000, guid: c5c296b211a9d99429bb67f935b0ec6e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_78b275ce44ef42b58d74a22041e3cc75_Out_0:
+        m_Texture: {fileID: 2800000, guid: e15f403645d7ed14bb44f5214203149f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Grietas_Scale: 0.7
+    - _Lava_Glow: 0.9
+    - _Lava_Scale: 0.5
+    - _Lava_Speed: 0.05
+    - _Pixels: 60
+    m_Colors:
+    - _Floor_Glow_Color: {r: 0.9490197, g: 0.2627451, b: 0, a: 0}
+  m_BuildTextureStacks: []

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6773200482067112401}
   - component: {fileID: 8418365098659703471}
+  - component: {fileID: 6183750020781862097}
   m_Layer: 0
   m_Name: LavaPortal
   m_TagString: Props
@@ -46,9 +47,25 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.017279427, y: 0.3539159}
-  m_Size: {x: 1.9622934, y: 0.7938742}
-  m_Direction: 1
+  m_Offset: {x: 0.75, y: 0.29107782}
+  m_Size: {x: 0.43830842, y: 0.68560946}
+  m_Direction: 0
+--- !u!70 &6183750020781862097
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.75, y: 0.2910778}
+  m_Size: {x: 0.4383084, y: 0.6856095}
+  m_Direction: 0
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0
