@@ -44,13 +44,12 @@ public class StaminaSystem : MonoBehaviour
 
     IEnumerator UpdateStamina()
     {
-        UpdateTimer();
+
         recharging = true;
         while (currentStamina < maxStamina)
         {
             DateTime currentTime = DateTime.Now;
             DateTime nextTime = nextStaminaTime;
-
 
             bool addingStamina = false;
             while (currentTime > nextTime)
@@ -75,7 +74,6 @@ public class StaminaSystem : MonoBehaviour
             }
 
             UpdateUI();
-            UpdateTimer();
             Save();
 
             yield return new WaitForEndOfFrame();
@@ -83,13 +81,7 @@ public class StaminaSystem : MonoBehaviour
         recharging = false;
     }
 
-    void UpdateTimer()
-    {
-        if (currentStamina >= maxStamina)
-        {
-            return;
-        }
-    }
+
 
     public void RechargeStamina(int staminaToAdd)
     {

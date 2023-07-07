@@ -87,13 +87,6 @@ public class GameManager : SingletonMono<GameManager>
         {
             _update[i]();
         }
-
-        /*
-        foreach (var item in _update)
-        {
-            item.value();
-        }
-        */
     }
 
     private void FixedUpdate()
@@ -102,32 +95,9 @@ public class GameManager : SingletonMono<GameManager>
         {
             _fixedUpdate[i]();
         }
-        /*
-        foreach (var item in _fixedUpdate)
-        {
-            item.value();
-        }
-        */
     }
 
-    /*
 
-    static public void RetardedFrame(System.Action action, int frames = 1)
-    {
-        instance.StartCoroutine(instance._RetardedFrame(action));
-    }
-
-    public IEnumerator _RetardedFrame(System.Action action, int frames = 1)
-    {
-        for (int i = 0; i < frames; i++)
-        {
-            yield return null;
-        }
-
-        action();
-    }
-
-    */
     #endregion
 }
 
