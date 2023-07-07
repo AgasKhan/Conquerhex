@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6773200482067112401}
-  m_Layer: 0
+  - component: {fileID: 4023055718380405113}
+  m_Layer: 7
   m_Name: prop (32) 5
   m_TagString: Props
   m_Icon: {fileID: 0}
@@ -32,6 +33,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4023055718380405113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1810f195357aa684fa86fcffc5a40608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 3
+  health:
+    life:
+      total: 0
+      _current: 0
+    regen:
+      total: 0
+      _current: 0
+    timeToRegen:
+      total: 0
+      _current: 0
+  drops: []
+  audioManager: {fileID: 0}
+  interact:
+    pictionaries: []
+  inventory: []
+  weightCapacity: 0
+  currentWeight: 0
+  travelItem: []
+  _structure: {fileID: 11400000, guid: 11e654729cdbbd846833d6b261595ea5, type: 2}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60,10 +96,20 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6512603503947103261, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126321, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Name
       value: Animation
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515497041664126321, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

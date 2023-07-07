@@ -32,7 +32,7 @@ public class InventorySubMenu : CreateSubMenu
                     .AddNavBarButton("Mineral", () => { ButtonAct(ItemType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { ButtonAct(ItemType.Gemstone.ToString()); })
                     .AddNavBarButton("Other", () => { ButtonAct(ItemType.Other.ToString()); });
 
-        subMenu.CreateTitle("Inventary");
+        subMenu.CreateTitle("Inventory");
 
         CreateBody();
     }
