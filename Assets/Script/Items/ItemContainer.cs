@@ -37,6 +37,8 @@ public class ItemContainer : MonoBehaviour
                 Debug.Log("BD doesnt contain PlayerInventory");
             }
         }
+
+        character.AddOrSubstractItems("PortalFuel", 100);
     }
 
     private void OnDisable()
