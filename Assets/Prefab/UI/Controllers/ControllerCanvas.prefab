@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1966565008478253923}
   m_Layer: 5
-  m_Name: Prin
+  m_Name: Ter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1966565009440941388}
   m_Layer: 5
-  m_Name: Ter (2)
+  m_Name: prin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,7 +401,7 @@ PrefabInstance:
     - target: {fileID: 1187126383323825457, guid: cdee1962e031fa549bb78eced9bf828d,
         type: 3}
       propertyPath: eventController
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1187126383323825484, guid: cdee1962e031fa549bb78eced9bf828d,
         type: 3}
@@ -541,7 +541,7 @@ PrefabInstance:
     - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
       propertyPath: eventController
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7959073666282391920, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
@@ -681,7 +681,7 @@ PrefabInstance:
     - target: {fileID: 7959073666282391822, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
       propertyPath: eventController
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7959073666282391920, guid: 32c7b3ce4565b134f8708bf123471612,
         type: 3}
@@ -953,6 +953,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1966565008478253923}
     m_Modifications:
+    - target: {fileID: 1187126383323825457, guid: cdee1962e031fa549bb78eced9bf828d,
+        type: 3}
+      propertyPath: eventController
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1187126383323825484, guid: cdee1962e031fa549bb78eced9bf828d,
         type: 3}
       propertyPath: m_Name
