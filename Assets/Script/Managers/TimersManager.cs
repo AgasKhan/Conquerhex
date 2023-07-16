@@ -156,17 +156,45 @@ public class Tim : IGetPercentage
     [SerializeField]
     protected float _current;
 
-    public float current
+    /// <summary>
+    /// que hace cuando se setea el current
+    /// </summary>
+    protected System.Action<float> internalSetCurrent;
+
+    public virtual float current
     {
         get => _current;
         set
         {
-            _current = value;
+            internalSetCurrent(value); //lo seteo con un delegado para asi poder quitar o agregar la funcion de ejecutar un evento al modificar
+        }
+    }
 
-            if (_current > total)
-                _current = total;
-            else if (_current < 0)
-                _current = 0;
+    public float actual => _current;
+
+    public float max => total;
+
+    protected event System.Action<IGetPercentage> _onChange; //version interna que almacera todos los que desean ser notificados cuando se modifique el timer
+
+    public event System.Action<IGetPercentage> onChange
+    {
+        add
+        {
+            if (_onChange == null)
+            {
+                internalSetCurrent += InternalEventSetCurrent;
+            }
+
+            _onChange += value;
+
+            InternalEventSetCurrent(0);
+        }
+        remove
+        {
+            _onChange -= value;
+
+            if (_onChange == null)
+                internalSetCurrent -= InternalEventSetCurrent;
         }
     }
 
@@ -212,8 +240,24 @@ public class Tim : IGetPercentage
         return 1 - Percentage();
     }
 
+    protected void InternalSetCurrent(float value)
+    {
+        _current = value;
+
+        if (_current > total)
+            _current = total;
+        else if (_current < 0)
+            _current = 0;
+    }
+
+    protected void InternalEventSetCurrent(float value)
+    {
+        _onChange(this);
+    }
+
     public Tim(float totTim = 10)
     {
+        internalSetCurrent = InternalSetCurrent;
         Set(totTim);
     }
 }
@@ -306,6 +350,12 @@ public class Timer : Tim
         return this;
     }
 
+    public Timer SetInitCurrent(float f)
+    {
+        _current = f;
+        return this;
+    }
+
     public Timer SetLoop(bool l)
     {
         loop = l;
@@ -390,7 +440,7 @@ public class TimedAction : Timer
         var aux = base.SubsDeltaTime(i);
         if(aux<=0)
         {
-            end.Invoke();
+            end?.Invoke();
         }
 
         return aux;
@@ -439,16 +489,6 @@ public class TimedCompleteAction : TimedAction
 {
     Action update;
 
-    /// <summary>
-    /// funcion que ejecutara de forma automatica cada frame
-    /// </summary>
-    public override float SubsDeltaTime(int i = -1)
-    {
-        update();
-        return base.SubsDeltaTime(i);
-    }
-    
-
     public TimedCompleteAction AddToUpdate(Action update)
     {
         this.update +=update;
@@ -463,8 +503,6 @@ public class TimedCompleteAction : TimedAction
         return this;
     }
 
-
-
     /// <summary>
     /// crea una rutina que ejecutara una funcion al comenzar/reiniciar, otra en cada frame, y otra al final
     /// </summary>
@@ -476,6 +514,8 @@ public class TimedCompleteAction : TimedAction
     public TimedCompleteAction(float timer, Action update, Action end, bool loop = false, bool unscaled = false) : base(timer, end, loop, unscaled)
     {
         this.update = update;
+        _onChange += (percentage) => this.update();
+        internalSetCurrent += InternalEventSetCurrent;
     }
 }
 
@@ -485,4 +525,8 @@ public interface IGetPercentage
     float Percentage();
 
     float InversePercentage();
+
+    float actual { get; }
+
+    float max { get; }
 }

@@ -78,13 +78,13 @@ public class IAIO : IAFather
 
     public override void OnStayState(Character param)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).Execute(transform.position);
+        EventManager.events.SearchOrCreate<EventGeneric>("move").Execute(transform.position);
 
         var buildings = detectBuilding.Area(transform.position, (edificio) => { return true; });
 
         if(buildings == null || buildings.Count == 0)
         {
-            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact).ExecuteSet(false, false, null);
+            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(false, false, null);
 
             lastBuilding = null;
         }
@@ -94,7 +94,7 @@ public class IAIO : IAFather
 
             lastBuilding = buildings[0];
 
-            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact).ExecuteSet(true, false, lastBuilding.structureBase.image);
+            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(true, false, lastBuilding.structureBase.image);
 
             VirtualControllers.interact.eventDown += Interact_eventDown;
         }
@@ -133,11 +133,6 @@ public class IAIO : IAFather
     }
 }
 
-public enum EnumPlayer
-{
-    move
-}
-
 public class ControllerIAIO : IControllerDir
 {
     EventJoystick _Event;
@@ -169,15 +164,13 @@ public class ControllerIAIO : IControllerDir
     {
         if (previusControllerDir != null)
         {
-            previusControllerDir.updateTimer -= Ui;
-            previusControllerDir.finishTimer -= UiFinish;
+            previusControllerDir.onCooldownChange -= Ui;
             previusControllerDir.onAttack -= attackAnim;
         }
 
         if (kata.equiped != null)
         {
-            kata.equiped.updateTimer += Ui;
-            kata.equiped.finishTimer += UiFinish;
+            kata.equiped.onCooldownChange += Ui;
             kata.equiped.onAttack += attackAnim;
         }
 
@@ -186,14 +179,9 @@ public class ControllerIAIO : IControllerDir
         previusControllerDir = kata.equiped;
     }
 
-    void Ui(float f)
+    void Ui(IGetPercentage f)
     {
         _Event.Execute(f);
-    }
-
-    void UiFinish()
-    {
-        _Event.ExecuteEnd();
     }
 
     void RefreshJoystickUI()
@@ -210,7 +198,7 @@ public class ControllerIAIO : IControllerDir
 
     public ControllerIAIO(EnumController enumController, EquipedItem<WeaponKata> kata, System.Action attackAnim)
     {
-        _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController);
+        _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController.ToString());
 
         this.kata = kata;
         this.attackAnim = attackAnim;
@@ -223,8 +211,7 @@ public class ControllerIAIO : IControllerDir
     ~ControllerIAIO()
     {
         kata.toChange -= SetJoystick;
-        kata.equiped.updateTimer -= Ui;
-        kata.equiped.finishTimer -= UiFinish;
+        kata.equiped.onCooldownChange -= Ui;
         kata.equiped.onAttack -= attackAnim;
     }
 }

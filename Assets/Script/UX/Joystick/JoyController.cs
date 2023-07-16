@@ -53,11 +53,9 @@ public class JoyController : MonoBehaviour
 
         axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
 
-        var events = EventManager.events.SearchOrCreate<EventJoystick>(eventController);
+        var events = EventManager.events.SearchOrCreate<EventJoystick>(eventController.ToString());
 
         events.action += JoyController_action;
-
-        events.end += JoyController_end;
 
         events.set += Set;
 
@@ -98,13 +96,9 @@ public class JoyController : MonoBehaviour
 
     private void JoyController_action(params object[] param)
     {
-        fill = (float)param[0];
+        fill = ((IGetPercentage)param[0]).InversePercentage();
     }
 
-    private void JoyController_end()
-    {
-        fill = 1;
-    }
 
     private void OnEnable()
     {

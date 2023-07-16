@@ -126,12 +126,12 @@ public class TransparentMaterial : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action += UpdateTransparent;
+        EventManager.events.SearchOrCreate<EventGeneric>("move").action += UpdateTransparent;
     }
 
     private void OnDisable()
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(EnumPlayer.move).action -= UpdateTransparent;
+        EventManager.events.SearchOrCreate<EventGeneric>("move").action -= UpdateTransparent;
     }
 
     private void UpdateTransparent(params object[] param)

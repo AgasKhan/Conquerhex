@@ -19,15 +19,13 @@ public class RangeWeapon : MeleeWeapon
 {
     public Tim amunation;
 
-    RangeWeaponBase rangeWeapon => (RangeWeaponBase)itemBase;
-
     public GameObject prefabBullet;
 
     public override void Init(params object[] param)
     {
         base.Init(param);
 
-        amunation = new Tim(rangeWeapon.magazine);
+        amunation = new Tim(((RangeWeaponBase)itemBase).magazine);
     }
 
     public override void Durability(float damageToDurability)

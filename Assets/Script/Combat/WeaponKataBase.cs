@@ -150,16 +150,12 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 }
 
 [System.Serializable]
-public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
+public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 {
     public event System.Action<MeleeWeapon> onEquipedWeapon;
     public event System.Action<MeleeWeapon> onDesEquipedWeapon;
     public event System.Action<MeleeWeapon> onRejectedWeapon;
     public event System.Action onAttack;
-
-    public event System.Action<float> updateTimer;
-
-    public event System.Action finishTimer;
 
     [SerializeReference]
     protected Timer cooldown;
@@ -173,7 +169,24 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     System.Action<Vector2, float> up;
 
+    [SerializeField]
+    EquipedItem<MeleeWeapon> equipedWeapon = new EquipedItem<MeleeWeapon>();
+
+    //float actualCharacterVelocity;
+
     public bool cooldownTime => cooldown.Chck;
+
+    public event System.Action<IGetPercentage> onCooldownChange
+    {
+        add
+        {
+            cooldown.onChange += value;
+        }
+        remove
+        {
+            cooldown.onChange -= value;
+        }
+    }
 
     public virtual float finalVelocity => itemBase.velocity * weapon.itemBase.velocity;
 
@@ -196,10 +209,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
 
     public int indexWeapon => equipedWeapon.indexEquipedItem;
 
-    [SerializeField]
-    EquipedItem<MeleeWeapon> equipedWeapon = new EquipedItem<MeleeWeapon>();
 
-    float actualCharacterVelocity;
 
     public void ChangeWeapon(MeleeWeapon weapon)
     {
@@ -271,16 +281,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
         return itemBase.Detect(caster, dir, itemBase.detect.maxDetects, finalRange);
     }
 
-    void TriggerTimerEvent()
-    {
-        updateTimer?.Invoke(cooldown.InversePercentage());
-    }
-
-    void TriggerTimerFinishEvent()
-    {
-        finishTimer?.Invoke();
-    }
-
     #region interfaces
 
     /// <summary>
@@ -309,7 +309,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             }
         }  
 
-        cooldown = TimersManager.Create(itemBase.velocity, TriggerTimerEvent, TriggerTimerFinishEvent);
+        cooldown = TimersManager.Create(itemBase.velocity);
 
         if(weapon!=null)
         {
@@ -333,7 +333,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>,Init, IControllerDir
             return;
         }
 
-        actualCharacterVelocity = caster.move.objectiveVelocity;
+        //actualCharacterVelocity = caster.move.objectiveVelocity;
         caster.move.objectiveVelocity += -2;
 
         InternalControllerDown(dir, tim);

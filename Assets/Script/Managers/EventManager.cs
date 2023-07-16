@@ -6,9 +6,9 @@ using UnityEngine;
 public class EventManager : SingletonMono<EventManager>
 {
     [SerializeField]
-    Pictionarys<System.Enum, EventGeneric> _events = new Pictionarys<System.Enum, EventGeneric>();
+    Pictionarys<string, EventGeneric> _events = new Pictionarys<string, EventGeneric>();
 
-    static public Pictionarys<System.Enum, EventGeneric> events => instance._events;
+    static public Pictionarys<string, EventGeneric> events => instance._events;
 }
 
 

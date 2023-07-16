@@ -284,10 +284,9 @@ public enum Team
     carnivoro
 }
 
-public enum LifeType
+public static class LifeType
 {
-    life,
-    regen
+    public const string life = "life", regen = "regen";
 }
 
 public interface IGetEntity

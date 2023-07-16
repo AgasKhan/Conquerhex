@@ -33,9 +33,7 @@ public class RecolectableItem : StaticEntity
             gameObject.SetActive(false);
             
         })
-        .Stop();
-
-        recolect.current = 0;
+        .Stop().SetInitCurrent(0);
     }
 
     public void Recolect(StaticEntity entity)
