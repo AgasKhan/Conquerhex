@@ -69,7 +69,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
     public event System.Action off;
 
-    public virtual Entity[] Damage(ref Damage[] damages, params Entity[] damageables)
+    public virtual Entity[] Damage(Entity owner, ref Damage[] damages, params Entity[] damageables)
     {
         List<Entity> entitiesDamaged = new List<Entity>();
 

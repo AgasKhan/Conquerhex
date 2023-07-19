@@ -267,7 +267,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
             }
         }
 
-        return weapon.Damage(ref damagesCopy, entities); ;
+        return weapon.Damage(caster,ref damagesCopy, entities);
     }
 
 
