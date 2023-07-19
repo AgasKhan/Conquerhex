@@ -7,7 +7,7 @@ public class EnterBuilding : LogicActive<Building>
 {
     protected override void InternalActivate(params Building[] specificParam)
     {
-        specificParam[0].EnterBuild();
         specificParam[0].myBuildSubMenu.DestroyCraftButtons();
+        specificParam[0].EnterBuild();
     }
 }
