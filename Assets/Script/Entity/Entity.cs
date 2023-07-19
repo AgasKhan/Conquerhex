@@ -76,8 +76,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public virtual void TakeDamage(Damage dmg)
     {
-        onTakeDamage?.Invoke();
-
         if(vulnerabilities!=null)
             for (int i = 0; i < vulnerabilities.Length; i++)
             {
@@ -87,6 +85,11 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
                     break;
                 }
             }
+
+        if (dmg.amount <= 0)
+            return;
+
+        onTakeDamage?.Invoke();
 
         dmg.ActionInitialiced(this);
         health.TakeLifeDamage(dmg.amount);

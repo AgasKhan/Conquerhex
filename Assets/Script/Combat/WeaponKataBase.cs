@@ -67,75 +67,10 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
         });        
     }
 
-    public Entity[] Attack(Entity caster, MeleeWeapon weapon, params Entity[] entities)
+    public virtual void InternalParticleSpawnToDamaged(Transform dmg)
     {
-        if (weapon == null)
-            return null;
-
-        weapon.Durability(damageToWeapon);
-
-        Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
-
-        if (caster is Character)
-        {
-            var casterCharacter = (Character)caster;
-
-            List<Damage> additives = new List<Damage>(casterCharacter.additiveDamage);
-
-            for (int i = 0; i < damagesCopy.Length; i++)
-            {
-                for (int ii = additives.Count - 1; ii >= 0; ii--)
-                {
-                    if(damagesCopy[i].typeInstance == additives[ii].typeInstance)
-                    {
-                        damagesCopy[i].amount += additives[ii].amount;
-
-                        additives.RemoveAt(ii);
-
-                        continue;
-                    }
-                }
-            }
-
-            additives.AddRange(damagesCopy);
-
-            damagesCopy = additives.ToArray();
-
-        }
-
-        for (int i = 0; i < damagesMultiply.Length; i++)
-        {
-            for (int ii = 0; ii < damagesCopy.Length; ii++)
-            {
-                if(damagesMultiply[i].typeInstance == damagesCopy[ii].typeInstance)
-                {
-                    damagesCopy[ii].amount *= damagesMultiply[i].amount;
-                    break;
-                }
-            }
-        }
-
-        Damage(ref damagesCopy, entities);
-
-        return entities;
-    }
-
-    protected void Damage(ref Damage[] damages, params Entity[] damageables)
-    {
-        foreach (var entitys in damageables)
-        {
-            InternalParticleSpawnToDamaged(entitys.transform);
-
-            foreach (var dmg in damages)
-            {
-                entitys.TakeDamage(dmg);
-            }
-        }
-    }
-
-    protected virtual void InternalParticleSpawnToDamaged(Transform dmg)
-    {
-        var aux = PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
+        if(indexParticles!=null && indexParticles.Length>0)
+            PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
 
         //aux.SetParent(dmg);
 
@@ -258,11 +193,20 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         onDesEquipedWeapon?.Invoke(this.weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
     }
 
-    protected Entity[] Attack()
+
+
+    protected void Attack()
     {
         onAttack?.Invoke();
-        return itemBase.Attack(caster, weapon, affected);
+
+        var damageds = InternalAttack(affected);
+
+        foreach (var dmgEntity in damageds)
+        {
+            itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
+        }
     }
+
 
     protected Entity[] Detect(Vector2 dir, float timePressed = 0)
     {
@@ -280,6 +224,52 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     {
         return itemBase.Detect(caster, dir, itemBase.detect.maxDetects, finalRange);
     }
+
+    Entity[] InternalAttack(params Entity[] entities)
+    {
+        if (weapon == null)
+            return null;
+
+        weapon.Durability(itemBase.damageToWeapon);
+
+        Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
+
+        List<Damage> additives = new List<Damage>(caster.additiveDamage);
+
+        for (int i = 0; i < damagesCopy.Length; i++)
+        {
+            for (int ii = additives.Count - 1; ii >= 0; ii--)
+            {
+                if (damagesCopy[i].typeInstance == additives[ii].typeInstance)
+                {
+                    damagesCopy[i].amount += additives[ii].amount;
+
+                    additives.RemoveAt(ii);
+
+                    continue;
+                }
+            }
+        }
+
+        additives.AddRange(damagesCopy);
+
+        damagesCopy = additives.ToArray();
+
+        for (int i = 0; i < itemBase.damagesMultiply.Length; i++)
+        {
+            for (int ii = 0; ii < damagesCopy.Length; ii++)
+            {
+                if (itemBase.damagesMultiply[i].typeInstance == damagesCopy[ii].typeInstance)
+                {
+                    damagesCopy[ii].amount *= itemBase.damagesMultiply[i].amount;
+                    break;
+                }
+            }
+        }
+
+        return weapon.Damage(ref damagesCopy, entities); ;
+    }
+
 
     #region interfaces
 
@@ -361,10 +351,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
             return;
         }
 
-        if (caster is DinamicEntity)
-        {
-            ((DinamicEntity)caster).move.objectiveVelocity += 2;
-        }
+        caster.move.objectiveVelocity += 2;
 
         up(dir, tim);
 

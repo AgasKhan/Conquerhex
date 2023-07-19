@@ -36,21 +36,8 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
             }
         }
 
-        if (damagesList.Count <= 0)
-            return true;
-        else
-            return false;
+        return damagesList.Count <= 0;
     }
-
-    /*
-    public void Init(params object[] param)
-    {
-        for (int i = 0; i < damages.Length; i++)
-        {
-            damages[i].Init();
-        }
-    }
-    */
 
     protected override void SetCreateItemType()
     {
@@ -81,6 +68,32 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
     public Damage[] damages => itemBase.damages;
 
     public event System.Action off;
+
+    public virtual Entity[] Damage(ref Damage[] damages, params Entity[] damageables)
+    {
+        List<Entity> entitiesDamaged = new List<Entity>();
+
+        foreach (var entitys in damageables)
+        {
+            bool auxiliarDamaged = false;
+
+            System.Action chckDmg = () => auxiliarDamaged = true;
+
+            entitys.onTakeDamage += chckDmg;
+
+            foreach (var dmg in damages)
+            {
+                entitys.TakeDamage(dmg);
+            }
+
+            entitys.onTakeDamage -= chckDmg;
+
+            if(auxiliarDamaged)
+                entitiesDamaged.Add(entitys);
+        }
+
+        return entitiesDamaged.ToArray();
+    }
 
     public override void Init(params object[] param)
     {

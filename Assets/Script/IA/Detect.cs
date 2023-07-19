@@ -103,15 +103,15 @@ public class Detect<T> where T : class
                 continue;
             }
         }
-
+        /*
         dir *= radius;
-
+        
         Debug.DrawRay(pos, dir, Color.red);
 
         Debug.DrawRay(pos, Quaternion.Euler(0, 0, Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
 
         Debug.DrawRay(pos, Quaternion.Euler(0, 0, -Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
-
+        */
         return damageables;
     }
 
