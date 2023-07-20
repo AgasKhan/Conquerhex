@@ -76,21 +76,9 @@ public class Interfaz : MonoBehaviour
     void Start()
     {
         SearchTitle("Titulo secundario").ClearMsg();
-        SearchTitle("Titulo secundario").AddMsg("Presiona T para ver el tutorial");
 
         dialogoText.on += () => enabled = true;
         dialogoText.ClearMsg();
-        dialogoText.AddMsg("Dialogo de prueba");
-
-        
-
-        for (int i = 0; i < 20; i++)
-        {
-            var aux = i;
-            TimersManager.Create(10 + i*4, () => dialogoText.AddMsg("Dialogo de prueba " + aux));
-        }
-
-        TimersManager.Create(100, () => dialogoText.AddMsg("Dialogo de prueba 100"));
 
         widthDiag = dialogoImage.rectTransform.rect.width;
         heightDiag=dialogoImage.rectTransform.rect.height;
