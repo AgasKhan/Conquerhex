@@ -16,7 +16,10 @@ public class RangeWeaponBase : MeleeWeaponBase
     {
         base.MyEnable();
 
-        indexPrefabBullet = PoolManager.SrchInCategory("Bullets", prefabBullet.name);
+        LoadSystem.AddPostLoadCorutine(() => {
+
+            indexPrefabBullet = PoolManager.SrchInCategory("Bullets", prefabBullet.name);
+        });
     }
 
     protected override void SetCreateItemType()
@@ -42,10 +45,12 @@ public class RangeWeapon : MeleeWeapon
 
     public override Entity[] Damage(Entity owner ,ref Damage[] damages, params Entity[] damageables)
     {
+        if (damageables == null || damageables.Length == 0)
+            return new Entity[0];
 
-        PoolManager.SpawnPoolObject(prefabBullet, out IAIO ia , owner.transform.position);
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile , owner.transform.position, Quaternion.identity, owner.transform.parent);
 
-        
+        proyectile.Throw(owner, damages, damageables[0].transform.position - owner.transform.position);
 
         return new Entity[] { damageables[0] };
     }

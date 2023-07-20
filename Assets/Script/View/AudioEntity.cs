@@ -29,21 +29,21 @@ public class AudioEntity : AudioManager
             entity.health.regenUpdate += Health_regenUpdate;
         }
 
-        if(entity is DinamicEntity)
+        if(entity is DynamicEntity)
         {
-            var aux = (DinamicEntity)entity;
+            var aux = (DynamicEntity)entity;
 
             if(audios.ContainsKey(teleportAudio))
                 aux.move.onTeleport += TeleportAudio;
         }
     }
 
-    private void Health_regenUpdate(IGetPercentage arg1, float arg2, float arg3)
+    private void Health_regenUpdate(IGetPercentage arg1, float arg3)
     {
         DamagedRegenAudio(arg3);
     }
 
-    private void Health_lifeUpdate(IGetPercentage arg1, float arg2, float arg3)
+    private void Health_lifeUpdate(IGetPercentage arg1,  float arg3)
     {
         DamagedLifeAudio(arg3);
     }

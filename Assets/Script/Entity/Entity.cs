@@ -74,6 +74,19 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         }
     }
 
+
+    public void TakeDamage(params Damage[] dmgs)
+    {
+        if (dmgs == null)
+            return;
+
+        foreach (var dmg in dmgs)
+        {
+            TakeDamage(dmg);
+        }
+    }
+
+
     public virtual void TakeDamage(Damage dmg)
     {
         if(vulnerabilities!=null)
@@ -155,9 +168,9 @@ public struct DropItem
 public class Health : Init
 {
     [SerializeField]
-    public Tim life;
+    Tim life;
     [SerializeField]
-    public Tim regen;
+    Tim regen;
     [SerializeField]
     TimedAction timeToRegen;
 
@@ -167,14 +180,14 @@ public class Health : Init
     public float actualRegen => regen.current;
 
     /// <summary>
-    /// porcentaje, actual e input
+    /// porcentaje e input
     /// </summary>
-    public event System.Action<IGetPercentage, float, float> lifeUpdate;
+    public event System.Action<IGetPercentage, float> lifeUpdate;
 
     /// <summary>
-    /// porcentaje, actual e input
+    /// porcentaje e input
     /// </summary>
-    public event System.Action<IGetPercentage, float, float> regenUpdate;
+    public event System.Action<IGetPercentage, float> regenUpdate;
 
     public event System.Action noLife;
 
@@ -199,7 +212,7 @@ public class Health : Init
             deathBool = true;
         }
 
-        regenUpdate?.Invoke(regen, actualRegen, amount);
+        regenUpdate?.Invoke(regen, amount);
 
         return regen.Percentage();
     }
@@ -223,7 +236,7 @@ public class Health : Init
             life.Substract(amount);
         }
 
-        lifeUpdate?.Invoke(life, actualLife, amount);
+        lifeUpdate?.Invoke(life, amount);
 
         //actualizar ui
         return life.Percentage();

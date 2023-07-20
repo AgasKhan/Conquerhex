@@ -147,9 +147,9 @@ public class DashUpWeaponKata : UpWeaponKata
 
         cooldown.Reset();
 
-        if (affected != null && affected.Length!=0 && caster is DinamicEntity)
+        if (affected != null && affected.Length!=0 && caster is DynamicEntity)
         {
-            var aux = caster as DinamicEntity;
+            var aux = caster as DynamicEntity;
 
             aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * itemBase.velocityCharge);
         }

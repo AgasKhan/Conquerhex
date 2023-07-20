@@ -81,10 +81,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
             entitys.onTakeDamage += chckDmg;
 
-            foreach (var dmg in damages)
-            {
-                entitys.TakeDamage(dmg);
-            }
+            entitys.TakeDamage(damages);
 
             entitys.onTakeDamage -= chckDmg;
 

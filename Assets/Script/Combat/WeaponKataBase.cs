@@ -220,55 +220,6 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         return affected;
     }
 
-    protected virtual Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
-    {
-        return itemBase.Detect(caster, dir, itemBase.detect.maxDetects, finalRange);
-    }
-
-    Entity[] InternalAttack(params Entity[] entities)
-    {
-        if (weapon == null)
-            return null;
-
-        weapon.Durability(itemBase.damageToWeapon);
-
-        Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
-
-        List<Damage> additives = new List<Damage>(caster.additiveDamage);
-
-        for (int i = 0; i < damagesCopy.Length; i++)
-        {
-            for (int ii = additives.Count - 1; ii >= 0; ii--)
-            {
-                if (damagesCopy[i].typeInstance == additives[ii].typeInstance)
-                {
-                    damagesCopy[i].amount += additives[ii].amount;
-
-                    additives.RemoveAt(ii);
-
-                    continue;
-                }
-            }
-        }
-
-        additives.AddRange(damagesCopy);
-
-        damagesCopy = additives.ToArray();
-
-        for (int i = 0; i < itemBase.damagesMultiply.Length; i++)
-        {
-            for (int ii = 0; ii < damagesCopy.Length; ii++)
-            {
-                if (itemBase.damagesMultiply[i].typeInstance == damagesCopy[ii].typeInstance)
-                {
-                    damagesCopy[ii].amount *= itemBase.damagesMultiply[i].amount;
-                    break;
-                }
-            }
-        }
-
-        return weapon.Damage(caster,ref damagesCopy, entities);
-    }
 
 
     #region interfaces
@@ -364,6 +315,55 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     #endregion
 
     #region internal functions
+    protected virtual Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
+    {
+        return itemBase.Detect(caster, dir, itemBase.detect.maxDetects, finalRange);
+    }
+
+    Entity[] InternalAttack(params Entity[] entities)
+    {
+        if (weapon == null)
+            return null;
+
+        weapon.Durability(itemBase.damageToWeapon);
+
+        Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
+
+        List<Damage> additives = new List<Damage>(caster.additiveDamage);
+
+        for (int i = 0; i < damagesCopy.Length; i++)
+        {
+            for (int ii = additives.Count - 1; ii >= 0; ii--)
+            {
+                if (damagesCopy[i].typeInstance == additives[ii].typeInstance)
+                {
+                    damagesCopy[i].amount += additives[ii].amount;
+
+                    additives.RemoveAt(ii);
+
+                    continue;
+                }
+            }
+        }
+
+        additives.AddRange(damagesCopy);
+
+        damagesCopy = additives.ToArray();
+
+        for (int i = 0; i < itemBase.damagesMultiply.Length; i++)
+        {
+            for (int ii = 0; ii < damagesCopy.Length; ii++)
+            {
+                if (itemBase.damagesMultiply[i].typeInstance == damagesCopy[ii].typeInstance)
+                {
+                    damagesCopy[ii].amount *= itemBase.damagesMultiply[i].amount;
+                    break;
+                }
+            }
+        }
+
+        return weapon.Damage(caster, ref damagesCopy, entities);
+    }
 
     void MyControllerVOID(Vector2 dir, float tim)
     {

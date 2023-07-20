@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : DinamicEntity, ISwitchState<Character>
+public class Character : DynamicEntity, ISwitchState<Character>
 {
     [field: SerializeField]
     public BodyBase bodyBase

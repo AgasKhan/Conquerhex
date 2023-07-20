@@ -122,14 +122,14 @@ public class IAIO : IAFather
         }).SetUnscaled(true);
     }
 
-    void UpdateLife(IGetPercentage arg1, float arg2, float arg3)
+    void UpdateLife(IGetPercentage arg1, float arg3)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).Execute(arg1, arg2, arg3);
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).Execute(arg1, arg3);
     }
 
-    void UpdateRegen(IGetPercentage arg1, float arg2, float arg3)
+    void UpdateRegen(IGetPercentage arg1, float arg3)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(arg1, arg2, arg3);
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(arg1, arg3);
     }
 }
 

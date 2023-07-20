@@ -91,6 +91,8 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         return this;
     }
 
+
+
     public void Teleport(Hexagone hexagone, int lado)
     {
         onTeleport?.Invoke(hexagone, lado);
@@ -116,7 +118,6 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
         if(aux.sqrMagnitude>0)
         {
             Acelerator(aux, dir.magnitude * objectiveVelocity);
-            onMove?.Invoke(dir);
         }
             
         //velocity += aceleration.current * Time.deltaTime;
@@ -125,7 +126,15 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
     public virtual void ControllerUp(Vector2 dir, float tim)
     {
         //_desaceleration.Reset();
+    }
 
+    protected void OnIdle()
+    {
         onIdle?.Invoke();
+    }
+
+    protected void OnMove(Vector2 vec)
+    {
+        onMove?.Invoke(vec);
     }
 }

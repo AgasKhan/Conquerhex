@@ -71,9 +71,9 @@ public class TransparentMaterial : MonoBehaviour
 
         entity.onDetected += Entity_onDetected;
 
-        if(entity is DinamicEntity)
+        if(entity is DynamicEntity)
         {
-            ((DinamicEntity)entity).move.onMove += Move_onMove;
+            ((DynamicEntity)entity).move.onMove += Move_onMove;
         }
 
         shakeManager = TimersManager.Create(_shakeDuration, Shake, EndShake).Stop();
