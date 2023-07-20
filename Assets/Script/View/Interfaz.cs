@@ -10,11 +10,13 @@ public class Interfaz : MonoBehaviour
 
     public List<TextCompleto> textC = new List<TextCompleto>();
 
-    public  Image   Dialogo;
+    [Header("Dialogo")]
+
+    [SerializeField] Image dialogoImage;
+    TextCompleto dialogoText;
 
     float   widthDiag;
     float   heightDiag;
-
 
     [Header("vida")]
     public Image vida;
@@ -67,21 +69,35 @@ public class Interfaz : MonoBehaviour
         {
             item.Init();
         }
+
+        dialogoText = SearchTitle("Subtitulo");
     }
 
     void Start()
     {
-        //defino la propiedad de vida
-        //TitleSrchByName("Titulo secundario").timer.Set(6);
+        SearchTitle("Titulo secundario").ClearMsg();
         SearchTitle("Titulo secundario").AddMsg("Presiona T para ver el tutorial");
 
-        widthDiag = Dialogo.rectTransform.rect.width;
-        heightDiag=Dialogo.rectTransform.rect.height;
+        dialogoText.on += () => enabled = true;
+        dialogoText.ClearMsg();
+        dialogoText.AddMsg("Dialogo de prueba");
 
-        Dialogo.rectTransform.sizeDelta = Vector2.zero;
+        
+
+        for (int i = 0; i < 20; i++)
+        {
+            var aux = i;
+            TimersManager.Create(10 + i*4, () => dialogoText.AddMsg("Dialogo de prueba " + aux));
+        }
+
+        TimersManager.Create(100, () => dialogoText.AddMsg("Dialogo de prueba 100"));
+
+        widthDiag = dialogoImage.rectTransform.rect.width;
+        heightDiag=dialogoImage.rectTransform.rect.height;
+
+        dialogoImage.rectTransform.sizeDelta = Vector2.zero;
        
         LoadSystem.AddPostLoadCorutine(MyCoroutine);
- 
     }
 
     IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
@@ -92,59 +108,64 @@ public class Interfaz : MonoBehaviour
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).action += UpdateRegen;
     }
 
-    // Update is called once per frame
-    /*
     void Update()
-    {
-        foreach (var item in titulosC)
-        {            
-            
-            if (item.value.Write() && item.value.fade && item.value.timer.Chck)
-            {
-                item.value.Fade(Time.deltaTime,0);
-            }
-        }
-        
-        if(subtitulo.texto.text!="" || Dialogo.rectTransform.rect.width > 0)
+    {       
+        if(dialogoText.text!="" || dialogoImage.rectTransform.rect.width > 0)
         {
             float aux1 = 0;
-            float aux2 = Dialogo.rectTransform.rect.width;
+            float aux2 = dialogoImage.rectTransform.rect.width;
 
-            if(subtitulo.texto.text != "")
+            if(dialogoText.text != "")
             {
                 aux1 = widthDiag;
-                aux2 = widthDiag - Dialogo.rectTransform.rect.width;
-                Dialogo.enabled = true;
+                aux2 = widthDiag - dialogoImage.rectTransform.rect.width;
+                dialogoImage.enabled = true;
             }
 
-            Dialogo.rectTransform.sizeDelta= new Vector2( Mathf.Lerp ( Dialogo.rectTransform.rect.width, aux1 , Time.deltaTime * (widthDiag / aux2) ), heightDiag);
-            subtitulo.texto.rectTransform.sizeDelta = new Vector2(Dialogo.rectTransform.sizeDelta.x - 100, subtitulo.texto.rectTransform.sizeDelta.y);
+            dialogoImage.rectTransform.sizeDelta= new Vector2( Mathf.Lerp ( dialogoImage.rectTransform.rect.width, aux1 , Time.deltaTime * (widthDiag / aux2) ), heightDiag);
+            //dialogoText.texto.rectTransform.sizeDelta = new Vector2(dialogoImage.rectTransform.sizeDelta.x - 100, dialogoText.texto.rectTransform.sizeDelta.y);
 
-            if(Mathf.Approximately(Dialogo.rectTransform.sizeDelta.x, 0))
+            if (Mathf.Approximately(dialogoImage.rectTransform.rect.width, 0))
             {
-                Dialogo.enabled = false;
+                dialogoImage.enabled = false;
+                enabled = false;
             }   
         }   
     }
-    */
+    
 
 }
 
 [System.Serializable]
 public class TextCompleto : Init
 {
-    public string name => texto.name;
-    public TextMeshProUGUI texto;
-    [SerializeReference]
-    public Timer timer;
-    [SerializeReference]
-    public Timer letras;
-    public string final;
+    [Header("Seteo")]
 
-    public float tiempoEntreLetras;
+    [SerializeField] TextMeshProUGUI texto;
+
+    
+    [field: SerializeField] [field: TextArea(3, 6)] public string final { get; private set; }
+
+    [SerializeField] float tiempoEntreLetras;
+
+    [SerializeField] float tiempoParaDesaparecer = 3;
 
     [SerializeField]
     FadeOnOff fadeMenu;
+
+    [Header("Para debug")]
+    [SerializeReference]
+    Timer timer;
+    [SerializeReference]
+    Timer letras;
+
+    public event System.Action on;
+
+    public event System.Action off;
+
+    public string name => texto.name;
+
+    public string text => texto.text;
 
     private void FadeMenu_alphas(float obj)
     {
@@ -176,9 +197,11 @@ public class TextCompleto : Init
 
     void On()
     {
+        fadeMenu.end -= FadeMenu_end;
         SetFade(1);
         timer.Reset();
         letras.Start();
+        on?.Invoke();
     }
 
     void SetFade(float end)
@@ -186,13 +209,18 @@ public class TextCompleto : Init
         fadeMenu.SetFade(texto.color.a, end);
     }
 
+    void ChecktOverflowing()
+    {
+        if (texto.isTextOverflowing && fadeMenu.timerOn.Chck)
+        {
+            var aux = new char[] { ' ', '\t', '\n' };
+            final = final.Substring(final.IndexOfAny(aux) + 1);
+            texto.text = texto.text.Substring(texto.text.IndexOfAny(aux) + 1);
+        }
+    }
+
     void Write()
     {
-        if (texto.isTextOverflowing)
-        {
-            final = final.Substring(final.IndexOf("\n") + 1);
-            texto.text = texto.text.Substring(texto.text.IndexOf("\n") + 1);
-        }
         if (texto.text == final && final != "")
         {
             final = "";
@@ -208,14 +236,13 @@ public class TextCompleto : Init
     {
         fadeMenu.alphas += FadeMenu_alphas;
 
-        fadeMenu.end += FadeMenu_end;
-
         fadeMenu.Init();
 
-        letras = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
+        letras = TimersManager.Create(tiempoEntreLetras, ChecktOverflowing ,Write).SetLoop(true).Stop();
 
-        timer = TimersManager.Create(3, () => {
+        timer = TimersManager.Create(tiempoParaDesaparecer, () => {
 
+            fadeMenu.end += FadeMenu_end;
             SetFade(0);
             letras.Stop();
 
@@ -224,9 +251,7 @@ public class TextCompleto : Init
 
     private void FadeMenu_end()
     {
-        if(final=="")
-        {
-            texto.text = "";
-        }
+        texto.text = "";
+        off?.Invoke();
     }
 }

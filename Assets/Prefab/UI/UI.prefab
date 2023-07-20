@@ -668,58 +668,76 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textC:
   - texto: {fileID: 3305370476476706224}
-    timer:
-      rid: -2
-    letras:
-      rid: -2
-    final: 
+    <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
       durationWait: 0.33
       timerOn:
         rid: -2
       unscaled: 0
+    timer:
+      rid: -2
+    letras:
+      rid: -2
   - texto: {fileID: 3305370477708449201}
-    timer:
-      rid: -2
-    letras:
-      rid: -2
-    final: 
+    <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
       durationWait: 0.33
       timerOn:
         rid: -2
       unscaled: 0
+    timer:
+      rid: -2
+    letras:
+      rid: -2
   - texto: {fileID: 3305370477415806799}
-    timer:
-      rid: -2
-    letras:
-      rid: -2
-    final: 
+    <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
       durationWait: 0.33
       timerOn:
         rid: -2
       unscaled: 0
+    timer:
+      rid: -2
+    letras:
+      rid: -2
   - texto: {fileID: 3305370478311372539}
-    timer:
-      rid: -2
-    letras:
-      rid: -2
-    final: 
+    <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
       durationWait: 0.33
       timerOn:
         rid: -2
       unscaled: 0
-  Dialogo: {fileID: 3305370477385952449}
+    timer:
+      rid: -2
+    letras:
+      rid: -2
+  - texto: {fileID: 3305370478208995150}
+    <final>k__BackingField: 
+    tiempoEntreLetras: 0.025
+    tiempoParaDesaparecer: 3
+    fadeMenu:
+      durationAnim: 0.5
+      durationWait: 0.33
+      timerOn:
+        rid: -2
+      unscaled: 0
+    timer:
+      rid: -2
+    letras:
+      rid: -2
+  dialogoImage: {fileID: 3305370477385952449}
   vida: {fileID: 3751379789141903555}
   textVida: {fileID: 699138178426549291}
   regen: {fileID: 2264913108495158726}
@@ -822,8 +840,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

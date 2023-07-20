@@ -2106,18 +2106,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60335e6f6cbf26d46982ce58caf9c402, type: 3}
---- !u!114 &1767133925 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3305370478311372539, guid: 80ef2a322371ecf4bb7a895ca8e32083,
-    type: 3}
-  m_PrefabInstance: {fileID: 1989382344}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1917523900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2363,33 +2351,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
         type: 3}
+      propertyPath: dialogoText.texto
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
       propertyPath: managedReferences[-2]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
-        type: 3}
-      propertyPath: textC.Array.data[4].texto
-      value: 
-      objectReference: {fileID: 1767133925}
-    - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
-        type: 3}
-      propertyPath: textC.Array.data[0].fadeMenu
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
-        type: 3}
-      propertyPath: textC.Array.data[1].fadeMenu
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
-        type: 3}
-      propertyPath: textC.Array.data[2].fadeMenu
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
-        type: 3}
-      propertyPath: textC.Array.data[3].fadeMenu
-      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3305370477979890333, guid: 80ef2a322371ecf4bb7a895ca8e32083,
         type: 3}
