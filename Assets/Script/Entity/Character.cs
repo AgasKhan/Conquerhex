@@ -129,7 +129,7 @@ public class Character : DynamicEntity, ISwitchState<Character>
             katas[i].character = (this);
         }
 
-        CurrentState = GetComponent<IState<Character>>();
+        _ia = GetComponent<IState<Character>>();
     }
 
     void MyStart()
@@ -139,6 +139,12 @@ public class Character : DynamicEntity, ISwitchState<Character>
         SetWeaponKataCombo(1, bodyBase.secondary);
 
         SetWeaponKataCombo(2, bodyBase.tertiary);
+
+        if (_ia != null)
+        {
+            _ia.OnEnterState(this);
+            MyUpdates += IAUpdate;
+        }
     }
 
     void MyUpdate()

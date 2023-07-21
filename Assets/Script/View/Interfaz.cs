@@ -228,7 +228,14 @@ public class TextCompleto : Init
         }
         else if (final != "")
         {
-            texto.text += final[texto.text.Length];
+            string sum = final[texto.text.Length].ToString();
+
+            if (sum == "<")
+            {
+                sum =  final.Substring(final.IndexOf('>', texto.text.Length));
+            }
+
+            texto.text += sum;
             timer.Reset();
         }
     }
