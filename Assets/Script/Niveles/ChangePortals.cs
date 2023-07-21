@@ -8,5 +8,6 @@ public class ChangePortals : LogicActive<TutorialManager>
     {
         specificParam[0].firstHexagon.ladosArray = specificParam[0].newBorders;
         specificParam[0].firstHexagon.SetRenders();
+        specificParam[0].dialogEnable = false;
     }
 }

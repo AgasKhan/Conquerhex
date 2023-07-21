@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Building : StaticEntity
+public abstract class Building : StaticEntity, IInteractuable
 {
     public Character character;
     public StructureBase structureBase;
@@ -69,4 +69,14 @@ public abstract class Building : StaticEntity
         var aux = MenuManager.instance.modulesMenu;
         aux.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "¿Estas seguro de esta acción?").AddButton("No", aux.CloseMenus).AddButton("Si", action);
     }
+
+    public void Interact()
+    {
+        myBuildSubMenu.Create();
+    }
+}
+
+public interface IInteractuable
+{
+    void Interact(); 
 }
