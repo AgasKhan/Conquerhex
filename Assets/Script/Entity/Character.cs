@@ -54,17 +54,18 @@ public class Character : DynamicEntity, ISwitchState<Character>
         get => _ia;
         set
         {
-            if(_ia!=null)
-            {
-                _ia.OnExitState(this);
-            }
-            else if(value!=null)
+            if (_ia == null && value != null)
             {
                 MyUpdates += IAUpdate;
             }
+            else if (value == null)
+            {
+                MyUpdates -= IAUpdate;
+            }
 
+            _ia?.OnExitState(this);
             _ia = value;
-            _ia.OnEnterState(this);
+            _ia?.OnEnterState(this);
         }
     }
 
