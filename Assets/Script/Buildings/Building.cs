@@ -33,6 +33,8 @@ public abstract class Building : StaticEntity, Interactuable
 
     public Sprite Image => structureBase.image;
 
+    public bool Enabled => enabled;
+
     protected override void Config()
     {
         base.Config();
@@ -84,4 +86,6 @@ public interface Interactuable
     void Interact(Character character); 
 
     Sprite Image { get; }
+
+    bool Enabled { get;} 
 }
