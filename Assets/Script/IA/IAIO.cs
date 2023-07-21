@@ -17,9 +17,9 @@ public class IAIO : IAFather
 
     ControllerIAIO ter;
 
-    private void Start()
+    private void Awake()
     {
-        LoadSystem.AddPreLoadCorutine(()=> {
+        LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(character);
         });
     }
@@ -72,6 +72,12 @@ public class IAIO : IAFather
         VirtualControllers.secondary.DesuscribeController(sec);
 
         VirtualControllers.terciary.DesuscribeController(ter);
+
+        VirtualControllers.interact.eventDown -= Interact_eventDown;
+
+        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(false, false, null);
+
+        lastInteractuable = null;
 
         param.gameObject.tag = originalTag;
     }
