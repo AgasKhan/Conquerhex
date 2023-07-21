@@ -6,24 +6,25 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 {
     [SerializeField]
     DialogEvents[] allDialogs;
-
-    public Character player;
-    public NPCTutorial npc;
-
-    public Hexagone[] newBorders = new Hexagone[6];
-    public Hexagone firstHexagon;
-
-    public GameObject dirigible;
-
     int currentDialog = 0;
-    public int tpsCounter = 0;
-
+    TextCompleto dialogText;
     [HideInInspector]
     public bool dialogEnable = true;
+    bool nextDialog = true;
 
-    public UnityEngine.UI.Button DialogButton;
-    TextCompleto dialogText;
+
+    public GameObject dirigible;
+    public NPCTutorial npc;
+    public Character player;
     IState<Character> playerIA;
+
+    
+    public Hexagone[] newBorders = new Hexagone[6];
+    public Hexagone firstHexagon;
+    public int tpsCounter = 0;
+    bool nieve = false;
+    bool desierto = false;
+
 
     protected override void Awake()
     {
@@ -53,8 +54,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         player.CurrentState = playerIA;
     }
-    bool nieve = false;
-    bool desierto = false;
+    
     private void TeleportEvent(Hexagone arg1, int arg2)
     {
         if (currentDialog == 1)
@@ -94,7 +94,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         ((Interactuable) npc).enabled = true;
     }
 
-    bool nextDialog = true;
+   
     public void NextDialog()
     {
         if (currentDialog >= allDialogs.Length)
