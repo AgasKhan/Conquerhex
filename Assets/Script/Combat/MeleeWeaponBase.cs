@@ -77,7 +77,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
         {
             bool auxiliarDamaged = false;
 
-            System.Action chckDmg = () => auxiliarDamaged = true;
+            System.Action<Damage> chckDmg = (dmg) => auxiliarDamaged = true;
 
             entitys.onTakeDamage += chckDmg;
 

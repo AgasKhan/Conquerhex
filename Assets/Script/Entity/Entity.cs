@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public List<DropItem> drops = new List<DropItem>();
 
-    public event System.Action onTakeDamage;
+    public event System.Action<Damage> onTakeDamage;
 
     public event System.Action onDetected;
 
@@ -80,14 +80,20 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         if (dmgs == null)
             return;
 
-        foreach (var dmg in dmgs)
+        string notif = "";
+
+        for (int i = 0; i < dmgs.Length; i++)
         {
-            TakeDamage(dmg);
-        }
+            TakeDamage(ref dmgs[i]);
+
+            notif += dmgs[i] + " ";
+        }      
+
+        Interfaz.instance["Danio"].AddMsg($"{notif} ► {name}");
     }
 
 
-    public virtual void TakeDamage(Damage dmg)
+    public virtual void TakeDamage(ref Damage dmg)
     {
         if(vulnerabilities!=null)
             for (int i = 0; i < vulnerabilities.Length; i++)
@@ -102,14 +108,14 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         if (dmg.amount <= 0)
             return;
 
-        onTakeDamage?.Invoke();
+        onTakeDamage?.Invoke(dmg);
 
         dmg.ActionInitialiced(this);
         health.TakeLifeDamage(dmg.amount);
 
         foreach (var item in damageables)
         {
-            item.TakeDamage(dmg);
+            item.TakeDamage(ref dmg);
         }
 
         health.StartRegenTimer();

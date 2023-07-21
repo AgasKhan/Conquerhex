@@ -5,7 +5,7 @@ using System;
 
 public interface IDamageable
 {
-    void TakeDamage(Damage dmg);
+    void TakeDamage(ref Damage dmg);
 }
 
 [System.Serializable]
@@ -13,6 +13,11 @@ public struct Damage
 {
     public float amount;
     public ClassDamage typeInstance;
+
+    public override string ToString()
+    {
+        return amount.ToString().RichText("color", "#"+ColorUtility.ToHtmlStringRGB(typeInstance.color));
+    }
 
     public void ActionInitialiced(Entity go)
     {
@@ -22,7 +27,7 @@ public struct Damage
 
 public abstract class ClassDamage : ShowDetails
 {
-    //public Vector4 color;
+    public Color color;
     public abstract void IntarnalAction(Entity go, float amount);
 }
 

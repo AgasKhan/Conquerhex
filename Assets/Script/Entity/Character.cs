@@ -86,7 +86,7 @@ public class Character : DynamicEntity, ISwitchState<Character>
         return katas[index];
     }
 
-    public override void TakeDamage(Damage dmg)
+    public override void TakeDamage(ref Damage dmg)
     {
         var vulDmg = bodyBase.vulnerabilities;
 
@@ -98,7 +98,7 @@ public class Character : DynamicEntity, ISwitchState<Character>
             }
         }
 
-        base.TakeDamage(dmg);
+        base.TakeDamage(ref dmg);
     }
 
     public void AttackEvent()

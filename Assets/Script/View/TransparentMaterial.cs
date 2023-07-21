@@ -156,7 +156,7 @@ public class TransparentMaterial : MonoBehaviour
         ((SpriteRenderer)originalSprite).color = obj;
     }
 
-    void ShakeSprite()
+    void ShakeSprite(Damage dmg)
     {
         if (_shakeDuration > 0 && gameObject.activeSelf)
         {

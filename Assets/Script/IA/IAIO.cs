@@ -45,7 +45,7 @@ public class IAIO : IAFather
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
 
-        param.health.noLife += ShowLoserWindow;
+        param.health.death += ShowLoserWindow;
 
         VirtualControllers.movement.SuscribeController(param.move);
 
@@ -63,7 +63,7 @@ public class IAIO : IAFather
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
 
-        param.health.noLife -= ShowLoserWindow;
+        param.health.death -= ShowLoserWindow;
 
         VirtualControllers.movement.DesuscribeController(param.move);
 
@@ -114,17 +114,24 @@ public class IAIO : IAFather
     private void TeleportEvent(Hexagone obj, int lado)
     {
         obj.SetRenders(HexagonsManager.LadoOpuesto(lado));
+
+        
+
+        if (HexagonsManager.idMaxLevel == obj.id)
+        {
+            Interfaz.instance["Titulo secundario"].ShowMsg("Dirigible a la vista");
+        }
     }
 
     void ShowLoserWindow()
     {
-        OnExitState(character);
-
         TimersManager.LerpInTime(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
         {
             GameManager.instance.Pause(true);
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Has muerto", "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Volver a la base", () => LoadSystem.instance.Load("Base"));
         }).SetUnscaled(true);
+
+        OnExitState(character);
     }
 
     void UpdateLife(IGetPercentage arg1, float arg3)
