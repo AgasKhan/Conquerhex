@@ -57,13 +57,13 @@ MonoBehaviour:
   timerStun:
     total: 0
     _current: 0
-  detectBuilding:
-    radius: 5
+  detectInteractuable:
+    radius: 2
     distance: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 129
-    _maxDetects: 0
+    _maxDetects: 1
     _minDetects: 0
     inverse: 0
     dot: 1
@@ -102,10 +102,9 @@ MonoBehaviour:
   <bodyBase>k__BackingField: {fileID: 11400000, guid: e37b635edcfd6c94d9ac1a797d531f41,
     type: 2}
   katas:
-  - indexEquipedItem: -1
-  - indexEquipedItem: -1
-  - indexEquipedItem: -1
-  weaponKataIndex: 0
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
   areaFarming:
     radius: 1
     distance: 1
@@ -116,6 +115,7 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
+  weaponKataIndex: 0
   references:
     version: 2
     RefIds: []
@@ -134,6 +134,7 @@ MonoBehaviour:
   animator: {fileID: 3132127553594760305}
   attackNameAnim: Attack
   moveNameAnim: Move
+  deathNameAnim: Death
 --- !u!114 &-3299522973000388994
 MonoBehaviour:
   m_ObjectHideFlags: 0
