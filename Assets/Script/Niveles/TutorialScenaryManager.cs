@@ -12,19 +12,21 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public bool dialogEnable = true;
     bool nextDialog = true;
 
-
-    public GameObject dirigible;
+    [Header("References")]
+    public GameObject goal;
     public NPCTutorial npc;
     public Character player;
     IState<Character> playerIA;
 
-    
+    [Header("Scenary")]
     public Hexagone[] newBorders = new Hexagone[6];
     public Hexagone firstHexagon;
     public int tpsCounter = 0;
     bool nieve = false;
     bool desierto = false;
 
+    [Header("Combat")]
+    public GameObject dummy;
 
     protected override void Awake()
     {

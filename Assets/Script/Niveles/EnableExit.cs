@@ -6,7 +6,7 @@ public class EnableExit : LogicActive<TutorialScenaryManager>
 {
     protected override void InternalActivate(params TutorialScenaryManager[] specificParam)
     {
-        specificParam[0].dirigible.SetActive(true);
+        specificParam[0].goal.SetActive(true);
         specificParam[0].dialogEnable = false;
     }
 }
