@@ -10,7 +10,6 @@ public abstract class Building : StaticEntity, Interactuable
     public Recipes[] upgradesRequirements;
     public ItemType[] NavBarButtons;
 
-
     [HideInInspector]
     public int currentLevel = 0;
 
@@ -32,8 +31,6 @@ public abstract class Building : StaticEntity, Interactuable
     protected override Damage[] vulnerabilities => structureBase.vulnerabilities;
 
     public Sprite Image => structureBase.image;
-
-    public bool Enabled => enabled;
 
     protected override void Config()
     {
@@ -87,5 +84,5 @@ public interface Interactuable
 
     Sprite Image { get; }
 
-    bool Enabled { get;} 
+    bool enabled { get; set; } 
 }
