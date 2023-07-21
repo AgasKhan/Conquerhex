@@ -218,6 +218,8 @@ public class TextCompleto : Init
             texto.text += final[texto.text.Length];
             timer.Reset();
         }
+
+        ChecktOverflowing();
     }
 
     public void Init(params object[] param)
@@ -226,7 +228,7 @@ public class TextCompleto : Init
 
         fadeMenu.Init();
 
-        letras = TimersManager.Create(tiempoEntreLetras, ChecktOverflowing ,Write).SetLoop(true).Stop();
+        letras = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
 
         timer = TimersManager.Create(tiempoParaDesaparecer, () => {
 
