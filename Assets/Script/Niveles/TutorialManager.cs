@@ -5,42 +5,86 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField]
-    Pictionarys<string, LogicActive> allDialogs = new Pictionarys<string, LogicActive>();
+    DialogEvents[] allDialogs;
 
-    int currentDialog;
+    public Character player;
+
+    public Hexagone[] newBorders = new Hexagone[6];
+    public Hexagone firstHexagon;
+
+    int currentDialog = 0;
     bool masterBool = false;
+    bool dialogAble = true;
+
+    public UnityEngine.UI.Button DialogButton;
+    TextCompleto dialogText;
 
     void Awake()
     {
+        currentDialog = 0;
+        
+        DialogButton.onClick.RemoveAllListeners();
+        DialogButton.onClick.AddListener(ButtonAction);
+
         LoadSystem.AddPostLoadCorutine(AddToEvents);
     }
-
-    void Update()
+    private void Start()
     {
-        
+        dialogText = Interfaz.SearchTitle("Subtitulo");
+        dialogText.off += () => { DialogButton.SetActive(true); };
+
+        StartCoroutine(PlayTutorial());
     }
+
+
+    private void FirstTeleport(Hexagone arg1, int arg2)
+    {
+        dialogAble = true;
+    }
+
 
     void AddToEvents()
     {
-
+        player.move.onTeleport += FirstTeleport;
     }
 
     void NextDialog()
     {
-        currentDialog++;
+        if (currentDialog >= allDialogs.Length)
+            return;
 
-        if (allDialogs[currentDialog] != null)
-        {
-            allDialogs[currentDialog].Activate();
-        }
+        DialogButton.SetActive(false);
+
+        dialogText.AddMsg(allDialogs[currentDialog].dialog);
+
+        allDialogs[currentDialog].logicActive?.Activate(this);
+
+        currentDialog++;
+    }
+
+    void ButtonAction()
+    {
+        masterBool = true;
     }
 
     IEnumerator PlayTutorial()
     {
-        while (masterBool == false)
+        while (currentDialog < allDialogs.Length)
         {
-            yield return null;
+            while (masterBool == false)
+            {
+                yield return null;
+            }
+            NextDialog();
+
+            masterBool = false;
         }
-        
     }
+}
+
+[System.Serializable]
+public struct DialogEvents
+{
+    public string dialog;
+    public LogicActive logicActive;
 }
