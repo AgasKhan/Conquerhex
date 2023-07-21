@@ -232,7 +232,7 @@ public class TextCompleto : Init
 
             if (sum == "<")
             {
-                sum =  final.Substring(final.IndexOf('>', texto.text.Length));
+                sum =  final.Substring(texto.text.Length, final.IndexOf('>', texto.text.Length) - texto.text.Length + 1);
             }
 
             texto.text += sum;
