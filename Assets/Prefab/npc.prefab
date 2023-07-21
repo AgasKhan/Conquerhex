@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3665323422608231053}
-  - component: {fileID: 9052389196939426440}
   - component: {fileID: 3665323422608231055}
   m_Layer: 7
   m_Name: npc
@@ -35,22 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9052389196939426440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3665323422608231057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 5690219160931032506}
-  attackNameAnim: Attack
-  moveNameAnim: Move
-  deathNameAnim: Death
 --- !u!70 &3665323422608231055
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -306,12 +289,6 @@ PrefabInstance:
 --- !u!4 &4967689513810297361 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 3665323423009025895}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &5690219160931032506 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8947069257367515869, guid: 135a5d7445645394c8a553fdb6e815a0,
     type: 3}
   m_PrefabInstance: {fileID: 3665323423009025895}
   m_PrefabAsset: {fileID: 0}
