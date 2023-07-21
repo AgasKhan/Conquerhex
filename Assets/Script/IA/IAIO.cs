@@ -7,9 +7,9 @@ public class IAIO : IAFather
     string originalTag;
 
     [SerializeField]
-    Detect<Building> detectBuilding = new Detect<Building>();
+    Detect<Interactuable> detectInteractuable = new Detect<Interactuable>();
 
-    Building lastBuilding;
+    Interactuable lastInteractuable;
 
     ControllerIAIO prin;
 
@@ -80,21 +80,21 @@ public class IAIO : IAFather
     {
         EventManager.events.SearchOrCreate<EventGeneric>("move").Execute(transform.position);
 
-        var buildings = detectBuilding.Area(transform.position, (edificio) => { return true; });
+        var buildings = detectInteractuable.Area(transform.position, (edificio) => { return true; });
 
         if(buildings == null || buildings.Count == 0)
         {
             EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(false, false, null);
 
-            lastBuilding = null;
+            lastInteractuable = null;
         }
-        else if (buildings[0] != lastBuilding)
+        else if (buildings[0] != lastInteractuable)
         {
             VirtualControllers.interact.eventDown -= Interact_eventDown;
 
-            lastBuilding = buildings[0];
+            lastInteractuable = buildings[0];
 
-            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(true, false, lastBuilding.structureBase.image);
+            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(true, false, lastInteractuable.Image);
 
             VirtualControllers.interact.eventDown += Interact_eventDown;
         }
@@ -102,9 +102,8 @@ public class IAIO : IAFather
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
-        lastBuilding.myBuildSubMenu.Create();
+        lastInteractuable.Interact(character);
     }
-
 
     private void TeleportEvent(Hexagone obj, int lado)
     {

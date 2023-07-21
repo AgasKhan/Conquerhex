@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public abstract class Building : StaticEntity, IInteractuable
+public abstract class Building : StaticEntity, Interactuable
 {
     public Character character;
     public StructureBase structureBase;
@@ -29,7 +30,9 @@ public abstract class Building : StaticEntity, IInteractuable
     }
     
     protected override Damage[] vulnerabilities => structureBase.vulnerabilities;
-    
+
+    public Sprite Image => structureBase.image;
+
     protected override void Config()
     {
         base.Config();
@@ -70,13 +73,15 @@ public abstract class Building : StaticEntity, IInteractuable
         aux.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "¿Estas seguro de esta acción?").AddButton("No", aux.CloseMenus).AddButton("Si", action);
     }
 
-    public void Interact()
+    public void Interact(Character character)
     {
         myBuildSubMenu.Create();
     }
 }
 
-public interface IInteractuable
+public interface Interactuable
 {
-    void Interact(); 
+    void Interact(Character character); 
+
+    Sprite Image { get; }
 }

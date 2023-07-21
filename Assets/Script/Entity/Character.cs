@@ -14,10 +14,8 @@ public class Character : DynamicEntity, ISwitchState<Character>
     [SerializeField]
     EquipedItem<WeaponKata>[] katas = new EquipedItem<WeaponKata>[3];
 
-
     [SerializeField]
     Detect<RecolectableItem> areaFarming;
-
 
     [SerializeField]
     IState<Character> _ia;
@@ -131,9 +129,7 @@ public class Character : DynamicEntity, ISwitchState<Character>
             katas[i].character = (this);
         }
 
-
-
-        _ia = GetComponent<IState<Character>>();
+        CurrentState = GetComponent<IState<Character>>();
     }
 
     void MyStart()
@@ -143,12 +139,6 @@ public class Character : DynamicEntity, ISwitchState<Character>
         SetWeaponKataCombo(1, bodyBase.secondary);
 
         SetWeaponKataCombo(2, bodyBase.tertiary);
-
-        if (_ia != null)
-        {
-            _ia.OnEnterState(this);
-            MyUpdates += IAUpdate;
-        }
     }
 
     void MyUpdate()
