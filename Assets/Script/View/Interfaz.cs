@@ -201,9 +201,22 @@ public class TextCompleto : Init
     {
         if (texto.isTextOverflowing && fadeMenu.timerOn.Chck)
         {
-            var aux = new char[] { ' ', '\t', '\n' };
-            final = final.Substring(final.IndexOfAny(aux) + 1);
-            texto.text = texto.text.Substring(texto.text.IndexOfAny(aux) + 1);
+
+            var aux = new char[] { '\n' , '.'};
+
+            var index = texto.text.IndexOfAny(aux) + 1;
+
+            if(index>0)
+            {
+                texto.text = texto.text.Substring(index);
+
+                final = final.Substring(final.IndexOfAny(aux) + 1);
+            }
+            else
+            {
+                final = final.Replace(texto.text, "");
+                texto.text = "";
+            }
         }
     }
 
@@ -218,8 +231,6 @@ public class TextCompleto : Init
             texto.text += final[texto.text.Length];
             timer.Reset();
         }
-
-        ChecktOverflowing();
     }
 
     public void Init(params object[] param)
@@ -228,7 +239,7 @@ public class TextCompleto : Init
 
         fadeMenu.Init();
 
-        letras = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
+        letras = TimersManager.Create(tiempoEntreLetras, ChecktOverflowing ,Write).SetLoop(true).Stop();
 
         timer = TimersManager.Create(tiempoParaDesaparecer, () => {
 
