@@ -55,6 +55,25 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         playerIA = player.CurrentState;
 
         dummy.onTakeDamage += AttackDummyEvent;
+
+        var title = Interfaz.SearchTitle("Titulo");
+        var titleSec = Interfaz.SearchTitle("Titulo secundario");
+
+        title.ClearMsg();
+        titleSec.ClearMsg();
+
+        TimersManager.Create(2, () => 
+        {
+            title.AddMsg("Aviso");
+        }
+        );
+
+        TimersManager.Create(3, () =>
+        {
+            titleSec.AddMsg("Simulación corrupta");
+        }
+);
+
     }
 
     void EndDialog()
