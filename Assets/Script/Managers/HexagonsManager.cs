@@ -19,8 +19,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     public static float lado;
 
     public static float apotema;
-
-    public static int idMaxLevel;
+    public static int idMaxLevel=> instance._idMaxLevel;
 
     [SerializeReference]
     Hexagone[] _arrHexCreados;
@@ -35,6 +34,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     GameObject _hexagono;
 
     int[][,] _hexagonos;
+
+    int _idMaxLevel;
 
     public static void SetArrayHexagons(int number)
     {
@@ -277,7 +278,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                     if (maxLevel < hexagonos[hexagonos[current][l, 0]][0, 0])
                     {
                         maxLevel = hexagonos[hexagonos[current][l, 0]][0, 0];
-                        idMaxLevel = hexagonos[current][l, 0];
+                        _idMaxLevel = hexagonos[current][l, 0];
                     }
                 }
             }
