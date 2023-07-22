@@ -78,6 +78,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
             player.TakeDamage(dmg);
 
+            var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
+            PoolManager.SpawnPoolObject(index, player.transform.position, Quaternion.identity, player.transform);
+
             EnableButton();
         }
 
@@ -156,6 +159,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 [System.Serializable]
 public struct DialogEvents
 {
+    [TextArea(6,12)]
     public string dialog;
     public LogicActive logicActive;
 }

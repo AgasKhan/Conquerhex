@@ -212,7 +212,7 @@ public class TextCompleto : Init
 
                 final = final.Substring(final.IndexOfAny(aux) + 1);
             }
-            else
+            else if(texto.text.Length > 0)
             {
                 final = final.Replace(texto.text, "");
                 texto.text = "";
@@ -235,7 +235,7 @@ public class TextCompleto : Init
                 sum =  final.Substring(texto.text.Length, final.IndexOf('>', texto.text.Length) - texto.text.Length + 1);
             }
 
-            texto.text += sum;
+            texto.text += sum;            
             timer.Reset();
         }
     }
@@ -246,7 +246,7 @@ public class TextCompleto : Init
 
         fadeMenu.Init();
 
-        letras = TimersManager.Create(tiempoEntreLetras, ChecktOverflowing ,Write).SetLoop(true).Stop();
+        letras = TimersManager.Create(tiempoEntreLetras, ChecktOverflowing, Write).SetLoop(true).Stop();
 
         timer = TimersManager.Create(tiempoParaDesaparecer, () => {
 
