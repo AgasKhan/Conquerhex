@@ -35,6 +35,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     int[][,] _hexagonos;
 
+    [SerializeReference]
     int _idMaxLevel;
 
     public static void SetArrayHexagons(int number)
