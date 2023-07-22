@@ -77,6 +77,7 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 0.7
+  energy: 15
   patrol:
     reverse: 0
     iPatrulla: 0
@@ -128,6 +129,7 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 0.7
+  energy: 15
   patrol:
     reverse: 1
     iPatrulla: 0
@@ -177,8 +179,6 @@ MonoBehaviour:
       - key: 2
         value: 10
     item: {fileID: 11400000, guid: 4de2358a00fc87443aa124031d95027a, type: 2}
-  damaged1: {r: 1, g: 0.9864793, b: 0, a: 1}
-  damaged2: {r: 0, g: 0, b: 0, a: 1}
   audioManager: {fileID: 0}
   interact:
     pictionaries: []
@@ -189,12 +189,10 @@ MonoBehaviour:
   move: {fileID: 4467972175993570692}
   <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
-  prin:
-    rid: -2
-  sec:
-    rid: -2
-  ter:
-    rid: -2
+  katas:
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
   areaFarming:
     radius: 0
     distance: 0
@@ -205,11 +203,10 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
+  weaponKataIndex: 0
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!114 &-143505725685077172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,12 +411,12 @@ PrefabInstance:
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

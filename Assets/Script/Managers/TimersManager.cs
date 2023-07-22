@@ -136,6 +136,8 @@ public class TimersManager : MonoBehaviour
     {
         timersList = new List<Timer>();
         instance = this;
+
+        LoadSystem.AddPreLoadCorutine(()=> timersList.Clear());
     }
 
     void Update()

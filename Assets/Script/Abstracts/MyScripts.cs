@@ -47,7 +47,6 @@ public abstract class MyScripts : MonoBehaviour
                 GameManager.update.CreateOrSave(this, _fixedUpdate);
         }
     }
-  
 
     protected event Action onPause
     {
@@ -119,6 +118,7 @@ public abstract class MyScripts : MonoBehaviour
 
         if (_fixedUpdate != null)
             GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
+        
     }
 
     private void OnDisable()
