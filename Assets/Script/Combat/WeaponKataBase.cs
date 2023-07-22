@@ -22,26 +22,26 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [SerializeField]
     public Detect<Entity> detect;
 
-    [Header("Multiplicadores danio")]
-
+    [Header("Statitics")]
     public float velocityCharge = 1;
 
     public int damageToWeapon = 1;
 
     public Damage[] damagesMultiply = new Damage[0];
 
-    public Vector2Int[] indexParticles;
+    public Damage[] RequiredDamage = new Damage[0];
 
+    public Vector2Int[] indexParticles;
 
     public override Pictionarys<string, string> GetDetails()
     {
         var aux = base.GetDetails();
 
         if(damagesMultiply.Length>0)
-            aux.Add("Modificadores", damagesMultiply.ToString("= x", "\n"));
+            aux.Add("Modificadores", damagesMultiply.ToString(": x", "\n"));
 
-        if (damages.Length > 0)
-            aux.Add("Requisitos", damages.ToString("<","\n"));
+        if (RequiredDamage.Length > 0)
+            aux.Add("Requisitos", RequiredDamage.ToString("<","\n"));
 
         return aux;
     }
@@ -162,7 +162,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         MeleeWeapon weapon = (MeleeWeapon)caster.inventory[weaponIndex];
 
 
-        foreach (var ability in itemBase.damages)
+        foreach (var ability in itemBase.RequiredDamage)
         {
             foreach (var dmg in weapon.damages)
             {

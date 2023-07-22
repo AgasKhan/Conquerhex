@@ -39,7 +39,7 @@ public class BodyBase : StructureBase
 
         aux.Add("Velocity ", velocity.ToString());
         aux.Add("Weight Capacity ", weightCapacity.ToString());
-        aux.Add("Area Farming ", areaFarming.ToString() + "\n");
+        aux.Add("Area Farming ", areaFarming.ToString());
 
         return aux;
     }
@@ -58,7 +58,7 @@ public class BodyDiagram : Item<BodyBase>
 [System.Serializable]
 public class WeaponKataCombo
 {
-    public MeleeWeaponBase weapon;
-
     public WeaponKataBase kata;
+
+    public MeleeWeaponBase weapon;
 }

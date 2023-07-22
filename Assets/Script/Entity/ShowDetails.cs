@@ -61,6 +61,5 @@ public interface IShowDetails
 {
     string nameDisplay { get; }
     Sprite image { get; }
-    string details => GetDetails()[0];
     Pictionarys<string, string> GetDetails();
 }

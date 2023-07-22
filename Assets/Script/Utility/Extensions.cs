@@ -226,7 +226,8 @@ public static class Extensions
         var aux = "";
         foreach (var item in damages)
         {
-            aux += item.typeInstance.GetType().Name + glue + item.amount + reglon;
+            if(item.ToString()!="")
+                aux += item.typeInstance.GetType().Name + glue + item + reglon;
         }
 
         return aux;

@@ -23,21 +23,16 @@ public class StructureBase : ItemBase
     {
         Pictionarys<string, string> aux = base.GetDetails();
 
-        aux.Add("\nMaximum Life ", life.ToString());
+        aux.Add("Maximum Life ", life.ToString());
         aux.Add("Maximum Regeneration ", regen.ToString());
 
-        if(vulnerabilities.Length > 0)
+        aux.Add("Damages Multipliers", vulnerabilities.ToString(" x ", "\n"));
+        /*
+        if (vulnerabilities.Length > 0)
         {
-            aux.Add("\nDamages Multipliers ", "");
-
-            aux.Add(vulnerabilities.ToString(" x ", ""), "\n");
-            /*
-            for (int i = 0; i < vulnerabilities.Length; i++)
-            {
-                aux.Add(vulnerabilities[i].typeInstance.name + " x ", vulnerabilities[i].amount.ToString());
-            }*/
+            aux.Add("Damages Multipliers", vulnerabilities.ToString(" x ", "\n"));
         }
-        
+        */
         return aux;
     }
 }

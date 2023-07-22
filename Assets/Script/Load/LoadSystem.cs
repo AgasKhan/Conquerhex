@@ -87,6 +87,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
     public void Load(string scn, bool pause = false)
     {
         loadPause = pause;
+
+        StopAllCoroutines();
+
         loadScreen.Open();
         StartCoroutine(LoadScene(scn));
         Time.timeScale = 1;
@@ -111,6 +114,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         loadScreen.Progress("Close action scripts");
 
+        yield return null;
+
         for (int i = 0; i < preLoadEvent.Count; i++)
         {
             preLoadEvent[i]();
@@ -119,8 +124,13 @@ public class LoadSystem : SingletonMono<LoadSystem>
                 yield return null;
         }
 
-
         loadScreen.Progress("Start scene load");
+
+        preLoad.Clear();
+        preLoadEvent.Clear();
+
+        postLoad.Clear();
+        postLoadEvent.Clear();
 
         yield return null;
 
@@ -150,10 +160,12 @@ public class LoadSystem : SingletonMono<LoadSystem>
             yield return new WaitForCorutines(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
         }
 
+        yield return null;
+
         for (int i = 0; i < postLoadEvent.Count; i++)
         {
             postLoadEvent[i]();
-            loadScreen.Progress(( ((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6 )*100, "Load actions script: "+i+"/"+ postLoadEvent.Count);
+            loadScreen.Progress(( ((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6 )*100, $"Load scripts: {i}/{postLoadEvent.Count}");
             
             if(i % 100 == 0)
                 yield return null;
@@ -173,12 +185,6 @@ public class LoadSystem : SingletonMono<LoadSystem>
                 yield return null;
             }
         }
-
-        preLoad.Clear();
-        postLoad.Clear();
-
-        postLoadEvent.Clear();
-        preLoadEvent.Clear();
 
         loadScreen.Close();
 

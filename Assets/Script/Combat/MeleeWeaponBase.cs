@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
 public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 {
+    public Damage[] damages = new Damage[1];
+
     public float durability;
 
     public bool isImproved = false;
@@ -15,7 +17,7 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
     {
         var list = base.GetDetails();
 
-        list.Add("Damages", damages.ToString("=", "\n"));
+        list.Add("Damages", damages.ToString(": ", "\n"));
 
         return list;
     }

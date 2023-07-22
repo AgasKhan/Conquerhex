@@ -49,8 +49,6 @@ public class LoadMap : SingletonMono<LoadMap>
 
     Hexagone[] arrHexCreados => HexagonsManager.arrHexCreados;
 
-    Pictionarys<int, Hexagone> activeHex => HexagonsManager.activeHex;
-
     GameObject hexagono => HexagonsManager.hexagono;
 
     int[][,] hexagonos => HexagonsManager.hexagonos;
@@ -123,7 +121,7 @@ public class LoadMap : SingletonMono<LoadMap>
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 StopAllCoroutines();
-                LoadSystem.instance.Load("Menu");
+                LoadSystem.instance.Load("MainMenu");
 
             }
 
@@ -170,8 +168,8 @@ public class LoadMap : SingletonMono<LoadMap>
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 StopAllCoroutines();
-                LoadSystem.instance.Load("Menu");
 
+                LoadSystem.instance.Load("MainMenu");
             }
             yield return null;
         }
@@ -181,30 +179,6 @@ public class LoadMap : SingletonMono<LoadMap>
             GameManager.instance.player = playerPublic.gameObject;
             carlitos = playerPublic.carlitos;
         }
-            
-        /*
-
-        cameras = new Camera[Camera.allCamerasCount - 1];
-
-        renders = new GameObject[6];
-
-
-        //recorro todas las camaras y guardo las que quiero en orden
-        foreach (var item in Camera.allCameras)
-        {
-            //print(item.name);
-            if (item.name != "Main Camera")
-            {
-                cameras[int.Parse(item.name.Substring(item.name.IndexOf("(") + 1, 1))] = item;
-            }
-
-        }
-
-        */
-        //print("La cantidad de camaras es de: " + cameras.Length);
-
-        //audioListener.enabled = true;
-
         
         yield return new WaitForCorutines(this, LoadHex, (s) => msg(s));    
 
@@ -225,8 +199,6 @@ public class LoadMap : SingletonMono<LoadMap>
             playerPublic.transform.localPosition = new Vector3(0, 0, 0);
         }
         
-
-        //AudioManager.instance.Play("ambiente").source.loop = true;
         end(true);
     }
 }

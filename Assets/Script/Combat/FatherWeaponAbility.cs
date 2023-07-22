@@ -13,9 +13,7 @@ public abstract class FatherWeaponAbility<T> : ItemBase where T : FatherWeaponAb
     [Tooltip("cooldown")]
     public float velocity;
     [Tooltip("rango de deteccion")]
-    public float range;
-    [Tooltip("array de danios")]
-    public Damage[] damages = new Damage[1];
+    public float range;    
 
 }
 

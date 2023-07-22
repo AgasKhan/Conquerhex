@@ -74,7 +74,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         }
     }
 
-
     public void TakeDamage(params Damage[] dmgs)
     {
         if (dmgs == null)
@@ -89,9 +88,8 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             notif += dmgs[i] + " ";
         }      
 
-        Interfaz.instance["Danio"].AddMsg($"{notif} ► {name}");
+        Interfaz.instance["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
-
 
     public virtual void TakeDamage(ref Damage dmg)
     {
@@ -154,11 +152,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
     public Entity GetEntity()
     {
         return this;
-    }
-
-    public Transform GetTransform()
-    {
-        return transform;
     }
 }
 
@@ -253,15 +246,7 @@ public class Health : Init
         if (life == null && regen == null && deathBool)
             return;
 
-        bool noLifeBool = false;
-
-        if (life.current <= 0)
-            noLifeBool = true;
-
-        /*
-        life.Substract(-1 * (regen.current / 100f) * life.total);
-        regen.Substract(-1);
-        */
+        bool noLifeBool = life.current <= 0;
 
         TakeLifeDamage(-1 * (regen.current / 100f) * life.total);
         TakeRegenDamage(-1);
@@ -270,7 +255,6 @@ public class Health : Init
         {
             reLife?.Invoke();
         }
-
 
         if (regen.current == regen.total && life.current == life.total)
             timeToRegen.Stop();

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public abstract class Building : StaticEntity, Interactuable
 {
-    public Character character;
     public StructureBase structureBase;
     public Recipes[] upgradesRequirements;
     public ItemType[] NavBarButtons;
@@ -15,6 +14,8 @@ public abstract class Building : StaticEntity, Interactuable
 
     [HideInInspector]
     public BuildingsSubMenu myBuildSubMenu;
+
+    public Character character;
 
     public abstract string rewardNextLevel
     {
@@ -47,11 +48,6 @@ public abstract class Building : StaticEntity, Interactuable
             currentLevel = SaveWithJSON.LoadFromPictionary<int>(structureBase.nameDisplay + "Level");
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        character = other.GetComponent<Character>();
-    }
-
     public virtual void UpgradeLevel()
     {
         currentLevel++;
@@ -74,6 +70,8 @@ public abstract class Building : StaticEntity, Interactuable
 
     public void Interact(Character character)
     {
+        this.character = character;
+
         myBuildSubMenu.Create();
     }
 }

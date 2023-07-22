@@ -66,30 +66,13 @@ public class InventorySubMenu : CreateSubMenu
             UnityEngine.Events.UnityAction action =
                () =>
                {
-                   ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
+                   ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                    DestroyButtonsActions();
                    CreateButtonsActions(index, item.GetItemBase().buttonsAcctions);
                };
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
-
-        /*
-        foreach (var item in character.inventory)
-        {
-            
-
-            UnityEngine.Events.UnityAction action =
-                () =>
-                {
-                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
-                    DestroyButtonsActions();
-                    CreateButtonsActions(item,item.GetItemBase().buttonsAcctions);
-                };
-
-            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
-        }
-        */
     }
 
     void DestroyButtonsActions()

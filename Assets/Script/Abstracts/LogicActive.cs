@@ -6,7 +6,7 @@ abstract public class LogicActive : MonoBehaviour
 {
     void ErrorActivate<T>(params T[] genericParams)
     {
-        string warning = "Funcion activate no sobre escrita\nTipo: "+typeof(T)+"\nParametros:";
+        string warning = "Funcion activate no sobre escrita\nTipo: "+nameof(T)+"\nParametros:";
 
         foreach (var item in genericParams)
         {

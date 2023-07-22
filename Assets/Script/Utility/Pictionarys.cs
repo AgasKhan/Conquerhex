@@ -133,14 +133,23 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return ToString("=");
     }
 
-    public string ToString(string glue, string entreKeys = "\n")
+    public string ToString(string glue, string entreKeys = "\n\n")
     {
         string salida = "";
 
         foreach (var item in pictionaries)
         {
+            if (!item.value.Equals(default(V)) && ((item.value as string) != ""))
+                salida += item.key.ToString().RichText("u") + glue + item.value + entreKeys;
+        }
+
+        /*
+        foreach (var item in pictionaries)
+        {
             salida += item.key + glue + item.value + entreKeys;
         }
+        */
+
         return salida;
     }
 
