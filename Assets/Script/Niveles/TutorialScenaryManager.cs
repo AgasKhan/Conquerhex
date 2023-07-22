@@ -26,7 +26,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     bool desierto = false;
 
     [Header("Combat")]
-    public GameObject dummy;
+    public DestructibleObjects dummy;
+    public int attacksCounter = 0;
 
     protected override void Awake()
     {
@@ -34,6 +35,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         currentDialog = 0;
         tpsCounter = 0;
+
+        attacksCounter = 0;
 
         LoadSystem.AddPostLoadCorutine(AddToEvents);
     }
@@ -50,13 +53,46 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.move.onTeleport += TeleportEvent;
 
         playerIA = player.CurrentState;
+
+        dummy.onTakeDamage += AttackDummyEvent;
     }
 
     void EndDialog()
     {
         player.CurrentState = playerIA;
     }
-    
+
+    private void AttackDummyEvent(Damage obj)
+    {
+        if (currentDialog == 1 && attacksCounter < 1)
+        {
+            TimersManager.Create(1, () => { NextDialog(); });
+            
+            attacksCounter++;
+
+            Damage dmg = new Damage();
+
+            dmg.typeInstance = (ClassDamage)Manager<ShowDetails>.pic["Perforation"];
+
+            dmg.amount = 30;
+
+            player.TakeDamage(dmg);
+
+            EnableButton();
+        }
+
+        if(currentDialog == 3)
+        {
+            attacksCounter++;
+
+            if(attacksCounter >= 3)
+            {
+                EnableButton();
+                dummy.onTakeDamage -= AttackDummyEvent;
+            }
+        }
+    }
+
     private void TeleportEvent(Hexagone arg1, int arg2)
     {
         if (currentDialog == 1)
