@@ -100,7 +100,7 @@ public abstract class AttackEntity : StaticEntity
         if (flyweight == null || flyweight.kataCombos == null)
             return;
 
-        for (int i = 0; i <= Mathf.Clamp(flyweight.kataCombos.Length , 0 , 2); i++)
+        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length , 0 , 3); i++)
             SetWeaponKataCombo(i);
     }
 
