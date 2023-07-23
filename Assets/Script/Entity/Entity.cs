@@ -178,15 +178,40 @@ public class Health : Init
     public float maxRegen => regen.total;
     public float actualRegen => regen.current;
 
-    /// <summary>
-    /// porcentaje e input
-    /// </summary>
-    public event System.Action<IGetPercentage, float> lifeUpdate;
+    public event System.Action<IGetPercentage, float> lifeUpdate
+    {
+        add
+        {
+            life.onChange += value;
+        }
+        remove
+        {
+            life.onChange -= value;
+        }
+    }
+
+    public event System.Action<IGetPercentage, float> regenUpdate
+    {
+        add
+        {
+            regen.onChange += value;
+        }
+        remove
+        {
+            regen.onChange -= value;
+        }
+    }
+
 
     /// <summary>
     /// porcentaje e input
     /// </summary>
-    public event System.Action<IGetPercentage, float> regenUpdate;
+    //public event System.Action<IGetPercentage, float> lifeUpdate;
+
+    /// <summary>
+    /// porcentaje e input
+    /// </summary>
+    //public event System.Action<IGetPercentage, float> regenUpdate;
 
     public event System.Action noLife;
 
@@ -211,7 +236,7 @@ public class Health : Init
             deathBool = true;
         }
 
-        regenUpdate?.Invoke(regen, amount);
+        //regenUpdate?.Invoke(regen, amount);
 
         return regen.Percentage();
     }
@@ -235,7 +260,7 @@ public class Health : Init
             life.Substract(amount);
         }
 
-        lifeUpdate?.Invoke(life, amount);
+        //lifeUpdate?.Invoke(life, amount);
 
         //actualizar ui
         return life.Percentage();

@@ -168,7 +168,7 @@ public class Tim : IGetPercentage
         get => _current;
         set
         {
-            internalSetCurrent(value); //lo seteo con un delegado para asi poder quitar o agregar la funcion de ejecutar un evento al modificar
+            internalSetCurrent(value-_current); //lo seteo con un delegado para asi poder quitar o agregar la funcion de ejecutar un evento al modificar
         }
     }
 
@@ -176,9 +176,9 @@ public class Tim : IGetPercentage
 
     public float max => total;
 
-    protected event System.Action<IGetPercentage> _onChange; //version interna que almacera todos los que desean ser notificados cuando se modifique el timer
+    protected event System.Action<IGetPercentage, float> _onChange; //version interna que almacera todos los que desean ser notificados cuando se modifique el timer
 
-    public event System.Action<IGetPercentage> onChange
+    public event System.Action<IGetPercentage, float> onChange
     {
         add
         {
@@ -244,7 +244,7 @@ public class Tim : IGetPercentage
 
     protected void InternalSetCurrent(float value)
     {
-        _current = value;
+        _current += value;
 
         if (_current > total)
             _current = total;
@@ -254,7 +254,7 @@ public class Tim : IGetPercentage
 
     protected void InternalEventSetCurrent(float value)
     {
-        _onChange(this);
+        _onChange(this, value);
     }
 
     public Tim(float totTim = 10)
@@ -516,7 +516,7 @@ public class TimedCompleteAction : TimedAction
     public TimedCompleteAction(float timer, Action update, Action end, bool loop = false, bool unscaled = false) : base(timer, end, loop, unscaled)
     {
         this.update = update;
-        _onChange += (percentage) => this.update();
+        _onChange += (percentage, number) => this.update();
         internalSetCurrent += InternalEventSetCurrent;
     }
 }

@@ -22,7 +22,7 @@ public class AudioEntity : AudioManager
 
         if (audios.ContainsKey(damagedLifeAudio))
         {
-            entity.health.lifeUpdate += Health_lifeUpdate; ;
+            entity.health.lifeUpdate += Health_lifeUpdate;
         }
         if (audios.ContainsKey(damagedRegenAudio))
         {
@@ -38,14 +38,14 @@ public class AudioEntity : AudioManager
         }
     }
 
-    private void Health_regenUpdate(IGetPercentage arg1, float arg3)
+    private void Health_regenUpdate(IGetPercentage percentage, float number)
     {
-        DamagedRegenAudio(arg3);
+        DamagedRegenAudio(number);
     }
 
-    private void Health_lifeUpdate(IGetPercentage arg1,  float arg3)
+    private void Health_lifeUpdate(IGetPercentage percentage, float number)
     {
-        DamagedLifeAudio(arg3);
+        DamagedLifeAudio(number);
     }
 
     private void TeleportAudio(Hexagone teleport, int lado)
@@ -55,13 +55,13 @@ public class AudioEntity : AudioManager
 
     void DamagedLifeAudio(float obj)
     {
-        if (obj > 0)
+        if (obj < 0)
             Play(damagedLifeAudio);
     }
 
     void DamagedRegenAudio(float obj)
     {
-        if (obj > 0)
+        if (obj < 0)
             Play(damagedRegenAudio);
     }
 }

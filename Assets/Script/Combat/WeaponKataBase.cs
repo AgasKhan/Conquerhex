@@ -111,7 +111,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public bool cooldownTime => cooldown.Chck;
 
-    public event System.Action<IGetPercentage> onCooldownChange
+    public event System.Action<IGetPercentage, float> onCooldownChange
     {
         add
         {

@@ -191,9 +191,9 @@ public class ControllerIAIO : IControllerDir
         previusControllerDir = kata.equiped;
     }
 
-    void Ui(IGetPercentage f)
+    void Ui(IGetPercentage f, float num)
     {
-        _Event.Execute(f);
+        _Event.Execute(f, num);
     }
 
     void RefreshJoystickUI()
