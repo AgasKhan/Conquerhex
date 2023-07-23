@@ -97,16 +97,13 @@ public abstract class AttackEntity : StaticEntity
 
     void MyStart()
     {
-        SetWeaponKataCombo(0, flyweight.principal);
-
-        SetWeaponKataCombo(1, flyweight.secondary);
-
-        SetWeaponKataCombo(2, flyweight.tertiary);
+        for (int i = 0; i < 3; i++)
+            SetWeaponKataCombo(i);
     }
 
-    void SetWeaponKataCombo(int index, WeaponKataCombo combo)
+    void SetWeaponKataCombo(int index)
     {
-        if (combo == null || combo.kata == null)
+        if (flyweight==null || flyweight.kataCombos == null || flyweight.kataCombos[index].kata == null)
             return;
 
         weaponKataIndex = index;
@@ -114,11 +111,11 @@ public abstract class AttackEntity : StaticEntity
         if (actualKata.equiped != null)
             return;
 
-        inventory.Add(combo.kata.Create());
+        inventory.Add(flyweight.kataCombos[index].kata.Create());
 
         actualKata.indexEquipedItem = inventory.Count - 1;
 
-        inventory.Add(combo.weapon.Create());
+        inventory.Add(flyweight.kataCombos[index].weapon.Create());
 
         actualKata.equiped.Init(this, inventory.Count - 1);
     }

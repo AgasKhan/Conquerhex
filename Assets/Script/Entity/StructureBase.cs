@@ -16,11 +16,7 @@ public class StructureBase : ItemBase
 
     [Header("Ataque")]
 
-    public WeaponKataCombo principal;
-
-    public WeaponKataCombo secondary;
-
-    public WeaponKataCombo tertiary;
+    public WeaponKataCombo[] kataCombos;
 
     [Header("Especialization")]
 
