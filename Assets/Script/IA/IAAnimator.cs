@@ -16,7 +16,7 @@ public class IAAnimator : IAFather
     {
         character = param;
 
-        timerStun.Set(character.bodyBase.stunTime);
+        timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
         automatick = new AutomaticAttack(character.ter);
     }

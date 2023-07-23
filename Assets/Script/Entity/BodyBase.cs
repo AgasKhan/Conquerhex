@@ -15,18 +15,6 @@ public class BodyBase : StructureBase
 
     public float areaFarming=1;
 
-    [Header("Ataque")]
-
-    public WeaponKataCombo principal;
-
-    public WeaponKataCombo secondary;
-
-    public WeaponKataCombo tertiary;
-
-    [Header("Especialization")]
-
-    public Damage[] additiveDamage;
-
 
     protected override void SetCreateItemType()
     {

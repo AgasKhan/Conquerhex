@@ -204,8 +204,6 @@ MonoBehaviour:
       - key: 5
         value: 5
     item: {fileID: 11400000, guid: cd6dc9a04330cc04d88085a2aa3e90d4, type: 2}
-  damaged1: {r: 1, g: 0, b: 0.05043316, a: 1}
-  damaged2: {r: 0, g: 0, b: 0, a: 1}
   audioManager: {fileID: 0}
   interact:
     pictionaries: []
@@ -213,15 +211,14 @@ MonoBehaviour:
   weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  move: {fileID: 2904035125237228758}
-  <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
+  katas:
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
     type: 2}
-  prin:
-    rid: -2
-  sec:
-    rid: -2
-  ter:
-    rid: -2
+  weaponKataIndex: 0
+  move: {fileID: 2904035125237228758}
   areaFarming:
     radius: 0
     distance: 0
@@ -234,9 +231,7 @@ MonoBehaviour:
     dot: 1
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!114 &2904035125237228758
 MonoBehaviour:
   m_ObjectHideFlags: 0

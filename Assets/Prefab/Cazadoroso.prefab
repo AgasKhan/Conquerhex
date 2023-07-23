@@ -186,13 +186,14 @@ MonoBehaviour:
   weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  move: {fileID: 4467972175993570692}
-  <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
-    type: 2}
   katas:
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
+    type: 2}
+  weaponKataIndex: 0
+  move: {fileID: 4467972175993570692}
   areaFarming:
     radius: 0
     distance: 0
@@ -203,7 +204,6 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
-  weaponKataIndex: 0
   references:
     version: 2
     RefIds: []

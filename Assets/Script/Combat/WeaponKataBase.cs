@@ -94,7 +94,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     [SerializeReference]
     protected Timer cooldown;
-    protected Character caster => equipedWeapon.character;
+    protected AttackEntity caster => equipedWeapon.character;
 
     protected Entity[] affected;
 
@@ -193,8 +193,6 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         onDesEquipedWeapon?.Invoke(this.weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
     }
 
-
-
     protected void Attack()
     {
         onAttack?.Invoke();
@@ -275,7 +273,8 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         }
 
         //actualCharacterVelocity = caster.move.objectiveVelocity;
-        caster.move.objectiveVelocity += -2;
+        if(caster is DynamicEntity)
+            ((DynamicEntity)caster).move.objectiveVelocity += -2;
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
@@ -302,7 +301,8 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
             return;
         }
 
-        caster.move.objectiveVelocity += 2;
+        if (caster is DynamicEntity)
+            ((DynamicEntity)caster).move.objectiveVelocity += 2;
 
         up(dir, tim);
 
