@@ -11,7 +11,7 @@ public abstract class AttackEntity : StaticEntity
     public StructureBase flyweight
     {
         get;
-        private set;
+        protected set;
     }
 
     public int weaponKataIndex = 0;
@@ -97,13 +97,16 @@ public abstract class AttackEntity : StaticEntity
 
     void MyStart()
     {
-        for (int i = 0; i < 3; i++)
+        if (flyweight == null || flyweight.kataCombos == null)
+            return;
+
+        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length , 0 , 2); i++)
             SetWeaponKataCombo(i);
     }
 
     void SetWeaponKataCombo(int index)
     {
-        if (flyweight==null || flyweight.kataCombos == null || flyweight.kataCombos[index].kata == null)
+        if (flyweight.kataCombos[index].kata == null)
             return;
 
         weaponKataIndex = index;
