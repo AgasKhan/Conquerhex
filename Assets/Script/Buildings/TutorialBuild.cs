@@ -34,11 +34,11 @@ public class TutorialSubMenu : CreateSubMenu
     {
         DestroyLastButton();
 
-        subMenu.CreateSection(0, 3);
+        subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
         CreateButtons();
 
-        subMenu.CreateSection(3, 6);
+        subMenu.CreateSection(2, 6);
         myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("", "\nEscoge la simulación que desees vivir\n\n");
 
         subMenu.CreateTitle("Elige la simulación");
@@ -48,7 +48,7 @@ public class TutorialSubMenu : CreateSubMenu
     {
         foreach (var item in tutorialBuilding.allTutorials)
         {
-            subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, () => { ButtonAct(item); }, "");
+            subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, () => { ButtonAct(item); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
     }
 

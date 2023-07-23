@@ -43,11 +43,11 @@ public class PortalSubMenu : CreateSubMenu
     {
         DestroyLastButton();
 
-        subMenu.CreateSection(0, 3);
+        subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
         CreateButtons();
 
-        subMenu.CreateSection(3, 6);
+        subMenu.CreateSection(2, 6);
         myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("", "\nDependiendo del lugar al que quieras viajar el costo cambiará\n\n");
 
         subMenu.CreateTitle("Elige la ubicación");
@@ -57,7 +57,7 @@ public class PortalSubMenu : CreateSubMenu
     {
         foreach (var item in portalBuilding.travelRequire)
         {
-            subMenu.AddComponent<EventsCall>().Set(item.key.nameDisplay, () => { ButtonAct(item.key, item.value); }, "");
+            subMenu.AddComponent<EventsCall>().Set(item.key.nameDisplay, () => { ButtonAct(item.key, item.value); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
     }
 

@@ -20,6 +20,7 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
+        subMenu.CreateChildrenSection<ScrollRect>();
         subMenu.AddComponent<DetailsWindow>().SetImage(character.flyweight.image).SetTexts(character.flyweight.nameDisplay, character.flyweight.GetDetails().ToString("\n"));
 
         subMenu.CreateSection(3, 6);

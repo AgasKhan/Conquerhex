@@ -10,9 +10,7 @@ public class CraftingBuild : Building
     public CraftingSubMenu createSubMenu;
 
     public List<Recipes> currentRecipes = new List<Recipes>();
-    //---------------------------------
-    public MenuManager refMenu;
-    //---------------------------------
+
     public override string rewardNextLevel
     {
         get
@@ -36,9 +34,7 @@ public class CraftingBuild : Building
     void MyAwake()
     {
         createSubMenu = new CraftingSubMenu(this);
-        //---------------------------------
-        refMenu.eventListVoid.Add("Try3", Try3);
-        //---------------------------------
+
         if (SaveWithJSON.BD.ContainsKey(structureBase.nameDisplay + "Level"))
         {
             interact.Add("Craftear", GetComponent<EnterBuilding>());
@@ -50,12 +46,7 @@ public class CraftingBuild : Building
             currentRecipes.Clear();
         }
     }
-    //---------------------------------
-    void Try3 (GameObject g)
-    {
-        myBuildSubMenu.Create();
-    }
-    //---------------------------------
+
     public void ClearCustomerInventory()
     {
         character.inventory.Clear();

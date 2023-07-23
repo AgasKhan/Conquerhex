@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public abstract class Building : StaticEntity, Interactuable
+public abstract class Building : AttackEntity, Interactuable
 {
     public StructureBase structureBase;
     public Recipes[] upgradesRequirements;

@@ -9,10 +9,6 @@ public class AdsBuilding : Building, IUnityAdsListener
     [SerializeField] string adToShow = "Rewarded_Android";
     public override string rewardNextLevel => throw new System.NotImplementedException();
 
-    //---------------------------------
-    public MenuManager refMenu;
-    //---------------------------------
-
     protected override void Config()
     {
         base.Config();
@@ -26,27 +22,12 @@ public class AdsBuilding : Building, IUnityAdsListener
             Advertisement.Initialize("5307781");
         else
             Advertisement.Initialize("5307781", true);
-
-        //---------------------------------
-        refMenu.eventListVoid.Add("Try4", Try4);
-        //---------------------------------
     }
-    //---------------------------------
-    void Try4(GameObject g)
-    {
-        myBuildSubMenu.Create();
-    }
-    //---------------------------------
-    void Internal()
-    {
-
-    }
-
+    
     public void ShowAd()
     {
         if(!Advertisement.IsReady())
         {
-            //Pop Up
             Debug.Log("No hay Ad");
             return;
         }
