@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class Building : AttackEntity, Interactuable
 {
-    public StructureBase structureBase;
     public Recipes[] upgradesRequirements;
     public ItemType[] NavBarButtons;
 
@@ -28,9 +27,9 @@ public abstract class Building : AttackEntity, Interactuable
         }
     }
     
-    protected override Damage[] vulnerabilities => structureBase.vulnerabilities;
+    protected override Damage[] vulnerabilities => flyweight.vulnerabilities;
 
-    public Sprite Image => structureBase.image;
+    public Sprite Image => flyweight.image;
 
     protected override void Config()
     {
@@ -43,8 +42,8 @@ public abstract class Building : AttackEntity, Interactuable
     {
         myBuildSubMenu = new BuildingsSubMenu(this);
 
-        if (SaveWithJSON.BD.ContainsKey(structureBase.nameDisplay + "Level"))
-            currentLevel = SaveWithJSON.LoadFromPictionary<int>(structureBase.nameDisplay + "Level");
+        if (SaveWithJSON.BD.ContainsKey(flyweight.nameDisplay + "Level"))
+            currentLevel = SaveWithJSON.LoadFromPictionary<int>(flyweight.nameDisplay + "Level");
     }
 
     public virtual void UpgradeLevel()
@@ -53,7 +52,7 @@ public abstract class Building : AttackEntity, Interactuable
         if (currentLevel > maxLevel)
             currentLevel = maxLevel;
 
-        SaveWithJSON.SaveInPictionary(structureBase.nameDisplay + "Level", currentLevel);
+        SaveWithJSON.SaveInPictionary(flyweight.nameDisplay + "Level", currentLevel);
     }
 
     public virtual void EnterBuild()

@@ -9,28 +9,48 @@ public class TurretBuild : Building
     public Sprite newSprite;
 
     public StructureBase[] damagesUpgrades;
-    public WeaponKataBase[] abilitiesUpgrades;
+
+    TurretSubMenu myTurretSubmenu;
 
     public override string rewardNextLevel => throw new System.NotImplementedException();
+
+    protected override void Config()
+    {
+        base.Config();
+
+        MyAwakes += MyAwake;
+    }
+    void MyAwake()
+    {
+        myTurretSubmenu = new TurretSubMenu(this);
+    }
 
     public override void EnterBuild()
     {
         base.EnterBuild();
-        originalSprite.sprite = newSprite;
+        //originalSprite.sprite = newSprite;
 
+
+        myTurretSubmenu.Create();
     }
 
     public override void UpgradeLevel()
     {
+        
+        
         base.UpgradeLevel();
+    }
 
+    public void ChangeStructure(StructureBase newStructure)
+    {
+        flyweight = newStructure;
     }
 }
 
 [System.Serializable]
 public class TurretSubMenu : CreateSubMenu
 {
-    TurretBuild portalBuilding;
+    TurretBuild turretBuilding;
     EventsCall lastButton;
     DetailsWindow myDetailsW;
     public override void Create()
@@ -50,48 +70,98 @@ public class TurretSubMenu : CreateSubMenu
         CreateButtons();
 
         subMenu.CreateSection(2, 6);
-        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("", "\nDependiendo del lugar al que quieras viajar el costo cambiará\n\n");
+        subMenu.CreateChildrenSection<ScrollRect>();
+        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("Elige una habilidad", "\nSelecciona una habilidad de la izquierda para ver más detalles de la misma, luego elige una, pero hazlo con cuidado no olvides que "+ "sólo puedes escoger una mejora y será permanente\n\n".RichText("color", "#ff0000ff") + "Costo:\n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
 
-        subMenu.CreateTitle("Elige la ubicación");
+        subMenu.CreateTitle("Torreta");
     }
 
     void CreateButtons()
     {
-        /*
-        foreach (var item in portalBuilding.travelRequire)
+        if(turretBuilding.currentLevel == 0)
         {
-            subMenu.AddComponent<EventsCall>().Set(item.key.nameDisplay, () => { ButtonAct(item.key, item.value); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+            foreach (var item in turretBuilding.flyweight.kataCombos)
+            {
+                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => ButtonAbility(item.kata), "").rectTransform.sizeDelta = new Vector2(300, 75);
+            }
         }
-        */
-    }
+        else
+        {
+            foreach (var item in turretBuilding.flyweight.kataCombos)
+            {
+                /*
+                if (item.kata == turretBuilding.ActualKata)
+                    continue;
+                */
+                //subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, () => { }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => ButtonAbility(item.kata), "").rectTransform.sizeDelta = new Vector2(300, 75);
+            }
 
-    void ButtonAct(ShowDetails item, Recipes requirement)
+            foreach (var item in turretBuilding.damagesUpgrades)
+            {
+                subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, ()=> ButtonDamage(item), "").rectTransform.sizeDelta = new Vector2(300, 75);
+            }
+        }
+        
+
+        
+    }
+    void ButtonAbility(WeaponKataBase item)
     {
         DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString() + "Costo del viaje: \n" + requirement.GetRequiresString(portalBuilding.character));
-        myDetailsW.SetImage(item.image);
-        lastButton = subMenu.AddComponent<EventsCall>().Set("Viajar", () => { Travel(item, requirement); }, "");
+        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        //myDetailsW.SetImage(item.image);
+        lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Habilidad", () => AddAbility(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]), "");
     }
+
+    void ButtonDamage(StructureBase item)
+    {
+        DestroyLastButton();
+        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una mejora y sera permanente".RichText("color", "#ff0000ff") +"Costo: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        //myDetailsW.SetImage(item.image);
+        lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Mejora", () => { ImproveDamage(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]); }, "");
+    }
+    
     void DestroyLastButton()
     {
         if (lastButton != null)
             Object.Destroy(lastButton.gameObject);
     }
 
-    void Travel(ShowDetails item, Recipes requirement)
+    void ImproveDamage(StructureBase item, Recipes requirement)
     {
-        if (requirement.CanCraft(portalBuilding.character))
+        if (requirement.CanCraft(turretBuilding.character))
         {
-            requirement.Craft(portalBuilding.character);
-            LoadSystem.instance.Load(item.nameDisplay, true);
+            requirement.Craft(turretBuilding.character);
+            turretBuilding.ChangeStructure(item);
+            turretBuilding.UpgradeLevel();
         }
         else
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes combustible suficiente").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+    }
 
+    void AddAbility(WeaponKataBase ability, Recipes requirement)
+    {
+        if (requirement.CanCraft(turretBuilding.character))
+        {
+            requirement.Craft(turretBuilding.character);
+
+            foreach (var item in turretBuilding.interact)
+            {
+                if (item.key == "Construir")
+                    item.key = "Mejorar";
+            }
+
+            //Cambiar Sprite
+            turretBuilding.UpgradeLevel();
+            subMenu.SetActiveGameObject(false);
+        }
+        else
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
     }
 
     public TurretSubMenu(TurretBuild _portalBuilding)
     {
-        portalBuilding = _portalBuilding;
+        turretBuilding = _portalBuilding;
     }
 }

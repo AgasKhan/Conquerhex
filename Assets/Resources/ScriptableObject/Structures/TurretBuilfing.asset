@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TurretBuilfing
   m_EditorClassIdentifier: 
   _nameDisplay: Turret
-  _image: {fileID: 21300000, guid: 9d0b8efec4a848646adca97e8cb99136, type: 3}
+  _image: {fileID: 21300000, guid: 156501df2acc38d48b9d08477fa0ea8d, type: 3}
   _details: "\nEsta es una torreta com\xFAn, tiene alcance medio, dispara r\xE1pidamente
     y tiene da\xF1o moderado\n\n"
   maxAmount: 1
@@ -22,3 +22,11 @@ MonoBehaviour:
   life: 0
   regen: 0
   vulnerabilities: []
+  kataCombos:
+  - kata: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91, type: 2}
+    weapon: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
+  - kata: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
+    weapon: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
+  - kata: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771, type: 2}
+    weapon: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
+  additiveDamage: []

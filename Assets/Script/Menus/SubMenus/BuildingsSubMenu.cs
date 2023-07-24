@@ -34,7 +34,7 @@ public class BuildingsSubMenu : CreateSubMenu
 
         subMenu.CreateSection(2, 6);
         subMenu.CreateChildrenSection<ScrollRect>();
-        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", buildingBase.structureBase.GetDetails()["Description"]).SetImage(buildingBase.structureBase.image);
+        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", buildingBase.flyweight.GetDetails()["Description"]).SetImage(buildingBase.flyweight.image);
 
         subMenu.CreateTitle(buildingBase.name);
     }

@@ -34,7 +34,7 @@ public class CraftingSubMenu : CreateSubMenu
             }
         }
 
-        subMenu.CreateTitle(buildingBase.structureBase.nameDisplay);
+        subMenu.CreateTitle(buildingBase.flyweight.nameDisplay);
 
         CreateBody();
     }

@@ -35,10 +35,10 @@ public class CraftingBuild : Building
     {
         createSubMenu = new CraftingSubMenu(this);
 
-        if (SaveWithJSON.BD.ContainsKey(structureBase.nameDisplay + "Level"))
+        if (SaveWithJSON.BD.ContainsKey(flyweight.nameDisplay + "Level"))
         {
             interact.Add("Craftear", GetComponent<EnterBuilding>());
-            currentRecipes = SaveWithJSON.LoadFromPictionary<List<Recipes>>(structureBase.nameDisplay + "Recipes");
+            currentRecipes = SaveWithJSON.LoadFromPictionary<List<Recipes>>(flyweight.nameDisplay + "Recipes");
         }
         else
         {
@@ -69,7 +69,7 @@ public class CraftingBuild : Building
             interact.Add("Craftear", GetComponent<EnterBuilding>());
         }
 
-        SaveWithJSON.SaveInPictionary(structureBase.nameDisplay + "Recipes", currentRecipes);
+        SaveWithJSON.SaveInPictionary(flyweight.nameDisplay + "Recipes", currentRecipes);
         myBuildSubMenu.Create();
     }
 }
