@@ -43,15 +43,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _CastShadows: 1
     - _CausticsMovement: 1
     - _CausticsPower: 6
     - _CausticsScale: 20
+    - _Cull: 2
+    - _DstBlend: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _RefractionAmount: 0.2
     - _ShorelineLength: 13
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _VertexMovement: 0.02
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
     - _CausticColor: {r: 293.1451, g: 630.46277, b: 698.72943, a: 0}
     - _CausticsSpeed: {r: 0.1, g: 0.01, b: 0, a: 0}
-    - _ShorelineColor: {r: 1.2862746, g: 2.6509805, b: 2.682353, a: 0}
+    - _ShorelineColor: {r: 0, g: 0.09019608, b: 0.2382353, a: 1}
     - _VoronoiTiling: {r: 1, g: 0.8, b: 0, a: 0}
     - _WaterColor: {r: 0.7358491, g: 0.8887454, b: 0.9811321, a: 0}
     - _WaterOffset: {r: 0, g: 0, b: 0, a: 0}
