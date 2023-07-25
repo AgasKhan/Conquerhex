@@ -9,8 +9,11 @@ public class TurretBuild : Building
     public Sprite newSprite;
 
     public StructureBase[] damagesUpgrades;
+    public Pictionarys<string, Sprite[]> possibleAbilities = new Pictionarys<string, Sprite[]>();
 
     TurretSubMenu myTurretSubmenu;
+    [HideInInspector]
+    public string originalAbility;
 
     public override string rewardNextLevel => throw new System.NotImplementedException();
 
@@ -30,8 +33,10 @@ public class TurretBuild : Building
         base.EnterBuild();
         //originalSprite.sprite = newSprite;
 
-
-        myTurretSubmenu.Create();
+        if(currentLevel < maxLevel)
+            myTurretSubmenu.Create();
+        else
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "La torreta alcanzó el nivel máximo").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
     }
 
     public override void UpgradeLevel()
@@ -82,7 +87,7 @@ public class TurretSubMenu : CreateSubMenu
         {
             foreach (var item in turretBuilding.flyweight.kataCombos)
             {
-                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => ButtonAbility(item.kata), "").rectTransform.sizeDelta = new Vector2(300, 75);
+                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item.kata); turretBuilding.originalAbility = item.kata.nameDisplay; }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
         }
         else
@@ -94,17 +99,25 @@ public class TurretSubMenu : CreateSubMenu
                     continue;
                 */
                 //subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, () => { }, "").rectTransform.sizeDelta = new Vector2(300, 75);
-                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => ButtonAbility(item.kata), "").rectTransform.sizeDelta = new Vector2(300, 75);
+                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item.kata); TurretMaxLevel(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
 
             foreach (var item in turretBuilding.damagesUpgrades)
             {
-                subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, ()=> ButtonDamage(item), "").rectTransform.sizeDelta = new Vector2(300, 75);
+                subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, ()=> { ButtonDamage(item); TurretMaxLevel();  }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
         }
-        
+    }
 
-        
+    void TurretMaxLevel()
+    {
+        foreach (var item in turretBuilding.interact)
+        {
+            if (item.key == "Mejorar")
+                item.key = "Nivel Máximo";
+        }
+
+        //Camiar Sprite a nivel maximo con "originalAbility"
     }
     void ButtonAbility(WeaponKataBase item)
     {
@@ -117,7 +130,7 @@ public class TurretSubMenu : CreateSubMenu
     void ButtonDamage(StructureBase item)
     {
         DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una mejora y sera permanente".RichText("color", "#ff0000ff") +"Costo: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una mejora y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
         //myDetailsW.SetImage(item.image);
         lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Mejora", () => { ImproveDamage(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]); }, "");
     }
@@ -135,6 +148,7 @@ public class TurretSubMenu : CreateSubMenu
             requirement.Craft(turretBuilding.character);
             turretBuilding.ChangeStructure(item);
             turretBuilding.UpgradeLevel();
+            subMenu.SetActiveGameObject(false);
         }
         else
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
