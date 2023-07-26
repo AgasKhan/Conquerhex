@@ -75,13 +75,13 @@ public class IAIO : IAFather
 
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 
-        prin = null;
-
-        sec = null;
-
-        ter = null;
-
         EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(false, false, null);
+
+        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.secondary.ToString()).ExecuteSet(false, false, null);
+
+        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.terciary.ToString()).ExecuteSet(false, false, null);
+
+        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.movement.ToString()).ExecuteSet(false, false, null);
 
         lastInteractuable = null;
 
@@ -233,6 +233,5 @@ public class ControllerIAIO : IControllerDir
         kata.toChange -= SetJoystick;
         kata.equiped.onCooldownChange -= Ui;
         kata.equiped.onAttack -= attackAnim;
-        _Event.ExecuteSet(false, false, null);
     }
 }
