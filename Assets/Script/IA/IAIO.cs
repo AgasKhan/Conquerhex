@@ -86,11 +86,7 @@ public class IAIO : IAFather
 
         EventManager.events.SearchOrCreate<EventJoystick>(EnumController.secondary.ToString()).ExecuteSet(false, false, null);
 
-        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.terciary.ToString()).ExecuteSet(false, false, null);
-
-        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.movement.ToString()).ExecuteSet(false, false, null);
-
-       
+        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.terciary.ToString()).ExecuteSet(false, false, null);       
 
         lastInteractuable = null;
 
