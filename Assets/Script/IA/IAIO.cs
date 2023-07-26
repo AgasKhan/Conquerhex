@@ -17,10 +17,13 @@ public class IAIO : IAFather
 
     ControllerIAIO ter;
 
+    EventJoystick interactEvent;
+
     private void Awake()
     {
         LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(character);
+            interactEvent = EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString());
         });
     }
 
@@ -54,6 +57,8 @@ public class IAIO : IAFather
         VirtualControllers.secondary.SuscribeController(sec);
 
         VirtualControllers.terciary.SuscribeController(ter);
+
+        
     }
 
     public override void OnExitState(Character param)
@@ -75,13 +80,17 @@ public class IAIO : IAFather
 
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 
-        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(false, false, null);
+        interactEvent.ExecuteSet(false, false, null);
+
+        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.principal.ToString()).ExecuteSet(false, false, null);
 
         EventManager.events.SearchOrCreate<EventJoystick>(EnumController.secondary.ToString()).ExecuteSet(false, false, null);
 
         EventManager.events.SearchOrCreate<EventJoystick>(EnumController.terciary.ToString()).ExecuteSet(false, false, null);
 
         EventManager.events.SearchOrCreate<EventJoystick>(EnumController.movement.ToString()).ExecuteSet(false, false, null);
+
+       
 
         lastInteractuable = null;
 
@@ -98,7 +107,7 @@ public class IAIO : IAFather
 
         if(buildings == null || buildings.Count == 0)
         {
-            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(false, false, null);
+            interactEvent.ExecuteSet(false, false, null);
 
             lastInteractuable = null;
         }
@@ -108,7 +117,7 @@ public class IAIO : IAFather
 
             lastInteractuable = buildings[0];
 
-            EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(true, false, lastInteractuable.Image);
+            interactEvent.ExecuteSet(true, false, lastInteractuable.Image);
 
             VirtualControllers.interact.eventDown += Interact_eventDown;
         }
