@@ -5,17 +5,17 @@ using UnityEngine;
 public class AutomaticAttack
 {
     public Timer timerToAttack;
-    WeaponKata kata;
+    EquipedItem<WeaponKata> kata;
 
     public event System.Action onAttack;
 
-    public bool cooldown => kata.cooldownTime && timerToAttack.Chck;
+    public bool cooldown => kata.equiped.cooldownTime && timerToAttack.Chck;
 
     public float radius
     {
         get
         {
-            return kata.finalRange;
+            return kata.equiped.finalRange;
         }
     }
 
@@ -23,8 +23,8 @@ public class AutomaticAttack
     {
         get
         {
-            if (kata.reference != null)
-                return kata.reference.attackColor;
+            if (kata.equiped.reference != null)
+                return kata.equiped.reference.attackColor;
             else
                 return Color.white;
         }
@@ -34,8 +34,8 @@ public class AutomaticAttack
     {
         get
         {
-            if (kata.reference != null)
-                return kata.reference.areaColor;
+            if (kata.equiped.reference != null)
+                return kata.equiped.reference.areaColor;
             else
                 return Color.white;
         }
@@ -45,26 +45,26 @@ public class AutomaticAttack
     {
         get
         {
-            if (kata.reference != null)
-                return kata.reference.color;
+            if (kata.equiped.reference != null)
+                return kata.equiped.reference.color;
             else
                 return Color.white;
         }
         set
         {
-            if (kata.reference != null)
-                kata.reference.color = value;
+            if (kata.equiped.reference != null)
+                kata.equiped.reference.color = value;
         }
     }
 
     public void Attack()
     {
-        kata.ControllerDown(Vector2.zero, 0);
+        kata.equiped.ControllerDown(Vector2.zero, 0);
 
         timerToAttack.Reset();
     }
 
-    public AutomaticAttack(WeaponKata kata)
+    public AutomaticAttack(EquipedItem<WeaponKata> kata)
     {
         this.kata = kata;
 
@@ -74,13 +74,14 @@ public class AutomaticAttack
 
             actual = Color.Lerp(areaColor, attackColor, timerToAttack.InversePercentage());
 
-            this.kata.ControllerPressed(Vector2.zero, timerToAttack.total - timerToAttack.current);
+            this.kata.equiped.ControllerPressed(Vector2.zero, timerToAttack.total - timerToAttack.current);
 
         }, () =>
         {
-            this.kata.ControllerUp(Vector2.zero, timerToAttack.total);
+            this.kata.equiped.ControllerUp(Vector2.zero, timerToAttack.total);
 
             onAttack?.Invoke();
+
         }).Stop();
 
         timerToAttack.current = 0;

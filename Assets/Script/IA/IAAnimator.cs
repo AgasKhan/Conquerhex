@@ -18,7 +18,7 @@ public class IAAnimator : IAFather
 
         timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
-        automatick = new AutomaticAttack(character.ter);
+        automatick = new AutomaticAttack(character.ActualKata(2));
     }
 
     public override void OnExitState(Character param)

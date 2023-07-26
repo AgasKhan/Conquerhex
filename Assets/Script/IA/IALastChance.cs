@@ -78,9 +78,9 @@ public class IALastChance : IAFather
 
         doryEnemy = TimersManager.Create(10, () => enemy = null);
 
-        prin = new AutomaticAttack(character.prin);
+        prin = new AutomaticAttack(character.ActualKata(0));
 
-        sec = new AutomaticAttack(character.sec);
+        sec = new AutomaticAttack(character.ActualKata(1));
 
         timer = TimersManager.Create(1);
 
