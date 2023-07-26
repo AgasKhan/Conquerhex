@@ -53,7 +53,7 @@ public class Stick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     void StopStick()
     {
-        transform.position = initPos;
+        transform.localPosition = Vector3.zero;
         dir = Vector3.zero;
     }
 
