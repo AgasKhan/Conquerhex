@@ -54,7 +54,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         playerIA = player.CurrentState;
 
-        dummy.onTakeDamage += AttackDummyEvent;
+        if(dummy != null)
+            dummy.onTakeDamage += AttackDummyEvent;
 
         var title = Interfaz.SearchTitle("Titulo");
         var titleSec = Interfaz.SearchTitle("Titulo secundario");

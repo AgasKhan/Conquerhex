@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class TurretBuild : Building
 {
     public SpriteRenderer originalSprite;
-    public Sprite newSprite;
 
     public StructureBase[] damagesUpgrades;
     public Pictionarys<string, Sprite[]> possibleAbilities = new Pictionarys<string, Sprite[]>();
 
     TurretSubMenu myTurretSubmenu;
+
     [HideInInspector]
     public string originalAbility;
 
@@ -22,16 +22,19 @@ public class TurretBuild : Building
         base.Config();
 
         MyAwakes += MyAwake;
+
+        MyStarts = null;
     }
     void MyAwake()
     {
         myTurretSubmenu = new TurretSubMenu(this);
+
+        var itt = ((BodyBase)flyweight).weightCapacity;
     }
 
     public override void EnterBuild()
     {
         base.EnterBuild();
-        //originalSprite.sprite = newSprite;
 
         if(currentLevel < maxLevel)
             myTurretSubmenu.Create();
@@ -41,14 +44,17 @@ public class TurretBuild : Building
 
     public override void UpgradeLevel()
     {
-        
-        
         base.UpgradeLevel();
     }
 
     public void ChangeStructure(StructureBase newStructure)
     {
         flyweight = newStructure;
+    }
+
+    public void SetKataCombo(int index)
+    {
+        SetWeaponKataCombo(index);
     }
 }
 
@@ -85,21 +91,23 @@ public class TurretSubMenu : CreateSubMenu
     {
         if(turretBuilding.currentLevel == 0)
         {
-            foreach (var item in turretBuilding.flyweight.kataCombos)
+            for (int i = 0; i < turretBuilding.flyweight.kataCombos.Length; i++)
             {
-                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item.kata); turretBuilding.originalAbility = item.kata.nameDisplay; }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+                var item = turretBuilding.flyweight.kataCombos[i];
+                var index = i;
+                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item,index); turretBuilding.originalAbility = item.kata.nameDisplay; }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
         }
         else
         {
-            foreach (var item in turretBuilding.flyweight.kataCombos)
+            for (int i = 0; i < turretBuilding.flyweight.kataCombos.Length; i++)
             {
-                /*
-                if (item.kata == turretBuilding.ActualKata)
+                var item = turretBuilding.flyweight.kataCombos[i];
+                var index = i;
+                if (item.kata.nameDisplay == turretBuilding.originalAbility)
                     continue;
-                */
-                //subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, () => { }, "").rectTransform.sizeDelta = new Vector2(300, 75);
-                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item.kata); TurretMaxLevel(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+
+                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item, index); TurretMaxLevel(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
 
             foreach (var item in turretBuilding.damagesUpgrades)
@@ -117,14 +125,27 @@ public class TurretSubMenu : CreateSubMenu
                 item.key = "Nivel Máximo";
         }
 
+        turretBuilding.GetComponentInChildren<AnimPerspecitve>().sprite = turretBuilding.possibleAbilities[turretBuilding.originalAbility][turretBuilding.currentLevel - 1];
+
         //Camiar Sprite a nivel maximo con "originalAbility"
     }
-    void ButtonAbility(WeaponKataBase item)
+
+    void ButtonAction(StructureBase item)
     {
         DestroyLastButton();
         myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        
+        //lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Habilidad", () => AddAbility(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]), "");
+    }
+    void ButtonAbility(WeaponKataCombo item, int index)
+    {
+        DestroyLastButton();
+        myDetailsW.SetTexts(item.kata.nameDisplay, "\n" + item.kata.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
         //myDetailsW.SetImage(item.image);
-        lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Habilidad", () => AddAbility(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]), "");
+
+        turretBuilding.originalAbility = item.kata.nameDisplay;
+
+        lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Habilidad", () => AddAbility(index, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]), "");
     }
 
     void ButtonDamage(StructureBase item)
@@ -154,11 +175,13 @@ public class TurretSubMenu : CreateSubMenu
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
     }
 
-    void AddAbility(WeaponKataBase ability, Recipes requirement)
+    void AddAbility(int index, Recipes requirement)
     {
         if (requirement.CanCraft(turretBuilding.character))
         {
             requirement.Craft(turretBuilding.character);
+
+            turretBuilding.SetKataCombo(index);
 
             foreach (var item in turretBuilding.interact)
             {

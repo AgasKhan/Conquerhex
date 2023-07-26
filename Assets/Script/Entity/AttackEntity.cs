@@ -104,7 +104,7 @@ public abstract class AttackEntity : StaticEntity
             SetWeaponKataCombo(i);
     }
 
-    void SetWeaponKataCombo(int index)
+    protected void SetWeaponKataCombo(int index)
     {
         if (flyweight.kataCombos[index].kata == null)
             return;

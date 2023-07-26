@@ -17,6 +17,7 @@ public class AnimPerspecitve : TransparentMaterial
     Material shadowMaterial;
 
     SpriteRenderer shadowSprite;
+    public Sprite sprite { get => ((SpriteRenderer)originalSprite).sprite ; set => ((SpriteRenderer)originalSprite).sprite = value; }
 
     override protected void Awake()
     {

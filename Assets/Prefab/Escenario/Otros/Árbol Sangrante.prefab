@@ -111,14 +111,20 @@ MonoBehaviour:
   weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  character: {fileID: 0}
-  structureBase: {fileID: 11400000, guid: 34d5123e6f9390c439e990bf90813ffb, type: 2}
+  katas:
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 34d5123e6f9390c439e990bf90813ffb,
+    type: 2}
+  weaponKataIndex: 0
   upgradesRequirements: []
   NavBarButtons: 
   currentLevel: 0
   myBuildSubMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
+  character: {fileID: 0}
   allTutorials:
   - {fileID: 11400000, guid: 647ad654f8ca7e845a31ffee905f3478, type: 2}
   - {fileID: 11400000, guid: b4e8c5e2f8f01c64dbecfddbabbcb0a0, type: 2}
