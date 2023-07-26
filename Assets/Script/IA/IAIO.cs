@@ -26,15 +26,15 @@ public class IAIO : IAFather
 
     public override void OnEnterState(Character param)
     {
+        base.OnEnterState(param);
+
         GameManager.instance.playerCharacter = param;
 
-        character = param;
+        prin = new ControllerIAIO(EnumController.principal, character.ActualKata(0));
 
-        prin = new ControllerIAIO(EnumController.principal, character.ActualKata(0), param.AttackEvent);
+        sec = new ControllerIAIO(EnumController.secondary, character.ActualKata(1));
 
-        sec = new ControllerIAIO(EnumController.secondary, character.ActualKata(1), param.AttackEvent);
-
-        ter = new ControllerIAIO(EnumController.terciary, character.ActualKata(2), param.AttackEvent);
+        ter = new ControllerIAIO(EnumController.terciary, character.ActualKata(2));
 
         originalTag = param.gameObject.tag;
 
@@ -75,6 +75,12 @@ public class IAIO : IAFather
 
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 
+        prin = null;
+
+        sec = null;
+
+        ter = null;
+
         EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString()).ExecuteSet(false, false, null);
 
         lastInteractuable = null;
@@ -84,6 +90,8 @@ public class IAIO : IAFather
 
     public override void OnStayState(Character param)
     {
+        base.OnStayState(param);
+
         EventManager.events.SearchOrCreate<EventGeneric>("move").Execute(transform.position);
 
         var buildings = detectInteractuable.Area(transform.position, (edificio) => { return edificio.enabled; });
@@ -208,12 +216,12 @@ public class ControllerIAIO : IControllerDir
         }
     }
 
-    public ControllerIAIO(EnumController enumController, EquipedItem<WeaponKata> kata, System.Action attackAnim)
+    public ControllerIAIO(EnumController enumController, EquipedItem<WeaponKata> kata)
     {
         _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController.ToString());
 
         this.kata = kata;
-        this.attackAnim = attackAnim;
+        this.attackAnim = kata.character.AttackEvent;
 
         kata.toChange += SetJoystick;
 
@@ -225,5 +233,6 @@ public class ControllerIAIO : IControllerDir
         kata.toChange -= SetJoystick;
         kata.equiped.onCooldownChange -= Ui;
         kata.equiped.onAttack -= attackAnim;
+        _Event.ExecuteSet(false, false, null);
     }
 }

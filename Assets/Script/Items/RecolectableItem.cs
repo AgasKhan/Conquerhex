@@ -38,7 +38,7 @@ public class RecolectableItem : StaticEntity
 
     public void Recolect(StaticEntity entity)
     {
-        if (!recolect.Chck)
+        if (!recolect.Chck /* && (entity.currentWeight + weight) <= entity.weightCapacity*/)
             return;
 
         //Debug.Log("me quiere recoger: " + entity.name);

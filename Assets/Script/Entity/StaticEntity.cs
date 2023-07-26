@@ -9,7 +9,7 @@ public abstract class StaticEntity : Entity //, IItemContainer
     [SerializeReference]
     public List<Item> inventory = new List<Item>();
 
-    public float weightCapacity;
+    public virtual float weightCapacity { get; }
 
     public float currentWeight = 0f;
 

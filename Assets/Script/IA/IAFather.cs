@@ -4,9 +4,14 @@ using UnityEngine;
 
 public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 {
+    [SerializeField]
+    Detect<RecolectableItem> areaFarming;
+
     public Timer timerStun = null;
 
     protected Character character;
+
+    protected BodyBase flyWeight => ((BodyBase)character.flyweight);
 
 
     void Awake()
@@ -27,7 +32,24 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
         //timerStun.Reset();
     }
 
-    public abstract void OnEnterState(Character param);
+    public virtual void OnEnterState(Character param)
+    {
+        character = param;
+        areaFarming.radius = flyWeight.areaFarming;
+    }
+
     public abstract void OnExitState(Character param);
-    public abstract void OnStayState(Character param);
+
+    public virtual void OnStayState(Character param)
+    {
+        var recolectables = areaFarming.Area(transform.position, (algo) => { return true; });
+
+        foreach (var recolectable in recolectables)
+        {
+            //if (currentWeight + recolectable.weight <= weightCapacity)
+            {
+                recolectable.Recolect(param);
+            }
+        }
+    }
 }

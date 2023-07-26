@@ -825,7 +825,6 @@ MonoBehaviour:
     - key: Craftear
       value: {fileID: 431886760}
   inventory: []
-  weightCapacity: 100
   currentWeight: 0
   travelItem: []
   katas:
@@ -834,7 +833,6 @@ MonoBehaviour:
   - _indexEquipedItem: -1
   <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
-  structureBase: {fileID: 11400000, guid: accad2f938781454b9188bd703de44f3, type: 2}
   upgradesRequirements:
   - {fileID: 11400000, guid: 64e8de9bb7da7de41ad0d0ce4160bab1, type: 2}
   - {fileID: 11400000, guid: 05eab44e900422b43ade91c1d3c8b2a9, type: 2}
@@ -1324,7 +1322,6 @@ MonoBehaviour:
     - key: Ver Anuncio
       value: {fileID: 1381207847}
   inventory: []
-  weightCapacity: 0
   currentWeight: 0
   travelItem: []
   katas:
@@ -1333,7 +1330,6 @@ MonoBehaviour:
   - _indexEquipedItem: -1
   <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
-  structureBase: {fileID: 11400000, guid: d6b7539da6140034c83ff67302e2bee3, type: 2}
   upgradesRequirements: []
   NavBarButtons: 
   currentLevel: 0
@@ -1587,7 +1583,6 @@ MonoBehaviour:
   interact:
     pictionaries: []
   inventory: []
-  weightCapacity: 0
   currentWeight: 0
   travelItem: []
   katas:
@@ -1597,16 +1592,6 @@ MonoBehaviour:
   <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
   move: {fileID: 1417820771}
-  areaFarming:
-    radius: 0
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 64
-    _maxDetects: 0
-    _minDetects: 0
-    inverse: 0
-    dot: 1
   references:
     version: 2
     RefIds: []
@@ -1665,7 +1650,6 @@ MonoBehaviour:
     - key: Guardar Partida
       value: {fileID: 1440866000}
   inventory: []
-  weightCapacity: 0
   currentWeight: 0
   travelItem: []
   katas:
@@ -1674,7 +1658,6 @@ MonoBehaviour:
   - _indexEquipedItem: -1
   <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
-  structureBase: {fileID: 11400000, guid: b2729e55fe5889f45a9beae8d13807ad, type: 2}
   upgradesRequirements: []
   NavBarButtons: 
   currentLevel: 0
@@ -1861,7 +1844,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1648172239
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: -1000
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -3640,7 +3623,6 @@ MonoBehaviour:
   interact:
     pictionaries: []
   inventory: []
-  weightCapacity: 0
   currentWeight: 0
   travelItem: []
   katas:
@@ -3650,16 +3632,6 @@ MonoBehaviour:
   <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
   move: {fileID: 4472251128575466741}
-  areaFarming:
-    radius: 0
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    _maxDetects: 0
-    _minDetects: 0
-    inverse: 0
-    dot: 1
   references:
     version: 2
     RefIds: []
@@ -3735,6 +3707,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ed448b40e66244a90f8b79afa0759b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  areaFarming:
+    radius: 0
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 1
   timerStun:
     total: 0
     _current: 0

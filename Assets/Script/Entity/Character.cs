@@ -5,9 +5,6 @@ using UnityEngine;
 public class Character : DynamicEntity, ISwitchState<Character>
 {
     [SerializeField]
-    Detect<RecolectableItem> areaFarming;
-
-    [SerializeField]
     IState<Character> _ia;
 
     public IState<Character> CurrentState
@@ -30,20 +27,18 @@ public class Character : DynamicEntity, ISwitchState<Character>
         }
     }
 
+    public override float weightCapacity => ((BodyBase)flyweight).weightCapacity;
+
+
     protected override void Config()
     {
         base.Config();
         MyAwakes += MyAwake;
-        MyUpdates += MyUpdate;
         MyStarts += MyStart;
     }
 
     void MyAwake()
     {
-        areaFarming.radius = ((BodyBase)flyweight).areaFarming;
-
-        weightCapacity = ((BodyBase)flyweight).weightCapacity;
-
         _ia = GetComponent<IState<Character>>();
     }
 
@@ -53,18 +48,6 @@ public class Character : DynamicEntity, ISwitchState<Character>
         {
             _ia.OnEnterState(this);
             MyUpdates += IAUpdate;
-        }
-    }
-
-    void MyUpdate()
-    {
-        var recolectables = areaFarming.Area(transform.position, (algo) => { return true; });
-        foreach (var recolectable in recolectables)
-        {
-            //if (currentWeight + recolectable.weight <= weightCapacity)
-            {
-                recolectable.Recolect(this);
-            }
         }
     }
 
