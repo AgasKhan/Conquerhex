@@ -165,8 +165,6 @@ public class ControllerIAIO : IControllerDir
 
     System.Action attackAnim;
 
-    //System.Func<WeaponKata> controllerDir;
-
     EquipedItem<WeaponKata> kata;
 
     public void ControllerDown(Vector2 dir, float tim)

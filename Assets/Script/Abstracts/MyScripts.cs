@@ -27,8 +27,15 @@ public abstract class MyScripts : MonoBehaviour
         remove
         {
             _update -= value;
+            if(_update == null)
+            {
+                GameManager.update.Remove(this);
+                return;
+            }
+
             if (gameObject.activeSelf)
                 GameManager.update.CreateOrSave(this, _update);
+            
         }
     }
 
@@ -38,13 +45,20 @@ public abstract class MyScripts : MonoBehaviour
         {
             _fixedUpdate += value;
             if (gameObject.activeSelf)
-                GameManager.update.CreateOrSave(this, _fixedUpdate);
+                GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
         }
         remove
         {
             _fixedUpdate -= value;
+
+            if (_fixedUpdate == null)
+            {
+                GameManager.fixedUpdate.Remove(this);
+                return;
+            }
+
             if (gameObject.activeSelf)
-                GameManager.update.CreateOrSave(this, _fixedUpdate);
+                GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
         }
     }
 
