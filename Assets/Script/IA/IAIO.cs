@@ -21,9 +21,10 @@ public class IAIO : IAFather
 
     private void Awake()
     {
+        interactEvent = EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString());
+
         LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(character);
-            interactEvent = EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString());
         });
     }
 
@@ -57,8 +58,6 @@ public class IAIO : IAFather
         VirtualControllers.secondary.SuscribeController(sec);
 
         VirtualControllers.terciary.SuscribeController(ter);
-
-        
     }
 
     public override void OnExitState(Character param)
