@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Entity : MyScripts, IDamageable, IGetEntity
 {
     public Team team;
-
+    
     public Health health;
 
     public List<DropItem> drops = new List<DropItem>();

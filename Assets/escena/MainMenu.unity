@@ -3126,6 +3126,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
+      propertyPath: eneabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
       propertyPath: categoriesOfPool.Array.data[0].objectPool.Array.data[0].amount
       value: 1
       objectReference: {fileID: 0}
@@ -10715,27 +10720,15 @@ MonoBehaviour:
   interact:
     pictionaries: []
   inventory: []
-  weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  move: {fileID: 2085456269}
-  <bodyBase>k__BackingField: {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7,
-    type: 2}
-  katas:
+  _katas:
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
-  areaFarming:
-    radius: 0
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 64
-    _maxDetects: 0
-    _minDetects: 0
-    inverse: 0
-    dot: 1
+  <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
+  move: {fileID: 2085456269}
   references:
     version: 2
     RefIds: []

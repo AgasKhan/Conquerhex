@@ -136,7 +136,7 @@ public class InventorySubMenu : CreateSubMenu
 
         if (item.itemType == ItemType.Equipment && item is MeleeWeapon)
         {
-            details = "Uses: " + ((MeleeWeapon)item).durability.current;
+            details = "Uses: " + ((MeleeWeapon)item).actual;
 
         }
         else

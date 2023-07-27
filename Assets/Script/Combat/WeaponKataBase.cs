@@ -235,7 +235,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
             return;
 
         if (param.Length > 0)
-            equipedWeapon.character = param[0] as Character;
+            equipedWeapon.character = param[0] as AttackEntity;
 
         if (param.Length > 1)
             equipedWeapon.indexEquipedItem = (int)param[1];
@@ -246,16 +246,18 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
             {
                 caster.audioManager.AddAudio(item.key, item.value);
             }
+
+            Debug.Log("se creo weapon kata " + caster.name);
+
+            cooldown = TimersManager.Create(itemBase.velocity);
+
+            if (weapon != null)
+            {
+                weapon.Init();
+                weapon.off += Weapon_durabilityOff;
+                cooldown.Set(finalVelocity);
+            }
         }  
-
-        cooldown = TimersManager.Create(itemBase.velocity);
-
-        if(weapon!=null)
-        {
-            weapon.Init();
-            weapon.off += Weapon_durabilityOff;
-            cooldown.Set(finalVelocity);
-        }
     }
 
     private void Weapon_durabilityOff()

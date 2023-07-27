@@ -827,7 +827,7 @@ MonoBehaviour:
   inventory: []
   currentWeight: 0
   travelItem: []
-  katas:
+  _katas:
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   inventory: []
   currentWeight: 0
   travelItem: []
-  katas:
+  _katas:
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
@@ -1585,13 +1585,13 @@ MonoBehaviour:
   inventory: []
   currentWeight: 0
   travelItem: []
-  katas:
+  _katas:
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
-  move: {fileID: 1417820771}
+  move: {fileID: 0}
   references:
     version: 2
     RefIds: []
@@ -1652,7 +1652,7 @@ MonoBehaviour:
   inventory: []
   currentWeight: 0
   travelItem: []
-  katas:
+  _katas:
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
@@ -2173,6 +2173,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 12261038923983026, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 12261038923983026, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 12261038923983026, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119460910653828535, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119460910653828535, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119460910653828535, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119460910653828535, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3305370477979890304, guid: 80ef2a322371ecf4bb7a895ca8e32083,
         type: 3}
       propertyPath: m_Name
@@ -2995,7 +3030,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3005,7 +3040,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3080,7 +3115,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 144.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3090,7 +3125,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3170,7 +3205,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 197.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3180,7 +3215,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3200,7 +3235,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3210,7 +3245,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3533,13 +3568,13 @@ MonoBehaviour:
   inventory: []
   currentWeight: 0
   travelItem: []
-  katas:
+  _katas:
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   - _indexEquipedItem: -1
   <flyweight>k__BackingField: {fileID: 0}
   weaponKataIndex: 0
-  move: {fileID: 4472251128575466741}
+  move: {fileID: 0}
   references:
     version: 2
     RefIds: []
@@ -3868,6 +3903,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6053871165468208764, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: _velocity.total
@@ -3932,6 +3972,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: managedReferences[-2]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143386, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}

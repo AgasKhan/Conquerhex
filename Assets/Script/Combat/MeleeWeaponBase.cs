@@ -101,6 +101,15 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
         if(durability==null)
             durability = new Tim(itemBase.durability);
+        else
+        {
+            var aux = durability;
+
+            durability = new Tim(aux.max);
+
+            durability.current = aux.current;
+        }
+
     }
 
     public virtual void Durability(float damageToDurability)

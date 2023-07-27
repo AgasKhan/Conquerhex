@@ -8,48 +8,23 @@ public class ItemContainer : MonoBehaviour
     public Character character;
 
     void Awake()
-    {
-        if (SaveWithJSON.CheckKeyInBD("PlayerInventory"))
+    { 
+
+        character.AddOrSubstractItems("PortalFuel", 100);
+        if (SaveWithJSON.CheckKeyInBD("Player"))
         {
-            character.inventory = SaveWithJSON.LoadFromPictionary<List<Item>>("PlayerInventory");
-            Debug.Log("BD contains PlayerInventory");
+            SaveWithJSON.LoadClassFromPictionary("Player", ref character);
+            Debug.Log("BD contains Player");
         }
         else
         {
-            Debug.Log("BD doesnt contain PlayerInventory");
+            Debug.Log("BD doesnt contain Player");
         }
-
-        for (int i = 0; i < 3; i++)
-        {
-            character.weaponKataIndex = i;
-
-            if (SaveWithJSON.CheckKeyInBD("PlayerKata" + i))
-            {
-                character.actualKata.character = character;
-
-                character.actualKata.indexEquipedItem = SaveWithJSON.LoadFromPictionary<int>("PlayerKata" + i);
-
-                if(character.actualKata.indexEquipedItem!=-1)
-                    character.actualKata.equiped.Init(character);
-            }
-            else
-            {
-                Debug.Log("BD doesnt contain PlayerInventory");
-            }
-        }
-
-        character.AddOrSubstractItems("PortalFuel", 100);
     }
 
-    private void OnDisable()
+
+    private void OnDestroy()
     {
-        SaveWithJSON.SaveInPictionary("PlayerInventory", character.inventory);
-
-        for (int i = 0; i < 3; i++)
-        {
-            character.weaponKataIndex = i;
-
-            SaveWithJSON.SaveInPictionary("PlayerKata" + i, character.actualKata.indexEquipedItem);
-        }
+        SaveWithJSON.SaveClassInPictionary("Player", character);
     }
 }

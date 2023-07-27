@@ -209,6 +209,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadScreen: {fileID: 5643858890388896901}
   loadPause: 0
+  noSerailizeProperties:
+  - move
+  - audioManager
+  saveWithJSON:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &5643858890388896901
 MonoBehaviour:
   m_ObjectHideFlags: 0

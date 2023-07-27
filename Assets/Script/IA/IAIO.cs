@@ -34,11 +34,11 @@ public class IAIO : IAFather
 
         GameManager.instance.playerCharacter = param;
 
-        prin = new ControllerIAIO(EnumController.principal, character.ActualKata(0));
+        prin = new ControllerIAIO(EnumController.principal, 0);
 
-        sec = new ControllerIAIO(EnumController.secondary, character.ActualKata(1));
+        sec = new ControllerIAIO(EnumController.secondary, 1);
 
-        ter = new ControllerIAIO(EnumController.terciary, character.ActualKata(2));
+        ter = new ControllerIAIO(EnumController.terciary, 2);
 
         originalTag = param.gameObject.tag;
 
@@ -165,7 +165,11 @@ public class ControllerIAIO : IControllerDir
 
     System.Action attackAnim;
 
-    EquipedItem<WeaponKata> kata;
+    Character character;
+
+    int index;
+
+    EquipedItem<WeaponKata> kata => character.ActualKata(index);
 
     public void ControllerDown(Vector2 dir, float tim)
     {
@@ -184,6 +188,9 @@ public class ControllerIAIO : IControllerDir
 
     public void SetJoystick(int arg1, WeaponKata arg2)
     {
+        if (previusControllerDir == kata.equiped && kata.equiped!=null)
+            return;
+
         if (previusControllerDir != null)
         {
             previusControllerDir.onCooldownChange -= Ui;
@@ -218,11 +225,13 @@ public class ControllerIAIO : IControllerDir
         }
     }
 
-    public ControllerIAIO(EnumController enumController, EquipedItem<WeaponKata> kata)
+    public ControllerIAIO(EnumController enumController, int index)
     {
         _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController.ToString());
 
-        this.kata = kata;
+        character = GameManager.instance.playerCharacter;
+
+        this.index = index;
         this.attackAnim = kata.character.AttackEvent;
 
         kata.toChange += SetJoystick;

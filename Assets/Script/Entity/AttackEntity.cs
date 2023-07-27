@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AttackEntity : StaticEntity
+public abstract class AttackEntity : StaticEntity, Init
 {
     [SerializeField]
-    EquipedItem<WeaponKata>[] katas = new EquipedItem<WeaponKata>[3];
+    EquipedItem<WeaponKata>[] _katas = new EquipedItem<WeaponKata>[3];
 
     [field: SerializeField]
     public StructureBase flyweight
@@ -18,10 +18,6 @@ public abstract class AttackEntity : StaticEntity
 
     public event System.Action onAttack;
 
-    public WeaponKata prin => katas[0].equiped;
-    public WeaponKata sec => katas[1].equiped;
-    public WeaponKata ter => katas[2].equiped;
-
     public virtual Damage[] additiveDamage => flyweight.additiveDamage;
 
     protected override Damage[] vulnerabilities => flyweight.vulnerabilities;
@@ -30,17 +26,17 @@ public abstract class AttackEntity : StaticEntity
     {
         get
         {
-            return katas[weaponKataIndex];
+            return _katas[weaponKataIndex];
         }
         set
         {
-            katas[weaponKataIndex] = value;
+            _katas[weaponKataIndex] = value;
         }
     }
 
     public int EquipedKata(WeaponKata weaponKata)
     {
-        foreach (var item in katas)
+        foreach (var item in _katas)
         {
             if (weaponKata == item.equiped)
             {
@@ -53,7 +49,7 @@ public abstract class AttackEntity : StaticEntity
 
     public EquipedItem<WeaponKata> ActualKata(int index)
     {
-        return katas[index];
+        return _katas[index];
     }
 
     public void AttackEvent()
@@ -89,9 +85,9 @@ public abstract class AttackEntity : StaticEntity
         if(flyweight!=null)
             health.Init(flyweight.life, flyweight.regen);
 
-        for (int i = 0; i < katas.Length; i++)
+        for (int i = 0; i < _katas.Length; i++)
         {
-            katas[i].character = (this);
+            _katas[i].character = this;
         }
     }
 
@@ -123,6 +119,18 @@ public abstract class AttackEntity : StaticEntity
         actualKata.equiped.Init(this, inventory.Count - 1);
     }
 
+    public void Init(params object[] param)
+    {
+        for (int i = 0; i < _katas.Length; i++)
+        {
+            _katas[i].character = this;
+
+            if (_katas[i].equiped!=null)
+            {
+                _katas[i].equiped.Init(this, _katas[i].equiped.indexWeapon);
+            }
+        }
+    }
 }
 
 [System.Serializable]

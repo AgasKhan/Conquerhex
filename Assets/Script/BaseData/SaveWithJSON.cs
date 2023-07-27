@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using System;
-using Newtonsoft.Json;
 
+[System.Serializable]
 public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 {
     public Pictionarys<string, string> _baseData = new Pictionarys<string, string>();
-
-    
 
     public static Pictionarys<string, string> BD
     {
@@ -86,12 +83,19 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     {
         string json = JsonUtility.ToJson(data, true);
 
+        int index;
+
+        for (int i = 0; i < LoadSystem.instance.noSerailizeProperties.Length; i++)
+        {
+            if((index = json.IndexOf("\""+LoadSystem.instance.noSerailizeProperties[i])) > -1)
+            {
+                json = json.Substring(0, index) + json.Substring(json.IndexOf("},", index) + 2);
+            }
+        }
+
         Debug.Log(json);
 
-        if (BD.ContainsKey(id, out int index))
-            BD[index] = json;
-        else
-            BD.Add(id, json);
+        BD.CreateOrSave(id, json);
     }
 
 
@@ -102,11 +106,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
         //string json = JsonConvert.SerializeObject(data);
 
         Debug.Log(json);
-
-        if (BD.ContainsKey(id, out int index))
-            BD[index] = json;
-        else
-            BD.Add(id, json);
+        BD.CreateOrSave(id, json);
     }
 
     public static bool CheckKeyInBD(string key)
@@ -131,6 +131,23 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
         {
             Debug.Log(id + " Not found on Base Data");
             return failed;
+        }
+    }
+
+    public static void LoadClassFromPictionary<T>(string id, ref T overrideClass)
+    {
+        if (BD.ContainsKey(id))
+        {
+            JsonUtility.FromJsonOverwrite(BD[id], overrideClass);
+            if (overrideClass is Init)
+            {
+                ((Init)overrideClass).Init();
+            }
+                
+        }
+        else
+        {
+            Debug.Log(id + " Not found on Base Data");
         }
     }
 
@@ -207,14 +224,4 @@ public class AuxClass<T>
     {
         value = o;
     }
-}
-
-public interface IBDSave
-{
-    void JsonToObj(string Json);
-}
-
-public interface IBDLoad
-{
-    string ObjToJson();
 }

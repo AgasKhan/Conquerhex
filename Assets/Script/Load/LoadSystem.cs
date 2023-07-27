@@ -16,6 +16,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     public bool loadPause;
 
+    public string[] noSerailizeProperties;
+
+    [SerializeReference]
     SaveWithJSON saveWithJSON;
 
     // Start is called before the first frame update

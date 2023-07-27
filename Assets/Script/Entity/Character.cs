@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Character : DynamicEntity, ISwitchState<Character>
 {
-    [SerializeField]
     IState<Character> _ia;
 
     public IState<Character> CurrentState
