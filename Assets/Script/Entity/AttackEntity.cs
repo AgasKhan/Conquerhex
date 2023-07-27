@@ -87,6 +87,7 @@ public abstract class AttackEntity : StaticEntity, Init
 
         for (int i = 0; i < _katas.Length; i++)
         {
+            _katas[i] = new EquipedItem<WeaponKata>();
             _katas[i].character = this;
         }
     }

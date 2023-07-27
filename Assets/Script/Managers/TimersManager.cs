@@ -257,7 +257,12 @@ public class Tim : IGetPercentage
         _onChange(this, value);
     }
 
-    public Tim(float totTim = 10)
+    public Tim()
+    {
+        internalSetCurrent = InternalSetCurrent;
+    }
+
+    public Tim(float totTim)
     {
         internalSetCurrent = InternalSetCurrent;
         Set(totTim);
