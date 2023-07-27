@@ -13,7 +13,9 @@ public class TurretBuild : Building
     TurretSubMenu myTurretSubmenu;
 
     [HideInInspector]
-    public string originalAbility;
+    public Sprite baseSprite;
+    [HideInInspector]
+    public string originalAbility = "";
 
     public override string rewardNextLevel => throw new System.NotImplementedException();
 
@@ -28,8 +30,9 @@ public class TurretBuild : Building
     void MyAwake()
     {
         myTurretSubmenu = new TurretSubMenu(this);
+        originalAbility = "";
 
-        var itt = ((BodyBase)flyweight).weightCapacity;
+        baseSprite = GetComponentInChildren<AnimPerspecitve>().sprite;
     }
 
     public override void EnterBuild()
@@ -55,6 +58,14 @@ public class TurretBuild : Building
     public void SetKataCombo(int index)
     {
         SetWeaponKataCombo(index);
+    }
+
+    public override void Interact(Character character)
+    {
+        
+        base.Interact(character);
+
+        interact["Información"].Activate(this);
     }
 }
 
@@ -89,30 +100,28 @@ public class TurretSubMenu : CreateSubMenu
 
     void CreateButtons()
     {
-        if(turretBuilding.currentLevel == 0)
+        for (int i = 0; i < turretBuilding.flyweight.kataCombos.Length; i++)
         {
-            for (int i = 0; i < turretBuilding.flyweight.kataCombos.Length; i++)
-            {
-                var item = turretBuilding.flyweight.kataCombos[i];
-                var index = i;
-                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item,index); turretBuilding.originalAbility = item.kata.nameDisplay; }, "").rectTransform.sizeDelta = new Vector2(300, 75);
-            }
+            var item = turretBuilding.flyweight.kataCombos[i];
+            var index = i;
+            UnityEngine.Events.UnityAction abilityAction;
+
+            if (item.kata.nameDisplay == turretBuilding.originalAbility)
+                continue;
+
+            if (turretBuilding.currentLevel == 0)
+                abilityAction = () => { turretBuilding.originalAbility = item.kata.nameDisplay; ChangeSprite(0); };
+            else
+                abilityAction = () => TurretMaxLevel();
+
+            subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAction(item.kata, () => { AddAbility(index, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]); abilityAction.Invoke(); });}, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
-        else
+
+        if (turretBuilding.currentLevel > 0)
         {
-            for (int i = 0; i < turretBuilding.flyweight.kataCombos.Length; i++)
-            {
-                var item = turretBuilding.flyweight.kataCombos[i];
-                var index = i;
-                if (item.kata.nameDisplay == turretBuilding.originalAbility)
-                    continue;
-
-                subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAbility(item, index); TurretMaxLevel(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
-            }
-
             foreach (var item in turretBuilding.damagesUpgrades)
             {
-                subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, ()=> { ButtonDamage(item); TurretMaxLevel();  }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+                subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, ()=> { ButtonAction(item, () => { ImproveDamage(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]); TurretMaxLevel(); }); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
         }
     }
@@ -124,36 +133,20 @@ public class TurretSubMenu : CreateSubMenu
             if (item.key == "Mejorar")
                 item.key = "Nivel Máximo";
         }
-
-        turretBuilding.GetComponentInChildren<AnimPerspecitve>().sprite = turretBuilding.possibleAbilities[turretBuilding.originalAbility][turretBuilding.currentLevel - 1];
-
-        //Camiar Sprite a nivel maximo con "originalAbility"
+        ChangeSprite(1);
     }
 
-    void ButtonAction(StructureBase item)
+    void ChangeSprite(int index)
+    {
+        turretBuilding.GetComponentInChildren<AnimPerspecitve>().sprite = turretBuilding.possibleAbilities[turretBuilding.originalAbility][index];
+    }
+
+    void ButtonAction(ItemBase item, UnityEngine.Events.UnityAction action)
     {
         DestroyLastButton();
         myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
-        
-        //lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Habilidad", () => AddAbility(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]), "");
-    }
-    void ButtonAbility(WeaponKataCombo item, int index)
-    {
-        DestroyLastButton();
-        myDetailsW.SetTexts(item.kata.nameDisplay, "\n" + item.kata.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
-        //myDetailsW.SetImage(item.image);
 
-        turretBuilding.originalAbility = item.kata.nameDisplay;
-
-        lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Habilidad", () => AddAbility(index, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]), "");
-    }
-
-    void ButtonDamage(StructureBase item)
-    {
-        DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una mejora y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
-        //myDetailsW.SetImage(item.image);
-        lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir Mejora", () => { ImproveDamage(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]); }, "");
+        lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir", action,  "");
     }
     
     void DestroyLastButton()
@@ -188,8 +181,6 @@ public class TurretSubMenu : CreateSubMenu
                 if (item.key == "Construir")
                     item.key = "Mejorar";
             }
-
-            //Cambiar Sprite
             turretBuilding.UpgradeLevel();
             subMenu.SetActiveGameObject(false);
         }

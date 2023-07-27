@@ -66,7 +66,7 @@ public abstract class Building : AttackEntity, Interactuable
         aux.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "¿Estas seguro de esta acción?").AddButton("No", aux.CloseMenus).AddButton("Si", action);
     }
 
-    public void Interact(Character character)
+    public virtual void Interact(Character character)
     {
         this.character = character;
 
