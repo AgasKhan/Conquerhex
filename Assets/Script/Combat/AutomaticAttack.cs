@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class AutomaticAttack
 {
-    public Timer timerToAttack;
+    public TimedAction timerToAttack;
+    public Timer timerChargeAttack;
     EquipedItem<WeaponKata> kata;
 
     public event System.Action onAttack;
 
-    public bool cooldown => kata.equiped.cooldownTime && timerToAttack.Chck;
+    public bool cooldown => kata.equiped!=null ? kata.equiped.cooldownTime && timerChargeAttack.Chck : false;
+
+    public WeaponKata weaponKata => kata.equiped;
 
     public float radius
     {
@@ -23,7 +26,7 @@ public class AutomaticAttack
     {
         get
         {
-            if (kata.equiped.reference != null)
+            if (weaponKata != null && weaponKata.reference != null)
                 return kata.equiped.reference.attackColor;
             else
                 return Color.white;
@@ -34,7 +37,7 @@ public class AutomaticAttack
     {
         get
         {
-            if (kata.equiped.reference != null)
+            if (weaponKata != null && weaponKata.reference != null)
                 return kata.equiped.reference.areaColor;
             else
                 return Color.white;
@@ -45,45 +48,51 @@ public class AutomaticAttack
     {
         get
         {
-            if (kata.equiped.reference != null)
+            if (weaponKata != null && weaponKata.reference != null)
                 return kata.equiped.reference.color;
             else
                 return Color.white;
         }
         set
         {
-            if (kata.equiped.reference != null)
+            if (weaponKata != null && weaponKata.reference != null)
                 kata.equiped.reference.color = value;
         }
     }
 
     public void Attack()
     {
-        kata.equiped.ControllerDown(Vector2.zero, 0);
+        if (kata.equiped != null)
+            kata.equiped.ControllerDown(Vector2.zero, 0);
 
-        timerToAttack.Reset();
+        timerChargeAttack.Reset();
     }
 
     public AutomaticAttack(EquipedItem<WeaponKata> kata)
     {
         this.kata = kata;
 
-        timerToAttack = null;
+        timerToAttack = (TimedAction)TimersManager.Create(2, Attack).Stop().SetLoop(true);
 
-        timerToAttack = TimersManager.Create(2, () => {
+        timerChargeAttack = null;
 
-            actual = Color.Lerp(areaColor, attackColor, timerToAttack.InversePercentage());
+        timerChargeAttack = TimersManager.Create(2, () => {
 
-            this.kata.equiped.ControllerPressed(Vector2.zero, timerToAttack.total - timerToAttack.current);
+            actual = Color.Lerp(areaColor, attackColor, timerChargeAttack.InversePercentage());
+
+            if (this.kata.equiped != null)
+                this.kata.equiped.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>
         {
-            this.kata.equiped.ControllerUp(Vector2.zero, timerToAttack.total);
-
+            if (this.kata.equiped != null)
+            {
+                this.kata.equiped.ControllerUp(Vector2.zero, timerChargeAttack.total);   
+            }
+ 
             onAttack?.Invoke();
 
-        }).Stop();
-
-        timerToAttack.current = 0;
+        }).Stop().SetInitCurrent(0);
+        
     }
 }

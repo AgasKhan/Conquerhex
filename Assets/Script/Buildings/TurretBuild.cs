@@ -17,6 +17,12 @@ public class TurretBuild : Building
     [HideInInspector]
     public string originalAbility = "";
 
+    AutomaticAttack prin;
+
+    AutomaticAttack sec;
+
+    AutomaticAttack ter;
+
     public override string rewardNextLevel => throw new System.NotImplementedException();
 
     protected override void Config()
@@ -33,6 +39,14 @@ public class TurretBuild : Building
         originalAbility = "";
 
         baseSprite = GetComponentInChildren<AnimPerspecitve>().sprite;
+
+        SetAttack(prin = new AutomaticAttack(ActualKata(0)));
+
+        SetAttack(sec = new AutomaticAttack(ActualKata(1)));
+
+        SetAttack(ter = new AutomaticAttack(ActualKata(2)));
+
+        prin.timerChargeAttack.Set(0.1f);
     }
 
     public override void EnterBuild()
@@ -66,6 +80,17 @@ public class TurretBuild : Building
         base.Interact(character);
 
         interact["Información"].Activate(this);
+    }
+
+    void SetAttack(AutomaticAttack automatic)
+    {
+        automatic.timerToAttack.AddToEnd(() =>
+        {
+            if (automatic.weaponKata != null)
+                automatic.timerToAttack.Set(automatic.weaponKata.finalVelocity + automatic.timerChargeAttack.max+0.1f);
+        });
+
+        automatic.timerToAttack.Start();
     }
 }
 

@@ -23,7 +23,7 @@ public class IALastChance : IAFather
         if (enemy == null || character==null)
             return;
 
-        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && prin.timerToAttack.Chck && sec.timerToAttack.Chck)
+        if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && prin.timerChargeAttack.Chck && sec.timerChargeAttack.Chck)
         {
             Attack();
         }
@@ -84,9 +84,9 @@ public class IALastChance : IAFather
 
         timer = TimersManager.Create(1);
 
-        prin.onAttack += () => timer.Set(prin.timerToAttack.total);
+        prin.onAttack += () => timer.Set(prin.timerChargeAttack.total);
 
-        sec.onAttack += () => timer.Set(sec.timerToAttack.total);
+        sec.onAttack += () => timer.Set(sec.timerChargeAttack.total);
     }
 
     public override void OnExitState(Character param)
