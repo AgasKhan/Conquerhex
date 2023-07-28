@@ -130,9 +130,9 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
         return durability.InversePercentage();
     }
 
-    public float actual => durability.actual;
+    public float current => durability.current;
 
-    public float max => durability.max;
+    public float total => durability.total;
 
     protected void TriggerOff()
     {

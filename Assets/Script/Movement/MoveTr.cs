@@ -48,7 +48,7 @@ public class MoveTr : MoveAbstract
 
         _velocity.Substract(_desaceleration.current * Time.deltaTime);
 
-        if (_velocity.actual <= 0)
+        if (_velocity.current <= 0)
             OnIdle();
         else
             OnMove(direction * _velocity.current);

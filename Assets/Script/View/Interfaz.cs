@@ -51,14 +51,14 @@ public class Interfaz : MonoBehaviour
     {
         IGetPercentage getPercentage = param[0] as IGetPercentage;
         vida.fillAmount = getPercentage.Percentage();
-        textVida.text = ((int)getPercentage.actual).ToString();
+        textVida.text = ((int)getPercentage.current).ToString();
     }
 
     void UpdateRegen(params object[] param)
     {
         IGetPercentage getPercentage = param[0] as IGetPercentage;
         regen.fillAmount = getPercentage.Percentage();
-        textRegen.text = ((int)getPercentage.actual).ToString();
+        textRegen.text = ((int)getPercentage.current).ToString();
     }
 
     private void Awake()

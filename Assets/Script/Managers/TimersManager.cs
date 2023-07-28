@@ -181,14 +181,9 @@ public class Tim : IGetPercentage
     }
 
     /// <summary>
-    /// Valor actual
-    /// </summary>
-    public float actual => _current;
-
-    /// <summary>
     /// Valor maximo
     /// </summary>
-    public float max => total;
+    float IGetPercentage.total => total;
 
     protected event System.Action<IGetPercentage, float> _onChange; //version interna que almacera todos los que desean ser notificados cuando se modifique el timer
 
@@ -551,7 +546,11 @@ public class TimedAction : Timer
         return this;
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="timer"></param>
+    /// <param name="action"></param>
     public TimedAction(float timer, Action action) : base(timer)
     {
         this.end = action;
@@ -622,7 +621,7 @@ public interface IGetPercentage
 
     float InversePercentage();
 
-    float actual { get; }
+    float current { get; }
 
-    float max { get; }
+    float total { get; }
 }

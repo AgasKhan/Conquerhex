@@ -26,7 +26,7 @@ public class MoveRb : MoveTr
         rb.velocity = (direction * _velocity.current).Vec2to3(0);
         _velocity.Substract(_desaceleration.current * Time.fixedDeltaTime);
 
-        if (_velocity.actual <= 0)
+        if (_velocity.current <= 0)
             OnIdle();
         else
             OnMove(rb.velocity);
