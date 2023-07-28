@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameDisplay: Turret
   _image: {fileID: 21300000, guid: 156501df2acc38d48b9d08477fa0ea8d, type: 3}
-  _details: "\nEsta es una torreta com\xFAn, tiene alcance medio, dispara r\xE1pidamente
-    y tiene da\xF1o moderado\n\n"
+  _details: "\nConstruye una torreta que defender\xE1 tu base, las torretas tendr\xE1n
+    una habilidad base que <color=red>ser\xE1 permanente</color> y podr\xE1n ser
+    mejoradas una sola vez, al mejorarlas tendr\xE1s la opci\xF3n de a\xF1adir <color=yellow>una
+    habilidad extra</color> de las que no escogiste la primera vez o a\xF1adirle
+    alg\xFAn <color=yellow>da\xF1o espec\xEDfico</color> al ataque de la torreta\n\n"
   maxAmount: 1
   weight: 0
   itemType: 0
@@ -26,7 +29,7 @@ MonoBehaviour:
   - kata: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91, type: 2}
     weapon: {fileID: 11400000, guid: db809ba570989904c9f920a091df53e1, type: 2}
   - kata: {fileID: 11400000, guid: 2feacc37d93951d4ab769e30ba4dc24b, type: 2}
-    weapon: {fileID: 11400000, guid: dbc5938c72fc2044582987c769980a9e, type: 2}
+    weapon: {fileID: 11400000, guid: 4503a50c1f70575499f64f55a44764df, type: 2}
   - kata: {fileID: 11400000, guid: c2c5d29945102f54aae4bc5685040b32, type: 2}
-    weapon: {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
+    weapon: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
   additiveDamage: []
