@@ -25,8 +25,6 @@ public class AnimPerspecitve : TransparentMaterial
 
         var aux = GetComponentInChildren<Animator>();
 
-        originalSprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
-
         if (aux!=null)
             aux.enabled = animator;
     }

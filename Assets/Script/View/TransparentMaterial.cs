@@ -8,6 +8,9 @@ public class TransparentMaterial : MonoBehaviour
     protected Renderer originalSprite;
 
     [SerializeField]
+    protected bool isTransparent = true;
+
+    [SerializeField]
     protected Material transparentMaterial;
 
     [SerializeField]
@@ -47,6 +50,8 @@ public class TransparentMaterial : MonoBehaviour
     {
         //originalSprite = GetComponentInChildren<Renderer>();
         originalSprite.material = transparentMaterial;
+
+        originalSprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 
         SpriteRenderer originalSpriteRenderer = null;
 
@@ -126,12 +131,14 @@ public class TransparentMaterial : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        EventManager.events.SearchOrCreate<EventGeneric>("move").action += UpdateTransparent;
+        if(isTransparent)
+            EventManager.events.SearchOrCreate<EventGeneric>("move").action += UpdateTransparent;
     }
 
     private void OnDisable()
     {
-        EventManager.events.SearchOrCreate<EventGeneric>("move").action -= UpdateTransparent;
+        if (isTransparent)
+            EventManager.events.SearchOrCreate<EventGeneric>("move").action -= UpdateTransparent;
     }
 
     private void UpdateTransparent(params object[] param)
