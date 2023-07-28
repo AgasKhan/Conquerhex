@@ -45,8 +45,6 @@ public class TurretBuild : Building
         SetAttack(sec = new AutomaticAttack(ActualKata(1)));
 
         SetAttack(ter = new AutomaticAttack(ActualKata(2)));
-
-        prin.timerChargeAttack.Set(0.1f);
     }
 
     public override void EnterBuild()
@@ -84,11 +82,11 @@ public class TurretBuild : Building
 
     void SetAttack(AutomaticAttack automatic)
     {
-        automatic.timerToAttack.AddToEnd(() =>
+        automatic.onAttack+= () =>
         {
             if (automatic.weaponKata != null)
-                automatic.timerToAttack.Set(automatic.weaponKata.finalVelocity + automatic.timerChargeAttack.max+0.1f);
-        });
+                automatic.timerToAttack.Set(automatic.weaponKata.finalVelocity+0.1f);
+        };
 
         automatic.timerToAttack.Start();
     }

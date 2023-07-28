@@ -62,8 +62,10 @@ public class AutomaticAttack
 
     public void Attack()
     {
-        if (kata.equiped != null)
-            kata.equiped.ControllerDown(Vector2.zero, 0);
+        if (kata==null || weaponKata == null || timerChargeAttack == null)
+            return;
+
+        weaponKata.ControllerDown(Vector2.zero, 0);
 
         timerChargeAttack.Reset();
     }
@@ -80,16 +82,13 @@ public class AutomaticAttack
 
             actual = Color.Lerp(areaColor, attackColor, timerChargeAttack.InversePercentage());
 
-            if (this.kata != null && this.kata.equiped != null)
-                this.kata.equiped.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
+            weaponKata.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>
         {
-            if (this.kata != null && this.kata.equiped != null)
-            {
-                this.kata.equiped.ControllerUp(Vector2.zero, timerChargeAttack.total);   
-            }
- 
+            
+            weaponKata.ControllerUp(Vector2.zero, timerChargeAttack.total);   
+            
             onAttack?.Invoke();
 
         }).Stop().SetInitCurrent(0);

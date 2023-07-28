@@ -22,14 +22,14 @@ public class TurretInfo : LogicActive<Building>
                 //Filtrar cual tiene equipada el jugador 
 
                 newText += item.kata.nameDisplay.RichText("color", "#ffa500ff") +"\n";
-                newText += item.kata.GetDetails().ToString();
+                newText += item.kata.GetDetails().ToString("\n");
             }
 
             if(aux.flyweight.additiveDamage.Length > 0)
             {
                 newText += "\nAdditive Damage: ".RichText("color", "#00ffffff");
                 //newText += aux.flyweight.additiveDamage[0].typeInstance.ToString() + " x " + aux.flyweight.additiveDamage[0].ToString();
-                newText += aux.flyweight.GetDetails()["Description"].ToString() + " x " + aux.flyweight.additiveDamage[0].ToString();
+                newText += aux.flyweight.GetDetails()["Description"] + " x " + aux.flyweight.additiveDamage[0].ToString();
             } 
 
             aux.myBuildSubMenu.detailsWindow.SetTexts("Turret " + ((TurretBuild)aux).originalAbility, newText);

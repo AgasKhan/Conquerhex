@@ -16,9 +16,9 @@ public class TimersManager : MonoBehaviour
     /// <param name="totTime2">el tiempo que dura el contador</param>
     /// <param name="m">el multiplicador del contador</param>
     /// <returns>Devuelve la referencia del contador creado</returns>
-    public static Timer Create(float totTime2 = 10, float m = 1, bool unscaled=false)
+    public static Timer Create(float totTime2 = 10)
     {
-        Timer newTimer = new Timer(totTime2, m, unscaled);
+        Timer newTimer = new Timer(totTime2);
         return newTimer;
     }
 
@@ -144,7 +144,7 @@ public class TimersManager : MonoBehaviour
     {
         for (int i = timersList.Count-1; i >= 0; i--)
         {
-            timersList[i].SubsDeltaTime();
+            timersList[i].SubsDeltaTime(i);
         }
     }
 }
@@ -153,16 +153,24 @@ public class TimersManager : MonoBehaviour
 [System.Serializable]
 public class Tim : IGetPercentage
 {
+    /// <summary>
+    /// Valor maximo en el cual clampea
+    /// </summary>
     public float total;
 
     [SerializeField]
     protected float _current;
+
+    protected bool notifyOnSuscribe=true;
 
     /// <summary>
     /// que hace cuando se setea el current
     /// </summary>
     protected System.Action<float> internalSetCurrent;
 
+    /// <summary>
+    /// Valor actual
+    /// </summary>
     public virtual float current
     {
         get => _current;
@@ -172,12 +180,21 @@ public class Tim : IGetPercentage
         }
     }
 
+    /// <summary>
+    /// Valor actual
+    /// </summary>
     public float actual => _current;
 
+    /// <summary>
+    /// Valor maximo
+    /// </summary>
     public float max => total;
 
     protected event System.Action<IGetPercentage, float> _onChange; //version interna que almacera todos los que desean ser notificados cuando se modifique el timer
 
+    /// <summary>
+    /// Evento que se ejecutara cada vez que se actualice el valor actual
+    /// </summary>
     public event System.Action<IGetPercentage, float> onChange
     {
         add
@@ -189,7 +206,8 @@ public class Tim : IGetPercentage
 
             _onChange += value;
 
-            InternalEventSetCurrent(0);
+            if(notifyOnSuscribe)
+                InternalEventSetCurrent(0);
         }
         remove
         {
@@ -203,11 +221,11 @@ public class Tim : IGetPercentage
     /// <summary>
     /// Reinicia el contador a su valor por defecto, para reiniciar la cuenta
     /// </summary>
-    public virtual float Reset()
+    public virtual Tim Reset()
     {
         current = total;
 
-        return total;
+        return this;
     }
 
     /// <summary>
@@ -217,7 +235,7 @@ public class Tim : IGetPercentage
     public virtual float Substract(float n)
     {
         current -= n;
-        return Percentage();
+        return current;
     }
 
     /// <summary>
@@ -232,6 +250,18 @@ public class Tim : IGetPercentage
         return this;
     }
 
+
+    /// <summary>
+    /// Si se desea ejecutar el evento onChange, cuando se suscribe un nuevo elemento
+    /// </summary>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    public Tim NotifyOnSuscribe(bool b)
+    {
+        notifyOnSuscribe = b;
+        return this;
+    }
+
     public float Percentage()
     {
         return current / total;
@@ -242,6 +272,11 @@ public class Tim : IGetPercentage
         return 1 - Percentage();
     }
 
+
+    /// <summary>
+    /// Clampeo de la variable
+    /// </summary>
+    /// <param name="value"></param>
     protected void InternalSetCurrent(float value)
     {
         _current += value;
@@ -252,6 +287,10 @@ public class Tim : IGetPercentage
             _current = 0;
     }
 
+    /// <summary>
+    /// Trigger del evento
+    /// </summary>
+    /// <param name="value"></param>
     protected void InternalEventSetCurrent(float value)
     {
         _onChange(this, value);
@@ -264,8 +303,9 @@ public class Tim : IGetPercentage
 
     public Tim(float totTim)
     {
+        _current = totTim;
+        total = totTim;
         internalSetCurrent = InternalSetCurrent;
-        Set(totTim);
     }
 }
 
@@ -273,12 +313,19 @@ public class Tim : IGetPercentage
 [System.Serializable]
 public class Timer : Tim
 {
-    float _multiply;
-    bool _freeze = true; //por defecto no esta agregado
+    
     protected bool _unscaled;
 
     protected bool loop;
 
+    float _multiply=1;
+
+    bool _freeze = true; //por defecto no esta agregado
+
+
+    /// <summary>
+    /// delta time seleccionado del timer
+    /// </summary>
     public float deltaTime
     {
         get
@@ -287,6 +334,9 @@ public class Timer : Tim
         }
     }
     
+    /// <summary>
+    /// Propiedad que sirve para agregar o quitar de la cola para la resta
+    /// </summary>
     bool freeze
     {
         get => _freeze;
@@ -344,25 +394,29 @@ public class Timer : Tim
     /// <summary>
     /// Frena el contador, no resetea ni modifica el contador actual
     /// </summary>
-    public Timer Stop(int i = -1)
+    public Timer Stop()
     {
-        if (i < 0)
-            freeze = true;
-        else
-        {
-            TimersManager.instance.timersList.RemoveAt(i);
-            _freeze = true;
-        }
+        freeze = true;
 
         return this;
     }
 
+    /// <summary>
+    /// Setea el current, sin hacer trigger del evento
+    /// </summary>
+    /// <param name="f"></param>
+    /// <returns></returns>
     public Timer SetInitCurrent(float f)
     {
         _current = f;
         return this;
     }
 
+    /// <summary>
+    /// Setea si el timer debe reiniciarse de forma automatica o no
+    /// </summary>
+    /// <param name="l"></param>
+    /// <returns></returns>
     public Timer SetLoop(bool l)
     {
         loop = l;
@@ -384,7 +438,11 @@ public class Timer : Tim
     }
 
    
-
+    /// <summary>
+    /// Setea si utiliza el time.deltatime o el Time.unscaledDeltaTime
+    /// </summary>
+    /// <param name="u"></param>
+    /// <returns></returns>
     public Timer SetUnscaled(bool u)
     {
         _unscaled = u;
@@ -392,12 +450,15 @@ public class Timer : Tim
         return this;
     }
 
-
-    public override float Reset()
+    /// <summary>
+    /// vuelve el valor current el maximo, y vuelve a poner al contador en la cola
+    /// </summary>
+    /// <returns></returns>
+    public override Tim Reset()
     {
-        var aux = base.Reset();
+        base.Reset();
         Start();
-        return aux;
+        return this;
     }
 
 
@@ -405,32 +466,44 @@ public class Timer : Tim
     /// Realiza la resta automatica asi como las funciones necesarias dentro del TimerManager y recibe el indice dentro del manager
     /// </summary>
     /// <returns></returns>
-    public virtual float SubsDeltaTime(int i = -1)
+    public virtual float SubsDeltaTime(int index)
     {
         var aux = Substract(deltaTime * _multiply);
 
         if (aux <= 0)
         {
             if (loop)
+            {
                 Reset();
+                return 0;
+            }
+                
             else
-                Stop(i);
+                StopWithIndex(index);
         }
 
         return aux;
     }
 
+    /// <summary>
+    /// Stopea de forma interna
+    /// </summary>
+    /// <param name="index"></param>
+    void StopWithIndex(int index)
+    {
+        _freeze = true;
+
+        TimersManager.instance.timersList.RemoveAt(index);
+    }
 
     /// <summary>
     /// Configura el timer para su uso
     /// </summary>
     /// <param name="totTim">valor por defecto a partir de donde se va a contar</param>
     /// <param name="m">Modifica el multiplicador del timer, por defecto 0</param>
-    public Timer(float totTim = 10, float m=1, bool unscaled = false)
+    public Timer(float totTim) : base(totTim)
     {
-        SetMultiply(m);
-        SetUnscaled(unscaled);
-        Set(totTim);
+        Start();
     }
 }
 
@@ -442,9 +515,10 @@ public class TimedAction : Timer
 {    
     Action end;
 
-    public override float SubsDeltaTime(int i = -1)
+
+    public override float SubsDeltaTime(int index)
     {
-        var aux = base.SubsDeltaTime(i);
+        var aux = base.SubsDeltaTime(index);
         if(aux<=0)
         {
             end?.Invoke();
@@ -453,17 +527,11 @@ public class TimedAction : Timer
         return aux;
     }
 
-    public override float Reset()
-    {
-        if(total <= 0)
-        {
-            end?.Invoke();
-            return 0;
-        }
-
-        return base.Reset();
-    }
-
+    /// <summary>
+    /// Aniade un evento al evento end
+    /// </summary>
+    /// <param name="end"></param>
+    /// <returns></returns>
     public TimedAction AddToEnd(Action end)
     {
         this.end += end;
@@ -471,6 +539,11 @@ public class TimedAction : Timer
         return this;
     }
 
+    /// <summary>
+    /// Quita un evento del end
+    /// </summary>
+    /// <param name="end"></param>
+    /// <returns></returns>
     public TimedAction SubstractToEnd(Action end)
     {
         this.end -= end;
@@ -479,11 +552,9 @@ public class TimedAction : Timer
     }
 
 
-    public TimedAction(float timer, Action action, bool loop = false, bool unscaled = false) : base(timer)
+    public TimedAction(float timer, Action action) : base(timer)
     {
         this.end = action;
-        SetLoop(loop);
-        SetUnscaled(unscaled);
     }
 
 }
@@ -496,6 +567,19 @@ public class TimedCompleteAction : TimedAction
 {
     Action update;
 
+    public override float SubsDeltaTime(int index)
+    {
+        update();
+
+        return base.SubsDeltaTime(index);
+    }
+
+
+    /// <summary>
+    /// Aniade un evento al update
+    /// </summary>
+    /// <param name="update"></param>
+    /// <returns></returns>
     public TimedCompleteAction AddToUpdate(Action update)
     {
         this.update +=update;
@@ -503,6 +587,12 @@ public class TimedCompleteAction : TimedAction
         return this;
     }
 
+
+    /// <summary>
+    /// Quita un evento del Update
+    /// </summary>
+    /// <param name="update"></param>
+    /// <returns></returns>
     public TimedCompleteAction SubstractToUpdate(Action update)
     {
         this.update -= update;
@@ -514,19 +604,18 @@ public class TimedCompleteAction : TimedAction
     /// crea una rutina que ejecutara una funcion al comenzar/reiniciar, otra en cada frame, y otra al final
     /// </summary>
     /// <param name="timer"></param>
-    /// <param name="start"></param>
     /// <param name="update"></param>
     /// <param name="end"></param>
-    /// <param name="destroy"></param>
-    public TimedCompleteAction(float timer, Action update, Action end, bool loop = false, bool unscaled = false) : base(timer, end, loop, unscaled)
+    public TimedCompleteAction(float timer, Action update, Action end) : base(timer, end)
     {
         this.update = update;
-        _onChange += (percentage, number) => this.update();
-        internalSetCurrent += InternalEventSetCurrent;
     }
 }
 
 
+/// <summary>
+/// Interfaz para representar un porcentage en la UI o afines
+/// </summary>
 public interface IGetPercentage
 {
     float Percentage();

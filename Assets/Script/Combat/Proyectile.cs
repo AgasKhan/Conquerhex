@@ -46,6 +46,9 @@ public class Proyectile : DynamicEntity
         {
             affected[0].TakeDamage(damages);
             damages = null;
+            gameObject.SetActive(false);
+            off.Reset();
+            off.Stop();
         }
     }
 
@@ -56,13 +59,6 @@ public class Proyectile : DynamicEntity
         damages = dmg;
         move.Velocity(dir.normalized * move.objectiveVelocity);
         off.Start();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        gameObject.SetActive(false);
-        off.Reset();
-        off.Stop();
     }
 
     private void OnDrawGizmos()

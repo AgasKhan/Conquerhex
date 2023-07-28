@@ -73,6 +73,9 @@ public class PressWeaponKata : WeaponKata
 
     protected override void InternalControllerUp(Vector2 dir, float tim)
     {
+        if (!cooldown.Chck)
+            return;
+
         reference.Off();
         cooldown.Reset();
         pressCooldown.Reset();

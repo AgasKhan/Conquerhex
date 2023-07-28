@@ -127,14 +127,14 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
     /// <param name="end">que deseo realizar cuando termine el efecto</param>
     public void Effect(float time, System.Action update, System.Action end)
     {
-        Tim tim = null;
+        Timer tim = null;
 
         //se ejecutara cuando muere el personaje
         System.Action internalEnd =
         () =>
         {
             //lleva el timer a 0, haciendo que la funcion de fin del timer
-            tim.Set(0);
+            tim.SetInitCurrent(0);
         };
 
         //agrego al evento de muerte la funcion que deseo ejecutar en ese caso
@@ -268,7 +268,7 @@ public class Health : Init
 
     void Regen()
     {
-        if (life == null && regen == null && deathBool)
+        if (life == null || regen == null)
             return;
 
         bool noLifeBool = life.current <= 0;
@@ -281,7 +281,7 @@ public class Health : Init
             reLife?.Invoke();
         }
 
-        if (regen.current == regen.total && life.current == life.total)
+        if (regen.current == regen.total && life.current == life.total || deathBool)
             timeToRegen.Stop();
     }
 

@@ -50,9 +50,9 @@ public class RangeWeapon : MeleeWeapon
 
         PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile , owner.transform.position, Quaternion.identity, owner.transform.parent);
 
-        proyectile.Throw(owner, damages, damageables[0].transform.position - owner.transform.position);
+        proyectile.Throw(owner, damages, damageables[0].transform.position - proyectile.transform.position);
 
-        return new Entity[] { damageables[0] };
+        return new Entity[] {};
     }
 
 
