@@ -80,12 +80,12 @@ public class AutomaticAttack
 
             actual = Color.Lerp(areaColor, attackColor, timerChargeAttack.InversePercentage());
 
-            if (this.kata.equiped != null)
+            if (this.kata != null && this.kata.equiped != null)
                 this.kata.equiped.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>
         {
-            if (this.kata.equiped != null)
+            if (this.kata != null && this.kata.equiped != null)
             {
                 this.kata.equiped.ControllerUp(Vector2.zero, timerChargeAttack.total);   
             }
