@@ -36,6 +36,13 @@ public class TransparentMaterial : MonoBehaviour
     [SerializeField, Range(0f, 2f)]
     float _shakeDuration;
 
+    [SerializeField]
+    GameObject onDeathParticlePrefab;
+
+    Vector2Int indexParticle;
+
+    ParticleSystem onDeathParticle;
+
     Vector3 _initialPosition;
 
     Timer shakeManager;
@@ -43,8 +50,6 @@ public class TransparentMaterial : MonoBehaviour
     TimedCompleteAction timDamaged = null;
 
     TimedCompleteAction timDetected = null;
-
-
 
     protected virtual void Awake()
     {
@@ -81,6 +86,13 @@ public class TransparentMaterial : MonoBehaviour
             ((DynamicEntity)entity).move.onMove += Move_onMove;
         }
 
+        if(onDeathParticlePrefab != null)
+        {
+            indexParticle = PoolManager.SrchInCategory("Particles", onDeathParticlePrefab.name);
+            entity.health.death += Health_death;
+        }
+            
+
         shakeManager = TimersManager.Create(_shakeDuration, Shake, EndShake).Stop();
 
         timDetected = TimersManager.LerpInTime(detected, Color.white, 0.1f, Color.Lerp, (save) => colorSetter.multiply = save);
@@ -109,6 +121,23 @@ public class TransparentMaterial : MonoBehaviour
 
         });
 
+    }
+
+    private void Health_death()
+    {
+        PoolManager.SpawnPoolObject(indexParticle, out onDeathParticle, transform.position, Quaternion.identity, null, false);
+
+        var shape = onDeathParticle.shape;
+
+        shape.sprite = ((SpriteRenderer)originalSprite).sprite;
+
+        var aux = onDeathParticle.GetComponent<ParticleSystemRenderer>();
+
+        aux.material.SetTexture("_MainTex", shape.sprite.texture);
+
+        onDeathParticle.transform.up = transform.up;
+
+        onDeathParticle.SetActiveGameObject(true);
     }
 
     private void Move_onMove(Vector2 obj)

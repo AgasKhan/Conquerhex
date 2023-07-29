@@ -240,12 +240,15 @@ public class ControllerIAIO : IControllerDir, Init
 
     public void Exit()
     {
-        kata.toChange -= SetJoystick;
-
-        if(kata.equiped!=null)
+        if(character != null)
         {
-            kata.equiped.onCooldownChange -= Ui;
-            kata.equiped.onAttack -= attackAnim;
+            kata.toChange -= SetJoystick;
+
+            if (kata.equiped != null)
+            {
+                kata.equiped.onCooldownChange -= Ui;
+                kata.equiped.onAttack -= attackAnim;
+            }
         }
 
         character = null;
@@ -259,10 +262,5 @@ public class ControllerIAIO : IControllerDir, Init
         _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController.ToString());
 
         this.index = index;
-    }
-
-    ~ControllerIAIO()
-    {
-        Exit();
     }
 }

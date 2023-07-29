@@ -174,13 +174,13 @@ public class PoolManager : MonoBehaviour
         return transformObject;
     }
 
-    static public Transform SpawnPoolObject<T>(Vector2Int indexs, out T reference, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null) where T : Object
+    static public Transform SpawnPoolObject<T>(Vector2Int indexs, out T reference, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null, bool active=true) where T : Object
     {
         var poolObject = InternalSpawnPoolObject(indexs);
 
         var transform = poolObject.SpawnPoolObj(out reference);
 
-        SetTransform(transform, poolObject.prefab.transform, pos, angles, padre);
+        SetTransform(transform, poolObject.prefab.transform, pos, angles, padre, active);
 
         return transform;
     }
@@ -201,7 +201,7 @@ public class PoolManager : MonoBehaviour
         return instance.categoriesOfPool[indexs.x].objectPool[indexs.y];
     }
 
-    static void SetTransform(Transform transform, Transform original,Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null)
+    static void SetTransform(Transform transform, Transform original,Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null, bool active = true)
     {
         transform.parent = null;
         transform.localPosition = pos;
@@ -211,7 +211,7 @@ public class PoolManager : MonoBehaviour
 
         transform.parent = padre;
 
-        transform.gameObject.SetActive(true);
+        transform.gameObject.SetActive(active);
     }
     #endregion
 
