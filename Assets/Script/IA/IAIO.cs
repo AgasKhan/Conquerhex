@@ -23,6 +23,12 @@ public class IAIO : IAFather
     {
         interactEvent = EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString());
 
+        prin = new ControllerIAIO(EnumController.principal, 0);
+
+        sec = new ControllerIAIO(EnumController.secondary, 1);
+
+        ter = new ControllerIAIO(EnumController.terciary, 2);
+
         LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(character);
         });
@@ -34,12 +40,6 @@ public class IAIO : IAFather
 
         GameManager.instance.playerCharacter = param;
 
-        prin = new ControllerIAIO(EnumController.principal, 0);
-
-        sec = new ControllerIAIO(EnumController.secondary, 1);
-
-        ter = new ControllerIAIO(EnumController.terciary, 2);
-
         originalTag = param.gameObject.tag;
 
         param.gameObject.tag = "Player";
@@ -50,6 +50,10 @@ public class IAIO : IAFather
         param.health.regenUpdate += UpdateRegen;
 
         param.health.death += ShowLoserWindow;
+
+        prin.Init();
+        sec.Init();
+        ter.Init();
 
         VirtualControllers.movement.SuscribeController(param.move);
 
@@ -77,15 +81,13 @@ public class IAIO : IAFather
 
         VirtualControllers.terciary.DesuscribeController(ter);
 
+        prin.Exit();
+        sec.Exit();
+        ter.Exit();
+
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 
         interactEvent.ExecuteSet(false, false, null);
-
-        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.principal.ToString()).ExecuteSet(false, false, null);
-
-        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.secondary.ToString()).ExecuteSet(false, false, null);
-
-        EventManager.events.SearchOrCreate<EventJoystick>(EnumController.terciary.ToString()).ExecuteSet(false, false, null);       
 
         lastInteractuable = null;
 
@@ -157,19 +159,21 @@ public class IAIO : IAFather
     }
 }
 
-public class ControllerIAIO : IControllerDir
+
+
+public class ControllerIAIO : IControllerDir, Init
 {
     EventJoystick _Event;
 
     WeaponKata previusControllerDir;
-
-    System.Action attackAnim;
 
     Character character;
 
     int index;
 
     EquipedItem<WeaponKata> kata => character.ActualKata(index);
+
+    System.Action attackAnim => character.AttackEvent;
 
     public void ControllerDown(Vector2 dir, float tim)
     {
@@ -215,7 +219,7 @@ public class ControllerIAIO : IControllerDir
 
     void RefreshJoystickUI()
     {
-        if (kata.equiped != null)
+        if (character!=null && kata.equiped != null)
         {
             _Event.ExecuteSet(true, kata.equiped.itemBase.joystick, kata.equiped.image);
         }
@@ -225,24 +229,40 @@ public class ControllerIAIO : IControllerDir
         }
     }
 
-    public ControllerIAIO(EnumController enumController, int index)
+    public void Init(params object[] param)
     {
-        _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController.ToString());
-
         character = GameManager.instance.playerCharacter;
-
-        this.index = index;
-        this.attackAnim = kata.character.AttackEvent;
 
         kata.toChange += SetJoystick;
 
         SetJoystick(0, null);
     }
 
-    ~ControllerIAIO()
+    public void Exit()
     {
         kata.toChange -= SetJoystick;
-        kata.equiped.onCooldownChange -= Ui;
-        kata.equiped.onAttack -= attackAnim;
+
+        if(kata.equiped!=null)
+        {
+            kata.equiped.onCooldownChange -= Ui;
+            kata.equiped.onAttack -= attackAnim;
+        }
+
+        character = null;
+        previusControllerDir = null;
+
+        RefreshJoystickUI();
+    }
+
+    public ControllerIAIO(EnumController enumController, int index)
+    {
+        _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController.ToString());
+
+        this.index = index;
+    }
+
+    ~ControllerIAIO()
+    {
+        Exit();
     }
 }
