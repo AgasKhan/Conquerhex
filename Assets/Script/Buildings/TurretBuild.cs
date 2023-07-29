@@ -45,6 +45,21 @@ public class TurretBuild : Building
         SetAttack(sec = new AutomaticAttack(ActualKata(1)));
 
         SetAttack(ter = new AutomaticAttack(ActualKata(2)));
+
+        health.noLife += DestroyTurret;
+    }
+
+    private void DestroyTurret()
+    {
+        GetComponentInChildren<AnimPerspecitve>().sprite = flyweight.image;
+
+        //Que la vida se resetee
+        //health.actualLife = health.maxLife;
+
+        //Que las habilidades se desequipen
+
+        currentLevel = 0;
+        SaveWithJSON.SaveInPictionary(flyweight.nameDisplay + "Level", currentLevel);
     }
 
     public override void EnterBuild()
@@ -90,6 +105,11 @@ public class TurretBuild : Building
 
         automatic.timerToAttack.Start();
     }
+
+    public void ChangeSprite(int index)
+    {
+        GetComponentInChildren<AnimPerspecitve>().sprite = possibleAbilities[originalAbility][index];
+    }
 }
 
 [System.Serializable]
@@ -133,7 +153,7 @@ public class TurretSubMenu : CreateSubMenu
                 continue;
 
             if (turretBuilding.currentLevel == 0)
-                abilityAction = () => { turretBuilding.originalAbility = item.kata.nameDisplay; ChangeSprite(0); };
+                abilityAction = () => { turretBuilding.originalAbility = item.kata.nameDisplay; turretBuilding.ChangeSprite(0); };
             else
                 abilityAction = () => TurretMaxLevel();
 
@@ -156,13 +176,10 @@ public class TurretSubMenu : CreateSubMenu
             if (item.key == "Mejorar")
                 item.key = "Nivel Máximo";
         }
-        ChangeSprite(1);
+        turretBuilding.ChangeSprite(1);
     }
 
-    void ChangeSprite(int index)
-    {
-        turretBuilding.GetComponentInChildren<AnimPerspecitve>().sprite = turretBuilding.possibleAbilities[turretBuilding.originalAbility][index];
-    }
+    
 
     void ButtonAction(ItemBase item, UnityEngine.Events.UnityAction action)
     {
