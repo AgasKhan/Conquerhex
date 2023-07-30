@@ -13,11 +13,13 @@ public class PlayerPostProcess : MonoBehaviour
 
     void Awake()
     {
-        EventManager.events.SearchOrCreate(LifeType.life).action += PlayerPostProcess_LifeRegen;
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += PlayerPostProcess_LifeRegen;
 
         fadeLifeRegen.alphas += FadeRegen_alphas_Regen;
 
         fadeLifeRegen.Init();
+
+        regen.SetActive(false);
     }
 
     private void FadeRegen_alphas_Regen(float obj)
@@ -28,16 +30,16 @@ public class PlayerPostProcess : MonoBehaviour
     private void PlayerPostProcess_LifeRegen(params object[] param)
     {
         var percentage = param[0] as IGetPercentage;
-        var dmg = (float)param[1] ;
+        var addLife = (float)param[1] ;
 
-        if(dmg < 0 && !regen.isActive)
+        if(addLife > 0 && percentage.Percentage() != 1 && !regen.isActive)
         {
             regen.SetActive(true);
 
             fadeLifeRegen.FadeOn();
         }
 
-        else if((dmg > 0 || percentage.Percentage()==1) && regen.isActive && fadeLifeRegen.fadeFinish)
+        else if((addLife <= 0 || percentage.Percentage()==1) && regen.isActive && fadeLifeRegen.fadeFinish)
         {
             fadeLifeRegen.FadeOff();
 

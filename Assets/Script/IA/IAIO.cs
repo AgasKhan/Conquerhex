@@ -106,6 +106,8 @@ public class IAIO : IAFather
         {
             interactEvent.ExecuteSet(false, false, null);
 
+            VirtualControllers.interact.eventDown -= Interact_eventDown;
+
             lastInteractuable = null;
         }
         else if (buildings[0] != lastInteractuable)
