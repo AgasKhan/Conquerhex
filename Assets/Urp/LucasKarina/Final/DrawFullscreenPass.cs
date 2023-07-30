@@ -9,7 +9,6 @@ namespace UnityEngine.Rendering.Universal
         public DrawFullscreenFeature.Settings settings;
         public LayerMask mask;
 
-
         RenderTargetIdentifier source;
         RenderTargetIdentifier destination;
         int temporaryRTId = Shader.PropertyToID("_TempRT");

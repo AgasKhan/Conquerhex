@@ -9,6 +9,9 @@ public class FadeOnOff : Init
 
     public float durationWait = 0.1f;
 
+    public event System.Action<float> alphas;
+    public event System.Action end;
+
     [SerializeReference]
     public Timer timerOn;
 
@@ -16,10 +19,9 @@ public class FadeOnOff : Init
 
     Vector2 fades;
 
-    Timer fadeOn;
+    Timer fadeOn;    
 
-    public event System.Action<float> alphas;
-    public event System.Action end;
+    public bool fadeFinish => fadeOn.Chck;
 
     public void Init(params object[] param)
     {
