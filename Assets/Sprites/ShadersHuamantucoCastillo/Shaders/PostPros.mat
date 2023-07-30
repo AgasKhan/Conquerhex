@@ -63,9 +63,10 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _CastShadows: 1
-    - _ColorInfluence_1: 0.5
+    - _ColorInfluence_1: 0.479
     - _ColorInfluence_2: 0.5
     - _Cull: 2
+    - _Deformation: 0.234
     - _DstBlend: 10
     - _Feather: 0
     - _Fill: 0.5
@@ -74,6 +75,7 @@ Material:
     - _Height: 0.2
     - _MaskCellAmount: 5
     - _MaskIntensity: 0.12
+    - _NoiseAmount: 0
     - _Outline: 0.01
     - _PPAmount: 0.97
     - _Pixalation: 70
@@ -82,27 +84,28 @@ Material:
     - _QueueOffset: 0
     - _Radius: 1
     - _Rotation: 0
-    - _Speed: 0.2
+    - _Speed: 1.6
     - _SrcBlend: 5
     - _Surface: 1
     - _VignetteIntensity: 1
     - _VignetteRadius: 10
     - _VignetteRadiusPower: 10.46
     - _VoronioPower: 2
-    - _VoronoiPower: 3.5
-    - _VoronoiScale: 10
+    - _VoronoiPower: 3.6
+    - _VoronoiScale: 50
     - _VoronoiSpeed: 0.13
     - _With: 0.2
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
-    - _sineRepetitions: 4
+    - _sineRepetitions: 7.86
     m_Colors:
     - _Color: {r: 59.71413, g: 11.977802, b: 0, a: 0}
     - _ColorViggnette: {r: 1, g: 1, b: 1, a: 0}
     - _Color_03: {r: 42.722507, g: 27.770428, b: 0, a: 0}
     - _Color_1: {r: 10.680627, g: 0.23742692, b: 0, a: 0}
     - _Color_2: {r: 7.999999, g: 0.81671774, b: 0, a: 0}
+    - _RadiusSineVignette: {r: 0, g: 1.94, b: 0, a: 0}
     - _RegenColor: {r: 0.5246063, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6332940651461221151
