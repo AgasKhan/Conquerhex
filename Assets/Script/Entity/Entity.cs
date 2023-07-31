@@ -17,6 +17,8 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
     public AudioManager audioManager;
 
     protected abstract Damage[] vulnerabilities { get; }
+    
+    public virtual bool visible { get => enabled; set => enabled = value; }
 
     IDamageable[] damageables;
 
@@ -151,7 +153,10 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public Entity GetEntity()
     {
-        return this;
+        if (visible)
+            return this;
+        else
+            return null;
     }
 }
 
@@ -323,4 +328,5 @@ public static class LifeType
 public interface IGetEntity
 {
     Entity GetEntity();
+    bool visible { get; set; }
 }

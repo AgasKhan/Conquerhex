@@ -6,6 +6,7 @@ public abstract class Building : AttackEntity, Interactuable
 {
     public Recipes[] upgradesRequirements;
     public ItemType[] NavBarButtons;
+    public BuildingsController controller;
 
     [HideInInspector]
     public int currentLevel = 0;
@@ -42,22 +43,20 @@ public abstract class Building : AttackEntity, Interactuable
     {
         myBuildSubMenu = new BuildingsSubMenu(this);
 
+        controller = GetComponent<BuildingsController>();
+
         if (SaveWithJSON.BD.ContainsKey(flyweight.nameDisplay + "Level"))
             currentLevel = SaveWithJSON.LoadFromPictionary<int>(flyweight.nameDisplay + "Level");
     }
 
     public virtual void UpgradeLevel()
     {
-        currentLevel++;
-        if (currentLevel > maxLevel)
-            currentLevel = maxLevel;
-
-        SaveWithJSON.SaveInPictionary(flyweight.nameDisplay + "Level", currentLevel);
+        controller.UpgradeLevel();
     }
 
     public virtual void EnterBuild()
     {
-        
+        controller.EnterBuild();
     }
 
     public virtual void PopUpAction(UnityEngine.Events.UnityAction action)
@@ -80,5 +79,5 @@ public interface Interactuable
 
     Sprite Image { get; }
 
-    bool enabled { get; set; } 
+    bool visible { get; set; } 
 }

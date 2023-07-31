@@ -33,7 +33,7 @@ public class TurretInfo : LogicActive<Building>
             } 
 
             aux.myBuildSubMenu.detailsWindow.SetTexts("Turret " + ((TurretBuild)aux).originalAbility, newText);
-            aux.myBuildSubMenu.detailsWindow.SetImage(((TurretBuild)aux).possibleAbilities[((TurretBuild)aux).originalAbility][aux.currentLevel - 1]);
+            aux.myBuildSubMenu.detailsWindow.SetImage(((TurretBuild)aux).turretStructure.possibleAbilities[((TurretBuild)aux).originalAbility][aux.currentLevel - 1]);
 
         }
 
