@@ -32,6 +32,8 @@ public abstract class Building : AttackEntity, Interactuable
 
     public Sprite Image => flyweight.image;
 
+    public virtual bool interactuable { get=>enabled; set=>enabled = value; }
+
     protected override void Config()
     {
         base.Config();
@@ -79,5 +81,5 @@ public interface Interactuable
 
     Sprite Image { get; }
 
-    bool visible { get; set; } 
+    bool interactuable { get; set; } 
 }

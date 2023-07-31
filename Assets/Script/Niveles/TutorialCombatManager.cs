@@ -47,7 +47,7 @@ public class TutorialCombatManager : SingletonMono<TutorialCombatManager>
     void EnableButton()
     {
         dialogEnable = true;
-        ((Interactuable)npc).visible = true;
+        ((Interactuable)npc).interactuable = true;
     }
 
     bool nextDialog = true;
@@ -64,7 +64,7 @@ public class TutorialCombatManager : SingletonMono<TutorialCombatManager>
             currentDialog++;
 
         if (!dialogEnable)
-            ((Interactuable)npc).visible = false;
+            ((Interactuable)npc).interactuable = false;
 
         player.CurrentState = null;
     }

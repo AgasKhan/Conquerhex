@@ -20,7 +20,6 @@ MonoBehaviour:
   itemType: 5
   velocity: 1.5
   range: 2
-  damages: []
   joystick: 0
   particles:
   - {fileID: 8863688557425813847, guid: 36f18e5daf19ca04fb9f9b736eb4391d, type: 3}
@@ -31,7 +30,7 @@ MonoBehaviour:
     distance: 2
     layerMask:
       serializedVersion: 2
-      m_Bits: 129
+      m_Bits: 193
     _maxDetects: 1
     _minDetects: 0
     inverse: 0
@@ -41,5 +40,6 @@ MonoBehaviour:
   damagesMultiply:
   - amount: 1.5
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
+  RequiredDamage: []
   indexParticles:
-  - {x: 1, y: -1}
+  - {x: 1, y: 9}

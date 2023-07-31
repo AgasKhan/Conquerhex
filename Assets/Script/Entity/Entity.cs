@@ -307,7 +307,7 @@ public class Health : Init
         }
 
         timeToRegen = TimersManager.Create(3, Regen);
-        timeToRegen.SetLoop(true).Stop();
+        timeToRegen.SetLoop(true);
     }
 }
 
@@ -328,5 +328,8 @@ public static class LifeType
 public interface IGetEntity
 {
     Entity GetEntity();
+
     bool visible { get; set; }
+
+    Transform transform { get;}
 }

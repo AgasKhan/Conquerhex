@@ -100,7 +100,7 @@ public class IAIO : IAFather
 
         EventManager.events.SearchOrCreate<EventGeneric>("move").Execute(transform.position);
 
-        var buildings = detectInteractuable.Area(transform.position, (edificio) => { return edificio.visible; });
+        var buildings = detectInteractuable.Area(transform.position, (edificio) => { return edificio.interactuable; });
 
         if(buildings == null || buildings.Count == 0)
         {

@@ -20,7 +20,7 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     [Header("Deteccion")]
 
     [SerializeField]
-    public Detect<Entity> detect;
+    public Detect<IGetEntity> detect;
 
     [Header("Statitics")]
     public float velocityCharge = 1;

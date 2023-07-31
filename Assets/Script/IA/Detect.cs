@@ -292,11 +292,17 @@ public class Detect<T> where T : class
 
     protected virtual void Add(List<T> list, T add, Vector3 pos)
     {
+        if (list.Contains(add))
+            return;
+
         InternalAdd(list, add as Component, pos);
     }
 
     protected virtual void Add(List<Transform> list, Transform add, Vector3 pos)
     {
+        if (list.Contains(add))
+            return;
+
         list.Add(add);
     }
 

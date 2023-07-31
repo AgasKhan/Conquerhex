@@ -18,7 +18,7 @@ public abstract class AreaKataBase : WeaponKataBase
 
     public override Entity[] Detect(Entity caster, Vector2 direction, int numObjectives, float range)
     {
-        return detect.AreaWithRay(caster.transform, (entity) => { return caster.team != entity.team; }, numObjectives, range).ToArray();
+        return detect.AreaWithRay(caster.transform, (entity) => (entity.GetEntity()!=null && entity.GetEntity().team != caster.team), numObjectives, range).ToEntity();
     }
 }
 

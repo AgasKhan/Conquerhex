@@ -52,7 +52,7 @@ public class IAAnimator : IAFather
     {
         if(collision.TryGetComponent(out IGetEntity enemy))
         {
-            if (enemy.GetEntity().team != character.team && enemy.GetEntity().team != Team.recursos)
+            if (enemy.GetEntity()!=null && enemy.GetEntity().team != character.team && enemy.GetEntity().team != Team.recursos)
                 this.enemy = enemy;
         }
     }
@@ -63,9 +63,8 @@ public class IAAnimator : IAFather
         if (enemy == null)
             return;
         
-        if (Mathf.Pow(coll.radius,2) < ((enemy as Component).transform.position - transform.position).sqrMagnitude)
+        if (Mathf.Pow(coll.radius,2) < (enemy.transform.position - transform.position).sqrMagnitude)
             enemy = null;
-        
     }
 
 
