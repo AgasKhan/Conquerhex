@@ -276,6 +276,12 @@ public class Health : Init
         if (life == null || regen == null)
             return;
 
+        if (regen.current == regen.total && life.current == life.total || deathBool)
+        {
+            timeToRegen.Stop();
+            return;
+        }
+            
         bool noLifeBool = life.current <= 0;
 
         TakeLifeDamage(-1 * (regen.current / 100f) * life.total);
@@ -285,9 +291,6 @@ public class Health : Init
         {
             reLife?.Invoke();
         }
-
-        if (regen.current == regen.total && life.current == life.total || deathBool)
-            timeToRegen.Stop();
     }
 
     /// <summary>
