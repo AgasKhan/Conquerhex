@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b40e21a6ad4f3b40b5c95e6ceda5efc, type: 3}
   m_Name: Glitch
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 500
     blitMaterial: {fileID: 2100000, guid: b328ba5f336a50d4f9032169b49ef57d, type: 2}
@@ -23,7 +23,7 @@ MonoBehaviour:
     destinationTextureId: _DestinationTexture
     mask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 4096
 --- !u!114 &-2137141489413472441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b40e21a6ad4f3b40b5c95e6ceda5efc, type: 3}
   m_Name: Regen
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 500
     blitMaterial: {fileID: 2100000, guid: d904a4f28d7bdf44dba86ea2c42e4523, type: 2}
