@@ -13,7 +13,7 @@ public class NPCTutorial : MonoBehaviour, Interactuable
     [SerializeField]
     bool myEnable;
 
-    bool Interactuable.enabled { get => myEnable; set => myEnable = value; }
+    bool Interactuable.visible { get => myEnable; set => myEnable = value; }
     
     public void Interact(Character character)
     {

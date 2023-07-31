@@ -152,7 +152,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     void EnableButton()
     {
         dialogEnable = true;
-        ((Interactuable) npc).enabled = true;
+        ((Interactuable) npc).visible = true;
     }
 
    
@@ -169,7 +169,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             currentDialog++;
 
         if (!dialogEnable)
-            ((Interactuable)npc).enabled = false;
+            ((Interactuable)npc).visible = false;
 
         player.CurrentState = null;
     }
