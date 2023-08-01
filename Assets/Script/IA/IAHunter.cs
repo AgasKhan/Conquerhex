@@ -59,7 +59,7 @@ public class IAHunter : IAFather, IGetPatrol
     public override void OnEnterState(Character param)
     {
         character = param;
-        attk = new AutomaticAttack(param.ActualKata(0));
+        attk = new AutomaticAttack(param, 0);
     }
 
     public override void OnExitState(Character param)

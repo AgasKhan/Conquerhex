@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class AutomaticAttack
 {
     public TimedAction timerToAttack;
     public Timer timerChargeAttack;
-    EquipedItem<WeaponKata> kata;
+
+    AttackEntity owner;
+
+    int indexKata;
+
+    EquipedItem<WeaponKata> kata => owner.ActualKata(indexKata);
+
+
 
     public event System.Action onAttack;
 
@@ -62,7 +70,7 @@ public class AutomaticAttack
 
     public void Attack()
     {
-        if (kata==null || weaponKata == null || timerChargeAttack == null)
+        if (kata==null || weaponKata == null || timerChargeAttack == null || !timerChargeAttack.Chck)
             return;
 
         weaponKata.ControllerDown(Vector2.zero, 0);
@@ -70,11 +78,19 @@ public class AutomaticAttack
         timerChargeAttack.Reset();
     }
 
-    public AutomaticAttack(EquipedItem<WeaponKata> kata)
+    public void StopTimers()
     {
-        this.kata = kata;
+        weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);
+        timerChargeAttack.Stop().SetInitCurrent(0);
+        timerToAttack.Set(1);
+    }
 
-        timerToAttack = (TimedAction)TimersManager.Create(2, Attack).Stop().SetLoop(true);
+    public AutomaticAttack(AttackEntity entity, int index)
+    {
+        owner = entity;
+        indexKata = index;
+
+        timerToAttack = (TimedAction)TimersManager.Create(1, Attack).Stop().SetLoop(true);
 
         timerChargeAttack = null;
 
@@ -94,4 +110,6 @@ public class AutomaticAttack
         }).Stop().SetInitCurrent(0);
         
     }
+
+
 }

@@ -7,7 +7,7 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
     [SerializeField]
     Detect<RecolectableItem> areaFarming;
 
-    public Timer timerStun = null;
+    //public Timer timerStun = null;
 
     protected Character character;
 
@@ -16,12 +16,12 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     void Awake()
     {
-        
+        /*
         timerStun = TimersManager.Create(0.33f, () =>
         {
             enabled = true;
         }).Stop();
-        
+        */
     }
 
     public void TakeDamage(ref Damage dmg)

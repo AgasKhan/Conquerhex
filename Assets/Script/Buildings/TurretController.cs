@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class TurretController : BuildingsController
 {
+    [SerializeReference]
     AutomaticAttack prin;
 
+    [SerializeReference]
     AutomaticAttack sec;
 
+    [SerializeReference]
     AutomaticAttack ter;
 
     [SerializeField]
@@ -26,14 +29,13 @@ public class TurretController : BuildingsController
 
     private void MyAwake()
     {
-        turret = GetComponent<TurretBuild>();
+        SetAttack(prin = new AutomaticAttack(turret, 0));
 
-        SetAttack(prin = new AutomaticAttack(turret.ActualKata(0)));
+        SetAttack(sec = new AutomaticAttack(turret, 1));
 
-        SetAttack(sec = new AutomaticAttack(turret.ActualKata(1)));
+        SetAttack(ter = new AutomaticAttack(turret, 2));
 
-        SetAttack(ter = new AutomaticAttack(turret.ActualKata(2)));
-
+        turret.health.noLife += DestroyTurret;
     }
     private void MyStart()
     {
@@ -50,6 +52,15 @@ public class TurretController : BuildingsController
         automatic.timerToAttack.Start();
     }
 
+    void DestroyTurret()
+    {
+        prin.StopTimers();
+        sec.StopTimers();
+        ter.StopTimers();
+
+        turret.DestroyTurret();
+
+    }
 
     public override void EnterBuild()
     {
@@ -59,10 +70,11 @@ public class TurretController : BuildingsController
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "La torreta alcanzó el nivel máximo").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         turret.DestroyTurret();
     }
+
 }
 
 [System.Serializable]
@@ -118,7 +130,7 @@ public class TurretSubMenu : CreateSubMenu
             else
                 abilityAction = () => TurretMaxLevel();
 
-            subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAction(item.kata, () => { AddAbility(index, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]); abilityAction.Invoke(); }); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+            subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAction(item.kata, () => { if(AddAbility(index, turretBuilding.upgradesRequirements[turretBuilding.currentLevel])) abilityAction.Invoke(); }); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
 
         if (turretBuilding.currentLevel > 0)
@@ -169,7 +181,7 @@ public class TurretSubMenu : CreateSubMenu
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
     }
 
-    void AddAbility(int index, Recipes requirement)
+    bool AddAbility(int index, Recipes requirement)
     {
         if (requirement.CanCraft(turretBuilding.character))
         {
@@ -184,8 +196,13 @@ public class TurretSubMenu : CreateSubMenu
             }
             turretBuilding.UpgradeLevel();
             subMenu.SetActiveGameObject(false);
+            
+            return true;
         }
         else
+        {
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+            return false;
+        }
     }
 }

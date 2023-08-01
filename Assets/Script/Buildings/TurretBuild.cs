@@ -31,8 +31,6 @@ public class TurretBuild : Building
     void MyAwake()
     {
         baseSprite = GetComponentInChildren<AnimPerspecitve>().sprite;
-
-        health.noLife += DestroyTurret;
     }
 
     public void DestroyTurret()
@@ -48,6 +46,7 @@ public class TurretBuild : Building
         ActualKata(1).indexEquipedItem = -1;
         ActualKata(2).indexEquipedItem = -1;
 
+        inventory.Clear();
         visible = false;
 
         foreach (var item in interact)

@@ -36,7 +36,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
         health.death += Drop;
 
-        health.death += () => { if (gameObject.tag != "Player") gameObject.SetActive(false); };
+        //health.death += () => { if (gameObject.tag != "Player") gameObject.SetActive(false); };
 
         damageables = new IDamageable[aux.Length - 1];
 

@@ -74,13 +74,13 @@ public class IALastChance : IAFather
     {
         character = param;
 
-        timerStun.Set(((BodyBase)character.flyweight).stunTime);
+        //timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
         doryEnemy = TimersManager.Create(10, () => enemy = null);
 
-        prin = new AutomaticAttack(character.ActualKata(0));
+        prin = new AutomaticAttack(character, 0);
 
-        sec = new AutomaticAttack(character.ActualKata(1));
+        sec = new AutomaticAttack(character, 1);
 
         timer = TimersManager.Create(1);
 

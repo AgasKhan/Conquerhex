@@ -59,15 +59,14 @@ public abstract class AttackEntity : StaticEntity, Init
 
     public override void TakeDamage(ref Damage dmg)
     {
-        var vulDmg = flyweight.vulnerabilities;
-
-        for (int i = 0; i < vulDmg.Length; i++)
-        {
-            if (dmg.typeInstance == vulDmg[i].typeInstance)
+        if (vulnerabilities != null)
+            for (int i = 0; i < vulnerabilities.Length; i++)
             {
-                dmg.amount *= vulDmg[i].amount;
+                if (dmg.typeInstance == vulnerabilities[i].typeInstance)
+                {
+                    dmg.amount *= vulnerabilities[i].amount;
+                }
             }
-        }
 
         base.TakeDamage(ref dmg);
     }
