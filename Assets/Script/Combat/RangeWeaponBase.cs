@@ -46,7 +46,7 @@ public class RangeWeapon : MeleeWeapon
     public override Entity[] Damage(Entity owner ,ref Damage[] damages, params Entity[] damageables)
     {
         if (damageables == null || damageables.Length == 0)
-            return new Entity[0];
+            return new Entity[] {};
 
         PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile , owner.transform.position, Quaternion.identity, owner.transform.parent);
 

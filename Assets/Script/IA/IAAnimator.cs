@@ -19,49 +19,57 @@ public class IAAnimator : IAFather
         timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
         automatick = new AutomaticAttack(character.ActualKata(2));
+
+        character.onTakeDamage += Character_onTakeDamage;
     }
 
     public override void OnExitState(Character param)
     {
+        character.onTakeDamage -= Character_onTakeDamage;
     }
 
     public override void OnStayState(Character param)
     {
     }
 
-    private void OnEnable()
+    private void Character_onTakeDamage(Damage obj)
     {
-        if(character!=null)
-            character.enabled = true;
+        anim.SetTrigger("Damaged");
     }
 
-    private void OnDisable()
+    void Detect(Collider2D collision)
     {
-        if(anim != null && anim.gameObject.activeSelf)
-            anim.SetTrigger("Damaged");
-        if (character != null)
-            character.enabled = false;
+        if (collision.TryGetComponent(out IGetEntity enemy))
+        {
+            if (enemy.GetEntity() != null && enemy.GetEntity().team != character.team && enemy.GetEntity().team != Team.recursos)
+            {
+                this.enemy = enemy;
+                enabled = true;
+            }
+                
+        }
     }
 
-    private void Start()
+
+    private void Awake()
     {
         anim = GetComponent<Animator>();
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out IGetEntity enemy))
-        {
-            if (enemy.GetEntity()!=null && enemy.GetEntity().team != character.team && enemy.GetEntity().team != Team.recursos)
-                this.enemy = enemy;
-        }
+        Detect(collision);
     }
 
- 
+
     private void Update()
     {
         if (enemy == null)
+        {
+            enabled = false;
             return;
+        }
+        
         
         if (Mathf.Pow(coll.radius,2) < (enemy.transform.position - transform.position).sqrMagnitude)
             enemy = null;
