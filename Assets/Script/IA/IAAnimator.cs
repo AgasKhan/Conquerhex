@@ -14,27 +14,11 @@ public class IAAnimator : IAFather
 
     public override void OnEnterState(Character param)
     {
-        character = param;
+        base.OnEnterState(param);
 
         //timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
         automatick = new AutomaticAttack(character, 2);
-
-        character.onTakeDamage += Character_onTakeDamage;
-    }
-
-    public override void OnExitState(Character param)
-    {
-        character.onTakeDamage -= Character_onTakeDamage;
-    }
-
-    public override void OnStayState(Character param)
-    {
-    }
-
-    private void Character_onTakeDamage(Damage obj)
-    {
-        anim.SetTrigger("Damaged");
     }
 
     void Detect(Collider2D collision)
@@ -50,13 +34,17 @@ public class IAAnimator : IAFather
         }
     }
 
-
     private void Awake()
     {
         anim = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Detect(collision);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
         Detect(collision);
     }

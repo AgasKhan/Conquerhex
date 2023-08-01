@@ -49,8 +49,6 @@ public class IAIO : IAFather
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
 
-        param.health.death += ShowLoserWindow;
-
         prin.Init();
         sec.Init();
         ter.Init();
@@ -71,8 +69,6 @@ public class IAIO : IAFather
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
 
-        param.health.death -= ShowLoserWindow;
-
         VirtualControllers.movement.DesuscribeController(param.move);
 
         VirtualControllers.principal.DesuscribeController(prin);
@@ -92,6 +88,8 @@ public class IAIO : IAFather
         lastInteractuable = null;
 
         param.gameObject.tag = originalTag;
+
+        base.OnExitState(character);
     }
 
     public override void OnStayState(Character param)
@@ -139,7 +137,7 @@ public class IAIO : IAFather
         }
     }
 
-    void ShowLoserWindow()
+    protected override void Health_death()
     {
         TimersManager.LerpInTime(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
         {

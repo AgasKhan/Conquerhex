@@ -36,9 +36,13 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
     {
         character = param;
         areaFarming.radius = flyWeight.areaFarming;
+        param.health.death += Health_death;
     }
 
-    public abstract void OnExitState(Character param);
+    public virtual void OnExitState(Character param)
+    {
+        param.health.death -= Health_death;
+    }
 
     public virtual void OnStayState(Character param)
     {
@@ -51,5 +55,11 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
                 recolectable.Recolect(param);
             }
         }
+    }
+
+
+    protected virtual void Health_death()
+    {
+        gameObject.SetActive(false);
     }
 }

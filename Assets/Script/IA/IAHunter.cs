@@ -58,13 +58,8 @@ public class IAHunter : IAFather, IGetPatrol
 
     public override void OnEnterState(Character param)
     {
-        character = param;
+        base.OnEnterState(param);
         attk = new AutomaticAttack(param, 0);
-    }
-
-    public override void OnExitState(Character param)
-    {
-
     }
 
     public override void OnStayState(Character param)
@@ -77,6 +72,8 @@ public class IAHunter : IAFather, IGetPatrol
     {
         return patrol;
     }
+
+
 }
 
 [System.Serializable]
