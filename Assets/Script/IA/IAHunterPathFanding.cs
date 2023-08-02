@@ -92,9 +92,11 @@ public class IAHunterPathFanding : IAHunter
 
     void OnPatrol()
     {
-        var aux = detectCordero.RayTransform(transform.position, (currentObjective.position - transform.position), (cmp)=> { return cmp!=transform; },(currentObjective.position - transform.position).magnitude);
+        //var aux = detectCordero.RayTransform(transform.position, (currentObjective.position - transform.position), (cmp)=> { return cmp!=transform; },(currentObjective.position - transform.position).magnitude);
 
-        if(aux!= null && aux.Length>0)
+        var aux = Physics2D.RaycastAll(transform.position, (currentObjective.position - transform.position), NodeManager.instance.BlockedNodeLayer);
+
+        if(aux!= null && aux.Length>1)
         {
             nodes = Pathfinding.instance.CalculatePath(transform.position, patrol.currentWaypoint.position);
         }

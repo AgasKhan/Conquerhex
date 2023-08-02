@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class NodeManager : SingletonMono<NodeManager>
 {
-    //[SerializeField] float _viewRadius;
-    [SerializeField] LayerMask obstacleLayer;
     [field: SerializeField] public LayerMask BlockedNodeLayer { get; private set; }
 
     [SerializeField] List<Node> nodesList = new List<Node>();
@@ -29,7 +27,7 @@ public class NodeManager : SingletonMono<NodeManager>
 
         for (int i = nearest.Count - 1; i >= 0; i--)
         {
-            if (Physics2D.Raycast(pos, (nearest[i].transform.position - pos), (nearest[i].transform.position - pos).magnitude, obstacleLayer))
+            if (Physics2D.Raycast(pos, (nearest[i].transform.position - pos), (nearest[i].transform.position - pos).magnitude, BlockedNodeLayer))
             {
                 nearest.RemoveAt(i);
             }
