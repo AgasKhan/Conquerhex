@@ -8,6 +8,9 @@ public class Node : MonoBehaviour
     [SerializeField]
     List<Node> _neighbors = new List<Node>();
 
+    [SerializeField]
+    Color colorPaths = new Color { a=1,b=1,g=1,r=1 };
+
     public int cost = 1;
 
     public List<Node> getNeighbors => _neighbors;
@@ -15,5 +18,24 @@ public class Node : MonoBehaviour
     private void Start()
     {
         NodeManager.instance.saveNode = this;
+    }
+
+    /// <summary>
+    /// Comentar cuando no este en desarrollo el escenario
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        if(cost <= 0)
+            return;
+
+        Gizmos.color = colorPaths;
+        
+        for (int i = 0; i < _neighbors.Count; i++)
+        {
+            if (_neighbors[i].cost <= 0)
+                continue;
+
+            Gizmos.DrawLine(transform.position, _neighbors[i].transform.position);
+        }
     }
 }

@@ -189,6 +189,11 @@ public class HunterChase : IState<HunterIntern>
     SteeringWithTarget steerings;
 
     Vector3 enemyPos;
+
+    Timer notify;
+
+
+
     public void OnEnterState(HunterIntern param)
     {
         param.energy.SetMultiply(1.5f);
@@ -197,12 +202,16 @@ public class HunterChase : IState<HunterIntern>
 
         enemyPos = steerings.targets[0].transform.position;
 
-        detectEnemy?.Invoke(enemyPos);
+        //notify.Start();
+
+        DetectEnemy();
     }
 
     public void OnStayState(HunterIntern param)
-    {       
+    {
         enemyPos = steerings.targets[0].transform.position;
+
+
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
@@ -233,7 +242,22 @@ public class HunterChase : IState<HunterIntern>
         noDetectEnemy?.Invoke(enemyPos);
         param.energy.SetMultiply(1);
         param.context.steerings["corderitos"].targets.Clear();
+
+        //notify.Stop();
+
         //param.context.patrol.fsmPatrol.CurrentState = param.context.patrol.fsmPatrol.wait;
+    }
+
+    void DetectEnemy()
+    {
+        detectEnemy?.Invoke(enemyPos);
+    }
+
+    public HunterChase()
+    {
+        //detectEnemy?.Invoke(enemyPos);
+
+        notify = TimersManager.Create(1, DetectEnemy).SetLoop(true).Stop();
     }
 }
 

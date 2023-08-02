@@ -6,6 +6,7 @@ public class NodeManager : SingletonMono<NodeManager>
 {
     [SerializeField] float _viewRadius;
     [SerializeField] LayerMask obstacleLayer;
+    [field: SerializeField] public LayerMask BlockedNodeLayer { get; private set; }
 
     [SerializeField] List<Node> nodesList = new List<Node>();
 
