@@ -246,7 +246,7 @@ MonoBehaviour:
     m_Bits: 1
   <BlockedNodeLayer>k__BackingField:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 1
   nodesList: []
 --- !u!114 &12630592
 MonoBehaviour:
@@ -5540,11 +5540,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pared (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 7760682470450240429, guid: 4bf7321bd8d82f343acb69c1d93ea210,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8097635529200011692, guid: 4bf7321bd8d82f343acb69c1d93ea210,
         type: 3}
       propertyPath: m_Layer
@@ -10802,12 +10797,12 @@ PrefabInstance:
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12924996
+      value: 0.042
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.16999999
+      value: 0.016
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
@@ -10848,6 +10843,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: team
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143385, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
