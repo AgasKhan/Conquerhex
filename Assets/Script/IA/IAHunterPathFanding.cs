@@ -94,7 +94,7 @@ public class IAHunterPathFanding : IAHunter
     {
         var aux = detectCordero.RayTransform(transform.position, (currentObjective.position - transform.position), (cmp)=> { return cmp!=transform; },(currentObjective.position - transform.position).magnitude);
 
-        if(aux!= null && aux.Length>1)
+        if(aux!= null && aux.Length>0)
         {
             nodes = Pathfinding.instance.CalculatePath(transform.position, patrol.currentWaypoint.position);
         }
