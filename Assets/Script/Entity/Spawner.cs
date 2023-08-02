@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour
     protected int percentageToSpawn=100;
 
     [SerializeField]
-    protected bool autoDestroy =true;
+    protected bool autoDestroy = true;
 
     protected virtual void Awake()
     {

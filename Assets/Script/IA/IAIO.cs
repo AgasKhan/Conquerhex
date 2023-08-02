@@ -133,7 +133,7 @@ public class IAIO : IAFather
 
         if (HexagonsManager.idMaxLevel == obj.id)
         {
-            Interfaz.instance["Titulo secundario"].ShowMsg("Dirigible a la vista");
+            Interfaz.instance?["Titulo secundario"].ShowMsg("Dirigible a la vista");
         }
     }
 
