@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TheNexusBuild
   m_EditorClassIdentifier: 
   _nameDisplay: The Nexus
-  _image: {fileID: 21300000, guid: 156501df2acc38d48b9d08477fa0ea8d, type: 3}
+  _image: {fileID: 21300000, guid: 5ba07df3e4146374bbc8be78e6ddf8c0, type: 3}
   _details: "\nConstruye una torreta que defender\xE1 tu base, las torretas tendr\xE1n
     una habilidad base que <color=red>ser\xE1 permanente</color> y podr\xE1n ser
     mejoradas una sola vez, al mejorarlas tendr\xE1s la opci\xF3n de a\xF1adir <color=yellow>una
@@ -32,7 +32,13 @@ MonoBehaviour:
     weapon: {fileID: 11400000, guid: 64f66b82c74b3c54088dd4ab07737c25, type: 2}
   - kata: {fileID: 11400000, guid: c2c5d29945102f54aae4bc5685040b32, type: 2}
     weapon: {fileID: 11400000, guid: 2a1d0ffbb0792c04b94c6e27ba49112d, type: 2}
-  additiveDamage: []
+  additiveDamage:
+  - amount: 5
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  - amount: 5
+    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
+  - amount: 5
+    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
   damagesUpgrades: []
   possibleAbilities:
     pictionaries:
