@@ -21,6 +21,7 @@ public class TurretBuild : BarrierBuild
         ActualKata(1).indexEquipedItem = -1;
         ActualKata(2).indexEquipedItem = -1;
 
+        transform.GetComponent<Collider2D>().isTrigger = true;
         inventory.Clear();
         originalAbility = "";
     }
@@ -32,5 +33,11 @@ public class TurretBuild : BarrierBuild
     public void ChangeSprite(Sprite sprite)
     {
         GetComponentInChildren<AnimPerspecitve>().sprite = sprite;
+    }
+
+    public override void UpgradeLevel()
+    {
+        base.UpgradeLevel();
+        transform.GetComponent<Collider2D>().isTrigger = false;
     }
 }
