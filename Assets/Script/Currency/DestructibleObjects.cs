@@ -17,11 +17,6 @@ public class DestructibleObjects : StaticEntity
 
     private void MyAwake()
     {
-        LoadSystem.AddPostLoadCorutine(InitDestructibleObjs);
-    }
-
-    void InitDestructibleObjs()
-    {
         health.noLife += Health_noLife;
 
         health.Init(_structure.life, _structure.regen);

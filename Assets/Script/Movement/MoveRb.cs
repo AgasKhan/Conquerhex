@@ -13,6 +13,7 @@ public class MoveRb : MoveTr
         base.Config();
         MyAwakes += MyAwake;
         MyFixedUpdates += MyFixedUpdate;
+        MyUpdates -= MyUpdate;
     }
 
 
@@ -30,9 +31,5 @@ public class MoveRb : MoveTr
             OnIdle();
         else
             OnMove(rb.velocity);
-    }
-
-    public override void MyUpdate()
-    {
     }
 }

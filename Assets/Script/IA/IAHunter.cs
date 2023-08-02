@@ -68,6 +68,20 @@ public class IAHunter : IAFather, IGetPatrol
         patrol.fsmPatrol.UpdateState();
     }
 
+    public override void OnExitState(Character param)
+    {
+        attk.StopTimers();
+        base.OnExitState(param);
+    }
+
+    protected override void Health_death()
+    {
+        attk.StopTimers();
+        base.Health_death();
+    }
+
+
+
     public Patrol GetPatrol()
     {
         return patrol;
@@ -190,10 +204,6 @@ public class HunterChase : IState<HunterIntern>
 
     Vector3 enemyPos;
 
-    Timer notify;
-
-
-
     public void OnEnterState(HunterIntern param)
     {
         param.energy.SetMultiply(1.5f);
@@ -251,13 +261,6 @@ public class HunterChase : IState<HunterIntern>
     void DetectEnemy()
     {
         detectEnemy?.Invoke(enemyPos);
-    }
-
-    public HunterChase()
-    {
-        //detectEnemy?.Invoke(enemyPos);
-
-        notify = TimersManager.Create(1, DetectEnemy).SetLoop(true).Stop();
     }
 }
 

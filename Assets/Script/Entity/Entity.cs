@@ -151,6 +151,11 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             });
     }
 
+    public void SetTeam(Team team)
+    {
+        this.team = team;
+    }
+
     public Entity GetEntity()
     {
         if (visible)
@@ -207,23 +212,13 @@ public class Health : Init
         }
     }
 
-
-    /// <summary>
-    /// porcentaje e input
-    /// </summary>
-    //public event System.Action<IGetPercentage, float> lifeUpdate;
-
-    /// <summary>
-    /// porcentaje e input
-    /// </summary>
-    //public event System.Action<IGetPercentage, float> regenUpdate;
-
     public event System.Action noLife;
 
     public event System.Action reLife;
 
     public event System.Action death;
 
+    [SerializeField]
     bool deathBool = false;
 
     public void StartRegenTimer()

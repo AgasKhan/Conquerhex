@@ -99,6 +99,11 @@ public abstract class MoveAbstract : MyScripts, IControllerDir
 
         for (int i = 0; i < carlitos.Length; i++)
         {
+            if (hexagone.ladosArray[i].id == hexagone.id)
+                carlitos[i].SetActiveGameObject(false);
+            else
+                carlitos[i].SetActiveGameObject(true);
+
             carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(hexagone.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), carlitos[i].transform.position.z, 2) + (transform.position - hexagone.transform.position);
         }
     }

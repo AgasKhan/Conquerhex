@@ -26,7 +26,10 @@ public class AutomaticAttack
     {
         get
         {
-            return kata.equiped.finalRange;
+            if (kata.indexEquipedItem >= 0)
+                return weaponKata.finalRange;
+            else
+                return 0;
         }
     }
 
@@ -98,12 +101,12 @@ public class AutomaticAttack
 
             actual = Color.Lerp(areaColor, attackColor, timerChargeAttack.InversePercentage());
 
-            weaponKata.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
+            weaponKata?.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>
         {
             
-            weaponKata.ControllerUp(Vector2.zero, timerChargeAttack.total);   
+            weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);   
             
             onAttack?.Invoke();
 
