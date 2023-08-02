@@ -147,6 +147,15 @@ public class HunterPatrol : IState<HunterIntern>
 
     Vector2 conoDir;
 
+    Timer dirChange;
+
+    int dirSigned=1;
+
+    public HunterPatrol()
+    {
+        dirChange = TimersManager.Create(2, () => dirSigned *= -1).SetLoop(true);
+    }
+
     public void OnEnterState(HunterIntern param)
     {
         hunter = param.context;
@@ -172,6 +181,14 @@ public class HunterPatrol : IState<HunterIntern>
 
         if (move.vectorVelocity.sqrMagnitude >= 0.01f)
             conoDir = Vector2.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
+
+
+        var aux2 = Physics2D.Raycast(param.context.transform.position, dir, 2 , NodeManager.instance.obstacleLayer);
+
+        if(aux2.collider!=null)
+        {
+            dir = Quaternion.Euler(0, 0, 60 * dirSigned) * dir;
+        }
 
         this.move.ControllerPressed(dir, 0);
     }

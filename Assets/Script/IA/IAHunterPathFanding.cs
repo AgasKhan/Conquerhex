@@ -100,5 +100,7 @@ public class IAHunterPathFanding : IAHunter
         {
             nodes = Pathfinding.instance.CalculatePath(transform.position, patrol.currentWaypoint.position);
         }
+
+
     }
 }

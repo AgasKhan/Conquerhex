@@ -17,22 +17,17 @@ MonoBehaviour:
   _details: 
   maxAmount: 1
   weight: 0
+  itemType: 0
   life: 100
   regen: 10
   vulnerabilities:
   - amount: 0.9
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  kataCombos:
+  - kata: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771, type: 2}
+    weapon: {fileID: 11400000, guid: a16cec6ee255cad4bafca55a213482c1, type: 2}
+  additiveDamage: []
   velocity: 5
   weightCapacity: 50
   stunTime: 0
   areaFarming: 0.1
-  principal:
-    weapon: {fileID: 0}
-    kata: {fileID: 0}
-  secondary:
-    weapon: {fileID: 0}
-    kata: {fileID: 0}
-  tertiary:
-    weapon: {fileID: 0}
-    kata: {fileID: 0}
-  additiveDamage: []

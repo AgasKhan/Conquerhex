@@ -7,13 +7,15 @@ public class IABoid : IAFather
     [SerializeField]
     protected Detect<IGetEntity> detectEnemy;
     [SerializeField]
-    protected Detect<IGetEntity> detectItem;
+    protected Detect<IGetEntity> detectObjective;
 
 
     [SerializeField]
     public Pictionarys<string, SteeringWithTarget> steerings;
 
     MoveAbstract move;
+
+    protected Vector2 dir = Vector2.zero;
 
     delegate void _FuncBoid(ref Vector2 desired, IABoid objective, Vector2 dirToBoid);
     
@@ -31,45 +33,54 @@ public class IABoid : IAFather
         Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 
         move.ControllerPressed(random.normalized,0);
-
     }
 
     public override void OnStayState(Character param)
     {
         base.OnStayState(param);
 
+        Detection();
+
+
+        Flocking();
+
+
+        SteeringsMovement();
+
+
+        move.ControllerPressed(dir, 0);
+    }
+
+    protected virtual void Detection()
+    {
         float distance = float.PositiveInfinity;
-        Vector2 dir = Vector2.zero;
 
-        //Debug.Log("enemigo " + steerings["enemigos"].targets.Count + ", recursos " + steerings["frutas"].targets.Count);
-        //if (steerings["enemigos"].targets.Count == 0 && steerings["frutas"].targets.Count == 0)
+        dir = Vector2.zero;
 
-        var enemigo = detectEnemy.Area(param.transform.position, (algo) => { return character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        var enemigo = detectEnemy.Area(character.transform.position, (algo) => { return character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
         steerings["enemigos"].targets = enemigo;
 
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
-        var recursos = detectItem.Area(param.transform.position, (target) => { return Team.recursos == target.GetEntity().team; });
+        var recursos = detectObjective.Area(character.transform.position, (target) => { return Team.recursos == target.GetEntity().team; });
 
         //Si la distancia de mi fruta 1 es menor a la fruta 2, voy a acomodarla para que sea mi primer objetivo
         Entity manzana = null;
         for (int i = 0; i < recursos.Count; i++)
         {
-            if (distance > (recursos[i].GetEntity().transform.position - param.transform.position).sqrMagnitude)
+            if (distance > (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude)
             {
                 manzana = recursos[i].GetEntity();
-                distance = (recursos[i].GetEntity().transform.position - param.transform.position).sqrMagnitude;
+                distance = (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude;
             }
         }
 
         steerings["frutas"].targets.Clear();
         if (manzana != null)
             steerings["frutas"].targets.Add(manzana);
+    }
 
-
-        dir += (Separation() * BoidsManager.instance.SeparationWeight +
-                Alignment() * BoidsManager.instance.AlignmentWeight +
-               Cohesion() * BoidsManager.instance.CohesionWeight);
-
+    protected void SteeringsMovement()
+    {
         foreach (var itemInPictionary in steerings)
         {
             for (int i = 0; i < itemInPictionary.value.Count; i++)
@@ -77,10 +88,15 @@ public class IABoid : IAFather
                 dir += itemInPictionary.value[i];
             }
         }
-
-
-        move.ControllerPressed(dir, 0);
     }
+
+    protected virtual void Flocking()
+    {
+        dir += (Separation() * BoidsManager.instance.SeparationWeight +
+                Alignment() * BoidsManager.instance.AlignmentWeight +
+               Cohesion() * BoidsManager.instance.CohesionWeight);
+    }
+
 
     Vector2 BoidIntern(_FuncBoid func, bool promedio, float radius)
     {
@@ -90,8 +106,8 @@ public class IABoid : IAFather
         //Por cada boid
         foreach (var boid in BoidsManager.list)
         {
-            //Si soy este boid a chequear, ignoro y sigo la iteracion
-            if (boid == this) continue;
+            //Si soy este boid o es mi enemigo, ignoro y sigo la iteracion
+            if (boid == this || boid.character.team != character.team) continue;
 
             //Saco la direccion hacia el boid
             Vector2 dirToBoid = boid.transform.position - transform.position; //seek.Calculate(boid.value.move);
@@ -115,7 +131,7 @@ public class IABoid : IAFather
         return desired;
     }
 
-    Vector2 Separation()
+    protected Vector2 Separation()
     {
         return BoidIntern(Separation, false, BoidsManager.instance.SeparationRadius);
     }
@@ -125,7 +141,7 @@ public class IABoid : IAFather
         desired -= dirToBoid;
     }
 
-    Vector2 Alignment()
+    protected Vector2 Alignment()
     {
         return BoidIntern(Alignment, true, BoidsManager.instance.ViewRadius);
     }
@@ -135,7 +151,7 @@ public class IABoid : IAFather
         desired += boid.move.vectorVelocity;
     }
 
-    Vector2 Cohesion()
+    protected Vector2 Cohesion()
     {
         var aux = BoidIntern(Cohesion, true, BoidsManager.instance.ViewRadius);
 
