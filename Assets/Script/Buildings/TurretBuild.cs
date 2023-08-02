@@ -5,8 +5,8 @@ using UnityEngine;
 //Model
 public class TurretBuild : Building
 {
-    [HideInInspector]
-    public Sprite baseSprite;
+    //[HideInInspector]
+    //public Sprite baseSprite;
 
     public override bool visible { get => myVisibility; set => myVisibility = value; }
 
@@ -30,7 +30,7 @@ public class TurretBuild : Building
     }
     void MyAwake()
     {
-        baseSprite = GetComponentInChildren<AnimPerspecitve>().sprite;
+        //baseSprite = GetComponentInChildren<AnimPerspecitve>().sprite;
     }
 
     public void DestroyTurret()

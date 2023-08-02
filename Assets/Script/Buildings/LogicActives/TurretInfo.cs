@@ -11,7 +11,7 @@ public class TurretInfo : LogicActive<Building>
         if (aux.currentLevel == 0)
         {
             aux.myBuildSubMenu.detailsWindow.SetTexts("", aux.flyweight.GetDetails()["Description"]);
-            aux.myBuildSubMenu.detailsWindow.SetImage(((TurretBuild)aux).baseSprite);
+            aux.myBuildSubMenu.detailsWindow.SetImage(aux.flyweight.image);
         } 
         else
         {
