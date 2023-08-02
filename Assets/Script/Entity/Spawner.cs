@@ -37,6 +37,8 @@ public class Spawner : MonoBehaviour
 
         if (autoDestroy)
             Destroy(gameObject);
+        else
+            GetComponent<SpriteRenderer>().enabled = false;
 
         if (percentageToSpawn < Random.Range(0, 100))
             return;
@@ -71,6 +73,7 @@ public class Spawner : MonoBehaviour
                 move.Teleport(hex,0);            
         }
 
+        
 
             /*
             var rend = GetComponentInChildren<SpriteRenderer>();
