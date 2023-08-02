@@ -26,7 +26,7 @@ public class Pathfinding : SingletonMono<Pathfinding>
 
         //tengo que recorrerlo invertido
         Stack<Transform> retorno = new Stack<Transform>();
-
+        
         while (aux.Count > 0)
         {
             var node = aux[0];
@@ -37,8 +37,19 @@ public class Pathfinding : SingletonMono<Pathfinding>
             aux.RemoveAt(0);
             retorno.Push(node.transform);
         }
-
         /*
+        while (aux.Count > 0)
+        {
+            var node = aux[aux.Count -1];
+
+            if (showPath && retorno.TryPeek(out var tr))
+                Debug.DrawLine(tr.position, node.transform.position, colorPath, timePathInScreen);
+
+            aux.RemoveAt(aux.Count - 1);
+            retorno.Push(node.transform);
+        }
+
+       
         while (aux.TryPop(out var node))
         {
             retorno.Push(node.transform);

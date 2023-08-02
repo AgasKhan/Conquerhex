@@ -40,7 +40,7 @@ public class IAHunter : IAFather, IGetPatrol
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         fsm = new HunterIntern(this);
         patrol.Init(this);

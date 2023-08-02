@@ -240,7 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e409caad8fbe9654984d14b64ac75d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewRadius: 0
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -1558,10 +1557,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -1632,6 +1641,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -1947,12 +1961,12 @@ PrefabInstance:
     - target: {fileID: 1220443724869542807, guid: 8ef3b6a922849c4489fc2830cc6f757a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.123500064
+      value: 0.0994
       objectReference: {fileID: 0}
     - target: {fileID: 1220443724869542807, guid: 8ef3b6a922849c4489fc2830cc6f757a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25
+      value: -0.2535
       objectReference: {fileID: 0}
     - target: {fileID: 1220443724869542807, guid: 8ef3b6a922849c4489fc2830cc6f757a,
         type: 3}
@@ -3515,6 +3529,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4395572733416362012, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5268588540194310571, guid: 2a5c3ef4d84189944801976ce19254d2,
         type: 3}
       propertyPath: m_RootOrder
@@ -3595,6 +3614,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 5268588540194310581, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075378117372180971, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c3ef4d84189944801976ce19254d2, type: 3}
 --- !u!1 &498883872
@@ -3627,7 +3656,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 613944600}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &498883874
 MonoBehaviour:
@@ -3743,6 +3772,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4395572733416362012, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5268588540194310571, guid: 2a5c3ef4d84189944801976ce19254d2,
         type: 3}
       propertyPath: m_RootOrder
@@ -3822,6 +3856,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Barrier (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268588540194310581, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075378117372180971, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c3ef4d84189944801976ce19254d2, type: 3}
@@ -3962,10 +4006,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -4036,6 +4090,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -4415,7 +4474,6 @@ Transform:
   - {fileID: 478181692}
   - {fileID: 1542595988}
   - {fileID: 609761638}
-  - {fileID: 1650185869}
   - {fileID: 1705263669}
   - {fileID: 498883873}
   - {fileID: 1861555733}
@@ -5243,10 +5301,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -5317,6 +5385,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -5416,10 +5489,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -5490,6 +5573,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -5594,10 +5682,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -5668,6 +5766,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -5906,6 +6009,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4395572733416362012, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5268588540194310571, guid: 2a5c3ef4d84189944801976ce19254d2,
         type: 3}
       propertyPath: m_RootOrder
@@ -5986,6 +6094,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5268588540194310581, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075378117372180971, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c3ef4d84189944801976ce19254d2, type: 3}
 --- !u!1001 &935576845
@@ -6033,6 +6151,11 @@ PrefabInstance:
     - target: {fileID: 2797818482591908381, guid: 2a5c3ef4d84189944801976ce19254d2,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395572733416362012, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5268588540194310571, guid: 2a5c3ef4d84189944801976ce19254d2,
@@ -6115,6 +6238,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5268588540194310581, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075378117372180971, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c3ef4d84189944801976ce19254d2, type: 3}
 --- !u!1001 &943036301
@@ -6162,6 +6295,11 @@ PrefabInstance:
     - target: {fileID: 2797818482591908381, guid: 2a5c3ef4d84189944801976ce19254d2,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395572733416362012, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5268588540194310571, guid: 2a5c3ef4d84189944801976ce19254d2,
@@ -6243,6 +6381,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Barrier (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268588540194310581, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075378117372180971, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c3ef4d84189944801976ce19254d2, type: 3}
@@ -6691,7 +6839,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1663988688}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &999779720
 MonoBehaviour:
@@ -8228,10 +8376,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -8303,6 +8461,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
 --- !u!1001 &1320340587
@@ -8350,6 +8513,11 @@ PrefabInstance:
     - target: {fileID: 2797818482591908381, guid: 2a5c3ef4d84189944801976ce19254d2,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395572733416362012, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5268588540194310571, guid: 2a5c3ef4d84189944801976ce19254d2,
@@ -8431,6 +8599,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Barrier (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268588540194310581, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075378117372180971, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c3ef4d84189944801976ce19254d2, type: 3}
@@ -8526,10 +8704,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -8554,12 +8742,12 @@ PrefabInstance:
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.167
+      value: 0.1607
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.262
+      value: 0.2682
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -8600,6 +8788,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -9873,12 +10066,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650185868}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 79.94, y: 24.93, z: 0}
+  m_LocalPosition: {x: -0.11000061, y: 4.3899994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 613944600}
-  m_RootOrder: 12
+  m_Father: {fileID: 1663988688}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1650185870
 MonoBehaviour:
@@ -10067,6 +10260,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1650185869}
   - {fileID: 999779719}
   m_Father: {fileID: 0}
   m_RootOrder: 20
@@ -10167,10 +10361,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -10241,6 +10445,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -10688,7 +10897,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 613944600}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1705263670
 MonoBehaviour:
@@ -10715,10 +10924,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -10789,6 +11008,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -11226,10 +11450,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -11300,6 +11534,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -11691,7 +11930,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 613944600}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1861555734
 MonoBehaviour:
@@ -12668,10 +12907,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -12742,6 +12991,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
@@ -13382,10 +13636,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460634659}
     m_Modifications:
+    - target: {fileID: 6262078723642988359, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_Name
       value: TurretConstruct (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -13410,12 +13674,12 @@ PrefabInstance:
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.186
+      value: 0.1667
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.278
+      value: -0.2888
       objectReference: {fileID: 0}
     - target: {fileID: 8365867905914006930, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
@@ -13456,6 +13720,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8839205402617382443, guid: 4505879b8a9851249a14c8128f2b0d73,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}

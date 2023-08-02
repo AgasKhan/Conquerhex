@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NodeManager : SingletonMono<NodeManager>
 {
-    [SerializeField] float _viewRadius;
+    //[SerializeField] float _viewRadius;
     [SerializeField] LayerMask obstacleLayer;
     [field: SerializeField] public LayerMask BlockedNodeLayer { get; private set; }
 
