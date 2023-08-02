@@ -8,14 +8,23 @@ public class IASuperBoid : IABoid
 
     public Entity lider = null;
 
-    public Entity[] enemyTargets => steerings["enemigos"].targets.ToEntity();
+    public Entity[] enemyTargets 
+    { 
+        get 
+        {
+            if (steerings["enemy"].targets != null)
+                return steerings["enemy"].targets.ToEntity();
+            else
+                return null;
+        } 
+    }
 
     FSMBoid fsmBoid;
 
     public override void OnEnterState(Character param)
     {
+        base.OnEnterState(param);
         fsmBoid = new FSMBoid(this);
-        base.OnEnterState(param);        
     }
 
     public override void OnStayState(Character param)
@@ -32,7 +41,7 @@ public class IASuperBoid : IABoid
 
         //enemigo
 
-        steerings["enemy"].targets = detectEnemy.Area(character.transform.position, (algo) => { return character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        steerings["enemy"].targets = detectEnemy.Area(character.transform.position, (algo) => { return algo.visible && character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
 
 
         //Lider
@@ -41,7 +50,7 @@ public class IASuperBoid : IABoid
         {
             var entity = target.GetEntity();
 
-            return entity != null && character.team == entity.team && !((entity as Character).CurrentState is IABoid);
+            return entity != null && character.team == entity.team && (entity is Character) &&  !(((Character)entity).CurrentState is IABoid);
         });
 
         lider = null;
@@ -64,6 +73,8 @@ public class IASuperBoid : IABoid
     {
         dir += (Separation() * BoidsManager.instance.SeparationWeight +               
               Cohesion() * BoidsManager.instance.CohesionWeight);
+
+
     }
 
 
@@ -80,9 +91,9 @@ public class FSMBoid : FSM<FSMBoid, IASuperBoid>
 
     public FSMBoid(IASuperBoid reference) : base(reference)
     {
-        Init(boidAttack);
-
         boidAttack = new BoidAttack(context.boid);
+
+        Init(boidAttack);        
     }
 }
 
@@ -98,7 +109,7 @@ public class BoidAttack : IState<FSMBoid>
     //ataque
     public void OnEnterState(FSMBoid param)
     {
-        
+        automaticAttack.timerToAttack.Set(5);
     }
 
     public void OnExitState(FSMBoid param)
@@ -108,14 +119,26 @@ public class BoidAttack : IState<FSMBoid>
 
     public void OnStayState(FSMBoid param)
     {
-        if (param.context.enemyTargets!=null && (param.context.enemyTargets[0].transform.position - param.context.transform.position).sqrMagnitude < 4)
-            automaticAttack.Attack();
 
         if (param.context.boid.health.actualLife < param.context.boid.health.maxLife / 2)
             param.CurrentState = param.BoidDamaged;
 
-        if (param.context.lider.health.actualLife < param.context.lider.health.maxLife / 2)
-            param.CurrentState = param.boidCoward;
+        if(param.context.lider != null)
+        {
+            var aux = param.context.transform.position - param.context.lider.transform.position;
+
+            param.context.boid.move.Acelerator( aux.Vect3To2().normalized, 1f / aux.Vect3To2().magnitude); 
+
+            if (param.context.lider.health.actualLife < param.context.lider.health.maxLife / 2)
+            {
+                param.CurrentState = param.boidCoward;
+            }
+        }
+
+        
+            
+
+
     }
 }
 
@@ -133,7 +156,7 @@ public class BoidCoward : IState<FSMBoid>
 
     public void OnStayState(FSMBoid param)
     {
-        if (param.context.lider.health.actualLife > param.context.lider.health.maxLife / 2)
+        if (param.context.lider==null ||  param.context.lider.health.actualLife > param.context.lider.health.maxLife / 2)
             param.CurrentState = param.boidAttack;
     }
 }
