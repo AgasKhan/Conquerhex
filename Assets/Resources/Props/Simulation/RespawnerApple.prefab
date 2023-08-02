@@ -89,4 +89,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objects:
-  - {fileID: 3307823130606803356, guid: f094c7557e0e0114f9be630e7066ec18, type: 3}
+    pictionaries:
+    - key: {fileID: 3307823130606803356, guid: f094c7557e0e0114f9be630e7066ec18, type: 3}
+      value: 1
+  patrolParent: {fileID: 0}
+  patrolReverse: 0
+  percentageToSpawn: 100
+  autoDestroy: 1

@@ -10,6 +10,8 @@ public class ReSpawner : Spawner
     {
         base.Awake();
 
+        autoDestroy = false;
+
         respawn = TimersManager.Create(10, Respawn).SetLoop(true);
     }
 

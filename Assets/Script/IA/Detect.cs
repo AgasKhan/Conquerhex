@@ -258,7 +258,7 @@ public class Detect<T> where T : class
             {
                 bool chckCaster = true;
 
-                //Para chequear si en algunos de los primeros esta el player
+                //Para chequear si en algunos de los primeros esta el caster
                 for (int ii = 0; ii < Mathf.Clamp(aux.Length, 0, 2); ii++)
                 {
                     if (aux[ii] == caster)

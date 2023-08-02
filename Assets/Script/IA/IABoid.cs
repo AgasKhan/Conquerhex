@@ -19,7 +19,8 @@ public class IABoid : IAFather
     
     public override void OnEnterState(Character param)
     {
-        //esto se ejecuta cuando un character me inicia
+        base.OnEnterState(param);
+
         move = param.move;
 
         //necesito añadir a los boid a una lista para usarlos de comparación para los calculos de flocking
@@ -28,17 +29,14 @@ public class IABoid : IAFather
 
         //randomizar el movimiento inicial de los boids
         Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        move.Velocity(random.normalized* move.maxSpeed);
 
-    }
+        move.ControllerPressed(random.normalized,0);
 
-    public override void OnExitState(Character param)
-    {
-        //esto se ejecuta cuando dejo de managear un character
     }
 
     public override void OnStayState(Character param)
     {
+        base.OnStayState(param);
 
         float distance = float.PositiveInfinity;
         Vector2 dir = Vector2.zero;
@@ -46,7 +44,7 @@ public class IABoid : IAFather
         //Debug.Log("enemigo " + steerings["enemigos"].targets.Count + ", recursos " + steerings["frutas"].targets.Count);
         //if (steerings["enemigos"].targets.Count == 0 && steerings["frutas"].targets.Count == 0)
 
-        var enemigo = detectEnemy.Area(param.transform.position, (algo) => { return Team.enemy == algo.GetEntity().team; });
+        var enemigo = detectEnemy.Area(param.transform.position, (algo) => { return character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
         steerings["enemigos"].targets = enemigo;
 
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
@@ -189,7 +187,7 @@ public class SteeringWithTarget
     {
         get
         {
-            return steering.Calculate(GetMove((targets[i] as Component).transform)) * weight;
+            return steering.Calculate(GetMove(targets[i].transform)) * weight;
         }
     }
 

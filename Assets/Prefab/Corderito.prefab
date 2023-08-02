@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5084150287202921955
 Transform:
   m_ObjectHideFlags: 0
@@ -100,25 +100,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ed448b40e66244a90f8b79afa0759b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerStun:
-    total: 0
-    _current: 0
+  areaFarming:
+    radius: 1
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 64
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 1
   detectEnemy:
     radius: 5
     distance: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 192
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 1
   detectItem:
     radius: 3
     distance: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 64
-    maxDetects: -1
-    minDetects: 1
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 1
   steerings:
     pictionaries:
     - key: frutas
@@ -154,39 +165,31 @@ MonoBehaviour:
       _current: 0
   drops:
   - maxMinDrops:
-      pictionaries: []
-    item: {fileID: 3307823130606803356, guid: f094c7557e0e0114f9be630e7066ec18, type: 3}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+      pictionaries:
+      - key: 1
+        value: 10
+      - key: 2
+        value: 5
+      - key: 3
+        value: 1
+    item: {fileID: 11400000, guid: 4de2358a00fc87443aa124031d95027a, type: 2}
   audioManager: {fileID: 0}
   interact:
     pictionaries: []
   inventory: []
-  weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  move: {fileID: 8691427261028014609}
-  <bodyBase>k__BackingField: {fileID: 11400000, guid: 9f1c8bc8aa861ab42b5003fa1aed3f91,
+  _katas:
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 9f1c8bc8aa861ab42b5003fa1aed3f91,
     type: 2}
-  prin:
-    rid: -2
-  sec:
-    rid: -2
-  ter:
-    rid: -2
-  areaFarming:
-    radius: 0
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 64
-    maxDetects: -1
-    minDetects: 1
+  weaponKataIndex: 0
+  move: {fileID: 8691427261028014609}
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!114 &-5690567857835757096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +245,7 @@ MonoBehaviour:
   _velocity:
     total: 5
     _current: 0
+  objectiveVelocity: 10
 --- !u!114 &8691427261028014621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,12 +329,12 @@ PrefabInstance:
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.158
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.583
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

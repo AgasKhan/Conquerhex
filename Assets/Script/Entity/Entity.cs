@@ -18,7 +18,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     protected abstract Damage[] vulnerabilities { get; }
     
-    public virtual bool visible { get => enabled; set => enabled = value; }
+    public virtual bool visible { get => enabled && gameObject.activeSelf; set => enabled = value; }
 
     IDamageable[] damageables;
 
@@ -90,7 +90,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             notif += dmgs[i] + " ";
         }      
 
-        Interfaz.instance["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
+        Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
 
     public virtual void TakeDamage(ref Damage dmg)

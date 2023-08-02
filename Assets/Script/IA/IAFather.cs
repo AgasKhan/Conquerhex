@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 {
     [SerializeField]
-    Detect<RecolectableItem> areaFarming;
+    protected Detect<RecolectableItem> areaFarming;
 
     //public Timer timerStun = null;
 

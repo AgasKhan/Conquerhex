@@ -143,13 +143,13 @@ public class HunterPatrol : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        //var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
-
-        var corderos = param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
-
         param.context.steerings["corderitos"].targets.Clear();
 
-        if (corderos.Count > 0)
+        //var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
+
+        var corderos = param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; }).ToEntity();
+
+        if (corderos.Length > 0)
         {
             param.context.steerings["corderitos"].targets.Add(corderos[0]);
             param.CurrentState = param.chase;
@@ -195,18 +195,18 @@ public class HunterChase : IState<HunterIntern>
 
         steerings = param.context.steerings["corderitos"];
 
-        enemyPos = (steerings.targets[0] as Component).transform.position;
+        enemyPos = steerings.targets[0].transform.position;
 
         detectEnemy?.Invoke(enemyPos);
     }
 
     public void OnStayState(HunterIntern param)
-    {
-        enemyPos = (steerings.targets[0] as Component).transform.position;
+    {       
+        enemyPos = steerings.targets[0].transform.position;
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
-        if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius)
+        if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius || !steerings.targets[0].visible)
         {
             param.CurrentState = param.patrol;
             return;

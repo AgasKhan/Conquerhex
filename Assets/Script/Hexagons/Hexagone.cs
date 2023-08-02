@@ -31,6 +31,10 @@ public class Hexagone : MonoBehaviour
 
     public bool manualSetEdge = false;
 
+    [SerializeField]
+    [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
+    bool manualSpawnSpawner=false;
+
     public int lenght = 42;
 
     public Hexagone SetID(int i)
@@ -131,7 +135,8 @@ public class Hexagone : MonoBehaviour
                     else if (spawn)
                     {
                         //SpawnEnemy(hex.transform, new Vector3(i, ii, center.z));
-                        Instantiate(biomes.spawner, new Vector3(i, ii, center.z), Quaternion.identity).transform.SetParent(transform);
+                        if(biomes.spawner!=null)
+                            Instantiate(biomes.spawner, new Vector3(i, ii, center.z), Quaternion.identity).transform.SetParent(transform);
                     }
                 }
             }
@@ -207,6 +212,11 @@ public class Hexagone : MonoBehaviour
     {
         if (!manualTiles)
             FillTilePos();
+
+        if(!manualProps)
+        {
+            FillPropsPos(manualSpawnSpawner, false);
+        }
 
         if (manualSetEdge)
             for (int ii = 0; ii < ladosArray.Length; ii++)
