@@ -145,6 +145,9 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
+  <BlockedNodeLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
   nodesList: []
 --- !u!114 &12630592
 MonoBehaviour:
@@ -158,6 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d207a273b056d84eaaf1c2f1d3bf2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showPath: 0
+  colorPath: {r: 0, g: 0, b: 0, a: 0}
+  timePathInScreen: 0
 --- !u!1 &19547937
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +738,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 1776495119}
   - {fileID: 202145598}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &124063256
 GameObject:
@@ -866,6 +873,7 @@ MonoBehaviour:
   - {fileID: 2045319567}
   - {fileID: 2054696927}
   - {fileID: 376660450}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1001 &176704247
 PrefabInstance:
@@ -1310,6 +1318,7 @@ MonoBehaviour:
   - {fileID: 108461613}
   - {fileID: 1671561329}
   - {fileID: 1682596626}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1001 &239973248
 PrefabInstance:
@@ -1701,6 +1710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 1005181364}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &291530347
 GameObject:
@@ -1925,6 +1935,7 @@ MonoBehaviour:
   - {fileID: 162199553}
   - {fileID: 1671561329}
   - {fileID: 468234880}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &391700904
 GameObject:
@@ -2070,12 +2081,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &410814609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
-    type: 3}
-  m_PrefabInstance: {fileID: 1861441896}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &468234878
 GameObject:
   m_ObjectHideFlags: 0
@@ -2123,6 +2128,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 498399224}
   - {fileID: 376660450}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &498399222
 GameObject:
@@ -2172,6 +2178,7 @@ MonoBehaviour:
   - {fileID: 468234880}
   - {fileID: 594261807}
   - {fileID: 676671294}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1001 &567572128
 PrefabInstance:
@@ -2386,34 +2393,16 @@ PrefabInstance:
     - {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
     - {fileID: 2363031325646665074, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
---- !u!1 &567572129 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
-    type: 3}
-  m_PrefabInstance: {fileID: 567572128}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &567572130 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1923887133863855666, guid: 0caed8012f6007c42a139da69ab99538,
     type: 3}
   m_PrefabInstance: {fileID: 567572128}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567572129}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8926cebf671874842b3c22cfca8fa9ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &567572141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567572129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64f400e9c831ab644ab813547fde3910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &567572147 stripped
@@ -2422,7 +2411,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 567572128}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567572129}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
@@ -2474,6 +2463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 498399224}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &613944599
 GameObject:
@@ -2650,6 +2640,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 498399224}
   - {fileID: 2108615844}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &695602372
 GameObject:
@@ -2846,6 +2837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 1776495119}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &728680834
 GameObject:
@@ -3037,6 +3029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 2108615844}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &753100098
 GameObject:
@@ -3171,6 +3164,7 @@ MonoBehaviour:
   - {fileID: 1005181364}
   - {fileID: 1653182697}
   - {fileID: 1997094165}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1001 &800180537
 PrefabInstance:
@@ -3643,31 +3637,13 @@ PrefabInstance:
     - {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
     - {fileID: 2363031325646665074, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
---- !u!1 &886086614 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
-    type: 3}
-  m_PrefabInstance: {fileID: 886086613}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &886086626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 886086614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64f400e9c831ab644ab813547fde3910, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &886086632 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
     type: 3}
   m_PrefabInstance: {fileID: 886086613}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 886086614}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
@@ -3850,6 +3826,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 281942819}
   - {fileID: 783020324}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &1008175954
 GameObject:
@@ -4597,31 +4574,13 @@ PrefabInstance:
     - {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
     - {fileID: 2363031325646665074, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
---- !u!1 &1123628576 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1923887133863855815, guid: 0caed8012f6007c42a139da69ab99538,
-    type: 3}
-  m_PrefabInstance: {fileID: 1123628575}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1123628588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123628576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64f400e9c831ab644ab813547fde3910, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1123628594 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
     type: 3}
   m_PrefabInstance: {fileID: 1123628575}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123628576}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
@@ -5309,6 +5268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 2108615844}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &1280592060
 GameObject:
@@ -5688,6 +5648,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 2054696927}
   - {fileID: 1651559800}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!4 &1421115252
 Transform:
@@ -6519,6 +6480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 1421115251}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!4 &1651559801
 Transform:
@@ -6582,6 +6544,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 783020324}
   - {fileID: 1997094165}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &1653859208
 GameObject:
@@ -6689,6 +6652,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 376660450}
   - {fileID: 202145598}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1001 &1672281443
 PrefabInstance:
@@ -7061,6 +7025,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _neighbors:
   - {fileID: 202145598}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1001 &1722347821
 PrefabInstance:
@@ -7608,6 +7573,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 108461613}
   - {fileID: 728484212}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &1781065182
 GameObject:
@@ -8306,25 +8272,13 @@ PrefabInstance:
     - {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
     - {fileID: 2363031325646665074, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
---- !u!114 &1861441918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 410814609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64f400e9c831ab644ab813547fde3910, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1861441930 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
     type: 3}
   m_PrefabInstance: {fileID: 1861441896}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 410814609}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
@@ -8804,6 +8758,7 @@ MonoBehaviour:
   - {fileID: 1653182697}
   - {fileID: 2054696927}
   - {fileID: 2045319567}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &1998629862
 GameObject:
@@ -9025,6 +8980,7 @@ MonoBehaviour:
   _neighbors:
   - {fileID: 1997094165}
   - {fileID: 162199553}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &2051694893
 GameObject:
@@ -9159,6 +9115,7 @@ MonoBehaviour:
   - {fileID: 1997094165}
   - {fileID: 162199553}
   - {fileID: 1421115251}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &2077992001
 GameObject:
@@ -9454,6 +9411,7 @@ MonoBehaviour:
   - {fileID: 752704400}
   - {fileID: 676671294}
   - {fileID: 1266871250}
+  colorPaths: {r: 1, g: 1, b: 1, a: 1}
   cost: 1
 --- !u!1 &2136166897
 GameObject:
