@@ -76,9 +76,6 @@ public class IASuperBoid : IABoid
 
 
     }
-
-
-
 }
 
 public class FSMBoid : FSM<FSMBoid, IASuperBoid>
@@ -134,11 +131,6 @@ public class BoidAttack : IState<FSMBoid>
                 param.CurrentState = param.boidCoward;
             }
         }
-
-        
-            
-
-
     }
 }
 

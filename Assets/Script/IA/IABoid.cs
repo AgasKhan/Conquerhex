@@ -25,8 +25,6 @@ public class IABoid : IAFather
 
         move = param.move;
 
-        //necesito añadir a los boid a una lista para usarlos de comparación para los calculos de flocking
-        //Manager<IABoid>.pic.Add(GetInstanceID().ToString(), this);
         BoidsManager.list.Add(this);
 
         //randomizar el movimiento inicial de los boids
