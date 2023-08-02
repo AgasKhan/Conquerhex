@@ -18,6 +18,8 @@ public class BarrierBuild : Building
 
     public SpriteRenderer constructSprite;
 
+    public Node node;
+
     protected override void Config()
     {
         base.Config();
@@ -37,7 +39,10 @@ public class BarrierBuild : Building
         currentLevel = 0;
 
         ResetLife();
-        
+
+        if (node != null)
+            node.cost = 1;
+
         foreach (var item in interact)
         {
             if (item.key == "Mejorar" || item.key == "Nivel Máximo")
@@ -60,6 +65,8 @@ public class BarrierBuild : Building
         visible = true;
         constructSprite.enabled = false;
         transform.GetChild(0).SetActiveGameObject(true);
+        if(node!= null)
+            node.cost = -1;
     }
 
     public void ChangeStructure(StructureBase newStructure)
