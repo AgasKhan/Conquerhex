@@ -139,12 +139,7 @@ public class IAIO : IAFather
 
     protected override void Health_death()
     {
-        TimersManager.LerpInTime(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
-        {
-            GameManager.instance.Pause(true);
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Has muerto", "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Volver a la base", () => LoadSystem.instance.Load("Base"));
-        }).SetUnscaled(true);
-
+        GameManager.instance.Defeat();
         OnExitState(character);
     }
 

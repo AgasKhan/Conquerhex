@@ -52,14 +52,13 @@ public class TurretController : BuildingsController
         automatic.timerToAttack.Start();
     }
 
-    void DestroyTurret()
+    protected virtual void DestroyTurret()
     {
         prin.StopTimers();
         sec.StopTimers();
         ter.StopTimers();
 
-        turret.DestroyTurret();
-
+        turret.DestroyConstruction();
     }
 
     public override void EnterBuild()
@@ -70,9 +69,16 @@ public class TurretController : BuildingsController
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "La torreta alcanzó el nivel máximo").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
     }
 
+    public override void UpgradeLevel()
+    {
+        turret.currentLevel++;
+        if (turret.currentLevel > turret.maxLevel)
+            turret.currentLevel = turret.maxLevel;
+    }
+
     private void OnDestroy()
     {
-        turret.DestroyTurret();
+        turret.DestroyConstruction();
     }
 
 }
@@ -126,7 +132,7 @@ public class TurretSubMenu : CreateSubMenu
                 continue;
 
             if (turretBuilding.currentLevel == 0)
-                abilityAction = () => { turretBuilding.originalAbility = item.kata.nameDisplay; turretBuilding.ChangeSprite(turretBuilding.turretStructure.possibleAbilities[turretBuilding.originalAbility][0]); };
+                abilityAction = () => { turretBuilding.originalAbility = item.kata.nameDisplay; turretBuilding.ChangeSprite(turretBuilding.myStructure.possibleAbilities[turretBuilding.originalAbility][0]); };
             else
                 abilityAction = () => TurretMaxLevel();
 
@@ -135,7 +141,7 @@ public class TurretSubMenu : CreateSubMenu
 
         if (turretBuilding.currentLevel > 0)
         {
-            foreach (var item in turretBuilding.turretStructure.damagesUpgrades)
+            foreach (var item in turretBuilding.myStructure.damagesUpgrades)
             {
                 subMenu.AddComponent<EventsCall>().Set(item.nameDisplay, () => { ButtonAction(item, () => { ImproveDamage(item, turretBuilding.upgradesRequirements[turretBuilding.currentLevel]); TurretMaxLevel(); }); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
@@ -149,7 +155,7 @@ public class TurretSubMenu : CreateSubMenu
             if (item.key == "Mejorar")
                 item.key = "Nivel Máximo";
         }
-        turretBuilding.ChangeSprite(turretBuilding.turretStructure.possibleAbilities[turretBuilding.originalAbility][1]);
+        turretBuilding.ChangeSprite(turretBuilding.myStructure.possibleAbilities[turretBuilding.originalAbility][1]);
     }
 
 

@@ -11,25 +11,43 @@ public class BarrierBuild : Building
     public override string rewardNextLevel => throw new System.NotImplementedException();
 
     [HideInInspector]
-    public TurretStructure barrierStructure => flyweight as TurretStructure;
+    public TurretStructure myStructure => flyweight as TurretStructure;
 
     [HideInInspector]
     public TurretStructure originalFlyweight;
 
-    public void DestroyBarrier()
+    public SpriteRenderer constructSprite;
+
+    protected override void Config()
+    {
+        base.Config();
+        MyAwakes += MyAwake;
+    }
+
+    public void MyAwake()
+    {
+        originalFlyweight = flyweight as TurretStructure;
+        constructSprite = GetComponent<SpriteRenderer>();
+    }
+
+    public virtual void DestroyConstruction()
     {
         flyweight = originalFlyweight;
         visible = false;
         currentLevel = 0;
 
-        ChangeSprite(barrierStructure.image);
-
+        ResetLife();
+        
         foreach (var item in interact)
         {
             if (item.key == "Mejorar" || item.key == "Nivel Máximo")
                 item.key = "Construir";
         }
+
+        constructSprite.enabled = true;
+        transform.GetChild(0).SetActiveGameObject(false);
     }
+
     public void ResetLife()
     {
         health.TakeLifeDamage(-1000);
@@ -40,15 +58,15 @@ public class BarrierBuild : Building
     {
         base.UpgradeLevel();
         visible = true;
+        constructSprite.enabled = false;
+        transform.GetChild(0).SetActiveGameObject(true);
     }
-    public void ChangeSprite(Sprite sprite)
-    {
-        GetComponentInChildren<AnimPerspecitve>().sprite = sprite;
-    }
+
     public void ChangeStructure(StructureBase newStructure)
     {
         flyweight = newStructure;
     }
+
     public override void Interact(Character character)
     {
         base.Interact(character);

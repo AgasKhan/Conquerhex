@@ -15,8 +15,7 @@ public class BarrierController : BuildingsController
 
     private void MyAwake()
     {
-        barrier.health.noLife += barrier.DestroyBarrier;
-        barrier.originalFlyweight = barrier.flyweight as TurretStructure;
+        barrier.health.noLife += barrier.DestroyConstruction;
     }
     
     public override void EnterBuild()
@@ -39,8 +38,7 @@ public class BarrierController : BuildingsController
 
     public override void UpgradeLevel()
     {
-        barrier.ChangeStructure(barrier.barrierStructure.damagesUpgrades[0]);
-        barrier.ChangeSprite(barrier.flyweight.image);
+        barrier.ChangeStructure(barrier.myStructure.damagesUpgrades[0]);
         barrier.ResetLife();
         barrier.currentLevel++;
 
