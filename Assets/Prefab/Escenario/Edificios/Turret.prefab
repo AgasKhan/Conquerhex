@@ -89,6 +89,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops: []
   audioManager: {fileID: 0}
   interact:
@@ -108,8 +109,8 @@ MonoBehaviour:
     type: 2}
   weaponKataIndex: 0
   upgradesRequirements:
-  - {fileID: 11400000, guid: 0486e4a4f74134744b18ed8cd65e2ba7, type: 2}
-  - {fileID: 11400000, guid: a000b0c5c2e160b4b8e3d6297ae2222b, type: 2}
+  - {fileID: 11400000, guid: 1bd173e9e55be4444b12e3b12e901444, type: 2}
+  - {fileID: 11400000, guid: a9995aa3d5fbf2d42adb1bf48d854db9, type: 2}
   NavBarButtons: 
   controller: {fileID: 2572307245283492437}
   currentLevel: 0
@@ -120,6 +121,7 @@ MonoBehaviour:
   myVisibility: 0
   originalFlyweight: {fileID: 0}
   constructSprite: {fileID: 0}
+  node: {fileID: 0}
   originalAbility: 
   references:
     version: 2
