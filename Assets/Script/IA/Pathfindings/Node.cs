@@ -35,6 +35,11 @@ public class Node : MonoBehaviour
             if (_neighbors[i].cost <= 0)
                 continue;
 
+            if(_neighbors[i].getNeighbors.Contains(this))
+                Gizmos.color = colorPaths;
+            else
+                Gizmos.color = Color.red;
+
             Gizmos.DrawLine(transform.position, _neighbors[i].transform.position);
         }
     }
