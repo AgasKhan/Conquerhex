@@ -30,7 +30,7 @@ public abstract class Building : AttackEntity, Interactuable
     
     protected override Damage[] vulnerabilities => flyweight.vulnerabilities;
 
-    public Sprite Image => flyweight.image;
+    public virtual Sprite Image => flyweight.image;
 
     public virtual bool interactuable { get=>enabled; set=>enabled = value; }
 

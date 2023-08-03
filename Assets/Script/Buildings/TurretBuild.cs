@@ -7,6 +7,14 @@ public class TurretBuild : BarrierBuild
 {
     public string originalAbility = "";
 
+    public override Sprite Image 
+    { get 
+        { 
+            if (currentLevel == 0) return flyweight.image; 
+            else return ((TurretStructure)flyweight).possibleAbilities[originalAbility][currentLevel - 1];
+        } 
+    }
+
     protected override void Config()
     {
         base.Config();

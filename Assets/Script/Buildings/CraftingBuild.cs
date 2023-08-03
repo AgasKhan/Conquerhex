@@ -47,10 +47,6 @@ public class CraftingBuild : Building
         }
     }
 
-    public void ClearCustomerInventory()
-    {
-        character.inventory.Clear();
-    }
     public override void EnterBuild()
     {
         createSubMenu.Create();

@@ -13,6 +13,8 @@ public class NexusController : TurretController
     public override void EnterBuild()
     {
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Empezar Partida", "¿Estas seguro de querer empezar partida?").AddButton("Si", () => StartGame()).AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+        turret.originalAbility = "Cut";
+        turret.currentLevel++;
     }
 
     void StartGame()
@@ -42,6 +44,7 @@ public class NexusController : TurretController
     protected override void DestroyTurret()
     {
         base.DestroyTurret();
+        turret.currentLevel = 0;
         GameManager.instance.Defeat();
     }
 }
