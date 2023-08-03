@@ -19,7 +19,9 @@ public class IAHunter : IAFather, IGetPatrol
     [SerializeField]
     public float minimalDistance;
 
-    public virtual Transform currentObjective => patrol.currentWaypoint;
+    public virtual Transform currentObjective { get => actualWaypoint; }
+
+    public Transform actualWaypoint => patrol.currentWaypoint;
 
 
     public AutomaticAttack attk;
@@ -28,7 +30,7 @@ public class IAHunter : IAFather, IGetPatrol
     {
         get
         {
-            return character.move;
+            return _character.move;
         }
     }
 
@@ -36,11 +38,11 @@ public class IAHunter : IAFather, IGetPatrol
     {
         get
         {
-            return character.team;
+            return _character.team;
         }
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         fsm = new HunterIntern(this);
         patrol.Init(this);
@@ -147,15 +149,6 @@ public class HunterPatrol : IState<HunterIntern>
 
     Vector2 conoDir;
 
-    Timer dirChange;
-
-    int dirSigned=1;
-
-    public HunterPatrol()
-    {
-        dirChange = TimersManager.Create(2, () => dirSigned *= -1).SetLoop(true);
-    }
-
     public void OnEnterState(HunterIntern param)
     {
         hunter = param.context;
@@ -181,14 +174,6 @@ public class HunterPatrol : IState<HunterIntern>
 
         if (move.vectorVelocity.sqrMagnitude >= 0.01f)
             conoDir = Vector2.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
-
-
-        var aux2 = Physics2D.Raycast(param.context.transform.position, dir, 2 , NodeManager.instance.obstacleLayer);
-
-        if(aux2.collider!=null)
-        {
-            dir = Quaternion.Euler(0, 0, 60 * dirSigned) * dir;
-        }
 
         this.move.ControllerPressed(dir, 0);
     }
@@ -237,8 +222,6 @@ public class HunterChase : IState<HunterIntern>
     public void OnStayState(HunterIntern param)
     {
         enemyPos = steerings.targets[0].transform.position;
-
-
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 

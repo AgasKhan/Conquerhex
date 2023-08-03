@@ -9,8 +9,9 @@ public abstract class SteeringBehaviour : MonoBehaviour
 
     protected Vector2 _desiredVelocity;
     protected Vector2 _steering;
+    protected Vector2 _direction;
 
-    public SteeringBehaviour SwitchSteering<T>() where T : SteeringBehaviour
+    public virtual SteeringBehaviour SwitchSteering<T>() where T : SteeringBehaviour
     {
         if (this is T)
             return this;
@@ -26,7 +27,7 @@ public abstract class SteeringBehaviour : MonoBehaviour
     protected virtual Vector2 Direction(MoveAbstract target,float multiply = 1)
     {
 
-        Vector2 _direction = (target.transform.position - me.transform.position).Vect3To2();
+        _direction = (target.transform.position - me.transform.position).Vect3To2();
 
         _direction *= multiply;
 
@@ -53,7 +54,7 @@ public abstract class SteeringBehaviour : MonoBehaviour
         return InternalCalculate(target);
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         me = GetComponent<MoveAbstract>();
     }

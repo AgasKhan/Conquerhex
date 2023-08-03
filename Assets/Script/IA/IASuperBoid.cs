@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class IASuperBoid : IABoid
 {
-    public Character boid => character;
 
     public Entity lider = null;
 
@@ -41,26 +40,26 @@ public class IASuperBoid : IABoid
 
         //enemigo
 
-        steerings["enemy"].targets = detectEnemy.Area(character.transform.position, (algo) => { return algo.visible && character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        steerings["enemy"].targets = detectEnemy.Area(_character.transform.position, (algo) => { return algo.visible && _character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
 
 
         //Lider
         
-        var recursos = detectObjective.Area(character.transform.position, (target) => 
+        var recursos = detectObjective.Area(_character.transform.position, (target) => 
         {
             var entity = target.GetEntity();
 
-            return entity != null && character.team == entity.team && (entity is Character) &&  !(((Character)entity).CurrentState is IABoid);
+            return entity != null && _character.team == entity.team && (entity is Character) &&  !(((Character)entity).CurrentState is IABoid);
         });
 
         lider = null;
 
         for (int i = 0; i < recursos.Count; i++)
         {
-            if (distance > (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude)
+            if (distance > (recursos[i].GetEntity().transform.position - _character.transform.position).sqrMagnitude)
             {
                 lider = recursos[i].GetEntity();
-                distance = (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude;
+                distance = (recursos[i].GetEntity().transform.position - _character.transform.position).sqrMagnitude;
             }
         }
 
@@ -88,7 +87,7 @@ public class FSMBoid : FSM<FSMBoid, IASuperBoid>
 
     public FSMBoid(IASuperBoid reference) : base(reference)
     {
-        boidAttack = new BoidAttack(context.boid);
+        boidAttack = new BoidAttack(context.character);
 
         Init(boidAttack);        
     }
@@ -117,14 +116,14 @@ public class BoidAttack : IState<FSMBoid>
     public void OnStayState(FSMBoid param)
     {
 
-        if (param.context.boid.health.actualLife < param.context.boid.health.maxLife / 2)
+        if (param.context.character.health.actualLife < param.context.character.health.maxLife / 2)
             param.CurrentState = param.BoidDamaged;
 
         if(param.context.lider != null)
         {
             var aux = param.context.transform.position - param.context.lider.transform.position;
 
-            param.context.boid.move.Acelerator( aux.Vect3To2().normalized, 1f / aux.Vect3To2().magnitude); 
+            param.context.character.move.Acelerator( aux.Vect3To2().normalized, 1f / aux.Vect3To2().magnitude); 
 
             if (param.context.lider.health.actualLife < param.context.lider.health.maxLife / 2)
             {
@@ -167,7 +166,7 @@ public class BoidDamaged : IState<FSMBoid>
 
     public void OnStayState(FSMBoid param)
     {
-        if (param.context.boid.health.actualLife > param.context.boid.health.maxLife / 2)
+        if (param.context.character.health.actualLife > param.context.character.health.maxLife / 2)
             param.CurrentState = param.boidAttack;
     }
 }

@@ -14,12 +14,20 @@ public class Patrol : Init
     /// <summary>
     /// Indice del array de la patrulla
     /// </summary>
-    public int iPatrulla = 0;
+    int _iPatrulla = 0;
 
+  
     /// <summary>
     /// lista que contiene todos los puntos de la patrulla
     /// </summary>
     public Transform patrolParent;
+
+
+    /// <summary>
+    /// evento que se ejecutara cuando se cambie el waypoint
+    /// </summary>
+    event System.Action<Transform> _OnPatrolChange;
+    
 
     /// <summary>
     /// vector de distancia que falta para llegar al objetivo
@@ -41,11 +49,43 @@ public class Patrol : Init
     [SerializeReference]
     public FSMPatrol fsmPatrol;
 
+
     public Transform currentWaypoint
     {
         get
         {
             return patrolParent.GetChild(iPatrulla);
+        }
+    }
+
+
+    /// <summary>
+    /// Indice del array de la patrulla
+    /// </summary>
+    public int iPatrulla
+    {
+        get => _iPatrulla;
+
+        set
+        {
+            _iPatrulla = value;
+            _OnPatrolChange?.Invoke(currentWaypoint);
+        }
+    }
+
+    /// <summary>
+    /// evento que se ejecutara cuando se cambie el waypoint
+    /// </summary>
+    public event System.Action<Transform> OnPatrolChange
+    {
+        add
+        {
+            _OnPatrolChange += value;
+            _OnPatrolChange?.Invoke(currentWaypoint);
+        }
+        remove
+        {
+            _OnPatrolChange -= value;
         }
     }
 

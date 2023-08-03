@@ -91,11 +91,36 @@ PrefabInstance:
         type: 3}
       propertyPath: move
       value: 
-      objectReference: {fileID: 7308587377985339927}
+      objectReference: {fileID: 4746575605128167775}
     - target: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: _velocity.total
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: objectiveVelocity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: _velocity._current
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: aceleration._current
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: _desaceleration._current
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7703062913578005909, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
@@ -104,18 +129,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2363031325646665074, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
-    - {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
-    - {fileID: 8570676347774531570, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
+    - {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
---- !u!114 &7308587377985339927 stripped
+--- !u!114 &4746575605128167775 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1923887133863855820, guid: 0caed8012f6007c42a139da69ab99538,
+  m_CorrespondingSourceObject: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
     type: 3}
   m_PrefabInstance: {fileID: 9213894628260840667}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

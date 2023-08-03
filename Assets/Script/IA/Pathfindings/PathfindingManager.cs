@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding : SingletonMono<Pathfinding>
+public class PathfindingManager : SingletonMono<PathfindingManager>
 {
     [SerializeField]
     bool showPath;
@@ -24,7 +24,6 @@ public class Pathfinding : SingletonMono<Pathfinding>
     {
         var aux = ThetaStar(NodeManager.instance.GetNeighborFromPosition(end), NodeManager.instance.GetNeighborFromPosition(init));
 
-        //tengo que recorrerlo invertido
         Stack<Transform> retorno = new Stack<Transform>();
         
         while (aux.Count > 0)
@@ -164,4 +163,88 @@ public class Pathfinding : SingletonMono<Pathfinding>
 
         //return false;
     }
+}
+
+
+[System.Serializable]
+public class PathFinding
+{
+    Stack<Transform> nodes = new Stack<Transform>();
+
+    /// <summary>
+    /// posicion a la que deseo ir
+    /// </summary>
+    Transform objectiveVectorPos;
+
+    /// <summary>
+    /// El objetivo al que deseo ir
+    /// </summary>
+    Transform objective;
+
+    Transform transform;
+
+    [SerializeField]
+    float minimalDistance=1;
+    public Transform currentObjective
+    {
+        get
+        {
+            if (nodes.Count > 0)
+            {
+                var node = nodes.Peek();
+
+                if ((node.position - transform.position).sqrMagnitude < minimalDistance * minimalDistance)
+                {
+                    nodes.Pop();
+                    if (!nodes.TryPeek(out node))
+                    {
+                        return objective;
+                    }
+                }
+                return node;
+            }
+
+            return objective;
+        }
+    }
+
+    public void GoTo(Vector3 obj)
+    {
+        objectiveVectorPos.position = obj;
+
+        objective = objectiveVectorPos;
+    }
+
+    public void GoTo(Transform obj)
+    {
+        objective = obj;
+    }
+
+
+    public void ViewOfTarget()
+    {
+        if (currentObjective == null)
+            return;
+
+        var aux = Physics2D.RaycastAll(transform.position, (currentObjective.position - transform.position), (currentObjective.position - transform.position).magnitude, NodeManager.instance.BlockedNodeLayer);
+
+        if (aux != null && aux.Length > 1)
+        {
+            nodes = PathfindingManager.instance.CalculatePath(transform.position, currentObjective.position);
+        }
+    }
+
+    public PathFinding(Transform transform)
+    {
+        this.transform = transform;
+
+        objectiveVectorPos = new GameObject("objective for " + transform.name).transform;
+    }
+}
+
+public interface IPathFinding
+{
+    Transform currentObjective { get; set; }
+
+    Transform transform { get; }
 }

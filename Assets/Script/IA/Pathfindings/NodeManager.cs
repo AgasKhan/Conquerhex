@@ -5,7 +5,7 @@ using UnityEngine;
 public class NodeManager : SingletonMono<NodeManager>
 {
 
-    [field: SerializeField] public LayerMask obstacleLayer { get; private set; }
+    [field: SerializeField] public LayerMask obstacleAvoidanceLayer { get; private set; }
     [field: SerializeField] public LayerMask BlockedNodeLayer { get; private set; }
 
     [SerializeField] List<Node> nodesList = new List<Node>();

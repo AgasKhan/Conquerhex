@@ -61,7 +61,9 @@ GameObject:
   - component: {fileID: 8691427261028014606}
   - component: {fileID: -5690567857835757096}
   - component: {fileID: 8691427261028014609}
+  - component: {fileID: -2159000952439228977}
   - component: {fileID: 8691427261028014621}
+  - component: {fileID: 1140486446002502534}
   - component: {fileID: 8018831168674537570}
   - component: {fileID: 8691427261028014622}
   m_Layer: 7
@@ -120,12 +122,12 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
-  detectItem:
-    radius: 3
+  detectObjective:
+    radius: 0
     distance: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 0
     _maxDetects: 0
     _minDetects: 0
     inverse: 0
@@ -134,11 +136,11 @@ MonoBehaviour:
     pictionaries:
     - key: frutas
       value:
-        steering: {fileID: 8691427261028014621}
+        steering: {fileID: -2159000952439228977}
         weight: 1
     - key: enemigos
       value:
-        steering: {fileID: 8018831168674537570}
+        steering: {fileID: 1140486446002502534}
         weight: 50
 --- !u!114 &8691427261028014606
 MonoBehaviour:
@@ -163,6 +165,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops:
   - maxMinDrops:
       pictionaries:
@@ -246,6 +249,28 @@ MonoBehaviour:
     total: 5
     _current: 0
   objectiveVelocity: 10
+--- !u!114 &-2159000952439228977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691427261028014608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b93d6f67530b74a971f28d26f3a120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  me: {fileID: 0}
+  steering: {fileID: 8691427261028014621}
+  angle: 60
+  dirChange:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &8691427261028014621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +284,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+--- !u!114 &1140486446002502534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691427261028014608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b93d6f67530b74a971f28d26f3a120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  me: {fileID: 0}
+  steering: {fileID: 8018831168674537570}
+  angle: 60
+  dirChange:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &8018831168674537570
 MonoBehaviour:
   m_ObjectHideFlags: 0

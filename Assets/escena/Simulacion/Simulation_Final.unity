@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e409caad8fbe9654984d14b64ac75d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <obstacleLayer>k__BackingField:
+  <obstacleAvoidanceLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 2240
   <BlockedNodeLayer>k__BackingField:
@@ -10648,7 +10648,7 @@ PrefabInstance:
     - target: {fileID: 4924985478151482378, guid: e710c0e659cce824ead55ccc34dbabf6,
         type: 3}
       propertyPath: percentageToSpawn
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4924985478151482378, guid: e710c0e659cce824ead55ccc34dbabf6,
         type: 3}

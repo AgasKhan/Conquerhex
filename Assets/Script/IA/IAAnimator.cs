@@ -18,14 +18,14 @@ public class IAAnimator : IAFather
 
         //timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
-        automatick = new AutomaticAttack(character, 2);
+        automatick = new AutomaticAttack(_character, 2);
     }
 
     void Detect(Collider2D collision)
     {
         if (collision.TryGetComponent(out IGetEntity enemy))
         {
-            if (enemy.GetEntity() != null && enemy.GetEntity().team != character.team && enemy.GetEntity().team != Team.recursos)
+            if (enemy.GetEntity() != null && enemy.GetEntity().team != _character.team && enemy.GetEntity().team != Team.recursos)
             {
                 this.enemy = enemy;
                 enabled = true;

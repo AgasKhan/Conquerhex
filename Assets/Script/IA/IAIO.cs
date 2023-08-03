@@ -30,7 +30,7 @@ public class IAIO : IAFather
         ter = new ControllerIAIO(EnumController.terciary, 2);
 
         LoadSystem.AddPreLoadCorutine(() => {
-            OnExitState(character);
+            OnExitState(_character);
         });
     }
 
@@ -89,7 +89,7 @@ public class IAIO : IAFather
 
         param.gameObject.tag = originalTag;
 
-        base.OnExitState(character);
+        base.OnExitState(_character);
     }
 
     public override void OnStayState(Character param)
@@ -122,7 +122,7 @@ public class IAIO : IAFather
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
-        lastInteractuable.Interact(character);
+        lastInteractuable.Interact(_character);
     }
 
     private void TeleportEvent(Hexagone obj, int lado)
@@ -140,7 +140,7 @@ public class IAIO : IAFather
     protected override void Health_death()
     {
         GameManager.instance.Defeat();
-        OnExitState(character);
+        OnExitState(_character);
     }
 
     void UpdateLife(IGetPercentage arg1, float arg3)

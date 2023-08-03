@@ -9,9 +9,11 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     //public Timer timerStun = null;
 
-    protected Character character;
+    protected Character _character;
 
-    protected BodyBase flyWeight => ((BodyBase)character.flyweight);
+    protected BodyBase flyWeight => ((BodyBase)_character.flyweight);
+
+    public Character character => _character;
 
 
     void Awake()
@@ -34,7 +36,7 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     public virtual void OnEnterState(Character param)
     {
-        character = param;
+        _character = param;
         areaFarming.radius = flyWeight.areaFarming;
         param.health.death += Health_death;
     }

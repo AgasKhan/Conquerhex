@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: -143505725685077172}
   - component: {fileID: 4467972175993570692}
   - component: {fileID: 1923887133863855820}
+  - component: {fileID: 6849412895579878435}
+  - component: {fileID: 8125905815628775838}
   - component: {fileID: 1923887133863855665}
   - component: {fileID: 1923887133863855666}
   - component: {fileID: 1923887133863855816}
@@ -64,18 +66,15 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
-  timerStun:
-    total: 0
-    _current: 0
   steerings:
     pictionaries:
     - key: corderitos
       value:
-        steering: {fileID: 1923887133863855665}
+        steering: {fileID: 6849412895579878435}
         weight: 1
     - key: waypoints
       value:
-        steering: {fileID: 1923887133863855666}
+        steering: {fileID: 8125905815628775838}
         weight: 1
   detectCordero:
     radius: 8
@@ -90,7 +89,6 @@ MonoBehaviour:
   energy: 15
   patrol:
     reverse: 0
-    iPatrulla: 0
     patrolParent: {fileID: 0}
     _distance: {x: 0, y: 0, z: 0}
     _waitTime: 1
@@ -99,6 +97,13 @@ MonoBehaviour:
   fsm:
     rid: -2
   minimalDistance: 1
+  attk:
+    timerToAttack:
+      total: 0
+      _current: 0
+    timerChargeAttack:
+      total: 0
+      _current: 0
   references:
     version: 2
     RefIds:
@@ -126,18 +131,15 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
-  timerStun:
-    total: 0
-    _current: 0
   steerings:
     pictionaries:
     - key: corderitos
       value:
-        steering: {fileID: 1923887133863855665}
+        steering: {fileID: 6849412895579878435}
         weight: 1
     - key: waypoints
       value:
-        steering: {fileID: 1923887133863855666}
+        steering: {fileID: 8125905815628775838}
         weight: 1
   detectCordero:
     radius: 8
@@ -152,7 +154,6 @@ MonoBehaviour:
   energy: 15
   patrol:
     reverse: 1
-    iPatrulla: 0
     patrolParent: {fileID: 0}
     _distance: {x: 0, y: 0, z: 0}
     _waitTime: 1
@@ -161,6 +162,15 @@ MonoBehaviour:
   fsm:
     rid: -2
   minimalDistance: 1
+  attk:
+    timerToAttack:
+      total: 0
+      _current: 0
+    timerChargeAttack:
+      total: 0
+      _current: 0
+  pathFinding:
+    rid: -2
   references:
     version: 2
     RefIds:
@@ -189,6 +199,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops:
   - maxMinDrops:
       pictionaries:
@@ -311,6 +322,50 @@ MonoBehaviour:
     total: 7
     _current: 0
   objectiveVelocity: 7
+--- !u!114 &6849412895579878435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b93d6f67530b74a971f28d26f3a120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  me: {fileID: 0}
+  steering: {fileID: 1923887133863855665}
+  angle: 60
+  dirChange:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+--- !u!114 &8125905815628775838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b93d6f67530b74a971f28d26f3a120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  me: {fileID: 0}
+  steering: {fileID: 1923887133863855666}
+  angle: 60
+  dirChange:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &1923887133863855665
 MonoBehaviour:
   m_ObjectHideFlags: 0

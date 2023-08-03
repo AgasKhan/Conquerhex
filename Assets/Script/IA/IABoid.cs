@@ -55,20 +55,20 @@ public class IABoid : IAFather
 
         dir = Vector2.zero;
 
-        var enemigo = detectEnemy.Area(character.transform.position, (algo) => { return character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        var enemigo = detectEnemy.Area(_character.transform.position, (algo) => { return _character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
         steerings["enemigos"].targets = enemigo;
 
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
-        var recursos = detectObjective.Area(character.transform.position, (target) => { return Team.recursos == target.GetEntity().team; });
+        var recursos = detectObjective.Area(_character.transform.position, (target) => { return Team.recursos == target.GetEntity().team; });
 
         //Si la distancia de mi fruta 1 es menor a la fruta 2, voy a acomodarla para que sea mi primer objetivo
         Entity manzana = null;
         for (int i = 0; i < recursos.Count; i++)
         {
-            if (distance > (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude)
+            if (distance > (recursos[i].GetEntity().transform.position - _character.transform.position).sqrMagnitude)
             {
                 manzana = recursos[i].GetEntity();
-                distance = (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude;
+                distance = (recursos[i].GetEntity().transform.position - _character.transform.position).sqrMagnitude;
             }
         }
 
@@ -105,7 +105,7 @@ public class IABoid : IAFather
         foreach (var boid in BoidsManager.list)
         {
             //Si soy este boid o es mi enemigo, ignoro y sigo la iteracion
-            if (boid == this || boid.character.team != character.team) continue;
+            if (boid == this || boid._character.team != _character.team) continue;
 
             //Saco la direccion hacia el boid
             Vector2 dirToBoid = boid.transform.position - transform.position; //seek.Calculate(boid.value.move);

@@ -79,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8691427261028014606, guid: 8dfd475b212703847a2e5f3525eef81d,
         type: 3}
+      propertyPath: move
+      value: 
+      objectReference: {fileID: 3372423637999013521}
+    - target: {fileID: 8691427261028014606, guid: 8dfd475b212703847a2e5f3525eef81d,
+        type: 3}
       propertyPath: team
       value: 1
       objectReference: {fileID: 0}
@@ -104,6 +109,7 @@ PrefabInstance:
       objectReference: {fileID: 4364975846712173157}
     m_RemovedComponents:
     - {fileID: 8691427261028014610, guid: 8dfd475b212703847a2e5f3525eef81d, type: 3}
+    - {fileID: 8691427261028014609, guid: 8dfd475b212703847a2e5f3525eef81d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8dfd475b212703847a2e5f3525eef81d, type: 3}
 --- !u!114 &4364975846712173157 stripped
 MonoBehaviour:
@@ -123,6 +129,27 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4903757455114696824}
   m_PrefabAsset: {fileID: 0}
+--- !u!50 &-7940202309019494345
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4364975846712173160}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &538333034806915777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,3 +203,29 @@ MonoBehaviour:
         steering: {fileID: 4364975846712173157}
         weight: 1
   lider: {fileID: 0}
+--- !u!114 &3372423637999013521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4364975846712173160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
+    type: 3}
+  carlitos: []
+  direction: {x: 0, y: 0}
+  aceleration:
+    total: 50
+    _current: 0
+  _desaceleration:
+    total: 10
+    _current: 1
+  _velocity:
+    total: 5
+    _current: 0
+  objectiveVelocity: 5
