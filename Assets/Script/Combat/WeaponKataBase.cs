@@ -268,7 +268,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        if (caster == null || caster.enabled == false || caster.gameObject.activeSelf == false)
+        if (caster == null || !caster.isActiveAndEnabled || weapon != null)
         {
             reference?.Off();
             return;
@@ -285,7 +285,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        if (caster==null || caster.enabled == false || caster.gameObject.activeSelf == false)
+        if (caster==null || !caster.isActiveAndEnabled || weapon != null)
         {
             reference?.Off();
             return;
@@ -306,7 +306,8 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         if (caster is DynamicEntity)
             ((DynamicEntity)caster).move.objectiveVelocity += 2;
 
-        up(dir, tim);
+        if(weapon!=null)
+            up(dir, tim);
 
         reference?.Off();
 
