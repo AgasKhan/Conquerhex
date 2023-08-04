@@ -155,6 +155,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
     {
         msg("loading script scene");
 
+        Time.timeScale = 0;
+
         //espera un frame a que se carguen todos los postload
         yield return null;
 

@@ -41,7 +41,7 @@ public class ReSpawner : Spawner
 
             if(spawneado.TryGetComponent(out Entity entity))
             {
-                JsonUtility.FromJsonOverwrite(jsonGenerated, entity);
+                entity.health.Revive();
             }
         }
     }

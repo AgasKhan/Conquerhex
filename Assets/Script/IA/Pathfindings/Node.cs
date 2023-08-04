@@ -40,7 +40,7 @@ public class Node : MonoBehaviour
             else
                 Gizmos.color = Color.red;
 
-            Gizmos.DrawLine(transform.position, _neighbors[i].transform.position);
+            Utilitys.DrawArrowLine(transform.position, _neighbors[i].transform.position);
         }
     }
 }

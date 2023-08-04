@@ -144,5 +144,19 @@ public static class Utilitys
 
         thisAction += action;
     }
+
+    public static void DrawArrowRay(Vector3 position, Vector3 dir)
+    {
+        Gizmos.DrawRay(position, dir);
+
+        Gizmos.DrawRay((position + dir), Quaternion.Euler(0, 0, 30) * (dir*-1)/10);
+
+        Gizmos.DrawRay((position + dir), Quaternion.Euler(0, 0, -30) * (dir * -1)/10);
+    }
+
+    public static void DrawArrowLine(Vector3 position, Vector3 to)
+    {
+        DrawArrowRay(position, (to-position));
+    }
 }
 

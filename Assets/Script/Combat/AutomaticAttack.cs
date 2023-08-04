@@ -26,7 +26,7 @@ public class AutomaticAttack
     {
         get
         {
-            if (kata.indexEquipedItem >= 0)
+            if (weaponKata != null)
                 return weaponKata.finalRange;
             else
                 return 0;

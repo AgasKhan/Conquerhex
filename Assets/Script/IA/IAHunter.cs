@@ -286,5 +286,4 @@ public class HunterIdle : IState<HunterIntern>
     {
         param.energy.Start();
     }
-
 }

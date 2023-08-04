@@ -329,7 +329,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     Entity[] InternalAttack(params Entity[] entities)
     {
         if (weapon == null)
-            return null;
+            return new Entity[0];
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 

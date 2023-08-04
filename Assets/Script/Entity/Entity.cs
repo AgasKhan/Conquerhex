@@ -226,6 +226,13 @@ public class Health : Init
         timeToRegen.Start();
     }
 
+    public void Revive()
+    {
+        regen.Reset();
+        life.Reset();
+        deathBool = false;
+    }
+
     public float TakeRegenDamage(float amount)
     {
         timeToRegen.Reset();

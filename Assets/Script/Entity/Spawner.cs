@@ -9,8 +9,6 @@ public class Spawner : MonoBehaviour
 
     protected GameObject spawneado;
 
-    protected string jsonGenerated;
-
     [SerializeField]
     protected bool setTeam;
     [SerializeField]
@@ -62,8 +60,6 @@ public class Spawner : MonoBehaviour
         {
             if (setTeam)
                 entity.SetTeam(team);
-
-            LoadSystem.AddPostLoadCorutine(()=> SaveJsonEntity(entity));
         }
 
         if(spawneado.TryGetComponent(out MoveAbstract move))
@@ -82,11 +78,5 @@ public class Spawner : MonoBehaviour
             */
 
             
-    }
-
-
-    void SaveJsonEntity(Entity entity)
-    {
-        jsonGenerated = JsonUtility.ToJson(entity);
     }
 }
