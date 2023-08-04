@@ -52,7 +52,7 @@ public class ButtonsFunc_Menu : ButtonsFunctions
     void Credits (GameObject g)
     {
         refMenu.modulesMenu.ObtainMenu<PopUp>(true)
-           .SetWindow("Creditos:", "Lucas Galardo"+ "\n" + "karina Revelli" + "\n" + "Jhamil Castillo"+ "\n" + "Lider Huamantuco")
+           .SetWindow("Creditos:", "Lucas Galardo"+ "\n" + "Karina Revelli" + "\n" + "Jhamil Castillo" + "\n" + "Lider Huamantuco")
            .AddButton("Close", () => {
 
                refMenu.modulesMenu.ObtainMenu<PopUp>(false);

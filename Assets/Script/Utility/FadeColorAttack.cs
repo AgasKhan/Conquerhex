@@ -46,8 +46,8 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     FadeOnOff fadeOnOff;
 
-    [SerializeField]
-    UnityEngine.Rendering.Universal.Light2D light2D;
+    //[SerializeField]
+    //UnityEngine.Rendering.Universal.Light2D light2D;
 
     public Color color
     {
@@ -57,7 +57,7 @@ public class FadeColorAttack : MonoBehaviour
 
     private void Awake()
     {
-        lightColor = light2D.color;
+        //lightColor = light2D.color;
 
         fadeOnOff.alphas += FadeMenu_alphas;
 
@@ -73,7 +73,7 @@ public class FadeColorAttack : MonoBehaviour
     private void FadeMenu_alphas(float obj)
     {
         sprite.color = sprite.color.ChangeAlphaCopy(obj);
-        light2D.color = lightColor.ChangeAlphaCopy(obj/2);
+        //light2D.color = lightColor.ChangeAlphaCopy(obj/2);
     }
 
     public FadeColorAttack On()
@@ -106,7 +106,7 @@ public class FadeColorAttack : MonoBehaviour
     public FadeColorAttack Area(float number)
     {
         transform.localScale = Vector3.one * 2 * number;
-        light2D.pointLightOuterRadius = number;
+        //light2D.pointLightOuterRadius = number;
         return this;
     }
 

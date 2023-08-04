@@ -66,7 +66,7 @@ public class PressWeaponKata : WeaponKata
         if (pressCooldown.Chck)
         {
             Attack();
-            reference.Attack();
+            reference?.Attack();
             pressCooldown.Reset();
         }
     }
@@ -76,7 +76,6 @@ public class PressWeaponKata : WeaponKata
         if (!cooldown.Chck)
             return;
 
-        reference.Off();
         cooldown.Reset();
         pressCooldown.Reset();
     }
@@ -137,7 +136,7 @@ public class UpWeaponKata : WeaponKata
 
         Attack();
 
-        reference.Off().Attack();
+        reference?.Attack();
     }
 }
 
@@ -159,7 +158,7 @@ public class DashUpWeaponKata : UpWeaponKata
 
         Attack();
 
-        reference.Off().Attack();
+        reference?.Attack();
     }
 }
 
