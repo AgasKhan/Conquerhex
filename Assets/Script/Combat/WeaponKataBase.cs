@@ -188,9 +188,10 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void TakeOutWeapon()
     {
-        this.weapon.off -= Weapon_durabilityOff;
+        if(weapon!=null)
+            weapon.off -= Weapon_durabilityOff;
 
-        onDesEquipedWeapon?.Invoke(this.weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
+        onDesEquipedWeapon?.Invoke(weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
     }
 
     protected void Attack()
