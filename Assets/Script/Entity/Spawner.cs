@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class Spawner : MonoBehaviour, Init
 {
     [SerializeField]
     protected Pictionarys<GameObject, int> objects;
@@ -30,9 +30,13 @@ public class Spawner : MonoBehaviour
         LoadSystem.AddPostLoadCorutine(LoadCorutine);
     }
 
-    protected virtual void LoadCorutine()
+    void LoadCorutine()
     {
+        Init();
+    }
 
+    public virtual void Init(params object[] param)
+    {
         if (autoDestroy)
             Destroy(gameObject);
         else
@@ -47,7 +51,7 @@ public class Spawner : MonoBehaviour
 
         spawneado.transform.SetParent(transform.parent);
 
-        spawneado.GetComponent<Init>()?.Init();            
+        spawneado.GetComponent<Init>()?.Init();
 
         if (spawneado.TryGetComponent(out IGetPatrol patrolReturn))
         {
@@ -62,21 +66,20 @@ public class Spawner : MonoBehaviour
                 entity.SetTeam(team);
         }
 
-        if(spawneado.TryGetComponent(out MoveAbstract move))
+        if (spawneado.TryGetComponent(out MoveAbstract move))
         {
             var hex = spawneado.GetComponentInParent<Hexagone>();
-            if(hex!=null)
-                move.Teleport(hex,0);            
+            if (hex != null)
+                move.Teleport(hex, 0);
         }
 
-        
 
-            /*
-            var rend = GetComponentInChildren<SpriteRenderer>();
 
-            rend.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
-            */
+        /*
+        var rend = GetComponentInChildren<SpriteRenderer>();
 
-            
+        rend.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
+        */
+
     }
 }

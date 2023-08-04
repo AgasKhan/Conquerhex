@@ -13,21 +13,21 @@ public class ReSpawner : Spawner
         autoDestroy = false;
     }
 
-    protected override void LoadCorutine()
+    public override void Init(params object[] param)
     {
-        base.LoadCorutine();
+        base.Init();
 
         if (spawneado != null)
         {
             respawn = TimersManager.Create(10, Respawn).SetLoop(true);
 
             if (spawneado.TryGetComponent(out Entity entity))
-            { 
-                entity.health.death += () => respawn.Reset();         
+            {
+                entity.health.death += () => respawn.Reset();
             }
         }
-            
     }
+
 
     void Respawn()
     {
