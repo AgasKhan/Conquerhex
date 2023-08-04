@@ -31,7 +31,7 @@ public class ReSpawner : Spawner
 
     void Respawn()
     {
-        if(!spawneado.activeSelf)
+        if(!spawneado.activeSelf && isActiveAndEnabled)
         {
             spawneado.transform.parent = transform.parent;
 
