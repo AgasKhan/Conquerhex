@@ -297,7 +297,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        if (caster == null || caster.enabled == false || caster.gameObject.activeSelf == false)
+        if (caster == null || caster.enabled == false || !caster.gameObject.activeSelf)
         {
             reference?.Off();
             return;
