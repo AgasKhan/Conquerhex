@@ -21,7 +21,8 @@ public class WavesManager : SingletonMono<WavesManager>
     Timer waves;
     Timer victory;
     int currentWave = 0;
-    private void Start()
+
+    protected override void Awake()
     {
         waves = TimersManager.Create(secondsForWaves, NextWave).Stop();
         victory = TimersManager.Create(secondsForVictory, VictoryTD).Stop();

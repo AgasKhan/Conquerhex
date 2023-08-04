@@ -109,9 +109,4 @@ public class Vida : MonoBehaviour
                   
             }
     }
-
-    private void OnDestroy()
-    {
-        TimersManager.Destroy(enf);
-    }
 }

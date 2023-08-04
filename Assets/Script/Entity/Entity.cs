@@ -302,7 +302,7 @@ public class Health : Init
     public void Init(params object[] param)
     {
         if (timeToRegen != null)
-            TimersManager.Destroy(timeToRegen);
+            timeToRegen.Stop();
 
         if (param != null && param.Length > 0)
         {

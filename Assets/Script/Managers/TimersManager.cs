@@ -120,18 +120,6 @@ public class TimersManager : MonoBehaviour
     #endregion
 
 
-
-
-    /// <summary>
-    /// Destruye un timer de la lista
-    /// </summary>
-    /// <param name="timy">El timer que sera destruido</param>
-    public static void Destroy(Timer timy)
-    {
-        instance.timersList.Remove(timy);
-    }
-
-
     private void Awake()
     {
         timersList = new List<Timer>();

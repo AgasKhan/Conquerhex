@@ -269,13 +269,4 @@ public class ControlEnemigo : MonoBehaviour
             }
         }
     }
-
-    private void OnDestroy()
-    {
-        if (enf != null)
-            TimersManager.Destroy(enf);
-        
-        //Destroy(audioSource);
-
-    }
 }
