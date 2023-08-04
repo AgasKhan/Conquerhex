@@ -170,7 +170,11 @@ public class TextCompleto : Init
     {
         final = msg;
         texto.text = msg;
-        On();
+
+        if (timer.Chck)
+            On();
+        else
+            timer.Reset();
     }
 
     public void AddMsg(string msg)
