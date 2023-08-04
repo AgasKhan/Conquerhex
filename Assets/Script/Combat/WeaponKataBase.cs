@@ -268,7 +268,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        if (caster == null || !caster.isActiveAndEnabled || weapon != null)
+        if (caster == null || !caster.isActiveAndEnabled || weapon == null)
         {
             reference?.Off();
             return;
@@ -285,7 +285,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        if (caster==null || !caster.isActiveAndEnabled || weapon != null)
+        if (caster==null || !caster.isActiveAndEnabled || weapon == null)
         {
             reference?.Off();
             return;
@@ -297,7 +297,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        if (caster == null || caster.enabled == false || !caster.gameObject.activeSelf)
+        if (caster == null || !caster.isActiveAndEnabled)
         {
             reference?.Off();
             return;
