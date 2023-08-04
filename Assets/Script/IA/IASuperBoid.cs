@@ -40,12 +40,12 @@ public class IASuperBoid : IABoid
 
         //enemigo
 
-        steerings["enemy"].targets = detectEnemy.Area(_character.transform.position, (algo) => { return algo.visible && _character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        steerings["enemy"].targets = detectEnemy.AreaWithRay(_character.transform, (algo) => { return algo.visible && _character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
 
 
         //Lider
         
-        var recursos = detectObjective.Area(_character.transform.position, (target) => 
+        var recursos = detectObjective.AreaWithRay(_character.transform, (target) => 
         {
             var entity = target.GetEntity();
 
