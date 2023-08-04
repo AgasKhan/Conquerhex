@@ -30,7 +30,7 @@ public class NexusController : TurretController
         MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().SetActiveGameObject(false);
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>().SetActiveGameObject(false);
 
-        //Empezar oleada
+        WavesManager.instance.StartWaves();
     }
 
     public override void UpgradeLevel()
