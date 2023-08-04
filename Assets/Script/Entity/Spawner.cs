@@ -63,7 +63,7 @@ public class Spawner : MonoBehaviour
             if (setTeam)
                 entity.SetTeam(team);
 
-            jsonGenerated = JsonUtility.ToJson(entity);
+            LoadSystem.AddPostLoadCorutine(()=> SaveJsonEntity(entity));
         }
 
         if(spawneado.TryGetComponent(out MoveAbstract move))
@@ -82,5 +82,11 @@ public class Spawner : MonoBehaviour
             */
 
             
+    }
+
+
+    void SaveJsonEntity(Entity entity)
+    {
+        jsonGenerated = JsonUtility.ToJson(entity);
     }
 }
