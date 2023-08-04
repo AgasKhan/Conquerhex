@@ -26,11 +26,7 @@ public class IAHunterPathFanding : IAHunter
     {
         base.OnEnterState(param);
 
-        PathfindingManager.instance.newObjective += pathFinding.GoTo;
-
         patrol.OnPatrolChange += pathFinding.GoTo;
-
-        fsm.detectEnemy += Fsm_detectEnemy;
 
         move.onMove += Move_onMove;
     }
@@ -43,15 +39,9 @@ public class IAHunterPathFanding : IAHunter
 
         patrol.OnPatrolChange -= pathFinding.GoTo;
 
-        fsm.detectEnemy -= Fsm_detectEnemy;
-
         move.onMove -= Move_onMove;
     }
 
-    private void Fsm_detectEnemy(Vector3 obj)
-    {
-        PathfindingManager.instance.NotifyNewObjective(obj);
-    }
 
     private void Move_onMove(Vector2 obj)
     {
