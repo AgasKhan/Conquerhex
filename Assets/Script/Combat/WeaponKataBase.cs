@@ -363,9 +363,12 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
             }
         }
 
+
+        var aux = weapon.Damage(caster, ref damagesCopy, entities);
+
         weapon.Durability(itemBase.damageToWeapon);
 
-        return weapon.Damage(caster, ref damagesCopy, entities);
+        return aux;
     }
 
     void MyControllerVOID(Vector2 dir, float tim)
