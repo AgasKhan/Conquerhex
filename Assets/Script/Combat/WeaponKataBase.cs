@@ -191,6 +191,8 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         if(weapon!=null)
             weapon.off -= Weapon_durabilityOff;
 
+        pressed = MyControllerVOID; //Para cancelar el ataque presionado
+
         onDesEquipedWeapon?.Invoke(weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
     }
 
