@@ -328,8 +328,6 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         if (weapon == null)
             return null;
 
-        weapon.Durability(itemBase.damageToWeapon);
-
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
         List<Damage> additives = new List<Damage>(caster.additiveDamage);
@@ -364,6 +362,8 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
                 }
             }
         }
+
+        weapon.Durability(itemBase.damageToWeapon);
 
         return weapon.Damage(caster, ref damagesCopy, entities);
     }
