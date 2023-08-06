@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Consola : MonoBehaviour
 {
-
     public TextMeshProUGUI salida;
     public GameObject canvas;
     public Scrollbar scrollbar;
@@ -45,7 +44,6 @@ public class Consola : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (DebugPrint.chk())
         {
             string aux;
