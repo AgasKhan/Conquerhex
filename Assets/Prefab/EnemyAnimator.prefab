@@ -173,10 +173,23 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
-  timerStun:
-    total: 0
-    _current: 0
-  coll: {fileID: 4638205354786858129}
+  automatick:
+    timerToAttack:
+      total: 0
+      _current: 0
+    timerChargeAttack:
+      total: 0
+      _current: 0
+  detectEntities:
+    radius: 8
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 2177
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 1
 --- !u!114 &7826366853568280359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +213,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops:
   - maxMinDrops:
       pictionaries:

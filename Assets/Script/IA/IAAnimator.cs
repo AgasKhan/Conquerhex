@@ -8,7 +8,7 @@ public class IAAnimator : IAFather
 
     public AutomaticAttack automatick;
 
-    public CircleCollider2D coll;
+    public Detect<IGetEntity> detectEntities;
 
     Animator anim;
 
@@ -21,16 +21,19 @@ public class IAAnimator : IAFather
         automatick = new AutomaticAttack(_character, 2);
     }
 
-    void Detect(Collider2D collision)
+    public override void OnStayState(Character param)
     {
-        if (collision.TryGetComponent(out IGetEntity enemy))
+        base.OnStayState(param);
+
+        var entities = detectEntities.AreaWithRay(transform, (entity) => entity.visible && entity.GetEntity().team != Team.recursos && entity.GetEntity().team != character.team);
+
+        if (entities.Count > 0)
         {
-            if (enemy.GetEntity() != null && enemy.GetEntity().team != _character.team && enemy.GetEntity().team != Team.recursos)
-            {
-                this.enemy = enemy;
-                enabled = true;
-            }
-                
+            enemy = entities[0];
+        }
+        else
+        {
+            enemy = null;
         }
     }
 
@@ -38,30 +41,4 @@ public class IAAnimator : IAFather
     {
         anim = GetComponent<Animator>();
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Detect(collision);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Detect(collision);
-    }
-
-
-    private void Update()
-    {
-        if (enemy == null)
-        {
-            enabled = false;
-            return;
-        }
-        
-        
-        if (Mathf.Pow(coll.radius,2) < (enemy.transform.position - transform.position).sqrMagnitude)
-            enemy = null;
-    }
-
-
 }
