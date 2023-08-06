@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1480746569241377881}
   - component: {fileID: 7905032161641291950}
+  - component: {fileID: 6156103919114755127}
+  - component: {fileID: 8858518829406987321}
   m_Layer: 0
   m_Name: BordeLava_1
   m_TagString: Untagged
@@ -86,6 +88,76 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &6156103919114755127
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95798420570747604}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.09, y: 2.16}
+    newSize: {x: 2.09, y: 2.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.12425658, y: -0.34467635}
+      - {x: 0.18400927, y: -0.16374324}
+      - {x: 0.060207613, y: -0.0912442}
+      - {x: 0.059463628, y: 0.07906572}
+      - {x: 0.385, y: 0.32}
+      - {x: 0.7357596, y: 0.37036774}
+      - {x: 0.5574232, y: 0.4392043}
+      - {x: 0.3573364, y: 0.46134633}
+      - {x: 0.21094945, y: 0.34682938}
+      - {x: -0.0119132325, y: 0.40053782}
+      - {x: -0.07681229, y: 0.51536906}
+      - {x: -0.17862459, y: 0.35791954}
+      - {x: -0.43097317, y: 0.32838956}
+      - {x: -0.5574163, y: 0.10120819}
+      - {x: -0.44936273, y: -0.13644321}
+      - {x: -0.5763691, y: -0.33214545}
+      - {x: -0.4039191, y: -0.33619696}
+      - {x: -0.28583863, y: -0.26232484}
+      - {x: 0.114068076, y: -0.5653951}
+      - {x: 0.13429654, y: -0.6345195}
+      - {x: 0.6864345, y: -0.6418943}
+--- !u!114 &8858518829406987321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95798420570747604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d92071023f80f4d8eff9f8a15a552b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regen: {fileID: 0}
+  fadeLifeRegen:
+    durationAnim: 0.3
+    durationWait: 0.1
+    timerOn:
+      rid: -2
+    unscaled: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &4399691350001665140
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +168,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2974850534403268827}
   - component: {fileID: 8720746151984020955}
-  - component: {fileID: 6533912813986043552}
   m_Layer: 0
   m_Name: CharcoLava_1
   m_TagString: Untagged
@@ -171,66 +242,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &6533912813986043552
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4399691350001665140}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.09, y: 2.16}
-    newSize: {x: 2.09, y: 2.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.33499998, y: -0.42}
-      - {x: 0.195, y: -0.37}
-      - {x: 0.145, y: -0.26999998}
-      - {x: 0.205, y: -0.19999999}
-      - {x: 0.175, y: -0.13}
-      - {x: 0.085, y: -0.07}
-      - {x: 0.095, y: 0.089999996}
-      - {x: 0.385, y: 0.32}
-      - {x: 0.635, y: 0.29}
-      - {x: 0.745, y: 0.37}
-      - {x: 0.745, y: 0.39}
-      - {x: 0.73499995, y: 0.41}
-      - {x: 0.615, y: 0.45}
-      - {x: 0.33499998, y: 0.48999998}
-      - {x: 0.085, y: 0.42}
-      - {x: -0.074999996, y: 0.52}
-      - {x: -0.105, y: 0.51}
-      - {x: -0.235, y: 0.37}
-      - {x: -0.435, y: 0.37}
-      - {x: -0.465, y: 0.34}
-      - {x: -0.59499997, y: 0.12}
-      - {x: -0.575, y: 0.07}
-      - {x: -0.49499997, y: -0.17}
-      - {x: -0.59499997, y: -0.32999998}
-      - {x: -0.59499997, y: -0.35}
-      - {x: -0.575, y: -0.35999998}
-      - {x: -0.405, y: -0.37}
-      - {x: -0.285, y: -0.29}
-      - {x: 0.085, y: -0.59999996}
-      - {x: 0.095, y: -0.65}
-      - {x: 0.114999995, y: -0.68}
-      - {x: 0.66499996, y: -0.68}
-      - {x: 0.695, y: -0.64}
-      - {x: 0.685, y: -0.61}
-      - {x: 0.48499998, y: -0.53}
 --- !u!1 &8350564482380142835
 GameObject:
   m_ObjectHideFlags: 0
