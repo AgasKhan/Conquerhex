@@ -176,7 +176,6 @@ public class LoadMap : SingletonMono<LoadMap>
 
         if(playerPublic!= null)
         {
-            GameManager.instance.player = playerPublic.gameObject;
             carlitos = playerPublic.carlitos;
         }
         

@@ -44,8 +44,6 @@ public class GameManager : SingletonMono<GameManager>
 
     FSMGameMaganer fsmGameMaganer;
 
-    public GameObject player;
-
     public Character playerCharacter;
 
     public static void RetardedOn(System.Action<bool> retardedOrder)

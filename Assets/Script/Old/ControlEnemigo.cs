@@ -73,7 +73,7 @@ public class ControlEnemigo : MonoBehaviour
 
         player.AddRange(LoadMap.instance.carlitos);
 
-        player.Add(GameManager.instance.player.transform);
+        player.Add(GameManager.instance.playerCharacter.transform);
 
     }
     void FixedUpdate()
