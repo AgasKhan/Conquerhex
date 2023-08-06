@@ -9,6 +9,9 @@ public class PlayerPostProcess : MonoBehaviour
     DrawFullscreenFeature regen;
 
     [SerializeField]
+    DrawFullscreenFeature[] onScene;
+
+    [SerializeField]
     FadeOnOff fadeLifeRegen;
 
     void Awake()
@@ -20,6 +23,11 @@ public class PlayerPostProcess : MonoBehaviour
         fadeLifeRegen.Init();
 
         regen.SetActive(false);
+
+        for (int i = 0; i < onScene.Length; i++)
+        {
+            onScene[i].SetActive(true);
+        }
     }
 
     private void FadeRegen_alphas_Regen(float obj)
@@ -52,5 +60,13 @@ public class PlayerPostProcess : MonoBehaviour
         regen.SetActive(false);
 
         fadeLifeRegen.end -= FadeRegen_end;
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < onScene.Length; i++)
+        {
+            onScene[i].SetActive(false);
+        }
     }
 }
