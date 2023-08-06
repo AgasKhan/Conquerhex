@@ -79,7 +79,7 @@ public class PortalSubMenu : CreateSubMenu
         if(requirement.CanCraft(portalBuilding.character))
         {
             requirement.Craft(portalBuilding.character);
-            LoadSystem.instance.Load(item.nameDisplay, true);
+            LoadSystem.instance.LoadAndSavePlayer(item.nameDisplay, true);
         }
         else
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes combustible suficiente").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));

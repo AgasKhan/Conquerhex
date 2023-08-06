@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6295448971589143367}
   - component: {fileID: 6295448971589143364}
   - component: {fileID: 6295448971589143363}
+  - component: {fileID: 7607633304618281516}
   m_Layer: 7
   m_Name: pj
   m_TagString: Player
@@ -245,6 +246,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6295448971589143386}
   m_Enabled: 1
+--- !u!114 &7607633304618281516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eceeddd4cce0aed4ebe5c322b0aadc7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6295448971589143385}
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0

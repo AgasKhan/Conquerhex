@@ -9,8 +9,6 @@ public class ItemContainer : MonoBehaviour
 
     void Awake()
     { 
-
-        character.AddOrSubstractItems("PortalFuel", 100);
         if (SaveWithJSON.CheckKeyInBD("Player"))
         {
             SaveWithJSON.LoadClassFromPictionary("Player", ref character);
@@ -22,9 +20,4 @@ public class ItemContainer : MonoBehaviour
         }
     }
 
-
-    private void OnDestroy()
-    {
-        SaveWithJSON.SaveClassInPictionary("Player", character);
-    }
 }

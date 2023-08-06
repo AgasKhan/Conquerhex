@@ -816,6 +816,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops: []
   audioManager: {fileID: 0}
   interact:
@@ -1316,6 +1317,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops: []
   audioManager: {fileID: 0}
   interact:
@@ -1576,6 +1578,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops:
   - maxMinDrops:
       pictionaries: []
@@ -1645,6 +1648,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops: []
   audioManager: {fileID: 0}
   interact:
@@ -3037,7 +3041,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3047,7 +3051,7 @@ PrefabInstance:
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1494296917601722201, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3122,7 +3126,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 144.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3132,7 +3136,7 @@ PrefabInstance:
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266778078756758469, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3212,7 +3216,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 197.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3222,7 +3226,7 @@ PrefabInstance:
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060013391591686065, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3242,7 +3246,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3252,7 +3256,7 @@ PrefabInstance:
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8129802323095566332, guid: 9d6bd530dc86fb340b302181bd432db6,
         type: 3}
@@ -3568,6 +3572,7 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops: []
   audioManager: {fileID: 0}
   interact:
@@ -3667,9 +3672,6 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
-  timerStun:
-    total: 0
-    _current: 0
   detectEnemy:
     radius: 0
     distance: 0
@@ -3680,7 +3682,7 @@ MonoBehaviour:
     _minDetects: 0
     inverse: 0
     dot: 1
-  detectItem:
+  detectObjective:
     radius: 0
     distance: 0
     layerMask:

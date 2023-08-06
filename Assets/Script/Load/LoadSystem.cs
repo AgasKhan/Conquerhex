@@ -98,6 +98,13 @@ public class LoadSystem : SingletonMono<LoadSystem>
         Time.timeScale = 1;
     }
 
+    public void LoadAndSavePlayer(string scn, bool pause = false)
+    {
+        SaveWithJSON.SaveClassInPictionary("Player", GameManager.instance.playerCharacter);
+        Load(scn, pause);
+        
+    }
+
     public void Reload()
     {
         Load(SceneManager.GetActiveScene().name, loadPause);

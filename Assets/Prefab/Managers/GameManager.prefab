@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleAvoidanceLayer:
     serializedVersion: 2
-    m_Bits: 2241
+    m_Bits: 2113
   player: {fileID: 0}
   playerCharacter: {fileID: 0}
 --- !u!114 &7739652029663223113
@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regen: {fileID: 2282534022450122797, guid: be6277cedc6d28b449f2f612936ef71e, type: 2}
+  onScene: []
   fadeLifeRegen:
     durationAnim: 0.5
     durationWait: 0
