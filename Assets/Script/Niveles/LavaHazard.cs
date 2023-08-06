@@ -9,17 +9,63 @@ public class LavaHazard : MonoBehaviour
     DrawFullscreenFeature postProcess;
 
     [SerializeField]
-    FadeOnOff fadeLifeRegen;
+    FadeOnOff myfadeOnOff;
+
+    Character character;
+
+    [SerializeField]
+    float lavaDmgSecs;
+
+    Timer lavaDmg;
 
     void Awake()
     {
         //EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += PlayerPostProcess_LifeRegen;
 
-        //fadeLifeRegen.alphas += FadeRegen_alphas_Regen;
+        myfadeOnOff.alphas += FadeRegen_alphas_Regen;
 
-        //fadeLifeRegen.Init();
+        myfadeOnOff.Init();
 
-        //postProcess.SetActive(false);
+        postProcess.SetActive(false);
+
+        lavaDmg = TimersManager.Create(lavaDmgSecs, LavaDamage).Stop();
+    }
+
+    void LavaDamage()
+    {
+        if (character == null)
+            return;
+        
+        Damage dmg = new Damage();
+
+        dmg.typeInstance = (ClassDamage)Manager<ShowDetails>.pic["Perforation"];
+
+        dmg.amount = 10;
+
+        character.TakeDamage(dmg);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            character = collision.GetComponent<Character>();
+            PlayerPostProcess_LifeRegen(character);
+
+            lavaDmg.Reset();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            myfadeOnOff.FadeOff();
+            myfadeOnOff.end += FadeRegen_end;
+
+            lavaDmg.Stop();
+            character = null;
+        }
     }
 
     private void FadeRegen_alphas_Regen(float obj)
@@ -29,28 +75,25 @@ public class LavaHazard : MonoBehaviour
 
     private void PlayerPostProcess_LifeRegen(params object[] param)
     {
-        var percentage = param[0] as IGetPercentage;
-        var addLife = (float)param[1];
-
-        if (addLife > 0 && percentage.Percentage() != 1 && !postProcess.isActive)
+        if (!postProcess.isActive)
         {
             postProcess.SetActive(true);
 
-            fadeLifeRegen.FadeOn();
+            myfadeOnOff.FadeOn();
         }
-
-        else if ((addLife <= 0 || percentage.Percentage() == 1) && postProcess.isActive && fadeLifeRegen.fadeFinish)
+        /*
+        else if (postProcess.isActive && myfadeOnOff.fadeFinish)
         {
-            fadeLifeRegen.FadeOff();
+            myfadeOnOff.FadeOff();
 
-            fadeLifeRegen.end += FadeRegen_end;
-        }
+            myfadeOnOff.end += FadeRegen_end;
+        }*/
     }
 
     private void FadeRegen_end()
     {
         postProcess.SetActive(false);
 
-        fadeLifeRegen.end -= FadeRegen_end;
+        myfadeOnOff.end -= FadeRegen_end;
     }
 }

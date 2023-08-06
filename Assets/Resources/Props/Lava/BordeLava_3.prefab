@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1480746569241377881}
   - component: {fileID: 7905032161641291950}
   - component: {fileID: 8194849117843930796}
+  - component: {fileID: 3919907077925203316}
   m_Layer: 0
   m_Name: BordeLava_3
   m_TagString: Untagged
@@ -99,18 +100,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d92071023f80f4d8eff9f8a15a552b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regen: {fileID: -2137141489413472441, guid: be6277cedc6d28b449f2f612936ef71e, type: 2}
-  fadeLifeRegen:
+  postProcess: {fileID: -2137141489413472441, guid: be6277cedc6d28b449f2f612936ef71e,
+    type: 2}
+  myfadeOnOff:
     durationAnim: 0.3
     durationWait: 0.1
     timerOn:
       rid: -2
     unscaled: 1
+  lavaDmgSecs: 0
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!60 &3919907077925203316
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95798420570747604}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.02, y: 2.01}
+    newSize: {x: 2.09, y: 2.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.3227724, y: -0.20994727}
+      - {x: 0.56743854, y: -0.14759667}
+      - {x: 0.42845166, y: -0.054312408}
+      - {x: 0.46902752, y: 0.14886147}
+      - {x: 0.5615695, y: 0.25428247}
+      - {x: 0.78528315, y: 0.27886787}
+      - {x: 0.8813208, y: 0.42537728}
+      - {x: 0.72169805, y: 0.6784905}
+      - {x: 0.6433961, y: 0.5343868}
+      - {x: 0.43820745, y: 0.5363208}
+      - {x: 0.44921118, y: 0.46248844}
+      - {x: 0.16765977, y: 0.27153093}
+      - {x: 0.27055272, y: 0.1513134}
+      - {x: -0.116486624, y: -0.058897108}
+      - {x: -0.60417515, y: -0.19882448}
+      - {x: -0.8281897, y: -0.1404309}
+      - {x: -0.5365137, y: -0.52305543}
+      - {x: -0.17282565, y: -0.45892024}
+      - {x: 0.027873544, y: -0.775}
+      - {x: 0.07022102, y: -0.57436764}
+      - {x: 0.26769164, y: -0.5089368}
 --- !u!1 &3322421068941803772
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +588,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2974850534403268827}
   - component: {fileID: 8720746151984020955}
-  - component: {fileID: 6529283699836010813}
   m_Layer: 0
   m_Name: CharcoLava_1
   m_TagString: Untagged
@@ -614,49 +662,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &6529283699836010813
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4399691350001665140}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.02, y: 2.01}
-    newSize: {x: 2.09, y: 2.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.3227724, y: -0.20994727}
-      - {x: 0.56743854, y: -0.14759667}
-      - {x: 0.42845166, y: -0.054312408}
-      - {x: 0.46902752, y: 0.14886147}
-      - {x: 0.5615695, y: 0.25428247}
-      - {x: 0.78528315, y: 0.27886787}
-      - {x: 0.8813208, y: 0.42537728}
-      - {x: 0.72169805, y: 0.6784905}
-      - {x: 0.6433961, y: 0.5343868}
-      - {x: 0.43820745, y: 0.5363208}
-      - {x: 0.44921118, y: 0.46248844}
-      - {x: 0.16765977, y: 0.27153093}
-      - {x: 0.27055272, y: 0.1513134}
-      - {x: -0.116486624, y: -0.058897108}
-      - {x: -0.60417515, y: -0.19882448}
-      - {x: -0.8281897, y: -0.1404309}
-      - {x: -0.5365137, y: -0.52305543}
-      - {x: -0.17282565, y: -0.45892024}
-      - {x: 0.027873544, y: -0.775}
-      - {x: 0.07022102, y: -0.57436764}
-      - {x: 0.26769164, y: -0.5089368}

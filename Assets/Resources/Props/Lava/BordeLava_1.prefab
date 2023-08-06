@@ -146,13 +146,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d92071023f80f4d8eff9f8a15a552b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regen: {fileID: -2137141489413472441, guid: be6277cedc6d28b449f2f612936ef71e, type: 2}
-  fadeLifeRegen:
+  postProcess: {fileID: -2137141489413472441, guid: be6277cedc6d28b449f2f612936ef71e,
+    type: 2}
+  myfadeOnOff:
     durationAnim: 0.3
     durationWait: 0.1
     timerOn:
       rid: -2
     unscaled: 1
+  lavaDmgSecs: 0
   references:
     version: 2
     RefIds:

@@ -7,7 +7,12 @@ public class EnemyTowerController : TurretController
     protected override void Config()
     {
         base.Config();
-        MyStarts = MyStart;
+        MyAwakes += MyAwake;
+        MyStarts = null;
+    }
+    void MyAwake()
+    {
+        LoadSystem.AddPostLoadCorutine(MyStart);
     }
 
     void MyStart()

@@ -7,25 +7,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2b1936eb057c29418e9670be3207f5d, type: 3}
-  m_Name: CuchillaTorreta
+  m_Name: EspadaInfinita
   m_EditorClassIdentifier: 
-  _nameDisplay: CuchillaTorreta
-  _image: {fileID: 1225945828, guid: 17d90ad2b19afdb409c147bd3ff6fd9b, type: 3}
-  _details: Bastante rapida y afilada
+  _nameDisplay: Espada Infinita
+  _image: {fileID: -405826507, guid: 17d90ad2b19afdb409c147bd3ff6fd9b, type: 3}
+  _details: El arma mas comun, debido a su efectividad
   maxAmount: 1
   weight: 0
   itemType: 4
-  velocity: 0.5
+  velocity: 1
   range: 1.2
   damages:
-  - amount: 6.6
+  - amount: 6
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  - amount: 8
+  - amount: 10
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
-  - amount: 5.4
+  - amount: 4
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   durability: 99999
   isImproved: 0
