@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc211685095b9ab40bb81b8dc0fbca5b, type: 3}
+  m_Name: EnemyTurretBuild
+  m_EditorClassIdentifier: 
+  _nameDisplay: EnemyTurretBuild
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
+  weight: 0
+  itemType: 0
+  life: 150
+  regen: 0
+  vulnerabilities: []
+  kataCombos:
+  - kata: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91, type: 2}
+    weapon: {fileID: 11400000, guid: db809ba570989904c9f920a091df53e1, type: 2}
+  - kata: {fileID: 11400000, guid: c2c5d29945102f54aae4bc5685040b32, type: 2}
+    weapon: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
+  additiveDamage: []
+  damagesUpgrades: []
+  possibleAbilities:
+    pictionaries: []
