@@ -6,25 +6,25 @@ using UnityEngine.Rendering.Universal;
 public class LavaHazard : MonoBehaviour
 {
     [SerializeField]
-    DrawFullscreenFeature regen;
+    DrawFullscreenFeature postProcess;
 
     [SerializeField]
     FadeOnOff fadeLifeRegen;
 
     void Awake()
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += PlayerPostProcess_LifeRegen;
+        //EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += PlayerPostProcess_LifeRegen;
 
-        fadeLifeRegen.alphas += FadeRegen_alphas_Regen;
+        //fadeLifeRegen.alphas += FadeRegen_alphas_Regen;
 
-        fadeLifeRegen.Init();
+        //fadeLifeRegen.Init();
 
-        regen.SetActive(false);
+        //postProcess.SetActive(false);
     }
 
     private void FadeRegen_alphas_Regen(float obj)
     {
-        regen.settings.blitMaterial.SetFloat("_fade", obj);
+        postProcess.settings.blitMaterial.SetFloat("_fade", obj);
     }
 
     private void PlayerPostProcess_LifeRegen(params object[] param)
@@ -32,14 +32,14 @@ public class LavaHazard : MonoBehaviour
         var percentage = param[0] as IGetPercentage;
         var addLife = (float)param[1];
 
-        if (addLife > 0 && percentage.Percentage() != 1 && !regen.isActive)
+        if (addLife > 0 && percentage.Percentage() != 1 && !postProcess.isActive)
         {
-            regen.SetActive(true);
+            postProcess.SetActive(true);
 
             fadeLifeRegen.FadeOn();
         }
 
-        else if ((addLife <= 0 || percentage.Percentage() == 1) && regen.isActive && fadeLifeRegen.fadeFinish)
+        else if ((addLife <= 0 || percentage.Percentage() == 1) && postProcess.isActive && fadeLifeRegen.fadeFinish)
         {
             fadeLifeRegen.FadeOff();
 
@@ -49,7 +49,7 @@ public class LavaHazard : MonoBehaviour
 
     private void FadeRegen_end()
     {
-        regen.SetActive(false);
+        postProcess.SetActive(false);
 
         fadeLifeRegen.end -= FadeRegen_end;
     }
