@@ -34,6 +34,8 @@ public class GameManager : SingletonMono<GameManager>
 
     public static Pictionarys<MyScripts, System.Action> update => instance._update;
 
+    public LayerMask obstacleAvoidanceLayer;
+
     Pictionarys<MyScripts, System.Action> _update = new Pictionarys<MyScripts, System.Action>();
 
     public static Pictionarys<MyScripts, System.Action> fixedUpdate => instance._fixedUpdate;

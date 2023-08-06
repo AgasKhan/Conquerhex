@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IAHunter : IAFather, IGetPatrol
+public class IAHunter : IAFather, IGetPatrol, Init
 {
     [SerializeField]
     public Pictionarys<string, SteeringWithTarget> steerings;
@@ -45,7 +45,7 @@ public class IAHunter : IAFather, IGetPatrol
     protected virtual void Awake()
     {
         fsm = new HunterIntern(this);
-        patrol.Init(this);
+        Init();
     }
 
     private void OnEnable()
@@ -89,7 +89,10 @@ public class IAHunter : IAFather, IGetPatrol
         return patrol;
     }
 
-
+    public void Init(params object[] param)
+    {
+        patrol.Init(this);
+    }
 }
 
 [System.Serializable]

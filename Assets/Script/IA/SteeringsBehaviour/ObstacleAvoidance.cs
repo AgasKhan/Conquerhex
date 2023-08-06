@@ -32,7 +32,7 @@ public class ObstacleAvoidance : SteeringBehaviour
 
         _direction = steering.Calculate(target);
 
-        var aux = Physics2D.RaycastAll(transform.position, _direction, _direction.magnitude, NodeManager.instance.obstacleAvoidanceLayer);
+        var aux = Physics2D.RaycastAll(transform.position, _direction, _direction.magnitude, GameManager.instance.obstacleAvoidanceLayer);
 
         if (aux != null && aux.Length > 1)
         {

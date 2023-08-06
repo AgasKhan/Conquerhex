@@ -200,6 +200,18 @@ PrefabInstance:
     - {fileID: 3019300138335407168, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
     - {fileID: 4511327652501100520, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4505879b8a9851249a14c8128f2b0d73, type: 3}
+--- !u!114 &930744270292389214 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3019300138335407196, guid: 4505879b8a9851249a14c8128f2b0d73,
+    type: 3}
+  m_PrefabInstance: {fileID: 2669543318308192514}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5842742153568021646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 059dc1a490ed57b4992cb062eafaa939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5842742153568021646 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
@@ -226,7 +238,7 @@ MonoBehaviour:
     rid: -2
   subMenu:
     subMenu: {fileID: 0}
-  turret: {fileID: 0}
+  turret: {fileID: 930744270292389214}
   references:
     version: 2
     RefIds:

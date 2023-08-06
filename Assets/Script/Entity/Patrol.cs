@@ -204,7 +204,9 @@ public class Patrol : Init
     public void Init(params object[] param)
     {
         _mono = param[0] as MonoBehaviour;
-        fsmPatrol = new FSMPatrol(this);
+
+        if(fsmPatrol==null)
+            fsmPatrol = new FSMPatrol(this);
 
         if(patrolParent == null)
         {

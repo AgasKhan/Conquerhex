@@ -51,8 +51,6 @@ public class Spawner : MonoBehaviour, Init
 
         spawneado.transform.SetParent(transform.parent);
 
-        spawneado.GetComponent<Init>()?.Init();
-
         if (spawneado.TryGetComponent(out IGetPatrol patrolReturn))
         {
             var patrol = patrolReturn.GetPatrol();
@@ -72,6 +70,9 @@ public class Spawner : MonoBehaviour, Init
             if (hex != null)
                 move.Teleport(hex, 0);
         }
+
+
+        spawneado.GetComponent<Init>()?.Init();
 
 
 
