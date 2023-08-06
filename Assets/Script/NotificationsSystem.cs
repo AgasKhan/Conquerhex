@@ -74,8 +74,8 @@ public class NotificationsSystem : MonoBehaviour
 
         var notification = new AndroidNotification();
 
-        notification.Title = "Volvé a jugar mostro";
-        notification.Text = "Hace mucho que no jugas, te regalo 10 gemas";
+        notification.Title = "ConquerHex";
+        notification.Text = "El espacio fragmentado te espera para ser explorado";
         notification.LargeIcon = "icon_0";
         notification.FireTime = DateTime.Now.AddMinutes(2);
         notification.RepeatInterval = TimeSpan.FromMinutes(2);
