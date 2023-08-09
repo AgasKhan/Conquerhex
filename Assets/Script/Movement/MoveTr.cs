@@ -34,6 +34,8 @@ public class MoveTr : MoveAbstract
             carlitos[i].name = "Carlitos (" + i + ")";
 
             carlitos[i].SetPositionAndRotation(transform.position, transform.rotation);
+
+            carlitos[i].SetActiveGameObject(false);
         }
 
         if (transform.parent != null && transform.parent.TryGetComponent(out Hexagone hexagone))

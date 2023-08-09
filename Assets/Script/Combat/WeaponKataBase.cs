@@ -107,7 +107,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     [SerializeField]
     EquipedItem<MeleeWeapon> equipedWeapon = new EquipedItem<MeleeWeapon>();
 
-    //float actualCharacterVelocity;
+    float actualCharacterVelocity;
 
     public bool cooldownTime => cooldown.Chck;
 
@@ -208,7 +208,6 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         }
     }
 
-
     protected Entity[] Detect(Vector2 dir, float timePressed = 0)
     {
         affected = InternalDetect(dir, timePressed);
@@ -237,8 +236,16 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         if (itemBase == null)
             return;
 
+
         if (param.Length > 0)
+        {
             equipedWeapon.character = param[0] as AttackEntity;
+            if (caster is DynamicEntity)
+            {
+                actualCharacterVelocity = ((DynamicEntity)caster).move.objectiveVelocity;
+            }
+        }
+            
 
         if (param.Length > 1)
             equipedWeapon.indexEquipedItem = (int)param[1];
@@ -273,14 +280,16 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     {
         if (caster == null || !caster.isActiveAndEnabled || weapon == null)
         {
-            reference?.Off();
-            reference = null;
+            StopAttack();
             return;
         }
 
         //actualCharacterVelocity = caster.move.objectiveVelocity;
         if(caster is DynamicEntity)
+        {
             ((DynamicEntity)caster).move.objectiveVelocity += -2;
+        }
+           
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
@@ -291,8 +300,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     {
         if (caster==null || !caster.isActiveAndEnabled || weapon == null)
         {
-            reference?.Off();
-            reference = null;
+            StopAttack();
             return;
         }
 
@@ -302,22 +310,25 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        if (caster != null || caster.isActiveAndEnabled)
+        if (caster != null && caster.isActiveAndEnabled && weapon != null)
         {
-            if (caster is DynamicEntity)
-                ((DynamicEntity)caster).move.objectiveVelocity += 2;
-
-            if (weapon != null)
-                up(dir, tim);
+            up(dir, tim);
         }
 
-        reference?.Off();
+        StopAttack();
+    }
+    public void StopAttack()
+    {
+        if (caster is DynamicEntity && actualCharacterVelocity > ((DynamicEntity)caster).move.objectiveVelocity)
+            ((DynamicEntity)caster).move.objectiveVelocity += 2;
 
+        reference?.Off();
         reference = null;
 
         pressed = MyControllerVOID;
         up = MyControllerVOID;
     }
+
 
     #endregion
 

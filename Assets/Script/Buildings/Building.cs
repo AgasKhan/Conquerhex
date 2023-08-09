@@ -53,12 +53,24 @@ public abstract class Building : AttackEntity, Interactuable
 
     public virtual void UpgradeLevel()
     {
-        controller.UpgradeLevel();
+        if(controller!=null)
+        {
+            controller.UpgradeLevel();
+        }
+        else
+        {
+            currentLevel++;
+            if (currentLevel > maxLevel)
+                currentLevel = maxLevel;
+
+            SaveWithJSON.SaveInPictionary(flyweight.nameDisplay + "Level", currentLevel);
+        }
     }
 
     public virtual void EnterBuild()
     {
-        controller.EnterBuild();
+        if (controller != null)
+            controller.EnterBuild();
     }
 
     public virtual void PopUpAction(UnityEngine.Events.UnityAction action)

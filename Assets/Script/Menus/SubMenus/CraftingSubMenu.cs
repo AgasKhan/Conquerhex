@@ -115,9 +115,21 @@ public class CraftingSubMenu : CreateSubMenu
     {
         ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(buildingBase.character), item.result.Item.image);
 
-        lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => { CraftAnItem(item.nameDisplay); onCraft?.Invoke(); }, "");
+        lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
+        {
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "¿Seguro deseas crear este item?")
+                .AddButton("Si", () => { ButtonAction(item); })
+                .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+
+        }, "");
 
         lastButtonCraft.button.interactable = item.CanCraft(buildingBase.character);
+    }
+
+    void ButtonAction(Recipes item)
+    {
+        CraftAnItem(item.nameDisplay); 
+        onCraft?.Invoke();
     }
 
     void ShowResultDetails(string nameDisplay, string details, Sprite Image)
