@@ -58,10 +58,12 @@ public class LavaHazard : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        
         if (collision.CompareTag("Player"))
         {
             myfadeOnOff.FadeOff();
             myfadeOnOff.end += FadeRegen_end;
+
 
             lavaDmg.Stop();
             character = null;
@@ -70,7 +72,7 @@ public class LavaHazard : MonoBehaviour
 
     private void FadeRegen_alphas_Regen(float obj)
     {
-        postProcess.settings.blitMaterial.SetFloat("_fade", obj);
+        postProcess.settings.blitMaterial.SetFloat("_Fade", obj);
     }
 
     private void PlayerPostProcess_LifeRegen(params object[] param)
@@ -81,13 +83,13 @@ public class LavaHazard : MonoBehaviour
 
             myfadeOnOff.FadeOn();
         }
-        /*
+        
         else if (postProcess.isActive && myfadeOnOff.fadeFinish)
         {
             myfadeOnOff.FadeOff();
 
             myfadeOnOff.end += FadeRegen_end;
-        }*/
+        }
     }
 
     private void FadeRegen_end()
