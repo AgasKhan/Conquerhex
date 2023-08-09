@@ -74,11 +74,11 @@ public class NotificationsSystem : MonoBehaviour
 
         var notification = new AndroidNotification();
 
-        notification.Title = "ConquerHex";
+        notification.Title = "Vuelve a jugar";
         notification.Text = "El espacio fragmentado te espera para ser explorado";
         notification.LargeIcon = "icon_0";
-        notification.FireTime = DateTime.Now.AddMinutes(2);
-        notification.RepeatInterval = TimeSpan.FromMinutes(2);
+        notification.FireTime = DateTime.Now.AddMinutes(3);
+        notification.RepeatInterval = TimeSpan.FromMinutes(3);
 
 
         AndroidNotificationCenter.SendNotification(notification, channel.Id);
