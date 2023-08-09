@@ -35,8 +35,14 @@ public class MenuManager : SingletonMono<MenuManager>
 
     public void StartGame()
     {
-        //ClickAccept();
-        LoadSystem.instance.Load(firstLevel, true);
+        if(SaveWithJSON.BD.ContainsKey("FirstTime"))
+            LoadSystem.instance.Load(firstLevel, true);
+        else
+        {
+            LoadSystem.instance.Load("Tutorial", true);
+            SaveWithJSON.SaveInPictionary("FirstTime", true);
+        }
+        
     }
 }
 

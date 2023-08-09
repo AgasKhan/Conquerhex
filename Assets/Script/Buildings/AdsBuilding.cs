@@ -53,7 +53,7 @@ public class AdsBuilding : Building, IUnityAdsListener
         if (showResult == ShowResult.Finished)
         {
             Debug.Log("Te doy una recompensa");
-            character.AddOrSubstractItems("PortalFuel", 5);
+            character.AddOrSubstractItems("PortalFuel", 10);
         }
             
         else
