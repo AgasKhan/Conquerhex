@@ -8,6 +8,12 @@ public class BarrierBuild : Building
     [SerializeField]
     private bool myVisibility;
 
+    //tenes q hacer esto
+    public override bool interactuable { get => myInteractuable; set => myInteractuable = value; }
+
+    [SerializeField]
+    private bool myInteractuable = true;
+
     public override string rewardNextLevel => throw new System.NotImplementedException();
 
     [HideInInspector]
