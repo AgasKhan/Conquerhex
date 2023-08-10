@@ -21,6 +21,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
     [SerializeReference]
     SaveWithJSON saveWithJSON;
 
+    [SerializeField]
+    Lenguages lenguages;
+
     // Start is called before the first frame update
     protected override void Awake()
     {
@@ -34,8 +37,9 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         saveWithJSON = new SaveWithJSON();
 
-
         saveWithJSON.Init();
+
+        lenguages.Init();
 
         DontDestroyOnLoad(gameObject);
 
@@ -218,5 +222,71 @@ public class WaitForCorutines : CustomYieldInstruction
     public WaitForCorutines(MonoBehaviour mono,MyCoroutine coroutine, System.Action<string> msg)
     {
         mono.StartCoroutine(coroutine((b)=>end=b, msg));
+    }
+}
+
+
+[System.Serializable]
+public class Lenguages : SingletonClass<Lenguages>, Init
+{
+    [SerializeField]
+    TextAsset csvArchive;
+
+    public string lenguage = "español";
+
+    public string rowSeparator="\n";
+
+    public string colSeparator="\t";
+
+    string[,] textArray;
+
+    int indexLenguage;
+
+    public static Lenguages SrchText => instance;
+
+    public string this[string aux] 
+    { 
+        get 
+        {
+            for (int i = 0; i < textArray.GetLength(0); i++)
+            {
+                if(textArray[i, 0] == aux)
+                {
+                    return textArray[i, indexLenguage];
+                }
+            }
+
+            return null;
+        } 
+    }
+
+    public void RefreshLenguage()
+    {
+        for (indexLenguage = 1; indexLenguage < textArray.GetLength(1); indexLenguage++)
+        {
+            if(lenguage == textArray[0, indexLenguage])
+                return;
+        }
+    }
+
+    public void Init(params object[] param)
+    {
+        string data = csvArchive.ToString();
+
+        var filas = data.Split(rowSeparator);
+
+        textArray = new string[filas.Length, filas[0].Split(colSeparator).Length];
+
+        for (int i = 0; i < filas.Length; i++)
+        {
+            var aux = filas[i].Split(colSeparator);
+
+            for (int j = 0; j < aux.Length; j++)
+            {
+                textArray[i, j] = aux[j];
+            }
+        }
+
+        RefreshLenguage();
     }
 }
