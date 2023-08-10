@@ -11,6 +11,12 @@ public class RenderTexture : MonoBehaviour
     Texture texture;
 
     [SerializeField]
+    int orderInLayer = -4999;
+
+    [SerializeField]
+    string renderLayer = "Default";
+
+    [SerializeField]
     public GameObject cameraRelated;
     /*
     [SerializeField]
@@ -20,15 +26,15 @@ public class RenderTexture : MonoBehaviour
     float overrideColor;
     */
 
-    SpriteRenderer spriteRenderer;
+    Renderer rend;
 
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        rend = GetComponentInChildren<Renderer>();
 
-        spriteRenderer.material = material;
+        rend.material = material;
 
-        spriteRenderer.material.SetTexture("_Emission", texture);
+        rend.material.SetTexture("_Emission", texture);
         /*
           spriteRenderer.material.SetVector("_Waves", waves);
           spriteRenderer.material.SetFloat("_OverrideColor", overrideColor);
@@ -38,12 +44,14 @@ public class RenderTexture : MonoBehaviour
     private void OnEnable()
     {
         var aux = MainCamera.instance.perspective ? 0 : 1;
-        spriteRenderer.material.SetInt("_DeActiveEffect", aux);
+        rend.material.SetInt("_DeActiveEffect", aux);
+        rend.sortingOrder = orderInLayer;
+        rend.sortingLayerName = renderLayer;
     }
 
     private void LateUpdate()
     {
-        if (spriteRenderer.isVisible)
+        if (rend.isVisible)
         {
             cameraRelated.SetActive(true);
         }
@@ -57,7 +65,7 @@ public class RenderTexture : MonoBehaviour
     IEnumerator RetardedOf()
     {
         yield return null;
-        if (!spriteRenderer.isVisible)
+        if (!rend.isVisible)
         {
             cameraRelated.SetActive(false);
         }
