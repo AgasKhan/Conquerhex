@@ -267,6 +267,8 @@ public class Lenguages : SingletonClass<Lenguages>, Init
             if(lenguage == textArray[0, indexLenguage])
                 return;
         }
+
+        SaveWithJSON.BD.CreateOrSave("Lenguage", lenguage);
     }
 
     public void Init(params object[] param)
@@ -286,6 +288,8 @@ public class Lenguages : SingletonClass<Lenguages>, Init
                 textArray[i, j] = aux[j];
             }
         }
+
+        lenguage = SaveWithJSON.BD.SearchOrDefault("Lenguage",lenguage);
 
         RefreshLenguage();
     }

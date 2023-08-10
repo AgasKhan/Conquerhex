@@ -292,6 +292,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return pictionaries.GetEnumerator();
     }
 
+
     public T SearchOrCreate<T>(K key) where T : V, new()
     {
         if (ContainsKey(key, out int index))
@@ -300,20 +301,6 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         var newAux = new T();
 
         //Debug.Log("se creo a partir de un new: " + newAux);
-
-        Add(key, newAux);
-
-        return newAux;
-    }
-
-    public V SearchOrCreate(K key)
-    {
-        if (ContainsKey(key, out int index))
-            return pictionaries[index].value;
-
-        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
-
-        V newAux = default;
 
         Add(key, newAux);
 
@@ -332,23 +319,16 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
     }
 
-    /*
-    public V SearchOrCreate<T>(T key) where T : K
+    public V SearchOrDefault(K key, V defoult)
     {
         if (ContainsKey(key, out int index))
+        {
             return pictionaries[index].value;
+        }
 
-        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
-
-        var newAux = (V)Activator.CreateInstance(Type.GetType(key.ToString()));
-
-        //Debug.Log("se creo a partir de un string: "+newAux);
-
-        Add(key, newAux);
-
-        return newAux;
+        return defoult;
     }
-    */
+    
     int SearchIndex(K key)
     {
         for (int i = 0; i < pictionaries.Count; i++)
