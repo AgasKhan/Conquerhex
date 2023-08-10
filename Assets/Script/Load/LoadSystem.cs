@@ -227,7 +227,7 @@ public class WaitForCorutines : CustomYieldInstruction
 
 
 [System.Serializable]
-public class Lenguages : SingletonClass<Lenguages>, Init
+public class Lenguages : Init
 {
     [SerializeField]
     TextAsset csvArchive;
@@ -242,7 +242,7 @@ public class Lenguages : SingletonClass<Lenguages>, Init
 
     int indexLenguage;
 
-    public static Lenguages SrchText => instance;
+    public static Lenguages instance;
 
     public string this[string aux] 
     { 
@@ -268,11 +268,13 @@ public class Lenguages : SingletonClass<Lenguages>, Init
                 return;
         }
 
-        SaveWithJSON.BD.CreateOrSave("Lenguage", lenguage);
+        SaveWithJSON.SaveInPictionary("Lenguage", lenguage);
     }
 
     public void Init(params object[] param)
     {
+        instance = this;
+
         string data = csvArchive.ToString();
 
         var filas = data.Split(rowSeparator);
@@ -289,7 +291,7 @@ public class Lenguages : SingletonClass<Lenguages>, Init
             }
         }
 
-        lenguage = SaveWithJSON.BD.SearchOrDefault("Lenguage",lenguage);
+        lenguage = SaveWithJSON.LoadFromPictionary("Lenguage",lenguage);
 
         RefreshLenguage();
     }

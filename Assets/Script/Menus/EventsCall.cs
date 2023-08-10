@@ -36,7 +36,7 @@ public class EventsCall : ContentRectTransform
         fadeMenu.alphas += Text_alphas;
         fadeMenu.Init();
 
-        textButton.text = Lenguages.SrchText[button.name];
+        textButton.text = Lenguages.instance[button.name];
     }
     private void Text_alphas(float obj)
     {
