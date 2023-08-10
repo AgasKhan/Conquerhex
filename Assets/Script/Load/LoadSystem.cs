@@ -277,7 +277,7 @@ public class Lenguages : Init
 
         string data = csvArchive.ToString();
 
-        var filas = data.Split(rowSeparator);
+        var filas = data.Split(rowSeparator, System.StringSplitOptions.RemoveEmptyEntries);
 
         textArray = new string[filas.Length, filas[0].Split(colSeparator).Length];
 
