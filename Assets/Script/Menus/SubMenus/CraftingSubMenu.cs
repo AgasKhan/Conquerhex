@@ -118,7 +118,7 @@ public class CraftingSubMenu : CreateSubMenu
         lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
         {
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "¿Seguro deseas crear este item?")
-                .AddButton("Si", () => { ButtonAction(item); })
+                .AddButton("Si", () => { ButtonAction(item); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false); })
                 .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
 
         }, "");
