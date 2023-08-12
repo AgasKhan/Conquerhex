@@ -72,8 +72,9 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
             //carlitos[i].SetActiveGameObject(false);
         }
+        Hexagone hexagone = GetComponentInParent<Hexagone>();
 
-        if (transform.parent != null && transform.parent.TryGetComponent(out Hexagone hexagone))
+        if (transform.parent != null && hexagone!=null)
         {
             Teleport(hexagone, 0);
         }
@@ -195,6 +196,14 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
     {
 
         hexagone.SetProyections(transform,carlitos);
+
+        for (int i = 0; i < carlitos.Length; i++)
+        {
+            if (hexagone.ladosArray[i].id == hexagone.id)
+                carlitos[i].SetActiveGameObject(false);
+            else
+                carlitos[i].SetActiveGameObject(true);
+        }
 
         /*
         for (int i = 0; i < carlitos.Length; i++)

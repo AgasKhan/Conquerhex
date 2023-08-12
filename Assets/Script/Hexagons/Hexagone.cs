@@ -205,14 +205,9 @@ public class Hexagone : MonoBehaviour
     {
         for (int i = 0; i < components.Length && i< ladosArray.Length; i++)
         {
-            if (ladosArray[i].id == id)
-                components[i].SetActiveGameObject(false);
-            else
-                components[i].SetActiveGameObject(true);
-
             components[i].transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), components[i].transform.position.z, 2) + (original.position - transform.position);
 
-            if(setParent)
+            if (setParent)
                 components[i].transform.SetParent(ladosArray[i].transform, true);
         }
     }
