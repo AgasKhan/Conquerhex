@@ -100,6 +100,10 @@ MonoBehaviour:
     deathBool: 0
   drops: []
   audioManager: {fileID: -3299522973000388994}
+  rend: {fileID: 0}
+  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
+    type: 3}
+  carlitos: []
   interact:
     pictionaries: []
   inventory: []
@@ -187,9 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
-  carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
     total: 70
@@ -401,6 +402,11 @@ PrefabInstance:
     - target: {fileID: 3115218222824334144, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: animator
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115218222824334144, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: _animator
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3115218222824334144, guid: 135a5d7445645394c8a553fdb6e815a0,

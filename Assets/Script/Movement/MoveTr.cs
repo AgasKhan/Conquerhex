@@ -21,27 +21,6 @@ public class MoveTr : MoveAbstract
 
         if (rend != null)
             MyUpdates += MyUpdateRender;
-
-        if (carlitosPrefab == null)
-            return;
-
-        carlitos = new Transform[6];
-
-        for (int i = 0; i < carlitos.Length; i++)
-        {
-            carlitos[i] = Instantiate(carlitosPrefab, transform).transform;
-
-            carlitos[i].name = "Carlitos (" + i + ")";
-
-            carlitos[i].SetPositionAndRotation(transform.position, transform.rotation);
-
-            carlitos[i].SetActiveGameObject(false);
-        }
-
-        if (transform.parent != null && transform.parent.TryGetComponent(out Hexagone hexagone))
-        {
-            Teleport(hexagone, 0);
-        }
     }
 
     protected void MyUpdate()

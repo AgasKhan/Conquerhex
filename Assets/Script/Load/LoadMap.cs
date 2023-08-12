@@ -8,7 +8,7 @@ public class LoadMap : SingletonMono<LoadMap>
     [System.Serializable]
     public class MapTransform
     {
-        public RenderTexture[] renders;
+        public RenderTextureHex[] renders;
 
         public Transform this [int index]
         {
@@ -21,12 +21,9 @@ public class LoadMap : SingletonMono<LoadMap>
 
     public bool execute = true;
 
-    public Transform[] carlitos;
-
-
     public MapTransform cameras;
    
-    public RenderTexture[] renders
+    public RenderTextureHex[] renders
     {
         get => cameras.renders;
     }
@@ -172,11 +169,6 @@ public class LoadMap : SingletonMono<LoadMap>
                 LoadSystem.instance.Load("MainMenu");
             }
             yield return null;
-        }
-
-        if(playerPublic!= null)
-        {
-            carlitos = playerPublic.carlitos;
         }
         
         yield return new WaitForCorutines(this, LoadHex, (s) => msg(s));    

@@ -70,11 +70,6 @@ public class ControlEnemigo : MonoBehaviour
         dispararScript = this.GetComponent<DispararProyectil>();
 
         enf = TimersManager.Create(enfriamientoDisparoConst);
-
-        player.AddRange(LoadMap.instance.carlitos);
-
-        player.Add(GameManager.instance.playerCharacter.transform);
-
     }
     void FixedUpdate()
     {

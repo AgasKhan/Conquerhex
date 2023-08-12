@@ -63,9 +63,9 @@ public class FadeColorAttack : MonoBehaviour
 
         fadeOnOff.Init();
 
-        attackTimer = TimersManager.LerpInTime(() => sprite.color, attackColor, fadeAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
+        attackTimer = TimersManager.Create(() => sprite.color, attackColor, fadeAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
 
-        noAttackTimer = TimersManager.LerpInTime(() => sprite.color, areaColor, fadeNoAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
+        noAttackTimer = TimersManager.Create(() => sprite.color, areaColor, fadeNoAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
 
         attackTimer.AddToEnd(()=> NoAttack());
     }

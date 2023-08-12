@@ -25,7 +25,7 @@ public class FadeOnOff : Init
 
     public void Init(params object[] param)
     {
-        fadeOn = TimersManager.LerpInTime(() => fades.x, () => fades.y, durationAnim, Mathf.Lerp, alphas).AddToEnd(() => end?.Invoke()).SetUnscaled(unscaled).Stop();
+        fadeOn = TimersManager.Create(() => fades.x, () => fades.y, durationAnim, Mathf.Lerp, alphas).AddToEnd(() => end?.Invoke()).SetUnscaled(unscaled).Stop();
 
         timerOn = TimersManager.Create(durationWait, () =>
         {

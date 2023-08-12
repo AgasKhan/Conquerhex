@@ -52,42 +52,24 @@ public class TimersManager : MonoBehaviour
 
     #region lerps
 
-    static public TimedCompleteAction LerpInTime<T>(T original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedLerp<T> Create<T>(T original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
-        return LerpInTime(() => original, () => final, seconds, Lerp, save);
+        return Create(() => original, () => final, seconds, Lerp, save);
     }
 
-    static public TimedCompleteAction LerpInTime<T>(T original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedLerp<T> Create<T>(T original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
-        return LerpInTime(() => original, final, seconds, Lerp, save);
+        return Create(() => original, final, seconds, Lerp, save);
     }
 
-    static public TimedCompleteAction LerpInTime<T>(System.Func<T> original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedLerp<T> Create<T>(System.Func<T> original, T final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
-        return LerpInTime(original, () => final, seconds, Lerp, save);
+        return Create(original, () => final, seconds, Lerp, save);
     }
 
-
-    static public TimedCompleteAction LerpInTime<T>(System.Func<T> original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
+    static public TimedLerp<T> Create<T>(System.Func<T> original, System.Func<T> final, float seconds, System.Func<T, T, float, T> Lerp, System.Action<T> save)
     {
-        TimedCompleteAction tim = null;
-
-        System.Action
-
-        update = () =>
-        {
-            save(Lerp(original(), final(), tim.InversePercentage()));
-        }
-        ,
-
-        end = () =>
-        {
-            save(final());
-        };
-
-        tim = Create(seconds, update, end);
-
-        return tim;
+        return new TimedLerp<T>(original, final, seconds, Lerp, save);
     }
 
     static public TimedCompleteAction LerpWithCompare<T>(T original, T final, float velocity, System.Func<T, T, float, T> Lerp, System.Func<T, T, bool> compare, System.Action<T> save)
@@ -495,8 +477,8 @@ public class Timer : Tim
 /// </summary>
 [System.Serializable] 
 public class TimedAction : Timer
-{    
-    Action end;
+{
+    protected Action end;
 
 
     public override float SubsDeltaTime(int index)
@@ -552,7 +534,7 @@ public class TimedAction : Timer
 [System.Serializable]
 public class TimedCompleteAction : TimedAction
 {
-    Action update;
+    protected Action update;
 
     public override float SubsDeltaTime(int index)
     {
@@ -596,6 +578,51 @@ public class TimedCompleteAction : TimedAction
     public TimedCompleteAction(float timer, Action update, Action end) : base(timer, end)
     {
         this.update = update;
+    }
+}
+
+public class TimedLerp<T> : TimedCompleteAction
+{
+
+    System.Func<T> original;
+    System.Func<T> final;
+    System.Func<T, T, float, T> lerp;
+    public event System.Action<T> save;
+    
+    public TimedLerp<T> AddToSave(System.Action<T> save)
+    {
+        this.save += save;
+
+        return this;
+    }
+
+    public TimedLerp<T> SubstractToSave(System.Action<T> save)
+    {
+        this.save -= save;
+
+        return this;
+    }
+    void Update()
+    {
+        save(lerp(original(), final(), InversePercentage()));
+    }
+
+    void End()
+    {
+        save(final());
+    }
+
+
+    public TimedLerp(Func<T> original, Func<T> final, float timer, Func<T, T, float, T> lerp, Action<T> save) : base(timer,null,null)
+    {
+        this.original = original;
+        this.final = final;
+        this.lerp = lerp;
+        this.save = save;
+
+        update = Update;
+
+        end = End;
     }
 }
 

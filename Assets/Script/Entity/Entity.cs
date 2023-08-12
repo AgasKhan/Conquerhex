@@ -16,6 +16,12 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public AudioManager audioManager;
 
+    public TransparentMaterial rend;
+
+    public CarlitoEntity carlitosPrefab;
+
+    public Transform[] carlitos;
+
     protected abstract Damage[] vulnerabilities { get; }
     
     public virtual bool visible { get => enabled && gameObject.activeSelf; set => enabled = value; }
@@ -49,7 +55,28 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
                 damageables[ii] = aux[i];
                 ii++;
             }
-        }       
+        }
+
+        if (carlitosPrefab == null)
+            return;
+
+        carlitos = new Transform[6];
+
+        for (int i = 0; i < carlitos.Length; i++)
+        {
+            carlitos[i] = Instantiate(carlitosPrefab, transform).transform;
+
+            carlitos[i].name = "Carlitos (" + i + ")";
+
+            carlitos[i].transform.SetPositionAndRotation(transform.position, transform.rotation);
+
+            //carlitos[i].SetActiveGameObject(false);
+        }
+
+        if (transform.parent != null && transform.parent.TryGetComponent(out Hexagone hexagone))
+        {
+            Teleport(hexagone, 0);
+        }
     }
 
     public void Detect()
@@ -162,6 +189,24 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             return this;
         else
             return null;
+    }
+
+    public void Teleport(Hexagone hexagone, int lado)
+    {
+
+        hexagone.SetProyections(transform,carlitos);
+
+        /*
+        for (int i = 0; i < carlitos.Length; i++)
+        {
+            if (hexagone.ladosArray[i].id == hexagone.id)
+                carlitos[i].SetActiveGameObject(false);
+            else
+                carlitos[i].SetActiveGameObject(true);
+
+            carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(hexagone.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), carlitos[i].transform.position.z, 2) + (transform.position - hexagone.transform.position);
+        }
+        */
     }
 }
 

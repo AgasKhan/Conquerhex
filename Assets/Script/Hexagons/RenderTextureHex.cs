@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RenderTexture : MonoBehaviour
+public class RenderTextureHex : MonoBehaviour
 {
     [SerializeField]
     Material material;
 
     [SerializeField]
-    Texture texture;
+    RenderTexture texture;
 
     [SerializeField]
     int orderInLayer = -4999;
@@ -17,7 +17,7 @@ public class RenderTexture : MonoBehaviour
     string renderLayer = "Default";
 
     [SerializeField]
-    public GameObject cameraRelated;
+    public Camera cameraRelated;
     /*
     [SerializeField]
     Vector2 waves;
@@ -33,6 +33,8 @@ public class RenderTexture : MonoBehaviour
         rend = GetComponentInChildren<Renderer>();
 
         rend.material = material;
+
+        cameraRelated.targetTexture = texture;
 
         rend.material.SetTexture("_Emission", texture);
         /*
@@ -53,9 +55,9 @@ public class RenderTexture : MonoBehaviour
     {
         if (rend.isVisible)
         {
-            cameraRelated.SetActive(true);
+            cameraRelated.SetActiveGameObject(true);
         }
-        else if (cameraRelated.activeSelf)
+        else if (cameraRelated.isActiveAndEnabled)
         {
             //cameraRelated.SetActive(false);
             StartCoroutine(RetardedOf());
@@ -67,7 +69,7 @@ public class RenderTexture : MonoBehaviour
         yield return null;
         if (!rend.isVisible)
         {
-            cameraRelated.SetActive(false);
+            cameraRelated.SetActiveGameObject(false);
         }
     }
 }

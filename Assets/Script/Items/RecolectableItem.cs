@@ -26,7 +26,7 @@ public class RecolectableItem : StaticEntity
 
     void MyAwake()
     {
-        recolect = TimersManager.LerpInTime(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 1, Vector3.Slerp, (pos) => transform.position = pos)
+        recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 1, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToEnd(() =>
         {
             referenceToTravel.AddAllItems(this);
