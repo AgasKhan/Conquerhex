@@ -30,6 +30,9 @@ public class TransparentMaterial : MonoBehaviour
 
     public ComplexColor colorSetter = new ComplexColor();
 
+    [SerializeField]
+    bool proyection=false;
+
     [SerializeField, Range(0f, 2f)]
     float _shakeIntensity;
 
@@ -45,20 +48,19 @@ public class TransparentMaterial : MonoBehaviour
 
     Vector3 _initialPosition;
 
-    Timer shakeManager;
+    TimedCompleteAction shakeManager;
 
     TimedCompleteAction timDamaged = null;
 
-    TimedCompleteAction timDetected = null;
+    TimedLerp<Color> timDetected = null;
+
+    TransparentMaterial[] proyections = new TransparentMaterial[6];
 
     protected virtual void Awake()
     {
-        //originalSprite = GetComponentInChildren<Renderer>();
         originalSprite.material = transparentMaterial;
 
         originalSprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
-
-        SpriteRenderer originalSpriteRenderer = null;
 
         _initialPosition = transform.localPosition;
 
@@ -68,59 +70,96 @@ public class TransparentMaterial : MonoBehaviour
         if (!(originalSprite is SpriteRenderer))
             return;
 
-        originalSpriteRenderer = (SpriteRenderer)originalSprite;
+        SpriteRenderer originalSpriteRenderer = (SpriteRenderer)originalSprite;
 
         colorSetter.setter += ColorSetter_setter;
 
         colorSetter.Add(originalSpriteRenderer.color);
 
-        if (!transform.parent.TryGetComponent(out Entity entity))
+        if (transform.parent == null || proyection)
             return;
+
+        for(int i = 0; i < proyections.Length; i++)
+        {
+            proyections[i] = CloneAndSuscribe();
+        }
+
+        LoadSystem.AddPostLoadCorutine(
+        () =>
+        {
+            GetComponentInParent<Hexagone>(true)?.SetProyections(transform, proyections, true);
+            
+            for (int i = 0; i < proyections.Length; i++)
+            {
+                proyections[i].transform.localScale = transform.parent.localScale;
+            }
+        });
+
+        if (!transform.parent.TryGetComponent(out Entity entity))
+        {
+            return;
+        }
+
+        entity.rend = this;
 
         entity.onTakeDamage += ShakeSprite;
 
         entity.onDetected += Entity_onDetected;
 
-        if(entity is DynamicEntity)
+        shakeManager = (TimedCompleteAction)TimersManager.Create(_shakeDuration, Shake, EndShake).Stop();
+
+        timDetected = TimersManager.Create(detected, Color.white, 0.1f, Color.Lerp, ChangeColor);
+
+        timDamaged = TimersManager.Create(0.33f, () => ColorBlink(((int)(timDamaged.Percentage() * 10)) % 2 == 0), ColorBlinkEnd);
+
+        if (entity is DynamicEntity)
         {
-            ((DynamicEntity)entity).move.onMove += Move_onMove;
+            var entityDyn = ((DynamicEntity)entity);
+
+            entityDyn.move.onMove += Move_onMove;
         }
 
-        if(onDeathParticlePrefab != null)
+        if (onDeathParticlePrefab != null)
         {
             indexParticle = PoolManager.SrchInCategory("Particles", onDeathParticlePrefab.name);
             entity.health.death += Health_death;
         }
-            
 
-        shakeManager = TimersManager.Create(_shakeDuration, Shake, EndShake).Stop();
-
-        timDetected = TimersManager.LerpInTime(detected, Color.white, 0.1f, Color.Lerp, (save) => colorSetter.multiply = save);
-
-        timDamaged = TimersManager.Create(0.33f, () => {
-
-            if (((int)(timDamaged.Percentage() * 10)) % 2 == 0)
+        LoadSystem.AddPostLoadCorutine(
+        () => {
+            for (int i = 0; i < entity.carlitos.Length; i++)
             {
-                //parpadeo rapido
-                colorSetter.Remove(damaged2);
-                colorSetter.Add(damaged1);
+                proyections[i].transform.SetParent(entity.carlitos[i].transform);
+                proyections[i].transform.localPosition = Vector3.zero;
             }
-            else
-            {
-                //el mantenido
-
-                colorSetter.Remove(damaged1);
-                colorSetter.Add(damaged2);
-            }
-
-        }, () => {
-
-            //volver al original
-            colorSetter.Remove(damaged2);
-            colorSetter.Remove(damaged1);
-
         });
 
+    }
+
+    public virtual TransparentMaterial CloneAndSuscribe()
+    {
+        TransparentMaterial transparentMaterial = Instantiate(this);
+
+        transparentMaterial.proyection = true;
+
+        ((SpriteRenderer)originalSprite).RegisterSpriteChangeCallback(transparentMaterial.UpdateSprite);
+
+        shakeManager?.AddToUpdate(transparentMaterial.Shake).AddToEnd(transparentMaterial.EndShake);
+
+        timDetected?.AddToSave(transparentMaterial.ChangeColor);
+
+        //transparentMaterial.SetActiveGameObject(false);
+
+        //timDamaged.AddToUpdate(()=>transparentMaterial.ColorBlink(((int)(timDamaged.Percentage() * 10)) % 2 == 0)).AddToEnd(transparentMaterial.ColorBlinkEnd);
+
+        return transparentMaterial;
+    }
+
+    private void UpdateSprite(SpriteRenderer sprite)
+    {
+        ((SpriteRenderer)originalSprite).sprite = sprite.sprite;
+        ((SpriteRenderer)originalSprite).flipX = sprite.flipX;
+        ((SpriteRenderer)originalSprite).color = sprite.color;
     }
 
     private void Health_death()
@@ -156,6 +195,34 @@ public class TransparentMaterial : MonoBehaviour
     private void Entity_onDetected()
     {
         timDetected.Reset();
+    }
+
+    private void ChangeColor(Color save)
+    {
+        colorSetter.multiply = save;
+    }
+
+    private void ColorBlink(bool active)
+    {
+        if (active)
+        {
+            //parpadeo rapido
+            colorSetter.Remove(damaged2);
+            colorSetter.Add(damaged1);
+        }
+        else
+        {
+            //el mantenido
+            colorSetter.Remove(damaged1);
+            colorSetter.Add(damaged2);
+        }
+    }
+
+    private void ColorBlinkEnd()
+    {
+        //volver al original
+        colorSetter.Remove(damaged2);
+        colorSetter.Remove(damaged1);
     }
 
     protected virtual void OnEnable()
@@ -240,7 +307,7 @@ public class ComplexColor
             result *= mul;
         }
 
-        setter(result * _multiply);
+        setter?.Invoke(result * _multiply);
     }
 
     public void Add(Color c)

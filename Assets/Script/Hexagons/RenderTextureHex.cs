@@ -5,7 +5,10 @@ using UnityEngine;
 public class RenderTextureHex : MonoBehaviour
 {
     [SerializeField]
-    Material material;
+    Material materialRend;
+
+    [SerializeField]
+    Material effect;
 
     [SerializeField]
     RenderTexture texture;
@@ -17,6 +20,9 @@ public class RenderTextureHex : MonoBehaviour
     string renderLayer = "Default";
 
     [SerializeField]
+    string effectLayer = "Cielo";
+
+    [SerializeField]
     public Camera cameraRelated;
     /*
     [SerializeField]
@@ -26,17 +32,23 @@ public class RenderTextureHex : MonoBehaviour
     float overrideColor;
     */
 
+    [SerializeField]
     Renderer rend;
+
+    [SerializeField]
+    Renderer rendCielo;
 
     void Awake()
     {
-        rend = GetComponentInChildren<Renderer>();
-
-        rend.material = material;
+        rend.material = materialRend;
 
         cameraRelated.targetTexture = texture;
 
         rend.material.SetTexture("_Emission", texture);
+
+        rendCielo.material = effect;
+
+        rendCielo.sortingLayerName = effectLayer;
         /*
           spriteRenderer.material.SetVector("_Waves", waves);
           spriteRenderer.material.SetFloat("_OverrideColor", overrideColor);

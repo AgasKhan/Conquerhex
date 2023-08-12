@@ -72,6 +72,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
             //carlitos[i].SetActiveGameObject(false);
         }
+
         Hexagone hexagone = GetComponentInParent<Hexagone>();
 
         if (transform.parent != null && hexagone!=null)

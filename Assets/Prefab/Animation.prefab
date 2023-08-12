@@ -151,15 +151,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalSprite: {fileID: 605654443849558340}
+  isTransparent: 1
   transparentMaterial: {fileID: 2100000, guid: db72b3bd8fcd88a47a5f817ad289b18e, type: 2}
   mainTexture: {fileID: 0}
+  defaultRight: 1
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   detected: {r: 1, g: 0.5, b: 0.5, a: 1}
   _shakeIntensity: 0.1
   _shakeDuration: 0.3
-  shadow: 1
-  animator: 0
+  onDeathParticlePrefab: {fileID: 0}
+  _shadow: 1
+  _animator: 0
   dirVector: {x: 1, y: 1}
   colorShadow: {r: 0, g: 0, b: 0, a: 0.69803923}
   sortingLayer: Shadow

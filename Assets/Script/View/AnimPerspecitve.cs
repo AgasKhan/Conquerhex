@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class AnimPerspecitve : TransparentMaterial
 {
-    public bool shadow;
+    [SerializeField]
+    bool _shadow;
 
-    public bool animator;
+    [SerializeField]
+    bool _animator;
 
     [Header("Shadow Config")]
     public Vector2 dirVector;
@@ -17,19 +19,70 @@ public class AnimPerspecitve : TransparentMaterial
     Material shadowMaterial;
 
     SpriteRenderer shadowSprite;
+
+    Animator anim;
+
     public Sprite sprite { get => ((SpriteRenderer)originalSprite).sprite ; set => ((SpriteRenderer)originalSprite).sprite = value; }
+
+    public bool shadow
+    {
+        get => _shadow;
+        set
+        {
+            if (shadowSprite == null)
+            {
+                if (value)
+                {
+                    CreateShadow();
+                    UpdateShadow();
+                }
+            }
+            else
+            {
+                if (value)
+                {
+                    UpdateShadow();
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    ((SpriteRenderer)originalSprite).UnregisterSpriteChangeCallback(UpdateShadowSprite);
+                    Destroy(shadowSprite.gameObject);
+                    shadowSprite = null;
+                }
+            }
+
+            _shadow = value;
+        }
+    }
+
+    public bool animator
+    {
+        get => _animator;
+
+        set
+        {
+            _animator = value;
+            if(anim!=null)
+                anim.enabled = animator;
+        }
+    }
 
     override protected void Awake()
     {
         base.Awake();
 
-        var aux = GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
-        if (aux!=null)
-            aux.enabled = animator;
+        animator = animator;
     }
 
-  
+    public override TransparentMaterial CloneAndSuscribe()
+    {
+        AnimPerspecitve animPerspecitve = (AnimPerspecitve)base.CloneAndSuscribe();
+        animPerspecitve.animator = false;
+        return animPerspecitve;
+    }
 
     void CreateShadow()
     {
@@ -65,6 +118,8 @@ public class AnimPerspecitve : TransparentMaterial
         */
     }
 
+
+
     void UpdateShadowSprite(SpriteRenderer sprite)
     {
         shadowSprite.sprite = sprite.sprite;
@@ -97,13 +152,7 @@ public class AnimPerspecitve : TransparentMaterial
         else
             transform.rotation = Quaternion.identity;
 
-        if (!shadow)
-            return;
-
-        if(shadowSprite==null)
-            CreateShadow();
-
-        UpdateShadow();
+        shadow = shadow;
     }
 
 
