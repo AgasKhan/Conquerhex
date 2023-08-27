@@ -91,11 +91,9 @@ public class Manager<T> : SingletonClass<Manager<T>>
             return instance._pic;
         }
     }
-
-
 }
 
-
+/*
 public class ManagerAddRemove<T>
 {
     //referencia de mi pic que si es estatico
@@ -125,33 +123,7 @@ public class ManagerAddRemove<T>
         RemoveAll();
     }
 }
-
-/*
-public class ManagerComponent<T> : SingletonMono<ManagerComponent<T>>
-{
-    [SerializeReference]
-    Pictionarys<string, T> _pic = new Pictionarys<string, T>();
-
-    static public Pictionarys<string, T> pic
-    {
-        get
-        {
-            if (instance == null)
-                GameManager.instance.gameObject.AddComponent<ManagerComponent<T>>();
-
-            return instance._pic;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        instance = null;
-    }
-}
-
 */
-
-
 
 public interface Init
 {
