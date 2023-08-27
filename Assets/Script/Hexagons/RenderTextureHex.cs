@@ -49,14 +49,8 @@ public class RenderTextureHex : MonoBehaviour
         rendCielo.material = effect;
 
         rendCielo.sortingLayerName = effectLayer;
-        /*
-          spriteRenderer.material.SetVector("_Waves", waves);
-          spriteRenderer.material.SetFloat("_OverrideColor", overrideColor);
-        */
-    }
 
-    private void OnEnable()
-    {
+
         var aux = MainCamera.instance.perspective ? 0 : 1;
         rend.material.SetInt("_DeActiveEffect", aux);
         rend.sortingOrder = orderInLayer;

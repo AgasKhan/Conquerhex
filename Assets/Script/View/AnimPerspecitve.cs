@@ -75,6 +75,13 @@ public class AnimPerspecitve : TransparentMaterial
         anim = GetComponentInChildren<Animator>();
 
         animator = animator;
+
+        if (MainCamera.instance.perspective)
+            transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
+        else
+            transform.rotation = Quaternion.identity;
+
+        shadow = shadow;
     }
 
     public override TransparentMaterial CloneAndSuscribe()
@@ -141,18 +148,6 @@ public class AnimPerspecitve : TransparentMaterial
         shadowSprite.material.SetColor("_Color", colorShadow);
 
         StartCoroutine(UpdatePostFrame(() => shadowSprite.localBounds = UpdateBounds(shadowSprite.sprite.bounds)));   
-    }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-
-        if (MainCamera.instance.perspective)
-            transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
-        else
-            transform.rotation = Quaternion.identity;
-
-        shadow = shadow;
     }
 
 
