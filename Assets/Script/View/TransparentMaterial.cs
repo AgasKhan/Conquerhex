@@ -56,6 +56,8 @@ public class TransparentMaterial : MonoBehaviour
 
     TransparentMaterial[] proyections = new TransparentMaterial[6];
 
+    EventGeneric eventGeneric;
+
     protected virtual void Awake()
     {
         originalSprite.material = transparentMaterial;
@@ -63,6 +65,8 @@ public class TransparentMaterial : MonoBehaviour
         originalSprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 
         _initialPosition = transform.localPosition;
+
+        eventGeneric = EventManager.events.SearchOrCreate<EventGeneric>("move");
 
         if (mainTexture!=null)
             originalSprite.material.SetTexture("_MainTex", mainTexture);
@@ -228,13 +232,13 @@ public class TransparentMaterial : MonoBehaviour
     protected virtual void OnEnable()
     {
         if(isTransparent)
-            EventManager.events.SearchOrCreate<EventGeneric>("move").action += UpdateTransparent;
+            eventGeneric.action += UpdateTransparent;
     }
 
     private void OnDisable()
     {
         if (isTransparent)
-            EventManager.events.SearchOrCreate<EventGeneric>("move").action -= UpdateTransparent;
+            eventGeneric.action -= UpdateTransparent;
     }
 
     private void UpdateTransparent(params object[] param)
