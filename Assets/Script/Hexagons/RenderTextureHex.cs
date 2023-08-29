@@ -24,19 +24,16 @@ public class RenderTextureHex : MonoBehaviour
 
     [SerializeField]
     public Camera cameraRelated;
-    /*
-    [SerializeField]
-    Vector2 waves;
-
-    [SerializeField]
-    float overrideColor;
-    */
 
     [SerializeField]
     Renderer rend;
 
     [SerializeField]
     Renderer rendCielo;
+
+    Collider2D col;
+
+    bool auxBool;
 
     void Awake()
     {
@@ -55,27 +52,47 @@ public class RenderTextureHex : MonoBehaviour
         rend.material.SetInt("_DeActiveEffect", aux);
         rend.sortingOrder = orderInLayer;
         rend.sortingLayerName = renderLayer;
+
+        col = GetComponent<Collider2D>();
+
+        MyOnBecameInvisible();
+
+       
     }
 
     private void LateUpdate()
     {
-        if (rend.isVisible)
+        auxBool = false;
+
+        for (int i = 0; i < 4; i++)
         {
-            cameraRelated.SetActiveGameObject(true);
+            if (col.OverlapPoint(MainCamera.instance.points[i]))
+            {
+                auxBool = true;
+                break;
+            }
         }
-        else if (cameraRelated.isActiveAndEnabled)
+
+        if (auxBool)
         {
-            //cameraRelated.SetActive(false);
-            StartCoroutine(RetardedOf());
+            MyOnBecameVisible();
+        }
+        else
+        {
+            MyOnBecameInvisible();
         }
     }
 
-    IEnumerator RetardedOf()
+    void MyOnBecameVisible()
     {
-        yield return null;
-        if (!rend.isVisible)
-        {
-            cameraRelated.SetActiveGameObject(false);
-        }
+        cameraRelated.SetActiveGameObject(true);
+        rendCielo.SetActiveGameObject(true);
     }
+
+    void MyOnBecameInvisible()
+    {
+        cameraRelated.SetActiveGameObject(false);
+        rendCielo.SetActiveGameObject(false);
+    }
+
 }

@@ -8,15 +8,35 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public bool perspective;
 
+    public Vector3[] points = new Vector3[4];
+
+    Vector3[] _points = new Vector3[4];
+
+    Vector3[] _points2 = new Vector3[4];
+
     [SerializeField]
     Vector3 rotationPerspective;
 
     [SerializeField]
     Vector3 vectorPerspective;
 
+    [SerializeField]
+    float culling;
+
+    Camera main;
+
+    Plane plane;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        main = Camera.main;
+        plane = new Plane(Vector3.forward, 0);
+    }
+
     private void OnEnable()
     {
-        Camera.main.orthographic = !perspective;
+        main.orthographic = !perspective;
 
         if(!perspective)
         {
@@ -28,6 +48,17 @@ public class MainCamera : SingletonMono<MainCamera>
             transform.rotation = Quaternion.Euler(rotationPerspective);
             transform.GetChild(0).localPosition = vectorPerspective;
         }
+
+        for (int i = 0; i < _points.Length; i++)
+        {
+            _points[i] = main.ViewportToWorldPoint(new Vector3(i < 2 ? 0 : 1, i % 2, main.nearClipPlane));
+
+            Ray ray = new Ray(main.transform.position, main.ViewportToWorldPoint(new Vector3(i < 2 ? 0 : 1, i % 2, main.nearClipPlane)) - main.transform.position);
+
+            plane.Raycast(ray, out float distance);
+
+            _points2[i] = ray.GetPoint(distance) - main.transform.position;
+        }
     }
 
     // Update is called once per frame
@@ -36,5 +67,20 @@ public class MainCamera : SingletonMono<MainCamera>
         if (obj == null)
             return;
         transform.position  = obj.position.Vect3To2().Vec2to3(transform.position.z);
+
+        for (int i = 0; i < _points.Length; i++)
+        {
+            points[i] = _points2[i] + main.transform.position;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        for (int i = 0; i < points.Length; i++)
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawSphere(points[i], 0.1f);
+        }
     }
 }
