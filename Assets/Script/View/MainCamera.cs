@@ -68,7 +68,7 @@ public class MainCamera : SingletonMono<MainCamera>
             return;
         transform.position  = obj.position.Vect3To2().Vec2to3(transform.position.z);
 
-        for (int i = 0; i < _points.Length; i++)
+        for (int i = 0; i < points.Length; i++)
         {
             points[i] = _points2[i] + main.transform.position;
         }

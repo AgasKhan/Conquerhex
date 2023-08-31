@@ -49,8 +49,6 @@ public class Manager : SingletonMono<Manager>
         }
     }
 
-    
-
     private void OnDestroy()
     {
         instance = null;
