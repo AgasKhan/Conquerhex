@@ -8,11 +8,13 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public bool perspective;
 
-    public Vector3[] points = new Vector3[4];
+    public Vector2[] pointsInScreen;
 
-    Vector3[] _points = new Vector3[4];
+    public Vector3[] points;
 
-    Vector3[] _points2 = new Vector3[4];
+    Vector3[] _points;
+
+    Vector3[] _points2;
 
     [SerializeField]
     Vector3 rotationPerspective;
@@ -49,11 +51,17 @@ public class MainCamera : SingletonMono<MainCamera>
             transform.GetChild(0).localPosition = vectorPerspective;
         }
 
-        for (int i = 0; i < _points.Length; i++)
-        {
-            _points[i] = main.ViewportToWorldPoint(new Vector3(i < 2 ? 0 : 1, i % 2, main.nearClipPlane));
+        points = new Vector3[pointsInScreen.Length];
 
-            Ray ray = new Ray(main.transform.position, main.ViewportToWorldPoint(new Vector3(i < 2 ? 0 : 1, i % 2, main.nearClipPlane)) - main.transform.position);
+        _points = new Vector3[pointsInScreen.Length];
+
+        _points2 = new Vector3[pointsInScreen.Length];
+
+        for (int i = 0; i < pointsInScreen.Length; i++)
+        {
+            _points[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, main.nearClipPlane));
+
+            Ray ray = new Ray(main.transform.position, _points[i] - main.transform.position);
 
             plane.Raycast(ray, out float distance);
 

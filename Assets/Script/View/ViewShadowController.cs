@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimPerspecitve : TransparentMaterial
+public class ViewShadowController : MonoBehaviour, ViewObjectModel.IViewController
 {
     [SerializeField]
-    bool _shadow;
+    bool _shadow = true;
 
     [SerializeField]
     bool _animator;
@@ -22,7 +22,11 @@ public class AnimPerspecitve : TransparentMaterial
 
     Animator anim;
 
-    public Sprite sprite { get => ((SpriteRenderer)originalSprite).sprite ; set => ((SpriteRenderer)originalSprite).sprite = value; }
+    ViewObjectModel viewObjectModel;
+
+    SpriteRenderer originalSpriteRenderer => (SpriteRenderer)viewObjectModel.originalRender;
+
+    public Sprite sprite { get => originalSpriteRenderer.sprite ; set => originalSpriteRenderer.sprite = value; }
 
     public bool shadow
     {
@@ -46,7 +50,7 @@ public class AnimPerspecitve : TransparentMaterial
                 else
                 {
                     StopAllCoroutines();
-                    ((SpriteRenderer)originalSprite).UnregisterSpriteChangeCallback(UpdateShadowSprite);
+                    originalSpriteRenderer.UnregisterSpriteChangeCallback(UpdateShadowSprite);
                     Destroy(shadowSprite.gameObject);
                     shadowSprite = null;
                 }
@@ -68,9 +72,9 @@ public class AnimPerspecitve : TransparentMaterial
         }
     }
 
-    override protected void Awake()
+    public void OnEnterState(ViewObjectModel param)
     {
-        base.Awake();
+        viewObjectModel = param;
 
         anim = GetComponentInChildren<Animator>();
 
@@ -81,48 +85,34 @@ public class AnimPerspecitve : TransparentMaterial
         else
             transform.rotation = Quaternion.identity;
 
-        shadow = shadow;
+        shadow = true;
     }
 
-    public override TransparentMaterial CloneAndSuscribe()
+    public void OnStayState(ViewObjectModel param)
     {
-        AnimPerspecitve animPerspecitve = (AnimPerspecitve)base.CloneAndSuscribe();
-        animPerspecitve.animator = false;
-        return animPerspecitve;
+        throw new System.NotImplementedException();
+    }
+
+    public void OnExitState(ViewObjectModel param)
+    {
+        throw new System.NotImplementedException();
     }
 
     void CreateShadow()
     {
-        shadowSprite = Instantiate(originalSprite, transform) as SpriteRenderer;
+        shadowSprite = Instantiate(originalSpriteRenderer, transform);
 
         Destroy(shadowSprite.GetComponent<Animator>());
 
         shadowSprite.material = shadowMaterial;
 
-        ((SpriteRenderer)originalSprite).RegisterSpriteChangeCallback(UpdateShadowSprite);
+        originalSpriteRenderer.RegisterSpriteChangeCallback(UpdateShadowSprite);
 
         shadowSprite.gameObject.transform.rotation = Quaternion.identity;
 
         shadowSprite.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
 
         shadowSprite.sortingLayerName = sortingLayer;
-
-
-        /*
-        shadowSprite.renderingLayerMask = (uint)Mathf.Pow(2, Random.Range(1, 6));
-
-        shadowSprite.sortingOrder = shadowOrder;
-
-        shadowOrder += 2;
-
-
-        var aux = UpdateBounds(shadowSprite.sprite.bounds);
-
-         print(shadowSprite.bounds + " " + aux);
-
-        shadowSprite.bounds = aux;
-
-        */
     }
 
 
@@ -138,7 +128,7 @@ public class AnimPerspecitve : TransparentMaterial
 
         //return new Bounds(transform.TransformPoint(bounds.center), bounds.size * shadowSprite.transform.lossyScale.x);
 
-        return new Bounds(bounds.center, bounds.size * shadowSprite.transform.lossyScale.x*10);
+        return new Bounds(bounds.center, bounds.size * shadowSprite.transform.lossyScale.x * 100);
     }
 
     void UpdateShadow()
@@ -155,7 +145,15 @@ public class AnimPerspecitve : TransparentMaterial
     IEnumerator UpdatePostFrame(System.Action action)
     {
         yield return null;
+        yield return null;
+        yield return null;
 
         action();
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        
+    }
+
 }

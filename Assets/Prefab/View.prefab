@@ -114,9 +114,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8515497041664126326}
+  - component: {fileID: 6940281000927806352}
   - component: {fileID: 3115218222824334144}
+  - component: {fileID: 987104258754839960}
+  - component: {fileID: 3659728093745506918}
   m_Layer: 0
-  m_Name: Animation
+  m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,6 +141,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6940281000927806352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515497041664126321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e29da19d030a4fc41a5094886767c7b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllers: []
+  originalRender: {fileID: 605654443849558340}
+  <isTransparent>k__BackingField: 1
+  transparentMaterial: {fileID: 2100000, guid: db72b3bd8fcd88a47a5f817ad289b18e, type: 2}
+  <defaultRight>k__BackingField: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3115218222824334144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,20 +173,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc4b86777cc114983a53b0e4ea4988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalSprite: {fileID: 605654443849558340}
-  isTransparent: 1
-  transparentMaterial: {fileID: 2100000, guid: db72b3bd8fcd88a47a5f817ad289b18e, type: 2}
-  mainTexture: {fileID: 0}
-  defaultRight: 1
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
-  _shakeIntensity: 0.1
-  _shakeDuration: 0.3
-  onDeathParticlePrefab: {fileID: 0}
   _shadow: 1
   _animator: 0
   dirVector: {x: 1, y: 1}
   colorShadow: {r: 0, g: 0, b: 0, a: 0.69803923}
   sortingLayer: Shadow
   shadowMaterial: {fileID: 2100000, guid: 337d60be4bdd2d24db6085cfa810b3f4, type: 2}
+--- !u!114 &987104258754839960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515497041664126321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ae0ca32929e94b8a435384b851ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 0}
+  damaged1: {r: 1, g: 1, b: 0, a: 1}
+  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
+  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _shakeIntensity: 0.2
+  _shakeDuration: 0.11
+  onDeathParticlePrefab: {fileID: 0}
+--- !u!114 &3659728093745506918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515497041664126321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b542bafad3bbf44a3ee9c3c9599364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

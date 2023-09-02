@@ -2,22 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransparentMaterial : MonoBehaviour
+
+public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewController
 {
-    [SerializeField]
-    protected Renderer originalSprite;
-
-    [SerializeField]
-    protected bool isTransparent = true;
-
-    [SerializeField]
-    protected Material transparentMaterial;
-
-    [SerializeField]
-    Texture mainTexture;
-
-    [SerializeField]
-    bool defaultRight = true;
+    public Entity entity;
 
     [SerializeField]
     Color damaged1 = new Color() { r = 1, b = 0, g = 1, a = 1 };
@@ -29,9 +17,6 @@ public class TransparentMaterial : MonoBehaviour
     Color detected = new Color() { r = 1, b = 0.5f, g = 0.5f, a = 1 };
 
     public ComplexColor colorSetter = new ComplexColor();
-
-    [SerializeField]
-    bool proyection=false;
 
     [SerializeField, Range(0f, 2f)]
     float _shakeIntensity;
@@ -54,57 +39,24 @@ public class TransparentMaterial : MonoBehaviour
 
     TimedLerp<Color> timDetected = null;
 
-    TransparentMaterial[] proyections = new TransparentMaterial[6];
+    ViewObjectModel viewObjectModel;
 
-    EventGeneric eventGeneric;
+    SpriteRenderer originalSpriteRenderer => (SpriteRenderer)viewObjectModel.originalRender;
 
-    protected virtual void Awake()
+    public void OnEnterState(ViewObjectModel param)
     {
-        originalSprite.material = transparentMaterial;
+        if (!transform.parent.TryGetComponent(out entity))
+        {
+            return;
+        }
 
-        originalSprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
+        viewObjectModel = param;
 
         _initialPosition = transform.localPosition;
-
-        eventGeneric = EventManager.events.SearchOrCreate<EventGeneric>("move");
-
-        if (mainTexture!=null)
-            originalSprite.material.SetTexture("_MainTex", mainTexture);
-
-        if (!(originalSprite is SpriteRenderer))
-            return;
-
-        SpriteRenderer originalSpriteRenderer = (SpriteRenderer)originalSprite;
 
         colorSetter.setter += ColorSetter_setter;
 
         colorSetter.Add(originalSpriteRenderer.color);
-
-        if (transform.parent == null || proyection)
-            return;
-
-        for(int i = 0; i < proyections.Length; i++)
-        {
-            proyections[i] = CloneAndSuscribe();
-        }
-
-        LoadSystem.AddPostLoadCorutine(
-        () =>
-        {
-            GetComponentInParent<Hexagone>(true)?.SetProyections(transform, proyections, true);
-            
-            for (int i = 0; i < proyections.Length; i++)
-            {
-                proyections[i].transform.localScale = transform.parent.localScale;
-            }
-        });
-
-        if (!transform.parent.TryGetComponent(out Entity entity))
-        {
-            return;
-        }
-
-        entity.rend = this;
 
         entity.onTakeDamage += ShakeSprite;
 
@@ -128,42 +80,28 @@ public class TransparentMaterial : MonoBehaviour
             indexParticle = PoolManager.SrchInCategory("Particles", onDeathParticlePrefab.name);
             entity.health.death += Health_death;
         }
-
-        LoadSystem.AddPostLoadCorutine(
-        () => {
-            for (int i = 0; i < entity.carlitos.Length; i++)
-            {
-                proyections[i].transform.SetParent(entity.carlitos[i].transform);
-                proyections[i].transform.localPosition = Vector3.zero;
-            }
-        });
-
     }
 
-    public virtual TransparentMaterial CloneAndSuscribe()
+    public void OnStayState(ViewObjectModel param)
     {
-        TransparentMaterial transparentMaterial = Instantiate(this);
-
-        transparentMaterial.proyection = true;
-
-        ((SpriteRenderer)originalSprite).RegisterSpriteChangeCallback(transparentMaterial.UpdateSprite);
-
-        shakeManager?.AddToUpdate(transparentMaterial.Shake).AddToEnd(transparentMaterial.EndShake);
-
-        timDetected?.AddToSave(transparentMaterial.ChangeColor);
-
-        //transparentMaterial.SetActiveGameObject(false);
-
-        //timDamaged.AddToUpdate(()=>transparentMaterial.ColorBlink(((int)(timDamaged.Percentage() * 10)) % 2 == 0)).AddToEnd(transparentMaterial.ColorBlinkEnd);
-
-        return transparentMaterial;
+        throw new System.NotImplementedException();
     }
 
-    private void UpdateSprite(SpriteRenderer sprite)
+    public void OnExitState(ViewObjectModel param)
     {
-        ((SpriteRenderer)originalSprite).sprite = sprite.sprite;
-        ((SpriteRenderer)originalSprite).flipX = sprite.flipX;
-        ((SpriteRenderer)originalSprite).color = sprite.color;
+        throw new System.NotImplementedException();
+    }
+
+    private void Move_onMove(Vector2 obj)
+    {
+        if (obj.x < 0)
+        {
+            originalSpriteRenderer.flipX = viewObjectModel.defaultRight;
+        }
+        else if (obj.x > 0)
+        {
+            originalSpriteRenderer.flipX = !viewObjectModel.defaultRight;
+        }
     }
 
     private void Health_death()
@@ -172,7 +110,7 @@ public class TransparentMaterial : MonoBehaviour
 
         var shape = onDeathParticle.shape;
 
-        shape.sprite = ((SpriteRenderer)originalSprite).sprite;
+        shape.sprite = originalSpriteRenderer.sprite;
 
         var aux = onDeathParticle.GetComponent<ParticleSystemRenderer>();
 
@@ -181,19 +119,6 @@ public class TransparentMaterial : MonoBehaviour
         onDeathParticle.transform.up = transform.up;
 
         onDeathParticle.SetActiveGameObject(true);
-    }
-
-    private void Move_onMove(Vector2 obj)
-    {
-        if(obj.x < 0)
-        {
-            ((SpriteRenderer)originalSprite).flipX = defaultRight;
-        }
-        else if(obj.x > 0)
-        {
-            ((SpriteRenderer)originalSprite).flipX = !defaultRight;
-        }
-               
     }
 
     private void Entity_onDetected()
@@ -229,38 +154,11 @@ public class TransparentMaterial : MonoBehaviour
         colorSetter.Remove(damaged1);
     }
 
-    protected virtual void OnEnable()
-    {
-        if(isTransparent)
-            eventGeneric.action += UpdateTransparent;
-    }
-
-    private void OnDisable()
-    {
-        if (isTransparent)
-            eventGeneric.action -= UpdateTransparent;
-    }
-
-    private void UpdateTransparent(params object[] param)
-    {
-        if (!gameObject.activeSelf)
-            return;
-
-        Vector3 posPlayer = (Vector3)param[0];
-
-        if (posPlayer.y > transform.position.y)
-        {
-            originalSprite.material.SetInt("_transparent", 1);
-        }
-        else
-        {
-            originalSprite.material.SetInt("_transparent", 0);
-        }
-    }
+    
 
     private void ColorSetter_setter(Color obj)
     {
-        ((SpriteRenderer)originalSprite).color = obj;
+        originalSpriteRenderer.color = obj;
     }
 
     void ShakeSprite(Damage dmg)

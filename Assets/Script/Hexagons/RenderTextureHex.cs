@@ -64,7 +64,7 @@ public class RenderTextureHex : MonoBehaviour
     {
         auxBool = false;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < MainCamera.instance.points.Length; i++)
         {
             if (col.OverlapPoint(MainCamera.instance.points[i]))
             {

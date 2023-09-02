@@ -40,7 +40,7 @@ public class TurretBuild : BarrierBuild
     }
     public void ChangeSprite(Sprite sprite)
     {
-        GetComponentInChildren<AnimPerspecitve>().sprite = sprite;
+        GetComponentInChildren<ViewShadowController>().sprite = sprite;
     }
 
     public override void UpgradeLevel()

@@ -16,8 +16,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public AudioManager audioManager;
 
-    public TransparentMaterial rend;
-
     public CarlitoEntity carlitosPrefab;
 
     public Transform[] carlitos;
