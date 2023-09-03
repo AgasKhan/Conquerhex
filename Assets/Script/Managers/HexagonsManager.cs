@@ -19,6 +19,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     public static float lado;
 
     public static float apotema;
+
+    public Vector2 anguloDefecto;
+
     public static int idMaxLevel=> instance._idMaxLevel;
 
     [SerializeReference]
@@ -294,6 +297,18 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         return reload;
     }
 
+    static public int CalcEdge(Vector2 direction)
+    {
+        float angle = 360 - Utilitys.DifAngulosVectores(instance.anguloDefecto, direction);
+
+        int lado = Mathf.FloorToInt(angle / 60);
+
+        if (lado > 5)
+            lado = 5;
+
+        return lado;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -302,6 +317,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         lado = scala / 2; //+ correccionScala;
 
         apotema = Mathf.Sqrt(Mathf.Pow(lado, 2) - Mathf.Pow(lado / 2, 2));
+
+        anguloDefecto = new Vector2(Mathf.Cos((2f / 3f) * Mathf.PI), Mathf.Sin((2f / 3f) * Mathf.PI));
 
         LocalSidePosHex();
 

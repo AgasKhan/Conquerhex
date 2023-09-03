@@ -115,8 +115,6 @@ public class ViewShadowController : MonoBehaviour, ViewObjectModel.IViewControll
         shadowSprite.sortingLayerName = sortingLayer;
     }
 
-
-
     void UpdateShadowSprite(SpriteRenderer sprite)
     {
         shadowSprite.sprite = sprite.sprite;
@@ -125,10 +123,9 @@ public class ViewShadowController : MonoBehaviour, ViewObjectModel.IViewControll
 
     Bounds UpdateBounds(Bounds bounds)
     {
-
         //return new Bounds(transform.TransformPoint(bounds.center), bounds.size * shadowSprite.transform.lossyScale.x);
 
-        return new Bounds(bounds.center, bounds.size * shadowSprite.transform.lossyScale.x * 100);
+        return new Bounds(bounds.center, bounds.size * originalSpriteRenderer.transform.lossyScale.x * 10);
     }
 
     void UpdateShadow()
@@ -137,23 +134,15 @@ public class ViewShadowController : MonoBehaviour, ViewObjectModel.IViewControll
 
         shadowSprite.material.SetColor("_Color", colorShadow);
 
-        StartCoroutine(UpdatePostFrame(() => shadowSprite.localBounds = UpdateBounds(shadowSprite.sprite.bounds)));   
-    }
+        shadowSprite.ResetLocalBounds();
 
-
-
-    IEnumerator UpdatePostFrame(System.Action action)
-    {
-        yield return null;
-        yield return null;
-        yield return null;
-
-        action();
+        shadowSprite.localBounds = UpdateBounds(shadowSprite.localBounds);
     }
 
     private void OnDrawGizmosSelected()
     {
-        
+        if(shadowSprite!=null)
+            Gizmos.DrawWireCube(shadowSprite.localBounds.center + transform.position, shadowSprite.localBounds.size);
     }
 
 }

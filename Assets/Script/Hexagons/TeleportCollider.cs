@@ -16,10 +16,6 @@ public class TeleportCollider : MonoBehaviour
 
     float velocityTransfer => teleport.velocityTransfer;
 
-    Vector2 anguloDefecto => teleport.anguloDefecto;
-
-    Pictionarys<int, Hexagone> activeHex => HexagonsManager.activeHex;
-
     private void Awake()
     {
         teleport = GetComponentInParent<Hexagone>();
@@ -31,7 +27,6 @@ public class TeleportCollider : MonoBehaviour
 
         if (fisicaOther != null)
         {
-            float angle;
             float[] difEspejada = new float[2]; //voy a guardar la diferencia para poder espejarlo de forma correcta
             int lado;
             //PrintF log = new PrintF();
@@ -43,12 +38,7 @@ public class TeleportCollider : MonoBehaviour
 
             Vector2 vectorVelocidad = fisicaOther.vectorVelocity;
 
-            angle = 360 - Utilitys.DifAngulosVectores(anguloDefecto, vectorSalida);
-
-            lado = Mathf.FloorToInt(angle / 60);
-
-            if (lado > 5)
-                lado = 5;
+            lado = HexagonsManager.CalcEdge(vectorSalida);
 
             Hexagone arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
 
@@ -57,9 +47,9 @@ public class TeleportCollider : MonoBehaviour
             //aplico una velocidad al objeto que esta cerca del portal
 
             //Para detectar a donde va el objeto
-            Debug.DrawRay(this.gameObject.transform.position, (other.gameObject.transform.position - this.gameObject.transform.position).normalized, Color.green, 30);
+            //Debug.DrawRay(this.gameObject.transform.position, (other.gameObject.transform.position - this.gameObject.transform.position).normalized, Color.green, 30);
 
-            Debug.DrawRay(this.gameObject.transform.position, anguloDefecto, Color.red, 30);
+            //Debug.DrawRay(this.gameObject.transform.position, anguloDefecto, Color.red, 30);
 
             if
             (anguloVelocidad < 180 && anguloVelocidad > 0)
@@ -83,15 +73,13 @@ public class TeleportCollider : MonoBehaviour
                     arrHexTeleport.gameObject.SetActive(false);
                 }
                 
-                
-
                 fisicaOther.Teleport(arrHexTeleport, lado);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    arrHexTeleport.OnSectionView[i]?.Invoke(-1);
+                }
             }
         }
-
-
     }
-
-    
-    
 }

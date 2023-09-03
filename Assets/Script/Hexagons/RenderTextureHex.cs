@@ -35,6 +35,25 @@ public class RenderTextureHex : MonoBehaviour
 
     bool auxBool;
 
+    public Hexagone hexagone;
+
+    public int lado;
+
+    public void SetRender(Hexagone hexagone, int lado)
+    {
+        this.hexagone = hexagone;
+
+        this.lado = lado;
+
+        transform.position = HexagonsManager.AbsSidePosHex(hexagone.ladosArray[HexagonsManager.LadoOpuesto(lado)].transform.position, lado, transform.position.z, 2);
+
+        cameraRelated.transform.position = new Vector3(
+            hexagone.transform.position.x, 
+            hexagone.transform.position.y, 
+            cameraRelated.transform.position.z);
+    }
+
+
     void Awake()
     {
         rend.material = materialRend;
@@ -56,8 +75,6 @@ public class RenderTextureHex : MonoBehaviour
         col = GetComponent<Collider2D>();
 
         MyOnBecameInvisible();
-
-       
     }
 
     private void LateUpdate()
@@ -85,6 +102,9 @@ public class RenderTextureHex : MonoBehaviour
 
     void MyOnBecameVisible()
     {
+        if(!cameraRelated.isActiveAndEnabled)
+            hexagone.OnSectionView[HexagonsManager.LadoOpuesto(lado)]?.Invoke(lado);//solo cambiar la seccion
+
         cameraRelated.SetActiveGameObject(true);
         rendCielo.SetActiveGameObject(true);
     }

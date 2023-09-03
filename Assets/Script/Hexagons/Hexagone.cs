@@ -9,17 +9,12 @@ public class Hexagone : MonoBehaviour
 
     public int level;
 
-    //hacia donde se teletransporta, el primer indice es el lado del propio hexagono, y el segundo es el destino (0 para la id y 1 para el lado)
-    //public int[,] ladosArray;
-
     public Hexagone[] ladosArray = new Hexagone[6];//Lo uso para definir A DONDE me voy a teletransportar
 
     //pareja de coordenadas
     public float[,] ladosPuntos = new float[6, 2];//Lo uso para guardar la coordenadas de cada lado
 
     public float velocityTransfer;
-
-    public Vector2 anguloDefecto;
 
     public Biomes biomes;
 
@@ -31,11 +26,13 @@ public class Hexagone : MonoBehaviour
 
     public bool manualSetEdge = false;
 
+    public int lenght = 42;
+
+    public System.Action<int>[] OnSectionView = new System.Action<int>[6];
+
     [SerializeField]
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
-    bool manualSpawnSpawner=false;
-
-    public int lenght = 42;
+    bool manualSpawnSpawner = false;
 
     public Hexagone SetID(int i)
     {
@@ -166,17 +163,20 @@ public class Hexagone : MonoBehaviour
         for (int i = 0; i < LoadMap.instance.renders.Length; i++)
         {
             ladosArray[i].gameObject.SetActive(true);
+
             activeHex.Add(ladosArray[i].id, ladosArray[i]);
 
-            LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
+            LoadMap.instance.renders[i].SetRender(ladosArray[i], i);
 
-            //LoadMap.instance.cameras[i].gameObject.SetActive(true);
+            //LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
 
+            /*
             LoadMap.instance.cameras[i].position = new Vector3(
                 ladosArray[i].transform.position.x,
                 ladosArray[i].transform.position.y,
                 LoadMap.instance.cameras[i].position.z
                 );
+            */
         }
 
 
@@ -201,7 +201,7 @@ public class Hexagone : MonoBehaviour
         }
     }
 
-    public void SetProyections(Transform original, Component[] components, bool setParent = false)
+    public Hexagone SetProyections(Transform original, Component[] components, bool setParent = false)
     {
         for (int i = 0; i < components.Length && i< ladosArray.Length; i++)
         {
@@ -210,13 +210,17 @@ public class Hexagone : MonoBehaviour
             if (setParent)
                 components[i].transform.SetParent(ladosArray[i].transform, true);
         }
+
+        return this;
     }
 
-    private void Awake()
+    public Hexagone SuscribeOnSection(int lado,System.Action<int> callback)
     {
-        //vector que da el angulo por defecto para calcular el hexagono (esta a 120 grados)
-        anguloDefecto = new Vector2(Mathf.Cos((2f / 3f) * Mathf.PI), Mathf.Sin((2f / 3f) * Mathf.PI));
+        OnSectionView[lado] += callback;
+
+        return this;
     }
+
 
     private void Start()
     {
