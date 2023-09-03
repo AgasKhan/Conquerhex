@@ -22,9 +22,6 @@ public class MainCamera : SingletonMono<MainCamera>
     [SerializeField]
     Vector3 vectorPerspective;
 
-    [SerializeField]
-    float culling;
-
     Camera main;
 
     Plane plane;
@@ -40,33 +37,49 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         main.orthographic = !perspective;
 
-        if(!perspective)
-        {
-            transform.rotation = Quaternion.identity;
-            transform.GetChild(0).localPosition = Vector3.zero;
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(rotationPerspective);
-            transform.GetChild(0).localPosition = vectorPerspective;
-        }
-
         points = new Vector3[pointsInScreen.Length];
 
         _points = new Vector3[pointsInScreen.Length];
 
         _points2 = new Vector3[pointsInScreen.Length];
 
-        for (int i = 0; i < pointsInScreen.Length; i++)
+        if (!perspective)
         {
-            _points[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, main.nearClipPlane));
+            transform.rotation = Quaternion.identity;
+            transform.GetChild(0).localPosition = Vector3.zero;
 
-            Ray ray = new Ray(main.transform.position, _points[i] - main.transform.position);
+            for (int i = 0; i < pointsInScreen.Length; i++)
+            {
+                _points[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, 0));
 
-            plane.Raycast(ray, out float distance);
+                _points2[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, main.nearClipPlane));
+                Ray ray = new Ray(_points[i], _points2[i] - _points[i]);
 
-            _points2[i] = ray.GetPoint(distance) - main.transform.position;
+                plane.Raycast(ray, out float distance);
+
+                _points2[i] = ray.GetPoint(distance) - main.transform.position;
+            }
         }
+        else
+        {
+            transform.rotation = Quaternion.Euler(rotationPerspective);
+            transform.GetChild(0).localPosition = vectorPerspective;
+
+            for (int i = 0; i < pointsInScreen.Length; i++)
+            {
+                _points[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, main.nearClipPlane));
+
+                Ray ray = new Ray(main.transform.position, _points[i] - main.transform.position);
+
+                plane.Raycast(ray, out float distance);
+
+                _points2[i] = ray.GetPoint(distance) - main.transform.position;
+            }
+        }
+
+        
+
+       
     }
 
     // Update is called once per frame

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ViewObjectModel : MonoBehaviour
 {
-    [SerializeReference]
     public IViewController[] controllers;
 
     [SerializeField]
