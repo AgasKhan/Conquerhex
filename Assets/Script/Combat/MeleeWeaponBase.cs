@@ -9,8 +9,6 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 
     public float durability;
 
-    public bool isImproved = false;
-
     #region FUNCIONES
 
     public override Pictionarys<string, string> GetDetails()

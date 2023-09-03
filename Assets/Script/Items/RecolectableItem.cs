@@ -7,6 +7,9 @@ public class RecolectableItem : StaticEntity
     [SerializeField]
     SpriteRenderer mySprite;
 
+    [SerializeField]
+    protected Detect<Character> areaFarming;
+
     ResourcesBase_ItemBase itemBase;
 
     public float weight => itemBase.weight;
@@ -22,6 +25,7 @@ public class RecolectableItem : StaticEntity
         base.Config();
 
         MyAwakes += MyAwake;
+        MyUpdates += MyUpdate;
     }
 
     void MyAwake()
@@ -34,6 +38,24 @@ public class RecolectableItem : StaticEntity
             
         })
         .Stop().SetInitCurrent(0);
+    }
+
+    void MyUpdate()
+    {
+        var characters = areaFarming.Area(transform.position, (algo) => { return true; });
+
+        foreach (var character in characters)
+        {
+            //if (character.currentWeight + weight <= character.weightCapacity)
+            var aux = (BodyBase)character.flyweight;
+            var dist = character.transform.position - transform.position;
+
+            if (dist.sqrMagnitude <= aux.areaFarming * aux.areaFarming && character == GameManager.instance.playerCharacter)
+            {
+                Recolect(character);
+                break;
+            }
+        }
     }
 
     public void Recolect(StaticEntity entity)

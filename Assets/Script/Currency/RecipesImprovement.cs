@@ -19,7 +19,6 @@ public class RecipesImprovement : SingletonMono<RecipesImprovement>
         weapon.durability.Set(weapon.itemBase.durability + improvements[material].durImprovement);
 
         weapon.itemBase.durability += improvements[material].durImprovement;
-        weapon.itemBase.isImproved = true;
         weapon.Init();
 
         return weapon;
@@ -27,7 +26,7 @@ public class RecipesImprovement : SingletonMono<RecipesImprovement>
 
     public bool IsAbleToImprove(MeleeWeapon weapon, ItemBase material)
     {
-        return weapon.itemBase.isImproved == false && improvements.ContainsKey(material) && weaponToImprove.Contains(weapon);
+        return improvements.ContainsKey(material) && weaponToImprove.Contains(weapon);
     }
 }
 

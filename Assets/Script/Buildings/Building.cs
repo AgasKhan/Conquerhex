@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Building : AttackEntity, Interactuable
+public class Building : AttackEntity, Interactuable
 {
     public Recipes[] upgradesRequirements;
     public ItemType[] NavBarButtons;
@@ -14,9 +14,10 @@ public abstract class Building : AttackEntity, Interactuable
     [HideInInspector]
     public BuildingsSubMenu myBuildSubMenu;
 
+    [HideInInspector]
     public Character character;
 
-    public abstract string rewardNextLevel
+    public virtual string rewardNextLevel
     {
         get;
     }
@@ -53,7 +54,7 @@ public abstract class Building : AttackEntity, Interactuable
 
     public virtual void UpgradeLevel()
     {
-        if(controller!=null)
+        if(controller != null)
         {
             controller.UpgradeLevel();
         }

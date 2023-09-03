@@ -13,7 +13,8 @@ public class AudioBuilding : AudioManager
 
         if (audios.ContainsKey(craftAudio))
         {
-            building.createSubMenu.onCraft += CraftSound;
+            var aux = building.controller as CraftingBuildController;
+            aux.createSubMenu.onCraft += CraftSound;
         }
 
     }

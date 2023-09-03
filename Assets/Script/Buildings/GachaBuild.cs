@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GachaBuild : Building
 {
-    public override string rewardNextLevel => throw new System.NotImplementedException();
-
     public Pictionarys<ItemBase, GachaRarity> gachaRewards = new Pictionarys<ItemBase, GachaRarity>();
     public int maxTriesSS = 50;
     public Recipes gachaCost;

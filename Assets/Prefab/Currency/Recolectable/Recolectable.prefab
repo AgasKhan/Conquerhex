@@ -58,14 +58,27 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops: []
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   audioManager: {fileID: 0}
+  carlitosPrefab: {fileID: 0}
+  carlitos: []
   interact:
     pictionaries: []
   inventory: []
+  currentWeight: 0
+  travelItem: []
   mySprite: {fileID: 5196309304934902380}
+  areaFarming:
+    radius: 10
+    distance: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    _maxDetects: 0
+    _minDetects: 0
+    inverse: 0
+    dot: 1
   references:
     version: 2
     RefIds: []
