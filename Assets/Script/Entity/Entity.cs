@@ -18,11 +18,12 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public CarlitoEntity carlitosPrefab;
 
-    public Transform[] carlitos;
+    [field : SerializeField]
+    public Transform[] carlitos { get; private set; }
 
     protected abstract Damage[] vulnerabilities { get; }
     
-    public virtual bool visible { get => enabled && gameObject.activeSelf; set => enabled = value; }
+    public virtual bool visible { get => isActiveAndEnabled; set => enabled = value; }
 
     IDamageable[] damageables;
 
@@ -71,12 +72,14 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             //carlitos[i].SetActiveGameObject(false);
         }
 
-        Hexagone hexagone = GetComponentInParent<Hexagone>();
+        LoadSystem.AddPostLoadCorutine(()=> {
+            Hexagone hexagone = GetComponentInParent<Hexagone>();
 
-        if (transform.parent != null && hexagone!=null)
-        {
-            Teleport(hexagone, 0);
-        }
+            if (hexagone != null)
+            {
+                Teleport(hexagone, 0);
+            }
+        });
     }
 
     public void Detect()
@@ -193,7 +196,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public void Teleport(Hexagone hexagone, int lado)
     {
-
         hexagone.SetProyections(transform,carlitos);
 
         for (int i = 0; i < carlitos.Length; i++)
@@ -203,18 +205,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
             else
                 carlitos[i].SetActiveGameObject(true);
         }
-
-        /*
-        for (int i = 0; i < carlitos.Length; i++)
-        {
-            if (hexagone.ladosArray[i].id == hexagone.id)
-                carlitos[i].SetActiveGameObject(false);
-            else
-                carlitos[i].SetActiveGameObject(true);
-
-            carlitos[i].transform.position = HexagonsManager.AbsSidePosHex(hexagone.ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), carlitos[i].transform.position.z, 2) + (transform.position - hexagone.transform.position);
-        }
-        */
     }
 }
 

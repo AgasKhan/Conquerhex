@@ -10,30 +10,79 @@ public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewCont
 
     ViewObjectModel view;
 
+    Hexagone hex;
+
+    int lado;
+
     void Proyection()
     {
+        hex = GetComponentInParent<Hexagone>(true);
+
+        if (hex == null)
+            return;
+
+        lado = HexagonsManager.CalcEdge(transform.position - hex.transform.position);
+
+        hex.SuscribeOnSection(lado, ChangeToProyection);
+
         if (TryGetComponent<ViewEntityController>(out var viewController) && viewController.entity != null)
+        {
             for (int i = 0; i < viewController.entity.carlitos.Length; i++)
             {
                 proyections[i] = viewController.entity.carlitos[i].transform;
             }
+
+            if(viewController.entity is DynamicEntity)
+            {
+                var dyn = (DynamicEntity)viewController.entity;
+
+                dyn.move.onMove += Move_onMove;
+
+                dyn.move.onTeleport += Move_onTeleport;
+            }
+        }
         else
         {
             proyections = view.Proyections();
 
-            var hex = GetComponentInParent<Hexagone>(true);
+            hex.SetProyections(transform, proyections);
 
-            hex?.SetProyections(transform, proyections, true).SuscribeOnSection(HexagonsManager.CalcEdge(transform.position - hex.transform.position), ChangeToProyection);
-
+            /*
             for (int i = 0; i < proyections.Length; i++)
             {
                 proyections[i].transform.localScale = transform.parent.localScale;
             }
+            */
         }       
+    }
+
+    private void Move_onTeleport(Hexagone arg1, int arg2)
+    {
+        hex.DesuscribeOnSection(lado, ChangeToProyection);
+        hex = arg1;
+        lado = arg2;
+        hex.SuscribeOnSection(lado, ChangeToProyection);
+    }
+
+    private void Move_onMove(Vector2 obj)
+    {
+        var aux = HexagonsManager.CalcEdge(view.transform.position - hex.transform.position);
+
+        if(aux==lado)
+            return;
+
+        hex.DesuscribeOnSection(lado, ChangeToProyection);
+
+        lado = aux;
+
+        hex.SuscribeOnSection(lado, ChangeToProyection);
     }
 
     void ChangeToProyection(int lado)
     {
+        if (!isActiveAndEnabled)
+            return;
+
         Transform aux;
 
         if (lado < 0)
@@ -55,17 +104,14 @@ public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewCont
         LoadSystem.AddPostLoadCorutine(Proyection);
     }
 
-    
-
-
     public void OnStayState(ViewObjectModel param)
     {
-        throw new System.NotImplementedException();
+      
     }
 
     public void OnExitState(ViewObjectModel param)
     {
-        throw new System.NotImplementedException();
+
     }
     
 }

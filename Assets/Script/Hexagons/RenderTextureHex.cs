@@ -33,7 +33,29 @@ public class RenderTextureHex : MonoBehaviour
 
     Collider2D col;
 
-    bool auxBool;
+    bool _auxBool;
+
+    bool _enabled;
+
+    bool Enabled 
+    {
+        set
+        {
+            if (_enabled == value)
+                return;
+
+            if (_auxBool)
+            {
+                MyOnBecameVisible();
+            }
+            else
+            {
+                MyOnBecameInvisible();
+            }
+
+            _enabled = value;
+        }
+    }
 
     public Hexagone hexagone;
 
@@ -79,32 +101,23 @@ public class RenderTextureHex : MonoBehaviour
 
     private void LateUpdate()
     {
-        auxBool = false;
+        _auxBool = false;
 
         for (int i = 0; i < MainCamera.instance.points.Length; i++)
         {
             if (col.OverlapPoint(MainCamera.instance.points[i]))
             {
-                auxBool = true;
-                break;
+                hexagone.OnSectionView[HexagonsManager.CalcEdge(MainCamera.instance.points[i] - transform.position)]?.Invoke(lado);
+
+                _auxBool = true;
             }
         }
 
-        if (auxBool)
-        {
-            MyOnBecameVisible();
-        }
-        else
-        {
-            MyOnBecameInvisible();
-        }
+        Enabled = _auxBool;
     }
 
     void MyOnBecameVisible()
     {
-        if(!cameraRelated.isActiveAndEnabled)
-            hexagone.OnSectionView[HexagonsManager.LadoOpuesto(lado)]?.Invoke(lado);//solo cambiar la seccion
-
         cameraRelated.SetActiveGameObject(true);
         rendCielo.SetActiveGameObject(true);
     }

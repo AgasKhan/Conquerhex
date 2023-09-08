@@ -121,12 +121,6 @@ public class Hexagone : MonoBehaviour
 
                         GameObject prop = Instantiate(biomes.props.RandomPic(level), new Vector3((i - biomes.inversaDensidad/2f) + rng1 / 10f, (ii - biomes.inversaDensidad / 2f) + rng2 / 10f, center.z), Quaternion.identity);
 
-                        var aux = prop.GetComponentInChildren<SpriteRenderer>();
-
-                        aux.flipX = (Random.Range(0, 2) == 0);
-
-                        //prop.transform.localScale = new Vector3(prop.transform.localScale.x * (Random.Range(0, 2) == 0 ? -1 : 1), prop.transform.localScale.y, prop.transform.localScale.z);
-
                         prop.transform.SetParent(transform);
                     }
                     else if (spawn)
@@ -217,6 +211,13 @@ public class Hexagone : MonoBehaviour
     public Hexagone SuscribeOnSection(int lado,System.Action<int> callback)
     {
         OnSectionView[lado] += callback;
+
+        return this;
+    }
+
+    public Hexagone DesuscribeOnSection(int lado, System.Action<int> callback)
+    {
+        OnSectionView[lado] -= callback;
 
         return this;
     }

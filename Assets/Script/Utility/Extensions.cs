@@ -339,5 +339,4 @@ public static class Extensions
 
         return entityArray;
     }
-
 }

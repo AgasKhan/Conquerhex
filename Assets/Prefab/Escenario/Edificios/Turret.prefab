@@ -92,6 +92,9 @@ MonoBehaviour:
     deathBool: 0
   drops: []
   audioManager: {fileID: 0}
+  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
+    type: 3}
+  <carlitos>k__BackingField: []
   interact:
     pictionaries:
     - key: "Informaci\xF3n"
@@ -119,6 +122,7 @@ MonoBehaviour:
     detailsWindow: {fileID: 0}
   character: {fileID: 0}
   myVisibility: 0
+  myInteractuable: 1
   originalFlyweight: {fileID: 0}
   constructSprite: {fileID: 0}
   node: {fileID: 0}
@@ -217,7 +221,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1648172239
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 156501df2acc38d48b9d08477fa0ea8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
