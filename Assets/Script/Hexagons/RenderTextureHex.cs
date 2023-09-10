@@ -69,10 +69,14 @@ public class RenderTextureHex : MonoBehaviour
 
         transform.position = HexagonsManager.AbsSidePosHex(hexagone.ladosArray[HexagonsManager.LadoOpuesto(lado)].transform.position, lado, transform.position.z, 2);
 
+        //cameraRelated.transform.position = HexagonsManager.AbsSidePosHex(hexagone.ladosArray[HexagonsManager.LadoOpuesto(lado)].transform.position, lado, cameraRelated.transform.position.z, 2);
+
+        
         cameraRelated.transform.position = new Vector3(
             hexagone.transform.position.x, 
             hexagone.transform.position.y, 
             cameraRelated.transform.position.z);
+        
     }
 
 
@@ -99,6 +103,7 @@ public class RenderTextureHex : MonoBehaviour
         MyOnBecameInvisible();
     }
 
+    
     private void LateUpdate()
     {
         _auxBool = false;
@@ -107,7 +112,7 @@ public class RenderTextureHex : MonoBehaviour
         {
             if (col.OverlapPoint(MainCamera.instance.points[i]))
             {
-                hexagone.OnSectionView[HexagonsManager.CalcEdge(MainCamera.instance.points[i] - transform.position)]?.Invoke(lado);
+                hexagone.SectionView[HexagonsManager.CalcEdge(MainCamera.instance.points[i] - transform.position, 90)].Active=lado;
 
                 _auxBool = true;
             }
@@ -115,7 +120,7 @@ public class RenderTextureHex : MonoBehaviour
 
         Enabled = _auxBool;
     }
-
+    
     void MyOnBecameVisible()
     {
         cameraRelated.SetActiveGameObject(true);

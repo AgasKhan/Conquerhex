@@ -2,29 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Detect<T> where T : class
+
+public abstract class DetectParent<T> where T : class
 {
     [Tooltip("Radio de deteccion")]
     public float radius;
 
     public float distance;
 
-    [Tooltip("Layer de deteccion")]
-    public LayerMask layerMask;
-
-    [SerializeField]
-    int _maxDetects;
-
-    [SerializeField]
-    int _minDetects;
-
-
     [Tooltip("si arranca por el mas lejano, en vez del mas cercano")]
     public bool inverse;
 
     [Tooltip("Producto punto utilizado para el calculo del cono")]
     public float dot = 1;
+
+    [SerializeField]
+    protected int _maxDetects;
+
+    [SerializeField]
+    protected int _minDetects;
+
+    protected CompareDist<Component> compareDist = new CompareDist<Component>();
+
+    /// <summary>
+    /// diametro
+    /// </summary>
+    public float diameter => radius * 2;
 
     /// <summary>
     /// numero maximo de objetos detectados
@@ -36,45 +39,15 @@ public class Detect<T> where T : class
     /// </summary>
     public int minDetects => _minDetects;
 
-    /// <summary>
-    /// diametro
-    /// </summary>
-    public float diameter => radius * 2;
+    public abstract List<T> Area(Vector2 pos, int min, int max, System.Func<T, bool> chck, float radius);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="pos"></param>
-    /// <param name="chck">Criterio de busqueda</param>
-    /// <returns></returns>
-    public List<T> Area(Vector2 pos, int min, int max, System.Func<T, bool> chck, float radius)
-    {
-        var aux = Physics2D.OverlapCircleAll(pos, radius, layerMask);
+    public abstract List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float radius, float dot);
 
-        List<T> damageables = new List<T>();
+    public abstract List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1);
 
-        if (min > aux.Length)
-            return damageables;
-        
-        foreach (var item in aux)
-        {
-            var components = item.GetComponents<T>();
+    public abstract List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1);
 
-            foreach (var comp in components)
-            {
-                if (chck(comp))
-                    Add(damageables, comp, pos);
-            }
-
-            if (max > 0)
-                for (int i = 1; i < damageables.Count - max; i++)
-                {
-                    damageables.RemoveAt(damageables.Count - i);
-                }
-        }
-
-        return damageables;
-    }
+    protected abstract List<T> WithRay(Transform caster, List<T> damageables, int maxDetects);
 
     /// <summary>
     /// 
@@ -84,76 +57,12 @@ public class Detect<T> where T : class
     /// <returns></returns>
     public List<T> Area(Vector2 pos, System.Func<T, bool> chck)
     {
-        return Area(pos, minDetects , maxDetects, chck, radius);
+        return Area(pos, minDetects, maxDetects, chck, radius);
     }
 
-    public List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float radius, float dot)
+    public List<T> Cone(Vector2 pos, Vector2 dir, System.Func<T, bool> chck)
     {
-        var damageables = Area(pos, 0, 0, chck, radius);
-
-        dir.Normalize();
-
-        for (int i = damageables.Count - 1; i >= 0; i--)
-        {
-            var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
-
-            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
-            {
-                damageables.RemoveAt(i);
-                continue;
-            }
-        }
-        /*
-        dir *= radius;
-        
-        Debug.DrawRay(pos, dir, Color.red);
-
-        Debug.DrawRay(pos, Quaternion.Euler(0, 0, Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
-
-        Debug.DrawRay(pos, Quaternion.Euler(0, 0, -Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
-        */
-        return damageables;
-    }
-
-    public List<T> Cone(Vector2 pos, Vector2 dir,System.Func<T, bool> chck)
-    {
-        return Cone(pos,dir,minDetects, maxDetects, chck, radius, dot);
-    }
-
- 
-    public Transform[] RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck , int min, int max , float distance = -1)
-    {
-        var aux = Physics2D.RaycastAll(pos, dir, distance < 0 ? this.distance : distance, layerMask);
-
-        Debug.DrawRay(pos, dir, Color.red, 1);
-
-        if (aux.Length > min)
-        {
-            List<Transform> tr = new List<Transform>();
-
-            string str = "";
-
-            foreach (var item in aux)
-            {   
-                if(chck(item.transform))
-                {
-                    Add(tr, item.transform, pos);
-                    str += item.transform.name + "- ";
-                }
-            }
-
-            //Debug.Log(str);
-
-            if(max>0)
-                for (int i = 1; i <= (tr.Count - max); i++)
-                {
-                    tr.RemoveAt(tr.Count - i);
-                }
-
-            return tr.ToArray();
-        }
-
-        return null;
+        return Cone(pos, dir, minDetects, maxDetects, chck, radius, dot);
     }
 
     /// <summary>
@@ -163,32 +72,9 @@ public class Detect<T> where T : class
     /// <param name="dir"></param>
     /// <param name="distance"></param>
     /// <returns></returns>
-    public Transform[] RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, float distance = -1)
+    public List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, float distance = -1)
     {
         return RayTransform(pos, dir, chck, minDetects, maxDetects, distance);
-    }
-
-    public List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
-    {
-        List<T> result = new List<T>();
-
-        var tr = RayTransform(pos, dir, (tr)=> true ,distance);
-
-        foreach (var item in tr)
-        {
-            var aux = item.GetComponents<T>();
-
-            foreach (var tType in aux)
-            {
-                if (chck(tType))
-                    Add(result, tType, pos);
-            }
-        }
-
-        if (result.Count > 0)
-            return result;
-        else
-            return null;
     }
 
     /// <summary>
@@ -202,7 +88,6 @@ public class Detect<T> where T : class
     {
         return Ray(pos, dir, (entity) => true, distance);
     }
-
 
     /// <summary>
     /// 
@@ -237,58 +122,7 @@ public class Detect<T> where T : class
         return AreaWithRay(caster, chck, maxDetects, radius);
     }
 
-    /// <summary>
-    /// Remueve de la lista aquellos que no tienen vision directa con el caster
-    /// </summary>
-    /// <param name="caster"></param>
-    /// <param name="damageables"></param>
-    /// <param name="maxDetects"></param>
-    /// <returns></returns>
-    List<T> WithRay(Transform caster, List<T> damageables, int maxDetects)
-    {
-        var pos = caster.position.Vect3To2();
 
-        for (int i = damageables.Count - 1; i >= 0; i--)
-        {
-            var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
-
-            var aux = RayTransform(posDamageable, (pos - posDamageable), (tr)=> true, 0, 0, (pos - posDamageable).magnitude);
-
-            if (aux != null && aux.Length > 0)//si colisiono significa q no tengo vision directa
-            {
-                bool chckCaster = true;
-
-                //Para chequear si en algunos de los primeros esta el caster
-                for (int ii = 0; ii < Mathf.Clamp(aux.Length, 0, 2); ii++)
-                {
-                    if (aux[ii] == caster)
-                    {
-                        chckCaster = false;
-                    }
-                }
-
-                if (chckCaster)
-                    damageables.RemoveAt(i);
-            }
-        }
-
-        if (maxDetects > 0)
-        {
-            var count = damageables.Count;
-
-            if (maxDetects > count)
-            {
-                maxDetects = count;
-            }
-
-            for (int i = 0; i < (count - maxDetects); i++)
-            {
-                damageables.RemoveAt(count - (1 + 1 * i));
-            }
-        }
-
-        return damageables;
-    }
 
     protected virtual void Add(List<T> list, T add, Vector3 pos)
     {
@@ -298,7 +132,7 @@ public class Detect<T> where T : class
         InternalAdd(list, add as Component, pos);
     }
 
-    protected virtual void Add(List<Transform> list, Transform add, Vector3 pos)
+    protected virtual void Add(List<RaycastHit2D> list, RaycastHit2D add, Vector3 pos)
     {
         if (list.Contains(add))
             return;
@@ -308,7 +142,8 @@ public class Detect<T> where T : class
 
     void InternalAdd(List<T> list, Component add, Vector3 pos)
     {
-        CompareDist<Component> compareDist = new CompareDist<Component>();
+        if (add == null)
+            return;
 
         compareDist.inverse = inverse;
 
@@ -342,6 +177,290 @@ public class Detect<T> where T : class
         list.AddOrInsert(add as T, searchIndex);
     }
 }
+
+
+[System.Serializable]
+public class Detect<T> : DetectParent<T> where T : class
+{
+
+    [Tooltip("Layer de deteccion")]
+    public LayerMask layerMask;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="chck">Criterio de busqueda</param>
+    /// <returns></returns>
+    public override List<T> Area(Vector2 pos, int min, int max, System.Func<T, bool> chck, float radius)
+    {
+        var aux = Physics2D.OverlapCircleAll(pos, radius, layerMask);
+
+        List<T> damageables = new List<T>();
+
+        if (min > aux.Length)
+            return damageables;
+        
+        foreach (var item in aux)
+        {
+            var components = item.GetComponents<T>();
+
+            foreach (var comp in components)
+            {
+                if (chck(comp))
+                    Add(damageables, comp, pos);
+            }
+
+            if (max > 0)
+                for (int i = 1; i < damageables.Count - max; i++)
+                {
+                    damageables.RemoveAt(damageables.Count - i);
+                }
+        }
+
+        return damageables;
+    }
+
+    public override List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float radius, float dot)
+    {
+        var damageables = Area(pos, 0, 0, chck, radius);
+
+        dir.Normalize();
+
+        for (int i = damageables.Count - 1; i >= 0; i--)
+        {
+            var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
+
+            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
+            {
+                damageables.RemoveAt(i);
+                continue;
+            }
+        }
+        /*
+        dir *= radius;
+        
+        Debug.DrawRay(pos, dir, Color.red);
+
+        Debug.DrawRay(pos, Quaternion.Euler(0, 0, Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
+
+        Debug.DrawRay(pos, Quaternion.Euler(0, 0, -Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
+        */
+        return damageables;
+    }
+
+ 
+    public override List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck , int min, int max , float distance = -1)
+    {
+        var aux = Physics2D.RaycastAll(pos, dir, distance < 0 ? this.distance : distance, layerMask);
+
+        Debug.DrawRay(pos, dir, Color.red, 1);
+
+        if (aux.Length > min)
+        {
+            List<RaycastHit2D> tr = new List<RaycastHit2D>();
+
+            //string str = "";
+
+            foreach (var item in aux)
+            {   
+                if(chck(item.transform))
+                {
+                    Add(tr, item, pos);
+                    //str += item.transform.name + "- ";
+                }
+            }
+
+            //Debug.Log(str);
+
+            if(max>0)
+                for (int i = 1; i <= (tr.Count - max); i++)
+                {
+                    tr.RemoveAt(tr.Count - i);
+                }
+
+            return tr;
+        }
+
+        return null;
+    }
+
+
+
+    public override List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
+    {
+        List<T> result = new List<T>();
+
+        var tr = RayTransform(pos, dir, (tr)=> true ,distance);
+
+        foreach (var item in tr)
+        {
+            var aux = item.collider.GetComponents<T>();
+
+            foreach (var tType in aux)
+            {
+                if (chck(tType))
+                    Add(result, tType, pos);
+            }
+        }
+
+        if (result.Count > 0)
+            return result;
+        else
+            return null;
+    }
+
+
+
+    /// <summary>
+    /// Remueve de la lista aquellos que no tienen vision directa con el caster
+    /// </summary>
+    /// <param name="caster"></param>
+    /// <param name="damageables"></param>
+    /// <param name="maxDetects"></param>
+    /// <returns></returns>
+    protected override List<T> WithRay(Transform caster, List<T> damageables, int maxDetects)
+    {
+        var pos = caster.position.Vect3To2();
+
+        for (int i = damageables.Count - 1; i >= 0; i--)
+        {
+            var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
+
+            var aux = RayTransform(posDamageable, (pos - posDamageable), (tr)=> true, 0, 0, (pos - posDamageable).magnitude);
+
+            if (aux != null && aux.Count > 0)//si colisiono significa q no tengo vision directa
+            {
+                bool chckCaster = true;
+
+                //Para chequear si en algunos de los primeros esta el caster
+                for (int ii = 0; ii < Mathf.Clamp(aux.Count, 0, 2); ii++)
+                {
+                    if (aux[ii] == caster)
+                    {
+                        chckCaster = false;
+                    }
+                }
+
+                if (chckCaster)
+                    damageables.RemoveAt(i);
+            }
+        }
+
+        if (maxDetects > 0)
+        {
+            var count = damageables.Count;
+
+            if (maxDetects > count)
+            {
+                maxDetects = count;
+            }
+
+            for (int i = 0; i < (count - maxDetects); i++)
+            {
+                damageables.RemoveAt(count - (1 + 1 * i));
+            }
+        }
+
+        return damageables;
+    }
+}
+
+
+[System.Serializable]
+public class DetectNonAlloc<T> : DetectParent<T> where T : class
+{
+    public ContactFilter2D contactFilter2D;
+
+    List<T> results = new List<T>();
+
+    List<Collider2D> auxCollider = new List<Collider2D>();
+
+    List<RaycastHit2D> auxRaycastHit = new List<RaycastHit2D>();
+
+    int length;
+
+    public override List<T> Area(Vector2 pos, int min, int max, System.Func<T, bool> chck, float radius)
+    {
+        results.Clear();
+
+        length = Physics2D.OverlapCircle(pos, radius, contactFilter2D, auxCollider);
+
+        if (min > length)
+            return results;
+
+        for (int i = 0; i < length; i++)
+        {
+            if(auxCollider[i].TryGetComponent<T>(out var toAdd) && chck(toAdd))
+                Add(results, toAdd, pos);
+        }
+
+        return results;
+    }
+
+    public override List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float radius, float dot)
+    {
+        Area(pos, min, max,chck, radius);
+
+        dir.Normalize();
+
+        for (int i = results.Count - 1; i >= 0; i--)
+        {
+            var posDamageable = (results[i] as Component).transform.position.Vect3To2();
+
+            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
+            {
+                results.RemoveAt(i);
+            }
+        }
+
+        return results;
+    }
+
+    public override List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
+    {
+        results.Clear();
+
+        RayTransform(pos, dir, (tr)=>true, distance);
+
+        for (int i = 0; i < auxRaycastHit.Count; i++)
+        {
+            if(auxRaycastHit[i].collider.TryGetComponent<T>(out var toAdd) && chck(toAdd))
+                Add(results, toAdd, pos);
+        }
+
+        return results;
+    }
+
+    public override List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
+    {
+        length = Physics2D.Raycast(pos, dir, contactFilter2D, auxRaycastHit, distance > 0 ? distance : float.PositiveInfinity);
+
+        if (min > length)
+            return null;
+
+        if (length > max)
+            length = max;
+
+        for (int i = length-1; i >= 0; i++)
+        {
+            if (!chck(auxRaycastHit[i].transform))
+                auxRaycastHit.RemoveAt(i);
+        }
+
+        return auxRaycastHit;
+    }
+
+    protected override List<T> WithRay(Transform caster, List<T> damageables, int maxDetects)
+    {
+        results.Clear();
+
+
+
+        return results;
+    }
+}
+
 
 public class CompareDist<T> : IComparer<T> where T: Component
 {

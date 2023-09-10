@@ -5,28 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class LoadMap : SingletonMono<LoadMap>
 {
-    [System.Serializable]
-    public class MapTransform
-    {
-        public RenderTextureHex[] renders;
-
-        public Transform this [int index]
-        {
-            get
-            {
-                return renders[index].cameraRelated.transform;
-            }
-        }
-    }
-
     public bool execute = true;
-
-    public MapTransform cameras;
-   
-    public RenderTextureHex[] renders
-    {
-        get => cameras.renders;
-    }
 
     public int rng;
 

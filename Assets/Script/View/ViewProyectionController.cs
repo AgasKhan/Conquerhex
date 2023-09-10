@@ -12,7 +12,7 @@ public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewCont
 
     Hexagone hex;
 
-    int lado;
+    int sectionID;
 
     void Proyection()
     {
@@ -21,9 +21,9 @@ public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewCont
         if (hex == null)
             return;
 
-        lado = HexagonsManager.CalcEdge(transform.position - hex.transform.position);
+        sectionID = HexagonsManager.CalcEdge(transform.position - hex.transform.position,90);
 
-        hex.SuscribeOnSection(lado, ChangeToProyection);
+        hex.SuscribeOnSection(sectionID, ChangeToProyection);
 
         if (TryGetComponent<ViewEntityController>(out var viewController) && viewController.entity != null)
         {
@@ -58,24 +58,27 @@ public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewCont
 
     private void Move_onTeleport(Hexagone arg1, int arg2)
     {
-        hex.DesuscribeOnSection(lado, ChangeToProyection);
+        hex.DesuscribeOnSection(sectionID, ChangeToProyection);
+
         hex = arg1;
-        lado = arg2;
-        hex.SuscribeOnSection(lado, ChangeToProyection);
+
+        sectionID = HexagonsManager.CalcEdge(transform.position - hex.transform.position, 90);
+
+        hex.SuscribeOnSection(sectionID, ChangeToProyection);
     }
 
     private void Move_onMove(Vector2 obj)
     {
-        var aux = HexagonsManager.CalcEdge(view.transform.position - hex.transform.position);
+        var aux = HexagonsManager.CalcEdge(transform.position - hex.transform.position, 90);
 
-        if(aux==lado)
+        if (aux== sectionID)
             return;
 
-        hex.DesuscribeOnSection(lado, ChangeToProyection);
+        hex.DesuscribeOnSection(sectionID, ChangeToProyection);
 
-        lado = aux;
+        sectionID = aux;
 
-        hex.SuscribeOnSection(lado, ChangeToProyection);
+        hex.SuscribeOnSection(sectionID, ChangeToProyection);
     }
 
     void ChangeToProyection(int lado)

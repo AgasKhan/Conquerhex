@@ -243,39 +243,3 @@ public class PoolManager : MonoBehaviour
     }
 
 }
-
-/*
-
-static public GameObject SrchPowerObject(string type, string powerObject)
-    {
-        for (int i = 0; i < instance.powerObjects.Length; i++)
-        {
-            if(instance.powerObjects[i].classType==type)
-            {
-                for (int ii = 0; ii < instance.powerObjects[i].GO.Length; ii++)
-                {
-                    if (instance.powerObjects[i].GO[ii].name == powerObject)
-                    {
-                        return instance.powerObjects[i].GO[ii];
-                    }
-                }
-            }
-        }
-        return null;
-    }
-    
-
-    static public GameObject SpawnPowerObject(string type, string powerObject, Vector3 pos, Quaternion angles)
-    {
-        GameObject aux = SrchPowerObject(type, powerObject);
-
-        if(aux==null)
-        {
-            Debug.LogWarning("Objeto no encontrado");
-            return null;
-        }
-
-        return Instantiate(aux, pos, angles);
-    } 
-
- */

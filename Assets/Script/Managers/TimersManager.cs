@@ -7,7 +7,6 @@ public class TimersManager : MonoBehaviour
 {
     static public TimersManager instance;
 
-    [SerializeReference]
     public List<Timer> timersList;
 
     /// <summary>

@@ -163,6 +163,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a5c158941f3b247a6a3513de1f07e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameras:
+    renders:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   obj: {fileID: 0}
   perspective: 1
   pointsInScreen:
@@ -178,4 +186,3 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   rotationPerspective: {x: -30, y: 0, z: 0}
   vectorPerspective: {x: 0, y: -5, z: 0}
-  culling: 0

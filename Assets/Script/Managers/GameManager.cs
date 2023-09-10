@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 
 public class GameManager : SingletonMono<GameManager>
 {
 
-    public static event System.Action onPause
+    public static event UnityAction onPause
     {
         add
         {
@@ -19,7 +20,7 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
-    public static event System.Action onPlay
+    public static event UnityAction onPlay
     {
         add
         {
@@ -32,19 +33,27 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
-    public static Pictionarys<MyScripts, System.Action> update => instance._update;
+    public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
+
+    public static Pictionarys<MyScripts, UnityAction> update => instance._update;
 
     public LayerMask obstacleAvoidanceLayer;
 
-    Pictionarys<MyScripts, System.Action> _update = new Pictionarys<MyScripts, System.Action>();
+    public Character playerCharacter;
 
-    public static Pictionarys<MyScripts, System.Action> fixedUpdate => instance._fixedUpdate;
+    public UnityEvent awakeUnityEvent;
 
-    Pictionarys<MyScripts, System.Action> _fixedUpdate = new Pictionarys<MyScripts, System.Action>();
+    public UnityEvent updateUnityEvent;
+
+    public UnityEvent fixedUpdateUnityEvent;
+
+    Pictionarys<MyScripts, UnityAction> _update = new Pictionarys<MyScripts, UnityAction>();
+
+    Pictionarys<MyScripts, UnityAction> _fixedUpdate = new Pictionarys<MyScripts, UnityAction>();
 
     FSMGameMaganer fsmGameMaganer;
 
-    public Character playerCharacter;
+
 
     public static void RetardedOn(System.Action<bool> retardedOrder)
     {
@@ -59,9 +68,6 @@ public class GameManager : SingletonMono<GameManager>
         yield return null;
         retardedOrder?.Invoke(true);
     }
-
-
-
 
     #region funciones
 
@@ -85,26 +91,34 @@ public class GameManager : SingletonMono<GameManager>
         }).SetUnscaled(true);
     }
 
+    void MyUpdate(Pictionarys<MyScripts, UnityAction> update)
+    {
+        for (int i = 0; i < update.Count; i++)
+        {
+            update[i]();
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
         fsmGameMaganer = new FSMGameMaganer(this);
+
+        updateUnityEvent.AddListener(() => MyUpdate(_update));
+
+        fixedUpdateUnityEvent.AddListener(() => MyUpdate(_fixedUpdate));
+
+        awakeUnityEvent?.Invoke();
     }
 
     private void Update()
     {
-        for (int i = 0; i < _update.Count; i++)
-        {
-            _update[i]();
-        }
+        updateUnityEvent.Invoke();
     }
 
     private void FixedUpdate()
     {
-        for (int i = 0; i < _fixedUpdate.Count; i++)
-        {
-            _fixedUpdate[i]();
-        }
+        fixedUpdateUnityEvent.Invoke();
     }
 
     #endregion
@@ -156,9 +170,9 @@ public class Gameplay : IState<FSMGameMaganer>
 
 public class Pause : IState<FSMGameMaganer>
 {
-    public event System.Action onPause;
+    public event UnityAction onPause;
 
-    public event System.Action onPlay;
+    public event UnityAction onPlay;
 
     public void OnEnterState(FSMGameMaganer param)
     {

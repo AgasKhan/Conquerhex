@@ -297,16 +297,23 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         return reload;
     }
 
-    static public int CalcEdge(Vector2 direction)
+    static public int CalcEdge(Vector2 direction, float angulo)
     {
         float angle = 360 - Utilitys.DifAngulosVectores(instance.anguloDefecto, direction);
 
-        int lado = Mathf.FloorToInt(angle / 60);
+        int maxlado = (int)(360 / angulo);
 
-        if (lado > 5)
-            lado = 5;
+        int lado = Mathf.FloorToInt(angle / angulo);
+
+        if (lado >= maxlado)
+            lado = maxlado-1;
 
         return lado;
+    }
+
+    static public int CalcEdge(Vector2 direction)
+    {
+        return CalcEdge(direction, 60);
     }
 
     protected override void Awake()

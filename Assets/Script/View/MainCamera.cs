@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class MainCamera : SingletonMono<MainCamera>
 {
+    [System.Serializable]
+    public class MapTransform
+    {
+        public RenderTextureHex[] renders;
+
+        public Transform this[int index]
+        {
+            get
+            {
+                return renders[index].cameraRelated.transform;
+            }
+        }
+    }    
+    
+    public MapTransform cameras;    
+
     public Transform obj;
 
     public bool perspective;
@@ -23,6 +39,11 @@ public class MainCamera : SingletonMono<MainCamera>
     Vector3 vectorPerspective;
 
     Camera main;
+
+    public RenderTextureHex[] renders
+    {
+        get => cameras.renders;
+    }
 
     Plane plane;
 
@@ -77,14 +98,34 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         }
 
-        
+        /*
+        for (int i = 0; i < cameras.renders.Length; i++)
+        {
+            cameras[i].SetParent(main.transform);
 
-       
+            cameras[i].position = main.transform.position;
+
+            cameras[i].rotation = main.transform.rotation;
+        }
+        */
+
+        /*
+        LoadSystem.AddPostLoadCorutine(()=>
+        {
+
+            HexagonsManager.arrHexCreados[0].SetProyections(main.transform, cameras.renders);
+            //for (int i = 0; i < cameras.renders.Length; i++)
+            //{
+            //    cameras.renders[i].SetRender(0, i);
+
+            //}
+        });*/
     }
 
-    // Update is called once per frame
+    
     private void LateUpdate()
     {
+
         if (obj == null)
             return;
         transform.position  = obj.position.Vect3To2().Vec2to3(transform.position.z);
@@ -94,6 +135,7 @@ public class MainCamera : SingletonMono<MainCamera>
             points[i] = _points2[i] + main.transform.position;
         }
     }
+   
 
     private void OnDrawGizmosSelected()
     {

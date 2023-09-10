@@ -16,7 +16,7 @@ public abstract class MyScripts : MonoBehaviour
 
     protected Action MyOnDestroys;
 
-    protected event Action MyUpdates
+    protected event UnityEngine.Events.UnityAction MyUpdates
     {
         add
         {
@@ -39,7 +39,7 @@ public abstract class MyScripts : MonoBehaviour
         }
     }
 
-    protected event Action MyFixedUpdates
+    protected event UnityEngine.Events.UnityAction MyFixedUpdates
     {
         add
         {
@@ -62,7 +62,7 @@ public abstract class MyScripts : MonoBehaviour
         }
     }
 
-    protected event Action onPause
+    protected event UnityEngine.Events.UnityAction onPause
     {
         add
         {
@@ -75,7 +75,7 @@ public abstract class MyScripts : MonoBehaviour
         }
     }
 
-    protected event Action onPlay
+    protected event UnityEngine.Events.UnityAction onPlay
     {
         add
         {
@@ -90,9 +90,9 @@ public abstract class MyScripts : MonoBehaviour
 
     protected abstract void Config();
 
-    System.Action _update;
+    UnityEngine.Events.UnityAction _update;
 
-    System.Action _fixedUpdate;
+    UnityEngine.Events.UnityAction _fixedUpdate;
 
     bool active=true;
 

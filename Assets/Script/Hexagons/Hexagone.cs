@@ -5,6 +5,41 @@ using UnityEngine.Tilemaps;
 
 public class Hexagone : MonoBehaviour
 {
+    public class Section
+    {
+        int active=-1;
+
+        event System.Action<int> onSection;
+
+        public int Active
+        {
+            get => active;
+
+            set
+            {
+                if (value == active)
+                    return;
+
+                active = value;
+
+                onSection(active);
+            }
+        }
+
+        public event System.Action<int> OnSection
+        {
+            add
+            {
+                value(Active);
+                onSection += value;
+            }
+            remove
+            {
+                onSection -= value;
+            }
+        }
+    }
+
     public int id;
 
     public int level;
@@ -28,7 +63,7 @@ public class Hexagone : MonoBehaviour
 
     public int lenght = 42;
 
-    public System.Action<int>[] OnSectionView = new System.Action<int>[6];
+    public Section[] SectionView = new Section[4];
 
     [SerializeField]
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
@@ -110,9 +145,15 @@ public class Hexagone : MonoBehaviour
 
         for (int i = x; i < xFin; i += biomes.inversaDensidad+1)
         {
+
             for (int ii = y; ii < yFin; ii += biomes.inversaDensidad+1)
             {
-                if ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && ((new Vector3(i, ii, center.z) - transform.position).sqrMagnitude > Mathf.Pow(biomes.inversaDensidad,2) || !centro))
+                
+                var newDistPos=new Vector3(i, ii, center.z) - transform.position;
+
+                //var newDistPos = (new Vector3(i, ii, transform.position.z) - transform.position);
+
+                if (newDistPos.sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && (newDistPos.sqrMagnitude > Mathf.Pow(biomes.inversaDensidad,2) || !centro))
                 {
                     if (Random.Range(0, 100) > biomes.chanceEmptyOrEnemy)
                     {
@@ -149,18 +190,18 @@ public class Hexagone : MonoBehaviour
                  ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - (ladosPuntos[lado, 1] - Camera.main.transform.position.y),
                  MainCamera.instance.transform.position.z);
 
-            LoadMap.instance.cameras[HexagonsManager.LadoOpuesto(lado)].gameObject.SetActive(false);
+            MainCamera.instance.cameras[HexagonsManager.LadoOpuesto(lado)].gameObject.SetActive(false);
 
-            LoadMap.instance.cameras[lado].gameObject.SetActive(true);
+            MainCamera.instance.cameras[lado].gameObject.SetActive(true);
         }
             
-        for (int i = 0; i < LoadMap.instance.renders.Length; i++)
+        for (int i = 0; i < MainCamera.instance.renders.Length; i++)
         {
             ladosArray[i].gameObject.SetActive(true);
 
             activeHex.Add(ladosArray[i].id, ladosArray[i]);
 
-            LoadMap.instance.renders[i].SetRender(ladosArray[i], i);
+            MainCamera.instance.renders[i].SetRender(ladosArray[i], i);
 
             //LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
 
@@ -208,18 +249,27 @@ public class Hexagone : MonoBehaviour
         return this;
     }
 
-    public Hexagone SuscribeOnSection(int lado,System.Action<int> callback)
+    public Hexagone SuscribeOnSection(int sectionID, System.Action<int> callback)
     {
-        OnSectionView[lado] += callback;
+        SectionView[sectionID].OnSection += callback;
 
         return this;
     }
 
-    public Hexagone DesuscribeOnSection(int lado, System.Action<int> callback)
+    public Hexagone DesuscribeOnSection(int sectionID, System.Action<int> callback)
     {
-        OnSectionView[lado] -= callback;
+        SectionView[sectionID].OnSection -= callback;
 
         return this;
+    }
+
+
+    private void Awake()
+    {
+        for (int i = 0; i < SectionView.Length; i++)
+        {
+            SectionView[i] = new Section();
+        }
     }
 
 
