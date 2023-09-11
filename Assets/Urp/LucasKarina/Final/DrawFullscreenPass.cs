@@ -1,5 +1,5 @@
 namespace UnityEngine.Rendering.Universal
-{
+{/*
     /// <summary>
     /// Draws full screen mesh using given material and pass and reading from source target.
     /// </summary>
@@ -47,7 +47,7 @@ namespace UnityEngine.Rendering.Universal
             if (settings.sourceType == BufferType.CameraColor)
             {
                 sourceId = -1;
-                source = renderer.cameraColorTarget;
+                source = renderer.cameraColorTargetHandle;
             }
             else
             {
@@ -65,7 +65,7 @@ namespace UnityEngine.Rendering.Universal
             else if (settings.destinationType == BufferType.CameraColor)
             {
                 destinationId = -1;
-                destination = renderer.cameraColorTarget;
+                destination = renderer.cameraColorTargetHandle;
             }
             else
             {
@@ -83,12 +83,12 @@ namespace UnityEngine.Rendering.Universal
             // Can't read and write to same color target, create a temp render target to blit. 
             if (isSourceAndDestinationSameTarget)
             {
-                Blit(cmd, source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
-                Blit(cmd, destination, source);
+                cmd.Blit(source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
+                cmd.Blit(destination, source);
             }
             else
             {
-                Blit(cmd, source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
+                cmd.Blit(source, destination, settings.blitMaterial, settings.blitMaterialPassIndex);
             }
 
             
@@ -107,4 +107,5 @@ namespace UnityEngine.Rendering.Universal
                 cmd.ReleaseTemporaryRT(sourceId);
         }
     }
+    */
 }

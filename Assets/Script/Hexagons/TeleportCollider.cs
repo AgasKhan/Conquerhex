@@ -16,6 +16,14 @@ public class TeleportCollider : MonoBehaviour
 
     float velocityTransfer => teleport.velocityTransfer;
 
+
+
+    float[] difEspejada = new float[2];//voy a guardar la diferencia para poder espejarlo de forma correcta
+
+    int lado;
+
+    Vector2 vectorSalida;
+
     private void Awake()
     {
         teleport = GetComponentInParent<Hexagone>();
@@ -25,62 +33,44 @@ public class TeleportCollider : MonoBehaviour
     {
         MoveAbstract fisicaOther = other.GetComponent<MoveAbstract>();
 
-        if (fisicaOther != null)
+        if (fisicaOther == null)
+            return;
+
+        vectorSalida = (other.transform.position - transform.position).normalized;
+
+        //le doy un empujon para que no se quede en el medio
+        fisicaOther.Acelerator(velocityTransfer * fisicaOther.direction, velocityTransfer);
+
+        lado = HexagonsManager.CalcEdge(vectorSalida);
+
+        Hexagone arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
+
+        float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), fisicaOther.vectorVelocity);
+
+        //aplico una velocidad al objeto que esta cerca del portal
+
+        if
+        (anguloVelocidad < 180 && anguloVelocidad > 0)
         {
-            float[] difEspejada = new float[2]; //voy a guardar la diferencia para poder espejarlo de forma correcta
-            int lado;
-            //PrintF log = new PrintF();
+            difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
+            difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.y;
 
-            Vector2 vectorSalida = (other.gameObject.transform.position - this.gameObject.transform.position).normalized;
+            other.gameObject.transform.position =
+                new Vector3(
+                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - difEspejada[0],
+                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1],
+                    other.transform.position.z);
 
-            //le doy un empujon para que no se quede en el medio
-            fisicaOther.Acelerator(velocityTransfer * fisicaOther.direction, velocityTransfer);
+            other.gameObject.transform.SetParent(arrHexTeleport.transform);
 
-            Vector2 vectorVelocidad = fisicaOther.vectorVelocity;
-
-            lado = HexagonsManager.CalcEdge(vectorSalida);
-
-            Hexagone arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
-
-            float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), vectorVelocidad);
-
-            //aplico una velocidad al objeto que esta cerca del portal
-
-            //Para detectar a donde va el objeto
-            //Debug.DrawRay(this.gameObject.transform.position, (other.gameObject.transform.position - this.gameObject.transform.position).normalized, Color.green, 30);
-
-            //Debug.DrawRay(this.gameObject.transform.position, anguloDefecto, Color.red, 30);
-
-            if
-            (anguloVelocidad < 180 && anguloVelocidad > 0)
+            if(!arrHexTeleport.gameObject.activeSelf)
             {
-                difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
-                difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.y;
-
-                other.gameObject.transform.position =
-                    new Vector3(
-                        //arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 0] - difEspejada[0],
-                        //arrHexTeleport.ladosPuntos[ladosArray[lado, 1], 1] - difEspejada[1],
-                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - difEspejada[0],
-                        arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1],
-                        other.gameObject.transform.position.z);
-
-                other.gameObject.transform.SetParent(arrHexTeleport.gameObject.transform);
-
-                if(!arrHexTeleport.gameObject.activeSelf)
-                {
-                    arrHexTeleport.gameObject.SetActive(true);
-                    arrHexTeleport.gameObject.SetActive(false);
-                }
-                
-                fisicaOther.Teleport(arrHexTeleport, lado);
-
-                /*
-                for (int i = 0; i < arrHexTeleport.SectionView.Length; i++)
-                {
-                    arrHexTeleport.SectionView[i].Active=(-1);
-                }*/
+                arrHexTeleport.gameObject.SetActive(true);
+                arrHexTeleport.gameObject.SetActive(false);
             }
+                
+            fisicaOther.Teleport(arrHexTeleport, lado);
+            
         }
     }
 }

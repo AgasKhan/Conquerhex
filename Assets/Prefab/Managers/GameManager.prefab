@@ -29,13 +29,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7739652029663223119}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.707018, y: 8.505829, z: 0.28837177}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7739652029663223114
 MonoBehaviour:
@@ -52,8 +52,16 @@ MonoBehaviour:
   obstacleAvoidanceLayer:
     serializedVersion: 2
     m_Bits: 2113
-  player: {fileID: 0}
   playerCharacter: {fileID: 0}
+  awakeUnityEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  updateUnityEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  fixedUpdateUnityEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7739652029663223113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,9 +75,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timersList: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &7739652029663223112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d940098adb26f4a8028ddf026fdebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regen: {fileID: 2282534022450122797, guid: be6277cedc6d28b449f2f612936ef71e, type: 2}
+  regen: {fileID: -116775159332371180, guid: be6277cedc6d28b449f2f612936ef71e, type: 2}
   onScene: []
   fadeLifeRegen:
     durationAnim: 0.5

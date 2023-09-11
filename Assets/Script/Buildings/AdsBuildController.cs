@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class AdsBuildController : BuildingsController, IUnityAdsListener
+public class AdsBuildController : BuildingsController//, IUnityAdsListener
 {
     [SerializeField] string adToShow = "Rewarded_Android";
 
@@ -15,13 +15,13 @@ public class AdsBuildController : BuildingsController, IUnityAdsListener
     }
     void MyAwake()
     {
-        Advertisement.AddListener(this);
+        //Advertisement.AddListener(this);
         if (Application.platform == RuntimePlatform.Android)
             Advertisement.Initialize("5307781");
         else
             Advertisement.Initialize("5307781", true);
     }
-
+    /*
     public void ShowAd()
     {
         if (!Advertisement.IsReady())
@@ -31,11 +31,11 @@ public class AdsBuildController : BuildingsController, IUnityAdsListener
         }
 
         Advertisement.Show(adToShow);
-    }
+    }*/
 
     public override void EnterBuild()
     {
-        ShowAd();
+       // ShowAd();
     }
 
     public void OnUnityAdsDidError(string message)

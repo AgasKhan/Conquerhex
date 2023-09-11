@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class LavaHazard : MonoBehaviour
 {
+    /*
     [SerializeField]
     DrawFullscreenFeature postProcess;
 
@@ -97,5 +98,5 @@ public class LavaHazard : MonoBehaviour
         postProcess.SetActive(false);
 
         myfadeOnOff.end -= FadeRegen_end;
-    }
+    }*/
 }

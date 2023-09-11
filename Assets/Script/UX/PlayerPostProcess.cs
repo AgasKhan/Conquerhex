@@ -6,10 +6,10 @@ using UnityEngine.Rendering.Universal;
 public class PlayerPostProcess : MonoBehaviour
 {
     [SerializeField]
-    DrawFullscreenFeature regen;
+    Blit regen;
 
     [SerializeField]
-    DrawFullscreenFeature[] onScene;
+    Blit[] onScene;
 
     [SerializeField]
     FadeOnOff fadeLifeRegen;
