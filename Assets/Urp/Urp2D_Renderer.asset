@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b40e21a6ad4f3b40b5c95e6ceda5efc, type: 3}
   m_Name: Glitch
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 500
     blitMaterial: {fileID: 2100000, guid: b328ba5f336a50d4f9032169b49ef57d, type: 2}
@@ -81,16 +81,16 @@ MonoBehaviour:
     maskTextureChannel: 0
     blendMode: 0
   - name: Multiply with Mask
-    maskTextureChannel: 1
+    maskTextureChannel: 4
     blendMode: 1
   - name: Additive with Mask
-    maskTextureChannel: 1
+    maskTextureChannel: 4
     blendMode: 0
   m_UseDepthStencilBuffer: 1
   m_UseCameraSortingLayersTexture: 1
   m_CameraSortingLayersTextureBound: 0
   m_CameraSortingLayerDownsamplingMethod: 0
-  m_MaxLightRenderTextureCount: 16
+  m_MaxLightRenderTextureCount: 1
   m_MaxShadowRenderTextureCount: 1
   m_ShapeLightShader: {fileID: 4800000, guid: d79e1c784eaf80c4585c0be7391f757a, type: 3}
   m_ShapeLightVolumeShader: {fileID: 4800000, guid: 7e60080c8cd24a2468cb08b4bfee5606,
