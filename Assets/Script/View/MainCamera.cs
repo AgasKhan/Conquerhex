@@ -7,18 +7,24 @@ public class MainCamera : SingletonMono<MainCamera>
     [System.Serializable]
     public class MapTransform
     {
-        public RenderTextureHex[] renders;
+        public Transform[] parents = new Transform[6];
+
+        public Camera[] cameras = new Camera[6];
+
+        public int Length => cameras.Length;
 
         public Transform this[int index]
         {
             get
             {
-                return renders[index].cameraRelated.transform;
+                return cameras[index].transform;
             }
         }
     }    
     
-    public MapTransform cameras;    
+    public MapTransform rendersOverlay;
+
+    
 
     public Transform obj;
 
@@ -40,12 +46,14 @@ public class MainCamera : SingletonMono<MainCamera>
 
     Camera main;
 
-    public RenderTextureHex[] renders
-    {
-        get => cameras.renders;
-    }
 
     Plane plane;
+
+    public void SetProyections(Hexagone hexagone)
+    {
+        hexagone.SetProyections(main.transform.parent, rendersOverlay.parents);
+    }
+
 
     protected override void Awake()
     {
@@ -64,10 +72,19 @@ public class MainCamera : SingletonMono<MainCamera>
 
         _points2 = new Vector3[pointsInScreen.Length];
 
+        for (int i = 0; i < rendersOverlay.Length; i++)
+        {
+            rendersOverlay.cameras[i].orthographic = main.orthographic;
+        }
+
         if (!perspective)
         {
-            transform.rotation = Quaternion.identity;
-            transform.GetChild(0).localPosition = Vector3.zero;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).rotation = Quaternion.identity;
+
+                transform.GetChild(i).GetChild(0).localPosition = Vector3.zero;
+            }
 
             for (int i = 0; i < pointsInScreen.Length; i++)
             {
@@ -83,8 +100,12 @@ public class MainCamera : SingletonMono<MainCamera>
         }
         else
         {
-            transform.rotation = Quaternion.Euler(rotationPerspective);
-            transform.GetChild(0).localPosition = vectorPerspective;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).rotation = Quaternion.Euler(rotationPerspective);
+
+                transform.GetChild(i).GetChild(0).localPosition = vectorPerspective;
+            }
 
             for (int i = 0; i < pointsInScreen.Length; i++)
             {
@@ -98,28 +119,12 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         }
 
-        /*
-        for (int i = 0; i < cameras.renders.Length; i++)
-        {
-            cameras[i].SetParent(main.transform);
-
-            cameras[i].position = main.transform.position;
-
-            cameras[i].rotation = main.transform.rotation;
-        }
-        */
-
-        /*
         LoadSystem.AddPostLoadCorutine(()=>
         {
 
-            HexagonsManager.arrHexCreados[0].SetProyections(main.transform, cameras.renders);
-            //for (int i = 0; i < cameras.renders.Length; i++)
-            //{
-            //    cameras.renders[i].SetRender(0, i);
-
-            //}
-        });*/
+            SetProyections(HexagonsManager.arrHexCreados[0]);
+            
+        });
     }
 
     

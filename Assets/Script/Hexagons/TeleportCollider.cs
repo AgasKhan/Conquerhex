@@ -75,10 +75,11 @@ public class TeleportCollider : MonoBehaviour
                 
                 fisicaOther.Teleport(arrHexTeleport, lado);
 
+                /*
                 for (int i = 0; i < arrHexTeleport.SectionView.Length; i++)
                 {
                     arrHexTeleport.SectionView[i].Active=(-1);
-                }
+                }*/
             }
         }
     }

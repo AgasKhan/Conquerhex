@@ -67,6 +67,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3051437067615352215, guid: bb8e358f1b14aae40ad8901fcc1042a2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3051437067615352215, guid: bb8e358f1b14aae40ad8901fcc1042a2,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3051437067615352215, guid: bb8e358f1b14aae40ad8901fcc1042a2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 3301067859317713745, guid: bb8e358f1b14aae40ad8901fcc1042a2,
         type: 3}
       propertyPath: orthographic
@@ -90,6 +105,11 @@ PrefabInstance:
     - target: {fileID: 4936595970116056681, guid: bb8e358f1b14aae40ad8901fcc1042a2,
         type: 3}
       propertyPath: m_VolumeLayerMask.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544418272887002596, guid: bb8e358f1b14aae40ad8901fcc1042a2,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7038477650458761161, guid: bb8e358f1b14aae40ad8901fcc1042a2,
@@ -122,7 +142,8 @@ PrefabInstance:
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5288288074214771877, guid: bb8e358f1b14aae40ad8901fcc1042a2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bb8e358f1b14aae40ad8901fcc1042a2, type: 3}
 --- !u!1 &7439243202584596369 stripped
 GameObject:

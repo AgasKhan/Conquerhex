@@ -110,7 +110,7 @@ public class ViewShadowController : MonoBehaviour, ViewObjectModel.IViewControll
 
         shadowSprite.gameObject.transform.rotation = Quaternion.identity;
 
-        shadowSprite.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+        shadowSprite.maskInteraction = SpriteMaskInteraction.None;
 
         shadowSprite.sortingLayerName = sortingLayer;
     }

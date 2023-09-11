@@ -183,6 +183,8 @@ public class Hexagone : MonoBehaviour
     {
         var activeHex = HexagonsManager.activeHex;
 
+        MainCamera.instance.SetProyections(this);
+
         if (lado >= 0)
         {
             MainCamera.instance.transform.position = new Vector3(
@@ -190,28 +192,16 @@ public class Hexagone : MonoBehaviour
                  ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - (ladosPuntos[lado, 1] - Camera.main.transform.position.y),
                  MainCamera.instance.transform.position.z);
 
-            MainCamera.instance.cameras[HexagonsManager.LadoOpuesto(lado)].gameObject.SetActive(false);
+            //MainCamera.instance.rendersOverlay[HexagonsManager.LadoOpuesto(lado)].gameObject.SetActive(false);
 
-            MainCamera.instance.cameras[lado].gameObject.SetActive(true);
+            //MainCamera.instance.rendersOverlay[lado].gameObject.SetActive(true);            
         }
             
-        for (int i = 0; i < MainCamera.instance.renders.Length; i++)
+        for (int i = 0; i < MainCamera.instance.rendersOverlay.Length; i++)
         {
             ladosArray[i].gameObject.SetActive(true);
 
             activeHex.Add(ladosArray[i].id, ladosArray[i]);
-
-            MainCamera.instance.renders[i].SetRender(ladosArray[i], i);
-
-            //LoadMap.instance.renders[i].transform.position = HexagonsManager.AbsSidePosHex(transform.position, i, LoadMap.instance.renders[i].transform.position.z, 2);
-
-            /*
-            LoadMap.instance.cameras[i].position = new Vector3(
-                ladosArray[i].transform.position.x,
-                ladosArray[i].transform.position.y,
-                LoadMap.instance.cameras[i].position.z
-                );
-            */
         }
 
 
@@ -240,7 +230,7 @@ public class Hexagone : MonoBehaviour
     {
         for (int i = 0; i < components.Length && i< ladosArray.Length; i++)
         {
-            components[i].transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), components[i].transform.position.z, 2) + (original.position - transform.position);
+            components[i].transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), components[i].transform.position.z, 2) + (original.position - transform.position).Vect3To2().Vec2to3(0);
 
             if (setParent)
                 components[i].transform.SetParent(ladosArray[i].transform, true);
