@@ -32,9 +32,7 @@ public class GameManager : SingletonMono<GameManager>
             instance.fsmGameMaganer.pause.onPlay -= value;
         }
     }
-
     public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
-
     public static Pictionarys<MyScripts, UnityAction> update => instance._update;
 
     public LayerMask obstacleAvoidanceLayer;
