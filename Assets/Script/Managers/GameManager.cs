@@ -53,8 +53,6 @@ public class GameManager : SingletonMono<GameManager>
 
     FSMGameMaganer fsmGameMaganer;
 
-
-
     public static void RetardedOn(System.Action<bool> retardedOrder)
     {
         instance.StartCoroutine(instance.RetardedOnCoroutine(retardedOrder));
