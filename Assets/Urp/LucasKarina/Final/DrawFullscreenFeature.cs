@@ -68,6 +68,8 @@ namespace UnityEngine.Rendering.Universal
 
             private string m_ProfilerTag;
 
+            private static RTHandle s_TempRTHandle;
+
             public BlitPass(RenderPassEvent renderPassEvent, BlitSettings settings, string tag)
             {
                 this.renderPassEvent = renderPassEvent;
@@ -77,6 +79,13 @@ namespace UnityEngine.Rendering.Universal
                     srcTextureObject = RTHandles.Alloc(settings.srcTextureObject);
                 if (settings.dstType == Target.RenderTextureObject && settings.dstTextureObject)
                     dstTextureObject = RTHandles.Alloc(settings.dstTextureObject);
+
+                if (s_TempRTHandle == null)
+                {
+                    s_TempRTHandle = RTHandles.Alloc(Vector2.one, TextureXR.slices, dimension: TextureXR.dimension, colorFormat: settings.graphicsFormat, enableRandomWrite: true, useDynamicScale: true, name: "TempRT");
+                }
+
+                temp = s_TempRTHandle;
             }
 
             public void Setup(ScriptableRenderer renderer)
@@ -87,6 +96,9 @@ namespace UnityEngine.Rendering.Universal
 
             public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
             {
+                if (renderingData.cameraData.camera.gameObject.layer != settings.mask)
+                    return;
+
                 var desc = renderingData.cameraData.cameraTargetDescriptor;
                 desc.depthBufferBits = 0; // Color and depth cannot be combined in RTHandles
 
@@ -224,11 +236,18 @@ namespace UnityEngine.Rendering.Universal
                 Debug.LogWarningFormat("Missing Blit Material. {0} blit pass will not execute. Check for missing reference in the assigned renderer.", GetType().Name);
                 return;
             }
+
+            if (renderingData.cameraData.camera.gameObject.layer != settings.mask) 
+                return;
+
             renderer.EnqueuePass(blitPass);
         }
 
         public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
         {
+            if (renderingData.cameraData.camera.gameObject.layer != settings.mask)
+                return;
+
             blitPass.Setup(renderer);
         }
 

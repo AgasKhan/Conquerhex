@@ -112,7 +112,7 @@ public class RenderTextureHex : MonoBehaviour
         {
             if (col.OverlapPoint(MainCamera.instance.points[i]))
             {
-                hexagone.SectionView[HexagonsManager.CalcEdge(MainCamera.instance.points[i] - transform.position, 90)].Active=lado;
+                //hexagone.SectionView[HexagonsManager.CalcEdge(MainCamera.instance.points[i] - transform.position, 90)].Active=lado;
 
                 _auxBool = true;
             }

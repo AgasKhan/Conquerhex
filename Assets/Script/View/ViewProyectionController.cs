@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewController
+public class ViewProyectionController : MonoBehaviour//, ViewObjectModel.IViewController
 {
+    /*
     Transform[] proyections = new Transform[6];
 
     Transform originalParent;
@@ -47,12 +48,11 @@ public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewCont
 
             hex.SetProyections(transform, proyections);
 
-            /*
             for (int i = 0; i < proyections.Length; i++)
             {
                 proyections[i].transform.localScale = transform.parent.localScale;
             }
-            */
+            
         }       
     }
 
@@ -116,7 +116,7 @@ public class ViewProyectionController : MonoBehaviour, ViewObjectModel.IViewCont
     {
 
     }
-    
+    */
 }
 
 

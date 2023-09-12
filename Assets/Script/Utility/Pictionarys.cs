@@ -14,23 +14,24 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     [SerializeField]
     List<Pictionary<K, V>> pictionaries;
 
+    Stack<Pictionary<K, V>> auxiliarObjects;
+
     public int Count
     {
-        get;
-        private set;
+        get => pictionaries.Count;
     }
 
     public K[] keys
     {
         get
         {
-            List<K> keys = new List<K>();
-            foreach (var item in pictionaries)
+            K[] keys = new K[Count];
+            for (int i = 0; i < Count; i++)
             {
-                keys.Add(item.key);
+                keys[i] = pictionaries[i].key;
             }
 
-            return keys.ToArray();
+            return keys;
         }
     }
 
@@ -38,13 +39,14 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     {
         get
         {
-            List<V> values = new List<V>();
-            foreach (var item in pictionaries)
+            V[] values = new V[Count];
+
+            for (int i = 0; i < Count; i++)
             {
-                values.Add(item.value);
+                values[i] = pictionaries[i].value;
             }
 
-            return values.ToArray();
+            return values;
         }
     }
 
@@ -234,13 +236,6 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     public void AddRange(IEnumerable<Pictionary<K, V>> pic)
     {
         pictionaries.AddRange(pic);
-        int aux = 0;
-        foreach (var item in pic)
-        {
-            aux++;
-        }
-
-        Count += aux;
     }
 
     public Pictionary<K, V> Add(K key, V value)
@@ -248,10 +243,21 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         if (ContainsKey(key))
             return default;
 
-        var aux = new Pictionary<K, V>(key, value);
+        Pictionary<K, V> aux;
+
+        if (auxiliarObjects.Count>0)
+        {
+            aux = auxiliarObjects.Pop();
+
+            aux.key = key;
+            aux.value = value;
+        }
+        else
+        {
+            aux = new Pictionary<K, V>(key, value);
+        }        
 
         pictionaries.Add(aux);
-        Count++;
 
         return aux;
     }
@@ -262,9 +268,7 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         {
             if (pictionaries[i].key.Equals(key))
             {
-                pictionaries.RemoveAt(i);
-
-                Count--;
+                RemoveAt(i);
 
                 return;
             }
@@ -273,8 +277,11 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 
     public void RemoveAt(int i)
     {
+        var aux = pictionaries[i];
+
         pictionaries.RemoveAt(i);
-        Count--;
+
+        auxiliarObjects.Push(aux);
     }
 
     public void Clear()
@@ -300,8 +307,6 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 
         var newAux = new T();
 
-        //Debug.Log("se creo a partir de un new: " + newAux);
-
         Add(key, newAux);
 
         return newAux;
@@ -316,7 +321,6 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         }
 
         Add(key, value);
-        //string completeNameClass = key.GetType().Namespace + "." + key.GetType().Name;
     }
 
     public V SearchOrDefault(K key, V defoult)
@@ -345,6 +349,8 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     public Pictionarys()
     {
         pictionaries = new List<Pictionary<K, V>>();
+
+        auxiliarObjects = new Stack<Pictionary<K, V>>();
     }
 }
 

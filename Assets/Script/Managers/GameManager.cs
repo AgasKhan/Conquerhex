@@ -99,14 +99,24 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
+    void MyUpdate()
+    {
+        MyUpdate(_update);
+    }
+
+    void MyFixedUpdate()
+    {
+        MyUpdate(_fixedUpdate);
+    }
+
     protected override void Awake()
     {
         base.Awake();
         fsmGameMaganer = new FSMGameMaganer(this);
 
-        updateUnityEvent.AddListener(() => MyUpdate(_update));
+        updateUnityEvent.AddListener(MyUpdate);
 
-        fixedUpdateUnityEvent.AddListener(() => MyUpdate(_fixedUpdate));
+        fixedUpdateUnityEvent.AddListener(MyFixedUpdate);
 
         awakeUnityEvent?.Invoke();
     }

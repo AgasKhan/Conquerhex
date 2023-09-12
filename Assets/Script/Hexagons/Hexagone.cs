@@ -5,41 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class Hexagone : MonoBehaviour
 {
-    public class Section
-    {
-        int active=-1;
-
-        event System.Action<int> onSection;
-
-        public int Active
-        {
-            get => active;
-
-            set
-            {
-                if (value == active)
-                    return;
-
-                active = value;
-
-                onSection(active);
-            }
-        }
-
-        public event System.Action<int> OnSection
-        {
-            add
-            {
-                value(Active);
-                onSection += value;
-            }
-            remove
-            {
-                onSection -= value;
-            }
-        }
-    }
-
     public int id;
 
     public int level;
@@ -62,8 +27,6 @@ public class Hexagone : MonoBehaviour
     public bool manualSetEdge = false;
 
     public int lenght = 42;
-
-    public Section[] SectionView = new Section[4];
 
     [SerializeField]
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
@@ -237,29 +200,6 @@ public class Hexagone : MonoBehaviour
         }
 
         return this;
-    }
-
-    public Hexagone SuscribeOnSection(int sectionID, System.Action<int> callback)
-    {
-        SectionView[sectionID].OnSection += callback;
-
-        return this;
-    }
-
-    public Hexagone DesuscribeOnSection(int sectionID, System.Action<int> callback)
-    {
-        SectionView[sectionID].OnSection -= callback;
-
-        return this;
-    }
-
-
-    private void Awake()
-    {
-        for (int i = 0; i < SectionView.Length; i++)
-        {
-            SectionView[i] = new Section();
-        }
     }
 
 

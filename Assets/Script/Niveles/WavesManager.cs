@@ -66,7 +66,7 @@ public class WavesManager : SingletonMono<WavesManager>
     public void NextWave()
     {
         currentWave++;
-        if(currentWave >= spawners.values.Length)
+        if(currentWave >= spawners.Count)
         {
             waves.Stop();
             return;

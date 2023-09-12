@@ -22,6 +22,7 @@ public class ViewObjectModel : MonoBehaviour
 
     EventGeneric eventGeneric;
 
+    /*
     public virtual Transform[] Proyections()
     {
         var ret = new Transform[6];
@@ -35,6 +36,7 @@ public class ViewObjectModel : MonoBehaviour
 
         return ret;
     }
+    */
 
     protected virtual void Awake()
     {
