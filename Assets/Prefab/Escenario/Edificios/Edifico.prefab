@@ -10,7 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6773200482067112401}
   - component: {fileID: 1810831124099905929}
-  - component: {fileID: 3456946075223315374}
+  - component: {fileID: 1540604443}
+  - component: {fileID: 1540604444}
+  - component: {fileID: 1540604445}
+  - component: {fileID: 1540604446}
+  - component: {fileID: 1540604448}
+  - component: {fileID: 1540604449}
   m_Layer: 0
   m_Name: Edifico
   m_TagString: Props
@@ -27,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 6773200482067112399}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7939103049160598146}
@@ -47,25 +52,168 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.07457522, y: 1.7532504}
-  m_Size: {x: 5.100059, y: 2.4653304}
+  m_Offset: {x: 0.11173126, y: 0.68}
+  m_Size: {x: 5.7248726, y: 2.7199929}
   m_Direction: 1
---- !u!70 &3456946075223315374
-CapsuleCollider2D:
+--- !u!114 &1540604443
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6773200482067112399}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0076115965, y: 2.69224}
-  m_Size: {x: 8.223983, y: 5.584103}
-  m_Direction: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1540604444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6713e9136c502744bce21af7df7a153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1540604445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e268d94a8d5836041809a78d4e7ce960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1540604446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0406cf445e989b44bb2868fb170d2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  health:
+    life:
+      total: 0
+      _current: 0
+    regen:
+      total: 0
+      _current: 0
+    timeToRegen:
+      total: 0
+      _current: 0
+    deathBool: 0
+  drops: []
+  audioManager: {fileID: 0}
+  carlitosPrefab: {fileID: 0}
+  <carlitos>k__BackingField: []
+  interact:
+    pictionaries:
+    - key: "Informaci\xF3n"
+      value: {fileID: 1540604445}
+    - key: Mejorar
+      value: {fileID: 1540604444}
+  inventory: []
+  currentWeight: 0
+  travelItem: []
+  _katas:
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  <flyweight>k__BackingField: {fileID: 11400000, guid: accad2f938781454b9188bd703de44f3,
+    type: 2}
+  weaponKataIndex: 0
+  upgradesRequirements:
+  - {fileID: 11400000, guid: 64e8de9bb7da7de41ad0d0ce4160bab1, type: 2}
+  - {fileID: 11400000, guid: 05eab44e900422b43ade91c1d3c8b2a9, type: 2}
+  - {fileID: 11400000, guid: 9fb0577e5b0e9394f82dd70a214aacab, type: 2}
+  NavBarButtons: 0400000000000000
+  controller: {fileID: 1540604449}
+  currentLevel: 0
+  myBuildSubMenu:
+    subMenu: {fileID: 0}
+    detailsWindow: {fileID: 0}
+  character: {fileID: 0}
+  levelRecipes:
+    pictionaries:
+    - key: 0
+      value: []
+    - key: 1
+      value:
+      - {fileID: 11400000, guid: 878034808a32b224d8b78825139a47bd, type: 2}
+      - {fileID: 11400000, guid: 49948cc1e0fbbc9419cbefc1e756578d, type: 2}
+      - {fileID: 11400000, guid: 0a23a2d221886ed4fbf59f2509f4a64e, type: 2}
+      - {fileID: 11400000, guid: 2c7e3d1520944454ea9c99af5e1e43e0, type: 2}
+    - key: 2
+      value:
+      - {fileID: 11400000, guid: ccbe21c7b61c7b045a18c001558a38a7, type: 2}
+      - {fileID: 11400000, guid: 146b0b9a09e03124cbeec3983e615331, type: 2}
+      - {fileID: 11400000, guid: 994beb7009ac885449ffa73177ee5b4e, type: 2}
+      - {fileID: 11400000, guid: c88757d1fa1c552489f76dace6b7124c, type: 2}
+    - key: 5
+      value:
+      - {fileID: 11400000, guid: 9de9fc5cfe1880343a59dec7398b6530, type: 2}
+      - {fileID: 11400000, guid: 4212142e7f00a0643991a2a385446353, type: 2}
+      - {fileID: 11400000, guid: 4c90d5ab8c29bb94c833d17bbe8ff93d, type: 2}
+  currentRecipes: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &1540604448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd09962219940b949b3967cc0399e216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries:
+    - key: CraftAudio
+      value:
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: cd143101b2531104983480bb5672c7dd, type: 3}
+        volume: 1
+        pitch: 0
+        spatialBlend: 0
+        maxDistance: 1
+        minDistance: 0
+        loop: 0
+        onAwake: 0
+        source: {fileID: 0}
+  craftAudio: CraftAudio
+--- !u!114 &1540604449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a55b2d3304b8cfd439ee5aa215989eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createSubMenu:
+    subMenu: {fileID: 0}
+  craftBuild: {fileID: 0}
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0

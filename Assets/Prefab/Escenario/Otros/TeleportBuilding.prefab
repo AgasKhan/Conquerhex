@@ -87,11 +87,11 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
+    deathBool: 0
   drops: []
   audioManager: {fileID: 0}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
+  carlitosPrefab: {fileID: 0}
+  <carlitos>k__BackingField: []
   interact:
     pictionaries:
     - key: "Informaci\xF3n"
@@ -99,23 +99,31 @@ MonoBehaviour:
     - key: Ver Destinos
       value: {fileID: 1837524000}
   inventory: []
-  weightCapacity: 0
   currentWeight: 0
   travelItem: []
-  character: {fileID: 0}
-  structureBase: {fileID: 11400000, guid: 20d942d4509aeb74894deb6b5bd2e180, type: 2}
+  _katas:
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 20d942d4509aeb74894deb6b5bd2e180,
+    type: 2}
+  weaponKataIndex: 0
   upgradesRequirements: []
   NavBarButtons: 
+  controller: {fileID: 0}
   currentLevel: 0
   myBuildSubMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
+  character: {fileID: 0}
   travelRequire:
     pictionaries:
     - key: {fileID: 11400000, guid: fc794f458f072c3439d193c3896f32fa, type: 2}
       value: {fileID: 11400000, guid: 0486e4a4f74134744b18ed8cd65e2ba7, type: 2}
     - key: {fileID: 11400000, guid: 4a8c80784bb745c41a7f58877c993eea, type: 2}
-      value: {fileID: 11400000, guid: a000b0c5c2e160b4b8e3d6297ae2222b, type: 2}
+      value: {fileID: 11400000, guid: 0486e4a4f74134744b18ed8cd65e2ba7, type: 2}
+    - key: {fileID: 11400000, guid: 2de388732da35714f89827c5b1d56ffe, type: 2}
+      value: {fileID: 11400000, guid: 0486e4a4f74134744b18ed8cd65e2ba7, type: 2}
   references:
     version: 2
     RefIds: []

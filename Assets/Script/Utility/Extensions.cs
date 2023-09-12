@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Internal;
-
+using Euler;
 
 public static class Extensions
 {
@@ -339,4 +339,15 @@ public static class Extensions
 
         return entityArray;
     }
+
+#if UNITY_EDITOR
+    static public void Delete<T>(this T[] array) where T : SuperScriptableObject
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i]?.DeleteThis();
+        }
+    }
+#endif
+
 }

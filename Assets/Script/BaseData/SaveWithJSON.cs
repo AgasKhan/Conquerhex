@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
@@ -25,9 +26,14 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public int gamesSlots;
 
+    public static Action OnSave;
+
+    public static Action OnLoad;
+
     public static void SaveGame()
     {
         SaveGameWindows();
+        OnSave?.Invoke();
 
         /*
         if (Application.platform == RuntimePlatform.Android)
@@ -211,6 +217,26 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
         else
             SaveGame();
         */
+    }
+
+    //-------------------------
+
+    public static void SaveParams(Type classID, params object[] variables)
+    {
+        SaveInPictionary(classID.ToString(), true);
+
+        foreach (var item in variables)
+        {
+            SaveInPictionary(classID + item.ToString(), item);
+        }
+    }
+
+    public static object LoadParams(Type classID, object variable)
+    {
+        if (BD.ContainsKey(classID + variable.ToString()))
+            return LoadFromPictionary<object>(classID + variable.ToString());
+        else
+            return default;
     }
 }
 

@@ -9,6 +9,7 @@ public class ItemContainer : MonoBehaviour
 
     void Awake()
     { 
+        
         if (SaveWithJSON.CheckKeyInBD("Player"))
         {
             SaveWithJSON.LoadClassFromPictionary("Player", ref character);
@@ -18,6 +19,19 @@ public class ItemContainer : MonoBehaviour
         {
             Debug.Log("BD doesnt contain Player");
         }
-    }
+        
 
+        /*
+        SaveWithJSON.OnSave += () => SaveWithJSON.SaveParams(character.GetType(), character.inventory, character.currentWeight);
+        LoadParams();
+        */
+    }
+    void LoadParams()
+    {
+        if (!SaveWithJSON.CheckKeyInBD(character.GetType().ToString()))
+            return;
+        
+        character.inventory = (List<Item>)SaveWithJSON.LoadParams(character.GetType(), character.inventory);
+        character.currentWeight = (float)SaveWithJSON.LoadParams(character.GetType(), character.currentWeight);
+    }
 }
