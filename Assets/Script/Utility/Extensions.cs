@@ -121,15 +121,57 @@ public static class Extensions
     }
 
     /// <summary>
-    /// Quita el parametro z del vector 3 y devuelve un vector 2
+    /// Remplaza el parametro x, por el valor dado
+    /// </summary>
+    /// <param name="v">Vector que modifica</param>
+    /// <returns></returns>
+    static public Vector3 Vect3_X(this Vector3 v, float x)
+    {
+        v.x = x;
+
+        return v;
+    }
+
+    /// <summary>
+    /// Remplaza el parametro Y, por el valor dado
+    /// </summary>
+    /// <param name="v">Vector que modifica</param>
+    /// <returns></returns>
+    static public Vector3 Vect3_Y(this Vector3 v, float y)
+    {
+        v.y = y;
+
+        return v;
+    }
+
+    /// <summary>
+    /// Remplaza el parametro Z, por el valor dado
+    /// </summary>
+    /// <param name="v">Vector que modifica</param>
+    /// <returns></returns>
+    static public Vector3 Vect3_Z(this Vector3 v, float z)
+    {
+        v.z = z;
+
+        return v;
+    }
+
+    /// <summary>
+    /// Crea un vector 2 a partir de un vector 3
     /// </summary>
     /// <param name="v">Vector que modifica</param>
     /// <returns></returns>
     static public Vector2 Vect3To2(this Vector3 v)
     {
-        return new Vector2(v.x,v.y);
+        return v;
     }
 
+
+    /// <summary>
+    /// Crea un vector 3 a partir de un vector 2
+    /// </summary>
+    /// <param name="v">Vector que modifica</param>
+    /// <returns></returns>
     static public Vector3 Vec2to3(this Vector2 v, float z)
     {
         return new Vector3(v.x, v.y, z);

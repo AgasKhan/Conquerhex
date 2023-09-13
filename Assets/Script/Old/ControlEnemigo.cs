@@ -111,9 +111,9 @@ public class ControlEnemigo : MonoBehaviour
 
             RaycastHit2D mira = apuntadoArr[1];
 
-            Debug.DrawRay(pos.Vect3To2().Vec2to3(5), apuntar.normalized*deteccion, Color.gray);
+            Debug.DrawRay(pos.Vect3_Z(5), apuntar.normalized*deteccion, Color.gray);
 
-            Debug.DrawRay(fuego.position.Vect3To2().Vec2to3(5), arma.normalized * deteccion, Color.gray);
+            Debug.DrawRay(fuego.position.Vect3_Z(5), arma.normalized * deteccion, Color.gray);
 
             if (apuntado.collider!= null)
             {

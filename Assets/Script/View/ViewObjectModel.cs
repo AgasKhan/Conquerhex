@@ -40,7 +40,7 @@ public class ViewObjectModel : MonoBehaviour
 
     protected virtual void Awake()
     {
-        originalRender.material = transparentMaterial;
+        //originalRender.material = transparentMaterial;
 
         originalRender.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 

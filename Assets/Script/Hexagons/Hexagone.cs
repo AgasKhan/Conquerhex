@@ -193,7 +193,7 @@ public class Hexagone : MonoBehaviour
     {
         for (int i = 0; i < components.Length && i< ladosArray.Length; i++)
         {
-            components[i].transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), components[i].transform.position.z, 2) + (original.position - transform.position).Vect3To2().Vec2to3(0);
+            components[i].transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), components[i].transform.position.z, 2) + (original.position - transform.position).Vect3_Z(0);
 
             if (setParent)
                 components[i].transform.SetParent(ladosArray[i].transform, true);
