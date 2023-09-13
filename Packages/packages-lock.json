@@ -1,7 +1,13 @@
 {
   "dependencies": {
     "com.coffee.softmask-for-ugui": {
-      "version": "file:../SoftMaskForUGUI-main",
+      "version": "file:../MyPackage/SoftMaskForUGUI-main",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.cyanilux.urp-blitrenderfeature": {
+      "version": "file:../MyPackage/URP_BlitRenderFeature-master",
       "depth": 0,
       "source": "local",
       "dependencies": {}
