@@ -36,6 +36,7 @@ public class PathfindingManager : SingletonMono<PathfindingManager>
             aux.RemoveAt(0);
             retorno.Push(node.transform);
         }
+        //si deseo invertirlo
         /*
         while (aux.Count > 0)
         {
