@@ -12,6 +12,9 @@ public class MenuManager : SingletonMono<MenuManager>
     [SerializeField]
     ShowSubMenuSettings showSubMenuSettings;
 
+    [SerializeField]
+    bool initTutorial = true;
+
 
     //para los eventos-------------------------------------------------------
     public Pictionarys<string, Action<GameObject>> eventListVoid = new Pictionarys<string, Action<GameObject>>();
@@ -35,12 +38,15 @@ public class MenuManager : SingletonMono<MenuManager>
 
     public void StartGame()
     {
-        if(SaveWithJSON.BD.ContainsKey("FirstTime"))
-            LoadSystem.instance.Load(firstLevel, true);
-        else
+        if(!SaveWithJSON.BD.ContainsKey("FirstTime") && initTutorial)
         {
+
             LoadSystem.instance.Load("Tutorial", true);
             SaveWithJSON.SaveInPictionary("FirstTime", true);
+        }   
+        else
+        {
+            LoadSystem.instance.Load(firstLevel, true);
         }
         
     }
