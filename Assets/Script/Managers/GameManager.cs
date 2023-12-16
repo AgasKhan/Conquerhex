@@ -229,7 +229,6 @@ static class DebugPrint
     public static string PrintSalida()
     {
         if(chk())
-
             return error.Out() +
                     warning.Out() +
                     debug.Out();

@@ -18,25 +18,9 @@ public class ViewObjectModel : MonoBehaviour
     [field: SerializeField]
     public bool defaultRight { get; private set; }
 
-    public System.Action<ViewObjectModel, Transform[]> onCloneAndSuscribe;
-
     EventGeneric eventGeneric;
 
-    /*
-    public virtual Transform[] Proyections()
-    {
-        var ret = new Transform[6];
-
-        for (int i = 0; i < ret.Length; i++)
-        {
-            ret[i] = new GameObject("Proyection " + i).transform;
-        }
-
-        onCloneAndSuscribe?.Invoke(this, ret);
-
-        return ret;
-    }
-    */
+    bool _isTransparent;
 
     protected virtual void Awake()
     {
@@ -73,14 +57,17 @@ public class ViewObjectModel : MonoBehaviour
 
         Vector3 posPlayer = (Vector3)param[0];
 
-        if (posPlayer.y > transform.position.y)
-        {
-            originalRender.material.SetInt("_transparent", 1);
-        }
-        else
-        {
-            originalRender.material.SetInt("_transparent", 0);
-        }
+        SetTransparent(posPlayer.y > transform.position.y);
+    }
+
+    private void SetTransparent(bool b)
+    {
+        if (_isTransparent == b)
+            return;
+
+        _isTransparent = b;
+
+        originalRender.material.SetInt("_transparent", b? 1:0);
     }
 
     public interface IViewController : IState<ViewObjectModel> { }
