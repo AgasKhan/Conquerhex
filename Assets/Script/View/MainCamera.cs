@@ -61,9 +61,13 @@ public class MainCamera : SingletonMono<MainCamera>
 
     Plane plane;
 
+    Vector3 centerPoint;
+
     public void SetProyections(Hexagone hexagone)
     {
         hexagone.SetProyections(main.transform.parent, rendersOverlay.Parents);
+
+        centerPoint = hexagone.transform.position;
     }
 
 
@@ -143,11 +147,31 @@ public class MainCamera : SingletonMono<MainCamera>
         if (obj == null)
             return;
 
+        for (int i = 0; i < rendersOverlay.Length; i++)
+        {
+            rendersOverlay[i].SetActiveGameObject(false);
+        }
+
         transform.position  = obj.position.Vect3_Z(transform.position.z);
 
         for (int i = 0; i < points.Length; i++)
         {
             points[i] = _points2[i] + main.transform.position;
+
+            var translatedPoint = points[i] - centerPoint;
+
+            int lado = HexagonsManager.CalcEdge(translatedPoint);
+
+            //print($"El punto {i}, se encuentra en el lado {lado}");
+
+            translatedPoint = (Quaternion.Euler(0, 0, lado * 60) * translatedPoint);
+
+            if (translatedPoint.y >= HexagonsManager.apotema)
+            {
+                //print($"El punto {i}, se encuentra fuera del hexagono con el punto transladado a {aux} siendo el original {_points2[i]}");
+
+                rendersOverlay[lado].SetActiveGameObject(true);
+            }
         }
     }
    
