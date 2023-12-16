@@ -189,14 +189,18 @@ public class Hexagone : MonoBehaviour
         }
     }
 
-    public Hexagone SetProyections(Transform original, Component[] components, bool setParent = false)
+    public Hexagone SetProyections(Transform original, IEnumerable<Transform> components, bool setParent = false)
     {
-        for (int i = 0; i < components.Length && i< ladosArray.Length; i++)
+        int i = 0;
+
+        foreach (var component in components)
         {
-            components[i].transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), components[i].transform.position.z, 2) + (original.position - transform.position).Vect3_Z(0);
+            component.transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), component.transform.position.z, 2) + (original.position - transform.position).Vect3_Z(0);
 
             if (setParent)
-                components[i].transform.SetParent(ladosArray[i].transform, true);
+                component.transform.SetParent(ladosArray[i].transform, true);
+
+            i++;
         }
 
         return this;

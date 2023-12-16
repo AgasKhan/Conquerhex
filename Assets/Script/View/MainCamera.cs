@@ -1,23 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MainCamera : SingletonMono<MainCamera>
 {
     [System.Serializable]
     public class MapTransform
     {
-        public Transform[] parents = new Transform[6];
-
         public Camera[] cameras = new Camera[6];
+        
 
-        public int Length => cameras.Length;
+        public int RealLength => cameras.Length;
+
+        public int Length => RealLength - offsetIndex;
+
+        public IEnumerable<Transform> Parents => parents.Skip(offsetIndex);
+
+        public Transform GetParent(int i) => parents[i + offsetIndex];
+
+        [SerializeField]
+        Transform[] parents = new Transform[6];
+
+        [SerializeField]
+        int offsetIndex = 2;
 
         public Transform this[int index]
         {
             get
             {
-                return cameras[index].transform;
+                return cameras[index+2].transform;
             }
         }
     }    
@@ -51,7 +63,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public void SetProyections(Hexagone hexagone)
     {
-        hexagone.SetProyections(main.transform.parent, rendersOverlay.parents);
+        hexagone.SetProyections(main.transform.parent, rendersOverlay.Parents);
     }
 
 
@@ -64,26 +76,24 @@ public class MainCamera : SingletonMono<MainCamera>
 
     private void OnEnable()
     {
-        main.orthographic = !perspective;
-
         points = new Vector3[pointsInScreen.Length];
 
         _points = new Vector3[pointsInScreen.Length];
 
         _points2 = new Vector3[pointsInScreen.Length];
 
-        for (int i = 0; i < rendersOverlay.Length; i++)
+        for (int i = 0; i < rendersOverlay.RealLength; i++)
         {
-            rendersOverlay.cameras[i].orthographic = main.orthographic;
+            rendersOverlay.cameras[i].orthographic = !perspective;
         }
 
         if (!perspective)
         {
-            for (int i = 0; i < transform.childCount; i++)
+            for (int i = -2; i < rendersOverlay.Length; i++)
             {
-                transform.GetChild(i).rotation = Quaternion.identity;
+                rendersOverlay.GetParent(i).rotation = Quaternion.identity;
 
-                transform.GetChild(i).GetChild(0).localPosition = Vector3.zero;
+                rendersOverlay[i].transform.localPosition = Vector3.zero;
             }
 
             for (int i = 0; i < pointsInScreen.Length; i++)
@@ -100,11 +110,11 @@ public class MainCamera : SingletonMono<MainCamera>
         }
         else
         {
-            for (int i = 0; i < transform.childCount; i++)
+            for (int i = -2; i < rendersOverlay.Length; i++)
             {
-                transform.GetChild(i).rotation = Quaternion.Euler(rotationPerspective);
+                rendersOverlay.GetParent(i).rotation = Quaternion.Euler(rotationPerspective);
 
-                transform.GetChild(i).GetChild(0).localPosition = vectorPerspective;
+                rendersOverlay[i].transform.localPosition = vectorPerspective;
             }
 
             for (int i = 0; i < pointsInScreen.Length; i++)
@@ -130,9 +140,9 @@ public class MainCamera : SingletonMono<MainCamera>
     
     private void LateUpdate()
     {
-
         if (obj == null)
             return;
+
         transform.position  = obj.position.Vect3_Z(transform.position.z);
 
         for (int i = 0; i < points.Length; i++)
