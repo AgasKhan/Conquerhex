@@ -90,6 +90,7 @@ public class Interfaz : MonoBehaviour
 
     IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
     {
+        msg("Interfaz");
         end(true);
         yield return null;
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += UpdateLife;

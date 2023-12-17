@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Diagnostics;
 
 public class LoadSystem : SingletonMono<LoadSystem>
 {
@@ -10,6 +11,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     static List<System.Action> preLoadEvent = new List<System.Action>();
     static List<System.Action> postLoadEvent = new List<System.Action>();
+
+    public static Stopwatch stopwatch = new Stopwatch();
 
     [SerializeReference]
     LoadScreen loadScreen;
@@ -120,10 +123,13 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         yield return null;
 
+        stopwatch.Start();
+
         //loadscene = true;
         for (int i = 0; i < preLoad.Count; i++)
         {
             yield return new WaitForCorutines(this, preLoad[i], (s) => loadScreen.Progress((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
+            stopwatch.Restart();
         }
 
         loadScreen.Progress("Close action scripts");
@@ -134,8 +140,11 @@ public class LoadSystem : SingletonMono<LoadSystem>
         {
             preLoadEvent[i]();
             loadScreen.Progress((((i + 1f) / (preLoadEvent.Count)) * (1f / 6) + (1f / 6)) * 100);
-            if (i % 100 == 0)
+            if (stopwatch.ElapsedMilliseconds > 1f/60)
+            {
                 yield return null;
+                stopwatch.Restart();
+            }
         }
 
         loadScreen.Progress("Start scene load");
@@ -168,6 +177,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         Time.timeScale = 0;
 
+        stopwatch.Restart();
+
         //espera un frame a que se carguen todos los postload
         yield return null;
 
@@ -182,12 +193,17 @@ public class LoadSystem : SingletonMono<LoadSystem>
         {
             postLoadEvent[i]();
             loadScreen.Progress(( ((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6 )*100, $"Load scripts: {i}/{postLoadEvent.Count}");
-            
-            if(i % 100 == 0)
+
+            if (stopwatch.ElapsedMilliseconds > 1f / 60)
+            {
                 yield return null;
+                stopwatch.Restart();
+            }
         }
 
         loadScreen.Progress(100, "<size=50>Carga finalizada</size>");
+
+        stopwatch.Stop();
 
         yield return null;
 
@@ -200,7 +216,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
             {
                 yield return null;
             }
-        }
+        }        
 
         loadScreen.Close();
 

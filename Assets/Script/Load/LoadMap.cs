@@ -9,8 +9,6 @@ public class LoadMap : SingletonMono<LoadMap>
 
     public int rng;
 
-    public int loadPerFrame;
-
     public Pictionarys<Biomes, int> biomes;
 
     public Tilemap map;
@@ -75,8 +73,10 @@ public class LoadMap : SingletonMono<LoadMap>
         for (int i = 0; i < hexagonos.GetLength(0); i++)
         {
             //espera para la carga
-            if (i % loadPerFrame == 0)
+            if (LoadSystem.stopwatch.ElapsedMilliseconds > 1f/60)
             {
+                LoadSystem.stopwatch.Restart();
+
                 tiempoCarga += Time.unscaledDeltaTime;
 
                 float persentage = ((i + 1f) / hexagonos.GetLength(0) )*100;
@@ -98,7 +98,6 @@ public class LoadMap : SingletonMono<LoadMap>
             {
                 StopAllCoroutines();
                 LoadSystem.instance.Load("MainMenu");
-
             }
 
             //spawn hexagonos
