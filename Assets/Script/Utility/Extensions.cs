@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Internal;
+using System.Linq;
 
 
 public static class Extensions
@@ -361,24 +362,8 @@ public static class Extensions
     /// </summary>
     /// <param name="getEntity"></param>
     /// <returns></returns>
-    static public Entity[] ToEntity(this List<IGetEntity> getEntity)
+    static public Entity[] ToEntity(this IEnumerable<IGetEntity> getEntity)
     {
-        for (int i = 0; i < getEntity.Count; i++)
-        {
-            int indexRemove;
-            while( (indexRemove = getEntity.FindLastIndex((schEntity) => schEntity.GetEntity() == getEntity[i].GetEntity() )) != i)
-            {
-                getEntity.RemoveAt(indexRemove);
-            }
-        }
-
-        var entityArray = new Entity[getEntity.Count];
-
-        for (int i = 0; i < getEntity.Count; i++)
-        {
-            entityArray[i] = getEntity[i].GetEntity();
-        }
-
-        return entityArray;
+        return getEntity.Select((e)=>e.GetEntity()).Distinct().ToArray();
     }
 }

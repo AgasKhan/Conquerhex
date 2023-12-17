@@ -566,7 +566,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1540370206
 Transform:
@@ -629,8 +629,8 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_Mode: 1
-  m_DetectChunkCullingBounds: 0
+  m_Mode: 0
+  m_DetectChunkCullingBounds: 1
   m_MaskInteraction: 1
 --- !u!1839735485 &1540370208
 Tilemap:
@@ -1019,6 +1019,11 @@ PrefabInstance:
       propertyPath: obj
       value: 
       objectReference: {fileID: 1504004400}
+    - target: {fileID: 6749773658987503344, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      propertyPath: perspective
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7674655437596361991, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: m_LocalPosition.x
