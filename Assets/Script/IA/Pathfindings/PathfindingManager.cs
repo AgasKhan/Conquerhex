@@ -73,7 +73,8 @@ public class PathfindingManager : SingletonMono<PathfindingManager>
 
         if (startingNode == null || goalNode == null) return path;
 
-        PriorityQueue<Node> frontier = new PriorityQueue<Node>();
+        PriorityQueueWithDick<Node> frontier = new PriorityQueueWithDick<Node>();
+
         frontier.Enqueue(startingNode, 0);
 
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
