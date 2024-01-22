@@ -2247,11 +2247,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4030717250457983995, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_StopNaN
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6592060790990565492, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: m_Name
@@ -2262,16 +2257,6 @@ PrefabInstance:
       propertyPath: obj
       value: 
       objectReference: {fileID: 1722347831}
-    - target: {fileID: 6749773658987503344, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: obj.tr
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7674655437596361991, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7674655437596361991, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5656,7 +5641,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   execute: 0
   rng: 2
-  loadPerFrame: 5
   biomes:
     pictionaries: []
   map: {fileID: 2079734153}

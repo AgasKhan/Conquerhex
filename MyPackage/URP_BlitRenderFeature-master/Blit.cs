@@ -29,6 +29,7 @@ namespace Cyan {
     //	[CreateAssetMenu(menuName = "Cyan/Blit")] 
     public class Blit : ScriptableRendererFeature
     {
+        /////////////////////////////////////////////////////////////////////////////////////////////
         public class BlitPass : ScriptableRenderPass
         {
 
@@ -47,28 +48,41 @@ namespace Cyan {
 
             private static RTHandle s_TempRTHandle;
 
+            private System.Action onSetup;
+
             public BlitPass(RenderPassEvent renderPassEvent, BlitSettings settings, string tag)
             {
                 this.renderPassEvent = renderPassEvent;
+
                 this.settings = settings;
+
                 m_ProfilerTag = tag;
+
                 if (settings.srcType == Target.RenderTextureObject && settings.srcTextureObject)
                     srcTextureObject = RTHandles.Alloc(settings.srcTextureObject);
+
                 if (settings.dstType == Target.RenderTextureObject && settings.dstTextureObject)
                     dstTextureObject = RTHandles.Alloc(settings.dstTextureObject);
 
-                if (s_TempRTHandle == null)
+                onSetup = () => 
                 {
-                    s_TempRTHandle = RTHandles.Alloc(Vector2.one, TextureXR.slices, dimension: TextureXR.dimension, colorFormat: settings.graphicsFormat, enableRandomWrite: true, useDynamicScale: true, name: "TempRT");
-                }
+                    if (s_TempRTHandle == null)
+                    {
+                        s_TempRTHandle = RTHandles.Alloc(Vector2.one, TextureXR.slices, dimension: TextureXR.dimension, colorFormat: settings.graphicsFormat, enableRandomWrite: true, useDynamicScale: true, name: "TempRT");
+                    }
 
-                temp = s_TempRTHandle;
+                    temp = s_TempRTHandle;
+
+                    onSetup = () => { };
+                };
             }
 
             public void Setup(ScriptableRenderer renderer)
             {
                 if (settings.requireDepthNormals)
                     ConfigureInput(ScriptableRenderPassInput.Normal);
+
+                onSetup();
             }
 
             public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
@@ -124,7 +138,8 @@ namespace Cyan {
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
-                if (renderingData.cameraData.cameraType == CameraType.Preview || renderingData.cameraData.camera.gameObject.layer != settings.mask) return;
+                if (renderingData.cameraData.cameraType == CameraType.Preview || renderingData.cameraData.camera.gameObject.layer != settings.mask) 
+                    return;
 
                 CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
                 if (settings.setInverseViewMatrix)
@@ -155,11 +170,11 @@ namespace Cyan {
 
             public void Dispose()
             {
-                temp?.Release();
+                temp?.Release(); //lo quite para que no se destruya el temporario
                 dstTextureId?.Release();
             }
         }
-
+        /////////////////////////////////////////////////////////////////////////////////////////////
         [System.Serializable]
         public class BlitSettings
         {
@@ -184,12 +199,16 @@ namespace Cyan {
             public UnityEngine.Experimental.Rendering.GraphicsFormat graphicsFormat;
         }
 
+        /////////////////////////////////////////////////////////////////////////////////////////////
         public enum Target
         {
             CameraColor,
             TextureID,
             RenderTextureObject
         }
+        
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        
 
         public BlitSettings settings = new BlitSettings();
         public BlitPass blitPass;
@@ -197,7 +216,9 @@ namespace Cyan {
         public override void Create()
         {
             var passIndex = settings.blitMaterial != null ? settings.blitMaterial.passCount - 1 : 1;
+
             settings.blitMaterialPassIndex = Mathf.Clamp(settings.blitMaterialPassIndex, -1, passIndex);
+
             blitPass = new BlitPass(settings.Event, settings, name);
 
             if (settings.graphicsFormat == UnityEngine.Experimental.Rendering.GraphicsFormat.None)
@@ -224,7 +245,6 @@ namespace Cyan {
         {
             if (renderingData.cameraData.camera.gameObject.layer != settings.mask)
                 return;
-
             blitPass.Setup(renderer);
         }
 
