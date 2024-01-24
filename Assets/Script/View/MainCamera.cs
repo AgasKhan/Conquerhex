@@ -34,9 +34,7 @@ public class MainCamera : SingletonMono<MainCamera>
         }
     }    
     
-    public MapTransform rendersOverlay;
-
-    
+    public MapTransform rendersOverlay;   
 
     public Transform obj;
 
@@ -57,7 +55,6 @@ public class MainCamera : SingletonMono<MainCamera>
     Vector3 vectorPerspective;
 
     Camera main;
-
 
     Plane plane;
 

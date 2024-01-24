@@ -238,7 +238,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   execute: 1
   rng: 0
-  loadPerFrame: 5
   biomes:
     pictionaries:
     - key: {fileID: 11400000, guid: 522abb90fe5afa64cb7538a2a3c7267b, type: 2}
@@ -629,8 +628,8 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_Mode: 0
-  m_DetectChunkCullingBounds: 1
+  m_Mode: 1
+  m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 1
 --- !u!1839735485 &1540370208
 Tilemap:
