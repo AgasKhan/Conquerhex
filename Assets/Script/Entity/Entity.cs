@@ -230,6 +230,12 @@ public class Health : Init
     public float actualLife => life.current;
     public float maxRegen => regen.total;
     public float actualRegen => regen.current;
+    public float actualCoolDownRegen => timeToRegen.current;
+    public float MaxCoolDownRegen => timeToRegen.total;
+
+    public float nextRegenLife => (regen.current / 100f) * life.total + life.current;
+
+    public event System.Action<Health> helthUpdate;
 
     public event System.Action<IGetPercentage, float> lifeUpdate
     {
@@ -364,10 +370,17 @@ public class Health : Init
             life = new Tim((float)param[0]);
 
             regen = new Tim((float)param[1]);
+
+            life.onChange += (a,b) => helthUpdate?.Invoke(this);
+
+            regen.onChange += (a, b) => helthUpdate?.Invoke(this);
         }
 
         timeToRegen = TimersManager.Create(3, Regen);
+
         timeToRegen.SetLoop(true);
+
+        timeToRegen.onChange += (a, b) => helthUpdate?.Invoke(this);
     }
 }
 
@@ -382,7 +395,7 @@ public enum Team
 
 public static class LifeType
 {
-    public const string life = "life", regen = "regen", time = "time";
+    public const string life = "life", regen = "regen", time = "time", all = "all";
 }
 
 public interface IGetEntity

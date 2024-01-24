@@ -50,6 +50,8 @@ public class IAIO : IAFather
         param.health.regenUpdate += UpdateRegen;
         param.health.regenTimeUpdate += UpdateRegenTime;
 
+        param.health.helthUpdate += Health_helthUpdate;
+
         prin.Init();
         sec.Init();
         ter.Init();
@@ -63,7 +65,6 @@ public class IAIO : IAFather
         VirtualControllers.terciary.SuscribeController(ter);
     }
 
-    
 
     public override void OnExitState(Character param)
     {
@@ -72,6 +73,7 @@ public class IAIO : IAFather
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
         param.health.regenTimeUpdate -= UpdateRegenTime;
+        param.health.helthUpdate -= Health_helthUpdate;
 
 
         VirtualControllers.movement.DesuscribeController(param.move);
@@ -148,6 +150,12 @@ public class IAIO : IAFather
         OnExitState(_character);
     }
 
+    private void Health_helthUpdate(Health obj)
+    {
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.all).Execute(obj);
+    }
+
+
     void UpdateLife(IGetPercentage arg1, float arg3)
     {
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).Execute(arg1, arg3);
@@ -163,8 +171,6 @@ public class IAIO : IAFather
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.time).Execute(arg1, arg2);
     }
 }
-
-
 
 public class ControllerIAIO : IControllerDir, Init
 {

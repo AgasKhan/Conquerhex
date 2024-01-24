@@ -53,10 +53,6 @@ public class Interfaz : MonoBehaviour
     public ImageWidth regenTimeMax;
     public ImageWidth regenTime;
 
-    IGetPercentage lifePercentage;
-    IGetPercentage regenPercentage;
-    IGetPercentage regenTimePercentage;
-
     public TextCompleto this[string name]
     {
         get
@@ -76,42 +72,24 @@ public class Interfaz : MonoBehaviour
         return instance[name];
     }
 
-    /// <summary>
-    /// el primer parametro debe de ser un IGetPercentage
-    /// </summary>
-    /// <param name="param"></param>
-    void UpdateLife(params object[] param)
+    private void healthBarUpdate(params object[] param)
     {
-        lifePercentage = param[0] as IGetPercentage;
+        var health = param[0] as Health;
 
-        vida.FillAmount = lifePercentage.Percentage();
+        vida.FillAmount = health.actualLife / health.maxLife;
 
-        if(regenPercentage!=null)
-            regenTimeMax.FillAmount = ((regenPercentage.current / 100f) * lifePercentage.total + lifePercentage.current) / lifePercentage.total;
+        textVida.text = ((int)health.actualLife).ToString();
 
-        textVida.text = ((int)lifePercentage.current).ToString();
-    }
+        regen.FillAmount = health.actualRegen / 100;
 
-    void UpdateRegen(params object[] param)
-    {
-        regenPercentage = param[0] as IGetPercentage;
+        regenMax.FillAmount = health.maxRegen / 100;
 
-        regen.FillAmount = regenPercentage.Percentage() * regenPercentage.total/100;
+        textRegen.text = ((int)(health.actualRegen / 100 * health.maxLife)).ToString();
 
-        regenMax.FillAmount = regenPercentage.total / 100;
+        regenTimeMax.FillAmount = health.nextRegenLife / health.maxLife;
 
-        if (lifePercentage!=null)
-            regenTimeMax.FillAmount = ( (regenPercentage.current / 100f) * lifePercentage.total + lifePercentage.current) / lifePercentage.total;
-        
-        textRegen.text = ((int)regenPercentage.current).ToString();
-    }
-
-    void UpdateRegenTime(params object[] param)
-    {
-        regenTimePercentage = param[0] as IGetPercentage;
-
-        regenTime.FillAmount = regenTimePercentage.InversePercentage() * regenTimeMax.FillAmount;
-    }
+        regenTime.FillAmount = (1 - health.actualCoolDownRegen/health.MaxCoolDownRegen) * regenTimeMax.FillAmount;
+    }    
 
     private void Awake()
     {
@@ -145,9 +123,7 @@ public class Interfaz : MonoBehaviour
         msg("Interfaz");
         end(true);
         yield return null;
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += UpdateLife;
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).action += UpdateRegen;
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.time).action += UpdateRegenTime;
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.all).action += healthBarUpdate;
     }
 
 
