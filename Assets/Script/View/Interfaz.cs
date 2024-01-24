@@ -6,6 +6,31 @@ using UnityEngine.UI;
 
 public class Interfaz : MonoBehaviour
 {
+    [System.Serializable]
+    public class ImageWidth
+    {
+        public Image image;
+        public float widthMax = 100;
+
+        public float FillAmount
+        {
+            set
+            {
+                var sizeDelta = image.rectTransform.sizeDelta;
+
+                _fillAmount = Mathf.Clamp(value, 0, 1);
+
+                sizeDelta.x = _fillAmount * widthMax;
+
+                image.rectTransform.sizeDelta = sizeDelta;
+            }
+
+            get => _fillAmount;
+        }
+
+        float _fillAmount;
+    }
+
     static public Interfaz instance;
 
     public List<TextCompleto> textC = new List<TextCompleto>();
@@ -19,10 +44,18 @@ public class Interfaz : MonoBehaviour
     float   heightDiag;
 
     [Header("vida")]
-    public Image vida;
+    public ImageWidth vida;
     public TextMeshProUGUI textVida;
-    public Image regen;
+    public ImageWidth regen;
+    public ImageWidth regenMax;
+
     public TextMeshProUGUI textRegen;
+    public ImageWidth regenTimeMax;
+    public ImageWidth regenTime;
+
+    IGetPercentage lifePercentage;
+    IGetPercentage regenPercentage;
+    IGetPercentage regenTimePercentage;
 
     public TextCompleto this[string name]
     {
@@ -49,16 +82,35 @@ public class Interfaz : MonoBehaviour
     /// <param name="param"></param>
     void UpdateLife(params object[] param)
     {
-        IGetPercentage getPercentage = param[0] as IGetPercentage;
-        vida.fillAmount = getPercentage.Percentage();
-        textVida.text = ((int)getPercentage.current).ToString();
+        lifePercentage = param[0] as IGetPercentage;
+
+        vida.FillAmount = lifePercentage.Percentage();
+
+        if(regenPercentage!=null)
+            regenTimeMax.FillAmount = ((regenPercentage.current / 100f) * lifePercentage.total + lifePercentage.current) / lifePercentage.total;
+
+        textVida.text = ((int)lifePercentage.current).ToString();
     }
 
     void UpdateRegen(params object[] param)
     {
-        IGetPercentage getPercentage = param[0] as IGetPercentage;
-        regen.fillAmount = getPercentage.Percentage();
-        textRegen.text = ((int)getPercentage.current).ToString();
+        regenPercentage = param[0] as IGetPercentage;
+
+        regen.FillAmount = regenPercentage.Percentage() * regenPercentage.total/100;
+
+        regenMax.FillAmount = regenPercentage.total / 100;
+
+        if (lifePercentage!=null)
+            regenTimeMax.FillAmount = ( (regenPercentage.current / 100f) * lifePercentage.total + lifePercentage.current) / lifePercentage.total;
+        
+        textRegen.text = ((int)regenPercentage.current).ToString();
+    }
+
+    void UpdateRegenTime(params object[] param)
+    {
+        regenTimePercentage = param[0] as IGetPercentage;
+
+        regenTime.FillAmount = regenTimePercentage.InversePercentage() * regenTimeMax.FillAmount;
     }
 
     private void Awake()
@@ -95,7 +147,10 @@ public class Interfaz : MonoBehaviour
         yield return null;
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).action += UpdateLife;
         EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).action += UpdateRegen;
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.time).action += UpdateRegenTime;
     }
+
+
 
     void Update()
     {       

@@ -255,6 +255,18 @@ public class Health : Init
         }
     }
 
+    public event System.Action<IGetPercentage, float> regenTimeUpdate
+    {
+        add
+        {
+            timeToRegen.onChange += value;
+        }
+        remove
+        {
+            timeToRegen.onChange -= value;
+        }
+    }
+
     public event System.Action noLife;
 
     public event System.Action reLife;
@@ -370,7 +382,7 @@ public enum Team
 
 public static class LifeType
 {
-    public const string life = "life", regen = "regen";
+    public const string life = "life", regen = "regen", time = "time";
 }
 
 public interface IGetEntity
