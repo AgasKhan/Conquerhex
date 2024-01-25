@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -72,6 +72,15 @@ public class Interfaz : MonoBehaviour
         return instance[name];
     }
 
+    public void PopTextDamage(Entity entity, string text)
+    {
+        //instance["Danio"].AddMsg($"{text} ► {entity.name.Replace("(Clone)", "")}");
+
+        PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextDamage textDamage);
+
+        textDamage.SetText(entity.transform, text);
+    }
+
     private void healthBarUpdate(params object[] param)
     {
         var health = param[0] as Health;
@@ -89,18 +98,39 @@ public class Interfaz : MonoBehaviour
         regenTimeMax.FillAmount = health.nextRegenLife / health.maxLife;
 
         regenTime.FillAmount = (1 - health.actualCoolDownRegen/health.MaxCoolDownRegen) * regenTimeMax.FillAmount;
-    }    
+    }
 
-    private void Awake()
+    IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
     {
-        instance = this;
+        msg("Interfaz");
+        end(true);
+        yield return null;
+        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.all).action += healthBarUpdate;
+    }
 
-        foreach (var item in textC)
+    void Update()
+    {
+        if (dialogoText.text != "" || dialogoImage.rectTransform.rect.width > 0)
         {
-            item.Init();
-        }
+            float aux1 = 0;
+            float aux2 = dialogoImage.rectTransform.rect.width;
 
-        dialogoText = SearchTitle("Subtitulo");
+            if (dialogoText.text != "")
+            {
+                aux1 = widthDiag;
+                aux2 = widthDiag - dialogoImage.rectTransform.rect.width;
+                dialogoImage.enabled = true;
+            }
+
+            dialogoImage.rectTransform.sizeDelta = new Vector2(Mathf.Lerp(dialogoImage.rectTransform.rect.width, aux1, Time.deltaTime * (widthDiag / aux2)), heightDiag);
+            //dialogoText.texto.rectTransform.sizeDelta = new Vector2(dialogoImage.rectTransform.sizeDelta.x - 100, dialogoText.texto.rectTransform.sizeDelta.y);
+
+            if (Mathf.Approximately(dialogoImage.rectTransform.rect.width, 0))
+            {
+                dialogoImage.enabled = false;
+                enabled = false;
+            }
+        }
     }
 
     void Start()
@@ -118,42 +148,17 @@ public class Interfaz : MonoBehaviour
         LoadSystem.AddPostLoadCorutine(MyCoroutine);
     }
 
-    IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
+    private void Awake()
     {
-        msg("Interfaz");
-        end(true);
-        yield return null;
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.all).action += healthBarUpdate;
-    }
+        instance = this;
 
-
-
-    void Update()
-    {       
-        if(dialogoText.text!="" || dialogoImage.rectTransform.rect.width > 0)
+        foreach (var item in textC)
         {
-            float aux1 = 0;
-            float aux2 = dialogoImage.rectTransform.rect.width;
+            item.Init();
+        }
 
-            if(dialogoText.text != "")
-            {
-                aux1 = widthDiag;
-                aux2 = widthDiag - dialogoImage.rectTransform.rect.width;
-                dialogoImage.enabled = true;
-            }
-
-            dialogoImage.rectTransform.sizeDelta= new Vector2( Mathf.Lerp ( dialogoImage.rectTransform.rect.width, aux1 , Time.deltaTime * (widthDiag / aux2) ), heightDiag);
-            //dialogoText.texto.rectTransform.sizeDelta = new Vector2(dialogoImage.rectTransform.sizeDelta.x - 100, dialogoText.texto.rectTransform.sizeDelta.y);
-
-            if (Mathf.Approximately(dialogoImage.rectTransform.rect.width, 0))
-            {
-                dialogoImage.enabled = false;
-                enabled = false;
-            }   
-        }   
+        dialogoText = SearchTitle("Subtitulo");
     }
-    
-
 }
 
 [System.Serializable]

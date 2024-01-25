@@ -111,16 +111,18 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         if (dmgs == null)
             return;
 
-        string notif = "";
+        //string notif = "";
 
         for (int i = 0; i < dmgs.Length; i++)
         {
             TakeDamage(ref dmgs[i]);
 
-            notif += dmgs[i] + " ";
+            //notif += dmgs[i] + " ";
+
+            Interfaz.instance?.PopTextDamage(this ,dmgs[i].ToString());
         }      
 
-        Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
+        //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
 
     public virtual void TakeDamage(ref Damage dmg)

@@ -22,6 +22,7 @@ public class PoolManager : MonoBehaviour
         public GameObject prefab;
         public Object[] utilityRefence;
         public int amount;
+        public Transform parent;
 
         [Header("Interna")]
         int _index = 0;
@@ -69,7 +70,7 @@ public class PoolManager : MonoBehaviour
 
             for (int i = 0; i < pool.Length; i++)
             {
-                pool[i] = new ObjectRefence(prefab, utilityRefence);
+                pool[i] = new ObjectRefence(prefab, parent, utilityRefence);
             }
         }
     }
@@ -80,9 +81,9 @@ public class PoolManager : MonoBehaviour
         public GameObject Obj;
         public Object[] auxiliarReference;
 
-        public ObjectRefence(GameObject prefab, Object[] utilityRefence)
+        public ObjectRefence(GameObject prefab, Transform parent, Object[] utilityRefence)
         {
-            Obj = Instantiate(prefab);
+            Obj = Instantiate(prefab, parent);
 
             auxiliarReference = new Object[utilityRefence.Length];
 
@@ -162,7 +163,7 @@ public class PoolManager : MonoBehaviour
 
     #region "Spawn" pool objects
 
-    static public Transform SpawnPoolObject(Vector2Int indexs, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null)
+    static public Transform SpawnPoolObject(Vector2Int indexs, Vector3? pos = null, Quaternion? angles = null, Transform padre = null)
     {
 
         var poolObject = InternalSpawnPoolObject(indexs);
@@ -174,15 +175,15 @@ public class PoolManager : MonoBehaviour
         return transformObject;
     }
 
-    static public Transform SpawnPoolObject<T>(Vector2Int indexs, out T reference, Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null, bool active=true) where T : Object
+    static public Transform SpawnPoolObject<T>(Vector2Int indexs, out T reference, Vector3? pos = null, Quaternion? angles = null, Transform padre = null, bool active=true) where T : Object
     {
         var poolObject = InternalSpawnPoolObject(indexs);
 
-        var transform = poolObject.SpawnPoolObj(out reference);
+        var transformObject = poolObject.SpawnPoolObj(out reference);
 
-        SetTransform(transform, poolObject.prefab.transform, pos, angles, padre, active);
+        SetTransform(transformObject, poolObject.prefab.transform, pos, angles, padre, active);
 
-        return transform;
+        return transformObject;
     }
 
     static PoolObjects InternalSpawnPoolObject(Vector2Int indexs)
@@ -201,15 +202,23 @@ public class PoolManager : MonoBehaviour
         return instance.categoriesOfPool[indexs.x].objectPool[indexs.y];
     }
 
-    static void SetTransform(Transform transform, Transform original,Vector3 pos = new Vector3(), Quaternion angles = new Quaternion(), Transform padre = null, bool active = true)
+    static void SetTransform(Transform transform, Transform original, Vector3? pos = null, Quaternion? angles = null, Transform padre = null, bool active = true)
     {
-        transform.parent = null;
-        transform.localPosition = pos;
-        transform.localRotation = angles;
+        if (padre != null)
+            transform.SetParent(null,true);
+
+        if (pos!=null)
+            transform.localPosition = (Vector3)pos;
+
+        if (angles != null)
+            transform.localRotation = (Quaternion)angles;
 
         transform.localScale = original.localScale;
-
-        transform.parent = padre;
+        
+        if(padre != null)
+        {
+            transform.SetParent(padre, true);
+        }
 
         transform.gameObject.SetActive(active);
     }
