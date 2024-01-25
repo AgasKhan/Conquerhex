@@ -162,8 +162,7 @@ public class Hexagone : MonoBehaviour
             
         for (int i = 0; i < MainCamera.instance.rendersOverlay.Length; i++)
         {
-            ladosArray[i].gameObject.SetActive(true);
-
+            //ladosArray[i].SetActiveGameObject(true);
             activeHex.Add(ladosArray[i].id, ladosArray[i]);
         }
 
@@ -174,7 +173,7 @@ public class Hexagone : MonoBehaviour
 
             for (int l = 0; l < 6; l++)
             {
-                if (id == activeHex[i].id || ladosArray[l].id == HexagonsManager.activeHex[i].id)
+                if (id == activeHex[i].id || ladosArray[l].id == activeHex[i].id)
                 {
                     off = false;
                     break;
@@ -185,6 +184,10 @@ public class Hexagone : MonoBehaviour
             {
                 activeHex[i].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
                 activeHex.RemoveAt(i);
+            }
+            else
+            {
+                activeHex[i].SetActiveGameObject(true);
             }
         }
     }
