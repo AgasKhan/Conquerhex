@@ -867,6 +867,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80ef2a322371ecf4bb7a895ca8e32083, type: 3}
+--- !u!224 &1989382345 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 426894437546539252, guid: 80ef2a322371ecf4bb7a895ca8e32083,
+    type: 3}
+  m_PrefabInstance: {fileID: 1989382344}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2000997472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1836,6 +1842,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[0].objectPool.Array.data[2].parent
+      value: 
+      objectReference: {fileID: 1989382345}
     - target: {fileID: 7739652029663223114, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
       propertyPath: menu
