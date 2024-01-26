@@ -30,6 +30,8 @@ public class StaminaSystem : MonoBehaviour
         }
 
         UpdateUI();
+
+        /*
         StartCoroutine(UpdateStamina());
 
         #if UNITY_ANDROID
@@ -39,6 +41,7 @@ public class StaminaSystem : MonoBehaviour
                                      "Volvé a jugar", "Se te recargó toda la energía", "stamina_ch");
         }
         #endif
+        */
     }
 
 

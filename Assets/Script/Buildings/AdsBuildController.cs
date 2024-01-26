@@ -15,16 +15,19 @@ public class AdsBuildController : BuildingsController, IUnityAdsShowListener
     }
     void MyAwake()
     {
+        /*
         Advertisement.Initialize(adToShow);
 
         if (Application.platform == RuntimePlatform.Android)
             Advertisement.Initialize("5307781");
         else
             Advertisement.Initialize("5307781", true);
+        */
     }
     
     public void ShowAd()
     {
+        /*
         if (!Advertisement.isSupported)
         {
             Debug.Log("No hay Ad");
@@ -32,6 +35,7 @@ public class AdsBuildController : BuildingsController, IUnityAdsShowListener
         }
 
         Advertisement.Show(adToShow);
+        */
     }
 
     public override void EnterBuild()
