@@ -40,7 +40,11 @@ public class Recipes : ItemBase
         }
 
         if(result.Item != null)
+        {
+            //result.Item.image.color = resultColor;
             container.AddOrSubstractItems(result.Item.nameDisplay, result.Amount);
+
+        }
 
         foreach (var ingredient in materials)
         {

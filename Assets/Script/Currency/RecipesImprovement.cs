@@ -10,6 +10,9 @@ public class RecipesImprovement : SingletonMono<RecipesImprovement>
 
     public MeleeWeapon ImproveWeapon(MeleeWeapon weapon, ItemBase material)
     {
+        if (!IsAbleToImprove(weapon, material))
+            return default;
+        
         for (int i = 0; i < improvements[material].dmgImprovements.Length; i++)
         {
             if (weapon.damages[i].typeInstance == improvements[material].dmgImprovements[i].typeInstance)

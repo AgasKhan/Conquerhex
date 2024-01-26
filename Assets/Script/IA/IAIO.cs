@@ -223,6 +223,7 @@ public class ControllerIAIO : IControllerDir, Init
         previusControllerDir = kata.equiped;
     }
 
+
     void Ui(IGetPercentage f, float num)
     {
         _Event.Execute(f, num);
@@ -230,7 +231,7 @@ public class ControllerIAIO : IControllerDir, Init
 
     void RefreshJoystickUI()
     {
-        if (character!=null && kata.equiped != null)
+        if (character != null && kata.equiped != null)
         {
             _Event.ExecuteSet(true, kata.equiped.itemBase.joystick, kata.equiped.image);
         }

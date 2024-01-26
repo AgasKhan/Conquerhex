@@ -14,9 +14,8 @@ public class CraftingBuild : Building
         {
             string aux = "";
             foreach (var item in levelRecipes[currentLevel + 1])
-            {
                 aux += "\n" + item.result.Item.nameDisplay;
-            }
+            
             return aux;
         }
     }
