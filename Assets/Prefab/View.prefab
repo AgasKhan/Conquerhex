@@ -117,7 +117,6 @@ GameObject:
   - component: {fileID: 8515497041664126326}
   - component: {fileID: 6940281000927806352}
   - component: {fileID: 987104258754839960}
-  - component: {fileID: 3659728093745506918}
   - component: {fileID: 6011293649829747602}
   m_Layer: 0
   m_Name: View
@@ -154,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e29da19d030a4fc41a5094886767c7b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventsManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
   originalRender: {fileID: 605654443849558340}
   <isTransparent>k__BackingField: 1
   transparentMaterial: {fileID: 2100000, guid: db72b3bd8fcd88a47a5f817ad289b18e, type: 2}
@@ -177,18 +177,6 @@ MonoBehaviour:
   _shakeIntensity: 0.2
   _shakeDuration: 0.11
   onDeathParticlePrefab: {fileID: 0}
---- !u!114 &3659728093745506918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8515497041664126321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38b542bafad3bbf44a3ee9c3c9599364, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6011293649829747602
 MonoBehaviour:
   m_ObjectHideFlags: 0

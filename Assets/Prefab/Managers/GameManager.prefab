@@ -49,6 +49,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a476fc8618cdb243a3daa8e646dfccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onDestroyUnityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
+        m_TargetAssemblyTypeName: NewEventManager, Assembly-CSharp
+        m_MethodName: MyOnDestroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   obstacleAvoidanceLayer:
     serializedVersion: 2
     m_Bits: 2113
@@ -96,18 +111,21 @@ MonoBehaviour:
       utilityRefence:
       - {fileID: 3849503840052946532, guid: e5f8bc9b5c1c8d348ac7155cedd32bef, type: 3}
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 5962008167437987067, guid: 649fdf1904240334b93876e6dd182851,
         type: 3}
       utilityRefence:
       - {fileID: 5689010302891186338, guid: 649fdf1904240334b93876e6dd182851, type: 3}
       amount: 200
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 8520050013377360855, guid: 28bc0ba3ec12b2f44a8ea19462919079,
         type: 3}
       utilityRefence:
       - {fileID: 1708017197346846658, guid: 28bc0ba3ec12b2f44a8ea19462919079, type: 3}
       amount: 100
+      parent: {fileID: 0}
       pool: []
   - name: Particles
     objectPool:
@@ -115,57 +133,68 @@ MonoBehaviour:
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 8255215019295333937, guid: 139c09de669d89546999f577551dd885,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 3940036432451144812, guid: e7195681d4821c847a757d5174cae6ab,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 4462336582239376682, guid: 46caac2c9e3ac774c8bc66196f3c18b3,
         type: 3}
       utilityRefence: []
       amount: 100
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 8425220168367755407, guid: 1ef40fd2aed29ac4e837a0f225a77587,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 7734626901867861634, guid: 4eb39f01f422c2144ac7b11df6247582,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 4045377163621132951, guid: 70fab5130edcc7b4d9dde891f1df18e5,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 4045377163621132951, guid: bd5dbf719c3c2784db4870885485e558,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 2312591318274358134, guid: 77da29788f3010e4396994ea52057980,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 8863688557425813847, guid: 36f18e5daf19ca04fb9f9b736eb4391d,
         type: 3}
       utilityRefence: []
       amount: 50
+      parent: {fileID: 0}
       pool: []
     - prefab: {fileID: 772560837847419480, guid: 0d6430c4e84916649a524db633dfecc0,
         type: 3}
       utilityRefence:
       - {fileID: 4411870787840352478, guid: 0d6430c4e84916649a524db633dfecc0, type: 3}
       amount: 50
+      parent: {fileID: 0}
       pool: []
   - name: Bullets
     objectPool:
@@ -174,6 +203,7 @@ MonoBehaviour:
       utilityRefence:
       - {fileID: 1003096293546598046, guid: 6187da6f17fa2d247b45239a7266d8fa, type: 3}
       amount: 100
+      parent: {fileID: 0}
       pool: []
   references:
     version: 2
@@ -202,8 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430be6cf75098604cacd0b1dbd058ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _events:
-    pictionaries: []
 --- !u!114 &3167585331265613088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,16 +244,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d940098adb26f4a8028ddf026fdebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regen: {fileID: 7953838570427471262, guid: 13709a6713969894a822e852fd58aba4, type: 2}
-  onScene: []
-  fadeLifeRegen:
-    durationAnim: 0.5
-    durationWait: 0
-    timerOn:
-      rid: -2
-    unscaled: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
