@@ -176,6 +176,8 @@ public class MainCamera : SingletonMono<MainCamera>
         for (int i = 0; i < rendersOverlay.Length; i++)
         {
             rendersOverlay[i].SetActiveGameObject(camerasEdge[i]);
+            
+            //rendersOverlay.cameras[i+2].enabled = !rendersOverlay.cameras[i + 2].enabled;
         }
     }
    
