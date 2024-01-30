@@ -108,7 +108,6 @@ Shader "URP Transparent Shadow Receiver"
 
                 // Calcula sombras de luces puntuales y de foco
                 //color.rgb = CalculatePointOrSpotLightShadow(input.positionWS);
-        
                 
 
                 // Mezcla con el color del sombreado principal (si está habilitado)
