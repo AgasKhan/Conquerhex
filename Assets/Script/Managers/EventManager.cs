@@ -5,10 +5,12 @@ using UnityEngine;
 //si no se cuantos voy a tener, por q lo desconozco
 public class EventManager : SingletonMono<EventManager>
 {
+    /*
     [SerializeField]
     Pictionarys<string, EventGeneric> _events = new Pictionarys<string, EventGeneric>();
 
     static public Pictionarys<string, EventGeneric> events => instance._events;
+    */
 }
 
 

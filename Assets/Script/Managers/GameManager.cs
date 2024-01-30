@@ -32,6 +32,10 @@ public class GameManager : SingletonMono<GameManager>
             instance.fsmGameMaganer.pause.onPlay -= value;
         }
     }
+
+    [Tooltip("Evento llamado cuando se destruye el GameManager, usualmente en el cambio de escena")]
+    public UnityEvent onDestroyUnityEvent;
+
     public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
     public static Pictionarys<MyScripts, UnityAction> update => instance._update;
 
@@ -126,6 +130,11 @@ public class GameManager : SingletonMono<GameManager>
     {
         updateUnityEvent.Invoke();
         fixedUpdateUnityEvent.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        onDestroyUnityEvent.Invoke();
     }
 
     #endregion

@@ -48,6 +48,11 @@ public class GachaBuild : Building
 
         //-----------------------------
         character.AddOrSubstractItems("Coin", 50);
+        character.AddOrSubstractItems("Wood", 50);
+        character.AddOrSubstractItems("Stone", 50);
+        character.AddOrSubstractItems("Iron", 50);
+        character.AddOrSubstractItems("Ruby", 50);
+        character.AddOrSubstractItems("Diamond", 50);
         //-----------------------------
 
         foreach (var item in gachaRewards)

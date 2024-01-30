@@ -6,6 +6,9 @@ using UnityEngine;
 public class JoyController : MonoBehaviour
 {
     [SerializeField]
+    NewEventManager eventsManager;
+
+    [SerializeField]
     bool joystick;
 
     [SerializeField]
@@ -33,6 +36,8 @@ public class JoyController : MonoBehaviour
 
     float imageToReplaceAlpha;
 
+    EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> events;
+
     //Timer rutina;
 
     public float fill
@@ -53,13 +58,17 @@ public class JoyController : MonoBehaviour
 
         axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
 
-        var events = EventManager.events.SearchOrCreate<EventJoystick>(eventController.ToString());
-
-        events.action += JoyController_action;
-
-        events.set += Set;
-
         LoadSystem.AddPostLoadCorutine(SetStick);
+
+        events = eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(eventController.ToString());
+
+        Debug.Log("EVENTS IS NULL: " + (events == null));
+        Debug.Log("DELEGATO IS NULL: " + (events.delegato == null));
+        Debug.Log("SECOND DELEGATO IS NULL: " + (events.secondDelegato == null));
+
+        events.secondDelegato += Set;
+
+        events.delegato += JoyController_action;
 
         imageToFillAlpha = imageToFill.color.a;
 
@@ -77,11 +86,11 @@ public class JoyController : MonoBehaviour
         imageToReplace.color = imageToReplace.color.ChangeAlphaCopy(obj * imageToReplaceAlpha);
     }
 
-    void Set(params object[] param)
+    void Set((bool, bool, Sprite) data)
     {
-        gameObject.SetActive((bool)param[0] && (bool)param[1] == joystick);
+        gameObject.SetActive(data.Item1 && data.Item2 == joystick);
 
-        imageToReplace.sprite = param[2] as Sprite;
+        imageToReplace.sprite = data.Item3;
     }
 
     void SetStick()
@@ -94,9 +103,9 @@ public class JoyController : MonoBehaviour
 
     }
 
-    private void JoyController_action(params object[] param)
+    private void JoyController_action((IGetPercentage, float) data)
     {
-        fill = ((IGetPercentage)param[0]).InversePercentage();
+        fill = data.Item1.InversePercentage();
     }
 
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class IAIO : IAFather
 {
+    [SerializeField]
+    NewEventManager eventsManager;
+
     string originalTag;
 
     [SerializeField]
@@ -17,18 +20,18 @@ public class IAIO : IAFather
 
     ControllerIAIO ter;
 
-    EventJoystick interactEvent;
+    EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
 
     private void Awake()
     {
-        interactEvent = EventManager.events.SearchOrCreate<EventJoystick>(EnumController.interact.ToString());
 
-        prin = new ControllerIAIO(EnumController.principal, 0);
+        prin = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.principal.ToString()), 0);
 
-        sec = new ControllerIAIO(EnumController.secondary, 1);
+        sec = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.secondary.ToString()), 1);
 
-        ter = new ControllerIAIO(EnumController.terciary, 2);
+        ter = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.terciary.ToString()), 2);
 
+        interactEvent = eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
         LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(_character);
         });
@@ -90,10 +93,9 @@ public class IAIO : IAFather
 
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 
-        interactEvent.ExecuteSet(false, false, null);
+        interactEvent.secondDelegato.Invoke((false, false, null));
 
         lastInteractuable = null;
-
         param.gameObject.tag = originalTag;
 
         base.OnExitState(_character);
@@ -103,13 +105,13 @@ public class IAIO : IAFather
     {
         base.OnStayState(param);
 
-        EventManager.events.SearchOrCreate<EventGeneric>("move").Execute(transform.position);
+        eventsManager.events.SearchOrCreate<EventParam<Vector3>>("move").delegato.Invoke(transform.position);
 
         var buildings = detectInteractuable.Area(transform.position, (edificio) => { return edificio.interactuable; });
 
         if(buildings == null || buildings.Count == 0)
         {
-            interactEvent.ExecuteSet(false, false, null);
+            interactEvent.secondDelegato.Invoke((false, false, null));
 
             VirtualControllers.interact.eventDown -= Interact_eventDown;
 
@@ -121,7 +123,7 @@ public class IAIO : IAFather
 
             lastInteractuable = buildings[0];
 
-            interactEvent.ExecuteSet(true, false, lastInteractuable.Image);
+            interactEvent.secondDelegato.Invoke((true, false, lastInteractuable.Image));
 
             VirtualControllers.interact.eventDown += Interact_eventDown;
         }
@@ -152,29 +154,29 @@ public class IAIO : IAFather
 
     private void Health_helthUpdate(Health obj)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.all).Execute(obj);
+        eventsManager.events.SearchOrCreate<EventParam<Health>>(LifeType.all).delegato?.Invoke(obj);
     }
 
 
     void UpdateLife(IGetPercentage arg1, float arg3)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.life).Execute(arg1, arg3);
+        eventsManager.events.SearchOrCreate<EventParam<IGetPercentage, float>>(LifeType.life).delegato?.Invoke(arg1, arg3);
     }
 
     void UpdateRegen(IGetPercentage arg1, float arg3)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.regen).Execute(arg1, arg3);
+        eventsManager.events.SearchOrCreate<EventParam<IGetPercentage, float>>(LifeType.regen).delegato?.Invoke(arg1, arg3);
     }
 
     private void UpdateRegenTime(IGetPercentage arg1, float arg2)
     {
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.time).Execute(arg1, arg2);
+        eventsManager.events.SearchOrCreate<EventParam<IGetPercentage, float>>(LifeType.time).delegato?.Invoke(arg1, arg2);
     }
 }
 
 public class ControllerIAIO : IControllerDir, Init
 {
-    EventJoystick _Event;
+    EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> _Event;
 
     WeaponKata previusControllerDir;
 
@@ -226,18 +228,18 @@ public class ControllerIAIO : IControllerDir, Init
 
     void Ui(IGetPercentage f, float num)
     {
-        _Event.Execute(f, num);
+        _Event.delegato.Invoke((f, num));
     }
 
     void RefreshJoystickUI()
     {
         if (character != null && kata.equiped != null)
         {
-            _Event.ExecuteSet(true, kata.equiped.itemBase.joystick, kata.equiped.image);
+            _Event.secondDelegato.Invoke((true, kata.equiped.itemBase.joystick, kata.equiped.image));
         }
         else
         {
-            _Event.ExecuteSet(false, false, null);
+            _Event.secondDelegato.Invoke((false, false, null));
         }
     }
 
@@ -269,9 +271,9 @@ public class ControllerIAIO : IControllerDir, Init
         RefreshJoystickUI();
     }
 
-    public ControllerIAIO(EnumController enumController, int index)
+    public ControllerIAIO(EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> evento, int index)
     {
-        _Event = EventManager.events.SearchOrCreate<EventJoystick>(enumController.ToString());
+        _Event = evento;
 
         this.index = index;
     }

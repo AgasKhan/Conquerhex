@@ -32,7 +32,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4114859069001356339}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -125,7 +124,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7959073667201086083}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -219,7 +217,6 @@ RectTransform:
   m_Children:
   - {fileID: 8607219348349836516}
   m_Father: {fileID: 7959073666282391920}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -318,7 +315,6 @@ RectTransform:
   - {fileID: 4114859069001356339}
   - {fileID: 7959073667201086083}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -345,12 +341,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b62b6b1bf135fc48b0b94c2e17d3a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventsManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
   joystick: 0
   eventController: 0
-  stick: {fileID: 7959073667201086080}
   deadzone: 0.1
+  fadeOn:
+    durationAnim: 0.3
+    durationWait: 0.1
+    timerOn:
+      rid: -2
+    unscaled: 1
+  stick: {fileID: 7959073667201086080}
   imageToFill: {fileID: 8036540088458859081}
   imageToReplace: {fileID: 6062711633911367469}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &7959073666282391921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,7 +407,6 @@ RectTransform:
   m_Children:
   - {fileID: 421796236369878643}
   m_Father: {fileID: 7959073666282391920}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

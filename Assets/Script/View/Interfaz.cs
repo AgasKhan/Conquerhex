@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class Interfaz : MonoBehaviour
 {
+    [SerializeField]
+    NewEventManager eventsManager;
+
     [System.Serializable]
     public class ImageWidth
     {
@@ -81,10 +84,8 @@ public class Interfaz : MonoBehaviour
         textDamage.SetText(entity.transform, text);
     }
 
-    private void healthBarUpdate(params object[] param)
+    private void healthBarUpdate(Health health)
     {
-        var health = param[0] as Health;
-
         vida.FillAmount = health.actualLife / health.maxLife;
 
         textVida.text = ((int)health.actualLife).ToString();
@@ -105,7 +106,7 @@ public class Interfaz : MonoBehaviour
         msg("Interfaz");
         end(true);
         yield return null;
-        EventManager.events.SearchOrCreate<EventGeneric>(LifeType.all).action += healthBarUpdate;
+        eventsManager.events.SearchOrCreate<EventParam<Health>>(LifeType.all).delegato += healthBarUpdate;
     }
 
     void Update()

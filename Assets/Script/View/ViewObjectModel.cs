@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ViewObjectModel : MonoBehaviour
 {
+    [SerializeField]
+    NewEventManager eventsManager;
+
     public IViewController[] controllers;
 
     [SerializeField]
@@ -18,7 +21,7 @@ public class ViewObjectModel : MonoBehaviour
     [field: SerializeField]
     public bool defaultRight { get; private set; }
 
-    EventGeneric eventGeneric;
+    EventParam<Vector3> eventGeneric;
 
     bool _isTransparent;
 
@@ -28,7 +31,7 @@ public class ViewObjectModel : MonoBehaviour
 
         originalRender.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 
-        eventGeneric = EventManager.events.SearchOrCreate<EventGeneric>("move");
+        eventGeneric = eventsManager.events.SearchOrCreate<EventParam<Vector3>>("move");
 
         controllers = GetComponents<IViewController>();
 
@@ -40,22 +43,20 @@ public class ViewObjectModel : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        if (isTransparent)
-            eventGeneric.action += UpdateTransparent;
+        if (isTransparent && eventGeneric != null)
+            eventGeneric.delegato += UpdateTransparent;
     }
 
     private void OnDisable()
     {
-        if (isTransparent)
-            eventGeneric.action -= UpdateTransparent;
+        if (isTransparent && eventGeneric!= null)
+            eventGeneric.delegato -= UpdateTransparent;
     }
 
-    private void UpdateTransparent(params object[] param)
+    private void UpdateTransparent(Vector3 posPlayer)
     {
         if (!gameObject.activeSelf)
             return;
-
-        Vector3 posPlayer = (Vector3)param[0];
 
         SetTransparent(posPlayer.y > transform.position.y);
     }

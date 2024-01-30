@@ -302,14 +302,19 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
 
     public T SearchOrCreate<T>(K key) where T : V, new()
     {
-        if (ContainsKey(key, out int index))
-            return (T)pictionaries[index].value;
+        if (!ContainsKey(key, out int index) || pictionaries[index].value == null)
+        {
+            var newAux = new T();
 
-        var newAux = new T();
+            if (index < 0)
+                Add(key, newAux);
+            else
+                pictionaries[index].value = newAux;
 
-        Add(key, newAux);
+            return newAux;
+        }
 
-        return newAux;
+        return (T)pictionaries[index].value;
     }
 
     public void CreateOrSave(K key, V value)
