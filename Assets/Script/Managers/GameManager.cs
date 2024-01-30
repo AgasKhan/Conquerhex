@@ -119,11 +119,12 @@ public class GameManager : SingletonMono<GameManager>
 
     private void Update()
     {
-        updateUnityEvent.Invoke();
+        
     }
 
     private void FixedUpdate()
     {
+        updateUnityEvent.Invoke();
         fixedUpdateUnityEvent.Invoke();
     }
 

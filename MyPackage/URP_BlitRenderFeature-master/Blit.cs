@@ -91,6 +91,7 @@ namespace Cyan {
                     return;
 
                 var desc = renderingData.cameraData.cameraTargetDescriptor;
+
                 desc.depthBufferBits = 0; // Color and depth cannot be combined in RTHandles
 
                 //RenderingUtils.ReAllocateIfNeeded(ref temp, Vector2.one, desc, name: "_TemporaryColorTexture");

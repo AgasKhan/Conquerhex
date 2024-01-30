@@ -6,6 +6,7 @@ using Cyan;
 
 public class PlayerPostProcess : MonoBehaviour
 {
+    /*
     [SerializeField]
     Blit regen;
 
@@ -70,4 +71,5 @@ public class PlayerPostProcess : MonoBehaviour
             onScene[i].SetActive(false);
         }
     }
+    */
 }

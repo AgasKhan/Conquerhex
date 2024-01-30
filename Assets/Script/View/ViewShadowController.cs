@@ -80,11 +80,6 @@ public class ViewShadowController : MonoBehaviour, ViewObjectModel.IViewControll
 
         animator = animator;
 
-        if (MainCamera.instance.perspective)
-            transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
-        else
-            transform.rotation = Quaternion.identity;
-
         shadow = true;
     }
 

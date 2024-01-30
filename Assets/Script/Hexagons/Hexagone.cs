@@ -182,7 +182,7 @@ public class Hexagone : MonoBehaviour
 
             if (off)
             {
-                activeHex[i].gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+                activeHex[i].SetActiveGameObject(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
                 activeHex.RemoveAt(i);
             }
             else
