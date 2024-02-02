@@ -39,8 +39,12 @@ public class ViewObjectModel : MonoBehaviour
         {
             controllers[i].OnEnterState(this);
         }
+
+        if (isTransparent)
+            eventGeneric.delegato += UpdateTransparent;
     }
 
+    /*
     protected virtual void OnEnable()
     {
         if (isTransparent && eventGeneric != null)
@@ -52,6 +56,7 @@ public class ViewObjectModel : MonoBehaviour
         if (isTransparent && eventGeneric!= null)
             eventGeneric.delegato -= UpdateTransparent;
     }
+    */
 
     private void UpdateTransparent(Vector3 posPlayer)
     {

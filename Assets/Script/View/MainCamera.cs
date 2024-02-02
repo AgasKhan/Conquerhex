@@ -34,7 +34,9 @@ public class MainCamera : SingletonMono<MainCamera>
         }
     }    
     
-    public MapTransform rendersOverlay;   
+    public MapTransform rendersOverlay;
+
+    public Material CameraRenderer;
 
     public Transform obj;
 
@@ -176,7 +178,10 @@ public class MainCamera : SingletonMono<MainCamera>
         for (int i = 0; i < rendersOverlay.Length; i++)
         {
             rendersOverlay[i].SetActiveGameObject(camerasEdge[i]);
-            
+            CameraRenderer.SetFloat("_position" + (1+i), camerasEdge[i] ? 1 : 0);
+
+            //settings.materialCameraRender.SetTexture("_MainTex" + data.indexCameraRender, data.rtTarget);
+
             //rendersOverlay.cameras[i+2].enabled = !rendersOverlay.cameras[i + 2].enabled;
         }
     }
