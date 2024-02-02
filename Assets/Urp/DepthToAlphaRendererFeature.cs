@@ -17,7 +17,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
         [System.Serializable]
         public class Data
         {
-            public int indexCameraRender;
+            //public int indexCameraRender;
 
             public RTHandle rtTarget;
             
@@ -48,16 +48,12 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
                 data = settings.cameraToRender[index];
 
 
-            if(renderingData.cameraData.camera.targetTexture==null)
+            if(data.target == null)
             {
                 Debug.LogWarning(renderingData.cameraData.camera.name + " No posee una target render texture");
             }
-            else if(data.target == null)
-                data.target = renderingData.cameraData.camera.targetTexture;
-
-            if (data.target != null && data.rtTarget == null)
+            else if (data.rtTarget == null)
                 data.rtTarget = RTHandles.Alloc(data.target);
-            
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
