@@ -5,7 +5,7 @@ using UnityEngine.Advertisements;
 
 public class AdsBuildController : BuildingsController, IUnityAdsShowListener
 {
-    [SerializeField] string adToShow = "Rewarded_Android";
+    //[SerializeField] string adToShow = "Rewarded_Android";
 
     protected override void Config()
     {
