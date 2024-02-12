@@ -12,18 +12,68 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
         public RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingSkybox;
         public Material materialBlitter;
         public int pass;
+        public Material materialCombined;
+
+        public int width = 1920, height = 1080;
+
+        [HideInInspector]
         public Pictionarys<string, Data> cameraToRender = new Pictionarys<string, Data>();
 
         [System.Serializable]
         public class Data
         {
-            //public int indexCameraRender;
+            public string name;
 
             public RTHandle rtTarget;
             
+            /// <summary>
+            /// destinado a donde va a ser copiada la textura procesada de las camaras
+            /// </summary>
             public RenderTexture target;
 
+            /// <summary>
+            /// Destinado a donde van a renderizar las camaras
+            /// </summary>
+            public RenderTexture copyTarget;
+
             public bool Set => rtTarget != null;
+
+            public void Configure(Settings settings, RenderTextureDescriptor desc, Material updateRef)
+            {
+                if(target!=null)
+                {
+                    // Verifica si el tamaño actual es diferente al nuevo tamaño
+                    if (settings.width != target.width || settings.height != target.height)
+                    {
+                        //rtTarget.Release();
+
+                        target.Release();
+
+                        target.width = settings.width;
+
+                        target.height = settings.height;
+
+                        target.Create();
+
+                        Debug.Log(settings.width + " "+ target.width  + "-" + settings.height + " " + target.height);
+                    }
+                }
+                else
+                {
+                    target = new RenderTexture(desc);
+
+                    //copyTarget = new RenderTexture(desc);
+
+                    rtTarget = RTHandles.Alloc(target);
+
+                    updateRef.SetTexture(name, target);
+                }
+            }
+
+            public Data(string name)
+            {
+                this.name = name;
+            }
         }
     }
     class CustomRenderPass : ScriptableRenderPass
@@ -35,26 +85,46 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
             this.settings = settings;
         }
 
+        public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+        {
+            foreach (var item in settings.cameraToRender)
+            {
+                item.value.Configure(settings, cameraTextureDescriptor, settings.materialCombined);
+            }
+        }
+
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             Settings.Data data;
 
-            if (!settings.cameraToRender.ContainsKey(renderingData.cameraData.camera.name, out int index))
+            string name = "_" + renderingData.cameraData.camera.name;
+
+            if (!settings.cameraToRender.ContainsKey(name, out int index))
             {
-                data = new Settings.Data();
-                settings.cameraToRender.Add(renderingData.cameraData.camera.name, data);
+                data = new Settings.Data(name);
+                settings.cameraToRender.Add(name, data);
             }
+            /*
             else
-                data = settings.cameraToRender[index];
-
-
-            if(data.target == null)
             {
-                Debug.LogWarning(renderingData.cameraData.camera.name + " No posee una target render texture");
+                data = settings.cameraToRender[index];
             }
-            else if (data.rtTarget == null)
-                data.rtTarget = RTHandles.Alloc(data.target);
+            */
+
+            if (renderingData.cameraData.camera.targetTexture.width != settings.width || renderingData.cameraData.camera.targetTexture.height != settings.height)
+            {
+                var copyTarget = renderingData.cameraData.camera.targetTexture;
+
+                copyTarget.Release();
+
+                copyTarget.width = settings.width;
+
+                copyTarget.height = settings.height;
+
+                copyTarget.Create();
+            }
         }
+
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
@@ -63,7 +133,16 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
 
             CommandBuffer cmd = CommandBufferPool.Get("DepthToAlphaRendererFeature");
 
-            var data = settings.cameraToRender[renderingData.cameraData.camera.name];
+            string name = "_" + renderingData.cameraData.camera.name;
+
+            Settings.Data data;
+
+            if (!settings.cameraToRender.ContainsKey(name, out int index))
+            {
+                return;
+            }
+
+            data = settings.cameraToRender[index];
 
             //Debug.Log(renderingData.cameraData.camera.name + $" Entro a ejecucion: {settings.mat != null} {data.Set}");
 
@@ -81,9 +160,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
 
             CommandBufferPool.Release(cmd);
         }
-
     }
-
 
     public Settings settings = new Settings();
 
@@ -97,11 +174,22 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
         // Añadir la pasada solo si el layer de la cámara coincide con el targetLayer
-        if (renderingData.cameraData.cameraType != CameraType.Preview && renderingData.cameraData.cameraType != CameraType.SceneView && (renderingData.cameraData.camera.gameObject.layer == 13))
+        if (renderingData.cameraData.cameraType == CameraType.Preview || renderingData.cameraData.cameraType == CameraType.Reflection || renderingData.cameraData.cameraType == CameraType.SceneView)
+        {
+            return;
+        }
+
+        if (renderingData.cameraData.camera.gameObject.layer == 13)
         {
             m_ScriptablePass.renderPassEvent = settings.renderPassEvent;
             renderer.EnqueuePass(m_ScriptablePass);
         }
+    }
+
+    [ContextMenu("Clear")]
+    void Clear()
+    {
+        settings.cameraToRender.Clear();
     }
 }
 
