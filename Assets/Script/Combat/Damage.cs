@@ -16,7 +16,7 @@ public struct Damage
 
     public override string ToString()
     {
-        return amount.ToString().RichText("color", "#"+ColorUtility.ToHtmlStringRGB(typeInstance.color));
+        return amount.ToString().RichTextColor(typeInstance.color);
     }
 
     public void ActionInitialiced(Entity go)

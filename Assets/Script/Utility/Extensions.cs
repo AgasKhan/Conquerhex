@@ -5,93 +5,8 @@ using UnityEngine.UI;
 using Internal;
 using System.Linq;
 
-
 public static class Extensions
 {
-
-    #region Tags
-
-    /*
-    static public void AddTags(this GameObject g, params Tag[] t)
-    {
-        Tags.AddTags(g, t);
-    }
-
-    static public void RemoveTags(this GameObject g, params Tag[] t)
-    {
-        Tags.RemoveTags(g, t);
-    }
-    
-    /// <summary>
-    /// Debuelve true en caso de que todas las tags coincidan
-    /// </summary>
-    static public bool CompareTags(this GameObject g, params Tag[] t)
-    {
-        return Tags.ChckAll(g, t);
-    }
-
-
-    /// <summary>
-    /// devuelve true en caso de que una tag coincida
-    /// </summary>
-    static public bool CompareOneTags(this GameObject g, params Tag[] t)
-    {
-        return Tags.ChckOne(g, t);
-    }
-
-    static public GameObject[] FindWithTags(this GameObject g, params Tag[] t)
-    {
-        return Tags.Find(t);
-    }
-
-
-    static public void AddTags(this GameObject g, params string[] t)
-    {
-        Tags.AddTags(g, t);
-    }
-
-    static public void RemoveTags(this GameObject g, params string[] t)
-    {
-        Tags.RemoveTags(g, t);
-    }
-
-    /// <summary>
-    /// Debuelve true en caso de que todas las tags coincidan
-    /// </summary>
-    /// <param name="g"></param>
-    /// <param name="t"></param>
-    /// <returns></returns>
-    static public bool CompareTags(this GameObject g, params string[] t)
-    {
-        return Tags.ChckAll(g, t);
-    }
-
-    /// <summary>
-    /// devuelve true en caso de que una tag coincida
-    /// </summary>
-    /// <param name="g"></param>
-    /// <param name="t"></param>
-    /// <returns></returns>
-    static public bool CompareOneTags(this GameObject g, params string[] t)
-    {
-        return Tags.ChckOne(g, t);
-    }
-
-    /// <summary>
-    /// buscar todos los objetos con dichas tags
-    /// </summary>
-    /// <param name="g"></param>
-    /// <param name="t"></param>
-    /// <returns></returns>
-    static public GameObject[] FindWithTags(this GameObject g, params string[] t)
-    {
-        return Tags.Find(t);
-    }
-
-    */
-
-    #endregion
-
     #region Vectors
 
     /// <summary>
@@ -126,7 +41,19 @@ public static class Extensions
     /// </summary>
     /// <param name="v">Vector que modifica</param>
     /// <returns></returns>
-    static public Vector3 Vect3_X(this Vector3 v, float x)
+    static public Vector3 Vect3_X(ref this Vector3 v, float x)
+    {
+        v.x = x;
+
+        return v;
+    }
+
+    /// <summary>
+    /// Remplaza el parametro x, por el valor dado
+    /// </summary>
+    /// <param name="v">Vector que modifica</param>
+    /// <returns></returns>
+    static public Vector3 Vect3Copy_X(this Vector3 v, float x)
     {
         v.x = x;
 
@@ -138,9 +65,34 @@ public static class Extensions
     /// </summary>
     /// <param name="v">Vector que modifica</param>
     /// <returns></returns>
-    static public Vector3 Vect3_Y(this Vector3 v, float y)
+    static public Vector3 Vect3_Y(ref this Vector3 v, float y)
     {
         v.y = y;
+
+        return v;
+    }
+
+    /// <summary>
+    /// Remplaza el parametro Y, por el valor dado
+    /// </summary>
+    /// <param name="v">Vector que modifica</param>
+    /// <returns></returns>
+    static public Vector3 Vect3Copy_Y(this Vector3 v, float y)
+    {
+        v.y = y;
+
+        return v;
+    }
+
+
+    /// <summary>
+    /// Remplaza el parametro Z, por el valor dado
+    /// </summary>
+    /// <param name="v">Vector que modifica</param>
+    /// <returns></returns>
+    static public Vector3 Vect3_Z(ref this Vector3 v, float z)
+    {
+        v.z = z;
 
         return v;
     }
@@ -150,12 +102,29 @@ public static class Extensions
     /// </summary>
     /// <param name="v">Vector que modifica</param>
     /// <returns></returns>
-    static public Vector3 Vect3_Z(this Vector3 v, float z)
+    static public Vector3 Vect3Copy_Z(this Vector3 v, float z)
     {
         v.z = z;
 
         return v;
     }
+
+
+    // <summary>
+    /// Setea el vector 3 en cero y lo retorna
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <returns>retorna el propio vector</returns>
+    static public Vector3 SetZero(ref this Vector3 vector)
+    {
+        vector.x = 0;
+        vector.y = 0;
+        vector.z = 0;
+
+        return vector;
+    }
+
+
 
     /// <summary>
     /// Crea un vector 2 a partir de un vector 3
@@ -177,16 +146,107 @@ public static class Extensions
     {
         return new Vector3(v.x, v.y, z);
     }
+
+    /// <summary>
+    /// Setea el vector 2 en cero y lo retorna
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <returns>retorna el propio vector</returns>
+    static public Vector2 SetZero(ref this Vector2 vector)
+    {
+        vector.x = 0;
+        vector.y = 0;
+
+        return vector;
+    }
+
+
+
     #endregion
 
     #region string
 
-    static public string RichText(this string s, string tag, string valor="")
+    static public string RichText(this string s, string tag, string valor = "")
     {
-        if(valor!="")
-            return "<"+tag+"="+valor+">"+s+"</"+tag+">" ;
+        if (valor != "")
+            return "<" + tag + "=" + valor + ">" + s + "</" + tag + ">";
         else
             return "<" + tag + ">" + s + "</" + tag + ">";
+    }
+
+    static public string RichTextColor(this string s, Color color)
+    {
+        return s.RichText("color", "#" + ColorUtility.ToHtmlStringRGBA(color));
+    }
+
+    static public string SubstringClamped(this string s, int startIndex)
+    {
+        startIndex = Mathf.Clamp(startIndex, 0, s.Length);
+
+        return s.Length == 0 ? string.Empty : s.Substring(startIndex);
+    }
+
+    static public string SubstringClamped(this string s, int startIndex, int lenght)
+    {
+        startIndex = Mathf.Clamp(startIndex, 0, s.Length);
+
+        lenght = Mathf.Clamp(lenght, 0, (s.Length) - startIndex);
+
+        return s.Length == 0 ? string.Empty : s.Substring(startIndex, lenght);
+    }
+
+    #endregion
+
+    #region Colors
+    /// <summary>
+    /// Retorna una copia del color con el alpha cambiado
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="alpha"></param>
+    /// <returns></returns>
+    static public Color ChangeAlphaCopy(this Color color, float alpha)
+    {
+        return new Color(color.r, color.g, color.b, alpha);
+    }
+
+    /// <summary>
+    /// Retorna un nuevo color respetando el alpha anterior
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="alpha"></param>
+    /// <returns></returns>
+    static public Color ChangeColorCopy(this Color color, Color newColor)
+    {
+        return new Color(newColor.r, newColor.g, newColor.b, color.a);
+    }
+    #endregion
+
+    #region unity components
+    static public T SetActiveGameObject<T>(this T component, bool active) where T : Component
+    {
+        component.gameObject.SetActive(active);
+        return component;
+    }
+
+    static public T SetActive<T>(this T mono, bool active) where T : MonoBehaviour
+    {
+        mono.enabled = active;
+        return mono;
+    }
+
+    /// <summary>
+    /// Calculo automatico del sqrMagnitude de 2 componentes
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="component"></param>
+    /// <param name="toComp"></param>
+    /// <returns></returns>
+    static public float SqrDistance<T>(this T component, Component toComp) where T : Component
+    {
+        if (toComp && component)
+            return (toComp.transform.position - component.transform.position).sqrMagnitude;
+        else
+            return float.PositiveInfinity;
     }
 
     #endregion
@@ -194,16 +254,16 @@ public static class Extensions
 
     #region eventos botones
 
-    
+
     public static void Event(this Button b, bool remove = true)
     {
         var menu = MenuManager.instance;
-        if(remove)
+        if (remove)
             b.onClick.RemoveAllListeners();
 
         UnityEngine.Events.UnityAction unityAction;
 
-        if(b.TryGetComponent(out DisplayItem logicActive))
+        if (b.TryGetComponent(out DisplayItem logicActive))
         {
             if (logicActive.specialAction != "")
             {
@@ -264,21 +324,17 @@ public static class Extensions
     */
     #endregion
 
-    static public string ToString(this Damage[] damages, string glue, string reglon)
-    {
-        var aux = "";
-        foreach (var item in damages)
-        {
-            if(item.ToString()!="")
-                aux += item.typeInstance.GetType().Name + glue + item + reglon;
-        }
 
-        return aux;
-    }
-
-    static public void AddOrInsert<T>(this List<T> list, T toAdd ,int insert)
+    /// <summary>
+    /// Añade o inserta en una lista dependiendo de la posicion deseada
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="toAdd"></param>
+    /// <param name="insert"></param>
+    static public void AddOrInsert<T>(this List<T> list, T toAdd, int insert)
     {
-        if(insert<0 || insert>= list.Count)
+        if (insert < 0 || insert >= list.Count)
         {
             list.Add(toAdd);
         }
@@ -289,30 +345,13 @@ public static class Extensions
     }
 
     /// <summary>
-    /// Retorna una copia del color con el alpha cambiado
+    /// 
     /// </summary>
-    /// <param name="color"></param>
-    /// <param name="alpha"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="pictionaries"></param>
+    /// <param name="levelMultiply"></param>
     /// <returns></returns>
-    static public Color ChangeAlphaCopy(this Color color, float alpha)
-    {
-        return new Color(color.r, color.g, color.b, alpha);
-    }
-
-
-    static public T SetActiveGameObject<T>(this T component, bool active) where T : Component
-    {
-        component.gameObject.SetActive(active);
-        return component;
-    }
-
-    static public T SetActive<T>(this T mono, bool active) where T : MonoBehaviour
-    {
-        mono.enabled = active;
-        return mono;
-    }
-
-    static public T RandomPic<T>(this Pictionarys<T,int> pictionaries, int levelMultiply = 0)
+    static public T RandomPic<T>(this Pictionarys<T, int> pictionaries, int levelMultiply = 0)
     {
         float acumTotal = 0;
 
@@ -346,7 +385,7 @@ public static class Extensions
             if (levelMultiply != 0)
                 acumPercentage += (Mathf.Pow(1.5f, (1 + (1 - (item.value / acumTotal)) * levelMultiply))) / newAcumTotal;
 
-            if (rng<= acumPercentage)
+            if (rng <= acumPercentage)
             {
                 return item.key;
             }
@@ -358,12 +397,99 @@ public static class Extensions
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="K"></typeparam>
+    /// <typeparam name="V"></typeparam>
+    /// <param name="tupla"></param>
+    /// <returns></returns>
+    static public IEnumerable<Pictionary<K, V>> ToPictionary<K, V>(this IEnumerable<(K, V)> tupla)
+    {
+        foreach (var item in tupla)
+        {
+            yield return new Pictionary<K, V>(item.Item1, item.Item2);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="K"></typeparam>
+    /// <typeparam name="V"></typeparam>
+    /// <param name="tupla"></param>
+    /// <returns></returns>
+    static public Pictionarys<K, V> ToPictionarys<K, V>(this IEnumerable<(K, V)> tupla)
+    {
+        Pictionarys<K, V> pic = new Pictionarys<K, V>();
+
+        foreach (var item in tupla)
+        {
+            pic.Add(item.Item1, item.Item2);
+        }
+
+        return pic;
+    }
+
+    /*
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="K"></typeparam>
+    /// <typeparam name="V"></typeparam>
+    /// <param name="pictionary"></param>
+    /// <returns></returns>
+    static public Pictionarys<K, V> ToPictionarys<K, V>(this IEnumerable<Pictionary<K, V>> pictionary)
+    {
+        Pictionarys<K, V> pic = new Pictionarys<K, V>();
+
+        foreach (var item in pictionary)
+        {
+            pic.Add(item);
+        }
+
+        return pic;
+    }
+    */
+
+    /// <summary>
+    /// Filtra todos aquellos que no esten en el radio de toComp
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="comp"></param>
+    /// <param name="toComp"></param>
+    /// <param name="radius"></param>
+    /// <returns></returns>
+    static public IEnumerable<T> InRadiusOf<T>(this IEnumerable<T> comp, Component toComp, float radius) where T : Component
+    {
+        return comp.Where((component) => toComp.SqrDistance(component) <= radius * radius);
+    }
+
+    /// <summary>
     /// Convierte una lista de IGetEntity, en un array de las entidades referidas
     /// </summary>
     /// <param name="getEntity"></param>
     /// <returns></returns>
     static public Entity[] ToEntity(this IEnumerable<IGetEntity> getEntity)
     {
-        return getEntity.Select((e)=>e.GetEntity()).Distinct().ToArray();
+        return getEntity.Select((e) => e.GetEntity()).Distinct().ToArray();
     }
+
+    static public string ToString(this Damage[] damages, string glue, string reglon)
+    {
+        var aux = "";
+        foreach (var item in damages)
+        {
+            if (item.ToString() != "")
+                aux += item.typeInstance.GetType().Name + glue + item + reglon;
+        }
+
+        return aux;
+    }
+
 }
+
+
+/*
+ 
+
+*/
