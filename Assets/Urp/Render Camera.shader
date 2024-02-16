@@ -47,6 +47,10 @@ Shader "Custom/MultiRenderTexture"
         sampler2D _Camera4;
         sampler2D _Camera5;
 
+        sampler2D _CameraDepthTexture;
+
+        sampler2D _;
+
 
         float _pos[7];
         float _position1;
@@ -109,11 +113,13 @@ Shader "Custom/MultiRenderTexture"
                     if (depthMax < colorAux.a)
                     {
                         depthMax = colorAux.a;
-                        colorAux.a = 1;
+                        //colorAux.a = 1;
                         color = colorAux;
                     }
                 }
             }
+
+            //color = float4(color.r, color.g, color.b,1);
 
             return color;
         }

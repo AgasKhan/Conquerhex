@@ -6,8 +6,8 @@ using UnityEngine;
 /// Custom editor for RenderToMainCameraFeature class responsible for drawing unavailable by default properties
 /// such as custom drop down items and additional properties.
 /// </summary>
-[CustomEditor(typeof(RenderToMainCameraFeature))]
-public class RenderToMainCameraFeatureEditor : Editor
+[CustomEditor(typeof(RenderToCameraFeature))]
+public class RenderToCameraFeatureEditor : Editor
 {
     private SerializedProperty m_InjectionPointProperty;
     private SerializedProperty m_RequirementsProperty;
@@ -16,12 +16,18 @@ public class RenderToMainCameraFeatureEditor : Editor
     private SerializedProperty m_PassMaterialProperty;
     private SerializedProperty m_PassIndexProperty;
 
+    private SerializedProperty m_MainCameraOnly;
+
     private static readonly GUIContent k_InjectionPointGuiContent = new GUIContent("Injection Point", "Specifies where in the frame this pass will be injected.");
     private static readonly GUIContent k_RequirementsGuiContent = new GUIContent("Requirements", "A mask of URP internal textures that will need to be generated and bound for sampling.\n\nNote that 'Color' here corresponds to '_CameraOpaqueTexture' so most of the time you will want to use the 'Fetch Color Buffer' option instead.");
     private static readonly GUIContent k_FetchColorBufferGuiContent = new GUIContent("Fetch Color Buffer", "Enable this if the assigned material will need to sample the active color target. The active color will be bound to the '_BlitTexture' shader property for sampling. Note that this will introduce an internal color copy pass.");
     private static readonly GUIContent k_BindDepthStencilAttachmentGuiContent = new GUIContent("Bind Depth-Stencil", "Enable this to bind the active camera's depth-stencil attachment to the framebuffer (only use this if depth-stencil ops are used by the assigned material as this could have a performance impact).");
     private static readonly GUIContent k_PassMaterialGuiContent = new GUIContent("Pass Material", "The material used to render the full screen pass.");
     private static readonly GUIContent k_PassGuiContent = new GUIContent("Pass", "The name of the shader pass to use from the assigned material.");
+
+    private static readonly GUIContent k_MainCameraOnly = new GUIContent("Only Main Camera", "Set true for only apply in main camera\nset false to only apply in overlays camera (Camera per hexagono).");
+
+    private bool showAdditionalProperties;
 
     private void OnEnable()
     {
@@ -31,6 +37,7 @@ public class RenderToMainCameraFeatureEditor : Editor
         m_BindDepthStencilAttachmentProperty = serializedObject.FindProperty("bindDepthStencilAttachment");
         m_PassMaterialProperty = serializedObject.FindProperty("passMaterial");
         m_PassIndexProperty = serializedObject.FindProperty("passIndex");
+        m_MainCameraOnly = serializedObject.FindProperty("MainCamera");
     }
 
     /// <summary>
@@ -38,10 +45,12 @@ public class RenderToMainCameraFeatureEditor : Editor
     /// </summary>
     public override void OnInspectorGUI()
     {
-        var currentFeature = target as RenderToMainCameraFeature;
+        var currentFeature = target as RenderToCameraFeature;
 
         if (currentFeature.passMaterial == null || currentFeature.passIndex >= currentFeature.passMaterial.passCount)
             currentFeature.passIndex = 0;
+
+        EditorGUILayout.PropertyField(m_MainCameraOnly, k_MainCameraOnly);
 
         EditorGUILayout.PropertyField(m_InjectionPointProperty, k_InjectionPointGuiContent);
         EditorGUILayout.PropertyField(m_RequirementsProperty, k_RequirementsGuiContent);
@@ -50,7 +59,18 @@ public class RenderToMainCameraFeatureEditor : Editor
         EditorGUILayout.PropertyField(m_PassMaterialProperty, k_PassMaterialGuiContent);
 
         //if (currentFeature.showAdditionalProperties)
-        DrawMaterialPassProperty(currentFeature);
+        EditorGUILayout.Space();
+
+        showAdditionalProperties = EditorGUILayout.BeginToggleGroup("Additional properties", showAdditionalProperties);
+
+        if(showAdditionalProperties)
+        {
+            DrawMaterialPassProperty(currentFeature);
+        }
+
+        EditorGUILayout.EndToggleGroup();
+
+
 
         serializedObject.ApplyModifiedProperties();
     }

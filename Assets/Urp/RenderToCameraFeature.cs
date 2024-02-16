@@ -2,11 +2,16 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class RenderToMainCameraFeature : FullScreenPassRendererFeature
+public class RenderToCameraFeature : FullScreenPassRendererFeature
 {
+    public bool MainCamera;
+
+
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        if(renderingData.cameraData.camera.CompareTag("MainCamera"))
+        bool mainCamera = renderingData.cameraData.camera.CompareTag("MainCamera");
+
+        if ((MainCamera && mainCamera) || ( !mainCamera && !MainCamera))
             base.AddRenderPasses(renderer, ref renderingData);
     }
 }
