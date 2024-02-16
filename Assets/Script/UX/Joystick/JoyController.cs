@@ -62,10 +62,6 @@ public class JoyController : MonoBehaviour
 
         events = eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(eventController.ToString());
 
-        Debug.Log("EVENTS IS NULL: " + (events == null));
-        Debug.Log("DELEGATO IS NULL: " + (events.delegato == null));
-        Debug.Log("SECOND DELEGATO IS NULL: " + (events.secondDelegato == null));
-
         events.secondDelegato += Set;
 
         events.delegato += JoyController_action;

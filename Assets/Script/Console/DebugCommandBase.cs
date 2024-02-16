@@ -2,55 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class DebugCommandBase
 {
     private string _commandID;
     private string _commandDescription;
-    private string _commandFormat;
 
     public string commandID => _commandID;
     public string commandDescription => _commandDescription;
-    public string commandFormat => _commandFormat;
 
-    public DebugCommandBase(string id, string description, string format)
+    protected NewEventManager eventManager;
+
+    public DebugCommandBase(string id, string description, ref NewEventManager eventManager)
     {
         _commandID = id;
         _commandDescription = description;
-        _commandFormat = format;
+        this.eventManager = eventManager;
     }
 }
 
 public class DebugCommand : DebugCommandBase
 {
-    private Action command;
-
-    public DebugCommand(string id, string description, string format, Action command) : base(id, description, format)
+    public DebugCommand(string id, string description, ref NewEventManager eventManager) : base(id, description, ref eventManager)
     {
-        this.command = command;
-    } 
+
+    }
 
     public void Invoke()
     {
-        command?.Invoke();
+        eventManager.Trigger(commandID);
     }
 }
 
 public class DebugCommand<T> : DebugCommandBase
 {
-    private Action<T> command;
-
-    public DebugCommand(string id, string description, string format, Action<T> command) : base(id, description, format)
+    public DebugCommand(string id, string description, ref NewEventManager eventManager) : base(id, description, ref eventManager)
     {
-        this.command = command;
+
     }
 
     public void Invoke(T value)
     {
-        command?.Invoke(value);
+        eventManager.Trigger<T>(commandID, value);
     }
 }
-
+/*
 public class DebugCommand<T, V> : DebugCommandBase
 {
     private Action<T, V> command;
@@ -64,4 +61,4 @@ public class DebugCommand<T, V> : DebugCommandBase
     {
         command?.Invoke(firstValue, secondValue);
     }
-}
+}*/

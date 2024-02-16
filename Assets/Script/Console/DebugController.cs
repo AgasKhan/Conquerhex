@@ -9,7 +9,7 @@ public class DebugController : MonoBehaviour
 
     string input;
 
-    public static DebugCommand<string, int> GIVE;
+    //public static DebugCommand<string, int> GIVE;
 
     public static DebugCommand COINS;
 
@@ -31,6 +31,7 @@ public class DebugController : MonoBehaviour
         }
     }
     */
+    /*
     private void Awake()
     {
         GIVE = new DebugCommand<string, int> ("give", "Gives any item to the player", "give", (string item, int amount) => 
@@ -109,6 +110,6 @@ public class DebugController : MonoBehaviour
         GUI.Box(new Rect(0, y, Screen.width, 30), "");
         GUI.backgroundColor = new Color(0, 0, 0);
         input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 20f), input);
-    }
+    }*/
 
 }
