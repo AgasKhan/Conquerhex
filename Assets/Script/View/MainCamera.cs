@@ -153,7 +153,7 @@ public class MainCamera : SingletonMono<MainCamera>
             camerasEdge[i] = (false);
         }
 
-        transform.position  = obj.position.Vect3_Z(transform.position.z);
+        transform.position  = obj.position.Vect3Copy_Z(transform.position.z);
 
         for (int i = 0; i < points.Length; i++)
         {

@@ -13,52 +13,78 @@ public class ChatSystem : MonoBehaviour
     private bool _newMsg;
     private bool _showConsole = false;
 
-    public static DebugCommand<string, int> GIVE;
+    public static DebugCommand<(string, int)> GIVE;
 
     public static DebugCommand COINS;
 
     public static DebugCommand HELP;
 
     public List<object> commandList;
-    
-    private void Awake()
+
+    [SerializeField]
+    NewEventManager eventManager;
+
+    EventParam<(string, int)> giveEvent = new EventParam<(string, int)>();
+    EventParam coinEvent = new EventParam();
+    EventParam helpEvent = new EventParam();
+
+    private void Start()
     {
-        GIVE = new DebugCommand<string, int>("give", "Gives any item to the player", "give", (string item, int amount) =>
-        {
-            GameManager.instance.playerCharacter.AddOrSubstractItems(item, amount);
-        });
-
-        COINS = new DebugCommand("coins", "Gives 100 coins to the player", "coins", () =>
-        {
-            GameManager.instance.playerCharacter.AddOrSubstractItems("Coin", 100);
-        });
-
-        HELP = new DebugCommand("help", "Shows the list of commands", "help", () =>
+        coinEvent.delegato += () => GameManager.instance.playerCharacter.AddOrSubstractItems("Coin", 100);
+        helpEvent.delegato += () =>
         {
             for (int i = 0; i < commandList.Count; i++)
             {
                 DebugCommandBase command = commandList[i] as DebugCommandBase;
-
-                string label = $"{command.commandFormat} - {command.commandDescription}";
-
+                string label = $"{command.commandID} - {command.commandDescription}";
                 WriteMsg(label);
             }
+        };
+        giveEvent.delegato += (tupla)=> GameManager.instance.playerCharacter.AddOrSubstractItems(tupla.Item1, tupla.Item2);
+        
+        eventManager.events.AddRange(new Pictionarys<string, Euler.SpecificEventParent>()
+        {
+            {CommandsList.Coins, coinEvent },
+            {CommandsList.Help,  helpEvent}
         });
 
+        eventManager.events.Add(CommandsList.Coins, coinEvent);
+        eventManager.events.Add(CommandsList.Help, helpEvent);
+        eventManager.events.Add(CommandsList.Give, giveEvent);
+
+        COINS = new DebugCommand(CommandsList.Coins, "Gives 100 coins to the player", ref eventManager);
+        HELP = new DebugCommand("help", "Shows the list of commands", ref eventManager);
+        GIVE = new DebugCommand<(string, int)>(CommandsList.Give, "Gives any item to the player", ref eventManager);
+
+        /*
+    COINS = new DebugCommand("coins", "Gives 100 coins to the player", "coins", () =>
+    {
+        GameManager.instance.playerCharacter.AddOrSubstractItems("Coin", 100);
+    });
+
+    HELP = new DebugCommand("help", "Shows the list of commands", "help", () =>
+    {
+        for (int i = 0; i < commandList.Count; i++)
+        {
+            DebugCommandBase command = commandList[i] as DebugCommandBase;
+
+            string label = $"{command.commandFormat} - {command.commandDescription}";
+
+            WriteMsg(label);
+        }
+    });
+*/
         commandList = new List<object>
         {
-            GIVE,
             COINS,
-            HELP
+            HELP,
+            GIVE
         };
-    }
 
-
-    void Start()
-    {
         transform.GetChild(0).gameObject.SetActive(_showConsole);
         _chatBox.text = "";
     }
+
 
     void Update()
     {
@@ -110,8 +136,8 @@ public class ChatSystem : MonoBehaviour
             {
                 if (commandList[i] as DebugCommand != null)
                     (commandList[i] as DebugCommand).Invoke();
-                else if (commandList[i] as DebugCommand<string, int> != null)
-                    (commandList[i] as DebugCommand<string, int>).Invoke(properties[1], int.Parse(properties[2]));
+                else if (commandList[i] as DebugCommand<(string,int)> != null)
+                    (commandList[i] as DebugCommand<(string, int)>).Invoke((properties[1], int.Parse(properties[2])));
             }
         }
     }
@@ -124,4 +150,11 @@ public class ChatSystem : MonoBehaviour
 
         _newMsg = false;
     }
+}
+
+public static class CommandsList
+{
+    public static string Give = "Give";
+    public static string Coins = "Coins";
+    public static string Help = "Help";
 }

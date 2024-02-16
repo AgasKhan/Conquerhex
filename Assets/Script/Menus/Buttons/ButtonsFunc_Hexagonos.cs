@@ -28,8 +28,6 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
             {"Restart", Restart},
             {"ShowControls", ShowControls},
             {"BackMenu", BackMenu},
-
-
         });
     }
 

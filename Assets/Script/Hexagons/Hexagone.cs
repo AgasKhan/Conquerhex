@@ -198,7 +198,7 @@ public class Hexagone : MonoBehaviour
 
         foreach (var component in components)
         {
-            component.transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), component.transform.position.z, 2) + (original.position - transform.position).Vect3_Z(0);
+            component.transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), component.transform.position.z, 2) + (original.position - transform.position).Vect3Copy_Z(0);
 
             if (setParent)
                 component.transform.SetParent(ladosArray[i].transform, true);

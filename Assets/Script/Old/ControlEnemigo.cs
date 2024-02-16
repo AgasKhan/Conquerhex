@@ -113,7 +113,7 @@ public class ControlEnemigo : MonoBehaviour
 
             Debug.DrawRay(pos.Vect3_Z(5), apuntar.normalized*deteccion, Color.gray);
 
-            Debug.DrawRay(fuego.position.Vect3_Z(5), arma.normalized * deteccion, Color.gray);
+            Debug.DrawRay(fuego.position.Vect3Copy_Z(5), arma.normalized * deteccion, Color.gray);
 
             if (apuntado.collider!= null)
             {

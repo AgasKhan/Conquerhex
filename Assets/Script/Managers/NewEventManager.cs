@@ -29,6 +29,11 @@ public class NewEventManager : ScriptableObject
         _events[nameOfEvent].delegato?.DynamicInvoke();
     }
 
+    public void Trigger<T>(string nameOfEvent, T param)
+    {
+        _events[nameOfEvent].delegato?.DynamicInvoke(param);
+    }
+
     public void MyOnDestroy()
     {
         for (int i = 0; i < _events.Count; i++)

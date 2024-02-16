@@ -20,29 +20,71 @@ MonoBehaviour:
     renderPassEvent: 550
     materialBlitter: {fileID: 2100000, guid: cf096d8b32535d346aa55ab3faa52d55, type: 2}
     pass: -1
+    materialCombined: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
+    width: 1920
+    height: 1080
     cameraToRender:
       pictionaries:
-      - key: Camera 4
+      - key: _Camera0
         value:
-          target: {fileID: 8400000, guid: 8f2f2b93440d59b4188bf78454464599, type: 2}
-      - key: Camera 0
+          name: _Camera0
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+      - key: _Camera1
         value:
-          target: {fileID: 8400000, guid: c48ddca49735aa64fb3013ad62af3c3e, type: 2}
-      - key: Camera 1
+          name: _Camera1
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+      - key: _Camera2
         value:
-          target: {fileID: 8400000, guid: 524b857439665324bbd5dad123f37662, type: 2}
-      - key: Camera 2
+          name: _Camera2
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+      - key: _Camera3
         value:
-          target: {fileID: 8400000, guid: f1ed9f8320da16944be546d180e0279d, type: 2}
-      - key: Camera 3
+          name: _Camera3
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+      - key: _Camera4
         value:
-          target: {fileID: 8400000, guid: 1b2de7f56e30c564294ffb94e86b2d20, type: 2}
-      - key: Camera 5
+          name: _Camera4
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+      - key: _MainCamera
         value:
-          target: {fileID: 8400000, guid: b1192e241e2940645887aa632c88fc2c, type: 2}
-      - key: Main Camera
+          name: _MainCamera
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+      - key: _Camera5
         value:
-          target: {fileID: 8400000, guid: c213545ca63bc6f489cece9cde888897, type: 2}
+          name: _Camera5
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+      - key: _Camera Stack
+        value:
+          name: _Camera Stack
+          target: {fileID: 0}
+          copyTarget: {fileID: 0}
+--- !u!114 &-3850841579667572443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbff09b8b5a58cc45b8a20c5444c54ce, type: 3}
+  m_Name: RenderToMainCamera
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  injectionPoint: 550
+  fetchColorBuffer: 0
+  requirements: 0
+  passMaterial: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &-700575921547012491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,10 +100,8 @@ MonoBehaviour:
   m_Active: 1
   _timing: 1
   _grabbedTextureName: _GrabbedTexture
-  _grabbedTexture: {fileID: 0}
   _shaderLightModes:
   - Universal2DA
-  _shaders: []
   _sortingCriteria: -1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -82,7 +122,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -700575921547012491}
   - {fileID: -4559962870005143157}
-  m_RendererFeatureMap: 7596ff41e90d47f68b695ff0edc1b7c0
+  - {fileID: -3850841579667572443}
+  m_RendererFeatureMap: 7596ff41e90d47f68b695ff0edc1b7c025399c65fc0f8fca
   m_UseNativeRenderPass: 1
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -120,8 +161,8 @@ MonoBehaviour:
     failOperation: 3
     zFailOperation: 3
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 0
-  m_DepthPrimingMode: 1
+  m_RenderingMode: 2
+  m_DepthPrimingMode: 2
   m_CopyDepthMode: 1
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
