@@ -36,11 +36,14 @@ public class NewEventManager : ScriptableObject
 
     public void MyOnDestroy()
     {
+        /*
         for (int i = 0; i < _events.Count; i++)
         {
             if (_events[i] != null)
                 _events[i].delegato = null;
         }
+        */
+        _events.Clear();
     }
 }
 
