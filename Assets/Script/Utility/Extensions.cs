@@ -41,11 +41,11 @@ public static class Extensions
     /// </summary>
     /// <param name="v">Vector que modifica</param>
     /// <returns></returns>
-    static public Vector3 Vect3_X(ref this Vector3 v, float x)
+    static public ref Vector3 Vect3_X(ref this Vector3 v, float x)
     {
         v.x = x;
 
-        return v;
+        return ref v;
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public static class Extensions
     /// </summary>
     /// <param name="v">Vector que modifica</param>
     /// <returns></returns>
-    static public Vector3 Vect3_Y(ref this Vector3 v, float y)
+    static public ref Vector3 Vect3_Y(ref this Vector3 v, float y)
     {
         v.y = y;
 
-        return v;
+        return ref v;
     }
 
     /// <summary>
@@ -90,11 +90,11 @@ public static class Extensions
     /// </summary>
     /// <param name="v">Vector que modifica</param>
     /// <returns></returns>
-    static public Vector3 Vect3_Z(ref this Vector3 v, float z)
+    static public ref Vector3 Vect3_Z(ref this Vector3 v, float z)
     {
         v.z = z;
 
-        return v;
+        return ref v;
     }
 
     /// <summary>
@@ -115,13 +115,13 @@ public static class Extensions
     /// </summary>
     /// <param name="vector"></param>
     /// <returns>retorna el propio vector</returns>
-    static public Vector3 SetZero(ref this Vector3 vector)
+    static public ref Vector3 SetZero(ref this Vector3 vector)
     {
         vector.x = 0;
         vector.y = 0;
         vector.z = 0;
 
-        return vector;
+        return ref vector;
     }
 
 
@@ -152,12 +152,12 @@ public static class Extensions
     /// </summary>
     /// <param name="vector"></param>
     /// <returns>retorna el propio vector</returns>
-    static public Vector2 SetZero(ref this Vector2 vector)
+    static public ref Vector2 SetZero(ref this Vector2 vector)
     {
         vector.x = 0;
         vector.y = 0;
 
-        return vector;
+        return ref vector;
     }
 
 
