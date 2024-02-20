@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ComponentsAndContainers;
 
-public class AudioEntity : AudioManager
+public class AudioEntityComponent : AudioManager, IComponent<Entity>
 {
     // Start is called before the first frame update
 
@@ -16,9 +17,19 @@ public class AudioEntity : AudioManager
     [SerializeField]
     string teleportAudio = "TeleportAudio";
 
-    void Start()
+    public Entity container {get; private set;}
+
+    public T GetInContainer<T>() where T : IComponent<Entity> => container.GetInContainer<T>();
+
+    public void RemoveInContainer<T>() where T : IComponent<Entity> => container.RemoveInContainer<T>();
+
+    public void AddInContainer<T>(T component) where T : IComponent<Entity> => container.AddInContainer(component);
+
+    public bool TryGetInContainer<T>(out T component) where T : IComponent<Entity> => container.TryGetInContainer(out component);
+
+    public void OnEnterState(Entity entity)
     {
-        var entity = GetComponent<Entity>();
+        container = entity;
 
         if (audios.ContainsKey(damagedLifeAudio))
         {
@@ -29,13 +40,21 @@ public class AudioEntity : AudioManager
             entity.health.regenUpdate += Health_regenUpdate;
         }
 
-        if(entity is DynamicEntity)
+        if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
         {
-            var aux = (DynamicEntity)entity;
-
-            if(audios.ContainsKey(teleportAudio))
-                aux.move.onTeleport += TeleportAudio;
+            if (audios.ContainsKey(teleportAudio))
+                move.move.onTeleport += TeleportAudio;
         }
+    }
+
+    public void OnExitState(Entity param)
+    {
+        container = null;
+    }
+
+    public void OnStayState(Entity param)
+    {
+        throw new System.NotImplementedException();
     }
 
     private void Health_regenUpdate(IGetPercentage percentage, float number)
@@ -64,4 +83,6 @@ public class AudioEntity : AudioManager
         if (obj < 0)
             Play(damagedRegenAudio);
     }
+
+    
 }

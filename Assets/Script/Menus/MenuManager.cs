@@ -142,7 +142,7 @@ public class ManagerSubMenus : Init
     /// El primer parametro debe de ser el transform que contenga los submenus
     /// </summary>
     /// <param name="param"></param>
-    public void Init(params object[] param)
+    public void Init()
     {
         if (reference == null)
             return;

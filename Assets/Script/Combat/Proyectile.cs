@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Proyectile : DynamicEntity
+public class Proyectile : MoveEntityComponent
 {
     public System.Action<Collision2D> actions;
 
@@ -19,15 +19,16 @@ public class Proyectile : DynamicEntity
     Detect<Entity> detect;
 
 
-    protected override Damage[] vulnerabilities => null;
+    //protected override Damage[] vulnerabilities => null;
 
+    /*
     protected override void Config()
     {
         base.Config();
         MyAwakes += MyAwake;
         MyUpdates += Proyectile_MyUpdates;
     }
-
+    */
     void MyAwake()
     {
         off = TimersManager.Create(10, () => gameObject.SetActive(false)).Stop();
@@ -41,6 +42,7 @@ public class Proyectile : DynamicEntity
 
     private void Proyectile_MyUpdates()
     {
+        /*
         var affected = detect.Area(collision.position, (entity) => entity.team != team);
         if(affected.Count>0)
         {
@@ -49,13 +51,13 @@ public class Proyectile : DynamicEntity
             gameObject.SetActive(false);
             off.Reset();
             off.Stop();
-        }
+        }*/
     }
 
     public virtual void Throw(Entity owner ,Damage[] dmg, Vector3 dir)
     {
         gameObject.SetActive(true);
-        team = owner.team;
+        //team = owner.team;
         damages = dmg;
         move.Velocity(dir.normalized * move.objectiveVelocity);
         off.Start();

@@ -23,7 +23,7 @@ public class IABoid : IAFather
     {
         base.OnEnterState(param);
 
-        move = param.move;
+        move = param.move.move;
 
         BoidsManager.list.Add(this);
 

@@ -13,7 +13,7 @@ public class ReSpawner : Spawner
         autoDestroy = false;
     }
 
-    public override void Init(params object[] param)
+    public override void Init()
     {
         base.Init();
 

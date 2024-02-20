@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class FSMWork : FSMSerialize<FSMWork, StaticEntity>
+public class FSMWork : FSMSerialize<FSMWork, InventoryEntityComponent>
 {
     public IState<FSMWork> voiid = new WorkEntiyNull();
 
@@ -21,7 +21,7 @@ public class FSMWork : FSMSerialize<FSMWork, StaticEntity>
         CurrentState = voiid;
     }
 
-    public override void Init(StaticEntity reference)
+    public override void Init(InventoryEntityComponent reference)
     {
         base.Init(reference);
         Init(voiid);

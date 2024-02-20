@@ -99,7 +99,7 @@ public class BoidAttack : IState<FSMBoid>
 
     public BoidAttack(Character character)
     {
-        automaticAttack = new AutomaticAttack(character, 0);
+        automaticAttack = new AutomaticAttack(character.attack, 0);
     }
 
     //ataque
@@ -123,7 +123,7 @@ public class BoidAttack : IState<FSMBoid>
         {
             var aux = param.context.transform.position - param.context.lider.transform.position;
 
-            param.context.character.move.Acelerator( aux.Vect3To2().normalized, 1f / aux.Vect3To2().magnitude); 
+            param.context.character.move.move.Acelerator( aux.Vect3To2().normalized, 1f / aux.Vect3To2().magnitude); 
 
             if (param.context.lider.health.actualLife < param.context.lider.health.maxLife / 2)
             {

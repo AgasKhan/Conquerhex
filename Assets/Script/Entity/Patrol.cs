@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Patrol : Init
+public class Patrol
 {
 
     /// <summary>
@@ -201,10 +201,8 @@ public class Patrol : Init
     /// Init que se debera ejecutar para el correcto funcionamiento de la patrulla
     /// </summary>
     /// <param name="param">El primer parametro debe de ser el MonoBehaviour que lo crea</param>
-    public void Init(params object[] param)
+    public void Init(MonoBehaviour _mono)
     {
-        _mono = param[0] as MonoBehaviour;
-
         if(fsmPatrol==null)
             fsmPatrol = new FSMPatrol(this);
 

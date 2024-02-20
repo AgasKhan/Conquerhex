@@ -112,7 +112,7 @@ public class StaminaSystem : MonoBehaviour
 
     void UpdateUI()
     {
-        character.AddOrSubstractItems("PortalFuel", currentStamina);
+        character.inventory.AddOrSubstractItems("PortalFuel", currentStamina);
     }
 
     void Save()

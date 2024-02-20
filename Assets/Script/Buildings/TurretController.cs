@@ -90,11 +90,11 @@ public class TurretSubMenu : CreateSubMenu
     EventsCall lastButton;
     DetailsWindow myDetailsW;
 
-    public override void Init(params object[] param)
+    public void Init(TurretBuild turret)
     {
-        base.Init(param);
+        base.Init();
 
-        turretBuilding = param[0] as TurretBuild;
+        turretBuilding = turret;
     }
 
     public override void Create()
@@ -163,7 +163,7 @@ public class TurretSubMenu : CreateSubMenu
     void ButtonAction(ItemBase item, UnityEngine.Events.UnityAction action)
     {
         DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character.inventory) + "\n");
 
         lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir", action, "");
     }
@@ -176,9 +176,9 @@ public class TurretSubMenu : CreateSubMenu
 
     void ImproveDamage(StructureBase item, Recipes requirement)
     {
-        if (requirement.CanCraft(turretBuilding.character))
+        if (requirement.CanCraft(turretBuilding.character.inventory))
         {
-            requirement.Craft(turretBuilding.character);
+            requirement.Craft(turretBuilding.character.inventory);
             turretBuilding.ChangeStructure(item);
             turretBuilding.UpgradeLevel();
             subMenu.SetActiveGameObject(false);
@@ -189,9 +189,9 @@ public class TurretSubMenu : CreateSubMenu
 
     bool AddAbility(int index, Recipes requirement)
     {
-        if (requirement.CanCraft(turretBuilding.character))
+        if (requirement.CanCraft(turretBuilding.character.inventory))
         {
-            requirement.Craft(turretBuilding.character);
+            requirement.Craft(turretBuilding.character.inventory);
 
             turretBuilding.SetKataCombo(index);
 

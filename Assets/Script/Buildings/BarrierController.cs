@@ -26,9 +26,9 @@ public class BarrierController : BuildingsController
             return;
         }
 
-        if (barrier.upgradesRequirements[barrier.currentLevel].CanCraft(barrier.character))
+        if (barrier.upgradesRequirements[barrier.currentLevel].CanCraft(barrier.character.inventory))
         {
-            barrier.upgradesRequirements[barrier.currentLevel].Craft(barrier.character);
+            barrier.upgradesRequirements[barrier.currentLevel].Craft(barrier.character.inventory);
             barrier.UpgradeLevel();
             MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().SetActiveGameObject(false);
         }

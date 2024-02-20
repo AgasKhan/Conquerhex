@@ -50,7 +50,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     }
     void AddToEvents()
     {
-        player.move.onTeleport += TeleportEvent;
+        player.move.move.onTeleport += TeleportEvent;
 
         playerIA = player.CurrentState;
 
@@ -143,7 +143,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             if (nieve && desierto)
             {
                 EnableButton();
-                player.move.onTeleport -= TeleportEvent;
+                player.move.move.onTeleport -= TeleportEvent;
             }
         }
 

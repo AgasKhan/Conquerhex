@@ -14,26 +14,10 @@ public class AutoMinerBuild : Building
 
     public override string rewardNextLevel => throw new System.NotImplementedException();
 
-    protected override void Config()
-    {
-        base.Config();
-
-        MyAwakes += MyAwake;
-    }
-    void MyAwake()
-    {
-        
-    }
-
-    void Internal()
-    {
-
-    }
-
 
     public void GenerateItems()
     {
-        AddOrSubstractItems(generatedItems.RandomPic().nameDisplay, 1);
+        //AddOrSubstractItems(generatedItems.RandomPic().nameDisplay, 1);
     }
     public override void UpgradeLevel()
     {

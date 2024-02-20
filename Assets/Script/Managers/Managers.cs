@@ -125,5 +125,5 @@ public class ManagerAddRemove<T>
 
 public interface Init
 {
-    void Init(params object[] param);
+    void Init();
 }

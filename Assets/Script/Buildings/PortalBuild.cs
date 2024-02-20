@@ -8,12 +8,15 @@ public class PortalBuild : Building
     public Pictionarys<ShowDetails, Recipes> travelRequire = new Pictionarys<ShowDetails, Recipes>();
     public  override string rewardNextLevel => throw new System.NotImplementedException();
     PortalSubMenu myPortalSubMenu;
+
+    /*
     protected override void Config()
     {
         base.Config();
 
         MyAwakes += MyAwake;
     }
+    */
     void MyAwake()
     {
         myPortalSubMenu = new PortalSubMenu(this);
@@ -64,7 +67,7 @@ public class PortalSubMenu : CreateSubMenu
     void ButtonAct(ShowDetails item, Recipes requirement)
     {
         DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString() + "Costo del viaje: \n" + requirement.GetRequiresString(portalBuilding.character));
+        myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString() + "Costo del viaje: \n" + requirement.GetRequiresString(portalBuilding.character.inventory));
         myDetailsW.SetImage(item.image);
         lastButton = subMenu.AddComponent<EventsCall>().Set("Viajar", () => { Travel(item, requirement); }, "");
     }
@@ -76,9 +79,9 @@ public class PortalSubMenu : CreateSubMenu
 
     void Travel(ShowDetails item, Recipes requirement)
     {
-        if(requirement.CanCraft(portalBuilding.character))
+        if(requirement.CanCraft(portalBuilding.character.inventory))
         {
-            requirement.Craft(portalBuilding.character);
+            requirement.Craft(portalBuilding.character.inventory);
             LoadSystem.instance.LoadAndSavePlayer(item.nameDisplay, true);
         }
         else

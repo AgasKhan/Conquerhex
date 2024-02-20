@@ -52,7 +52,7 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 
     void Equip(Character chr, int item)
     {
-        chr.actualKata.equiped?.ChangeWeapon(item);
+        chr.attack.actualKata.equiped?.ChangeWeapon(item);
     }
 
     #endregion
@@ -92,7 +92,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
         return entitiesDamaged.ToArray();
     }
 
-    public override void Init(params object[] param)
+    public override void Init()
     {
         if (itemBase == null)
             return;

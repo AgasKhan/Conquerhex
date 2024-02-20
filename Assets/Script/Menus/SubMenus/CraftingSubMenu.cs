@@ -100,9 +100,9 @@ public class CraftingSubMenu : CreateSubMenu
             return false;
         }
 
-        if (recipe.CanCraft(buildingBase.character))
+        if (recipe.CanCraft(buildingBase.character.inventory))
         {
-            recipe.Craft(buildingBase.character);
+            recipe.Craft(buildingBase.character.inventory);
             RefreshDetailW(recipe);
             return true;
         }
@@ -113,7 +113,7 @@ public class CraftingSubMenu : CreateSubMenu
 
     void RefreshDetailW(Recipes item)
     {
-        ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(buildingBase.character), item.result.Item.image);
+        ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(buildingBase.character.inventory), item.result.Item.image);
 
         lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
         {
@@ -123,7 +123,7 @@ public class CraftingSubMenu : CreateSubMenu
 
         }, "");
 
-        lastButtonCraft.button.interactable = item.CanCraft(buildingBase.character);
+        lastButtonCraft.button.interactable = item.CanCraft(buildingBase.character.inventory);
     }
 
     void ButtonAction(Recipes item)

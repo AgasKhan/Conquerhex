@@ -2,8 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : DynamicEntity, ISwitchState<Character>
+public class Character : Entity, ISwitchState<Character>
 {
+    public InventoryEntityComponent inventory;
+    public AttackEntityComponent attack;
+    public MoveEntityComponent move;
+
+
+
     IState<Character> _ia;
 
     public IState<Character> CurrentState
@@ -26,9 +32,6 @@ public class Character : DynamicEntity, ISwitchState<Character>
         }
     }
 
-    public override float weightCapacity => ((BodyBase)flyweight).weightCapacity;
-
-
     protected override void Config()
     {
         base.Config();
@@ -48,6 +51,10 @@ public class Character : DynamicEntity, ISwitchState<Character>
             _ia.OnEnterState(this);
             MyUpdates += IAUpdate;
         }
+
+        move = GetInContainer<MoveEntityComponent>();
+        attack = GetInContainer<AttackEntityComponent>();
+        inventory = GetInContainer<InventoryEntityComponent>();
     }
 
     void IAUpdate()

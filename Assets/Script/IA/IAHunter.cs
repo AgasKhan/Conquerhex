@@ -30,7 +30,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
     {
         get
         {
-            return _character.move;
+            return _character.move.move;
         }
     }
 
@@ -61,7 +61,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
-        attk = new AutomaticAttack(param, 0);
+        attk = new AutomaticAttack(param.attack, 0);
     }
 
     public override void OnStayState(Character param)
@@ -89,7 +89,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
         return patrol;
     }
 
-    public void Init(params object[] param)
+    public void Init()
     {
         patrol.Init(this);
     }

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ComponentsAndContainers;
 
-public class AnimatorController : MonoBehaviour
+public class AnimatorController : ComponentOfContainer<Entity>
 {
     [SerializeField]
     Animator animator;
@@ -15,22 +16,6 @@ public class AnimatorController : MonoBehaviour
 
     [SerializeField]
     string deathNameAnim = "Death";
-
-    void Awake()
-    {
-        var ia = GetComponent<Character>();
-
-        animator = GetComponentInChildren<Animator>();
-
-        ia.onAttack += Ia_onAttack;
-
-        ia.move.onIdle += Ia_onIdle;
-
-        ia.move.onMove += Ia_onMove;
-
-        ia.health.death += Ia_onDeath;
-    }
-
 
     private void Ia_onMove(Vector2 obj)
     {
@@ -49,5 +34,30 @@ public class AnimatorController : MonoBehaviour
     private void Ia_onDeath()
     {
         animator.SetTrigger(deathNameAnim);
+    }
+
+    public override void OnEnterState(Entity param)
+    {
+        container = param;
+
+        animator = GetComponentInChildren<Animator>();
+
+        container.GetInContainer<AttackEntityComponent>().onAttack += Ia_onAttack;
+
+        container.GetInContainer<MoveEntityComponent>().move.onIdle += Ia_onIdle;
+
+        container.GetInContainer<MoveEntityComponent>().move.onMove += Ia_onMove;
+
+        container.health.death += Ia_onDeath;
+    }
+
+    public override void OnStayState(Entity param)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnExitState(Entity param)
+    {
+        throw new System.NotImplementedException();
     }
 }

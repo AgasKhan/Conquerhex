@@ -287,7 +287,7 @@ public class Lenguages : Init
         SaveWithJSON.SaveInPictionary("Lenguage", lenguage);
     }
 
-    public void Init(params object[] param)
+    public void Init()
     {
         instance = this;
 

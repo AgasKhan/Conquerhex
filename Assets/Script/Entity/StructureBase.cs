@@ -48,7 +48,7 @@ public class StructureBase : ItemBase
 
 public class StructureDiagram : Item<StructureBase>
 {
-    public override void Init(params object[] param)
+    public override void Init()
     {
 
     }

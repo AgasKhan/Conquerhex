@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public abstract class StaticEntity : Entity //, IItemContainer
+using ComponentsAndContainers;
+public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemContainer
 {
-    public Pictionarys<string,LogicActive> interact; //funciones de un uso para la interaccion
+    //public Pictionarys<string,LogicActive> interact; //funciones de un uso para la interaccion
 
     [SerializeReference]
     public List<Item> inventory = new List<Item>();
@@ -17,12 +17,27 @@ public abstract class StaticEntity : Entity //, IItemContainer
 
     public List<Timer> travelItem = new List<Timer>();
 
+    public override void OnEnterState(Entity param)
+    {
+        container = param;
+    }
+
+    public override void OnStayState(Entity param)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnExitState(Entity param)
+    {
+        container = null;
+    }
+
     public bool Contains(Item item)
     {
         return inventory.Contains(item);
     }
 
-    public virtual void AddAllItems(StaticEntity entity)
+    public virtual void AddAllItems(InventoryEntityComponent entity)
     {
         AddAllItems(entity.inventory);
         entity.inventory.Clear();
@@ -122,5 +137,37 @@ public abstract class StaticEntity : Entity //, IItemContainer
             AddOrCreate(itemBase, amount);
         }
     }
+}
 
+[System.Serializable]
+public class EquipedItem<T> where T : Item
+{
+    [System.NonSerialized]
+    public InventoryEntityComponent inventoryComponent;
+
+    public event System.Action<int, T> toChange;
+
+    public T equiped
+    {
+        get
+        {
+            if (indexEquipedItem < 0 || inventoryComponent == null || indexEquipedItem >= inventoryComponent.inventory.Count || !(inventoryComponent.inventory[indexEquipedItem] is T))
+                return default;
+            else
+                return (T)inventoryComponent.inventory[indexEquipedItem];
+        }
+    }
+
+    [SerializeField]
+    int _indexEquipedItem = -1;
+
+    public int indexEquipedItem
+    {
+        get => _indexEquipedItem;
+        set
+        {
+            _indexEquipedItem = value;
+            toChange?.Invoke(_indexEquipedItem, equiped);
+        }
+    }
 }

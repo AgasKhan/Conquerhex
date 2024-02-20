@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GachaBuild : Building
 {
+    /*
     public Pictionarys<ItemBase, GachaRarity> gachaRewards = new Pictionarys<ItemBase, GachaRarity>();
     public int maxTriesSS = 50;
     public Recipes gachaCost;
@@ -135,7 +136,7 @@ public class GachaBuild : Building
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("¡Felicidades!", "Has obtenido: " + lastReward.nameDisplay.RichText("color", "#ffff00ff") + ". Este item tiene una probalidad de salir del " + (float)gachaRewards[lastReward]/10f + " %")
             .AddButton("Aceptar", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false); RefreshRewards(); });
     }
-
+*/
 }
 
 public enum GachaRarity

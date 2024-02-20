@@ -9,9 +9,8 @@ public class PressWeaponKata : WeaponKata
 {
     public Timer pressCooldown;
 
-    public override void Init(params object[] param)
+    public override void Init()
     {
-        base.Init(param);
         if (weapon != null)
             pressCooldown = TimersManager.Create(finalVelocity*1.5f);
     }
@@ -149,10 +148,8 @@ public class DashUpWeaponKata : UpWeaponKata
 
         cooldown.Reset();
 
-        if (affected != null && affected.Length!=0 && caster is DynamicEntity)
+        if (affected != null && affected.Length!=0 && caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            var aux = caster as DynamicEntity;
-
             aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * itemBase.velocityCharge);
         }
 
@@ -169,7 +166,7 @@ public class ChargeAffectedUpWeaponKata : UpWeaponKata
 {
     protected override Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
     {
-        return itemBase.Detect(caster, dir ,(int)Mathf.Clamp(timePressed * itemBase.velocityCharge, 1, itemBase.detect.maxDetects), finalRange);
+        return itemBase.Detect(caster.container, dir ,(int)Mathf.Clamp(timePressed * itemBase.velocityCharge, 1, itemBase.detect.maxDetects), finalRange);
     }
 }
 

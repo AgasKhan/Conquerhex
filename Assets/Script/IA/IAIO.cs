@@ -47,7 +47,7 @@ public class IAIO : IAFather
 
         param.gameObject.tag = "Player";
 
-        param.move.onTeleport += TeleportEvent;
+        param.move.move.onTeleport += TeleportEvent;
 
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
@@ -59,7 +59,7 @@ public class IAIO : IAFather
         sec.Init();
         ter.Init();
 
-        VirtualControllers.movement.SuscribeController(param.move);
+        VirtualControllers.movement.SuscribeController(param.move.move);
 
         VirtualControllers.principal.SuscribeController(prin);
 
@@ -71,7 +71,7 @@ public class IAIO : IAFather
 
     public override void OnExitState(Character param)
     {
-        param.move.onTeleport -= TeleportEvent;
+        param.move.move.onTeleport -= TeleportEvent;
 
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;
@@ -79,7 +79,7 @@ public class IAIO : IAFather
         param.health.helthUpdate -= Health_helthUpdate;
 
 
-        VirtualControllers.movement.DesuscribeController(param.move);
+        VirtualControllers.movement.DesuscribeController(param.move.move);
 
         VirtualControllers.principal.DesuscribeController(prin);
 
@@ -180,7 +180,7 @@ public class ControllerIAIO : IControllerDir, Init
 
     WeaponKata previusControllerDir;
 
-    Character character;
+    AttackEntityComponent character;
 
     int index;
 
@@ -243,9 +243,9 @@ public class ControllerIAIO : IControllerDir, Init
         }
     }
 
-    public void Init(params object[] param)
+    public void Init()
     {
-        character = GameManager.instance.playerCharacter;
+        character = GameManager.instance.playerCharacter.GetInContainer<AttackEntityComponent>();
 
         kata.toChange += SetJoystick;
 

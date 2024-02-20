@@ -35,7 +35,7 @@ public class Spawner : MonoBehaviour, Init
         Init();
     }
 
-    public virtual void Init(params object[] param)
+    public virtual void Init()
     {
         if (autoDestroy)
             Destroy(gameObject);
