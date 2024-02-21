@@ -41,11 +41,12 @@ public class BarrierController : BuildingsController
         barrier.ChangeStructure(barrier.myStructure.damagesUpgrades[0]);
         barrier.ResetLife();
         barrier.currentLevel++;
-
+        /*
         foreach (var item in barrier.interact)
         {
             if (item.key == "Construir")
                 item.key = "Nivel Máximo";
         }
+        */
     }
 }

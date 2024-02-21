@@ -29,11 +29,11 @@ public class TurretController : BuildingsController
 
     private void MyAwake()
     {
-        SetAttack(prin = new AutomaticAttack(turret, 0));
+        SetAttack(prin = new AutomaticAttack(turret.attack, 0));
 
-        SetAttack(sec = new AutomaticAttack(turret, 1));
+        SetAttack(sec = new AutomaticAttack(turret.attack, 1));
 
-        SetAttack(ter = new AutomaticAttack(turret, 2));
+        SetAttack(ter = new AutomaticAttack(turret.attack, 2));
 
         turret.health.noLife += DestroyTurret;
     }
@@ -115,7 +115,7 @@ public class TurretSubMenu : CreateSubMenu
 
         subMenu.CreateSection(2, 6);
         subMenu.CreateChildrenSection<ScrollRect>();
-        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("Elige una habilidad", "\nSelecciona una habilidad de la izquierda para ver más detalles de la misma, luego elige una, pero hazlo con cuidado no olvides que " + "sólo puedes escoger una mejora y será permanente\n\n".RichText("color", "#ff0000ff") + "Costo:\n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("Elige una habilidad", "\nSelecciona una habilidad de la izquierda para ver más detalles de la misma, luego elige una, pero hazlo con cuidado no olvides que " + "sólo puedes escoger una mejora y será permanente\n\n".RichText("color", "#ff0000ff") + "Costo:\n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.invent) + "\n");
 
         subMenu.CreateTitle("Torreta");
     }
@@ -150,11 +150,13 @@ public class TurretSubMenu : CreateSubMenu
 
     void TurretMaxLevel()
     {
+        /*
         foreach (var item in turretBuilding.interact)
         {
             if (item.key == "Mejorar")
                 item.key = "Nivel Máximo";
         }
+        */
         turretBuilding.ChangeSprite(turretBuilding.myStructure.possibleAbilities[turretBuilding.originalAbility][1]);
     }
 
@@ -194,12 +196,13 @@ public class TurretSubMenu : CreateSubMenu
             requirement.Craft(turretBuilding.character.inventory);
 
             turretBuilding.SetKataCombo(index);
-
+            /*
             foreach (var item in turretBuilding.interact)
             {
                 if (item.key == "Construir")
                     item.key = "Mejorar";
             }
+            */
             turretBuilding.UpgradeLevel();
             subMenu.SetActiveGameObject(false);
             

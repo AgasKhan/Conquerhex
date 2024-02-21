@@ -53,10 +53,10 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.move.move.onTeleport += TeleportEvent;
 
         playerIA = player.CurrentState;
-
+        /* -----------------
         if(dummy != null)
             dummy.onTakeDamage += AttackDummyEvent;
-
+        */
         var title = Interfaz.SearchTitle("Titulo");
         var titleSec = Interfaz.SearchTitle("Titulo secundario");
 
@@ -111,7 +111,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             if(attacksCounter >= 3)
             {
                 EnableButton();
-                dummy.onTakeDamage -= AttackDummyEvent;
+                //-----------------dummy.onTakeDamage -= AttackDummyEvent;
             }
         }
     }

@@ -56,7 +56,7 @@ public class CraftingBuildController : BuildingsController
 
         if (craftBuild.currentLevel == 1)
         {
-            craftBuild.interact.Add("Craftear", GetComponent<EnterBuilding>());
+            //craftBuild.interact.Add("Craftear", GetComponent<EnterBuilding>());
         }
 
         SaveWithJSON.SaveInPictionary(craftBuild.flyweight.nameDisplay + "Recipes", craftBuild.currentRecipes);

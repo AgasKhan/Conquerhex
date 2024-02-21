@@ -5,6 +5,7 @@ using System;
 
 public class StaminaSystem : MonoBehaviour
 {
+
     [SerializeField] Character character;
 
     [SerializeField] int maxStamina = 10;
@@ -19,6 +20,7 @@ public class StaminaSystem : MonoBehaviour
 
     private void Start()
     {
+        /*
         if (PlayerPrefs.HasKey("currentStamina"))
         {
             Load();
@@ -30,7 +32,7 @@ public class StaminaSystem : MonoBehaviour
         }
 
         UpdateUI();
-
+        */
         /*
         StartCoroutine(UpdateStamina());
 
