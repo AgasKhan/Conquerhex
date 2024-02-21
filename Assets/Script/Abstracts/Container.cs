@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace ComponentsAndContainers
 {
@@ -9,7 +10,9 @@ namespace ComponentsAndContainers
     {
         public ChildContainer container => (ChildContainer)this; //el hijo
 
-        Dictionary<System.Type, IComponent<ChildContainer>> _container = new Dictionary<System.Type, IComponent<ChildContainer>>();
+        SuperDickLite<IComponent<ChildContainer>> _container = new SuperDickLite<IComponent<ChildContainer>>();
+
+        //Dictionary<System.Type, IComponent<ChildContainer>> _container = new Dictionary<System.Type, IComponent<ChildContainer>>();
 
         public bool TryGetInContainer<T>(out T component) where T : IComponent<ChildContainer>
         {
@@ -27,16 +30,22 @@ namespace ComponentsAndContainers
 
         public void RemoveInContainer<T>() where T : IComponent<ChildContainer>
         {
-            var component = GetInContainer<T>();
+            _container[typeof(T)].OnExitState(container);
 
-            _container.Remove(component.GetType());
+            _container[typeof(T)] = null;
 
-            component.OnExitState(container);
+            //var component = GetInContainer<T>();
+
+            //_container.Remove(component.GetType());
+
+            //component.OnExitState(container);
         }
 
         public void AddInContainer<T>(T component) where T : IComponent<ChildContainer>
         {
-            _container.Add(component.GetType(), component);
+            _container[component.GetType()] = component;
+
+            //_container.Add(component.GetType(), component);
 
             component.OnEnterState(container);
         }
@@ -51,7 +60,11 @@ namespace ComponentsAndContainers
         {
             foreach (var component in GetComponents<IComponent<ChildContainer>>())
             {
-                _container.Add(component.GetType(), component);
+                _container[component.GetType()] = component;
+
+                //Debug.Log(component.name);
+
+                //_container.Add(component.GetType(), component);
             }
         }
 
@@ -59,7 +72,7 @@ namespace ComponentsAndContainers
         {
             foreach (var component in _container)
             {
-                component.Value.OnEnterState(container);
+                component.OnEnterState(container);
             }
         }
     }

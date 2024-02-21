@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Proyectile : MoveEntityComponent
+[RequireComponent(typeof(MoveEntityComponent))]
+public class Proyectile : Entity
 {
     public System.Action<Collision2D> actions;
 
     public Vector2Int[] objectSpawner;
+
+    public MoveAbstract move => moveComponent.move;
 
     Damage[] damages;
 
@@ -18,21 +21,27 @@ public class Proyectile : MoveEntityComponent
     [SerializeField]
     Detect<Entity> detect;
 
+    MoveEntityComponent moveComponent;  
+
 
     //protected override Damage[] vulnerabilities => null;
 
-    /*
+
     protected override void Config()
     {
         base.Config();
         MyAwakes += MyAwake;
         MyUpdates += Proyectile_MyUpdates;
     }
-    */
+    
     void MyAwake()
     {
         off = TimersManager.Create(10, () => gameObject.SetActive(false)).Stop();
-        move.onMove += Move_onMove;
+
+        //moveComponent = GetInContainer<MoveEntityComponent>();
+
+        if(TryGetInContainer(out moveComponent))
+            move.onMove += Move_onMove;
     }
 
     private void Move_onMove(Vector2 obj)
@@ -42,7 +51,7 @@ public class Proyectile : MoveEntityComponent
 
     private void Proyectile_MyUpdates()
     {
-        /*
+        
         var affected = detect.Area(collision.position, (entity) => entity.team != team);
         if(affected.Count>0)
         {
@@ -51,7 +60,7 @@ public class Proyectile : MoveEntityComponent
             gameObject.SetActive(false);
             off.Reset();
             off.Stop();
-        }*/
+        }
     }
 
     public virtual void Throw(Entity owner ,Damage[] dmg, Vector3 dir)

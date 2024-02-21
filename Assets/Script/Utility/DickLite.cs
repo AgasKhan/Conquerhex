@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class DickLite<Key, Value>
+public class DickLite<Key, Value> : IEnumerable<Value>
 {
     protected static int[] keyHashed;
 
@@ -30,7 +30,7 @@ public class DickLite<Key, Value>
     {
         value = this[key];
 
-        return value == null;
+        return value != null;
     }
 
 
@@ -47,6 +47,23 @@ public class DickLite<Key, Value>
 
         values = new Value[keyHashed.Length];
     }
+
+    public IEnumerator<Value> GetEnumerator()
+    {
+
+        foreach (var item in values)
+        {
+            if(item!=null)
+                yield return item;
+        }
+
+        //return ((IEnumerable<Value>)values).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return values.GetEnumerator();
+    }
 }
 
 public class SuperDickLite<Value> : DickLite<System.Type, Value>
@@ -55,9 +72,29 @@ public class SuperDickLite<Value> : DickLite<System.Type, Value>
     {
         if(keyHashed==null)
         {
-            var types = System.AppDomain.CurrentDomain.GetAssemblies().SelectMany((assemply) => assemply.GetTypes()).Where(type => type.IsSubclassOf(typeof(Value))).ToArray();
+            var types = System.AppDomain.CurrentDomain.GetAssemblies().SelectMany((assemply) => assemply.GetTypes()).Where(type => typeof(Value).IsAssignableFrom(type)).ToArray();
 
             SetKeys(types);
+
+            string pantalla = string.Empty;
+
+            foreach (var item in keyHashed)
+            {
+                pantalla += " " + item;
+            }
+
+            string dato;
+
+            if(typeof(Value).IsGenericType)
+            {
+                 dato = typeof(Value).Name + " con el/los generico/s: " + string.Join("-" ,typeof(Value).GetGenericArguments().Select(type => type.Name).ToArray());
+            }
+            else
+            {
+                dato = typeof(Value).Name;
+            }
+
+            Debug.Log($"Se seteo el keyHashed de {dato} con un total de keys: {keyHashed.Length}\nKeys: {pantalla}");
         }
 
         Init();

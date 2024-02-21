@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MoveEntityComponent))]
+[RequireComponent(typeof(AttackEntityComponent))]
 public class Character : Entity, ISwitchState<Character>
 {
     public InventoryEntityComponent inventory;

@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2709961027497327093}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.72, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8861877624324380594}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6025037414292224132
 GameObject:
@@ -56,13 +56,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6025037414292224132}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8861877624324380594}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2797710242671700777
 SpriteRenderer:
@@ -127,6 +127,25 @@ CapsuleCollider2D:
   m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -143,6 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8760924047543318031}
   - component: {fileID: 1003096293546598046}
+  - component: {fileID: 1707552920755828741}
   - component: {fileID: 6689107070570940280}
   - component: {fileID: 9069037276540682435}
   m_Layer: 7
@@ -159,6 +179,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6636733154270346112}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 0.04, y: 0.25, z: 1}
@@ -166,7 +187,6 @@ Transform:
   m_Children:
   - {fileID: 8861877624324380594}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1003096293546598046
 MonoBehaviour:
@@ -191,35 +211,47 @@ MonoBehaviour:
     timeToRegen:
       total: 0
       _current: 0
-  drops: []
-  audioManager: {fileID: 0}
-  interact:
-    pictionaries: []
-  inventory: []
-  currentWeight: 0
-  travelItem: []
-  _katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
+    deathBool: 0
+  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
+    type: 3}
+  <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 0}
-  weaponKataIndex: 0
-  move: {fileID: 6689107070570940280}
   objectSpawner: []
   collision: {fileID: 6640143777753811771}
   detect:
     radius: 0.02
     distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 128
-    _maxDetects: 0
-    _minDetects: 0
     inverse: 0
     dot: 1
-  references:
-    version: 2
-    RefIds: []
+    _maxDetects: 0
+    _minDetects: 0
+    contactFilter2D:
+      useTriggers: 0
+      useLayerMask: 0
+      useDepth: 0
+      useOutsideDepth: 0
+      useNormalAngle: 0
+      useOutsideNormalAngle: 0
+      layerMask:
+        serializedVersion: 2
+        m_Bits: 0
+      minDepth: 0
+      maxDepth: 0
+      minNormalAngle: 0
+      maxNormalAngle: 0
+--- !u!114 &1707552920755828741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636733154270346112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519516b00d188fe4caaae62fcec8a88b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {fileID: 6689107070570940280}
 --- !u!114 &6689107070570940280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,9 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
-  carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
     total: 100
@@ -263,6 +292,12 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -290,6 +325,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7188442674348528769}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -299,7 +335,6 @@ Transform:
   - {fileID: 9215269669866429096}
   - {fileID: 6640143777753811771}
   m_Father: {fileID: 8760924047543318031}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8142260745444871040
 GameObject:
@@ -326,13 +361,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8142260745444871040}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8861877624324380594}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &2692808566514453887
 MonoBehaviour:
@@ -367,35 +402,6 @@ MonoBehaviour:
   m_ShadowIntensity: 1
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0
-  m_Vertices:
-  - position: {x: 0.9985302, y: 0.9985302, z: 0}
-    color: {r: 0.70710677, g: 0.70710677, b: 0, a: 0}
-    uv: {x: 0, y: 0}
-  - position: {x: 0.9985302, y: 0.9985302, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0, y: 0}
-  - position: {x: -0.9985302, y: 0.9985302, z: 0}
-    color: {r: -0.70710677, g: 0.70710677, b: 0, a: 0}
-    uv: {x: 0, y: 0}
-  - position: {x: -0.9985302, y: 0.9985302, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0, y: 0}
-  - position: {x: -0.99853003, y: -0.9985304, z: 0}
-    color: {r: -0.70710665, g: -0.7071069, b: 0, a: 0}
-    uv: {x: 0, y: 0}
-  - position: {x: -0.99853003, y: -0.9985304, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0, y: 0}
-  - position: {x: 0.99853003, y: -0.9985304, z: 0}
-    color: {r: 0.70710665, g: -0.7071069, b: 0, a: 0}
-    uv: {x: 0, y: 0}
-  - position: {x: 0.99853003, y: -0.9985304, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0, y: 0}
-  - position: {x: 0, y: 0, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0, y: 0}
-  m_Triangles: 030001000800020000000100030002000100050003000800040002000300050004000300070005000800060004000500070006000500010007000800000006000700010000000700
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
@@ -415,7 +421,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.5, z: 0}
 --- !u!95 &42301505858044806
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -432,4 +438,5 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

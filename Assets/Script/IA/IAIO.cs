@@ -245,7 +245,7 @@ public class ControllerIAIO : IControllerDir, Init
 
     public void Init()
     {
-        character = GameManager.instance.playerCharacter.GetInContainer<AttackEntityComponent>();
+        character = GameManager.instance.playerCharacter.attack;
 
         kata.toChange += SetJoystick;
 

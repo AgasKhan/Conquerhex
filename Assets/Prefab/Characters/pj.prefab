@@ -11,13 +11,16 @@ GameObject:
   - component: {fileID: 6295448971589143366}
   - component: {fileID: 6295448971589143387}
   - component: {fileID: 6295448971589143385}
-  - component: {fileID: 1738593161606380355}
+  - component: {fileID: 8270764340118452384}
+  - component: {fileID: 1173053221470427992}
+  - component: {fileID: 7012064593822611016}
   - component: {fileID: -3299522973000388994}
+  - component: {fileID: 1738593161606380355}
   - component: {fileID: 6295448971589143362}
   - component: {fileID: 6295448971589143367}
   - component: {fileID: 6295448971589143364}
-  - component: {fileID: 6295448971589143363}
   - component: {fileID: 7607633304618281516}
+  - component: {fileID: 6295448971589143363}
   m_Layer: 7
   m_Name: pj
   m_TagString: Player
@@ -100,28 +103,15 @@ MonoBehaviour:
       total: 0
       _current: 0
     deathBool: 0
-  drops: []
-  audioManager: {fileID: -3299522973000388994}
   carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
     type: 3}
   <carlitos>k__BackingField: []
-  interact:
-    pictionaries: []
-  inventory: []
-  currentWeight: 0
-  travelItem: []
-  _katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
   <flyweight>k__BackingField: {fileID: 11400000, guid: e37b635edcfd6c94d9ac1a797d531f41,
     type: 2}
-  weaponKataIndex: 0
-  move: {fileID: 6295448971589143362}
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &1738593161606380355
+  inventory: {fileID: 8270764340118452384}
+  attack: {fileID: 1173053221470427992}
+  move: {fileID: 7012064593822611016}
+--- !u!114 &8270764340118452384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,13 +120,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 6295448971589143386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
+  m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3132127553594760305}
-  attackNameAnim: Attack
-  moveNameAnim: Move
-  deathNameAnim: Death
+  inventory: []
+  currentWeight: 0
+  travelItem: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &1173053221470427992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d76d5333d1e7740962892444fa7b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _katas:
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  - _indexEquipedItem: -1
+  <flyweight>k__BackingField: {fileID: 0}
+  weaponKataIndex: 0
+--- !u!114 &7012064593822611016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519516b00d188fe4caaae62fcec8a88b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {fileID: 6295448971589143362}
 --- !u!114 &-3299522973000388994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,6 +203,22 @@ MonoBehaviour:
   damagedLifeAudio: DamagedLife
   damagedRegenAudio: DamagedRegen
   teleportAudio: TeleportAudio
+--- !u!114 &1738593161606380355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3132127553594760305}
+  attackNameAnim: Attack
+  moveNameAnim: Move
+  deathNameAnim: Death
 --- !u!114 &6295448971589143362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,14 +304,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.25, y: 0.25}
   m_Direction: 0
---- !u!81 &6295448971589143363
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6295448971589143386}
-  m_Enabled: 1
 --- !u!114 &7607633304618281516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +317,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 6295448971589143385}
+--- !u!81 &6295448971589143363
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,7 +51,7 @@ public class Spawner : MonoBehaviour, Init
 
         spawneado.transform.SetParent(transform.parent);
 
-        if (spawneado.TryGetComponent(out IGetPatrol patrolReturn))
+        if (spawneado.TryGetComponent(out PatrolLibrary.IGetPatrol patrolReturn))
         {
             var patrol = patrolReturn.GetPatrol();
             patrol.patrolParent = patrolParent;

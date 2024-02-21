@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PatrolLibrary;
 
 public class IAHunter : IAFather, IGetPatrol, Init
 {
@@ -66,6 +67,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
 
     public override void OnStayState(Character param)
     {
+        base.OnStayState(param);
         fsm.UpdateState();
         patrol.fsmPatrol.UpdateState();
     }

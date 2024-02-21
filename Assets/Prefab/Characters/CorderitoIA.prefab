@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 854635496143139254, guid: 8dfd475b212703847a2e5f3525eef81d,
@@ -22,6 +23,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6470725003548605303, guid: 8dfd475b212703847a2e5f3525eef81d,
+        type: 3}
+      propertyPath: move
+      value: 
+      objectReference: {fileID: 3372423637999013521}
     - target: {fileID: 8691427261028014601, guid: 8dfd475b212703847a2e5f3525eef81d,
         type: 3}
       propertyPath: m_RootOrder
@@ -81,7 +87,7 @@ PrefabInstance:
         type: 3}
       propertyPath: move
       value: 
-      objectReference: {fileID: 3372423637999013521}
+      objectReference: {fileID: 0}
     - target: {fileID: 8691427261028014606, guid: 8dfd475b212703847a2e5f3525eef81d,
         type: 3}
       propertyPath: team
@@ -110,6 +116,21 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8691427261028014610, guid: 8dfd475b212703847a2e5f3525eef81d, type: 3}
     - {fileID: 8691427261028014609, guid: 8dfd475b212703847a2e5f3525eef81d, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8691427261028014608, guid: 8dfd475b212703847a2e5f3525eef81d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7940202309019494345}
+    - targetCorrespondingSourceObject: {fileID: 8691427261028014608, guid: 8dfd475b212703847a2e5f3525eef81d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 538333034806915777}
+    - targetCorrespondingSourceObject: {fileID: 8691427261028014608, guid: 8dfd475b212703847a2e5f3525eef81d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3372423637999013521}
   m_SourcePrefab: {fileID: 100100000, guid: 8dfd475b212703847a2e5f3525eef81d, type: 3}
 --- !u!114 &4364975846712173157 stripped
 MonoBehaviour:
@@ -146,6 +167,12 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -162,36 +189,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c6c51d5223de7b4bac86a50ab3f57c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaFarming:
-    radius: 0
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    _maxDetects: 0
-    _minDetects: 0
-    inverse: 0
-    dot: 1
   detectEnemy:
     radius: 4
     distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 2177
-    _maxDetects: 0
-    _minDetects: 0
     inverse: 0
     dot: 1
+    _maxDetects: 0
+    _minDetects: 0
+    contactFilter2D:
+      useTriggers: 0
+      useLayerMask: 0
+      useDepth: 0
+      useOutsideDepth: 0
+      useNormalAngle: 0
+      useOutsideNormalAngle: 0
+      layerMask:
+        serializedVersion: 2
+        m_Bits: 0
+      minDepth: 0
+      maxDepth: 0
+      minNormalAngle: 0
+      maxNormalAngle: 0
   detectObjective:
     radius: 8
     distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 129
-    _maxDetects: 0
-    _minDetects: 0
     inverse: 0
     dot: 1
+    _maxDetects: 0
+    _minDetects: 0
+    contactFilter2D:
+      useTriggers: 0
+      useLayerMask: 0
+      useDepth: 0
+      useOutsideDepth: 0
+      useNormalAngle: 0
+      useOutsideNormalAngle: 0
+      layerMask:
+        serializedVersion: 2
+        m_Bits: 0
+      minDepth: 0
+      maxDepth: 0
+      minNormalAngle: 0
+      maxNormalAngle: 0
   steerings:
     pictionaries:
     - key: enemy
@@ -215,9 +254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carlitosPrefab: {fileID: 8108544624804140793, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
-  carlitos: []
   direction: {x: 0, y: 0}
   aceleration:
     total: 50
