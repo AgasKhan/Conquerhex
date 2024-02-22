@@ -8,7 +8,6 @@ public class BarrierBuild : Building
     [SerializeField]
     private bool myVisibility;
 
-    //tenes q hacer esto
     public override bool interactuable { get => myInteractuable; set => myInteractuable = value; }
 
     [SerializeField]
@@ -48,13 +47,13 @@ public class BarrierBuild : Building
 
         if (node != null)
             node.cost = 1;
-
+        /*
         foreach (var item in interact)
         {
             if (item.key == "Mejorar" || item.key == "Nivel Máximo")
                 item.key = "Construir";
         }
-
+        */
         constructSprite.enabled = true;
         transform.GetChild(0).SetActiveGameObject(false);
     }
@@ -84,6 +83,6 @@ public class BarrierBuild : Building
     {
         base.Interact(character);
 
-        interact["Información"].Activate(this);
+        //interact["Información"].Activate(this);
     }
 }

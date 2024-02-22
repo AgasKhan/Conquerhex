@@ -8,7 +8,7 @@ public class EntityWork : MyScripts
     FSMWork fsmWork;
 
     [SerializeField]
-    StaticEntity staticEntity;
+    InventoryEntityComponent staticEntity;
     protected override void Config()
     {
 

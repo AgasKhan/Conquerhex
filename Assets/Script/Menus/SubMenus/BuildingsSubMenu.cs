@@ -26,12 +26,12 @@ public class BuildingsSubMenu : CreateSubMenu
     {
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
-
+        /*
         foreach (var item in buildingBase.interact)
         {
             subMenu.AddComponent<EventsCall>().Set(item.key, () => { item.value.Activate(buildingBase); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
-
+        */
         subMenu.CreateSection(2, 6);
         subMenu.CreateChildrenSection<ScrollRect>();
         detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", buildingBase.flyweight.GetDetails()["Description"]).SetImage(buildingBase.flyweight.image);

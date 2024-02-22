@@ -29,11 +29,11 @@ public class TurretController : BuildingsController
 
     private void MyAwake()
     {
-        SetAttack(prin = new AutomaticAttack(turret, 0));
+        SetAttack(prin = new AutomaticAttack(turret.attack, 0));
 
-        SetAttack(sec = new AutomaticAttack(turret, 1));
+        SetAttack(sec = new AutomaticAttack(turret.attack, 1));
 
-        SetAttack(ter = new AutomaticAttack(turret, 2));
+        SetAttack(ter = new AutomaticAttack(turret.attack, 2));
 
         turret.health.noLife += DestroyTurret;
     }
@@ -90,11 +90,11 @@ public class TurretSubMenu : CreateSubMenu
     EventsCall lastButton;
     DetailsWindow myDetailsW;
 
-    public override void Init(params object[] param)
+    public void Init(TurretBuild turret)
     {
-        base.Init(param);
+        base.Init();
 
-        turretBuilding = param[0] as TurretBuild;
+        turretBuilding = turret;
     }
 
     public override void Create()
@@ -115,7 +115,7 @@ public class TurretSubMenu : CreateSubMenu
 
         subMenu.CreateSection(2, 6);
         subMenu.CreateChildrenSection<ScrollRect>();
-        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("Elige una habilidad", "\nSelecciona una habilidad de la izquierda para ver más detalles de la misma, luego elige una, pero hazlo con cuidado no olvides que " + "sólo puedes escoger una mejora y será permanente\n\n".RichText("color", "#ff0000ff") + "Costo:\n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        myDetailsW = subMenu.AddComponent<DetailsWindow>().SetTexts("Elige una habilidad", "\nSelecciona una habilidad de la izquierda para ver más detalles de la misma, luego elige una, pero hazlo con cuidado no olvides que " + "sólo puedes escoger una mejora y será permanente\n\n".RichText("color", "#ff0000ff") + "Costo:\n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.invent) + "\n");
 
         subMenu.CreateTitle("Torreta");
     }
@@ -150,11 +150,13 @@ public class TurretSubMenu : CreateSubMenu
 
     void TurretMaxLevel()
     {
+        /*
         foreach (var item in turretBuilding.interact)
         {
             if (item.key == "Mejorar")
                 item.key = "Nivel Máximo";
         }
+        */
         turretBuilding.ChangeSprite(turretBuilding.myStructure.possibleAbilities[turretBuilding.originalAbility][1]);
     }
 
@@ -163,7 +165,7 @@ public class TurretSubMenu : CreateSubMenu
     void ButtonAction(ItemBase item, UnityEngine.Events.UnityAction action)
     {
         DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character) + "\n");
+        myDetailsW.SetTexts(item.nameDisplay, "\n" + item.GetDetails().ToString() + "Solo puedes elegir una habilidad y sera permanente".RichText("color", "#ff0000ff") + "\nCosto: \n".RichText("color", "#ffa500ff") + turretBuilding.upgradesRequirements[turretBuilding.currentLevel].GetRequiresString(turretBuilding.character.inventory) + "\n");
 
         lastButton = subMenu.AddComponent<EventsCall>().Set("Elegir", action, "");
     }
@@ -176,9 +178,9 @@ public class TurretSubMenu : CreateSubMenu
 
     void ImproveDamage(StructureBase item, Recipes requirement)
     {
-        if (requirement.CanCraft(turretBuilding.character))
+        if (requirement.CanCraft(turretBuilding.character.inventory))
         {
-            requirement.Craft(turretBuilding.character);
+            requirement.Craft(turretBuilding.character.inventory);
             turretBuilding.ChangeStructure(item);
             turretBuilding.UpgradeLevel();
             subMenu.SetActiveGameObject(false);
@@ -189,17 +191,18 @@ public class TurretSubMenu : CreateSubMenu
 
     bool AddAbility(int index, Recipes requirement)
     {
-        if (requirement.CanCraft(turretBuilding.character))
+        if (requirement.CanCraft(turretBuilding.character.inventory))
         {
-            requirement.Craft(turretBuilding.character);
+            requirement.Craft(turretBuilding.character.inventory);
 
             turretBuilding.SetKataCombo(index);
-
+            /*
             foreach (var item in turretBuilding.interact)
             {
                 if (item.key == "Construir")
                     item.key = "Mejorar";
             }
+            */
             turretBuilding.UpgradeLevel();
             subMenu.SetActiveGameObject(false);
             

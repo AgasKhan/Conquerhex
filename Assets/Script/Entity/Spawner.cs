@@ -35,7 +35,7 @@ public class Spawner : MonoBehaviour, Init
         Init();
     }
 
-    public virtual void Init(params object[] param)
+    public virtual void Init()
     {
         if (autoDestroy)
             Destroy(gameObject);
@@ -51,7 +51,7 @@ public class Spawner : MonoBehaviour, Init
 
         spawneado.transform.SetParent(transform.parent);
 
-        if (spawneado.TryGetComponent(out IGetPatrol patrolReturn))
+        if (spawneado.TryGetComponent(out PatrolLibrary.IGetPatrol patrolReturn))
         {
             var patrol = patrolReturn.GetPatrol();
             patrol.patrolParent = patrolParent;

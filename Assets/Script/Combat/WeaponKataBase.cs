@@ -80,12 +80,12 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     void Equip(Character chr, int item)
     {
-        chr.actualKata.indexEquipedItem = item;
+        chr.attack.actualKata.indexEquipedItem = item;
     }
 }
 
 [System.Serializable]
-public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
+public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 {
     public event System.Action<MeleeWeapon> onEquipedWeapon;
     public event System.Action<MeleeWeapon> onDesEquipedWeapon;
@@ -94,7 +94,10 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     [SerializeReference]
     protected Timer cooldown;
-    protected AttackEntity caster => equipedWeapon.character;
+
+    protected AttackEntityComponent caster { get; set; }
+
+    protected InventoryEntityComponent inventory => equipedWeapon.inventoryComponent;
 
     protected Entity[] affected;
 
@@ -148,18 +151,18 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
     public void ChangeWeapon(MeleeWeapon weapon)
     {
-        ChangeWeapon(caster.inventory.IndexOf(weapon));
+        ChangeWeapon(inventory.inventory.IndexOf(weapon));
     }
 
     public virtual void ChangeWeapon(int weaponIndex)
     {
-        if(! (caster.inventory[weaponIndex] is MeleeWeapon) || weaponIndex < 0)
+        if(! (inventory.inventory[weaponIndex] is MeleeWeapon) || weaponIndex < 0)
         {
             Debug.Log("No es un arma");
             return;
         }
 
-        MeleeWeapon weapon = (MeleeWeapon)caster.inventory[weaponIndex];
+        MeleeWeapon weapon = (MeleeWeapon)inventory.inventory[weaponIndex];
 
 
         foreach (var ability in itemBase.RequiredDamage)
@@ -220,15 +223,32 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         return affected;
     }
 
-
-
-    #region interfaces
-
     /// <summary>
     /// primer parametro caster, segundo weapon
     /// </summary>
     /// <param name="param"></param>
-    public override void Init(params object[] param)
+    public void Init(AttackEntityComponent attackEntity, int indexWeapon)
+    {
+        if (itemBase == null)
+            return;
+
+        caster = attackEntity;
+
+        equipedWeapon.inventoryComponent = attackEntity.GetInContainer<InventoryEntityComponent>();
+
+        equipedWeapon.indexEquipedItem = indexWeapon;
+
+        if (caster.TryGetInContainer<MoveEntityComponent>(out var move))
+        {
+            actualCharacterVelocity = move.move.objectiveVelocity;
+        }
+
+        Init();
+    }
+
+    #region interfaces
+
+    public override void Init()
     {
         pressed = MyControllerVOID;
         up = MyControllerVOID;
@@ -236,25 +256,11 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         if (itemBase == null)
             return;
 
-
-        if (param.Length > 0)
-        {
-            equipedWeapon.character = param[0] as AttackEntity;
-            if (caster is DynamicEntity)
-            {
-                actualCharacterVelocity = ((DynamicEntity)caster).move.objectiveVelocity;
-            }
-        }
-            
-
-        if (param.Length > 1)
-            equipedWeapon.indexEquipedItem = (int)param[1];
-
-        if (equipedWeapon.character!=null)
+        if (equipedWeapon.inventoryComponent != null)
         {
             foreach (var item in itemBase.audios)
             {
-                caster.audioManager.AddAudio(item.key, item.value);
+                caster.GetInContainer<AudioEntityComponent>()?.AddAudio(item.key, item.value);
             }
 
             Debug.Log("se creo weapon kata " + caster.name);
@@ -267,7 +273,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
                 weapon.off += Weapon_durabilityOff;
                 cooldown.Set(finalVelocity);
             }
-        }  
+        }
     }
 
     private void Weapon_durabilityOff()
@@ -285,11 +291,12 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         }
 
         //actualCharacterVelocity = caster.move.objectiveVelocity;
-        if(caster is DynamicEntity)
+        /*
+        if(caster is MoveEntityComponent)
         {
-            ((DynamicEntity)caster).move.objectiveVelocity += -2;
+            ((MoveEntityComponent)caster).move.objectiveVelocity += -2;
         }
-           
+        */ 
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
@@ -319,8 +326,8 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     }
     public void StopAttack()
     {
-        if (caster is DynamicEntity && actualCharacterVelocity > ((DynamicEntity)caster).move.objectiveVelocity)
-            ((DynamicEntity)caster).move.objectiveVelocity += 2;
+        if (caster.TryGetInContainer(out MoveEntityComponent move) && actualCharacterVelocity > move.move.objectiveVelocity)
+            move.move.objectiveVelocity += 2;
 
         reference?.Off();
         reference = null;
@@ -335,7 +342,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
     #region internal functions
     protected virtual Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
     {
-        return itemBase.Detect(caster, dir, itemBase.detect.maxDetects, finalRange);
+        return itemBase.Detect(caster.container, dir, itemBase.detect.maxDetects, finalRange);
     }
 
     Entity[] InternalAttack(params Entity[] entities)
@@ -345,7 +352,9 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
 
         Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
 
+
         List<Damage> additives = new List<Damage>(caster.additiveDamage);
+
 
         for (int i = 0; i < damagesCopy.Length; i++)
         {
@@ -379,7 +388,7 @@ public abstract class WeaponKata : Item<WeaponKataBase> ,Init, IControllerDir
         }
 
 
-        var aux = weapon.Damage(caster, ref damagesCopy, entities);
+        var aux = weapon.Damage(caster.container, ref damagesCopy, entities);
 
         weapon.Durability(itemBase.damageToWeapon);
 

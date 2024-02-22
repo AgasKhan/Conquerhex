@@ -23,6 +23,8 @@ public class CraftingBuildController : BuildingsController
 
         createSubMenu = new CraftingSubMenu(craftBuild);
 
+        /*
+
         if (SaveWithJSON.BD.ContainsKey(craftBuild.flyweight.nameDisplay + "Level"))
         {
             craftBuild.interact.Add("Craftear", GetComponent<EnterBuilding>());
@@ -33,6 +35,8 @@ public class CraftingBuildController : BuildingsController
             craftBuild.interact.Remove("Craftear");
             craftBuild.currentRecipes.Clear();
         }
+
+        */
     }
 
 
@@ -52,7 +56,7 @@ public class CraftingBuildController : BuildingsController
 
         if (craftBuild.currentLevel == 1)
         {
-            craftBuild.interact.Add("Craftear", GetComponent<EnterBuilding>());
+            //craftBuild.interact.Add("Craftear", GetComponent<EnterBuilding>());
         }
 
         SaveWithJSON.SaveInPictionary(craftBuild.flyweight.nameDisplay + "Recipes", craftBuild.currentRecipes);

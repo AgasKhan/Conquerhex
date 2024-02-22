@@ -23,7 +23,7 @@ public class NexusController : TurretController
         {
             turret.SetKataCombo(i);
         }
-        turret.interact.Remove("Construir");
+        //turret.interact.Remove("Construir");
 
         UpgradeLevel();
 

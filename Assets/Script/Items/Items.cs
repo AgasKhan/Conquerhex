@@ -47,7 +47,7 @@ public abstract class ItemBase : ShowDetails
 
     protected virtual void DestroyItem(Character character, int item)
     {
-        character.AddOrSubstractItems(nameDisplay, -1);
+        character.inventory.AddOrSubstractItems(nameDisplay, -1);
     }
 
     protected abstract void SetCreateItemType();
@@ -75,7 +75,7 @@ public abstract class Item : IShowDetails, Init
         return _itemBase.GetDetails();
     }
 
-    public abstract void Init(params object[] param);
+    public abstract void Init();
 
     public abstract Item SetItemBase(object baseItem);
 

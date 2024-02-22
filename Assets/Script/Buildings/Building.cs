@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : AttackEntity, Interactuable
+public class Building : Entity, Interactuable
 {
     public Recipes[] upgradesRequirements;
     public ItemType[] NavBarButtons;
@@ -28,8 +28,6 @@ public class Building : AttackEntity, Interactuable
             return upgradesRequirements.Length;
         }
     }
-    
-    protected override Damage[] vulnerabilities => flyweight.vulnerabilities;
 
     public virtual Sprite Image => flyweight.image;
 

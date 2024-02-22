@@ -39,7 +39,7 @@ public class StatisticsSubMenu : CreateSubMenu
 
     void CreateWeaponButtons(Character ch, int index)
     {
-        ch.weaponKataIndex = index;
+        ch.attack.weaponKataIndex = index;
 
         string nameKata = "Ranura habilidad vacia";
         Sprite spriteKata = null;
@@ -49,20 +49,20 @@ public class StatisticsSubMenu : CreateSubMenu
 
         UnityEngine.Events.UnityAction action = () =>
         {
-            ch.weaponKataIndex = index;
+            ch.attack.weaponKataIndex = index;
             inventorySubMenu.Create();
         };
 
-        if (ch.actualKata.equiped != null)
+        if (ch.attack.actualKata.equiped != null)
         {
-            nameKata = ch.actualKata.equiped.nameDisplay;
-            spriteKata = ch.actualKata.equiped.image;
+            nameKata = ch.attack.actualKata.equiped.nameDisplay;
+            spriteKata = ch.attack.actualKata.equiped.image;
 
-            if(ch.actualKata.equiped.weapon != null)
+            if(ch.attack.actualKata.equiped.weapon != null)
             {
-                nameArmas = ch.actualKata.equiped.weapon.nameDisplay;
-                spriteWeapon = ch.actualKata.equiped.weapon.image;
-                strWeapon = "Uses: " + ch.actualKata.equiped.weapon.current;
+                nameArmas = ch.attack.actualKata.equiped.weapon.nameDisplay;
+                spriteWeapon = ch.attack.actualKata.equiped.weapon.image;
+                strWeapon = "Uses: " + ch.attack.actualKata.equiped.weapon.current;
 
             }
 

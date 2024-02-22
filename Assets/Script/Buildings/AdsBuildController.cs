@@ -99,6 +99,7 @@ public class AdsBuildController : BuildingsController, IUnityAdsShowListener
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
+        /*
         if (placementId != "Rewarded_Android")
             return;
 
@@ -113,5 +114,6 @@ public class AdsBuildController : BuildingsController, IUnityAdsShowListener
             Debug.Log("No te doy nada");
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No conseguiste la recompensa por saltar el anuncio").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
         }
+        */
     }
 }

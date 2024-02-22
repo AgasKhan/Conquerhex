@@ -29,7 +29,7 @@ public class IALastChance : IAFather
         }
         else
         {
-            _character.move.ControllerPressed((enemy.transform.position - transform.position).normalized * (timer.Chck ? 1 : -1),0);
+            _character.move.move.ControllerPressed((enemy.transform.position - transform.position).normalized * (timer.Chck ? 1 : -1),0);
         }
     }
 
@@ -78,9 +78,9 @@ public class IALastChance : IAFather
 
         doryEnemy = TimersManager.Create(10, () => enemy = null);
 
-        prin = new AutomaticAttack(_character, 0);
+        prin = new AutomaticAttack(_character.attack, 0);
 
-        sec = new AutomaticAttack(_character, 1);
+        sec = new AutomaticAttack(_character.attack, 1);
 
         timer = TimersManager.Create(1);
 

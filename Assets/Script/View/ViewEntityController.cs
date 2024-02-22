@@ -68,11 +68,9 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         timDamaged = TimersManager.Create(0.33f, () => ColorBlink(((int)(timDamaged.Percentage() * 10)) % 2 == 0), ColorBlinkEnd);
 
-        if (entity is DynamicEntity)
+        if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
         {
-            var entityDyn = ((DynamicEntity)entity);
-
-            entityDyn.move.onMove += Move_onMove;
+            move.move.onMove += Move_onMove;
         }
 
         if (onDeathParticlePrefab != null)

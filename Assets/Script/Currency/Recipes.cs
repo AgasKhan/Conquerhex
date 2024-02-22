@@ -11,7 +11,7 @@ public class Recipes : ItemBase
 
     public Color resultColor;
 
-    public bool CanCraft(StaticEntity container)
+    public bool CanCraft(InventoryEntityComponent container)
     {
         foreach (var ingredient in materials)
         {
@@ -32,7 +32,7 @@ public class Recipes : ItemBase
         return true;
     }
 
-    public void Craft(StaticEntity container)
+    public void Craft(InventoryEntityComponent container)
     {
         foreach (var ingredient in materials)
         {
@@ -63,7 +63,7 @@ public class Recipes : ItemBase
         return aux;
     }
 
-    public string GetRequiresString(StaticEntity container)
+    public string GetRequiresString(InventoryEntityComponent container)
     {
         string aux = "";
 

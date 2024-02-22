@@ -282,7 +282,7 @@ public class TextCompleto : Init
         }
     }
 
-    public void Init(params object[] param)
+    public void Init()
     {
         fadeMenu.alphas += FadeMenu_alphas;
 

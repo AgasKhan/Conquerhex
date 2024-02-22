@@ -5,6 +5,9 @@ using UnityEngine;
 //Model
 public class TurretBuild : BarrierBuild
 {
+    public AttackEntityComponent attack;
+    public InventoryEntityComponent invent;
+
     public string originalAbility = "";
 
     public override Sprite Image 
@@ -25,18 +28,18 @@ public class TurretBuild : BarrierBuild
     {
         base.DestroyConstruction();
 
-        ActualKata(0).indexEquipedItem = -1;
-        ActualKata(1).indexEquipedItem = -1;
-        ActualKata(2).indexEquipedItem = -1;
+        attack.ActualKata(0).indexEquipedItem = -1;
+        attack.ActualKata(1).indexEquipedItem = -1;
+        attack.ActualKata(2).indexEquipedItem = -1;
 
         transform.GetComponent<Collider2D>().isTrigger = true;
-        inventory.Clear();
+        invent.inventory.Clear();
         originalAbility = "";
     }
 
     public void SetKataCombo(int index)
     {
-        SetWeaponKataCombo(index);
+        //attack.SetWeaponKataCombo(index);
     }
     public void ChangeSprite(Sprite sprite)
     {

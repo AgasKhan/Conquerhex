@@ -7,16 +7,15 @@ using UnityEngine.UI;
 [System.Serializable]
 public class ShowSubMenuSettings : CreateSubMenu
 {
-
     public AudioManager audioM;
     public AudioMixerGroup music;
     public AudioMixerGroup effects;
 
-    public override void Init(params object[] param)
+    public void Init(AudioManager audioManager)
     {
-        base.Init(param);
+        Init();
 
-        audioM = param[0] as AudioManager;
+        audioM = audioManager;
     }
 
     public override void Create()

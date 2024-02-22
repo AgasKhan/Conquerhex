@@ -1,27 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public abstract class Entity : MyScripts, IDamageable, IGetEntity
+using ComponentsAndContainers;
+public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 {
     public Team team;
     
     public Health health;
 
-    public List<DropItem> drops = new List<DropItem>();
-
     public event System.Action<Damage> onTakeDamage;
 
     public event System.Action onDetected;
-
-    public AudioManager audioManager;
 
     public CarlitoEntity carlitosPrefab;
 
     [field : SerializeField]
     public Transform[] carlitos { get; private set; }
 
-    protected abstract Damage[] vulnerabilities { get; }
+    [field: SerializeField]
+    public StructureBase flyweight {get; protected set;}
+
+    protected Damage[] vulnerabilities => flyweight.vulnerabilities;
     
     public virtual bool visible { get => isActiveAndEnabled; set => enabled = value; }
 
@@ -29,19 +28,15 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     protected override void Config()
     {
-        MyAwakes += MyAwake;
+        base.Config();
+        MyAwakes = MyAwake + MyAwakes;
     }
 
     private void MyAwake()
     {
-        audioManager = GetComponent<AudioManager>();
         var aux = GetComponentsInChildren<IDamageable>();
 
         health.Init();
-
-        health.death += Drop;
-
-        //health.death += () => { if (gameObject.tag != "Player") gameObject.SetActive(false); };
 
         damageables = new IDamageable[aux.Length - 1];
 
@@ -89,23 +84,6 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
         onDetected?.Invoke();
     }
 
-    public void Drop()
-    {
-        for (int i = 0; i < drops.Count; i++)
-        {
-            DropItem dropItem = drops[i];
-
-            var rng = dropItem.maxMinDrops.RandomPic();
-
-            for (int ii = 0; ii < rng; ii++)
-            {
-                PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference, transform.position + new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(-1.2f, 1.2f)));
-
-                reference.Init(dropItem.item);
-            }
-        }
-    }
-
     public void TakeDamage(params Damage[] dmgs)
     {
         if (dmgs == null)
@@ -127,7 +105,7 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
 
     public virtual void TakeDamage(ref Damage dmg)
     {
-        if(vulnerabilities!=null)
+        if (vulnerabilities!=null)
             for (int i = 0; i < vulnerabilities.Length; i++)
             {
                 if (dmg.typeInstance == vulnerabilities[i].typeInstance)
@@ -210,16 +188,10 @@ public abstract class Entity : MyScripts, IDamageable, IGetEntity
     }
 }
 
-[System.Serializable]
-public struct DropItem
-{
-    public Pictionarys<int, int> maxMinDrops;
 
-    public ResourcesBase_ItemBase item;
-}
 
 [System.Serializable]
-public class Health : Init
+public class Health
 {
     [SerializeField]
     Tim life;
@@ -362,18 +334,21 @@ public class Health : Init
     /// Primer parametro vida, segundo regen
     /// </summary>
     /// <param name="param"></param>
-    public void Init(params object[] param)
+    public void Init(float lifeNumber = -1, float regenNumber =-1)
     {
         if (timeToRegen != null)
             timeToRegen.Stop();
 
-        if (param != null && param.Length > 0)
+        if (lifeNumber>0)
         {
-            life = new Tim((float)param[0]);
-
-            regen = new Tim((float)param[1]);
+            life = new Tim(lifeNumber);
 
             life.onChange += (a,b) => helthUpdate?.Invoke(this);
+        }
+
+        if (regenNumber > 0)
+        {
+            regen = new Tim(regenNumber);
 
             regen.onChange += (a, b) => helthUpdate?.Invoke(this);
         }

@@ -35,9 +35,9 @@ public class RangeWeapon : MeleeWeapon
 
     public Vector2Int prefabBullet => ((RangeWeaponBase)itemBase).indexPrefabBullet;
 
-    public override void Init(params object[] param)
+    public override void Init()
     {
-        base.Init(param);
+        base.Init();
 
         amunation = new Tim(((RangeWeaponBase)itemBase).magazine);
     }

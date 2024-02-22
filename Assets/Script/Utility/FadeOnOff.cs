@@ -23,7 +23,7 @@ public class FadeOnOff : Init
 
     public bool fadeFinish => fadeOn.Chck;
 
-    public void Init(params object[] param)
+    public void Init()
     {
         fadeOn = TimersManager.Create(() => fades.x, () => fades.y, durationAnim, Mathf.Lerp, alphas).AddToEnd(() => end?.Invoke()).SetUnscaled(unscaled).Stop();
 

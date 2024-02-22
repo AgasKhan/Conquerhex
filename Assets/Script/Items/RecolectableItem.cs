@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecolectableItem : StaticEntity
+public class RecolectableItem : InventoryEntityComponent
 {
     [SerializeField]
     SpriteRenderer mySprite;
@@ -14,21 +14,11 @@ public class RecolectableItem : StaticEntity
 
     public float weight => itemBase.weight;
 
-    protected override Damage[] vulnerabilities => null;
-
     Timer recolect;
 
-    StaticEntity referenceToTravel;
+    InventoryEntityComponent referenceToTravel;
 
-    protected override void Config()
-    {
-        base.Config();
-
-        MyAwakes += MyAwake;
-        MyUpdates += MyUpdate;
-    }
-
-    void MyAwake()
+    void Awake()
     {
         recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 1, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToEnd(() =>
@@ -40,7 +30,7 @@ public class RecolectableItem : StaticEntity
         .Stop().SetInitCurrent(0);
     }
 
-    void MyUpdate()
+    void FixedUpdate()
     {
         var characters = areaFarming.Area(transform.position, (algo) => { return true; });
 
@@ -52,13 +42,13 @@ public class RecolectableItem : StaticEntity
 
             if (dist.sqrMagnitude <= aux.areaFarming * aux.areaFarming && character == GameManager.instance.playerCharacter)
             {
-                Recolect(character);
+                Recolect(character.GetInContainer<InventoryEntityComponent>());
                 break;
             }
         }
     }
 
-    public void Recolect(StaticEntity entity)
+    public void Recolect(InventoryEntityComponent entity)
     {
         if (!recolect.Chck /* && (entity.currentWeight + weight) <= entity.weightCapacity*/)
             return;
@@ -80,7 +70,7 @@ public class RecolectableItem : StaticEntity
 
     public void Init(ResourcesBase_ItemBase item)
     {
-        health.Init(item.structure.life, item.structure.regen);
+        //health.Init(item.structure.life, item.structure.regen);
 
         mySprite.sprite = item.image;
 

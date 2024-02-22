@@ -17,7 +17,7 @@ public class InventorySubMenu : CreateSubMenu
 
     DetailsWindow myDetailsW;
 
-    public void ExchangeItems(StaticEntity playerInv, StaticEntity storageInv, Item itemToMove)
+    public void ExchangeItems(InventoryEntityComponent playerInv, InventoryEntityComponent storageInv, Item itemToMove)
     {
         itemToMove.GetAmounts(out int actual, out int max);
         playerInv.AddOrSubstractItems(itemToMove.nameDisplay, -actual);
@@ -55,11 +55,11 @@ public class InventorySubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
-        for (int i = 0; i < character.inventory.Count; i++)
+        for (int i = 0; i < character.inventory.inventory.Count; i++)
         {
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
-            var item = character.inventory[i];
+            var item = character.inventory.inventory[i];
 
             var index = i;
 

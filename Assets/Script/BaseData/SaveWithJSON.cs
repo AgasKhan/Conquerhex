@@ -165,7 +165,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
         }
     }
 
-    public void Init(params object[] param)
+    public void Init()
     {
         Debug.Log("BD: \n" + BD.ToString());
 

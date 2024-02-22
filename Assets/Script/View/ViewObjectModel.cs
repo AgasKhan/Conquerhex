@@ -25,7 +25,7 @@ public class ViewObjectModel : MonoBehaviour
 
     bool _isTransparent;
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         //originalRender.material = transparentMaterial;
 

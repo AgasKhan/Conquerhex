@@ -37,7 +37,7 @@ public class BodyBase : StructureBase
 
 public class BodyDiagram : Item<BodyBase>
 {
-    public override void Init(params object[] param)
+    public override void Init()
     {
         
     }
