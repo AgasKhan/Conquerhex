@@ -5,7 +5,7 @@ using UnityEngine;
 public class DestructibleObjects : InventoryEntityComponent
 {
     [SerializeField]
-    StructureBase _structure;
+    EntityBase _structure;
     //protected override Damage[] vulnerabilities => _structure.vulnerabilities;
 
     /*

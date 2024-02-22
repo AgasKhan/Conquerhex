@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 public class LoadSystem : SingletonMono<LoadSystem>
 {
@@ -246,7 +248,20 @@ public class WaitForCorutines : CustomYieldInstruction
 public class Lenguages : Init
 {
     [SerializeField]
-    TextAsset csvArchive;
+    TextAsset read;
+
+    [SerializeField]
+    TextAsset write;
+
+    string path = "Assets/Lenguage/";
+
+    StreamReader csvArchiveRead;
+
+    StreamWriter csvArchiveWrite;
+
+    string toWrite;
+
+    HashSet<string> keysNotFinded = new HashSet<string>();
 
     public string lenguage = "español";
 
@@ -272,28 +287,54 @@ public class Lenguages : Init
                 }
             }
 
-            return null;
+            UnityEngine.Debug.LogWarning("no se encontro el key en lenguage");
+
+            keysNotFinded.Add(aux);
+
+            return string.Empty;
         } 
     }
 
-    public void RefreshLenguage()
+    public void ChangeLenguage(string lenguage)
+    {
+        this.lenguage = lenguage;
+
+        if(RefreshLenguage())
+        {
+            SaveWithJSON.SaveInPictionary("Lenguage", lenguage);
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("Lenguage no encontrado");
+        }
+    }
+
+    public bool RefreshLenguage()
     {
         for (indexLenguage = 1; indexLenguage < textArray.GetLength(1); indexLenguage++)
         {
             if(lenguage == textArray[0, indexLenguage])
-                return;
+            {
+                return true;
+            }
         }
 
-        SaveWithJSON.SaveInPictionary("Lenguage", lenguage);
+        return false;
     }
 
     public void Init()
     {
         instance = this;
 
-        string data = csvArchive.ToString();
+        csvArchiveRead = new StreamReader(path + read.name);
 
-        var filas = data.Split(rowSeparator, System.StringSplitOptions.RemoveEmptyEntries);
+        csvArchiveWrite = new StreamWriter(path + write.name);
+
+        toWrite = csvArchiveRead.ReadToEnd();
+
+        csvArchiveRead.Close();
+
+        var filas = toWrite.Split(rowSeparator, System.StringSplitOptions.RemoveEmptyEntries);
 
         textArray = new string[filas.Length, filas[0].Split(colSeparator).Length];
 
@@ -310,5 +351,11 @@ public class Lenguages : Init
         lenguage = SaveWithJSON.LoadFromPictionary("Lenguage",lenguage);
 
         RefreshLenguage();
+    }
+
+    ~Lenguages()
+    {
+        csvArchiveWrite.Write(toWrite + string.Join('\n', keysNotFinded.OrderBy(str => str).ToArray()));
+        csvArchiveWrite.Close();
     }
 }

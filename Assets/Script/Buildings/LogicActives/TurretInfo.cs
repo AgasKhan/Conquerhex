@@ -17,7 +17,7 @@ public class TurretInfo : LogicActive<Building>
         {
             string newText = "\nHabilidades: \n".RichText("color", "#00ffffff"); ;
 
-            foreach (var item in aux.flyweight.kataCombos)
+            foreach (var item in aux.flyweight.GetFlyWeight<AttackBase>().kataCombos)
             {
                 //Filtrar cual tiene equipada el jugador 
 
@@ -25,11 +25,11 @@ public class TurretInfo : LogicActive<Building>
                 newText += item.kata.GetDetails().ToString("\n");
             }
 
-            if(aux.flyweight.additiveDamage.Length > 0)
+            if(aux.flyweight.GetFlyWeight<AttackBase>().additiveDamage.Length > 0)
             {
                 newText += "\nAdditive Damage: ".RichText("color", "#00ffffff");
                 //newText += aux.flyweight.additiveDamage[0].typeInstance.ToString() + " x " + aux.flyweight.additiveDamage[0].ToString();
-                newText += aux.flyweight.GetDetails()["Description"] + " x " + aux.flyweight.additiveDamage[0].ToString();
+                newText += aux.flyweight.GetDetails()["Description"] + " x " + aux.flyweight.GetFlyWeight<AttackBase>().additiveDamage[0].ToString();
             } 
 
             aux.myBuildSubMenu.detailsWindow.SetTexts("Turret " + ((TurretBuild)aux).originalAbility, newText);

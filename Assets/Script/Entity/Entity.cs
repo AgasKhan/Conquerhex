@@ -18,9 +18,12 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     public Transform[] carlitos { get; private set; }
 
     [field: SerializeField]
-    public StructureBase flyweight {get; protected set;}
+    public EntityBase flyweight {get; protected set;}
 
-    protected Damage[] vulnerabilities => flyweight.vulnerabilities;
+    [field: SerializeField]
+    public HealthBase healthBase { get; protected set; }
+
+    protected Damage[] vulnerabilities => healthBase.vulnerabilities;
     
     public virtual bool visible { get => isActiveAndEnabled; set => enabled = value; }
 
@@ -35,6 +38,8 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     private void MyAwake()
     {
         var aux = GetComponentsInChildren<IDamageable>();
+
+        healthBase = flyweight.GetFlyWeight<HealthBase>();
 
         health.Init();
 

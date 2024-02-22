@@ -122,9 +122,9 @@ public class TurretSubMenu : CreateSubMenu
 
     void CreateButtons()
     {
-        for (int i = 0; i < turretBuilding.flyweight.kataCombos.Length; i++)
+        for (int i = 0; i < turretBuilding.flyweight.GetFlyWeight<AttackBase>().kataCombos.Length; i++)
         {
-            var item = turretBuilding.flyweight.kataCombos[i];
+            var item = turretBuilding.flyweight.GetFlyWeight<AttackBase>().kataCombos[i];
             var index = i;
             UnityEngine.Events.UnityAction abilityAction;
 
@@ -176,7 +176,7 @@ public class TurretSubMenu : CreateSubMenu
             Object.Destroy(lastButton.gameObject);
     }
 
-    void ImproveDamage(StructureBase item, Recipes requirement)
+    void ImproveDamage(EntityBase item, Recipes requirement)
     {
         if (requirement.CanCraft(turretBuilding.character.inventory))
         {

@@ -17,7 +17,7 @@ public class EnemyTowerController : TurretController
 
     void MyStart()
     {
-        for (int i = 0; i < turret.myStructure.kataCombos.Length; i++)
+        for (int i = 0; i < turret.myStructure.GetFlyWeight<AttackBase>().kataCombos.Length; i++)
         {
             turret.SetKataCombo(i);
         }

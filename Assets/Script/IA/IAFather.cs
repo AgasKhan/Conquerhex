@@ -8,8 +8,6 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     protected Character _character;
 
-    protected BodyBase flyWeight => ((BodyBase)_character.flyweight);
-
     public Character character => _character;
 
 

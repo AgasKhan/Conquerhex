@@ -6,10 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(AttackEntityComponent))]
 public class Character : Entity, ISwitchState<Character>
 {
+    //public new BodyBase flyweight;
+
     public InventoryEntityComponent inventory;
     public AttackEntityComponent attack;
     public MoveEntityComponent move;
-
 
 
     IState<Character> _ia;
@@ -48,15 +49,15 @@ public class Character : Entity, ISwitchState<Character>
 
     void MyStart()
     {
+        move = GetInContainer<MoveEntityComponent>();
+        attack = GetInContainer<AttackEntityComponent>();
+        inventory = GetInContainer<InventoryEntityComponent>();
+
         if (_ia != null)
         {
             _ia.OnEnterState(this);
             MyUpdates += IAUpdate;
         }
-
-        move = GetInContainer<MoveEntityComponent>();
-        attack = GetInContainer<AttackEntityComponent>();
-        inventory = GetInContainer<InventoryEntityComponent>();
     }
 
     void IAUpdate()

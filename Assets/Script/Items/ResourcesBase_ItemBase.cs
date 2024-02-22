@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Currency/Resource", fileName = "Resource")]
 public class ResourcesBase_ItemBase : ItemBase
 {
-    public StructureBase structure;
+    public EntityBase structure;
 
     protected override void SetCreateItemType()
     {

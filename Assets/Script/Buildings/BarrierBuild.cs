@@ -74,7 +74,7 @@ public class BarrierBuild : Building
             node.cost = -1;
     }
 
-    public void ChangeStructure(StructureBase newStructure)
+    public void ChangeStructure(EntityBase newStructure)
     {
         flyweight = newStructure;
     }

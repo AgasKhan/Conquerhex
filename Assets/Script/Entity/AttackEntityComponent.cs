@@ -10,7 +10,7 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
     EquipedItem<WeaponKata>[] _katas = new EquipedItem<WeaponKata>[3];
 
     [field: SerializeField]
-    public StructureBase flyweight { get; protected set; }
+    public AttackBase flyweight { get; protected set; }
     public Damage[] additiveDamage => flyweight.additiveDamage;
 
     public int weaponKataIndex = 0;

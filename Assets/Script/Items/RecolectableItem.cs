@@ -37,7 +37,7 @@ public class RecolectableItem : InventoryEntityComponent
         foreach (var character in characters)
         {
             //if (character.currentWeight + weight <= character.weightCapacity)
-            var aux = (BodyBase)character.flyweight;
+            var aux = ((Entity)character).flyweight;
             var dist = character.transform.position - transform.position;
 
             if (dist.sqrMagnitude <= aux.areaFarming * aux.areaFarming && character == GameManager.instance.playerCharacter)
