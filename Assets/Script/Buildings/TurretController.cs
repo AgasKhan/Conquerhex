@@ -122,9 +122,9 @@ public class TurretSubMenu : CreateSubMenu
 
     void CreateButtons()
     {
-        for (int i = 0; i < turretBuilding.flyweight.GetFlyWeight<AttackBase>().kataCombos.Length; i++)
+        for (int i = 0; i < turretBuilding.attack.flyweight.kataCombos.Length; i++)
         {
-            var item = turretBuilding.flyweight.GetFlyWeight<AttackBase>().kataCombos[i];
+            var item = turretBuilding.attack.flyweight.kataCombos[i];
             var index = i;
             UnityEngine.Events.UnityAction abilityAction;
 

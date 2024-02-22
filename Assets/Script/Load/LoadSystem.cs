@@ -253,7 +253,7 @@ public class Lenguages : Init
     [SerializeField]
     TextAsset write;
 
-    string path = "Assets/Lenguage/";
+    string path = "Assets/Lenguages/";
 
     StreamReader csvArchiveRead;
 
@@ -326,9 +326,9 @@ public class Lenguages : Init
     {
         instance = this;
 
-        csvArchiveRead = new StreamReader(path + read.name);
+        csvArchiveRead = new StreamReader(path + read.name + ".txt");
 
-        csvArchiveWrite = new StreamWriter(path + write.name);
+        csvArchiveWrite = new StreamWriter(path + write.name + ".txt");
 
         toWrite = csvArchiveRead.ReadToEnd();
 

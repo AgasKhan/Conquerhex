@@ -19,7 +19,7 @@ public class NexusController : TurretController
 
     void StartGame()
     {
-        for (int i = 0; i < turret.myStructure.GetFlyWeight<AttackBase>().kataCombos.Length; i++)
+        for (int i = 0; i < turret.attack.flyweight.kataCombos.Length; i++)
         {
             turret.SetKataCombo(i);
         }
