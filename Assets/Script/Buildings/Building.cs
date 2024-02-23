@@ -5,7 +5,7 @@ using UnityEngine;
 public class Building : Entity, Interactuable
 {
     public Recipes[] upgradesRequirements;
-    public ItemType[] NavBarButtons;
+    public ResourceType[] NavBarButtons;
     public BuildingsController controller;
 
     [HideInInspector]
