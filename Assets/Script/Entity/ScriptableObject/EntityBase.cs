@@ -6,12 +6,12 @@ using UnityEngine;
 public class EntityBase : ItemBase
 {
     [SerializeField]
-    List<ScriptableObject> container = new List<ScriptableObject>();
+    List<FlyWeight> container = new List<FlyWeight>();
 
     [Header("Estadistica")]
     public float areaFarming = 1;
 
-    public T GetFlyWeight<T>() where T : ScriptableObject
+    public T GetFlyWeight<T>() where T : FlyWeight
     {
         for (int i = 0; i < container.Count; i++)
         {
@@ -19,12 +19,12 @@ public class EntityBase : ItemBase
                 return (T)container[i];
         }
 
-        return null;
+        return default(T);
     }
 
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(EntityDiagram);
+        return typeof(EntityDiagram);
     }
 
     public override Pictionarys<string, string> GetDetails()
@@ -33,10 +33,15 @@ public class EntityBase : ItemBase
 
         foreach (var item in container)
         {
-            aux.Add(Lenguages.instance[item.GetType().Name], item.ToString());
+            aux.Add(Lenguages.instance[item], item.ToString());
         }
 
         return aux;
+    }
+
+    public class FlyWeight : ScriptableObject
+    {
+
     }
 }
 
@@ -48,3 +53,4 @@ public class EntityDiagram : Item<EntityBase>
 
     }
 }
+

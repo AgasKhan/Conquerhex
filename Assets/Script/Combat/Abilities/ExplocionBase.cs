@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class ExplocionBase : AreaKataBase
 {
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(UpWeaponKata);
+        return typeof(UpWeaponKata);
     }
 }
 

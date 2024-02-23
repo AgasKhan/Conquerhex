@@ -9,9 +9,9 @@ public class ResourcesBase_ItemBase : ItemBase
 
     public ResourceType itemType;
 
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(Resources_Item);
+        return typeof(Resources_Item);
     }
 }
 

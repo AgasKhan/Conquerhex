@@ -39,9 +39,9 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
         return damagesList.Count <= 0;
     }
 
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(MeleeWeapon);
+        return typeof(MeleeWeapon);
     }
 
     protected override void CreateButtonsAcctions()

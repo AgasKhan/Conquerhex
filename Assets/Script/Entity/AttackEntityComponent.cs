@@ -11,7 +11,7 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
 
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }
-    public Damage[] additiveDamage => flyweight.additiveDamage;
+    public Damage[] additiveDamage => flyweight?.additiveDamage;
 
     public int weaponKataIndex = 0;
 
@@ -59,13 +59,15 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
         container = param;
         inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
 
+        flyweight = container.flyweight.GetFlyWeight<AttackBase>();
+
         for (int i = 0; i < _katas.Length; i++)
         {
             _katas[i] = new EquipedItem<WeaponKata>();
             _katas[i].inventoryComponent = inventoryEntity;
         }
 
-        if (flyweight == null || flyweight.kataCombos == null)
+        if (flyweight?.kataCombos == null)
             return;
 
         for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
@@ -94,6 +96,7 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
         if (actualKata.equiped != null)
             return;
 
+
         inventoryEntity.inventory.Add(flyweight.kataCombos[index].kata.Create());
 
         actualKata.indexEquipedItem = inventoryEntity.inventory.Count - 1;
@@ -101,6 +104,8 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
         inventoryEntity.inventory.Add(flyweight.kataCombos[index].weapon.Create());
 
         actualKata.equiped.Init(this, inventoryEntity.inventory.Count - 1);
+
+
     }
 
     public void Init()

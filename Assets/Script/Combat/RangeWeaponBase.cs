@@ -22,9 +22,9 @@ public class RangeWeaponBase : MeleeWeaponBase
         });
     }
 
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(RangeWeapon);
+        return typeof(RangeWeapon);
     }
 }
 

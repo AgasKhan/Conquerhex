@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Cut")]
 public class CutBase : AreaKataBase
 {
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(ChargeAffectedUpWeaponKata);
+        return typeof(ChargeAffectedUpWeaponKata);
     }
 }

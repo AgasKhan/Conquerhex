@@ -16,8 +16,8 @@ public class MultiHitBase : AreaKataBase
         return aux;
     }
 
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(PressWeaponKata);
+        return typeof(PressWeaponKata);
     }
 }

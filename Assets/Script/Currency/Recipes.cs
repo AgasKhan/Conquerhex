@@ -86,9 +86,9 @@ public class Recipes : ItemBase
         return aux;
     }
 
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        
+        return null;
     }
 
     protected override void MyEnable()

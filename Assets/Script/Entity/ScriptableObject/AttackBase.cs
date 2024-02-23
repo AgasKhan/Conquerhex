@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "BaseData/AttackBase", fileName = "new AttackBase")]
-public class AttackBase : ScriptableObject
+public class AttackBase : EntityBase.FlyWeight
 {
     [Header("Habilidades")]
 

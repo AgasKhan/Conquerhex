@@ -280,10 +280,23 @@ public class Lenguages : Init
 
     public static Lenguages instance;
 
-    public string this[string aux] 
+    public string this[object index] 
     { 
         get 
         {
+            string aux;
+
+            System.Type indexType = index.GetType();
+
+            if (index is string)
+                aux = index as string;
+            else if (!indexType.IsGenericType)
+            {
+                aux = index.GetType().Name;
+            }
+            else
+                aux = indexType.Name.Substring(0, indexType.Name.IndexOf('`')) + "_" + indexType.GetGenericArguments().Select(type => type.Name).Aggregate((str, str2) => str + '-' + str2);
+
             for (int i = 0; i < textArray.GetLength(0); i++)
             {
                 if(textArray[i, 0] == aux)

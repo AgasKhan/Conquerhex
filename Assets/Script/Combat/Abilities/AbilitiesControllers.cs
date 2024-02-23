@@ -11,6 +11,8 @@ public class PressWeaponKata : WeaponKata
 
     public override void Init()
     {
+        base.Init();
+
         if (weapon != null)
             pressCooldown = TimersManager.Create(finalVelocity*1.5f);
     }

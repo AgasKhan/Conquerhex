@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Crush")]
 public class CrushBase : AreaKataBase
 {
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(ChargeRangeUpWeaponKata);
+        return typeof(ChargeRangeUpWeaponKata);
     }
 }

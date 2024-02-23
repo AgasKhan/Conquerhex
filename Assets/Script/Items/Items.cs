@@ -13,7 +13,7 @@ public abstract class ItemBase : ShowDetails
 
     public Dictionary<string, System.Action<Character, int>> buttonsAcctions = new Dictionary<string, System.Action<Character, int>>();
 
-    public System.Type _itemType;
+    protected System.Type _itemType;
     
     
     public virtual Item Create()
@@ -32,7 +32,7 @@ public abstract class ItemBase : ShowDetails
 
     protected override void MyEnable()
     {
-        SetCreateItemType();
+        _itemType = SetItemType();
         Manager<ItemBase>.pic.Add(nameDisplay, this);
         buttonsAcctions.Clear();
         CreateButtonsAcctions();
@@ -48,7 +48,7 @@ public abstract class ItemBase : ShowDetails
         character.inventory.AddOrSubstractItems(nameDisplay, -1);
     }
 
-    protected abstract void SetCreateItemType();
+    protected abstract System.Type SetItemType();
 }
 
 
@@ -66,7 +66,7 @@ public abstract class Item : IShowDetails, Init
 
     public Sprite image => _itemBase.image;
 
-    public System.Type itemType => _itemBase._itemType;
+    public System.Type itemType => GetType();
 
     public virtual Pictionarys<string, string> GetDetails()
     {

@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Stab")]
 public class StabBase : AreaKataBase
 {
-    protected override void SetCreateItemType()
+    protected override System.Type SetItemType()
     {
-        _itemType = typeof(DashUpWeaponKata);
+        return typeof(DashUpWeaponKata);
     }
 }

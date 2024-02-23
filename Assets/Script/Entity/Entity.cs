@@ -23,7 +23,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     [field: SerializeField]
     public HealthBase healthBase { get; protected set; }
 
-    protected Damage[] vulnerabilities => healthBase.vulnerabilities;
+    protected Damage[] vulnerabilities => healthBase?.vulnerabilities;
     
     public virtual bool visible { get => isActiveAndEnabled; set => enabled = value; }
 
@@ -41,7 +41,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
         healthBase = flyweight.GetFlyWeight<HealthBase>();
 
-        health.Init();
+        health.Init(healthBase.life, healthBase.regen);
 
         damageables = new IDamageable[aux.Length - 1];
 

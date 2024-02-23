@@ -87,7 +87,7 @@ public class SuperDickLite<Value> : DickLite<System.Type, Value>
 
             if(typeof(Value).IsGenericType)
             {
-                 dato = typeof(Value).Name + " con el/los generico/s: " + string.Join("-" ,typeof(Value).GetGenericArguments().Select(type => type.Name).ToArray());
+                 dato = typeof(Value).Name + " con el/los generico/s: " + typeof(Value).GetGenericArguments().Select(type => type.Name).Aggregate((str, str2) => str + '-' + str2);
             }
             else
             {
