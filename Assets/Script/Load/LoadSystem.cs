@@ -54,6 +54,11 @@ public class LoadSystem : SingletonMono<LoadSystem>
         preLoad.Add(loadScreen.LoadImage);
     }
 
+    private void OnDestroy()
+    {
+        lenguages.OnDestroy();
+    }
+
     //delegado especifico
 
     public static void AddPreLoadCorutine(WaitForCorutines.MyCoroutine myCoroutine, int insert=-1)
@@ -287,7 +292,7 @@ public class Lenguages : Init
                 }
             }
 
-            UnityEngine.Debug.LogWarning("no se encontro el key en lenguage");
+            UnityEngine.Debug.LogWarning("no se encontro el key en lenguage: " + aux);
 
             keysNotFinded.Add(aux);
 
@@ -327,8 +332,7 @@ public class Lenguages : Init
         instance = this;
 
         csvArchiveRead = new StreamReader(path + read.name + ".txt");
-
-        csvArchiveWrite = new StreamWriter(path + write.name + ".txt");
+        csvArchiveWrite = new StreamWriter(path + write.name + ".txt", false ,System.Text.Encoding.UTF8);
 
         toWrite = csvArchiveRead.ReadToEnd();
 
@@ -353,9 +357,13 @@ public class Lenguages : Init
         RefreshLenguage();
     }
 
-    ~Lenguages()
+    public void OnDestroy()
     {
-        csvArchiveWrite.Write(toWrite + string.Join('\n', keysNotFinded.OrderBy(str => str).ToArray()));
+        if (keysNotFinded.Count > 0)
+        {
+            csvArchiveWrite.Write(toWrite + csvArchiveWrite.NewLine + string.Join(csvArchiveWrite.NewLine, keysNotFinded.OrderBy(str => str).ToArray()));
+        }
         csvArchiveWrite.Close();
     }
+
 }
