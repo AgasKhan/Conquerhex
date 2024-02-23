@@ -7,10 +7,23 @@ public class ResourcesBase_ItemBase : ItemBase
 {
     public EntityBase structure;
 
+    public ResourceType itemType;
+
     protected override void SetCreateItemType()
     {
         _itemType = typeof(Resources_Item);
     }
+}
+
+public enum ResourceType
+{
+    Other,
+    Mineral,
+    Gemstone,
+    Resource,
+    Equipment,
+    Ability,
+    Modules
 }
 
 /*

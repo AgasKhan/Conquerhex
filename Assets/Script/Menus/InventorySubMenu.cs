@@ -28,9 +28,9 @@ public class InventorySubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ItemType.Equipment.ToString()); })
-                    .AddNavBarButton("Mineral", () => { ButtonAct(ItemType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { ButtonAct(ItemType.Gemstone.ToString()); })
-                    .AddNavBarButton("Other", () => { ButtonAct(ItemType.Other.ToString()); });
+        subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ResourceType.Equipment.ToString()); })
+                    .AddNavBarButton("Mineral", () => { ButtonAct(ResourceType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { ButtonAct(ResourceType.Gemstone.ToString()); })
+                    .AddNavBarButton("Other", () => { ButtonAct(ResourceType.Other.ToString()); });
 
         subMenu.CreateTitle("Inventory");
 
@@ -134,16 +134,14 @@ public class InventorySubMenu : CreateSubMenu
     {
         string details = "";
 
-        if (item.itemType == ItemType.Equipment && item is MeleeWeapon)
+        if (item is MeleeWeapon)
         {
             details = "Uses: " + ((MeleeWeapon)item).current;
-
         }
         else
         {
             item.GetAmounts(out int actual, out int max);
             details = actual + " / " + max;
-
         }
 
         return details;

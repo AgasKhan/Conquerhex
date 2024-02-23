@@ -11,11 +11,9 @@ public abstract class ItemBase : ShowDetails
 
     public float weight;
 
-    public ItemType itemType;
-
     public Dictionary<string, System.Action<Character, int>> buttonsAcctions = new Dictionary<string, System.Action<Character, int>>();
 
-    protected System.Type _itemType;
+    public System.Type _itemType;
     
     
     public virtual Item Create()
@@ -68,7 +66,7 @@ public abstract class Item : IShowDetails, Init
 
     public Sprite image => _itemBase.image;
 
-    public ItemType itemType => _itemBase.itemType;
+    public System.Type itemType => _itemBase._itemType;
 
     public virtual Pictionarys<string, string> GetDetails()
     {
@@ -178,13 +176,3 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
     }
 }
 
-public enum ItemType
-{
-    Other,
-    Mineral,
-    Gemstone,
-    Resource,
-    Equipment,
-    Ability,
-    Modules
-}

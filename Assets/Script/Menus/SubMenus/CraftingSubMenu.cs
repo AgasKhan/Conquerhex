@@ -66,7 +66,7 @@ public class CraftingSubMenu : CreateSubMenu
                     RefreshDetailW(item);
                 };
 
-            buttonsList.Add(button.SetButtonA(item.result.Item.nameDisplay, item.result.Item.image,"", action).SetType(item.result.Item.itemType.ToString()));
+            buttonsList.Add(button.SetButtonA(item.result.Item.nameDisplay, item.result.Item.image,"", action).SetType(item.result.Item.GetType().ToString()));
         }
     }
     void DestroyButtonCraft()
