@@ -13,7 +13,7 @@ public abstract class ItemBase : ShowDetails
 
     public Dictionary<string, System.Action<Character, int>> buttonsAcctions = new Dictionary<string, System.Action<Character, int>>();
 
-    protected System.Type _itemType;
+    System.Type _itemType;
     
     
     public virtual Item Create()

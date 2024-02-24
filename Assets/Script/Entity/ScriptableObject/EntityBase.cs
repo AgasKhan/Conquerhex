@@ -6,12 +6,12 @@ using UnityEngine;
 public class EntityBase : ItemBase
 {
     [SerializeField]
-    List<FlyWeight> container = new List<FlyWeight>();
+    List<FlyWeight<EntityBase>> container = new List<FlyWeight<EntityBase>>();
 
     [Header("Estadistica")]
     public float areaFarming = 1;
 
-    public T GetFlyWeight<T>() where T : FlyWeight
+    public T GetFlyWeight<T>() where T : FlyWeight<EntityBase>
     {
         for (int i = 0; i < container.Count; i++)
         {
@@ -39,10 +39,6 @@ public class EntityBase : ItemBase
         return aux;
     }
 
-    public class FlyWeight : ScriptableObject
-    {
-
-    }
 }
 
 
@@ -54,3 +50,8 @@ public class EntityDiagram : Item<EntityBase>
     }
 }
 
+
+public class FlyWeight<T> : ScriptableObject where T : ScriptableObject
+{
+
+}

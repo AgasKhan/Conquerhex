@@ -57,9 +57,8 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
     public override void OnEnterState(Entity param)
     {
         container = param;
-        inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
 
-        flyweight = container.flyweight.GetFlyWeight<AttackBase>();
+        inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
 
         for (int i = 0; i < _katas.Length; i++)
         {
@@ -67,8 +66,13 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
             _katas[i].inventoryComponent = inventoryEntity;
         }
 
-        if (flyweight?.kataCombos == null)
-            return;
+        if (flyweight==null)
+        {
+            flyweight = container.flyweight?.GetFlyWeight<AttackBase>();
+            
+            if (flyweight?.kataCombos == null)
+                return;
+        }
 
         for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
             SetWeaponKataCombo(i);

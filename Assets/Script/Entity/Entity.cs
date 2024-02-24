@@ -39,7 +39,8 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     {
         var aux = GetComponentsInChildren<IDamageable>();
 
-        healthBase = flyweight.GetFlyWeight<HealthBase>();
+        if(healthBase == null)
+            healthBase = flyweight.GetFlyWeight<HealthBase>();
 
         health.Init(healthBase.life, healthBase.regen);
 

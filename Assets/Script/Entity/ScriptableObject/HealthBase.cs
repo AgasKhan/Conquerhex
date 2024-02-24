@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "BaseData/HealthBase", fileName = "new HealthBase")]
-public class HealthBase : EntityBase.FlyWeight
+public class HealthBase : FlyWeight<EntityBase>
 {
     [Header("Vida")]
     public float life;
