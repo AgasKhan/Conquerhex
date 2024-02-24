@@ -2,6 +2,7 @@ Shader "Shader Graphs/Ground"
 {
     Properties
     {
+        _StencilMask("Stencil mask compare", int) = 0
         [NoScaleOffset]_MainTex("MainTex", 2D) = "white" {}
         [NoScaleOffset]_MaskTex("MaskTex", 2D) = "white" {}
         [NoScaleOffset]_NormalMap("NormalMap", 2D) = "white" {}
@@ -26,7 +27,7 @@ Shader "Shader Graphs/Ground"
 
         Stencil
         {
-            ref 1
+            ref[_StencilMask]
             comp equal
         }
 

@@ -1,8 +1,8 @@
-Shader "Unlit/GroundMask"
+Shader "Unlit/UniversalMask"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _StencilMask ("Stencil mask write", int) = 0
     }
     SubShader
     {
@@ -13,7 +13,7 @@ Shader "Unlit/GroundMask"
 
         Stencil
         {
-            ref 1
+            ref [_StencilMask]
             comp always
             pass replace
         }
