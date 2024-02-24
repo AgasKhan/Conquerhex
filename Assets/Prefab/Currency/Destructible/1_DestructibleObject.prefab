@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3737242504853074026}
   - component: {fileID: 3737242504853074028}
   - component: {fileID: 3737242504853074027}
+  - component: {fileID: 3540766381373754454}
+  - component: {fileID: 7620313239268833535}
   m_Layer: 11
   m_Name: 1_DestructibleObject
   m_TagString: Props
@@ -25,6 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7226389105525512022}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
@@ -32,7 +35,6 @@ Transform:
   m_Children:
   - {fileID: 8405253762847140141}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3737242504853074028
 MonoBehaviour:
@@ -58,36 +60,15 @@ MonoBehaviour:
       total: 0
       _current: 0
     deathBool: 0
-  drops:
-  - maxMinDrops:
-      pictionaries:
-      - key: 0
-        value: 15
-      - key: 1
-        value: 25
-      - key: 2
-        value: 50
-      - key: 3
-        value: 25
-      - key: 4
-        value: 15
-    item: {fileID: 11400000, guid: fc99028267533e841aef98591c473d27, type: 2}
-  - maxMinDrops:
-      pictionaries: []
-    item: {fileID: 11400000, guid: 4c8be1a9653095041a2472a8d81e30f5, type: 2}
-  audioManager: {fileID: 0}
   carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
     type: 3}
   <carlitos>k__BackingField: []
-  interact:
-    pictionaries: []
-  inventory: []
-  currentWeight: 0
-  travelItem: []
-  _structure: {fileID: 11400000, guid: d6f85c225cd843e43abbe912af8d3f6f, type: 2}
-  references:
-    version: 2
-    RefIds: []
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 0261c8f9edf440e4cbc550f66f345ed1,
+    type: 2}
+  <healthBase>k__BackingField: {fileID: 11400000, guid: 91df6849104b7e74ab5c11e304949ba6,
+    type: 2}
+  inventory: {fileID: 3540766381373754454}
+  drop: {fileID: 7620313239268833535}
 --- !u!70 &3737242504853074027
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -98,17 +79,68 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0000000107626255, y: -0.076383255}
   m_Size: {x: 0.46179688, y: 0.17723474}
   m_Direction: 1
+--- !u!114 &3540766381373754454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7226389105525512022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: []
+  currentWeight: 0
+  travelItem: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &7620313239268833535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7226389105525512022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2175171fb572ac44a001ece1601d4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drops: []
 --- !u!1001 &182513100124275803
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3737242504853074026}
     m_Modifications:
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
@@ -120,7 +152,7 @@ PrefabInstance:
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3115218222824334144, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
@@ -213,6 +245,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 135a5d7445645394c8a553fdb6e815a0, type: 3}
 --- !u!4 &8405253762847140141 stripped
 Transform:

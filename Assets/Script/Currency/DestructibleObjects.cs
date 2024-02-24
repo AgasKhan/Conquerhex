@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestructibleObjects : InventoryEntityComponent
+[RequireComponent(typeof(InventoryEntityComponent))]
+[RequireComponent(typeof(DropEntityComponent))]
+public class DestructibleObjects : Entity
 {
-    [SerializeField]
-    EntityBase _structure;
+    //public EntityBase _structure;
+    public InventoryEntityComponent inventory;
+    public DropEntityComponent drop;
+    
+    
     //protected override Damage[] vulnerabilities => _structure.vulnerabilities;
 
     /*
