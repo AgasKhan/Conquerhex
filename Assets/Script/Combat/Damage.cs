@@ -11,6 +11,7 @@ public interface IDamageable
 [System.Serializable]
 public struct Damage
 {
+    public string name;
     public float amount;
     public ClassDamage typeInstance;
 
@@ -43,4 +44,11 @@ public abstract class ElementalDamage : ClassDamage
 /// </summary>
 public abstract class PhysicalDamage : ClassDamage
 {
+}
+
+public class DamageContainer : HybridArray<Damage>
+{
+    public DamageContainer(Func<Damage[]> staticArray) : base(staticArray)
+    {
+    }
 }

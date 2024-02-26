@@ -12,9 +12,9 @@ public class Character : Entity, ISwitchState<Character>
     public AttackEntityComponent attack;
     public MoveEntityComponent move;
 
-
-
     IState<Character> _ia;
+
+
 
     public IState<Character> CurrentState
     {
@@ -35,15 +35,6 @@ public class Character : Entity, ISwitchState<Character>
             _ia?.OnEnterState(this);
         }
     }
-
-
-    public void Attack()
-    {
-
-    }
-
-
-
 
     protected override void Config()
     {

@@ -121,9 +121,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         }
     }
 
-    public virtual float finalVelocity => itemBase.velocity * weapon.itemBase.velocity;
+    public virtual float finalVelocity => itemBase.velocity * weaponEnabled.itemBase.velocity;
 
-    public virtual float finalRange => itemBase.range * weapon.itemBase.range;
+    public virtual float finalRange => itemBase.range * weaponEnabled.itemBase.range;
 
     public FadeColorAttack reference
     {
@@ -135,7 +135,15 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         }
     }
 
-    public MeleeWeapon weapon => equipedWeapon.durability.current > 0 ? equipedWeapon : null;
+    /// <summary>
+    /// Devuelve el arma si esta esta en condiciones de ser utilizada
+    /// </summary>
+    public MeleeWeapon weaponEnabled => equipedWeapon.durability.current > 0 && HaveSameContainer(equipedWeapon) ? equipedWeapon : null;
+
+    /// <summary>
+    /// devuelve el arma vinculada a la habilidad
+    /// </summary>
+    public MeleeWeapon weapon => equipedWeapon;
 
     public virtual void ChangeWeapon(Item weaponParam)
     {
@@ -169,7 +177,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 
     public void TakeOutWeapon()
     {
-        Weapon_Desequipe();
+        Weapon_Desequiped();
 
 
         pressed = MyControllerVOID; //Para cancelar el ataque presionado
@@ -208,7 +216,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         pressed = MyControllerVOID;
         up = MyControllerVOID;
 
-        onDrop += Weapon_Desequipe;
+        onDrop += Weapon_Desequiped;
 
         if (itemBase == null)
             return;
@@ -244,18 +252,18 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         else
             cooldown.Set(finalVelocity);
 
-        equipedWeapon.off += Weapon_Desequipe;
-        equipedWeapon.onDrop += Weapon_Desequipe;
+        equipedWeapon.off += Weapon_Desequiped;
+        equipedWeapon.onDrop += Weapon_Desequiped;
         onEquipedWeapon?.Invoke(equipedWeapon);
     }
 
-    private void Weapon_Desequipe()
+    private void Weapon_Desequiped()
     {
         if (equipedWeapon == null)
             return;
 
-        equipedWeapon.off -= Weapon_Desequipe;
-        equipedWeapon.onDrop -= Weapon_Desequipe;
+        equipedWeapon.off -= Weapon_Desequiped;
+        equipedWeapon.onDrop -= Weapon_Desequiped;
         onDesEquipedWeapon?.Invoke(equipedWeapon);
         equipedWeapon = null;
     }
@@ -263,7 +271,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        if (caster == null || !caster.isActiveAndEnabled || weapon == null)
+        if (caster == null || !caster.isActiveAndEnabled || weaponEnabled == null)
         {
             StopAttack();
             return;
@@ -284,7 +292,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        if (caster==null || !caster.isActiveAndEnabled || weapon == null)
+        if (caster==null || !caster.isActiveAndEnabled || weaponEnabled == null)
         {
             StopAttack();
             return;
@@ -296,7 +304,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        if (caster != null && caster.isActiveAndEnabled && weapon != null)
+        if (caster != null && caster.isActiveAndEnabled && weaponEnabled != null)
         {
             up(dir, tim);
         }
@@ -326,10 +334,10 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 
     Entity[] InternalAttack(params Entity[] entities)
     {
-        if (weapon == null)
+        if (weaponEnabled == null)
             return new Entity[0];
 
-        Damage[] damagesCopy = (Damage[])weapon.itemBase.damages.Clone();
+        Damage[] damagesCopy = (Damage[])weaponEnabled.itemBase.damages.Clone();
 
 
         List<Damage> additives = new List<Damage>(caster.additiveDamage);
@@ -367,9 +375,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         }
 
 
-        var aux = weapon.Damage(caster.container, ref damagesCopy, entities);
+        var aux = weaponEnabled.Damage(caster.container, ref damagesCopy, entities);
 
-        weapon.Durability(itemBase.damageToWeapon);
+        weaponEnabled.Durability(itemBase.damageToWeapon);
 
         return aux;
     }

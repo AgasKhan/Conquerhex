@@ -58,11 +58,11 @@ public class StatisticsSubMenu : CreateSubMenu
             nameKata = ch.attack.actualKata.equiped.nameDisplay;
             spriteKata = ch.attack.actualKata.equiped.image;
 
-            if(ch.attack.actualKata.equiped.weapon != null)
+            if(ch.attack.actualKata.equiped.weaponEnabled != null)
             {
-                nameArmas = ch.attack.actualKata.equiped.weapon.nameDisplay;
-                spriteWeapon = ch.attack.actualKata.equiped.weapon.image;
-                strWeapon = "Uses: " + ch.attack.actualKata.equiped.weapon.current;
+                nameArmas = ch.attack.actualKata.equiped.weaponEnabled.nameDisplay;
+                spriteWeapon = ch.attack.actualKata.equiped.weaponEnabled.image;
+                strWeapon = "Uses: " + ch.attack.actualKata.equiped.weaponEnabled.current;
 
             }
 

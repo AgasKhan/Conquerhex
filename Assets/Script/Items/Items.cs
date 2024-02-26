@@ -74,6 +74,16 @@ public abstract class Item : IShowDetails
 
     public System.Type itemType => GetType();
 
+    public bool HaveSameContainer(InventoryEntityComponent container)
+    {
+        return container == this.container;
+    }
+
+    public bool HaveSameContainer(Item item)
+    {
+        return item.container == this.container;
+    }
+
     public virtual Pictionarys<string, string> GetDetails()
     {
         return _itemBase.GetDetails();
