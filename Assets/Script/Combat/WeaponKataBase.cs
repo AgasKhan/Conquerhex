@@ -71,9 +71,6 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     {
         if(indexParticles!=null && indexParticles.Length>0)
             PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
-
-        //aux.SetParent(dmg);
-
     }
 
     public abstract Entity[] Detect(Entity caster, Vector2 direction, int numObjectives, float range);
@@ -95,9 +92,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
     [SerializeReference]
     protected Timer cooldown;
 
-    protected AttackEntityComponent caster { get; set; }
-
-    protected InventoryEntityComponent inventory => equipedWeapon.inventoryComponent;
+    protected AttackEntityComponent caster;
 
     protected Entity[] affected;
 
@@ -108,7 +103,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
     System.Action<Vector2, float> up;
 
     [SerializeField]
-    EquipedItem<MeleeWeapon> equipedWeapon = new EquipedItem<MeleeWeapon>();
+    protected MeleeWeapon equipedWeapon;
 
     float actualCharacterVelocity;
 
@@ -140,30 +135,17 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         }
     }
 
-    public MeleeWeapon weapon
+    public MeleeWeapon weapon => equipedWeapon.durability.current > 0 ? equipedWeapon : null;
+
+    public virtual void ChangeWeapon(Item weaponParam)
     {
-        get => equipedWeapon.equiped;
-    }
-
-    public int indexWeapon => equipedWeapon.indexEquipedItem;
-
-
-
-    public void ChangeWeapon(MeleeWeapon weapon)
-    {
-        ChangeWeapon(inventory.inventory.IndexOf(weapon));
-    }
-
-    public virtual void ChangeWeapon(int weaponIndex)
-    {
-        if(! (inventory.inventory[weaponIndex] is MeleeWeapon) || weaponIndex < 0)
+        if(!(weaponParam is MeleeWeapon))
         {
             Debug.Log("No es un arma");
             return;
         }
 
-        MeleeWeapon weapon = (MeleeWeapon)inventory.inventory[weaponIndex];
-
+        MeleeWeapon weapon = (MeleeWeapon)weaponParam;
 
         foreach (var ability in itemBase.RequiredDamage)
         {
@@ -180,24 +162,20 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 
         TakeOutWeapon();
 
-        equipedWeapon.indexEquipedItem = weaponIndex;
+        equipedWeapon = weapon;
 
-        onEquipedWeapon?.Invoke(this.weapon);//Jamas recibira un arma null al menos que le este pasando un null como parametro
-
-        this.weapon.off += Weapon_durabilityOff;
-
-        cooldown.Set(finalVelocity);
+        Weapon_Equiped();
     }
 
     public void TakeOutWeapon()
     {
-        if(weapon!=null)
-            weapon.off -= Weapon_durabilityOff;
+        Weapon_Desequipe();
+
 
         pressed = MyControllerVOID; //Para cancelar el ataque presionado
-
-        onDesEquipedWeapon?.Invoke(weapon);//puede devolver o no null en base a si ya tenia un arma previa o no
     }
+
+
 
     protected void Attack()
     {
@@ -223,64 +201,65 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         return affected;
     }
 
-    /// <summary>
-    /// primer parametro caster, segundo weapon
-    /// </summary>
-    /// <param name="param"></param>
-    public void Init(AttackEntityComponent attackEntity, int indexWeapon)
+    #region interfaces
+
+    protected override void Init()
     {
+        pressed = MyControllerVOID;
+        up = MyControllerVOID;
+
+        onDrop += Weapon_Desequipe;
+
         if (itemBase == null)
             return;
 
-        caster = attackEntity;
-
-        equipedWeapon.inventoryComponent = attackEntity.GetInContainer<InventoryEntityComponent>();
-
-        equipedWeapon.indexEquipedItem = indexWeapon;
+        if(!container.TryGetInContainer(out caster))
+        {
+            return;
+        }
 
         if (caster.TryGetInContainer<MoveEntityComponent>(out var move))
         {
             actualCharacterVelocity = move.move.objectiveVelocity;
         }
 
-        Init();
+        foreach (var item in itemBase.audios)
+        {
+            caster.GetInContainer<AudioEntityComponent>()?.AddAudio(item.key, item.value);
+        }
+
+        Debug.Log("se creo weapon kata " + caster.name);
+
+        equipedWeapon?.Init(container);
+        Weapon_Equiped();
     }
 
-    #region interfaces
-
-    public override void Init()
+    private void Weapon_Equiped()
     {
-        pressed = MyControllerVOID;
-        up = MyControllerVOID;
-
-        if (itemBase == null)
+        if (equipedWeapon == null)
             return;
 
-        if (equipedWeapon.inventoryComponent != null)
-        {
-            foreach (var item in itemBase.audios)
-            {
-                caster.GetInContainer<AudioEntityComponent>()?.AddAudio(item.key, item.value);
-            }
+        if(cooldown==null)
+            cooldown = TimersManager.Create(finalVelocity);
+        else
+            cooldown.Set(finalVelocity);
 
-            Debug.Log("se creo weapon kata " + caster.name);
-
-            cooldown = TimersManager.Create(itemBase.velocity);
-
-            if (weapon != null)
-            {
-                weapon.Init();
-                weapon.off += Weapon_durabilityOff;
-                cooldown.Set(finalVelocity);
-            }
-        }
+        equipedWeapon.off += Weapon_Desequipe;
+        equipedWeapon.onDrop += Weapon_Desequipe;
+        onEquipedWeapon?.Invoke(equipedWeapon);
     }
 
-    private void Weapon_durabilityOff()
+    private void Weapon_Desequipe()
     {
-        onDesEquipedWeapon?.Invoke(weapon);
-        equipedWeapon.indexEquipedItem = -1;
+        if (equipedWeapon == null)
+            return;
+
+        equipedWeapon.off -= Weapon_Desequipe;
+        equipedWeapon.onDrop -= Weapon_Desequipe;
+        onDesEquipedWeapon?.Invoke(equipedWeapon);
+        equipedWeapon = null;
     }
+
 
     public void ControllerDown(Vector2 dir, float tim)
     {

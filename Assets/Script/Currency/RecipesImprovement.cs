@@ -22,7 +22,9 @@ public class RecipesImprovement : SingletonMono<RecipesImprovement>
         weapon.durability.Set(weapon.itemBase.durability + improvements[material].durImprovement);
 
         weapon.itemBase.durability += improvements[material].durImprovement;
-        weapon.Init();
+
+        //weapon.Init();
+        Debug.LogWarning("Falta implementar el init nuevo");
 
         return weapon;
     }

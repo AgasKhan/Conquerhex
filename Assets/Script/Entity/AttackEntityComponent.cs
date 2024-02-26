@@ -7,7 +7,12 @@ using ComponentsAndContainers;
 public class AttackEntityComponent : ComponentOfContainer<Entity>
 {
     [SerializeField]
+    List<MeleeWeapon> _weapons = new List<MeleeWeapon>();
+
+    [SerializeField]
     EquipedItem<WeaponKata>[] _katas = new EquipedItem<WeaponKata>[3];
+
+
 
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }
@@ -56,8 +61,6 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
 
     public override void OnEnterState(Entity param)
     {
-        container = param;
-
         inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
 
         for (int i = 0; i < _katas.Length; i++)
@@ -105,11 +108,13 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
 
         actualKata.indexEquipedItem = inventoryEntity.inventory.Count - 1;
 
+        actualKata.equiped.Init(inventoryEntity);
+
         inventoryEntity.inventory.Add(flyweight.kataCombos[index].weapon.Create());
 
-        actualKata.equiped.Init(this, inventoryEntity.inventory.Count - 1);
+        inventoryEntity.inventory[^1].Init(inventoryEntity);
 
-
+        actualKata.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
     }
 
     public void Init()
@@ -120,7 +125,7 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
 
             if (_katas[i].equiped!=null)
             {
-                _katas[i].equiped.Init(this, _katas[i].equiped.indexWeapon);
+                _katas[i].equiped.Init(inventoryEntity);
             }
         }
     }

@@ -13,6 +13,7 @@ public class Character : Entity, ISwitchState<Character>
     public MoveEntityComponent move;
 
 
+
     IState<Character> _ia;
 
     public IState<Character> CurrentState
@@ -35,6 +36,15 @@ public class Character : Entity, ISwitchState<Character>
         }
     }
 
+
+    public void Attack()
+    {
+
+    }
+
+
+
+
     protected override void Config()
     {
         base.Config();
@@ -45,14 +55,14 @@ public class Character : Entity, ISwitchState<Character>
     void MyAwake()
     {
         _ia = GetComponent<IState<Character>>();
+
+        move = GetInContainer<MoveEntityComponent>();
+        attack = GetInContainer<AttackEntityComponent>();
+        inventory = GetInContainer<InventoryEntityComponent>();
     }
 
     void MyStart()
     {
-        move = GetInContainer<MoveEntityComponent>();
-        attack = GetInContainer<AttackEntityComponent>();
-        inventory = GetInContainer<InventoryEntityComponent>();
-
         if (_ia != null)
         {
             _ia.OnEnterState(this);
@@ -65,5 +75,4 @@ public class Character : Entity, ISwitchState<Character>
         _ia.OnStayState(this);
     }
 }
-
 

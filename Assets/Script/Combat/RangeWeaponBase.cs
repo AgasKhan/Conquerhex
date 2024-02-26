@@ -35,7 +35,7 @@ public class RangeWeapon : MeleeWeapon
 
     public Vector2Int prefabBullet => ((RangeWeaponBase)itemBase).indexPrefabBullet;
 
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
 

@@ -9,7 +9,6 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>
 
     public override void OnEnterState(Entity param)
     {
-        container = param;
         move.onTeleport += param.Teleport;
     }
 

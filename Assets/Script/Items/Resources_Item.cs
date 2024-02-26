@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Resources_Item : ItemStackeable<ResourcesBase_ItemBase>
 {
-    public override void Init()
+    protected override void Init()
     {
         
     }

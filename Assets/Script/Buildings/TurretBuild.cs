@@ -5,7 +5,7 @@ using UnityEngine;
 //Model
 public class TurretBuild : BarrierBuild
 {
-    public AttackEntityComponent attack;
+    //public AttackEntityComponent attack;
     public InventoryEntityComponent invent;
 
     public string originalAbility = "";

@@ -19,7 +19,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
 
     public override void OnEnterState(Entity param)
     {
-        container = param;
+
     }
 
     public override void OnStayState(Entity param)

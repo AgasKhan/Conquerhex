@@ -27,10 +27,13 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
 
     public bool TryGetInContainer<T>(out T component) where T : IComponent<Entity> => container.TryGetInContainer(out component);
 
+    public void OnSetContainer(Entity param)
+    {
+        container = param;
+    }
+
     public void OnEnterState(Entity entity)
     {
-        container = entity;
-
         if (audios.ContainsKey(damagedLifeAudio))
         {
             entity.health.lifeUpdate += Health_lifeUpdate;
@@ -84,5 +87,5 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
             Play(damagedRegenAudio);
     }
 
-    
+
 }

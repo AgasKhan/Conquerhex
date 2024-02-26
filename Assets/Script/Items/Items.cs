@@ -11,7 +11,7 @@ public abstract class ItemBase : ShowDetails
 
     public float weight;
 
-    public Dictionary<string, System.Action<Character, int>> buttonsAcctions = new Dictionary<string, System.Action<Character, int>>();
+    public Dictionary<string, System.Action<Character, Item>> buttonsAcctions = new Dictionary<string, System.Action<Character, Item>>();
 
     System.Type _itemType;
     
@@ -43,7 +43,7 @@ public abstract class ItemBase : ShowDetails
         buttonsAcctions.Add("Destroy", DestroyItem);
     }
 
-    protected virtual void DestroyItem(Character character, int item)
+    protected virtual void DestroyItem(Character character, Item item)
     {
         character.inventory.AddOrSubstractItems(nameDisplay, -1);
     }
@@ -57,8 +57,14 @@ public abstract class ItemBase : ShowDetails
 
 
 [System.Serializable]
-public abstract class Item : IShowDetails, Init
+public abstract class Item : IShowDetails
 {
+    public event System.Action onDrop;
+    public event System.Action<InventoryEntityComponent> onChangeContainer;
+
+    [SerializeField]
+    protected InventoryEntityComponent container;
+
     [SerializeField]
     protected ItemBase _itemBase;
 
@@ -73,7 +79,22 @@ public abstract class Item : IShowDetails, Init
         return _itemBase.GetDetails();
     }
 
-    public abstract void Init();
+    public void Init(InventoryEntityComponent inventoryEntityComponent)
+    {
+        if (container != null)
+            return;
+
+        container = inventoryEntityComponent;
+        Init();
+    }
+
+    public void ChangeContainer(InventoryEntityComponent inventoryEntityComponent)
+    {
+        onDrop?.Invoke();
+        onChangeContainer?.Invoke(inventoryEntityComponent);
+    }
+
+    protected abstract void Init();
 
     public abstract Item SetItemBase(object baseItem);
 
@@ -125,7 +146,6 @@ public abstract class Item<T> : Item where T : ItemBase
         if(baseItem is T)
         {
             _itemBase = baseItem as T;
-            Init();
         }
         else
         {

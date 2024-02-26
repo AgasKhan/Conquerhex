@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
 public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 {
+    [Header("Kata que sera ejecutada cuando se desee atacar con el arma base")]
+    public WeaponKataBase defaultKata;
+
+
     public Damage[] damages = new Damage[1];
 
     public float durability;
@@ -50,7 +54,7 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
         //base.CreateButtonsAcctions();
     }
 
-    void Equip(Character chr, int item)
+    void Equip(Character chr, Item item)
     {
         chr.attack.actualKata.equiped?.ChangeWeapon(item);
     }
@@ -68,6 +72,8 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
     public Damage[] damages => itemBase.damages;
 
     public event System.Action off;
+
+    public WeaponKata defaultKata;
 
     public virtual Entity[] Damage(Entity owner, ref Damage[] damages, params Entity[] damageables)
     {
@@ -92,13 +98,22 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
         return entitiesDamaged.ToArray();
     }
 
-    public override void Init()
+    protected override void Init()
     {
         if (itemBase == null)
             return;
 
         if (durability == null)
             durability = new Tim(itemBase.durability);
+
+        if (defaultKata == null)
+        {
+            defaultKata = itemBase.defaultKata.Create() as WeaponKata;
+
+            defaultKata.Init(container);
+            defaultKata.ChangeWeapon(this);
+        }
+            
     }
 
     public virtual void Durability(float damageToDurability)

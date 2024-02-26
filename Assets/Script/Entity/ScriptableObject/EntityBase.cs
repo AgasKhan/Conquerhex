@@ -44,7 +44,7 @@ public class EntityBase : ItemBase
 
 public class EntityDiagram : Item<EntityBase>
 {
-    public override void Init()
+    protected override void Init()
     {
 
     }

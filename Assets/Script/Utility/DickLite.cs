@@ -72,22 +72,22 @@ public class SuperDickLite<Value> : DickLite<System.Type, Value>
     {
         if(keyHashed==null)
         {
-            var types = System.AppDomain.CurrentDomain.GetAssemblies().SelectMany((assemply) => assemply.GetTypes()).Where(type => typeof(Value).IsAssignableFrom(type)).ToArray();
+            var types = System.AppDomain.CurrentDomain.GetAssemblies().SelectMany((assemply) => assemply.GetTypes()).Where(type => typeof(Value).IsAssignableFrom(type)).OrderBy((type) => type.GetHashCode()).ToArray();
 
             SetKeys(types);
 
             string pantalla = string.Empty;
 
-            foreach (var item in keyHashed)
+            foreach (var item in types)
             {
-                pantalla += " " + item;
+                pantalla += "\t" + item.Name + ":" + item.GetHashCode();
             }
 
             string dato;
 
             if(typeof(Value).IsGenericType)
             {
-                 dato = typeof(Value).Name + " con el/los generico/s: " + typeof(Value).GetGenericArguments().Select(type => type.Name).Aggregate((str, str2) => str + '-' + str2);
+                 dato = "(Generico) " + typeof(Value).Name + "_" + typeof(Value).GetGenericArguments().Select(type => type.Name).Aggregate((str, str2) => str + '_' + str2);
             }
             else
             {

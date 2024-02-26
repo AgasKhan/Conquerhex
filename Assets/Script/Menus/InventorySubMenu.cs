@@ -68,7 +68,7 @@ public class InventorySubMenu : CreateSubMenu
                {
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                    DestroyButtonsActions();
-                   CreateButtonsActions(index, item.GetItemBase().buttonsAcctions);
+                   CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
                };
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
@@ -87,7 +87,7 @@ public class InventorySubMenu : CreateSubMenu
         buttonsListActions.Clear();
     }
 
-    void CreateButtonsActions(int myItem, Dictionary<string, System.Action<Character, int>> dic)
+    void CreateButtonsActions(Item myItem, Dictionary<string, System.Action<Character, Item>> dic)
     {
 
         foreach (var item in dic)
