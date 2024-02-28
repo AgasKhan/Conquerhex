@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[CreateAssetMenu(menuName = "Weapons/Impact", fileName = "Impact")]
-/// <summary>
-/// danio extra aleatorio de hasta el 50%
-/// </summary>
-public class Impact : PhysicalDamage
+namespace DamageTypes
 {
-    public override void IntarnalAction(Entity entity, float amount)
+    [CreateAssetMenu(menuName = "Weapons/Impact", fileName = "Impact")]
+    /// <summary>
+    /// danio extra aleatorio de hasta el 50%
+    /// </summary>
+    public class Impact : PhysicalDamage
     {
-        entity.health.TakeLifeDamage(Random.Range(0, 0.5f) * amount);
+        public override void IntarnalAction(Entity entity, float amount)
+        {
+            entity.health.TakeLifeDamage(Random.Range(0, 0.5f) * amount);
+        }
     }
 }

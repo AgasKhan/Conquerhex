@@ -90,11 +90,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             
             attacksCounter++;
 
-            Damage dmg = new Damage();
-
-            dmg.typeInstance = (ClassDamage)Manager<ShowDetails>.pic["Perforation"];
-
-            dmg.amount = 30;
+            Damage dmg = Damage.Create<DamageTypes.Perforation>(30);
 
             player.TakeDamage(dmg);
 

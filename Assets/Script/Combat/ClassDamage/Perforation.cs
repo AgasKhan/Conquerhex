@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Weapons/Perforation", fileName = "Perforation")]
-public class Perforation : PhysicalDamage
+namespace DamageTypes
 {
-    public override void IntarnalAction(Entity entity, float amount)
+    [CreateAssetMenu(menuName = "Weapons/Perforation", fileName = "Perforation")]
+    public class Perforation : PhysicalDamage
     {
-        //entity.health.TakeRegenDamage();
-        var aux = 3f / Random.Range(1, 4);
+        public override void IntarnalAction(Entity entity, float amount)
+        {
+            //entity.health.TakeRegenDamage();
+            var aux = 3f / Random.Range(1, 4);
 
-        entity.health.TakeRegenDamage(aux * amount);
+            entity.health.TakeRegenDamage(aux * amount);
+        }
     }
 }

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 [CreateAssetMenu(menuName = "Weapons/Range", fileName = "New weapons")]
 public class RangeWeaponBase : MeleeWeaponBase
 {
@@ -43,14 +46,30 @@ public class RangeWeapon : MeleeWeapon
     }
 
 
-    public override Entity[] Damage(Entity owner ,ref Damage[] damages, params Entity[] damageables)
+    public override IEnumerable<Entity> Damage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
+        /*
         if (damageables == null || damageables.Length == 0)
             return new Entity[] {};
+        */
 
-        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile , owner.transform.position, Quaternion.identity, owner.transform.parent);
+        if (damageables == null)
+            return new Entity[] { };
 
-        proyectile.Throw(owner, damages, damageables[0].transform.position - proyectile.transform.position);
+        Entity objective = null;
+
+        foreach (var item in damageables)
+        {
+            objective = item;
+            break;
+        }
+
+        if(objective == null)
+            return new Entity[] { };
+
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position, Quaternion.identity, owner.transform.parent);
+
+        proyectile.Throw(owner, System.Linq.Enumerable.ToArray(damages), objective.transform.position - proyectile.transform.position);
 
         return new Entity[] {};
     }

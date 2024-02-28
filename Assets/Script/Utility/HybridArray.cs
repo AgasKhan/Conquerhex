@@ -28,7 +28,9 @@ public class HybridArray<V>
         }
     }
 
-    Func<V, V, bool> fusion;
+    //public delegate V Fusion(V original, V toCompare, out bool remove);
+
+    //Fusion fusion;
 
     Func<V[]> staticArray;
 
@@ -36,24 +38,15 @@ public class HybridArray<V>
 
     int _count = 0;
 
+    
     public IEnumerable<V> content
     {
         get
         {
-            var list = dynamicArray.Where(wrapper => wrapper.set).Select(wrapper => wrapper.value).Concat(staticArray()).ToList();
-
-            for (int i = list.Count - 1; i >= 0; i--)
-            {
-                for (int j = i - 1; j >= 0; j--)
-                {
-                    if (fusion(list[i], list[j]))
-                        list.RemoveAt(j);
-                }
-
-                yield return list[i];
-            }
+            return dynamicArray.Where(wrapper => wrapper.set).Select(wrapper => wrapper.value).Concat(staticArray());
         }
     }
+    
 
     public int Count => staticArray().Length + _count;
 
@@ -104,9 +97,14 @@ public class HybridArray<V>
                 dynamicArray[i].set = false;
         }
     }
-
-    public HybridArray(Func<V[]> staticArray)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="staticArray"></param>
+    /// <param name="func">La fucion se guarda en </param>
+    public HybridArray(Func<V[]> staticArray/*, Fusion func*/)
     {
+        //this.fusion = func;
         this.staticArray = staticArray;
     }
 }

@@ -75,27 +75,23 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
     public WeaponKata defaultKata;
 
-    public virtual Entity[] Damage(Entity owner, ref Damage[] damages, params Entity[] damageables)
+    public virtual IEnumerable<Entity> Damage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
-        List<Entity> entitiesDamaged = new List<Entity>();
-
-        foreach (var entitys in damageables)
+        foreach (var entity in damageables)
         {
             bool auxiliarDamaged = false;
 
             System.Action<Damage> chckDmg = (dmg) => auxiliarDamaged = true;
 
-            entitys.onTakeDamage += chckDmg;
+            entity.onTakeDamage += chckDmg;
 
-            entitys.TakeDamage(damages);
+            entity.TakeDamage(damages);
 
-            entitys.onTakeDamage -= chckDmg;
+            entity.onTakeDamage -= chckDmg;
 
-            if(auxiliarDamaged)
-                entitiesDamaged.Add(entitys);
+            if (auxiliarDamaged)
+                yield return entity;
         }
-
-        return entitiesDamaged.ToArray();
     }
 
     protected override void Init()

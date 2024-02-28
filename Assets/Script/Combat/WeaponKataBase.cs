@@ -332,50 +332,17 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
         return itemBase.Detect(caster.container, dir, itemBase.detect.maxDetects, finalRange);
     }
 
-    Entity[] InternalAttack(params Entity[] entities)
+    IEnumerable<Entity> InternalAttack(params Entity[] entities)
     {
         if (weaponEnabled == null)
             return new Entity[0];
 
-        Damage[] damagesCopy = (Damage[])weaponEnabled.itemBase.damages.Clone();
+        var totalDamage = Damage.Combine(Damage.AdditiveFusion, weaponEnabled.itemBase.damages, caster.additiveDamage.content);
+
+        totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, itemBase.damagesMultiply);
 
 
-        List<Damage> additives = new List<Damage>(caster.additiveDamage);
-
-
-        for (int i = 0; i < damagesCopy.Length; i++)
-        {
-            for (int ii = additives.Count - 1; ii >= 0; ii--)
-            {
-                if (damagesCopy[i].typeInstance == additives[ii].typeInstance)
-                {
-                    damagesCopy[i].amount += additives[ii].amount;
-
-                    additives.RemoveAt(ii);
-
-                    continue;
-                }
-            }
-        }
-
-        additives.AddRange(damagesCopy);
-
-        damagesCopy = additives.ToArray();
-
-        for (int i = 0; i < itemBase.damagesMultiply.Length; i++)
-        {
-            for (int ii = 0; ii < damagesCopy.Length; ii++)
-            {
-                if (itemBase.damagesMultiply[i].typeInstance == damagesCopy[ii].typeInstance)
-                {
-                    damagesCopy[ii].amount *= itemBase.damagesMultiply[i].amount;
-                    break;
-                }
-            }
-        }
-
-
-        var aux = weaponEnabled.Damage(caster.container, ref damagesCopy, entities);
+        var aux = weaponEnabled.Damage(caster.container, totalDamage, entities);
 
         weaponEnabled.Durability(itemBase.damageToWeapon);
 

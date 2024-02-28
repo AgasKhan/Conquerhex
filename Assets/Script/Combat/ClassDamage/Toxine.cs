@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Weapons/Toxine", fileName = "Toxine")]
-public class Toxine : ElementalDamage
+namespace DamageTypes
 {
-    public override void IntarnalAction(Entity go, float amount)
-    {
-        go.Effect((1-(go.health.actualRegen / go.health.maxRegen)) *10, ()=> ToxineUpdate(go, amount), null);
-    }
 
-    void ToxineUpdate(Entity go, float amount)
+    [CreateAssetMenu(menuName = "Weapons/Toxine", fileName = "Toxine")]
+    public class Toxine : ElementalDamage
     {
-        go.health.TakeLifeDamage(amount/10 * Time.deltaTime);
+        public override void IntarnalAction(Entity go, float amount)
+        {
+            go.Effect((1 - (go.health.actualRegen / go.health.maxRegen)) * 10, () => ToxineUpdate(go, amount), null);
+        }
+
+        void ToxineUpdate(Entity go, float amount)
+        {
+            go.health.TakeLifeDamage(amount / 10 * Time.deltaTime);
+        }
     }
 }
+

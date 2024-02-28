@@ -7,7 +7,7 @@ public class ShowDetails : ScriptableObject, IShowDetails
 {
     [Header("ShowDetails")]
     [SerializeField]
-    string _nameDisplay;
+    protected string _nameDisplay;
 
     [SerializeField]
     Sprite _image;
@@ -17,7 +17,7 @@ public class ShowDetails : ScriptableObject, IShowDetails
     [TextArea(3, 6)]
     string _details;
 
-    public string nameDisplay => _nameDisplay;
+    public virtual string nameDisplay => _nameDisplay;
 
     public Sprite image => _image;
 

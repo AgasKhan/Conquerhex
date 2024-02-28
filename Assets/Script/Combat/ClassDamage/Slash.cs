@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Weapons/Slash", fileName = "Slash")]
-public class Slash : PhysicalDamage
+namespace DamageTypes
 {
-    public override void IntarnalAction(Entity entity, float amount)
+
+    [CreateAssetMenu(menuName = "Weapons/Slash", fileName = "Slash")]
+    public class Slash : PhysicalDamage
     {
-        entity.Effect(amount / 3,
-            () =>
-            {
-                entity.health.TakeRegenDamage(Time.deltaTime);
-            },
-            null
-            );
+        public override void IntarnalAction(Entity entity, float amount)
+        {
+            entity.Effect(amount / 3,
+                () =>
+                {
+                    entity.health.TakeRegenDamage(Time.deltaTime);
+                },
+                null
+                );
+        }
     }
 }

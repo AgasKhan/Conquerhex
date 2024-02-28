@@ -90,21 +90,26 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
         onDetected?.Invoke();
     }
 
-    public void TakeDamage(params Damage[] dmgs)
+    public void TakeDamage(Damage dmg)
+    {
+        TakeDamage(ref dmg);
+
+        Interfaz.instance?.PopTextDamage(this, dmg.ToString());
+
+        //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
+    }
+
+    public void TakeDamage(IEnumerable<Damage> dmgs)
     {
         if (dmgs == null)
             return;
 
         //string notif = "";
 
-        for (int i = 0; i < dmgs.Length; i++)
+        foreach (var dmgFor in dmgs)
         {
-            TakeDamage(ref dmgs[i]);
-
-            //notif += dmgs[i] + " ";
-
-            Interfaz.instance?.PopTextDamage(this ,dmgs[i].ToString());
-        }      
+            TakeDamage(dmgFor);
+        }
 
         //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }

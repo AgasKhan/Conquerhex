@@ -16,7 +16,8 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
 
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }
-    public Damage[] additiveDamage => flyweight?.additiveDamage;
+
+    public DamageContainer additiveDamage;
 
     public int weaponKataIndex = 0;
 
@@ -62,6 +63,8 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
     public override void OnEnterState(Entity param)
     {
         inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
+
+        additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
 
         for (int i = 0; i < _katas.Length; i++)
         {
