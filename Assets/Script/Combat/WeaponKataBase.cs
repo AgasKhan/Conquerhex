@@ -341,7 +341,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
 
         totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, itemBase.damagesMultiply);
 
-
         var aux = weaponEnabled.Damage(caster.container, totalDamage, entities);
 
         weaponEnabled.Durability(itemBase.damageToWeapon);

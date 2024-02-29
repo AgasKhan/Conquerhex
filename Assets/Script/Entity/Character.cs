@@ -12,6 +12,8 @@ public class Character : Entity, ISwitchState<Character>
     public AttackEntityComponent attack;
     public MoveEntityComponent move;
 
+    Dictionary<string,IState<Character>> actions = new Dictionary<string, IState<Character>>();
+
     IState<Character> _ia;
 
 

@@ -14,6 +14,7 @@ public struct Damage
 {
     public string name;
     public float amount;
+    public float knockBack;
     public DamageTypes.ParentDamage typeInstance;
 
     static SuperDickLite<DamageTypes.ParentDamage> damagesTypes = new SuperDickLite<DamageTypes.ParentDamage>();
@@ -28,13 +29,15 @@ public struct Damage
         typeInstance.IntarnalAction(go, amount);
     }
 
-    public static Damage Create<T>(float amount, string name = "") where T : DamageTypes.ParentDamage
+    public Damage Create<T>(float amount, float knockBack = 0, string name = "") where T : DamageTypes.ParentDamage
     {
         Damage dmg = new Damage();
 
         dmg.amount = amount;
 
         dmg.name = name;
+
+        dmg.knockBack = knockBack;
 
         dmg.typeInstance = GetFlyWeight<T>();
 
@@ -45,7 +48,6 @@ public struct Damage
     {
         original.amount *= toCompare.amount;
 
-
         return original;
     }
 
@@ -53,13 +55,12 @@ public struct Damage
     {
         original.amount += toCompare.amount;
 
-
         return original;
     }
 
     public static IEnumerable<Damage> Combine(Fusion fusion, params IEnumerable<Damage>[] damages)
     {
-        return damages
+        var procces = damages
             .SelectMany(dmg => dmg)
             .GroupBy(dmg => dmg.typeInstance)
             .Select(group => group
@@ -70,8 +71,15 @@ public struct Damage
                         dmgSum = fusion(dmgSum, dmg);
                         return dmgSum;
                     }
-                )
-            );
+                ))
+            //.GroupBy(dmg => dmg.typeInstance.IsParent)
+            ;
+
+        //var process = procces.Where(group => group.Key).SelectMany(group=>group);
+
+        //procces.Where(group=>!group.Key).SelectMany(group=>group).Join(process, (pr)=> { return new Damage(); }, )
+
+        return procces;
     }
 
     public static DamageTypes.ParentDamage GetFlyWeight<T>() where T : DamageTypes.ParentDamage
@@ -109,6 +117,8 @@ namespace DamageTypes
     {
         public Color color;
 
+        public bool IsParent = false;
+
         public override string nameDisplay => this.GetType().Name;
 
         public abstract void IntarnalAction(Entity go, float amount);
@@ -117,15 +127,23 @@ namespace DamageTypes
     /// <summary>
     /// este es un daño elemental
     /// </summary>
-    public abstract class ElementalDamage : ParentDamage
+    public class ElementalDamage : ParentDamage
     {
+        public override void IntarnalAction(Entity go, float amount)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
     /// este es el daño fisico
     /// </summary>
-    public abstract class PhysicalDamage : ParentDamage
+    public class PhysicalDamage : ParentDamage
     {
+        public override void IntarnalAction(Entity go, float amount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
