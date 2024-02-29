@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class DickLite<Key, Value> : IEnumerable<Value>
+public class DickLite<Key, Value> : IEnumerable<Value>, ICollection
 {
     protected static int[] keyHashed;
 
     protected Value[] values;
+
+    public int Count { get; protected set; } = 0;
+
+    public bool IsSynchronized => throw new System.NotImplementedException();
+
+    public object SyncRoot => throw new System.NotImplementedException();
 
     public Value this[Key key]
     {
@@ -17,7 +23,18 @@ public class DickLite<Key, Value> : IEnumerable<Value>
         }
         set
         {
-            values[GetIndex(key)] = value;
+            var index = GetIndex(key);
+
+            if(values[index]==null && value !=null)
+            {
+                Count++;
+            }
+            else if(values[index] != null && value == null)
+            {
+                Count--;
+            }
+
+            values[index] = value;
         }
     }
 
@@ -64,6 +81,11 @@ public class DickLite<Key, Value> : IEnumerable<Value>
     {
         return values.GetEnumerator();
     }
+
+    public void CopyTo(System.Array array, int index)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
 public class SuperDickLite<Value> : DickLite<System.Type, Value>
@@ -72,7 +94,7 @@ public class SuperDickLite<Value> : DickLite<System.Type, Value>
     {
         if(keyHashed==null)
         {
-            var types = System.AppDomain.CurrentDomain.GetAssemblies().SelectMany((assemply) => assemply.GetTypes()).Where(type => typeof(Value).IsAssignableFrom(type)).OrderBy((type) => type.GetHashCode()).ToArray();
+            var types = System.AppDomain.CurrentDomain.GetAssemblies().SelectMany((assemply) => assemply.GetTypes()).Where(type => typeof(Value).IsAssignableFrom(type) && !type.IsAbstract).OrderBy((type) => type.GetHashCode()).ToArray();
 
             SetKeys(types);
 

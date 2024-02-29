@@ -16,6 +16,8 @@ public struct Damage
     public float amount;
     public DamageTypes.ParentDamage typeInstance;
 
+    static SuperDickLite<DamageTypes.ParentDamage> damagesTypes = new SuperDickLite<DamageTypes.ParentDamage>();
+
     public override string ToString()
     {
         return amount.ToString().RichTextColor(typeInstance.color);
@@ -34,7 +36,7 @@ public struct Damage
 
         dmg.name = name;
 
-        dmg.typeInstance = (DamageTypes.ParentDamage)Manager<ShowDetails>.pic[nameof(T)];
+        dmg.typeInstance = GetFlyWeight<T>();
 
         return dmg;
     }
@@ -70,6 +72,21 @@ public struct Damage
                     }
                 )
             );
+    }
+
+    public static DamageTypes.ParentDamage GetFlyWeight<T>() where T : DamageTypes.ParentDamage
+    {
+        if(damagesTypes.Count==0)
+        {
+            var dic = Manager<ShowDetails>.SearchByType<DamageTypes.ParentDamage>();
+
+            foreach (var item in dic)
+            {
+                damagesTypes[item.value.GetType()] = item.value;
+            }
+        }
+
+        return damagesTypes[typeof(T)];
     }
 
     public delegate Damage Fusion(Damage original, Damage toCompare);
