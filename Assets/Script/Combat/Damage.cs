@@ -29,7 +29,7 @@ public struct Damage
         typeInstance.IntarnalAction(go, amount);
     }
 
-    public Damage Create<T>(float amount, float knockBack = 0, string name = "") where T : DamageTypes.ParentDamage
+    public static Damage Create<T>(float amount, float knockBack = 0, string name = "") where T : DamageTypes.ParentDamage
     {
         Damage dmg = new Damage();
 
