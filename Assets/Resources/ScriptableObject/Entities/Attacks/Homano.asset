@@ -17,4 +17,8 @@ MonoBehaviour:
     weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
   - kata: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771, type: 2}
     weapon: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
-  additiveDamage: []
+  additiveDamage:
+  - name: Impact
+    amount: 10
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}

@@ -74,10 +74,29 @@ public struct Damage
                 ))
             //.GroupBy(dmg => dmg.typeInstance.IsParent)
             ;
-
-        //var process = procces.Where(group => group.Key).SelectMany(group=>group);
-
+        //var procces2 = procces.Where(group => group.Key).SelectMany(group => group);
         //procces.Where(group=>!group.Key).SelectMany(group=>group).Join(process, (pr)=> { return new Damage(); }, )
+
+        var procces2 = procces.GroupBy(dmg => dmg.typeInstance.IsParent).Where(group => group.Key).SelectMany(group=>group);
+
+        procces.Concat(procces2)
+            .GroupBy(dmg => dmg.typeInstance)
+            .Select(group => (group.Key, group.Sum(dmg => dmg.amount)));
+                
+        /*
+        List<Damage> result = new List<Damage>();
+
+        foreach (var item in procces)
+        {
+            foreach (var item2 in procces2)
+            {
+                if (item.typeInstance == item2.typeInstance)
+                    result.Add(fusion(item, item2));
+                else
+                    result.Add(item2);
+            }
+        }
+        */
 
         return procces;
     }
