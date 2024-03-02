@@ -7,7 +7,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     [SerializeField]
     DialogEvents[] allDialogs;
     int currentDialog = 0;
-    TextCompleto dialogText;
+    UI.TextCompleto dialogText;
     [HideInInspector]
     public bool dialogEnable = true;
     bool nextDialog = true;
@@ -43,7 +43,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     private void Start()
     {
-        dialogText = Interfaz.SearchTitle("Subtitulo");
+        dialogText = UI.Interfaz.SearchTitle("Subtitulo");
         dialogText.off += EndDialog;
 
         //StartCoroutine(PlayTutorial());
@@ -57,8 +57,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if(dummy != null)
             dummy.onTakeDamage += AttackDummyEvent;
         */
-        var title = Interfaz.SearchTitle("Titulo");
-        var titleSec = Interfaz.SearchTitle("Titulo secundario");
+        var title = UI.Interfaz.SearchTitle("Titulo");
+        var titleSec = UI.Interfaz.SearchTitle("Titulo secundario");
 
         title.ClearMsg();
         titleSec.ClearMsg();

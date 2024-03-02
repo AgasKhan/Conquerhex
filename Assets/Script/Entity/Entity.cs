@@ -94,7 +94,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     {
         TakeDamage(ref dmg);
 
-        Interfaz.instance?.PopTextDamage(this, dmg.ToString());
+        UI.Interfaz.instance?.PopTextDamage(this, dmg.ToString());
 
         //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }

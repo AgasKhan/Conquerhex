@@ -8,7 +8,7 @@ public class Vida : MonoBehaviour
     public float maxHp;
     public float hp;
 
-    TextCompleto UIdanio;
+    UI.TextCompleto UIdanio;
 
     [SerializeReference]
     SpriteRenderer rend;

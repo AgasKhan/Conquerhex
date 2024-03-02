@@ -45,7 +45,7 @@ public class WavesManager : SingletonMono<WavesManager>
 
     void RefreshUI()
     {
-        Interfaz.SearchTitle("Tiempo").ShowMsg("Victoria: \t\t".RichText("color", "yellow") + victoria + "\n" + "Siguiente oleada: \t".RichText("color", "red") + oleada);
+        UI.Interfaz.SearchTitle("Tiempo").ShowMsg("Victoria: \t\t".RichText("color", "yellow") + victoria + "\n" + "Siguiente oleada: \t".RichText("color", "red") + oleada);
     }
 
     private void Victory_onChange(IGetPercentage arg1, float arg2)
@@ -77,7 +77,7 @@ public class WavesManager : SingletonMono<WavesManager>
             spawners[currentWave][i].Init();
         }
 
-        Interfaz.SearchTitle("Titulo").AddMsg("Oleada " + currentWave);
+        UI.Interfaz.SearchTitle("Titulo").AddMsg("Oleada " + currentWave);
         waves.Reset();
     }
 

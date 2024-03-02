@@ -3,70 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-
-public class TextDamage : MonoBehaviour
+namespace UI
 {
-    [SerializeField]
-    TextMeshProUGUI textMesh;
-
-    public static float colorTime = 1f;
-
-    public static float velocity = 2f;
-
-    public static float distance = 200;
-
-    Vector3 originalPos => main.WorldToScreenPoint(follow.position);
-
-    Timer movement;
-
-    Transform follow;
-
-    Vector3 direction;
-
-    Vector3 offset;
-
-    Color original;//no lo estoy usando
-
-    Camera main;
-
-    public void SetText(Transform follow ,string text)
+    public class TextDamage : MonoBehaviour
     {
-        this.follow = follow;
+        [SerializeField]
+        TextMeshProUGUI textMesh;
 
-        transform.position = originalPos;
+        public static float colorTime = 1f;
 
-        offset = Vector3.zero;
+        public static float velocity = 2f;
 
-        textMesh.color = original;
+        public static float distance = 200;
 
-        textMesh.text = text;
+        Vector3 originalPos;
 
-        gameObject.SetActive(true);
+        Timer movement;
 
-        direction = Random.insideUnitCircle.normalized * distance;
+        //Transform follow;
 
-        movement.Reset();
-    }        
+        Vector3 direction;
 
-    void Movement()
-    {
-        offset +=  (Mathf.Exp( -5 * movement.InversePercentage())) * Time.deltaTime * direction;
-    }
+        Vector3 offset;
 
-    private void LateUpdate()
-    {
-        transform.position = offset + originalPos;
-        /*        
-            if(movement.InversePercentage() <= 0.01f)
-                textMesh.color = Color.Lerp(Color.white, Color.white.ChangeAlphaCopy(0), movement.InversePercentage() * 100);
-        */
-    }
+        Color original;//no lo estoy usando
 
-    private void Awake()
-    {
-        main = Camera.main;
-        movement = TimersManager.Create(velocity, Movement, ()=> gameObject.SetActive(false)).Stop();
-        original = textMesh.color;
-        gameObject.SetActive(false);        
+        Camera main;
+
+        public void SetText(Transform follow ,string text)
+        {
+            originalPos = follow.position;
+
+            offset = Vector3.zero;
+
+            textMesh.color = original;
+
+            textMesh.text = text;
+
+            gameObject.SetActive(true);
+
+            direction = Random.insideUnitCircle.normalized * distance;
+
+            movement.Reset();
+        }        
+
+        void Movement()
+        {
+            offset +=  (Mathf.Exp( -5 * movement.InversePercentage())) * Time.deltaTime * direction;
+        }
+
+        private void LateUpdate()
+        {
+            transform.position = offset + main.WorldToScreenPoint(originalPos);
+            /*        
+                if(movement.InversePercentage() <= 0.01f)
+                    textMesh.color = Color.Lerp(Color.white, Color.white.ChangeAlphaCopy(0), movement.InversePercentage() * 100);
+            */
+        }
+
+        private void Awake()
+        {
+            main = Camera.main;
+            movement = TimersManager.Create(velocity, Movement, ()=> gameObject.SetActive(false)).Stop();
+            original = textMesh.color;
+            gameObject.SetActive(false);        
+        }
     }
 }
