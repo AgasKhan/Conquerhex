@@ -8,5 +8,6 @@ public class EnableExit : LogicActive<TutorialScenaryManager>
     {
         specificParam[0].goal.SetActive(true);
         specificParam[0].dialogEnable = false;
+        SaveWithJSON.SaveInPictionary("FirstTime", true);
     }
 }

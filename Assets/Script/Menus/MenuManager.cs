@@ -39,15 +39,9 @@ public class MenuManager : SingletonMono<MenuManager>
     public void StartGame()
     {
         if(!SaveWithJSON.BD.ContainsKey("FirstTime") && initTutorial)
-        {
-
             LoadSystem.instance.Load("Tutorial", true);
-            SaveWithJSON.SaveInPictionary("FirstTime", true);
-        }   
         else
-        {
             LoadSystem.instance.Load(firstLevel, true);
-        }
         
     }
 }
@@ -152,8 +146,6 @@ public class ManagerSubMenus : Init
             subMenus.Add(reference.GetChild(i).gameObject);
         }
         
-           
-
         Manager<ManagerSubMenus>.pic.Add(reference.name, this);
     }
 }
