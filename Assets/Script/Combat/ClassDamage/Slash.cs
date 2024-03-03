@@ -10,12 +10,15 @@ namespace DamageTypes
     {
         public override void IntarnalAction(Entity entity, float amount)
         {
-            var dmg = Damage.Create<ElementalDamage>(0);
+            if (entity.health.maxRegen <= 0)
+                return;
+
+            var dmg = Damage.Create<ElementalDamage>(1);
 
             entity.Effect(amount / 3,
                 () =>
                 {
-                    dmg.amount = Time.deltaTime;
+                    //dmg.amount = 1;
 
                     entity.TakeDamage(dmg);
                 },

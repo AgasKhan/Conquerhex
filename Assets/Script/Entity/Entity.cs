@@ -4,6 +4,14 @@ using UnityEngine;
 using ComponentsAndContainers;
 public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 {
+    public struct StateDamage
+    {
+        public Timer endCheck;
+
+        public System.Action tickDamageEnd;
+
+        public System.Action updateTick;
+    }
     public Team team;
     
     public Health health;
@@ -29,59 +37,9 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
     IDamageable[] damageables;
 
-    protected override void Config()
-    {
-        base.Config();
-        MyAwakes = MyAwake + MyAwakes;
-    }
+    TimedAction tickDamage;
 
-    private void MyAwake()
-    {
-        var aux = GetComponentsInChildren<IDamageable>();
-
-        if(healthBase == null)
-            healthBase = flyweight.GetFlyWeight<HealthBase>();
-
-        health.Init(healthBase.life, healthBase.regen);
-
-        damageables = new IDamageable[aux.Length - 1];
-
-        int ii = 0;
-
-        for (int i = 0; i < aux.Length; i++)
-        {
-            if ((Object)aux[i] != this)
-            {
-                damageables[ii] = aux[i];
-                ii++;
-            }
-        }
-
-        if (carlitosPrefab == null)
-            return;
-
-        carlitos = new Transform[6];
-
-        for (int i = 0; i < carlitos.Length; i++)
-        {
-            carlitos[i] = Instantiate(carlitosPrefab, transform).transform;
-
-            carlitos[i].name = "Carlitos (" + i + ")";
-
-            carlitos[i].transform.SetPositionAndRotation(transform.position, transform.rotation);
-
-            //carlitos[i].SetActiveGameObject(false);
-        }
-
-        LoadSystem.AddPostLoadCorutine(()=> {
-            Hexagone hexagone = GetComponentInParent<Hexagone>();
-
-            if (hexagone != null)
-            {
-                Teleport(hexagone, 0);
-            }
-        });
-    }
+    System.Action updateTickDamage;
 
     public void Detect()
     {
@@ -92,9 +50,6 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
     public void TakeDamage(Damage dmg)
     {
-        if (health.actualLife == 0 && health.actualRegen == 0)
-            return;
-
         TakeDamage(ref dmg);
 
         UI.Interfaz.instance?.PopTextDamage(this, dmg.ToString());
@@ -132,23 +87,46 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
         if (dmg.amount <= 0)
             return;
 
-        dmg.ActionInitialiced(this);
-
-        onTakeDamage?.Invoke(dmg);        
-
         switch (dmg.typeInstance.target)
         {
             case DamageTypes.Target.all:
-                health.TakeDamage(dmg.amount);
+
+                if (health.actualLife > 0 || health.actualRegen > 0)
+                {
+                    health.TakeDamage(dmg.amount);
+                    onTakeDamage?.Invoke(dmg);
+                }
+                else
+                    dmg.amount = 0;                
+
                 break;
+
             case DamageTypes.Target.life:
-                health.TakeLifeDamage(dmg.amount);
+
+                if (health.actualLife > 0)
+                {
+                    health.TakeLifeDamage(dmg.amount);
+                    onTakeDamage?.Invoke(dmg);
+                }
+                else
+                    dmg.amount = 0;
+
                 break;
+
             case DamageTypes.Target.regen:
-                health.TakeRegenDamage(dmg.amount);
+
+                if (health.actualRegen > 0)
+                {
+                    health.TakeRegenDamage(dmg.amount);
+                    onTakeDamage?.Invoke(dmg);
+                }
+                else
+                    dmg.amount = 0;
+
                 break;
         }
 
+        dmg.ActionInitialiced(this, dmg.amount);
 
         foreach (var item in damageables)
         {
@@ -166,26 +144,44 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     /// <param name="end">que deseo realizar cuando termine el efecto</param>
     public void Effect(float time, System.Action update, System.Action end)
     {
-        Timer tim = null;
+        StateDamage stateDamage;
+
+        stateDamage.endCheck = TimersManager.Create(time);
+
+        stateDamage.updateTick = null;
 
         //se ejecutara cuando muere el personaje
-        System.Action internalEnd =
+        stateDamage.tickDamageEnd =
         () =>
         {
             //lleva el timer a 0, haciendo que la funcion de fin del timer
-            tim.SetInitCurrent(0);
+            stateDamage.endCheck.SetInitCurrent(0);
+        };
+
+        stateDamage.updateTick = () =>
+        {
+            update?.Invoke();
+
+            if (stateDamage.endCheck.Chck)
+            {
+                end?.Invoke();
+                health.death -= stateDamage.tickDamageEnd;
+                updateTickDamage -= stateDamage.updateTick;
+
+                if(updateTickDamage==null)
+                    tickDamage.Stop();
+            }
         };
 
         //agrego al evento de muerte la funcion que deseo ejecutar en ese caso
-        health.death += internalEnd;
+        health.death += stateDamage.tickDamageEnd;
 
-        //creo el timer, que se encargara de manejar el flujo
-        tim = TimersManager.Create(time, update,
-            () =>
-            {
-                end?.Invoke();
-                health.death -= internalEnd;
-            });
+        //lo agrego el update tick
+        updateTickDamage += stateDamage.updateTick;
+
+        //si esta frenado lo reinicio
+        if(tickDamage.Freeze)
+            tickDamage.Reset();
     }
 
     public void SetTeam(Team team)
@@ -212,6 +208,62 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
             else
                 carlitos[i].SetActiveGameObject(true);
         }
+    }
+
+    protected override void Config()
+    {
+        base.Config();
+        MyAwakes = MyAwake + MyAwakes;
+    }
+
+    private void MyAwake()
+    {
+        var aux = GetComponentsInChildren<IDamageable>();
+
+        if (healthBase == null)
+            healthBase = flyweight.GetFlyWeight<HealthBase>();
+
+        tickDamage = TimersManager.Create(1f/3, ()=> updateTickDamage?.Invoke() ).SetLoop(true).Stop() as TimedAction;
+
+        health.Init(healthBase.life, healthBase.regen);
+
+        damageables = new IDamageable[aux.Length - 1];
+
+        int ii = 0;
+
+        for (int i = 0; i < aux.Length; i++)
+        {
+            if ((Object)aux[i] != this)
+            {
+                damageables[ii] = aux[i];
+                ii++;
+            }
+        }
+
+        if (carlitosPrefab == null)
+            return;
+
+        carlitos = new Transform[6];
+
+        for (int i = 0; i < carlitos.Length; i++)
+        {
+            carlitos[i] = Instantiate(carlitosPrefab, transform).transform;
+
+            carlitos[i].name = "Carlitos (" + i + ")";
+
+            carlitos[i].transform.SetPositionAndRotation(transform.position, transform.rotation);
+
+            //carlitos[i].SetActiveGameObject(false);
+        }
+
+        LoadSystem.AddPostLoadCorutine(() => {
+            Hexagone hexagone = GetComponentInParent<Hexagone>();
+
+            if (hexagone != null)
+            {
+                Teleport(hexagone, 0);
+            }
+        });
     }
 }
 

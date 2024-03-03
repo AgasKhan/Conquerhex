@@ -301,10 +301,10 @@ public class Timer : Tim
     /// <summary>
     /// Propiedad que sirve para agregar o quitar de la cola para la resta
     /// </summary>
-    bool freeze
+    public bool Freeze
     {
         get => _freeze;
-        set
+        private set
         {
             if (value == _freeze)
                 return;
@@ -350,7 +350,7 @@ public class Timer : Tim
     /// </summary>
     public Timer Start()
     {
-        freeze = false;
+        Freeze = false;
 
         return this;
     }
@@ -360,7 +360,7 @@ public class Timer : Tim
     /// </summary>
     public Timer Stop()
     {
-        freeze = true;
+        Freeze = true;
 
         return this;
     }
@@ -396,7 +396,7 @@ public class Timer : Tim
     public Timer Set(float totalTim, bool f=true)
     {
         base.Set(totalTim);
-        freeze = !f;
+        Freeze = !f;
 
         return this;
     }

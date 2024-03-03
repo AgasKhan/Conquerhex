@@ -28,7 +28,7 @@ public struct Damage
         return amount.ToString().RichTextColor(typeInstance.color);
     }
 
-    public void ActionInitialiced(Entity go)
+    public void ActionInitialiced(Entity go, float amount)
     {
         typeInstance.IntarnalAction(go, amount);
     }

@@ -12,7 +12,10 @@ namespace DamageTypes
     {
         public override void IntarnalAction(Entity entity, float amount)
         {
-            entity.TakeDamage(Damage.Create<PhysicalDamage>(Random.Range(0, 0.5f) * amount));
+            
+
+
+            entity.TakeDamage(Damage.Create<PhysicalDamage>(Random.Range(0 , 3) * 25 / 100f * amount));
 
             //entity.health.TakeLifeDamage(Random.Range(0, 0.5f) * amount);
         }
