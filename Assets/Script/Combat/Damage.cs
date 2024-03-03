@@ -6,6 +6,10 @@ using System.Linq;
 
 public interface IDamageable
 {
+    /// <summary>
+    /// Internal manage damage
+    /// </summary>
+    /// <param name="dmg"></param>
     void TakeDamage(ref Damage dmg);
 }
 
@@ -15,9 +19,9 @@ public struct Damage
     public string name;
     public float amount;
     public float knockBack;
-    public DamageTypes.ParentDamage typeInstance;
+    public DamageTypes.PureDamage typeInstance;
 
-    static SuperDickLite<DamageTypes.ParentDamage> damagesTypes = new SuperDickLite<DamageTypes.ParentDamage>();
+    static SuperDickLite<DamageTypes.PureDamage> damagesTypes = new SuperDickLite<DamageTypes.PureDamage>();
 
     public override string ToString()
     {
@@ -29,7 +33,7 @@ public struct Damage
         typeInstance.IntarnalAction(go, amount);
     }
 
-    public static Damage Create<T>(float amount, float knockBack = 0, string name = "") where T : DamageTypes.ParentDamage
+    public static Damage Create<T>(float amount, float knockBack = 0, string name = "") where T : DamageTypes.PureDamage
     {
         Damage dmg = new Damage();
 
@@ -72,40 +76,50 @@ public struct Damage
                         return dmgSum;
                     }
                 ))
-            //.GroupBy(dmg => dmg.typeInstance.IsParent)
+            .GroupBy(dmg => dmg.typeInstance.IsParent)
             ;
-        //var procces2 = procces.Where(group => group.Key).SelectMany(group => group);
-        //procces.Where(group=>!group.Key).SelectMany(group=>group).Join(process, (pr)=> { return new Damage(); }, )
 
-        var procces2 = procces.GroupBy(dmg => dmg.typeInstance.IsParent).Where(group => group.Key).SelectMany(group=>group);
 
-        procces.Concat(procces2)
-            .GroupBy(dmg => dmg.typeInstance)
-            .Select(group => (group.Key, group.Sum(dmg => dmg.amount)));
-                
+        var proccesParents = procces.Where(group => group.Key).SelectMany(group=>group).ToArray();
+
+        return procces
+            .Where(group => !group.Key)
+            .SelectMany(group => group)
+            .Select(
+                (dmg)=> 
+                {
+                    foreach (var modifier in proccesParents)
+                    {
+                        if (dmg.GetType().IsAssignableFrom(modifier.GetType()))
+                        {
+                            dmg = fusion(dmg, modifier);
+                        }
+                    }
+
+                    return dmg;
+                });
+
         /*
-        List<Damage> result = new List<Damage>();
-
-        foreach (var item in procces)
+        foreach (var dmg in proccesChildrens)
         {
-            foreach (var item2 in procces2)
+            foreach (var modifier in proccesParents)
             {
-                if (item.typeInstance == item2.typeInstance)
-                    result.Add(fusion(item, item2));
-                else
-                    result.Add(item2);
+                if(dmg.GetType().IsAssignableFrom(modifier.GetType()))
+                {
+                    dmg = fusion(dmg, modifier);
+                }
             }
         }
         */
 
-        return procces;
+
     }
 
-    public static DamageTypes.ParentDamage GetFlyWeight<T>() where T : DamageTypes.ParentDamage
+    public static DamageTypes.PureDamage GetFlyWeight<T>() where T : DamageTypes.PureDamage
     {
         if(damagesTypes.Count==0)
         {
-            var dic = Manager<ShowDetails>.SearchByType<DamageTypes.ParentDamage>();
+            var dic = Manager<ShowDetails>.SearchByType<DamageTypes.PureDamage>();
 
             foreach (var item in dic)
             {
@@ -129,40 +143,44 @@ public class DamageContainer : HybridArray<Damage>
 
 namespace DamageTypes
 {
+    public enum Target
+    {
+        all, life, regen
+    }
+
+    [CreateAssetMenu(menuName = "Weapons/PureDamage", fileName = "PureDamage")]
     /// <summary>
     /// Clase padre de los tipos de danio
     /// </summary>
-    public abstract class ParentDamage : ShowDetails
+    public class PureDamage : ShowDetails
     {
         public Color color;
 
         public bool IsParent = false;
 
+        public Target target = Target.all;
+
         public override string nameDisplay => this.GetType().Name;
 
-        public abstract void IntarnalAction(Entity go, float amount);
+        public virtual void IntarnalAction(Entity go, float amount)
+        {
+        }
     }
 
+    [CreateAssetMenu(menuName = "Weapons/ElementalDamage", fileName = "ElementalDamage")]
     /// <summary>
     /// este es un daño elemental
     /// </summary>
-    public class ElementalDamage : ParentDamage
+    public class ElementalDamage : PureDamage
     {
-        public override void IntarnalAction(Entity go, float amount)
-        {
-            throw new NotImplementedException();
-        }
     }
 
+    [CreateAssetMenu(menuName = "Weapons/PhysicalDamage", fileName = "PhysicalDamage")]
     /// <summary>
     /// este es el daño fisico
     /// </summary>
-    public class PhysicalDamage : ParentDamage
+    public class PhysicalDamage : PureDamage
     {
-        public override void IntarnalAction(Entity go, float amount)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

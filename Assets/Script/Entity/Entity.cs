@@ -92,6 +92,9 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
     public void TakeDamage(Damage dmg)
     {
+        if (health.actualLife == 0 && health.actualRegen == 0)
+            return;
+
         TakeDamage(ref dmg);
 
         UI.Interfaz.instance?.PopTextDamage(this, dmg.ToString());
@@ -129,10 +132,23 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
         if (dmg.amount <= 0)
             return;
 
-        onTakeDamage?.Invoke(dmg);
-
         dmg.ActionInitialiced(this);
-        health.TakeLifeDamage(dmg.amount);
+
+        onTakeDamage?.Invoke(dmg);        
+
+        switch (dmg.typeInstance.target)
+        {
+            case DamageTypes.Target.all:
+                health.TakeDamage(dmg.amount);
+                break;
+            case DamageTypes.Target.life:
+                health.TakeLifeDamage(dmg.amount);
+                break;
+            case DamageTypes.Target.regen:
+                health.TakeRegenDamage(dmg.amount);
+                break;
+        }
+
 
         foreach (var item in damageables)
         {
@@ -298,20 +314,32 @@ public class Health
     {
         timeToRegen.Reset();
 
+        life.Substract(amount);
+
+        if (life.current <= 0)
+        {           
+            noLife?.Invoke();
+        }
+
+        return life.Percentage();
+    }
+
+    public float TakeDamage(float amount)
+    {
         if (life.current - amount <= 0)
         {
             var aux = amount - life.current;
 
-            noLife?.Invoke();
-
-            life.Substract(amount);
+            TakeLifeDamage(amount);
 
             TakeRegenDamage(aux);
         }
         else
         {
-            life.Substract(amount);
+            TakeLifeDamage(amount);
         }
+
+        
 
         //lifeUpdate?.Invoke(life, amount);
 

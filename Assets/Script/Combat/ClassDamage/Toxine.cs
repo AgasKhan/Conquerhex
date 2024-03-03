@@ -15,7 +15,7 @@ namespace DamageTypes
 
         void ToxineUpdate(Entity go, float amount)
         {
-            go.health.TakeLifeDamage(amount / 10 * Time.deltaTime);
+            go.health.TakeDamage(amount / 10 * Time.deltaTime);
         }
     }
 }

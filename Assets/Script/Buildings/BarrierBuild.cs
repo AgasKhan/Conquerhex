@@ -62,7 +62,7 @@ public class BarrierBuild : Building
 
     public void ResetLife()
     {
-        health.TakeLifeDamage(-1000);
+        health.TakeDamage(-1000);
         health.TakeRegenDamage(-100);
     }
 
