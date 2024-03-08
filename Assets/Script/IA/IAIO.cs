@@ -180,7 +180,7 @@ public class ControllerIAIO : IControllerDir, Init
 
     WeaponKata previusControllerDir;
 
-    AttackEntityComponent character;
+    CasterEntityComponent character;
 
     int index;
 

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MoveEntityComponent))]
-[RequireComponent(typeof(AttackEntityComponent))]
+[RequireComponent(typeof(CasterEntityComponent))]
 public class Character : Entity, ISwitchState<Character>
 {
     //public new BodyBase flyweight;
 
     public InventoryEntityComponent inventory;
-    public AttackEntityComponent attack;
+    public CasterEntityComponent attack;
     public MoveEntityComponent move;
 
     Dictionary<string,IState<Character>> actions = new Dictionary<string, IState<Character>>();
@@ -50,7 +50,7 @@ public class Character : Entity, ISwitchState<Character>
         _ia = GetComponent<IState<Character>>();
 
         move = GetInContainer<MoveEntityComponent>();
-        attack = GetInContainer<AttackEntityComponent>();
+        attack = GetInContainer<CasterEntityComponent>();
         inventory = GetInContainer<InventoryEntityComponent>();
     }
 

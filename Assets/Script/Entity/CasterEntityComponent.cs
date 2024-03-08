@@ -4,15 +4,13 @@ using UnityEngine;
 using ComponentsAndContainers;
 
 [RequireComponent(typeof(InventoryEntityComponent))]
-public class AttackEntityComponent : ComponentOfContainer<Entity>
+public class CasterEntityComponent : ComponentOfContainer<Entity>
 {
     [SerializeField]
     List<MeleeWeapon> _weapons = new List<MeleeWeapon>();
 
     [SerializeField]
     EquipedItem<WeaponKata>[] _katas = new EquipedItem<WeaponKata>[3];
-
-
 
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }
@@ -22,6 +20,8 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
     public int weaponKataIndex = 0;
 
     public event System.Action onAttack;
+
+    InventoryEntityComponent inventoryEntity;
 
     public EquipedItem<WeaponKata> actualKata
     {
@@ -33,21 +33,6 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
         {
             _katas[weaponKataIndex] = value;
         }
-    }
-
-    InventoryEntityComponent inventoryEntity;
-
-    public int EquipedKata(WeaponKata weaponKata)
-    {
-        foreach (var item in _katas)
-        {
-            if (weaponKata == item.equiped)
-            {
-                return item.indexEquipedItem;
-            }
-        }
-
-        return -1;
     }
 
     public EquipedItem<WeaponKata> ActualKata(int index)
@@ -86,7 +71,6 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
 
     public override void OnStayState(Entity param)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void OnExitState(Entity param)
@@ -94,7 +78,6 @@ public class AttackEntityComponent : ComponentOfContainer<Entity>
         container = null;
         inventoryEntity = null;
     }
-
 
     protected void SetWeaponKataCombo(int index)
     {

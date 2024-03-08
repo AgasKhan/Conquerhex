@@ -19,12 +19,10 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
 
     public override void OnEnterState(Entity param)
     {
-
     }
 
     public override void OnStayState(Entity param)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void OnExitState(Entity param)
@@ -147,26 +145,38 @@ public class EquipedItem<T> where T : Item
 
     public event System.Action<int, T> toChange;
 
+    [SerializeField]
+    int _indexEquipedItem = -1;
+
+    T _equiped;
+
     public T equiped
     {
         get
         {
-            if (indexEquipedItem < 0 || inventoryComponent == null || indexEquipedItem >= inventoryComponent.inventory.Count || !(inventoryComponent.inventory[indexEquipedItem] is T))
+            if (inventoryComponent == null || !_equiped.HaveSameContainer(inventoryComponent))
                 return default;
             else
-                return (T)inventoryComponent.inventory[indexEquipedItem];
+                return _equiped;
         }
     }
 
-    [SerializeField]
-    int _indexEquipedItem = -1;
-
     public int indexEquipedItem
     {
-        get => _indexEquipedItem;
+        //get => _indexEquipedItem;
         set
         {
             _indexEquipedItem = value;
+
+            if(_indexEquipedItem >= 0 && _indexEquipedItem < inventoryComponent.inventory.Count)
+            {
+                _equiped = inventoryComponent.inventory[_indexEquipedItem] as T;
+            }
+            else
+            {
+                _equiped = null;
+            }
+            
             toChange?.Invoke(_indexEquipedItem, equiped);
         }
     }

@@ -8,6 +8,11 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
     [Header("Kata que sera ejecutada cuando se desee atacar con el arma base")]
     public WeaponKataBase defaultKata;
 
+    [Tooltip("cooldown")]
+    public float velocity;
+
+    [Tooltip("rango de deteccion")]
+    public float range;
 
     public Damage[] damages = new Damage[1];
 

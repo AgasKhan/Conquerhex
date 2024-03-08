@@ -18,7 +18,7 @@ public class BarrierBuild : Building
     [HideInInspector]
     public TurretStructure myStructure => flyweight as TurretStructure;
 
-    public AttackEntityComponent attack;
+    public CasterEntityComponent attack;
 
     [HideInInspector]
     public TurretStructure originalFlyweight;

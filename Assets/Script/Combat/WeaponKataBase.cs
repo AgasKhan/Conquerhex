@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 {
+
+
     [Space]
 
     [Header("tipo de boton")]
@@ -23,6 +25,13 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
     public Detect<IGetEntity> detect;
 
     [Header("Statitics")]
+
+    [Tooltip("cooldown")]
+    public float velocity;
+
+    [Tooltip("rango de deteccion")]
+    public float range;
+
     public float velocityCharge = 1;
 
     public int damageToWeapon = 1;
@@ -92,7 +101,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
     [SerializeReference]
     protected Timer cooldown;
 
-    protected AttackEntityComponent caster;
+    protected CasterEntityComponent caster;
 
     protected Entity[] affected;
 

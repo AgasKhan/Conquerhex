@@ -40,7 +40,7 @@ public class AnimatorController : ComponentOfContainer<Entity>
     {
         animator = param.GetComponentInChildren<Animator>();
 
-        container.GetInContainer<AttackEntityComponent>().onAttack += Ia_onAttack;
+        container.GetInContainer<CasterEntityComponent>().onAttack += Ia_onAttack;
 
         container.GetInContainer<MoveEntityComponent>().move.onIdle += Ia_onIdle;
 

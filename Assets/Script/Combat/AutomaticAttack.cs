@@ -8,7 +8,7 @@ public class AutomaticAttack
     public TimedAction timerToAttack;
     public Timer timerChargeAttack;
 
-    AttackEntityComponent owner;
+    CasterEntityComponent owner;
 
     int indexKata;
 
@@ -88,7 +88,7 @@ public class AutomaticAttack
         timerToAttack.Set(1);
     }
 
-    public AutomaticAttack(AttackEntityComponent entity, int index)
+    public AutomaticAttack(CasterEntityComponent entity, int index)
     {
         owner = entity;
         indexKata = index;
