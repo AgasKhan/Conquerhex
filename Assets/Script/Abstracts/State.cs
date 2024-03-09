@@ -20,8 +20,8 @@ public interface IState
     void OnExitState();
 }
 
-public interface ISwitchState<T>
+public interface ISwitchState<Context, State> where State : IState<Context>
 {
-    IState<T> CurrentState { get; set; }
+    State CurrentState { get; set; }
 }
 

@@ -2,63 +2,109 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FSM<T, Context> : FSMSerialize<T, Context> where T : FSM<T, Context>
+
+public class FSMAutomaticEnd<TContext> : FSMParent<FSMAutomaticEnd<TContext>, TContext, IStateWithEnd<FSMAutomaticEnd<TContext>>>
+{
+    public bool end => CurrentState.end;
+
+    public void EnterState(IStateWithEnd<FSMAutomaticEnd<TContext>> stateWithEnd)
+    {
+        Init(stateWithEnd);
+    }
+
+    public override void UpdateState()
+    {
+        if (CurrentState.end)
+        {
+            ExitState();
+        }
+            
+        else
+            base.UpdateState();        
+    }
+}
+
+public abstract class FSM<T, TContext> : FSMSerialize<T, TContext> where T : FSM<T, TContext>
 { 
-    protected FSM(Context reference)
+    protected FSM(TContext reference)
     {
         Init(reference);
     }
 }
 
+
 [System.Serializable]
-public abstract class FSMSerialize<T, Context> : ISwitchState<T> where T : FSMSerialize<T, Context>
+public abstract class FSMSerialize<TChild, TContext> : FSMParent<TChild, TContext, IState<TChild>> where TChild : FSMSerialize<TChild, TContext>
+{
+}
+
+public abstract class FSMParent<TChild, TContext, TState> : ISwitchState<TChild, TState> where TChild : FSMParent<TChild, TContext, TState> where TState : IState<TChild>
 {
     [HideInInspector]
-    public Context context;
+    public TContext context;
 
-    IState<T> currentState;
+    TState currentState;
 
-    public IState<T> CurrentState
+    public event System.Action<TState, TState> onChange; //del que vengo al cual voy
+
+    public event System.Action<TChild> onEnter;
+
+    public event System.Action<TChild> onExit;
+
+    public TState CurrentState
     {
         get => currentState;
         set => SwitchState(value);
     }
 
-    T FSMConvertToChild()
+    protected TChild FSMConvertToChild()
     {
-        return (T)this;
+        return (TChild)this;
     }
 
-    void SwitchState(IState<T> state)
+    void SwitchState(TState state)
     {
-        if (state == currentState || state == null)
+        if (state.Equals(currentState) || state == null)
             return;
 
-        currentState.OnExitState(FSMConvertToChild());
+        ExitState();
+        onChange?.Invoke(currentState, state);
         Init(state);
     }
 
-    public void UpdateState()
+    public virtual void UpdateState()
     {
         currentState.OnStayState(FSMConvertToChild());
     }
 
     /// <summary>
-    /// Obligatorio para setear el estado inicial
+    /// Obligatorio para setear el estado inicial, tambien dispara el evento de entrada del estado
     /// </summary>
     /// <param name="first"></param>
-    protected void Init(IState<T> first)
+    protected void Init(TState first)
     {
         currentState = first;
+        onEnter?.Invoke(FSMConvertToChild());
         currentState.OnEnterState(FSMConvertToChild());
+    }
+
+    /// <summary>
+    /// Se encarga de ejecutar la salida de un estado de forma manual, tambien dispara el evento de salida del estado
+    /// </summary>
+    protected void ExitState()
+    {
+        currentState.OnExitState(FSMConvertToChild());
+        onExit?.Invoke(FSMConvertToChild());
     }
 
     /// <summary>
     /// Obligatorio en caso de que se utilice la version serializable para unity
     /// </summary>
     /// <param name="reference"></param>
-    public virtual void Init(Context reference)
+    public virtual void Init(TContext reference)
     {
         this.context = reference;
     }
 }
+
+

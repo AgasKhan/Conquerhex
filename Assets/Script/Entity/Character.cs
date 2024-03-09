@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MoveEntityComponent))]
 [RequireComponent(typeof(CasterEntityComponent))]
-public class Character : Entity, ISwitchState<Character>
+public class Character : Entity, ISwitchState<Character, IState<Character>>
 {
     //public new BodyBase flyweight;
 
