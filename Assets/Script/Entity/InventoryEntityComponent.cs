@@ -181,3 +181,67 @@ public class EquipedItem<T> where T : Item
         }
     }
 }
+
+
+[System.Serializable]
+public class EquipedtemList<T> where T : Item
+{
+    [SerializeField]
+    EquipedItem<T>[] list;
+
+    public int Count => list.Length;
+
+    public EquipedItem<T> this[int index]
+    {
+        set
+        {
+            list[index] = value;
+        }
+        get
+        {
+            return list[index];
+        }
+    }
+
+    public EquipedtemList(int number)
+    {
+        list = new EquipedItem<T>[number];
+    }
+
+    [field: SerializeField]
+    public int indexer { get; protected set; }
+
+    public EquipedItem<T> actual
+    {
+        get
+        {
+            return list[indexer];
+        }
+        set
+        {
+            list[indexer] = value;
+        }
+    }
+
+    public EquipedItem<T> Actual(int index)
+    {
+        indexer = index;
+        return list[indexer];
+    }
+
+    public void Next()
+    {
+        indexer++;
+
+        if (indexer >= list.Length)
+            indexer = 0;
+    }
+
+    public void Previus()
+    {
+        indexer--;
+
+        if (indexer < 0)
+            indexer = list.Length - 1;
+    }
+}
