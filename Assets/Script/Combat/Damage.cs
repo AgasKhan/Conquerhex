@@ -28,6 +28,19 @@ public struct Damage
         return amount.ToString().RichTextColor(typeInstance.color);
     }
 
+    public override bool Equals(object obj)
+    {
+        if (obj.GetType() == typeof(Damage))
+            return ((Damage)obj).name == name;
+        else
+            return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
     public void ActionInitialiced(Entity go, float amount)
     {
         typeInstance.IntarnalAction(go, amount);
