@@ -39,7 +39,7 @@ public class StatisticsSubMenu : CreateSubMenu
 
     void CreateWeaponButtons(Character ch, int index)
     {
-        ch.attack.katasCombo.Actual(index);
+        ch.caster.katasCombo.Actual(index);
 
         string nameKata = "Ranura habilidad vacia";
         Sprite spriteKata = null;
@@ -49,20 +49,20 @@ public class StatisticsSubMenu : CreateSubMenu
 
         UnityEngine.Events.UnityAction action = () =>
         {
-            ch.attack.katasCombo.Actual(index);
+            ch.caster.katasCombo.Actual(index);
             inventorySubMenu.Create();
         };
 
-        if (ch.attack.katasCombo.actual.equiped != null)
+        if (ch.caster.katasCombo.actual.equiped != null)
         {
-            nameKata = ch.attack.katasCombo.actual.equiped.nameDisplay;
-            spriteKata = ch.attack.katasCombo.actual.equiped.image;
+            nameKata = ch.caster.katasCombo.actual.equiped.nameDisplay;
+            spriteKata = ch.caster.katasCombo.actual.equiped.image;
 
-            if(ch.attack.katasCombo.actual.equiped.weaponEnabled != null)
+            if(ch.caster.katasCombo.actual.equiped.weaponEnabled != null)
             {
-                nameArmas = ch.attack.katasCombo.actual.equiped.weaponEnabled.nameDisplay;
-                spriteWeapon = ch.attack.katasCombo.actual.equiped.weaponEnabled.image;
-                strWeapon = "Uses: " + ch.attack.katasCombo.actual.equiped.weaponEnabled.current;
+                nameArmas = ch.caster.katasCombo.actual.equiped.weaponEnabled.nameDisplay;
+                spriteWeapon = ch.caster.katasCombo.actual.equiped.weaponEnabled.image;
+                strWeapon = "Uses: " + ch.caster.katasCombo.actual.equiped.weaponEnabled.current;
 
             }
 

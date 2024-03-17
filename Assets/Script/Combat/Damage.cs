@@ -62,57 +62,47 @@ public struct Damage
         return original;
     }
 
-    public static IEnumerable<Damage> Combine(Fusion fusion, params IEnumerable<Damage>[] damages)
+    public static IEnumerable<Damage> Combine(Fusion fusion,  params IEnumerable<Damage>[] damages)
     {
-        var procces = damages
-            .SelectMany(dmg => dmg)
-            .GroupBy(dmg => dmg.typeInstance)
-            .Select(group => group
-                .Aggregate
+        return Combine(AdditiveFusion, fusion, fusion, damages);
+    }
+
+    public static IEnumerable<Damage> Combine(Fusion sameFusion, Fusion combineFusion, Fusion parentFusion, params IEnumerable<Damage>[] damages)
+    {
+        var procces = 
+            InternalCombine
+            (combineFusion, damages
+                .SelectMany
                 (
-                    (dmgSum, dmg) =>
+                    dmg =>
                     {
-                        dmgSum = fusion(dmgSum, dmg);
-                        return dmgSum;
+                        return InternalCombine(sameFusion, dmg);
                     }
-                ))
+                )
+            )
             .GroupBy(dmg => dmg.typeInstance.IsParent)
+            .ToArray()
             ;
 
 
-        var proccesParents = procces.Where(group => group.Key).SelectMany(group=>group).ToArray();
+        var proccesParents = procces.Where(group => group.Key).SelectMany(group=>group);
 
         return procces
             .Where(group => !group.Key)
             .SelectMany(group => group)
             .Select(
-                (dmg)=> 
+                dmg=> 
                 {
                     foreach (var modifier in proccesParents)
                     {
                         if (dmg.GetType().IsAssignableFrom(modifier.GetType()))
                         {
-                            dmg = fusion(dmg, modifier);
+                            dmg = parentFusion(dmg, modifier);
                         }
                     }
 
                     return dmg;
                 });
-
-        /*
-        foreach (var dmg in proccesChildrens)
-        {
-            foreach (var modifier in proccesParents)
-            {
-                if(dmg.GetType().IsAssignableFrom(modifier.GetType()))
-                {
-                    dmg = fusion(dmg, modifier);
-                }
-            }
-        }
-        */
-
-
     }
 
     public static DamageTypes.PureDamage GetFlyWeight<T>() where T : DamageTypes.PureDamage
@@ -131,6 +121,21 @@ public struct Damage
     }
 
     public delegate Damage Fusion(Damage original, Damage toCompare);
+
+    static IEnumerable<Damage> InternalCombine(Fusion fusion,IEnumerable<Damage> collection)
+    {
+        return collection
+                    .GroupBy(dmg => dmg.typeInstance)
+                    .Select
+                    (group => 
+                        group.Aggregate(
+                        (dmgSum, dmg) =>
+                        {
+                                dmgSum = fusion(dmgSum, dmg);
+                                return dmgSum;
+                        })
+                    );
+    }
 }
 
 public class DamageContainer : HybridArray<Damage>
@@ -147,9 +152,5 @@ namespace DamageTypes
     {
         all, life, regen
     }
-
-    
-
-
 }
 

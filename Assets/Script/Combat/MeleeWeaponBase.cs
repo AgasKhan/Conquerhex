@@ -61,7 +61,7 @@ public class MeleeWeaponBase : ItemBase
 
     void Equip(Character chr, Item item)
     {
-        chr.attack.katasCombo.actual.equiped?.ChangeWeapon(item);
+        chr.caster.katasCombo.actual.equiped?.ChangeWeapon(item);
     }
 
     #endregion

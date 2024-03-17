@@ -6,15 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(CasterEntityComponent))]
 public class Character : Entity, ISwitchState<Character, IState<Character>>
 {
-    //public new BodyBase flyweight;
-
     public InventoryEntityComponent inventory;
-    public CasterEntityComponent attack;
+    public CasterEntityComponent caster;
     public MoveEntityComponent move;
 
-    Dictionary<string,IState<Character>> actions = new Dictionary<string, IState<Character>>();
-
     IState<Character> _ia;
+
+    FSMCharacter fsmCharacter;
 
     public IState<Character> CurrentState
     {
@@ -36,11 +34,28 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
+    public EventControllerMediator attackEventMediator => caster.attack;
+
+    public EventControllerMediator abilityEventMediator => caster.ability;
+
+    public void Attack(int i)
+    {
+        //fsmCharacter.CurrentState = attack;
+        caster.Attack(i);
+    }
+
+    public void Ability(int i)
+    {
+        //fsmCharacter.CurrentState = attack;
+        caster.Ability(i);
+    }    
+
     protected override void Config()
     {
         base.Config();
         MyAwakes += MyAwake;
         MyStarts += MyStart;
+        //MyUpdates += fsmCharacter.UpdateState;
     }
 
     void MyAwake()
@@ -48,8 +63,10 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         _ia = GetComponent<IState<Character>>();
 
         move = GetInContainer<MoveEntityComponent>();
-        attack = GetInContainer<CasterEntityComponent>();
+        caster = GetInContainer<CasterEntityComponent>();
         inventory = GetInContainer<InventoryEntityComponent>();
+
+        fsmCharacter = new FSMCharacter(this);
     }
 
     void MyStart()
@@ -67,3 +84,10 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     }
 }
 
+public class FSMCharacter : FSM<FSMCharacter, Entity>
+{
+    public FSMCharacter(Entity reference) : base(reference)
+    {
+        //Init(context.GetInContainer<MoveEntityComponent>());
+    }
+}

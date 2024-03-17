@@ -18,7 +18,7 @@ public class IAAnimator : IAFather
 
         //timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
-        automatick = new AutomaticAttack(_character.attack, 2);
+        automatick = new AutomaticAttack(_character.caster, 2);
     }
 
     public override void OnStayState(Character param)

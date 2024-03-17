@@ -114,7 +114,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
     [SerializeField]
     protected MeleeWeapon equipedWeapon;
 
-    float actualCharacterVelocity;
+    protected DamageContainer multiplyDamage;
+
+    //float actualCharacterVelocity;
 
     public bool cooldownTime => cooldown.Chck;
 
@@ -133,6 +135,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
     public virtual float finalVelocity => itemBase.velocity * weaponEnabled.itemBase.velocity;
 
     public virtual float finalRange => itemBase.range * weaponEnabled.itemBase.range;
+
+    public virtual Vector3 Aiming => caster.aiming;
 
     public FadeColorAttack reference
     {
@@ -154,7 +158,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
     /// </summary>
     public MeleeWeapon weapon => equipedWeapon;
 
-    public bool end => throw new System.NotImplementedException();
+    public bool end { get; protected set; }
 
     public virtual void ChangeWeapon(Item weaponParam)
     {
@@ -183,12 +187,12 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
 
         equipedWeapon = weapon;
 
-        Weapon_Equiped();
+        WeaponEquiped();
     }
 
     public void TakeOutWeapon()
     {
-        Weapon_Desequiped();
+        WeaponDesequiped();
 
 
         pressed = MyControllerVOID; //Para cancelar el ataque presionado
@@ -227,7 +231,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
         pressed = MyControllerVOID;
         up = MyControllerVOID;
 
-        onDrop += Weapon_Desequiped;
+        onDrop += WeaponDesequiped;
+
+        multiplyDamage = new DamageContainer(()=> itemBase.damagesMultiply);
 
         if (itemBase == null)
             return;
@@ -237,23 +243,27 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
             return;
         }
 
+        /*
         if (caster.TryGetInContainer<MoveEntityComponent>(out var move))
         {
             actualCharacterVelocity = move.move.objectiveVelocity;
         }
+        */
 
-        foreach (var item in itemBase.audios)
-        {
-            caster.GetInContainer<AudioEntityComponent>()?.AddAudio(item.key, item.value);
-        }
+        if(caster.TryGetInContainer<AudioEntityComponent>(out var audio))
+            foreach (var item in itemBase.audios)
+            {
+                audio.AddAudio(item.key, item.value);
+            }
 
         Debug.Log("se creo weapon kata " + caster.name);
 
         equipedWeapon?.Init(container);
-        Weapon_Equiped();
+
+        WeaponEquiped();
     }
 
-    private void Weapon_Equiped()
+    private void WeaponEquiped()
     {
         if (equipedWeapon == null)
             return;
@@ -263,18 +273,18 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
         else
             cooldown.Set(finalVelocity);
 
-        equipedWeapon.off += Weapon_Desequiped;
-        equipedWeapon.onDrop += Weapon_Desequiped;
+        equipedWeapon.off += WeaponDesequiped;
+        equipedWeapon.onDrop += WeaponDesequiped;
         onEquipedWeapon?.Invoke(equipedWeapon);
     }
 
-    private void Weapon_Desequiped()
+    private void WeaponDesequiped()
     {
         if (equipedWeapon == null)
             return;
 
-        equipedWeapon.off -= Weapon_Desequiped;
-        equipedWeapon.onDrop -= Weapon_Desequiped;
+        equipedWeapon.off -= WeaponDesequiped;
+        equipedWeapon.onDrop -= WeaponDesequiped;
         onDesEquipedWeapon?.Invoke(equipedWeapon);
         equipedWeapon = null;
     }
@@ -294,11 +304,13 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
         {
             ((MoveEntityComponent)caster).move.objectiveVelocity += -2;
         }
-        */ 
+         */
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
         up = InternalControllerUp;
+        
+         
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
@@ -324,14 +336,16 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
     }
     public void StopAttack()
     {
-        if (caster.TryGetInContainer(out MoveEntityComponent move) && actualCharacterVelocity > move.move.objectiveVelocity)
-            move.move.objectiveVelocity += 2;
+        //if (caster.TryGetInContainer(out MoveEntityComponent move) && actualCharacterVelocity > move.move.objectiveVelocity)
+        //    move.move.objectiveVelocity += 2;
 
         reference?.Off();
         reference = null;
 
         pressed = MyControllerVOID;
         up = MyControllerVOID;
+
+        end = true;
     }
 
 
@@ -350,7 +364,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
 
         var totalDamage = Damage.Combine(Damage.AdditiveFusion, weaponEnabled.itemBase.damages, caster.additiveDamage.content);
 
-        totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, itemBase.damagesMultiply);
+        totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, multiplyDamage.content);
 
         var aux = weaponEnabled.Damage(caster.container, totalDamage, entities);
 
@@ -369,19 +383,20 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
 
     protected abstract void InternalControllerUp(Vector2 dir, float tim);
 
-    public void OnEnterState(FSMAutomaticEnd<CasterEntityComponent> param)
+    public virtual void OnEnterState(FSMAutomaticEnd<CasterEntityComponent> param)
     {
-        
+        end = false;
+        param.context.attack += this;
+        ControllerDown(param.context.aiming,0);
     }
 
-    public void OnStayState(FSMAutomaticEnd<CasterEntityComponent> param)
+    public virtual void OnStayState(FSMAutomaticEnd<CasterEntityComponent> param)
     {
-        
     }
 
-    public void OnExitState(FSMAutomaticEnd<CasterEntityComponent> param)
+    public virtual void OnExitState(FSMAutomaticEnd<CasterEntityComponent> param)
     {
-        
+        param.context.attack -= this;
     }
 
     #endregion

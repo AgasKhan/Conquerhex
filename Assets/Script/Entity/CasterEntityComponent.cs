@@ -35,9 +35,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }
 
-    public EventControllerMediator attack { get; private set; } = new EventControllerMediator();
+    public EventControllerMediator attack { get; set; } = new EventControllerMediator();
 
-    public EventControllerMediator ability { get; private set; } = new EventControllerMediator();
+    public EventControllerMediator ability { get; set; } = new EventControllerMediator();
 
     public WeaponKata actualWeapon => weapons.actual.equiped.defaultKata;
 
@@ -63,10 +63,10 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
             weaponKata = katasCombo.Actual(number - 1).equiped;
         }
 
-        EnterState(weaponKata, attack);
+        EnterState(weaponKata);
     }
 
-    public void Hability(int number)
+    public void Ability(int number)
     {
         WeaponKata weaponKata;
 
@@ -79,10 +79,10 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
             weaponKata = abilitiesCombo.Actual(number - 1).equiped;
         }
 
-        EnterState(weaponKata, ability);
+        EnterState(weaponKata);
     }
 
-    protected void SetWeaponKataCombo(int index)
+    void SetWeaponKataCombo(int index)
     {
         if (flyweight.kataCombos[index].kata == null)
             return;
@@ -105,21 +105,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
         katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
     }
 
-    void EnterState(WeaponKata weaponKata, EventControllerMediator eventController)
+    void EnterState(WeaponKata weaponKata)
     {
-        eventController += weaponKata;
-
         internalFsm.EnterState(weaponKata);
-
-        System.Action exit = null;
-
-        exit = () =>
-        {
-            eventController -= actualWeapon;
-            OnActionExit -= exit;
-        };
-
-        OnActionExit += exit;
     }
 
     void TriggerEnter()

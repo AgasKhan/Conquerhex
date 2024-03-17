@@ -99,7 +99,7 @@ public class BoidAttack : IState<FSMBoid>
 
     public BoidAttack(Character character)
     {
-        automaticAttack = new AutomaticAttack(character.attack, 0);
+        automaticAttack = new AutomaticAttack(character.caster, 0);
     }
 
     //ataque

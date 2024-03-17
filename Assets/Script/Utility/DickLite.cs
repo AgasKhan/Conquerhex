@@ -11,9 +11,9 @@ public class DickLite<Key, Value> : IEnumerable<Value>, ICollection
 
     public int Count { get; protected set; } = 0;
 
-    public bool IsSynchronized => throw new System.NotImplementedException();
+    public bool IsSynchronized => values.IsSynchronized;
 
-    public object SyncRoot => throw new System.NotImplementedException();
+    public object SyncRoot => values.SyncRoot;
 
     public Value this[Key key]
     {
@@ -50,30 +50,13 @@ public class DickLite<Key, Value> : IEnumerable<Value>, ICollection
         return value != null;
     }
 
-
-    protected int GetIndex(Key key)
-    {
-        return System.Array.BinarySearch(keyHashed, key.GetHashCode());
-    }
-
-
-    public void Init()
-    {
-        if (keyHashed == null)
-            throw new System.TypeLoadException("No has seteado las Keys antes de crear el objeto");
-
-        values = new Value[keyHashed.Length];
-    }
-
     public IEnumerator<Value> GetEnumerator()
     {
-
         foreach (var item in values)
         {
             if(item!=null)
                 yield return item;
         }
-
         //return ((IEnumerable<Value>)values).GetEnumerator();
     }
 
@@ -84,7 +67,19 @@ public class DickLite<Key, Value> : IEnumerable<Value>, ICollection
 
     public void CopyTo(System.Array array, int index)
     {
-        throw new System.NotImplementedException();
+        values.CopyTo(array, index);
+    }
+
+    protected int GetIndex(Key key)
+    {
+        return System.Array.BinarySearch(keyHashed, key.GetHashCode());
+    }
+    public void Init()
+    {
+        if (keyHashed == null)
+            throw new System.TypeLoadException("No has seteado las Keys antes de crear el objeto");
+
+        values = new Value[keyHashed.Length];
     }
 }
 
