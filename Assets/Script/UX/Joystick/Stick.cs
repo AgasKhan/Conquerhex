@@ -13,7 +13,7 @@ public class Stick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public float minMagnitud;
 
-    public VirtualControllers.AxisButton AxisButton;
+    public VirtualControllers.Axis AxisButton;
 
     bool press;
 

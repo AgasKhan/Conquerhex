@@ -6,16 +6,16 @@ using ComponentsAndContainers;
 [RequireComponent(typeof(InventoryEntityComponent))]
 public class CasterEntityComponent : ComponentOfContainer<Entity>
 {
-    [SerializeField, Tooltip("Armas equipadas y de cambio rapido")]
+    [Tooltip("Armas equipadas y de cambio rapido")]
     public SlotItemList<MeleeWeapon> weapons = new SlotItemList<MeleeWeapon>(5);
 
-    [SerializeField, Tooltip("Habilidaddes equipadas y de cambio rapido")]
+    [Tooltip("Habilidaddes equipadas y de cambio rapido")]
     public SlotItemList<MeleeWeapon> abilities = new SlotItemList<MeleeWeapon>(5);
 
-    [SerializeField, Tooltip("Ataques especiales que se efectuaran con el combo de ataque")]
+    [Tooltip("Ataques especiales que se efectuaran con el combo de ataque")]
     public SlotItemList<WeaponKata> katasCombo = new SlotItemList<WeaponKata>(4);
 
-    [SerializeField, Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
+    [Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
     public SlotItemList<WeaponKata> abilitiesCombo = new SlotItemList<WeaponKata>(4);
 
     public DamageContainer additiveDamage;
@@ -82,6 +82,29 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
         EnterState(weaponKata, ability);
     }
 
+    protected void SetWeaponKataCombo(int index)
+    {
+        if (flyweight.kataCombos[index].kata == null)
+            return;
+
+        if (katasCombo.Actual(index).equiped != null)
+            return;
+
+        inventoryEntity.inventory.Add(flyweight.kataCombos[index].kata.Create());
+
+        katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.Count - 1;
+
+        inventoryEntity.inventory[^1].Init(inventoryEntity);
+
+        inventoryEntity.inventory.Add(flyweight.kataCombos[index].weapon.Create());
+
+        inventoryEntity.inventory[^1].Init(inventoryEntity);
+
+        //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
+
+        katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
+    }
+
     void EnterState(WeaponKata weaponKata, EventControllerMediator eventController)
     {
         eventController += weaponKata;
@@ -109,44 +132,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
         OnActionExit?.Invoke();
     }
 
-    protected void SetWeaponKataCombo(int index)
-    {
-        if (flyweight.kataCombos[index].kata == null)
-            return;
-
-        if (katasCombo.Actual(index).equiped != null)
-            return;
-
-        inventoryEntity.inventory.Add(flyweight.kataCombos[index].kata.Create());
-
-        katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.Count - 1;
-
-        inventoryEntity.inventory[^1].Init(inventoryEntity);
-
-        inventoryEntity.inventory.Add(flyweight.kataCombos[index].weapon.Create());
-
-        inventoryEntity.inventory[^1].Init(inventoryEntity);
-
-        Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
-
-        katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
-    }
-
-    public void Init()
-    {
-        for (int i = 0; i < katasCombo.Count; i++)
-        {
-            katasCombo[i].inventoryComponent = inventoryEntity;
-
-            if (katasCombo[i].equiped!=null)
-            {
-                katasCombo[i].equiped.Init(inventoryEntity);
-            }
-        }
-    }    
-
-
-
     public override void OnStayState(Entity param)
     {
         internalFsm.UpdateState();
@@ -169,14 +154,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
         additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
 
-        /*
-        for (int i = 0; i < katasCombo.Count; i++)
-        {
-            katasCombo[i] = new EquipedItem<WeaponKata>();
-            katasCombo[i].inventoryComponent = inventoryEntity;
-        }
-        */
-
         if (flyweight == null)
         {
             flyweight = container.flyweight?.GetFlyWeight<AttackBase>();
@@ -187,6 +164,19 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
         for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
             SetWeaponKataCombo(i);
+    }
+
+    public void Init()
+    {
+        for (int i = 0; i < katasCombo.Count; i++)
+        {
+            katasCombo[i].inventoryComponent = inventoryEntity;
+
+            if (katasCombo[i].equiped != null)
+            {
+                katasCombo[i].equiped.Init(inventoryEntity);
+            }
+        }
     }
 
     private void Awake()

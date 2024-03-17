@@ -46,7 +46,7 @@ public class JoyController : MonoBehaviour
         get => imageToFill.fillAmount;
     }
 
-    public VirtualControllers.AxisButton axisButton
+    public VirtualControllers.Axis axisButton
     {
         get => stick.AxisButton;
         private set => stick.AxisButton = value;
@@ -56,7 +56,7 @@ public class JoyController : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
 
-        axisButton = VirtualControllers.Search<VirtualControllers.AxisButton>(eventController);
+        axisButton = VirtualControllers.Search(eventController);
 
         LoadSystem.AddPostLoadCorutine(SetStick);
 

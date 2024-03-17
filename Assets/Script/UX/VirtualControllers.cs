@@ -19,29 +19,19 @@ public class VirtualControllers : MonoBehaviour
 
     static List<FatherKey> _keys = new List<FatherKey>();
 
-    static public AxisButton movement = new AxisButton("Horizontal", "Vertical", "Sprint");
+    static public Axis movement = new Axis("Horizontal", "Vertical");
 
     static public AxisButton principal = new AxisButton("Mouse X", "Mouse Y", "Fire1");
 
     static public AxisButton secondary = new AxisButton("Mouse X", "Mouse Y", "Fire2");
 
-    static public AxisButton terciary = new AxisButton("Mouse X", "Mouse Y", "Fire3");
+    static public AxisButton terciary = new AxisButton("Horizontal", "Vertical", "Sprint");
 
     static public AxisButton interact = new AxisButton("Mouse X", "Mouse Y", "Interact");
 
-    static public T Search<T>(EnumController e) where T : FatherKey
+    static public Axis Search(EnumController e)
     {
-        List<T> aux = new List<T>();
-
-        for (int i = 0; i < _keys.Count; i++)
-        {
-            if(_keys[i] is T)
-            {
-                aux.Add((T)_keys[i]);
-            }
-        }
-
-        return aux[(int)e];
+        return _keys[(int)e] as Axis;
     }
 
     #endregion
@@ -201,8 +191,6 @@ public class VirtualControllers : MonoBehaviour
             pressFunc = Input.GetButton;
             downFunc = Input.GetButtonDown;
             upFunc = Input.GetButtonUp;
-
-            _keys.Add(this);
         }
 
         #endregion
@@ -227,9 +215,9 @@ public class VirtualControllers : MonoBehaviour
     }
 
     /// <summary>
-    /// combinacion de boton + axis, eventos para si se pulsa(down) o suelta un boton(up), y cual es el valor de un joystick (pressed)
+    /// combinacion de middleaxis, eventos para si se mueve un joystick (down) o deja de hacerlo(up), y si se mantiene en movimiento (pressed)
     /// </summary>
-    public class AxisButton : FatherKey, IEventController, IState<Vector2>
+    public class Axis : FatherKey, IEventController, IState<Vector2>
     {
         public event Action<Vector2, float> eventDown;
         public event Action<Vector2, float> eventPress;
@@ -237,12 +225,11 @@ public class VirtualControllers : MonoBehaviour
 
         MiddleAxis horizontal;
         MiddleAxis vertical;
-        Button button;
 
-        bool press;
+        protected bool press = false;
 
-        Vector2 dir;
-        public bool enable
+        protected Vector2 dir;
+        public virtual bool enable
         {
             get
             {
@@ -253,16 +240,14 @@ public class VirtualControllers : MonoBehaviour
             {
                 horizontal.enable = value;
                 vertical.enable = value;
-                button.enable = value;
             }
-
         }
 
-        Vector2 vecPressed
+        protected Vector2 vecPressed
         {
             get
             {
-                dir = new Vector2(horizontal.pressed, vertical.pressed);
+                dir.Set(horizontal.pressed, vertical.pressed);
 
                 if (dir.sqrMagnitude > 1)
                     dir.Normalize();
@@ -273,23 +258,23 @@ public class VirtualControllers : MonoBehaviour
 
         public override void MyUpdate()
         {
-            if (button.down)
+            if (vecPressed.sqrMagnitude > 0 && !press)
             {
                 OnEnterState(dir);
                 press = true;
             }
 
-            if (vecPressed.sqrMagnitude > 0 || press)
+            else if(press)
             {
-                OnStayState(dir);
+                if (dir.sqrMagnitude == 0)
+                {
+                    OnExitState(dir);
+                    press = false;
+                }
+                else
+                    OnStayState(dir);
             }
 
-            if (button.up)
-            {
-                OnExitState(dir);
-                dir = Vector2.zero;
-                press = false;
-            }
         }
 
         public override void Destroy()
@@ -315,6 +300,7 @@ public class VirtualControllers : MonoBehaviour
         {
             eventUp?.Invoke(param, timePressed);
             timePressed = 0;
+            dir = Vector2.zero;
         }
 
         public void SuscribeController(IControllerDir controllerDir)
@@ -331,27 +317,51 @@ public class VirtualControllers : MonoBehaviour
             eventPress -= controllerDir.ControllerPressed;
         }
 
-        public AxisButton(string strHorizontal, string strVertical, string strButton)
+        public Axis(string strHorizontal, string strVertical)
         {
             horizontal = new MiddleAxis(strHorizontal);
             vertical = new MiddleAxis(strVertical);
-            button = new Button(strButton);
 
             horizontal.enable = true;
             vertical.enable = true;
-            button.enable = true;
-
-            horizontal.ChangeKey(strHorizontal);
-            vertical.ChangeKey(strVertical);
-            button.ChangeKey(strButton);
-
-            vertical.pressFunc = Input.GetAxis;
-            horizontal.pressFunc = Input.GetAxis;
-
-            button.downFunc = Input.GetButtonDown;
-            button.upFunc = Input.GetButtonUp;
 
             _keys.Add(this);
+        }
+    }
+
+    /// <summary>
+    /// combinacion de boton + axis, eventos para si se pulsa(down) o suelta un boton(up), y cual es el valor de un joystick (pressed)
+    /// </summary>
+    public class AxisButton : Axis
+    {
+
+        Button button;
+
+        public override void MyUpdate()
+        {
+            if (button.down)
+            {
+                OnEnterState(dir);
+                press = true;
+            }
+
+            if (press)
+            {
+                OnStayState(dir);
+            }
+
+            if (button.up)
+            {
+                OnExitState(dir);
+                press = false;
+            }
+        }
+        
+        public AxisButton(string strHorizontal, string strVertical, string strButton) : base(strHorizontal, strVertical)
+        {
+            button = new Button(strButton);
+
+            button.enable = true;
         }
 
     }

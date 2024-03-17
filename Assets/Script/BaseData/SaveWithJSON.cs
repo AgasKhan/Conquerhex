@@ -105,7 +105,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
         //string json = JsonConvert.SerializeObject(data);
 
-        Debug.Log(json);
+        //Debug.Log(json);
         BD.CreateOrSave(id, json);
     }
 
