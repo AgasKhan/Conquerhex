@@ -138,7 +138,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
 }
 
 [System.Serializable]
-public class EquipedItem<T> where T : Item
+public class SlotItem<T> where T : Item
 {
     [System.NonSerialized]
     public InventoryEntityComponent inventoryComponent;
@@ -148,13 +148,14 @@ public class EquipedItem<T> where T : Item
     [SerializeField]
     int _indexEquipedItem = -1;
 
+    [SerializeReference]
     T _equiped;
 
     public T equiped
     {
         get
         {
-            if (inventoryComponent == null || !_equiped.HaveSameContainer(inventoryComponent))
+            if (inventoryComponent == null || !(_equiped?.HaveSameContainer(inventoryComponent) ?? false))
                 return default;
             else
                 return _equiped;
@@ -176,6 +177,8 @@ public class EquipedItem<T> where T : Item
             {
                 _equiped = null;
             }
+
+            Debug.Log("Equipado : " + _equiped);
             
             toChange?.Invoke(_indexEquipedItem, equiped);
         }
@@ -184,14 +187,14 @@ public class EquipedItem<T> where T : Item
 
 
 [System.Serializable]
-public class EquipedtemList<T> where T : Item
+public class SlotItemList<T> where T : Item
 {
     [SerializeField]
-    EquipedItem<T>[] list;
+    SlotItem<T>[] list;
 
     public int Count => list.Length;
 
-    public EquipedItem<T> this[int index]
+    public SlotItem<T> this[int index]
     {
         set
         {
@@ -203,15 +206,12 @@ public class EquipedtemList<T> where T : Item
         }
     }
 
-    public EquipedtemList(int number)
-    {
-        list = new EquipedItem<T>[number];
-    }
+
 
     [field: SerializeField]
     public int indexer { get; protected set; }
 
-    public EquipedItem<T> actual
+    public SlotItem<T> actual
     {
         get
         {
@@ -223,7 +223,7 @@ public class EquipedtemList<T> where T : Item
         }
     }
 
-    public EquipedItem<T> Actual(int index)
+    public SlotItem<T> Actual(int index)
     {
         indexer = index;
         return list[indexer];
@@ -243,5 +243,19 @@ public class EquipedtemList<T> where T : Item
 
         if (indexer < 0)
             indexer = list.Length - 1;
+    }
+
+    public void Init(InventoryEntityComponent inventoryEntityComponent)
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            list[i] = new SlotItem<T>();
+            list[i].inventoryComponent = inventoryEntityComponent;
+        }
+    }
+
+    public SlotItemList(int number)
+    {
+        list = new SlotItem<T>[number];
     }
 }

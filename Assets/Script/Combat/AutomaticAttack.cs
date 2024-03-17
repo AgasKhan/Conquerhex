@@ -12,7 +12,7 @@ public class AutomaticAttack
 
     int indexKata;
 
-    EquipedItem<WeaponKata> kata => owner.ActualKata(indexKata);
+    SlotItem<WeaponKata> kata => owner.katasCombo[indexKata];
 
 
 

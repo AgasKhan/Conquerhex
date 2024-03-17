@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
-public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
+public abstract class WeaponKataBase : FatherKataAndAbility<WeaponKataBase>
 {
 
 
@@ -86,12 +86,12 @@ public abstract class WeaponKataBase : FatherWeaponAbility<WeaponKataBase>
 
     void Equip(Character chr, int item)
     {
-        chr.attack.actualKata.indexEquipedItem = item;
+        //chr.attack.actualWeapon. = item;
     }
 }
 
 [System.Serializable]
-public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
+public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>>
 {
     public event System.Action<MeleeWeapon> onEquipedWeapon;
     public event System.Action<MeleeWeapon> onDesEquipedWeapon;
@@ -153,6 +153,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
     /// devuelve el arma vinculada a la habilidad
     /// </summary>
     public MeleeWeapon weapon => equipedWeapon;
+
+    public bool end => throw new System.NotImplementedException();
 
     public virtual void ChangeWeapon(Item weaponParam)
     {
@@ -366,6 +368,21 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir
     protected abstract void InternalControllerPress(Vector2 dir, float tim);
 
     protected abstract void InternalControllerUp(Vector2 dir, float tim);
+
+    public void OnEnterState(FSMAutomaticEnd<CasterEntityComponent> param)
+    {
+        
+    }
+
+    public void OnStayState(FSMAutomaticEnd<CasterEntityComponent> param)
+    {
+        
+    }
+
+    public void OnExitState(FSMAutomaticEnd<CasterEntityComponent> param)
+    {
+        
+    }
 
     #endregion
 }

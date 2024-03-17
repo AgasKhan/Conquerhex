@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
-public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
+public class MeleeWeaponBase : ItemBase
 {
     [Header("Kata que sera ejecutada cuando se desee atacar con el arma base")]
     public WeaponKataBase defaultKata;
@@ -61,7 +61,7 @@ public class MeleeWeaponBase : FatherWeaponAbility<MeleeWeaponBase>
 
     void Equip(Character chr, Item item)
     {
-        chr.attack.actualKata.equiped?.ChangeWeapon(item);
+        chr.attack.katasCombo.actual.equiped?.ChangeWeapon(item);
     }
 
     #endregion

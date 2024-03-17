@@ -184,7 +184,7 @@ public class ControllerIAIO : IControllerDir, Init
 
     int index;
 
-    EquipedItem<WeaponKata> kata => character.ActualKata(index);
+    SlotItem<WeaponKata> kata => character.katasCombo.Actual(index);
 
     System.Action attackAnim => character.AttackEvent;
 

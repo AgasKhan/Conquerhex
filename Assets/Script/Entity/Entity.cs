@@ -213,7 +213,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     protected override void Config()
     {
         base.Config();
-        MyAwakes = MyAwake + MyAwakes;
+        MyAwakes = MyAwakes + MyAwake;
     }
 
     private void MyAwake()

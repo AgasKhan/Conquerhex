@@ -16,8 +16,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     IState<Character> _ia;
 
-
-
     public IState<Character> CurrentState
     {
         get => _ia;

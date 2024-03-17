@@ -6,71 +6,150 @@ using ComponentsAndContainers;
 [RequireComponent(typeof(InventoryEntityComponent))]
 public class CasterEntityComponent : ComponentOfContainer<Entity>
 {
-    [SerializeField]
-    List<MeleeWeapon> _weapons = new List<MeleeWeapon>();
+    [SerializeField, Tooltip("Armas equipadas y de cambio rapido")]
+    public SlotItemList<MeleeWeapon> weapons = new SlotItemList<MeleeWeapon>(5);
 
-    [SerializeField]
-    EquipedItem<WeaponKata>[] _katas = new EquipedItem<WeaponKata>[3];
+    [SerializeField, Tooltip("Habilidaddes equipadas y de cambio rapido")]
+    public SlotItemList<MeleeWeapon> abilities = new SlotItemList<MeleeWeapon>(5);
+
+    [SerializeField, Tooltip("Ataques especiales que se efectuaran con el combo de ataque")]
+    public SlotItemList<WeaponKata> katasCombo = new SlotItemList<WeaponKata>(4);
+
+    [SerializeField, Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
+    public SlotItemList<WeaponKata> abilitiesCombo = new SlotItemList<WeaponKata>(4);
+
+    public DamageContainer additiveDamage;
+
+    public Vector3 aiming;
+
+    public event System.Action onAttack;
+
+    public event System.Action OnActionEnter;
+
+    public event System.Action OnActionExit;
+
+    FSMAutomaticEnd<CasterEntityComponent> internalFsm = new FSMAutomaticEnd<CasterEntityComponent>();
+
+    InventoryEntityComponent inventoryEntity;
 
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }
 
-    public DamageContainer additiveDamage;
+    public EventControllerMediator attack { get; private set; } = new EventControllerMediator();
 
-    public int weaponKataIndex = 0;
+    public EventControllerMediator ability { get; private set; } = new EventControllerMediator();
 
-    public event System.Action onAttack;
+    public WeaponKata actualWeapon => weapons.actual.equiped.defaultKata;
 
-    InventoryEntityComponent inventoryEntity;
+    public WeaponKata actualAbility => abilities.actual.equiped.defaultKata;
 
-    public EquipedItem<WeaponKata> actualKata
-    {
-        get
-        {
-            return _katas[weaponKataIndex];
-        }
-        set
-        {
-            _katas[weaponKataIndex] = value;
-        }
-    }
-
-    public EquipedItem<WeaponKata> ActualKata(int index)
-    {
-        return _katas[index];
-    }
+    public bool end => internalFsm.end;
 
     public void AttackEvent()
     {
         onAttack?.Invoke();
     }
 
-    public override void OnEnterState(Entity param)
+    public void Attack(int number)
     {
-        inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
+        WeaponKata weaponKata;
 
-        additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
-
-        for (int i = 0; i < _katas.Length; i++)
+        if (number==0)
         {
-            _katas[i] = new EquipedItem<WeaponKata>();
-            _katas[i].inventoryComponent = inventoryEntity;
+            weaponKata = actualWeapon;
+        }
+        else
+        {
+            weaponKata = katasCombo.Actual(number - 1).equiped;
         }
 
-        if (flyweight==null)
-        {
-            flyweight = container.flyweight?.GetFlyWeight<AttackBase>();
-            
-            if (flyweight?.kataCombos == null)
-                return;
-        }
-
-        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
-            SetWeaponKataCombo(i);
+        EnterState(weaponKata, attack);
     }
+
+    public void Hability(int number)
+    {
+        WeaponKata weaponKata;
+
+        if (number == 0)
+        {
+            weaponKata = actualAbility;
+        }
+        else
+        {
+            weaponKata = abilitiesCombo.Actual(number - 1).equiped;
+        }
+
+        EnterState(weaponKata, ability);
+    }
+
+    void EnterState(WeaponKata weaponKata, EventControllerMediator eventController)
+    {
+        eventController += weaponKata;
+
+        internalFsm.EnterState(weaponKata);
+
+        System.Action exit = null;
+
+        exit = () =>
+        {
+            eventController -= actualWeapon;
+            OnActionExit -= exit;
+        };
+
+        OnActionExit += exit;
+    }
+
+    void TriggerEnter()
+    {
+        OnActionEnter?.Invoke();
+    }
+
+    void TriggerExit()
+    {
+        OnActionExit?.Invoke();
+    }
+
+    protected void SetWeaponKataCombo(int index)
+    {
+        if (flyweight.kataCombos[index].kata == null)
+            return;
+
+        if (katasCombo.Actual(index).equiped != null)
+            return;
+
+        inventoryEntity.inventory.Add(flyweight.kataCombos[index].kata.Create());
+
+        katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.Count - 1;
+
+        inventoryEntity.inventory[^1].Init(inventoryEntity);
+
+        inventoryEntity.inventory.Add(flyweight.kataCombos[index].weapon.Create());
+
+        inventoryEntity.inventory[^1].Init(inventoryEntity);
+
+        Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
+
+        katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
+    }
+
+    public void Init()
+    {
+        for (int i = 0; i < katasCombo.Count; i++)
+        {
+            katasCombo[i].inventoryComponent = inventoryEntity;
+
+            if (katasCombo[i].equiped!=null)
+            {
+                katasCombo[i].equiped.Init(inventoryEntity);
+            }
+        }
+    }    
+
+
 
     public override void OnStayState(Entity param)
     {
+        internalFsm.UpdateState();
     }
 
     public override void OnExitState(Entity param)
@@ -79,41 +158,44 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
         inventoryEntity = null;
     }
 
-    protected void SetWeaponKataCombo(int index)
+    public override void OnEnterState(Entity param)
     {
-        if (flyweight.kataCombos[index].kata == null)
-            return;
+        inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
 
-        weaponKataIndex = index;
+        weapons.Init(inventoryEntity);
+        abilities.Init(inventoryEntity);
+        katasCombo.Init(inventoryEntity);
+        abilitiesCombo.Init(inventoryEntity);
 
-        if (actualKata.equiped != null)
-            return;
+        additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
 
+        /*
+        for (int i = 0; i < katasCombo.Count; i++)
+        {
+            katasCombo[i] = new EquipedItem<WeaponKata>();
+            katasCombo[i].inventoryComponent = inventoryEntity;
+        }
+        */
 
-        inventoryEntity.inventory.Add(flyweight.kataCombos[index].kata.Create());
+        if (flyweight == null)
+        {
+            flyweight = container.flyweight?.GetFlyWeight<AttackBase>();
 
-        actualKata.indexEquipedItem = inventoryEntity.inventory.Count - 1;
+            if (flyweight?.kataCombos == null)
+                return;
+        }
 
-        actualKata.equiped.Init(inventoryEntity);
-
-        inventoryEntity.inventory.Add(flyweight.kataCombos[index].weapon.Create());
-
-        inventoryEntity.inventory[^1].Init(inventoryEntity);
-
-        actualKata.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
+        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
+            SetWeaponKataCombo(i);
     }
 
-    public void Init()
+    private void Awake()
     {
-        for (int i = 0; i < _katas.Length; i++)
-        {
-            _katas[i].inventoryComponent = inventoryEntity;
+        internalFsm.Init(this);
 
-            if (_katas[i].equiped!=null)
-            {
-                _katas[i].equiped.Init(inventoryEntity);
-            }
-        }
+        internalFsm.onEnter += fsm => TriggerEnter();
+
+        internalFsm.onExit += fsm => TriggerExit();
     }
 }
 
