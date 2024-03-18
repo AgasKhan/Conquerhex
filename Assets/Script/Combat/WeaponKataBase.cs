@@ -114,9 +114,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
     [SerializeField]
     protected MeleeWeapon equipedWeapon;
 
-    protected DamageContainer multiplyDamage;
-
-    //float actualCharacterVelocity;
+    public DamageContainer multiplyDamage { get; protected set; }
 
     public bool cooldownTime => cooldown.Chck;
 
