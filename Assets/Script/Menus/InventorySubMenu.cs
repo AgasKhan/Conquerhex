@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using System.Linq;
 
 [System.Serializable]
 public class InventorySubMenu : CreateSubMenu
@@ -69,11 +69,96 @@ public class InventorySubMenu : CreateSubMenu
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                    DestroyButtonsActions();
                    CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
+
+                   if(item.GetItemBase() is WeaponKataBase)
+                   {
+                       WeaponKata auxKata = (WeaponKata)item;
+
+                       string mainText = "------------------------------------------------------------------\n";
+
+                       mainText += "Kata Selected: " + item.nameDisplay + "\n";
+
+                       //string columna1 = "";
+                       //string columna2 = "";
+
+                       mainText += "\nCharacter damages:\n";
+                       //columna1 += "Character damages:\n";
+                       mainText += character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+                       //columna1 += character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+
+                       mainText += "\nWeapon equiped damages:\n";
+                       //columna2 += "Weapon equiped damages:\n";
+                       mainText += auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
+                       //columna2 += auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
+
+                       mainText += "\nCharacter and weapon combined damages:\n";
+                       var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.weaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
+                       mainText += totalDamage.ToArray().ToString(": ", "\n");
+
+
+                       mainText += "\nKata damages:\n";
+                       mainText += auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
+
+
+                       totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
+                       mainText += "\nTotal damages:\n";
+                       mainText += totalDamage.ToArray().ToString(": ", "\n");
+
+                       mainText += "\n------------------------------------------------------------------";
+
+                       Debug.Log(mainText);
+                       //Debug.Log(FormatColumns(columna2, columna2));
+                   }
                };
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
     }
+
+    string FormatColumns(params string[] columnas)
+    {
+        int[] maxLengths = new int[columnas.Length];
+        for (int i = 0; i < columnas.Length; i++)
+        {
+            string[] lineas = columnas[i].Split('\n');
+            maxLengths[i] = GetMaxLength(lineas);
+
+            Debug.Log("Max Lenght de la columna " + i + " = " + maxLengths[i]);
+        }
+
+        string resultado = "";
+        int numLineas = Mathf.Max(columnas.Select(c => c.Split('\n').Length).ToArray());
+        for (int i = 0; i < numLineas; i++)
+        {
+            for (int j = 0; j < columnas.Length; j++)
+            {
+                string[] lineas = columnas[j].Split('\n');
+                string linea = i < lineas.Length ? lineas[i] : "";
+                resultado += FormatString(linea, maxLengths[j]) + "\t";
+            }
+            resultado += "\n";
+        }
+
+        return resultado;
+    }
+
+    int GetMaxLength(string[] lineas)
+    {
+        int maxLength = 0;
+        foreach (string linea in lineas)
+        {
+            maxLength = Mathf.Max(maxLength, linea.Length);
+        }
+        return maxLength;
+    }
+
+    string FormatString(string texto, int longitudMaxima)
+    {
+        var aux = texto;
+        return texto + new string(' ', longitudMaxima - texto.Length);
+    }
+
+
 
     void DestroyButtonsActions()
     {

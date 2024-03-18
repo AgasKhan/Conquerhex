@@ -17,9 +17,6 @@ MonoBehaviour:
   _details: 
   maxAmount: 1
   weight: 0
-  itemType: 5
-  velocity: 1
-  range: 1
   joystick: 0
   particles:
   - {fileID: 4045377163621132951, guid: bd5dbf719c3c2784db4870885485e558, type: 3}
@@ -41,16 +38,33 @@ MonoBehaviour:
   detect:
     radius: 2.3
     distance: 2
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 2241
-    _maxDetects: 0
-    _minDetects: 0
     inverse: 0
     dot: 1
+    _maxDetects: 0
+    _minDetects: 0
+    contactFilter2D:
+      useTriggers: 0
+      useLayerMask: 0
+      useDepth: 0
+      useOutsideDepth: 0
+      useNormalAngle: 0
+      useOutsideNormalAngle: 0
+      layerMask:
+        serializedVersion: 2
+        m_Bits: 0
+      minDepth: 0
+      maxDepth: 0
+      minNormalAngle: 0
+      maxNormalAngle: 0
+  velocity: 1
+  range: 1
   velocityCharge: 1
   damageToWeapon: 1
-  damagesMultiply: []
+  damagesMultiply:
+  - name: Perforation
+    amount: 2
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
   RequiredDamage: []
   indexParticles:
   - {x: 1, y: 7}
