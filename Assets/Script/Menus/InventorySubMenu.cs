@@ -78,36 +78,40 @@ public class InventorySubMenu : CreateSubMenu
 
                        mainText += "Kata Selected: " + item.nameDisplay + "\n";
 
-                       //string columna1 = "";
-                       //string columna2 = "";
-
                        mainText += "\nCharacter damages:\n";
-                       //columna1 += "Character damages:\n";
-                       mainText += character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
-                       //columna1 += character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+                       var characterDmgs= character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+                       mainText += characterDmgs;
 
                        mainText += "\nWeapon equiped damages:\n";
-                       //columna2 += "Weapon equiped damages:\n";
-                       mainText += auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
-                       //columna2 += auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
+                       var weaponDmgs = auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
+                       mainText += weaponDmgs;
+
+                       var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.weaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
+                       var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
+                       //mainText += resultDmgs;
 
                        mainText += "\nCharacter and weapon combined damages:\n";
-                       var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.weaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
-                       mainText += totalDamage.ToArray().ToString(": ", "\n");
-
+                       var charAndWeapResult = FormatColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
+                       mainText += charAndWeapResult;
 
                        mainText += "\nKata damages:\n";
-                       mainText += auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
-
+                       var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
+                       mainText += kataDmgs;
 
                        totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
-                       mainText += "\nTotal damages:\n";
-                       mainText += totalDamage.ToArray().ToString(": ", "\n");
+
+                       mainText += "\nCharacter/Weapon and Kata combined damages:\n";
+                       var resultAndKata = totalDamage.ToArray().ToString(": ", "\n");
+                       mainText += FormatColumns(resultDmgs, "x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata);
+
+
+                       mainText += "\nAll damages operations:\n";
+                       mainText += FormatColumns(charAndWeapResult, "x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata);
 
                        mainText += "\n------------------------------------------------------------------";
 
                        Debug.Log(mainText);
-                       //Debug.Log(FormatColumns(columna2, columna2));
+
                    }
                };
 
@@ -122,9 +126,8 @@ public class InventorySubMenu : CreateSubMenu
         {
             string[] lineas = columnas[i].Split('\n');
             maxLengths[i] = GetMaxLength(lineas);
-
-            Debug.Log("Max Lenght de la columna " + i + " = " + maxLengths[i]);
         }
+
 
         string resultado = "";
         int numLineas = Mathf.Max(columnas.Select(c => c.Split('\n').Length).ToArray());
@@ -147,15 +150,14 @@ public class InventorySubMenu : CreateSubMenu
         int maxLength = 0;
         foreach (string linea in lineas)
         {
-            maxLength = Mathf.Max(maxLength, linea.Length);
+            maxLength = Mathf.Max(maxLength, linea.FixedLength());
         }
         return maxLength;
     }
 
     string FormatString(string texto, int longitudMaxima)
     {
-        var aux = texto;
-        return texto + new string(' ', longitudMaxima - texto.Length);
+        return texto + new string(' ', (longitudMaxima - texto.FixedLength()));
     }
 
 
