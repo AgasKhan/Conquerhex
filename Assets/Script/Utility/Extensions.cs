@@ -195,6 +195,23 @@ public static class Extensions
         return s.Length == 0 ? string.Empty : s.Substring(startIndex, lenght);
     }
 
+    static public int FixedLength(this string s)
+    {
+        return s.ClearRichText().Length;
+    }
+
+    public static string ClearRichText(this string s)
+    {
+        int primero = s.IndexOf('<');
+
+        if (primero == -1)
+            return s;
+
+        int final = s.IndexOf('>');
+
+        return s.Remove(primero, final - primero).ClearRichText();
+    }
+
     #endregion
 
     #region Colors
