@@ -207,7 +207,7 @@ public static class Extensions
         if (primero == -1)
             return s;
 
-        int final = s.IndexOf('>');
+        int final = s.IndexOf('>') + 1;
 
         return s.Remove(primero, final - primero).ClearRichText();
     }
