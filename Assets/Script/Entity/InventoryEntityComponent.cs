@@ -130,7 +130,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
         {
             inventory.Add(itemBase.Create());
 
-            inventory[inventory.Count - 1].AddAmount(amount - 1,out amount);
+            inventory[inventory.Count - 1].AddAmount(amount - 1, out amount);
 
             AddOrCreate(itemBase, amount);
         }

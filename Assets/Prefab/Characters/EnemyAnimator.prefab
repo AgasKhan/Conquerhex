@@ -192,11 +192,12 @@ MonoBehaviour:
   carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
     type: 3}
   <carlitos>k__BackingField: []
-  <flyweight>k__BackingField: {fileID: 0}
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 35ae1ede20b545d499b2616a39a00920,
+    type: 2}
   <healthBase>k__BackingField: {fileID: 11400000, guid: ac5a2a294b48a3a4092765b98dcb809f,
     type: 2}
   inventory: {fileID: 0}
-  attack: {fileID: 0}
+  caster: {fileID: 0}
   move: {fileID: 0}
 --- !u!114 &2904035125237228758
 MonoBehaviour:
@@ -369,12 +370,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d76d5333d1e7740962892444fa7b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
+  weapons:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  abilities:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  katasCombo:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  abilitiesCombo:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  aiming: {x: 0, y: 0, z: 0}
   <flyweight>k__BackingField: {fileID: 0}
-  weaponKataIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &9039635426545646564
 GameObject:
   m_ObjectHideFlags: 0

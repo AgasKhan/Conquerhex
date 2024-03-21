@@ -13,7 +13,7 @@ public class DestructibleObjects : Entity
     
     //protected override Damage[] vulnerabilities => _structure.vulnerabilities;
 
-    /*
+    
     protected override void Config()
     {
         base.Config();
@@ -24,9 +24,7 @@ public class DestructibleObjects : Entity
     private void MyAwake()
     {
         health.noLife += Health_noLife;
-
-        health.Init(_structure.life, _structure.regen);
-    }*/
+    }
 
     private void Health_noLife()
     {

@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ComponentsAndContainers;
 
-public class DropEntityComponent : MonoBehaviour, IState<Entity>
+public class DropEntityComponent : ComponentOfContainer<Entity>
 {
-    public List<DropItem> drops = new List<DropItem>();
+    DropBase dropBase;
 
     void Drop()
     {
-        for (int i = 0; i < drops.Count; i++)
+        for (int i = 0; i < dropBase.drops.Count; i++)
         {
-            DropItem dropItem = drops[i];
+            DropItem dropItem = dropBase.drops[i];
 
             var rng = dropItem.maxMinDrops.RandomPic();
 
@@ -23,26 +24,19 @@ public class DropEntityComponent : MonoBehaviour, IState<Entity>
         }
     }
 
-    public void OnEnterState(Entity param)
+    public override void OnEnterState(Entity param)
     {
+        dropBase = param.flyweight.GetFlyWeight<DropBase>();
         param.health.death += Drop;
     }
 
-    public void OnExitState(Entity param)
-    {
-        param.health.death -= Drop;
-    }
-
-    public void OnStayState(Entity param)
+    public override void OnStayState(Entity param)
     {
         throw new System.NotImplementedException();
     }
-}
 
-[System.Serializable]
-public struct DropItem
-{
-    public Pictionarys<int, int> maxMinDrops;
-
-    public ResourcesBase_ItemBase item;
+    public override void OnExitState(Entity param)
+    {
+        param.health.death -= Drop;
+    }
 }

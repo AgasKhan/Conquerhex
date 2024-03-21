@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7703062913578005909}
   - component: {fileID: 1923887133863855821}
   - component: {fileID: 4138303099378762860}
+  - component: {fileID: -6673971178295204557}
   - component: {fileID: 947288673111606409}
   - component: {fileID: 8806285603785703480}
   - component: {fileID: -143505725685077172}
@@ -208,11 +209,12 @@ MonoBehaviour:
   carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
     type: 3}
   <carlitos>k__BackingField: []
-  <flyweight>k__BackingField: {fileID: 0}
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 846cca39604224c49adcde1b6550e3e5,
+    type: 2}
   <healthBase>k__BackingField: {fileID: 11400000, guid: ac5a2a294b48a3a4092765b98dcb809f,
     type: 2}
   inventory: {fileID: 0}
-  attack: {fileID: 0}
+  caster: {fileID: 0}
   move: {fileID: 8806285603785703480}
 --- !u!114 &4138303099378762860
 MonoBehaviour:
@@ -232,6 +234,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &-6673971178295204557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923887133863855815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2175171fb572ac44a001ece1601d4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &947288673111606409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,12 +258,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d76d5333d1e7740962892444fa7b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
+  weapons:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  abilities:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  katasCombo:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  abilitiesCombo:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  aiming: {x: 0, y: 0, z: 0}
   <flyweight>k__BackingField: {fileID: 0}
-  weaponKataIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &8806285603785703480
 MonoBehaviour:
   m_ObjectHideFlags: 0
