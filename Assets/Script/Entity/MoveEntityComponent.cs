@@ -7,6 +7,8 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>
 {
     public MoveAbstract move;
 
+    public EventControllerMediator controllerMediator;
+
     public override void OnEnterState(Entity param)
     {
         move.onTeleport += param.Teleport;
@@ -14,12 +16,12 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>
 
     public override void OnExitState(Entity param)
     {
-        
+        move.onTeleport -= param.Teleport;
     }
 
     public override void OnStayState(Entity param)
     {
-        
+
     }
 }
 

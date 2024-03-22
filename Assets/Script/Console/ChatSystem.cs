@@ -42,7 +42,7 @@ public class ChatSystem : MonoBehaviour
         };
         giveEvent.delegato += (tupla)=> GameManager.instance.playerCharacter.inventory.AddOrSubstractItems(tupla.Item1, tupla.Item2);
         
-        eventManager.events.AddRange(new Pictionarys<string, Euler.SpecificEventParent>()
+        eventManager.events.AddRange(new Pictionarys<string, Internal.SpecificEventParent>()
         {
             {CommandsList.Coins, coinEvent },
             {CommandsList.Help,  helpEvent}

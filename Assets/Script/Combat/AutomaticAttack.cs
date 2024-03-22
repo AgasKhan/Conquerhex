@@ -14,8 +14,6 @@ public class AutomaticAttack
 
     SlotItem<WeaponKata> kata => owner.katasCombo[indexKata];
 
-
-
     public event System.Action onAttack;
 
     public bool cooldown => kata.equiped!=null ? kata.equiped.cooldownTime && timerChargeAttack.Chck : false;
@@ -113,6 +111,4 @@ public class AutomaticAttack
         }).Stop().SetInitCurrent(0);
         
     }
-
-
 }

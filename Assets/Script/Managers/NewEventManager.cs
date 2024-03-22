@@ -7,11 +7,11 @@ using UnityEngine.Events;
 public class NewEventManager : ScriptableObject
 {
     [SerializeField]
-    Pictionarys<string, Euler.SpecificEventParent> _events = new Pictionarys<string, Euler.SpecificEventParent>();
+    Pictionarys<string, Internal.SpecificEventParent> _events = new Pictionarys<string, Internal.SpecificEventParent>();
 
-    public Pictionarys<string, Euler.SpecificEventParent> events => _events;
+    public Pictionarys<string, Internal.SpecificEventParent> events => _events;
 
-    public Euler.SpecificEventParent this[string k]
+    public Internal.SpecificEventParent this[string k]
     {
         get
         {
@@ -47,28 +47,28 @@ public class NewEventManager : ScriptableObject
     }
 }
 
-public class EventParam : Euler.SpecificEvent<UnityAction> { };
+public class EventParam : Internal.SpecificEvent<UnityAction> { };
 
-public class EventParam<T1> : Euler.SpecificEvent<UnityAction<T1>> { };
+public class EventParam<T1> : Internal.SpecificEvent<UnityAction<T1>> { };
 
-public class EventParam<T1, T2> : Euler.SpecificEvent<UnityAction<T1, T2>> { };
+public class EventParam<T1, T2> : Internal.SpecificEvent<UnityAction<T1, T2>> { };
 
-public class EventParam<T1, T2, T3> : Euler.SpecificEvent<UnityAction<T1, T2, T3>> { };
+public class EventParam<T1, T2, T3> : Internal.SpecificEvent<UnityAction<T1, T2, T3>> { };
 
 
-public class EventTwoParam : Euler.SpecificEvent<UnityAction>
+public class EventTwoParam : Internal.SpecificEvent<UnityAction>
 {
     public UnityAction secondDelegato { get => _second.delegato; set => _second.delegato = value; }
 
     EventParam _second = new EventParam();
 }
-public class EventTwoParam<X1, Y1> : Euler.SpecificEvent<UnityAction<X1>>
+public class EventTwoParam<X1, Y1> : Internal.SpecificEvent<UnityAction<X1>>
 {
     public UnityAction<Y1> secondDelegato { get => _second.delegato; set => _second.delegato = value; }
 
     EventParam<Y1> _second = new EventParam<Y1>();
 }
-public class EventTwoParam<X1, X2, Y1, Y2> : Euler.SpecificEvent<UnityAction<X1, X2>>
+public class EventTwoParam<X1, X2, Y1, Y2> : Internal.SpecificEvent<UnityAction<X1, X2>>
 {
     public UnityAction<Y1, Y2> secondDelegato { get => _second.delegato; set => _second.delegato = value; }
 
@@ -89,7 +89,7 @@ public class EventThreeParam<X1, Y1, Z1> : EventTwoParam<X1, Y1>
 }
 
 
-namespace Euler
+namespace Internal
 {
     public class SpecificEventParent
     {

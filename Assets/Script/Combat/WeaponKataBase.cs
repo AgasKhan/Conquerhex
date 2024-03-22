@@ -196,8 +196,6 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
         pressed = MyControllerVOID; //Para cancelar el ataque presionado
     }
 
-
-
     protected void Attack()
     {
         onAttack?.Invoke();

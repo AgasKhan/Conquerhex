@@ -22,13 +22,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
     public Vector3 aiming;
 
-    public event System.Action onAttack;
-
-    public event System.Action OnActionEnter;
-
-    public event System.Action OnActionExit;
-
-    FSMAutomaticEnd<CasterEntityComponent> internalFsm = new FSMAutomaticEnd<CasterEntityComponent>();
+    public event System.Action onAttack;    
 
     InventoryEntityComponent inventoryEntity;
 
@@ -39,18 +33,18 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
     public EventControllerMediator ability { get; set; } = new EventControllerMediator();
 
+    public IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>> preState { get; protected set; }
+
     public WeaponKata actualWeapon => weapons.actual.equiped.defaultKata;
 
     public WeaponKata actualAbility => abilities.actual.equiped.defaultKata;
-
-    public bool end => internalFsm.end;
 
     public void AttackEvent()
     {
         onAttack?.Invoke();
     }
 
-    public void Attack(int number)
+    public IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>> PreAttack(int number)
     {
         WeaponKata weaponKata;
 
@@ -63,10 +57,12 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
             weaponKata = katasCombo.Actual(number - 1).equiped;
         }
 
-        EnterState(weaponKata);
+        preState = weaponKata;
+
+        return preState;
     }
 
-    public void Ability(int number)
+    public IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>> PreAbility(int number)
     {
         WeaponKata weaponKata;
 
@@ -79,7 +75,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
             weaponKata = abilitiesCombo.Actual(number - 1).equiped;
         }
 
-        EnterState(weaponKata);
+        preState = weaponKata;
+
+        return preState;
     }
 
     void SetWeaponKataCombo(int index)
@@ -105,24 +103,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
         katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
     }
 
-    void EnterState(WeaponKata weaponKata)
-    {
-        internalFsm.EnterState(weaponKata);
-    }
-
-    void TriggerEnter()
-    {
-        OnActionEnter?.Invoke();
-    }
-
-    void TriggerExit()
-    {
-        OnActionExit?.Invoke();
-    }
 
     public override void OnStayState(Entity param)
     {
-        internalFsm.UpdateState();
     }
 
     public override void OnExitState(Entity param)
@@ -165,15 +148,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
                 katasCombo[i].equiped.Init(inventoryEntity);
             }
         }
-    }
-
-    private void Awake()
-    {
-        internalFsm.Init(this);
-
-        internalFsm.onEnter += fsm => TriggerEnter();
-
-        internalFsm.onExit += fsm => TriggerExit();
     }
 }
 

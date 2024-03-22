@@ -107,7 +107,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
         if (durability == null)
             durability = new Tim(itemBase.durability);
 
-        if (defaultKata == null)
+        if (defaultKata == null && itemBase.defaultKata != null)
         {
             defaultKata = itemBase.defaultKata.Create() as WeaponKata;
 

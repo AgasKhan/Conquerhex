@@ -76,15 +76,17 @@ public class InventorySubMenu : CreateSubMenu
 
                        string mainText = "------------------------------------------------------------------\n";
 
+                       var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
+                       var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+                       var weaponDmgs = auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
+
                        mainText += "Kata Selected: " + item.nameDisplay + "\n";
 
-                       mainText += "\nCharacter damages:\n";
-                       var characterDmgs= character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
-                       mainText += characterDmgs;
+                       var titulos = new string[] { "Character damages", "operacion", "Weapon equiped damages", "operacion", "Kata Selected" };
 
-                       mainText += "\nWeapon equiped damages:\n";
-                       var weaponDmgs = auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
-                       mainText += weaponDmgs;
+                       mainText += FormatColumns(titulos);
+
+                       mainText += FormatColumns(MaxLengths(titulos), characterDmgs, "+", weaponDmgs, "x", kataDmgs);
 
                        var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.weaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
                        var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
@@ -93,10 +95,6 @@ public class InventorySubMenu : CreateSubMenu
                        mainText += "\nCharacter and weapon combined damages:\n";
                        var charAndWeapResult = FormatColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
                        mainText += charAndWeapResult;
-
-                       mainText += "\nKata damages:\n";
-                       var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
-                       mainText += kataDmgs;
 
                        totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
 
@@ -118,17 +116,20 @@ public class InventorySubMenu : CreateSubMenu
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
     }
+    /*
+     
+    objeto => columnas
 
-    string FormatColumns(params string[] columnas)
+    columnas addFirst(titulo)
+
+    columnas calcule el ancho mas conveniente()
+
+    ToString()
+     
+     */
+
+    string FormatColumns(int[] maxLengths, params string[] columnas)
     {
-        int[] maxLengths = new int[columnas.Length];
-        for (int i = 0; i < columnas.Length; i++)
-        {
-            string[] lineas = columnas[i].Split('\n');
-            maxLengths[i] = GetMaxLength(lineas);
-        }
-
-
         string resultado = "";
         int numLineas = Mathf.Max(columnas.Select(c => c.Split('\n').Length).ToArray());
         for (int i = 0; i < numLineas; i++)
@@ -145,6 +146,24 @@ public class InventorySubMenu : CreateSubMenu
         return resultado;
     }
 
+    string FormatColumns(params string[] columnas)
+    {
+        return FormatColumns(MaxLengths(columnas), columnas);
+    }
+
+    int[] MaxLengths(params string[] columnas)
+    {
+        int[] maxLengths = new int[columnas.Length];
+
+        for (int i = 0; i < columnas.Length; i++)
+        {
+            string[] lineas = columnas[i].Split('\n');
+            maxLengths[i] = GetMaxLength(lineas);
+        }
+
+        return maxLengths;
+    }
+
     int GetMaxLength(string[] lineas)
     {
         int maxLength = 0;
@@ -157,7 +176,12 @@ public class InventorySubMenu : CreateSubMenu
 
     string FormatString(string texto, int longitudMaxima)
     {
-        return texto + new string(' ', (longitudMaxima - texto.FixedLength()));
+        int largo = texto.FixedLength();
+
+        if (largo <= longitudMaxima)
+            return texto + new string(' ', (longitudMaxima - largo));
+
+        return texto.Substring(0, longitudMaxima - 3) + "...";
     }
 
 

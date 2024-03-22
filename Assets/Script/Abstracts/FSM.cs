@@ -106,5 +106,3 @@ public abstract class FSMParent<TChild, TContext, TState> : ISwitchState<TChild,
         this.context = reference;
     }
 }
-
-

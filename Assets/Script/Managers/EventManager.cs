@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ 
 //si no se cuantos voy a tener, por q lo desconozco
 public class EventManager : SingletonMono<EventManager>
 {
-    /*
     [SerializeField]
     Pictionarys<string, EventGeneric> _events = new Pictionarys<string, EventGeneric>();
 
     static public Pictionarys<string, EventGeneric> events => instance._events;
-    */
 }
-
 
 //si trabajamos con delegados muy genericos
 public class EventGeneric
@@ -47,7 +45,6 @@ public class EventJoystick : EventTimer
     }
 }
 
-/*
 public class EventSpecific
 {
     System.Delegate listDelegates;
@@ -86,9 +83,6 @@ public class EventSpecific
     }
 }
 
-
-*/
-/*
 public class Example
 {
 
@@ -164,14 +158,9 @@ public class EventSpecific2<T> : EventSpecificParent where T : System.Delegate
 //Listener se van a llamar handlers
 
 //y los eventos o escuchados events
-
-/*
  
-un evento al cual se pueden suscribir, 
+//un evento al cual se pueden suscribir, 
 
- */
-
-/*
 public abstract class EventParentSpecific : ScriptableObject
 {
     protected System.Delegate listDelegates;
@@ -231,10 +220,6 @@ public class EventSpecific<T> : EventParentSpecific where T : System.Delegate
     }
 }
 
-
-
-
-
 public abstract class EventMediator : MonoBehaviour
 {
     EventSpecific<UnityEngine.Events.UnityAction> suscripted;
@@ -249,9 +234,3 @@ public abstract class EventMediator<T> : MonoBehaviour
     UnityEngine.Events.UnityEvent<T> unityEvent;
 }
 */
-
-
-
-
-
-

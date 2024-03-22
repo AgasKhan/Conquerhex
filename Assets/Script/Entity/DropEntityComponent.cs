@@ -9,6 +9,9 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
 
     void Drop()
     {
+        if (dropBase == null)
+            return;
+
         for (int i = 0; i < dropBase.drops.Count; i++)
         {
             DropItem dropItem = dropBase.drops[i];
@@ -26,7 +29,7 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
 
     public override void OnEnterState(Entity param)
     {
-        dropBase = param.flyweight.GetFlyWeight<DropBase>();
+        dropBase = param.flyweight?.GetFlyWeight<DropBase>();
         param.health.death += Drop;
     }
 
