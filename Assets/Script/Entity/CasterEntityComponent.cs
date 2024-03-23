@@ -33,9 +33,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
     public EventControllerMediator ability { get; set; } = new EventControllerMediator();
 
-    public WeaponKata actualWeapon => weapons.actual.equiped.defaultKata;
+    public WeaponKata actualWeapon => weapons.actual.equiped?.defaultKata;
 
-    public WeaponKata actualAbility => abilities.actual.equiped.defaultKata;
+    public WeaponKata actualAbility => abilities.actual.equiped?.defaultKata;
 
     public void AttackEvent()
     {

@@ -220,17 +220,17 @@ namespace FSMCharacterAndStates
 
             //internalFsm.EnterState(param.context.caster.preState);
 
-            stateWithEnd.OnEnterState(param.context.caster);            
+            stateWithEnd?.OnEnterState(param.context.caster);            
         }
 
         public void OnStayState(FSMAutomaticEnd<Character> param)
         {
-            stateWithEnd.OnStayState(param.context.caster);
+            stateWithEnd?.OnStayState(param.context.caster);
         }
 
         public void OnExitState(FSMAutomaticEnd<Character> param)
         {
-            stateWithEnd.OnExitState(param.context.caster);
+            stateWithEnd?.OnExitState(param.context.caster);
 
             param.context.attackEventMediator -= param.context.caster.attack;
 
