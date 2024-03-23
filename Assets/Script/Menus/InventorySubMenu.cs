@@ -99,7 +99,8 @@ public class InventorySubMenu : CreateSubMenu
 
                        //var test3 = test1 + test2;
                        Debug.Log((totalDamage.ToArray().ToString(": ", "\n")).ToString() + test1);
-                       Debug.Log((test2 + test1).ToString());
+                       Debug.Log((test1 + test2).ToString());
+                       //Debug.Log((test2 + test1).ToString());
                        //mainText += resultDmgs;
 
                        mainText += "\nCharacter and weapon combined damages:\n";
