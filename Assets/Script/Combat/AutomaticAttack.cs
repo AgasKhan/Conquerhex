@@ -16,7 +16,7 @@ public class AutomaticAttack
 
     public event System.Action onAttack;
 
-    public bool cooldown => kata.equiped!=null ? kata.equiped.cooldownTime && timerChargeAttack.Chck : false;
+    public bool cooldown => kata.equiped!=null ? kata.equiped.onCooldownTime && timerChargeAttack.Chck : false;
 
     public WeaponKata weaponKata => kata.equiped;
 

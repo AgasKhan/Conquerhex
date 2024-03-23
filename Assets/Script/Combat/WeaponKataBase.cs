@@ -91,7 +91,7 @@ public abstract class WeaponKataBase : FatherKataAndAbility<WeaponKataBase>
 }
 
 [System.Serializable]
-public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>>
+public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>
 {
     public event System.Action<MeleeWeapon> onEquipedWeapon;
     public event System.Action<MeleeWeapon> onDesEquipedWeapon;
@@ -116,7 +116,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
 
     public DamageContainer multiplyDamage { get; protected set; }
 
-    public bool cooldownTime => cooldown.Chck;
+    public bool onCooldownTime => cooldown.Chck;
 
     public event System.Action<IGetPercentage, float> onCooldownChange
     {
@@ -379,20 +379,20 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, IStateW
 
     protected abstract void InternalControllerUp(Vector2 dir, float tim);
 
-    public virtual void OnEnterState(FSMAutomaticEnd<CasterEntityComponent> param)
+    public virtual void OnEnterState(CasterEntityComponent param)
     {
         end = false;
-        param.context.attack += this;
-        ControllerDown(param.context.aiming,0);
+        param.attack += this;
+        ControllerDown(param.aiming,0);
     }
 
-    public virtual void OnStayState(FSMAutomaticEnd<CasterEntityComponent> param)
+    public virtual void OnStayState(CasterEntityComponent param)
     {
     }
 
-    public virtual void OnExitState(FSMAutomaticEnd<CasterEntityComponent> param)
+    public virtual void OnExitState(CasterEntityComponent param)
     {
-        param.context.attack -= this;
+        param.attack -= this;
     }
 
     #endregion

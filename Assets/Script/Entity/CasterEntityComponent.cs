@@ -9,11 +9,11 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     [Tooltip("Armas equipadas y de cambio rapido")]
     public SlotItemList<MeleeWeapon> weapons = new SlotItemList<MeleeWeapon>(5);
 
-    [Tooltip("Habilidaddes equipadas y de cambio rapido")]
-    public SlotItemList<MeleeWeapon> abilities = new SlotItemList<MeleeWeapon>(5);
-
     [Tooltip("Ataques especiales que se efectuaran con el combo de ataque")]
     public SlotItemList<WeaponKata> katasCombo = new SlotItemList<WeaponKata>(4);
+
+    [Tooltip("Habilidaddes equipadas y de cambio rapido")]
+    public SlotItemList<MeleeWeapon> abilities = new SlotItemList<MeleeWeapon>(5);
 
     [Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
     public SlotItemList<WeaponKata> abilitiesCombo = new SlotItemList<WeaponKata>(4);
@@ -33,8 +33,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
     public EventControllerMediator ability { get; set; } = new EventControllerMediator();
 
-    public IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>> preState { get; protected set; }
-
     public WeaponKata actualWeapon => weapons.actual.equiped.defaultKata;
 
     public WeaponKata actualAbility => abilities.actual.equiped.defaultKata;
@@ -42,42 +40,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     public void AttackEvent()
     {
         onAttack?.Invoke();
-    }
-
-    public IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>> PreAttack(int number)
-    {
-        WeaponKata weaponKata;
-
-        if (number==0)
-        {
-            weaponKata = actualWeapon;
-        }
-        else
-        {
-            weaponKata = katasCombo.Actual(number - 1).equiped;
-        }
-
-        preState = weaponKata;
-
-        return preState;
-    }
-
-    public IStateWithEnd<FSMAutomaticEnd<CasterEntityComponent>> PreAbility(int number)
-    {
-        WeaponKata weaponKata;
-
-        if (number == 0)
-        {
-            weaponKata = actualAbility;
-        }
-        else
-        {
-            weaponKata = abilitiesCombo.Actual(number - 1).equiped;
-        }
-
-        preState = weaponKata;
-
-        return preState;
     }
 
     void SetWeaponKataCombo(int index)
@@ -101,6 +63,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 
         katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
+
+        katasCombo.actual.equiped.onAttack += AttackEvent;//ver como mejorar
     }
 
 

@@ -100,7 +100,11 @@ public abstract class Item : IShowDetails
 
     public void ChangeContainer(InventoryEntityComponent inventoryEntityComponent)
     {
+        if (inventoryEntityComponent == this.container)
+            return;
+
         onDrop?.Invoke();
+
         onChangeContainer?.Invoke(inventoryEntityComponent);
     }
 

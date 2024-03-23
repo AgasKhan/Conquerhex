@@ -40,9 +40,9 @@ public class RecolectableItem : InventoryEntityComponent
             var aux = ((Entity)character).flyweight;
             var dist = character.transform.position - transform.position;
 
-            if (dist.sqrMagnitude <= aux.areaFarming * aux.areaFarming && character == GameManager.instance.playerCharacter)
+            if (dist.sqrMagnitude <= aux.areaFarming * aux.areaFarming)
             {
-                Recolect(character.GetInContainer<InventoryEntityComponent>());
+                Recolect(character.inventory);
                 break;
             }
         }

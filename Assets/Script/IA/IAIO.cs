@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,29 +12,38 @@ public class IAIO : IAFather
     [SerializeField]
     Detect<Interactuable> detectInteractuable = new Detect<Interactuable>();
 
+    [SerializeField]
+    string lastCombo;
+
+    string[] combos = new string[] { "↑↑","→→", "←←" , "↓↓" };
+
+    Timer comboReset;
+
     Interactuable lastInteractuable;
 
-    ControllerIAIO prin;
+    //ControllerIAIO prin;
 
-    ControllerIAIO sec;
+    //ControllerIAIO sec;
 
-    ControllerIAIO ter;
+    //ControllerIAIO ter;
 
     EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
 
     private void Awake()
     {
 
-        prin = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.principal.ToString()), 0);
+        //prin = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.principal.ToString()), 0);
 
-        sec = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.secondary.ToString()), 1);
+        //sec = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.secondary.ToString()), 1);
 
-        ter = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.terciary.ToString()), 2);
+        //ter = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.terciary.ToString()), 2);
 
         interactEvent = eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
         LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(_character);
         });
+
+        comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
     }
 
     public override void OnEnterState(Character param)
@@ -55,19 +64,67 @@ public class IAIO : IAFather
 
         param.health.helthUpdate += Health_helthUpdate;
 
-        prin.Init();
-        sec.Init();
-        ter.Init();
+        //prin.Init();
+        //sec.Init();
+        //ter.Init();
 
-        VirtualControllers.movement.SuscribeController(param.move.move);
+        param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
-        VirtualControllers.principal.SuscribeController(prin);
+        param.moveEventMediator.eventDown += MoveEventMediator_eventDown;
 
-        VirtualControllers.secondary.SuscribeController(sec);
+        VirtualControllers.movement.SuscribeController(param.moveEventMediator);
 
-        VirtualControllers.terciary.SuscribeController(ter);
+        VirtualControllers.principal.SuscribeController(param.attackEventMediator);
+
+        VirtualControllers.secondary.SuscribeController(param.abilityEventMediator);
+
+        //VirtualControllers.terciary.SuscribeController(ter);
     }
 
+    private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        Vector2 tecla = arg1.AproxDir();
+
+        if(tecla!=Vector2.zero)
+        {
+            comboReset.Reset();
+
+            if (lastCombo.Length >= 2)
+                lastCombo = new string(lastCombo[^1],1);
+
+            if (tecla.x > 0)
+            {
+                lastCombo += "→";
+            }
+            else if (tecla.x < 0)
+            {
+                lastCombo += "←";
+            }
+            else if (tecla.y > 0)
+            {
+                lastCombo += "↑";
+            }
+            else if (tecla.y < 0)
+            {
+                lastCombo += "↓";
+            }
+        }        
+    }
+
+    private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        if (lastCombo == string.Empty)
+            character.Attack(0);
+
+        for (int i = 0; i < combos.Length; i++)
+        {
+            if(combos[i] == lastCombo)
+            {
+                character.Attack(i+1);
+                return;
+            }
+        }
+    }
 
     public override void OnExitState(Character param)
     {
@@ -79,17 +136,17 @@ public class IAIO : IAFather
         param.health.helthUpdate -= Health_helthUpdate;
 
 
-        VirtualControllers.movement.DesuscribeController(param.move.move);
+        VirtualControllers.movement.DesuscribeController(param.moveEventMediator);
 
-        VirtualControllers.principal.DesuscribeController(prin);
+        VirtualControllers.principal.DesuscribeController(param.attackEventMediator);
 
-        VirtualControllers.secondary.DesuscribeController(sec);
+        VirtualControllers.secondary.DesuscribeController(param.abilityEventMediator);
 
-        VirtualControllers.terciary.DesuscribeController(ter);
+        //VirtualControllers.terciary.DesuscribeController(ter);
 
-        prin.Exit();
-        sec.Exit();
-        ter.Exit();
+        //prin.Exit();
+        //sec.Exit();
+        //ter.Exit();
 
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 
@@ -180,27 +237,25 @@ public class ControllerIAIO : IControllerDir, Init
 
     WeaponKata previusControllerDir;
 
-    CasterEntityComponent character;
+    Character character;
 
     int index;
 
-    SlotItem<WeaponKata> kata => character.katasCombo.Actual(index);
-
-    System.Action attackAnim => character.AttackEvent;
+    SlotItem<WeaponKata> kata => character.caster.katasCombo[index];
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        kata.equiped?.ControllerDown(dir,tim);
+        character.Attack(index);
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        kata.equiped?.ControllerPressed(dir, tim);
+
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        kata.equiped?.ControllerUp(dir, tim);
+
     }
 
     public void SetJoystick(int arg1, WeaponKata arg2)
@@ -211,13 +266,11 @@ public class ControllerIAIO : IControllerDir, Init
         if (previusControllerDir != null)
         {
             previusControllerDir.onCooldownChange -= Ui;
-            previusControllerDir.onAttack -= attackAnim;
         }
 
         if (kata.equiped != null)
         {
             kata.equiped.onCooldownChange += Ui;
-            kata.equiped.onAttack += attackAnim;
         }
 
         RefreshJoystickUI();
@@ -245,7 +298,7 @@ public class ControllerIAIO : IControllerDir, Init
 
     public void Init()
     {
-        character = GameManager.instance.playerCharacter.caster;
+        character = GameManager.instance.playerCharacter;
 
         kata.toChange += SetJoystick;
 
@@ -261,7 +314,6 @@ public class ControllerIAIO : IControllerDir, Init
             if (kata.equiped != null)
             {
                 kata.equiped.onCooldownChange -= Ui;
-                kata.equiped.onAttack -= attackAnim;
             }
         }
 

@@ -24,6 +24,13 @@ public interface IController
     void ControllerUp(float tim);
 }
 
+public interface ICoolDown
+{
+    public bool onCooldownTime { get; }
+
+    public event System.Action<IGetPercentage, float> onCooldownChange;
+}
+
 public class EventControllerMediator : IEventController, IControllerDir
 {
     public event Action<Vector2, float> eventDown;

@@ -8,6 +8,25 @@ using System.Linq;
 public static class Extensions
 {
     #region Vectors
+    /// <summary>
+    /// devuelve una direccion aproximada del vector que se determina en base a el valor mayor sus componentes
+    /// </summary>
+    /// <param name="v"></param>
+    /// <returns>direccion aproximada</returns>
+    static public Vector2 AproxDir(this Vector2 v)
+    {
+        if (v == Vector2.zero)
+            return Vector2.zero;
+
+        var n1 = Mathf.Abs(v.x);
+        var n2 = Mathf.Abs(v.y);
+
+        if (n1 > n2)
+            return Vector2.right * Mathf.Sign(v.x);
+        else
+            return Vector2.up * Mathf.Sign(v.y);
+    }
+
 
     /// <summary>
     /// devuelve una magnitud aproximada del vector donde el valor de este es determinado por la mayor de todas sus proyecciones

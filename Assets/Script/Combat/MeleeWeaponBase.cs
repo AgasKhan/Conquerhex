@@ -72,13 +72,14 @@ public class MeleeWeaponBase : ItemBase
 public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 {
     [SerializeField]
+    public WeaponKata defaultKata;
+
+    [SerializeField]
     public Tim durability;
 
     public Damage[] damages => itemBase.damages;
 
     public event System.Action off;
-
-    public WeaponKata defaultKata;
 
     public virtual IEnumerable<Entity> Damage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
@@ -97,24 +98,6 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
             if (auxiliarDamaged)
                 yield return entity;
         }
-    }
-
-    protected override void Init()
-    {
-        if (itemBase == null)
-            return;
-
-        if (durability == null)
-            durability = new Tim(itemBase.durability);
-
-        if (defaultKata == null && itemBase.defaultKata != null)
-        {
-            defaultKata = itemBase.defaultKata.Create() as WeaponKata;
-
-            defaultKata.Init(container);
-            defaultKata.ChangeWeapon(this);
-        }
-            
     }
 
     public virtual void Durability(float damageToDurability)
@@ -151,5 +134,29 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
     protected void TriggerOff()
     {
         off?.Invoke();
+    }
+
+    private void MeleeWeapon_onChangeContainer(InventoryEntityComponent obj)
+    {
+        defaultKata.ChangeContainer(obj);
+    }
+
+    protected override void Init()
+    {
+        if (itemBase == null)
+            return;
+
+        if (durability == null)
+            durability = new Tim(itemBase.durability);
+
+        if (defaultKata == null && itemBase.defaultKata != null)
+        {
+            defaultKata = itemBase.defaultKata.Create() as WeaponKata;
+
+            defaultKata.Init(container);
+            defaultKata.ChangeWeapon(this);
+            onChangeContainer += MeleeWeapon_onChangeContainer;
+        }
+
     }
 }
