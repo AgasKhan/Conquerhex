@@ -14,13 +14,13 @@ public class FSMAutomaticEnd<TContext> : FSMParent<FSMAutomaticEnd<TContext>, TC
 
     public override void UpdateState()
     {
+        if(!CurrentState.end)
+            base.UpdateState();
+
         if (CurrentState.end)
         {
             ExitState();
-        }
-            
-        else
-            base.UpdateState();        
+        }                  
     }
 }
 

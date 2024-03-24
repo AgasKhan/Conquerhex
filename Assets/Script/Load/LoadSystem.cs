@@ -103,13 +103,14 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     public void Load(string scn, bool pause = false)
     {
+        Time.timeScale = 1;
         loadPause = pause;
 
         StopAllCoroutines();
 
         loadScreen.Open();
         StartCoroutine(LoadScene(scn));
-        Time.timeScale = 1;
+        
     }
 
     public void LoadAndSavePlayer(string scn, bool pause = false)

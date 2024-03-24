@@ -75,6 +75,8 @@ public class PressWeaponKata : WeaponKata
 
         cooldown.Reset();
         pressCooldown.Reset();
+
+        end = true;
     }
 }
 
@@ -134,11 +136,27 @@ public class UpWeaponKata : WeaponKata
         Attack();
 
         reference?.Attack();
+
+        end = true;
     }
 }
 
 public class DashUpWeaponKata : UpWeaponKata
 {
+    Timer timerToEnd;
+    bool buttonPress;
+    protected override void Init()
+    {
+        base.Init();
+        timerToEnd = TimersManager.Create(1, ()=> end=true).Stop();
+    }
+
+    protected override void InternalControllerDown(Vector2 dir, float button)
+    {
+        buttonPress = true;
+        base.InternalControllerDown(dir, button);
+    }
+
     protected override void InternalControllerUp(Vector2 dir, float button)
     {
         if (!cooldown.Chck)
@@ -151,9 +169,38 @@ public class DashUpWeaponKata : UpWeaponKata
             aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * itemBase.velocityCharge);
         }
 
+        //Attack();
+
+        //reference?.Attack();
+
+        if(affected.Length==0)
+        {
+            end = true;
+            return;
+        }
+
+        timerToEnd.Reset();
+        buttonPress = false;
+    }
+
+    public override void OnStayState(CasterEntityComponent param)
+    {
+        if (buttonPress)
+            return;
+
+        reference.Area(originalScale * finalRange * 1f / 4);
+        Detect(Aiming, 0, finalRange* 1f/4);
+
+        if (affected.Length == 0)
+            return;
+
         Attack();
 
         reference?.Attack();
+
+        timerToEnd.Stop();
+
+        end = true;
     }
 }
 
@@ -162,7 +209,7 @@ public class DashUpWeaponKata : UpWeaponKata
 /// </summary>
 public class ChargeAffectedUpWeaponKata : UpWeaponKata
 {
-    protected override Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
+    protected override Entity[] InternalDetect(Vector2 dir, float timePressed = 0, float? range=null)
     {
         return itemBase.Detect(caster.container, dir ,(int)Mathf.Clamp(timePressed * itemBase.velocityCharge, 1, itemBase.detect.maxDetects), finalRange);
     }

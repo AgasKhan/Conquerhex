@@ -208,9 +208,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         }
     }
 
-    protected Entity[] Detect(Vector2 dir, float timePressed = 0)
+    protected Entity[] Detect(Vector2 dir, float timePressed = 0, float? range=null)
     {
-        affected = InternalDetect(dir, timePressed);
+        affected = InternalDetect(dir, timePressed, range);
 
         foreach (var item in affected)
         {
@@ -291,6 +291,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         if (caster == null || !caster.isActiveAndEnabled || weaponEnabled == null)
         {
             StopAttack();
+            end = true;
             return;
         }
 
@@ -300,7 +301,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         {
             ((MoveEntityComponent)caster).move.objectiveVelocity += -2;
         }
-         */
+        */
 
         InternalControllerDown(dir, tim);
         pressed = InternalControllerPress;
@@ -314,6 +315,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         if (caster==null || !caster.isActiveAndEnabled || weaponEnabled == null)
         {
             StopAttack();
+            end = true;
             return;
         }
 
@@ -323,10 +325,14 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        if (caster != null && caster.isActiveAndEnabled && weaponEnabled != null)
+        if (caster == null || !caster.isActiveAndEnabled || weaponEnabled == null)
         {
-            up(dir, tim);
+            StopAttack();
+            end = true;
+            return;
         }
+
+        up(dir, tim);
 
         StopAttack();
     }
@@ -335,22 +341,20 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         //if (caster.TryGetInContainer(out MoveEntityComponent move) && actualCharacterVelocity > move.move.objectiveVelocity)
         //    move.move.objectiveVelocity += 2;
 
-        reference?.Off();
         reference = null;
 
         pressed = MyControllerVOID;
+        
         up = MyControllerVOID;
-
-        end = true;
     }
 
 
     #endregion
 
     #region internal functions
-    protected virtual Entity[] InternalDetect(Vector2 dir, float timePressed = 0)
+    protected virtual Entity[] InternalDetect(Vector2 dir, float timePressed = 0, float? range = null)
     {
-        return itemBase.Detect(caster.container, dir, itemBase.detect.maxDetects, finalRange);
+        return itemBase.Detect(caster.container, dir, itemBase.detect.maxDetects, range ?? finalRange);
     }
 
     IEnumerable<Entity> InternalAttack(params Entity[] entities)
@@ -383,7 +387,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
     {
         end = false;
         param.attack += this;
-        ControllerDown(param.aiming,0);
+        ControllerDown(Aiming,0);
     }
 
     public virtual void OnStayState(CasterEntityComponent param)
@@ -392,6 +396,8 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     public virtual void OnExitState(CasterEntityComponent param)
     {
+        Debug.Log("sali");
+        StopAttack();
         param.attack -= this;
     }
 

@@ -7,7 +7,7 @@ public class TimersManager : MonoBehaviour
 {
     static public TimersManager instance;
 
-    public List<Timer> timersList;
+    public LinkedList<Timer> timersList;
 
     /// <summary>
     /// Crea un timer que se almacena en una lista para restarlos de forma automatica
@@ -103,7 +103,7 @@ public class TimersManager : MonoBehaviour
 
     private void Awake()
     {
-        timersList = new List<Timer>();
+        timersList = new LinkedList<Timer>();
         instance = this;
 
         LoadSystem.AddPreLoadCorutine(()=> timersList.Clear());
@@ -111,9 +111,16 @@ public class TimersManager : MonoBehaviour
 
     void Update()
     {
-        for (int i = timersList.Count-1; i >= 0; i--)
+        LinkedListNode<Timer> node = timersList.First;
+
+        LinkedListNode<Timer> prev;
+
+        while (node!=null)
         {
-            timersList[i].SubsDeltaTime(i);
+            prev = node;
+            node = node.Next;
+
+            prev.Value.SubsDeltaTime();
         }
     }
 }
@@ -286,6 +293,11 @@ public class Timer : Tim
 
     bool _freeze = true; //por defecto no esta agregado
 
+    /// <summary>
+    /// nodo de la linkedlist
+    /// </summary>
+    LinkedListNode<Timer> node;
+
 
     /// <summary>
     /// delta time seleccionado del timer
@@ -311,11 +323,15 @@ public class Timer : Tim
 
             if(value)
             {
-                TimersManager.instance.timersList.Remove(this);
+                if (node != null && node.List == TimersManager.instance.timersList)
+                   TimersManager.instance.timersList.Remove(node);                
             }
             else
             {
-                TimersManager.instance.timersList.Add(this);
+                if(node!=null)
+                    TimersManager.instance.timersList.AddLast(node);
+                else
+                    node = TimersManager.instance.timersList.AddLast(this);
             }
 
             _freeze = value;
@@ -430,7 +446,7 @@ public class Timer : Tim
     /// Realiza la resta automatica asi como las funciones necesarias dentro del TimerManager y recibe el indice dentro del manager
     /// </summary>
     /// <returns></returns>
-    public virtual float SubsDeltaTime(int index)
+    public virtual float SubsDeltaTime()
     {
         var aux = Substract(deltaTime * _multiply);
 
@@ -441,23 +457,12 @@ public class Timer : Tim
                 Reset();
                 return 0;
             }
-                
+
             else
-                StopWithIndex(index);
+                Stop();
         }
 
         return aux;
-    }
-
-    /// <summary>
-    /// Stopea de forma interna
-    /// </summary>
-    /// <param name="index"></param>
-    void StopWithIndex(int index)
-    {
-        _freeze = true;
-
-        TimersManager.instance.timersList.RemoveAt(index);
     }
 
     /// <summary>
@@ -480,9 +485,9 @@ public class TimedAction : Timer
     protected Action end;
 
 
-    public override float SubsDeltaTime(int index)
+    public override float SubsDeltaTime()
     {
-        var aux = base.SubsDeltaTime(index);
+        var aux = base.SubsDeltaTime();
         if(aux<=0)
         {
             end?.Invoke();
@@ -535,11 +540,11 @@ public class TimedCompleteAction : TimedAction
 {
     protected Action update;
 
-    public override float SubsDeltaTime(int index)
+    public override float SubsDeltaTime()
     {
         update();
 
-        return base.SubsDeltaTime(index);
+        return base.SubsDeltaTime();
     }
 
 
