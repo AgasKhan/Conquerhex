@@ -2,15 +2,17 @@ using ComponentsAndContainers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InteractEntityComponent : ComponentOfContainer<Entity>
 {
-
-
-
+    public bool interactuable = true;
+    public Sprite Image;
+    public Action<Character> Interact;
+    
     public override void OnEnterState(Entity param)
     {
-        throw new System.NotImplementedException();
+        Image = param.flyweight.image;
     }
 
     public override void OnExitState(Entity param)
