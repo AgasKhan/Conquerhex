@@ -48,13 +48,13 @@ public class HybridArray<V>
     }
     
 
-    public int Count => staticArray().Length + _count;
+    public int Count => Lenght + _count;
 
     public V this[int index]
     {
         get
         {
-            if (index >= staticArray().Length)
+            if (index >= Lenght)
             {
                 while (!dynamicArray[index].set && index < dynamicArray.Count)
                 {
@@ -68,7 +68,7 @@ public class HybridArray<V>
         }
     }
 
-
+    int Lenght => staticArray()?.Length ?? 0;
 
     public void Add(V item)
     {
