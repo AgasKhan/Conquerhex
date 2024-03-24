@@ -196,6 +196,23 @@ public class SlotItemList<T> where T : Item
 
     public int Count => list.Length;
 
+    /// <summary>
+    /// Verifica si esta vacio, recorriendo la lista entera y chequeando si tiene algo equipado
+    /// </summary>
+    public bool Empty
+    {
+        get
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if(this[i].equiped != null)
+                    return false;
+            }
+
+            return true;
+        }
+    }
+
     public SlotItem<T> this[int index]
     {
         set
@@ -207,8 +224,6 @@ public class SlotItemList<T> where T : Item
             return list[index];
         }
     }
-
-
 
     [field: SerializeField]
     public int indexer { get; protected set; }
@@ -233,18 +248,30 @@ public class SlotItemList<T> where T : Item
 
     public void Next()
     {
-        indexer++;
+        bool empty = Empty;
 
-        if (indexer >= list.Length)
-            indexer = 0;
+        do
+        {
+            indexer++;
+
+            if (indexer >= list.Length)
+                indexer = 0;
+        }
+        while(actual.equiped == null && !empty);
     }
 
     public void Previus()
     {
-        indexer--;
+        bool empty = Empty;
 
-        if (indexer < 0)
-            indexer = list.Length - 1;
+        do
+        {
+            indexer--;
+
+            if (indexer < 0)
+                indexer = list.Length - 1;
+        }
+        while(actual.equiped == null && !empty);
     }
 
     public void Init(InventoryEntityComponent inventoryEntityComponent)

@@ -12,7 +12,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     [Tooltip("Ataques especiales que se efectuaran con el combo de ataque")]
     public SlotItemList<WeaponKata> katasCombo = new SlotItemList<WeaponKata>(4);
 
-    [Tooltip("Habilidaddes equipadas y de cambio rapido")]
+    [Tooltip("Habilidades equipadas y de cambio rapido")]
     public SlotItemList<MeleeWeapon> abilities = new SlotItemList<MeleeWeapon>(5);
 
     [Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
