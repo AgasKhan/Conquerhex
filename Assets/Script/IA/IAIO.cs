@@ -112,10 +112,7 @@ public class IAIO : IAFather
     }
 
     private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        if (lastCombo == string.Empty)
-            character.Attack(0);
-
+    {         
         for (int i = 0; i < combos.Length; i++)
         {
             if(combos[i] == lastCombo)
@@ -124,6 +121,8 @@ public class IAIO : IAFather
                 return;
             }
         }
+
+        character.Attack(0);
     }
 
     public override void OnExitState(Character param)

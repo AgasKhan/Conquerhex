@@ -24,7 +24,7 @@ public class FSMAutomaticEnd<TContext> : FSMParent<FSMAutomaticEnd<TContext>, TC
     }
 }
 
-public abstract class FSM<T, TContext> : FSMSerialize<T, TContext> where T : FSM<T, TContext>
+public abstract class FSM<TChild, TContext> : FSMSerialize<TChild, TContext> where TChild : FSM<TChild, TContext>
 { 
     protected FSM(TContext reference)
     {
