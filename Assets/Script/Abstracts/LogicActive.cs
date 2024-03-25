@@ -28,21 +28,31 @@ abstract public class LogicActive : MonoBehaviour
     /// Funcion por defecto con la idea de simplificar todos aquellos scripts que se centran en ejecutar una funcion
     /// </summary>
     /// <param name="genericParams">Params del tipo definido</param>
+    /*
     virtual public void Activate<C>(params C[] genericParams)
     {
         ErrorActivate(genericParams);
     }
+    */
 }
 
 public abstract class LogicActive<T> : LogicActive
 {
-    public override void Activate<C>(params C[] genericParams)
-    {
-        if (genericParams is T[])
-            InternalActivate(genericParams as T[]);
-        else
-            base.Activate(genericParams);
-    }
+    public abstract void Activate(T genericParams);
+    
+    //protected abstract void InternalActivate(params T[] specificParam);
+}
 
-    protected abstract void InternalActivate(params T[] specificParam);
+public abstract class InteractAction : LogicActive
+{
+    protected CreateSubMenu subMenu;
+
+    public virtual void ShowMenu(Entity entity)//Recibe el edificio, no el customer
+    {
+        subMenu.Create();
+    }
+}
+public abstract class InteractAction<T> : InteractAction
+{
+    public abstract void Activate(T genericParams);
 }

@@ -81,9 +81,9 @@ public class BarrierBuild : Building
         flyweight = newStructure;
     }
 
-    public override void Interact(Character character)
+    public override void InternalInteract(Character character)
     {
-        base.Interact(character);
+        base.InternalInteract(character);
 
         //interact["Información"].Activate(this);
     }

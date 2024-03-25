@@ -6,6 +6,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 {
     [SerializeField]
     DialogEvents[] allDialogs;
+
     int currentDialog = 0;
     UI.TextCompleto dialogText;
     [HideInInspector]
@@ -177,5 +178,10 @@ public struct DialogEvents
 {
     [TextArea(6,12)]
     public string dialog;
-    public LogicActive logicActive;
+    public LogicActive<TutorialScenaryManager> logicActive;
+}
+
+public interface Tutorial
+{
+    //public DialogEvents[];
 }

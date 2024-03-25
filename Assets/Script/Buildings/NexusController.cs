@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class NexusController : TurretController
 {
+    /*
     protected override void Config()
     {
         base.Config();
         MyStarts = null;
     }
-
+    */
     public override void EnterBuild()
     {
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Empezar Partida", "¿Estas seguro de querer empezar partida?").AddButton("Si", () => StartGame()).AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));

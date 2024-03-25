@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ChangePortals : LogicActive<TutorialScenaryManager>
 {
-    protected override void InternalActivate(params TutorialScenaryManager[] specificParam)
+    public override void Activate(TutorialScenaryManager specificParam)
     {
-        specificParam[0].firstHexagon.ladosArray = specificParam[0].newBorders;
-        specificParam[0].firstHexagon.SetRenders();
-        specificParam[0].dialogEnable = false;
+        specificParam.firstHexagon.ladosArray = specificParam.newBorders;
+        specificParam.firstHexagon.SetRenders();
+        specificParam.dialogEnable = false;
     }
 }

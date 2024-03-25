@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class BarrierController : BuildingsController
 {
     public BarrierBuild barrier;
-
+    /*
     protected override void Config()
     {
         base.Config();
         MyAwakes += MyAwake;
     }
-
+    */
     private void MyAwake()
     {
         barrier.health.noLife += barrier.DestroyConstruction;

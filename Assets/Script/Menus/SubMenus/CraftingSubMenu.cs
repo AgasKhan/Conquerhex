@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class CraftingSubMenu : CreateSubMenu
 {
-    CraftingBuild buildingBase;
+    CraftingAction craftAction;
 
     List<ButtonA> buttonsList = new List<ButtonA>();
 
@@ -25,16 +25,18 @@ public class CraftingSubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        if (buildingBase.NavBarButtons.Length > 1)
+        /*
+        if (craftAction.NavBarButtons.Length > 1)
         {
             subMenu.AddNavBarButton("All", ButtonAct);
-            foreach (var item in buildingBase.NavBarButtons)
+            foreach (var item in craftAction.NavBarButtons)
             {
                 subMenu.AddNavBarButton(item.ToString(), () => { ButtonAct(item.ToString()); });
             }
         }
+        */
 
-        subMenu.CreateTitle(buildingBase.flyweight.nameDisplay);
+        subMenu.CreateTitle(craftAction.entity.flyweight.nameDisplay);
 
         CreateBody();
     }
@@ -56,7 +58,7 @@ public class CraftingSubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
-        foreach (var item in buildingBase.currentRecipes)
+        foreach (var item in ((CraftingBuild)craftAction.entity).currentRecipes)
         {
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
@@ -74,17 +76,17 @@ public class CraftingSubMenu : CreateSubMenu
         if (lastButtonCraft != null)
             Object.Destroy(lastButtonCraft.gameObject);
     }
-
+    /* Se reemplaza por el Activate
     public bool CraftAnItem(string recipeName) //(Character customer, string recipeName)
     {
-        if (buildingBase.character == null)
+        if (craftAction.character == null)
             return false;
 
         bool aux = true;
 
         Recipes recipe = null;
 
-        foreach (var item in buildingBase.currentRecipes)
+        foreach (var item in craftAction.currentRecipes)
         {
             if (recipeName == item.name)
             {
@@ -100,9 +102,9 @@ public class CraftingSubMenu : CreateSubMenu
             return false;
         }
 
-        if (recipe.CanCraft(buildingBase.character.inventory))
+        if (recipe.CanCraft(craftAction.character.inventory))
         {
-            recipe.Craft(buildingBase.character.inventory);
+            recipe.Craft(craftAction.character.inventory);
             RefreshDetailW(recipe);
             return true;
         }
@@ -110,10 +112,10 @@ public class CraftingSubMenu : CreateSubMenu
             return false;
 
     }
-
-    void RefreshDetailW(Recipes item)
+    */
+    public void RefreshDetailW(Recipes item)
     {
-        ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(buildingBase.character.inventory), item.result.Item.image);
+        //ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(craftAction.character.inventory), item.result.Item.image);
 
         lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
         {
@@ -123,12 +125,12 @@ public class CraftingSubMenu : CreateSubMenu
 
         }, "");
 
-        lastButtonCraft.button.interactable = item.CanCraft(buildingBase.character.inventory);
+        //lastButtonCraft.button.interactable = item.CanCraft(craftAction.character.inventory);
     }
 
     void ButtonAction(Recipes item)
     {
-        CraftAnItem(item.nameDisplay); 
+        //craftAction.Activate(craftAction.entity, item.nameDisplay);
         onCraft?.Invoke();
     }
 
@@ -157,8 +159,8 @@ public class CraftingSubMenu : CreateSubMenu
         ButtonAct("");
     }
 
-    public CraftingSubMenu(CraftingBuild _buildingBase)
+    public CraftingSubMenu(CraftingAction _craftAction)
     {
-        buildingBase = _buildingBase;
+        craftAction = _craftAction;
     }
 }

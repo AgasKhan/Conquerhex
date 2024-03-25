@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnableExit : LogicActive<TutorialScenaryManager>
 {
-    protected override void InternalActivate(params TutorialScenaryManager[] specificParam)
+    public override void Activate(TutorialScenaryManager specificParam)
     {
-        specificParam[0].goal.SetActive(true);
-        specificParam[0].dialogEnable = false;
+        specificParam.goal.SetActive(true);
+        specificParam.dialogEnable = false;
         SaveWithJSON.SaveInPictionary("FirstTime", true);
     }
 }

@@ -6,13 +6,14 @@ using UnityEngine.Advertisements;
 public class AdsBuildController : BuildingsController, IUnityAdsShowListener
 {
     //[SerializeField] string adToShow = "Rewarded_Android";
-
+    /*
     protected override void Config()
     {
         base.Config();
 
         MyAwakes += MyAwake;
     }
+    */
     void MyAwake()
     {
         /*

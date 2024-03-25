@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class TurretInfo : LogicActive<Building>
 {
-    protected override void InternalActivate(params Building[] specificParam)
+    public override void Activate(Building specificParam)
     {
-        var aux = specificParam[0];
+        var aux = specificParam;
 
         if (aux.currentLevel == 0)
         {
-            aux.myBuildSubMenu.detailsWindow.SetTexts("", aux.flyweight.GetDetails()["Description"]);
-            aux.myBuildSubMenu.detailsWindow.SetImage(aux.flyweight.image);
+            //aux.myBuildSubMenu.detailsWindow.SetTexts("", aux.flyweight.GetDetails()["Description"]);
+            //aux.myBuildSubMenu.detailsWindow.SetImage(aux.flyweight.image);
         } 
         else
         {
@@ -32,11 +32,11 @@ public class TurretInfo : LogicActive<Building>
                 newText += aux.flyweight.GetDetails()["Description"] + " x " + aux.flyweight.GetFlyWeight<AttackBase>().additiveDamage[0].ToString();
             } 
 
-            aux.myBuildSubMenu.detailsWindow.SetTexts("Turret " + ((TurretBuild)aux).originalAbility, newText);
-            aux.myBuildSubMenu.detailsWindow.SetImage(((TurretBuild)aux).myStructure.possibleAbilities[((TurretBuild)aux).originalAbility][aux.currentLevel - 1]);
+            //aux.myBuildSubMenu.detailsWindow.SetTexts("Turret " + ((TurretBuild)aux).originalAbility, newText);
+            //aux.myBuildSubMenu.detailsWindow.SetImage(((TurretBuild)aux).myStructure.possibleAbilities[((TurretBuild)aux).originalAbility][aux.currentLevel - 1]);
 
         }
 
-        aux.myBuildSubMenu.DestroyCraftButtons();
+        //aux.myBuildSubMenu.DestroyCraftButtons();
     }
 }

@@ -10,7 +10,7 @@ public class IAIO : IAFather
     string originalTag;
 
     [SerializeField]
-    Detect<Interactuable> detectInteractuable = new Detect<Interactuable>();
+    Detect<InteractEntityComponent> detectInteractuable = new Detect<InteractEntityComponent>();
 
     [SerializeField]
     string lastCombo;
@@ -19,7 +19,7 @@ public class IAIO : IAFather
 
     Timer comboReset;
 
-    Interactuable lastInteractuable;
+    InteractEntityComponent lastInteractuable;
 
     //ControllerIAIO prin;
 
@@ -187,7 +187,7 @@ public class IAIO : IAFather
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
-        lastInteractuable.Interact(_character);
+        lastInteractuable.ShowMenu();
     }
 
     private void TeleportEvent(Hexagone obj, int lado)

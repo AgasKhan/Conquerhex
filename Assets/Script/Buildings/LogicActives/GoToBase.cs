@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GoToBase : LogicActive<Building>
 {
-    protected override void InternalActivate(params Building[] specificParam)
+    public override void Activate(Building specificParam)
     {
         LoadSystem.instance.Load("Base");
     }

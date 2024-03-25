@@ -34,7 +34,7 @@ public class DisplayItem : LogicActive<UnityEngine.UI.Button>
             return Manager<ItemBase>.pic[transform.parent.name];
     }
 
-    protected override void InternalActivate(params Button[] specificParam)
+    public override void Activate(Button specificParam)
     {
         GetVariables();
 

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class EnemyTowerController : TurretController
 {
+    /*
     protected override void Config()
     {
         base.Config();
         MyAwakes += MyAwake;
         MyStarts = null;
     }
+    */
     void MyAwake()
     {
         LoadSystem.AddPostLoadCorutine(MyStart);

@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class UpgradeBuilding : LogicActive<Building>
 {
-    protected override void InternalActivate(params Building[] specificParam)
+    public override void Activate(Building specificParam)
     {
-        var aux = specificParam[0];
+        var aux = specificParam;
         if (aux.currentLevel < aux.maxLevel)
         {
-            aux.myBuildSubMenu.detailsWindow.SetTexts(aux.flyweight.nameDisplay + " Nivel " + aux.currentLevel, $"En el siguiente nivel se desbloquean: {aux.rewardNextLevel}\nRequisitos para el siguiente nivel: \n" + aux.upgradesRequirements[aux.currentLevel].GetRequiresString(aux.character.inventory));
-            aux.myBuildSubMenu.detailsWindow.SetImage(null);
-            aux.myBuildSubMenu.CreateButton("Mejorar a nivel " + (aux.currentLevel + 1).ToString(), ()=> { CanUpgrade(aux); });
+            //aux.myBuildSubMenu.detailsWindow.SetTexts(aux.flyweight.nameDisplay + " Nivel " + aux.currentLevel, $"En el siguiente nivel se desbloquean: {aux.rewardNextLevel}\nRequisitos para el siguiente nivel: \n" + aux.upgradesRequirements[aux.currentLevel].GetRequiresString(aux.character.inventory));
+            //aux.myBuildSubMenu.detailsWindow.SetImage(null);
+            //aux.myBuildSubMenu.CreateButton("Mejorar a nivel " + (aux.currentLevel + 1).ToString(), ()=> { CanUpgrade(aux); });
             //button.button.interactable = CanUpgrade(aux);
             //aux.myBuildSubMenu.CreateButton("Mejorar a nivel " + (aux.currentLevel+1).ToString(), ()=>aux.PopUpAction(aux.UpgradeLevel));
         }
         else
         {
-            aux.myBuildSubMenu.detailsWindow.SetTexts(aux.flyweight.nameDisplay + " Nivel Máximo", "\nHas llegado al nivel máximo de esta estructura\n\n");
-            aux.myBuildSubMenu.detailsWindow.SetImage(null);
-            aux.myBuildSubMenu.DestroyCraftButtons();
+            //aux.myBuildSubMenu.detailsWindow.SetTexts(aux.flyweight.nameDisplay + " Nivel Máximo", "\nHas llegado al nivel máximo de esta estructura\n\n");
+            //aux.myBuildSubMenu.detailsWindow.SetImage(null);
+            //aux.myBuildSubMenu.DestroyCraftButtons();
         }
 
     }

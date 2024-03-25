@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Client / Controller
-public class EnterBuilding : LogicActive<Building>
+public class EnterBuilding : InteractAction<Building>
 {
-    protected override void InternalActivate(params Building[] specificParam)
+    public override void Activate(Building specificParam)
     {
-        specificParam[0].myBuildSubMenu.DestroyCraftButtons();
-        specificParam[0].EnterBuild();
+        specificParam.myBuildSubMenu.Create();
+
+        //specificParam.myBuildSubMenu.DestroyCraftButtons();
+        //specificParam.EnterBuild();
     }
 }

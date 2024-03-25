@@ -10,18 +10,10 @@ public class CraftingBuildController : BuildingsController
     [HideInInspector]
     public CraftingBuild craftBuild;
 
-    protected override void Config()
-    {
-        base.Config();
-
-        MyAwakes += MyAwake;
-    }
-
+    
     void MyAwake()
     {
-        craftBuild = GetComponent<CraftingBuild>();
-
-        createSubMenu = new CraftingSubMenu(craftBuild);
+        //createSubMenu = new CraftingSubMenu(craftBuild);
 
         /*
 
@@ -62,4 +54,5 @@ public class CraftingBuildController : BuildingsController
         SaveWithJSON.SaveInPictionary(craftBuild.flyweight.nameDisplay + "Recipes", craftBuild.currentRecipes);
         craftBuild.myBuildSubMenu.Create();
     }
+
 }

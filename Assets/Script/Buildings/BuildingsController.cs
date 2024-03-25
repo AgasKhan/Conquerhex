@@ -2,22 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingsController : MyScripts
+public class BuildingsController : MonoBehaviour, IState<Building>
 {
     protected virtual Building myBuilding { get; set; }
-
-    protected override void Config()
-    {
-        MyAwakes += MyAwake;
-    }
-
-    void MyAwake()
-    {
-        myBuilding = GetComponent<Building>();
-
-    }
     
-
     public virtual void EnterBuild()
     {
 
@@ -31,4 +19,18 @@ public class BuildingsController : MyScripts
         SaveWithJSON.SaveInPictionary(myBuilding.flyweight.nameDisplay + "Level", myBuilding.currentLevel);
     }
 
+    public void OnEnterState(Building param)
+    {
+        myBuilding = param;
+    }
+
+    public void OnStayState(Building param)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnExitState(Building param)
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InfoBuilding : LogicActive<Building>
+public class InfoBuilding : InteractAction<Building>
 {
-    protected override void InternalActivate(params Building[] specificParam)
+    public override void Activate(Building specificParam)
     {
-        var aux = specificParam[0];
-        aux.myBuildSubMenu.detailsWindow.SetTexts("", aux.flyweight.GetDetails()["Description"]).SetImage(aux.flyweight.image);
-        aux.myBuildSubMenu.DestroyCraftButtons();
+        var aux = specificParam;
+        //aux.myBuildSubMenu.detailsWindow.SetTexts("", aux.flyweight.GetDetails()["Description"]).SetImage(aux.flyweight.image);
+        //aux.myBuildSubMenu.DestroyCraftButtons();
     }
 }

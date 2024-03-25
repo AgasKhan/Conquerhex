@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : Entity, Interactuable
+public class Building : Entity
 {
     public Recipes[] upgradesRequirements;
     public ResourceType[] NavBarButtons;
     public BuildingsController controller;
+    public InteractEntityComponent interactComp;
+    //public Pictionarys<string, LogicActive> quickActs;
 
     [HideInInspector]
     public int currentLevel = 0;
 
     [HideInInspector]
-    public BuildingsSubMenu myBuildSubMenu;
+    public CreateSubMenu myBuildSubMenu;
 
     [HideInInspector]
     public Character character;
@@ -42,9 +44,17 @@ public class Building : Entity, Interactuable
 
     void MyAwake()
     {
-        myBuildSubMenu = new BuildingsSubMenu(this);
+        //myBuildSubMenu = new BuildingsSubMenu(this);
+
+        interactComp = GetInContainer<InteractEntityComponent>();
 
         controller = GetComponent<BuildingsController>();
+
+        controller.OnEnterState(this);
+
+        upgradesRequirements = flyweight.GetFlyWeight<UpgradeBase>().upgradesRequirements;
+
+        
 
         if (SaveWithJSON.BD.ContainsKey(flyweight.nameDisplay + "Level"))
             currentLevel = SaveWithJSON.LoadFromPictionary<int>(flyweight.nameDisplay + "Level");
@@ -78,12 +88,13 @@ public class Building : Entity, Interactuable
         aux.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "¿Estas seguro de esta acción?").AddButton("No", aux.CloseMenus).AddButton("Si", action);
     }
 
-    public virtual void Interact(Character character)
+    public virtual void InternalInteract(Character character)
     {
         this.character = character;
 
-        myBuildSubMenu.Create();
+        //myBuildSubMenu.Create();
     }
+
 }
 
 public interface Interactuable

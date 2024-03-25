@@ -18,7 +18,7 @@ public class TurretController : BuildingsController
     public TurretSubMenu subMenu;
 
     public TurretBuild turret;
-
+    /*
     protected override void Config()
     {
         base.Config();
@@ -26,7 +26,7 @@ public class TurretController : BuildingsController
         MyAwakes += MyAwake;
         MyStarts += MyStart;
     }
-
+    */
     private void MyAwake()
     {
         SetAttack(prin = new AutomaticAttack(turret.attack, 0));

@@ -20,6 +20,23 @@ public class CraftingBuild : Building
         }
     }
 
+    protected override void Config()
+    {
+        base.Config();
+
+        MyAwakes += MyAwake;
+    }
+
+    void MyAwake()
+    {
+        //myBuildSubMenu = new CraftingSubMenu(this);
+    }
+
+    public override void InternalInteract(Character character)
+    {
+        base.InternalInteract(character);
+    }
+
     public override void EnterBuild()
     {
         controller.EnterBuild();
@@ -28,4 +45,5 @@ public class CraftingBuild : Building
     {
         controller.UpgradeLevel();
     }
+
 }
