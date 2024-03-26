@@ -208,7 +208,7 @@ namespace FSMCharacterAndStates
     /// </summary>
     public class CastingActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
     {
-        public bool end => stateWithEnd?.end ?? true;
+        public bool End => stateWithEnd?.End ?? true;
 
         public IStateWithEnd<CasterEntityComponent> stateWithEnd;
 

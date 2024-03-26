@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
+[CreateAssetMenu(menuName = "Abilities/WeaponKata", fileName = "new WeaponKata")]
 public abstract class WeaponKataBase : FatherKataAndAbility<WeaponKataBase>
 {
-
-
     [Space]
 
     [Header("tipo de boton")]
@@ -19,18 +19,10 @@ public abstract class WeaponKataBase : FatherKataAndAbility<WeaponKataBase>
     [SerializeField]
     public Pictionarys<string, AudioLink> audios = new Pictionarys<string, AudioLink>();
 
-    [Header("Deteccion")]
-
-    [SerializeField]
-    public Detect<IGetEntity> detect;
-
     [Header("Statitics")]
 
     [Tooltip("cooldown")]
     public float velocity;
-
-    [Tooltip("rango de deteccion")]
-    public float range;
 
     public float velocityCharge = 1;
 
@@ -41,6 +33,18 @@ public abstract class WeaponKataBase : FatherKataAndAbility<WeaponKataBase>
     public Damage[] RequiredDamage = new Damage[0];
 
     public Vector2Int[] indexParticles;
+
+    [Header("Controller")]
+    
+
+    [SerializeField, Header("Deteccion")]
+    Detections detection;
+
+    public float range => detection.detect.radius;
+
+    public int maxDetects => detection.detect.maxDetects;
+
+    public float dot => detection.detect.dot;
 
     public override Pictionarys<string, string> GetDetails()
     {
@@ -82,7 +86,8 @@ public abstract class WeaponKataBase : FatherKataAndAbility<WeaponKataBase>
             PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
     }
 
-    public abstract Entity[] Detect(Entity caster, Vector2 direction, int numObjectives, float range);
+    public List<Entity> Detect(ref List<Entity> result,Entity caster, Vector2 direction, int numObjectives, float range, float dot) 
+        => detection.Detect(ref result, caster, direction, numObjectives, range, dot);
 
     void Equip(Character chr, int item)
     {
@@ -103,9 +108,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     protected CasterEntityComponent caster;
 
-    protected Entity[] affected;
+    protected List<Entity> affected = new List<Entity>();
 
-    FadeColorAttack _reference;
+    FadeColorAttack _feedBackReference;
 
     System.Action<Vector2, float> pressed;
 
@@ -130,33 +135,33 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         }
     }
 
-    public virtual float finalVelocity => itemBase.velocity * weaponEnabled.itemBase.velocity;
+    public virtual float FinalVelocity => itemBase.velocity * WeaponEnabled.itemBase.velocity;
 
-    public virtual float finalRange => itemBase.range * weaponEnabled.itemBase.range;
+    public virtual float FinalRange => itemBase.range * WeaponEnabled.itemBase.range;
 
     public virtual Vector3 Aiming => caster.aiming;
 
-    public FadeColorAttack reference
+    public FadeColorAttack FeedBackReference
     {
-        get => _reference;
+        get => _feedBackReference;
         set
         {
-            _reference?.Off();
-            _reference = value;
+            _feedBackReference?.Off();
+            _feedBackReference = value;
         }
     }
 
     /// <summary>
     /// Devuelve el arma si esta esta en condiciones de ser utilizada
     /// </summary>
-    public MeleeWeapon weaponEnabled => equipedWeapon.durability.current > 0 && HaveSameContainer(equipedWeapon) ? equipedWeapon : null;
+    public MeleeWeapon WeaponEnabled => equipedWeapon.durability.current > 0 && HaveSameContainer(equipedWeapon) ? equipedWeapon : null;
 
     /// <summary>
     /// devuelve el arma vinculada a la habilidad
     /// </summary>
-    public MeleeWeapon weapon => equipedWeapon;
+    public MeleeWeapon Weapon => equipedWeapon;
 
-    public bool end { get; protected set; }
+    public bool End { get; protected set; }
 
     public virtual void ChangeWeapon(Item weaponParam)
     {
@@ -208,9 +213,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         }
     }
 
-    protected Entity[] Detect(Vector2 dir, float timePressed = 0, float? range=null)
+    protected List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range=null, float? dot = null)
     {
-        affected = InternalDetect(dir, timePressed, range);
+        affected = InternalDetect(dir, timePressed, range, dot);
 
         foreach (var item in affected)
         {
@@ -265,9 +270,9 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
             return;
 
         if(cooldown==null)
-            cooldown = TimersManager.Create(finalVelocity);
+            cooldown = TimersManager.Create(FinalVelocity);
         else
-            cooldown.Set(finalVelocity);
+            cooldown.Set(FinalVelocity);
 
         equipedWeapon.off += WeaponDesequiped;
         equipedWeapon.onDrop += WeaponDesequiped;
@@ -288,10 +293,10 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        if (caster == null || !caster.isActiveAndEnabled || weaponEnabled == null)
+        if (caster == null || !caster.isActiveAndEnabled || WeaponEnabled == null)
         {
             StopAttack();
-            end = true;
+            End = true;
             return;
         }
 
@@ -312,10 +317,10 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        if (caster==null || !caster.isActiveAndEnabled || weaponEnabled == null)
+        if (caster==null || !caster.isActiveAndEnabled || WeaponEnabled == null)
         {
             StopAttack();
-            end = true;
+            End = true;
             return;
         }
 
@@ -325,10 +330,10 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        if (caster == null || !caster.isActiveAndEnabled || weaponEnabled == null)
+        if (caster == null || !caster.isActiveAndEnabled || WeaponEnabled == null)
         {
             StopAttack();
-            end = true;
+            End = true;
             return;
         }
 
@@ -341,7 +346,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
         //if (caster.TryGetInContainer(out MoveEntityComponent move) && actualCharacterVelocity > move.move.objectiveVelocity)
         //    move.move.objectiveVelocity += 2;
 
-        reference = null;
+        FeedBackReference = null;
 
         pressed = MyControllerVOID;
         
@@ -352,23 +357,23 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
     #endregion
 
     #region internal functions
-    protected virtual Entity[] InternalDetect(Vector2 dir, float timePressed = 0, float? range = null)
+    protected virtual List<Entity> InternalDetect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
     {
-        return itemBase.Detect(caster.container, dir, itemBase.detect.maxDetects, range ?? finalRange);
+        return itemBase.Detect(ref affected, caster.container, dir, itemBase.maxDetects, range ?? FinalRange, dot ?? itemBase.dot);
     }
 
-    IEnumerable<Entity> InternalAttack(params Entity[] entities)
+    IEnumerable<Entity> InternalAttack(List<Entity> entities)
     {
-        if (weaponEnabled == null)
+        if (WeaponEnabled == null)
             return new Entity[0];
 
-        var totalDamage = Damage.Combine(Damage.AdditiveFusion, weaponEnabled.itemBase.damages, caster.additiveDamage.content);
+        var totalDamage = Damage.Combine(Damage.AdditiveFusion, WeaponEnabled.itemBase.damages, caster.additiveDamage.content);
 
         totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, multiplyDamage.content);
 
-        var aux = weaponEnabled.Damage(caster.container, totalDamage, entities);
+        var aux = WeaponEnabled.Damage(caster.container, totalDamage, entities);
 
-        weaponEnabled.Durability(itemBase.damageToWeapon);
+        WeaponEnabled.Durability(itemBase.damageToWeapon);
 
         return aux;
     }
@@ -385,7 +390,7 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     public virtual void OnEnterState(CasterEntityComponent param)
     {
-        end = false;
+        End = false;
         param.attack += this;
         ControllerDown(Aiming,0);
     }

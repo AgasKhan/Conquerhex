@@ -58,11 +58,11 @@ public class StatisticsSubMenu : CreateSubMenu
             nameKata = ch.caster.katasCombo.actual.equiped.nameDisplay;
             spriteKata = ch.caster.katasCombo.actual.equiped.image;
 
-            if(ch.caster.katasCombo.actual.equiped.weaponEnabled != null)
+            if(ch.caster.katasCombo.actual.equiped.WeaponEnabled != null)
             {
-                nameArmas = ch.caster.katasCombo.actual.equiped.weaponEnabled.nameDisplay;
-                spriteWeapon = ch.caster.katasCombo.actual.equiped.weaponEnabled.image;
-                strWeapon = "Uses: " + ch.caster.katasCombo.actual.equiped.weaponEnabled.current;
+                nameArmas = ch.caster.katasCombo.actual.equiped.WeaponEnabled.nameDisplay;
+                spriteWeapon = ch.caster.katasCombo.actual.equiped.WeaponEnabled.image;
+                strWeapon = "Uses: " + ch.caster.katasCombo.actual.equiped.WeaponEnabled.current;
 
             }
 

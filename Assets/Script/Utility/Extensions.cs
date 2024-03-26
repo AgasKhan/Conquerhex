@@ -501,13 +501,19 @@ public static class Extensions
     }
 
     /// <summary>
-    /// Convierte una lista de IGetEntity, en un array de las entidades referidas
+    /// Llena un la lista de resultados ignorando a los repetidos
     /// </summary>
     /// <param name="getEntity"></param>
     /// <returns></returns>
-    static public Entity[] ToEntity(this IEnumerable<IGetEntity> getEntity)
+    static public void ToEntity(this List<IGetEntity> getEntity, ref List<Entity> result)
     {
-        return getEntity.Select((e) => e.GetEntity()).Distinct().ToArray();
+        result.Clear();
+
+        for (int i = 0; i < getEntity.Count; i++)
+        {
+            if (!result.Contains(getEntity[i].GetEntity()))
+                result.Add(getEntity[i].GetEntity());
+        }
     }
 
     static public string ToString(this Damage[] damages, string glue, string reglon)

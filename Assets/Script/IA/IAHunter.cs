@@ -154,6 +154,8 @@ public class HunterPatrol : IState<HunterIntern>
 
     Vector2 conoDir;
 
+    List<Entity> corderos = new List<Entity>();
+
     public void OnEnterState(HunterIntern param)
     {
         hunter = param.context;
@@ -167,10 +169,10 @@ public class HunterPatrol : IState<HunterIntern>
         param.context.steerings["corderitos"].targets.Clear();
 
         //var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
+        
+        param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return target.visible && param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; }).ToEntity(ref corderos);
 
-        var corderos = param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return target.visible && param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; }).ToEntity();
-
-        if (corderos.Length > 0)
+        if (corderos.Count > 0)
         {
             param.context.steerings["corderitos"].targets.Add(corderos[0]);
             param.CurrentState = param.chase;

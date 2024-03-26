@@ -25,7 +25,7 @@ public class AutomaticAttack
         get
         {
             if (weaponKata != null)
-                return weaponKata.finalRange;
+                return weaponKata.FinalRange;
             else
                 return 0;
         }
@@ -35,8 +35,8 @@ public class AutomaticAttack
     {
         get
         {
-            if (weaponKata != null && weaponKata.reference != null)
-                return kata.equiped.reference.attackColor;
+            if (weaponKata != null && weaponKata.FeedBackReference != null)
+                return kata.equiped.FeedBackReference.attackColor;
             else
                 return Color.white;
         }
@@ -46,8 +46,8 @@ public class AutomaticAttack
     {
         get
         {
-            if (weaponKata != null && weaponKata.reference != null)
-                return kata.equiped.reference.areaColor;
+            if (weaponKata != null && weaponKata.FeedBackReference != null)
+                return kata.equiped.FeedBackReference.areaColor;
             else
                 return Color.white;
         }
@@ -57,15 +57,15 @@ public class AutomaticAttack
     {
         get
         {
-            if (weaponKata != null && weaponKata.reference != null)
-                return kata.equiped.reference.color;
+            if (weaponKata != null && weaponKata.FeedBackReference != null)
+                return kata.equiped.FeedBackReference.color;
             else
                 return Color.white;
         }
         set
         {
-            if (weaponKata != null && weaponKata.reference != null)
-                kata.equiped.reference.color = value;
+            if (weaponKata != null && weaponKata.FeedBackReference != null)
+                kata.equiped.FeedBackReference.color = value;
         }
     }
 

@@ -78,7 +78,7 @@ public class InventorySubMenu : CreateSubMenu
 
                        var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
                        var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
-                       var weaponDmgs = auxKata.weaponEnabled.itemBase.damages.ToString(": ", "\n");
+                       var weaponDmgs = auxKata.WeaponEnabled.itemBase.damages.ToString(": ", "\n");
 
                        mainText += "Kata Selected: " + item.nameDisplay + "\n";
 
@@ -88,7 +88,7 @@ public class InventorySubMenu : CreateSubMenu
 
                        mainText += (titulos + test1).ToString();
 
-                       var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.weaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
+                       var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.WeaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
                        var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
 
                        mainText += "\nCharacter and weapon combined damages:\n";

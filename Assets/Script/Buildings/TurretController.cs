@@ -46,7 +46,7 @@ public class TurretController : BuildingsController
         automatic.onAttack += () =>
         {
             if (automatic.weaponKata != null)
-                automatic.timerToAttack.Set(automatic.weaponKata.finalVelocity + 0.1f);
+                automatic.timerToAttack.Set(automatic.weaponKata.FinalVelocity + 0.1f);
         };
 
         automatic.timerToAttack.Start();

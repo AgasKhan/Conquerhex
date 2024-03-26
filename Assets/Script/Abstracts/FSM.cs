@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FSMAutomaticEnd<TContext> : FSMParent<FSMAutomaticEnd<TContext>, TContext, IStateWithEnd<FSMAutomaticEnd<TContext>>>
 {
-    public bool end => CurrentState.end;
+    public bool end => CurrentState.End;
 
     public void EnterState(IStateWithEnd<FSMAutomaticEnd<TContext>> stateWithEnd)
     {
@@ -14,10 +14,10 @@ public class FSMAutomaticEnd<TContext> : FSMParent<FSMAutomaticEnd<TContext>, TC
 
     public override void UpdateState()
     {
-        if(!CurrentState.end)
+        if(!CurrentState.End)
             base.UpdateState();
 
-        if (CurrentState.end)
+        if (CurrentState.End)
         {
             ExitState();
         }                  

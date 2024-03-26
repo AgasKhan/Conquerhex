@@ -110,7 +110,6 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         loadScreen.Open();
         StartCoroutine(LoadScene(scn));
-        
     }
 
     public void LoadAndSavePlayer(string scn, bool pause = false)

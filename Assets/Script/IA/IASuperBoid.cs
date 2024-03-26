@@ -7,6 +7,7 @@ public class IASuperBoid : IABoid
 
     public Entity lider = null;
 
+    /*
     public Entity[] enemyTargets 
     { 
         get 
@@ -17,6 +18,7 @@ public class IASuperBoid : IABoid
                 return null;
         } 
     }
+    */
 
     FSMBoid fsmBoid;
 
