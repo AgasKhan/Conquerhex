@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CraftingAction : InteractAction<(Character customer, string recipeName)>
 {
-    public Entity entity;
+    public InteractEntityComponent interactComp;
     public override void Activate((Character customer, string recipeName) specificParam)
     {
         var customer = specificParam.customer;
@@ -15,7 +15,7 @@ public class CraftingAction : InteractAction<(Character customer, string recipeN
 
         Recipes recipe = null;
 
-        foreach (var item in ((CraftingBuild)entity).currentRecipes)
+        foreach (var item in ((CraftingBuild)interactComp.container).currentRecipes)
         {
             if (recipeName == item.name)
             {
@@ -38,9 +38,10 @@ public class CraftingAction : InteractAction<(Character customer, string recipeN
         }
     }
 
-    public CraftingAction(Entity _entity)
+    public override void InteractInit(InteractEntityComponent _interactComp)
     {
-        entity = _entity;
+        base.InteractInit(_interactComp);
+        interactComp = _interactComp;
         subMenu = new CraftingSubMenu(this);
     }
 }

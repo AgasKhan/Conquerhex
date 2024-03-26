@@ -187,7 +187,7 @@ public class IAIO : IAFather
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
-        lastInteractuable.ShowMenu();
+        lastInteractuable.ShowMenu(character);
     }
 
     private void TeleportEvent(Hexagone obj, int lado)

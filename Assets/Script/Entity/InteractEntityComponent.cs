@@ -15,10 +15,12 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
 
     public GenericSubMenu mySubMenu;
 
-    public void ShowMenu()
+    public virtual void ShowMenu(Character character)
     {
-        //container.flyweight
+        if (!interactuable)
+            return;
 
+        mySubMenu.SetCharcater(character);
         mySubMenu.Create();
     }
 

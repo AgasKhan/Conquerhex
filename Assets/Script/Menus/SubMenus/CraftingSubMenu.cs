@@ -36,7 +36,7 @@ public class CraftingSubMenu : CreateSubMenu
         }
         */
 
-        subMenu.CreateTitle(craftAction.entity.flyweight.nameDisplay);
+        subMenu.CreateTitle(craftAction.interactComp.container.flyweight.nameDisplay);
 
         CreateBody();
     }
@@ -58,7 +58,7 @@ public class CraftingSubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
-        foreach (var item in ((CraftingBuild)craftAction.entity).currentRecipes)
+        foreach (var item in ((CraftingBuild)craftAction.interactComp.container).currentRecipes)
         {
             ButtonA button = subMenu.AddComponent<ButtonA>();
 

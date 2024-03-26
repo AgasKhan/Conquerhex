@@ -47,7 +47,12 @@ public abstract class InteractAction : LogicActive
 {
     protected CreateSubMenu subMenu;
 
-    public virtual void ShowMenu(Entity entity)//Recibe el edificio, no el customer
+    public virtual void InteractInit(InteractEntityComponent interactComp)
+    {
+
+    }
+
+    public virtual void ShowMenu(Character character)//Recibe el edificio, no el customer
     {
         subMenu.Create();
     }

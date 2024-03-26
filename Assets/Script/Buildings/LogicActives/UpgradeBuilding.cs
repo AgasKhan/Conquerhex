@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeBuilding : LogicActive<Building>
+public class UpgradeBuilding : InteractAction<Building>
 {
+    InteractEntityComponent interactComp;
     public override void Activate(Building specificParam)
     {
         var aux = specificParam;
@@ -38,6 +39,13 @@ public class UpgradeBuilding : LogicActive<Building>
         //MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).CreateDefault();
         //MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los materiales necesarios").AddButton("Cerrar", ()=>MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
         
+    }
+
+    public override void InteractInit(InteractEntityComponent _interactComp)
+    {
+        base.InteractInit(_interactComp);
+        interactComp = _interactComp;
+        subMenu = new GenericSubMenu(_interactComp);
     }
 
 }

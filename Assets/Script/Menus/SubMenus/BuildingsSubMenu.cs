@@ -68,6 +68,13 @@ public class GenericSubMenu : CreateSubMenu
 
     EventsCall lastButton = null;
 
+    Character myCharcter;
+
+    public void SetCharcater(Character character)
+    {
+        myCharcter = character;
+    }
+
     public override void Create()
     {
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
@@ -82,9 +89,10 @@ public class GenericSubMenu : CreateSubMenu
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
         
-        foreach (var item in interactComponent.GetInContainer<InteractEntityComponent>().interact)
+        foreach (var item in interactComponent.interact)
         {
-            subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { DestroyCraftButtons(); item.value.ShowMenu(interactComponent.container); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+            item.value.InteractInit(interactComponent);
+            subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { DestroyCraftButtons(); item.value.ShowMenu(myCharcter); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
         
         subMenu.CreateSection(2, 6);
