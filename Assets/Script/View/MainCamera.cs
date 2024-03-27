@@ -9,8 +9,7 @@ public class MainCamera : SingletonMono<MainCamera>
     public class MapTransform
     {
         public Camera[] cameras = new Camera[6];
-        
-
+       
         public int RealLength => cameras.Length;
 
         public int Length => RealLength - offsetIndex;
@@ -72,12 +71,24 @@ public class MainCamera : SingletonMono<MainCamera>
     }
 
 
+    private void RefreshMaterial(bool on = true)
+    {
+        for (int i = 0; i < rendersOverlay.Length; i++)
+        {
+            rendersOverlay[i].SetActiveGameObject(camerasEdge[i]);
+            CameraRenderer.SetFloat("_position" + (1 + i), camerasEdge[i] && on ? 1 : 0);
+        }
+    }
+
+
     protected override void Awake()
     {
         base.Awake();
         main = Camera.main;
         plane = new Plane(Vector3.forward, 0);
     }
+
+    
 
     private void OnEnable()
     {
@@ -175,17 +186,14 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         }
 
-        for (int i = 0; i < rendersOverlay.Length; i++)
-        {
-            rendersOverlay[i].SetActiveGameObject(camerasEdge[i]);
-            CameraRenderer.SetFloat("_position" + (1+i), camerasEdge[i] ? 1 : 0);
-
-            //settings.materialCameraRender.SetTexture("_MainTex" + data.indexCameraRender, data.rtTarget);
-
-            //rendersOverlay.cameras[i+2].enabled = !rendersOverlay.cameras[i + 2].enabled;
-        }
+        RefreshMaterial();
     }
-   
+
+    private void OnDestroy()
+    {
+        RefreshMaterial(false);
+    }
+
 
     private void OnDrawGizmosSelected()
     {
