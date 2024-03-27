@@ -1,47 +1,9 @@
+﻿using System.Collections.Generic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
-public class PriorityQueueWithDick<T>
-{
-    PriorityQueue<WeightedNode<T>> priorityQueue = new PriorityQueue<WeightedNode<T>>();
-
-    Dictionary<T, WeightedNode<T>> keyValues = new Dictionary<T, WeightedNode<T>>();
-
-    public int Count { get { return priorityQueue.Count; } }
-
-    public bool ContainsKey(T elem) => keyValues.ContainsKey(elem);
-
-    public void Enqueue(T elem, float cost)
-    {
-
-        if(!keyValues.ContainsKey(elem))
-        {
-            var aux = new WeightedNode<T>(elem, cost);
-
-            priorityQueue.Enqueue(aux);
-
-            keyValues.Add(elem, aux);
-        }
-        else
-        {
-            keyValues[elem].Weight = cost;
-
-            priorityQueue.UpdateElement(keyValues[elem]);
-        }
-    }
-
-    public T Dequeue()
-    {
-        var aux = priorityQueue.Dequeue();
-        keyValues.Remove(aux.Element);
-        return aux.Element;
-    }
-}
-
-
-public class PriorityQueue<T>: IEnumerable<T> where T : IComparable<T>
+public class PriorityQueue<T> : IEnumerable<T> where T : IComparable<T>
 {
     private List<T> _heap = new List<T>();
 
@@ -55,7 +17,7 @@ public class PriorityQueue<T>: IEnumerable<T> where T : IComparable<T>
 
         if (index == -1)
         {
-            throw new ArgumentException("El elemento no est� en la cola de prioridad.");
+            throw new ArgumentException("El elemento no está en la cola de prioridad.");
         }
 
         // Actualizar el elemento
@@ -157,26 +119,3 @@ public class PriorityQueue<T>: IEnumerable<T> where T : IComparable<T>
     }
 }
 
-
-[Serializable]
-public class WeightedNode<T> : IComparable<WeightedNode<T>>
-{
-
-    [SerializeField] private T _element;
-    [SerializeField] private float _weight;
-
-    public T Element => _element;
-
-    public float Weight { get => _weight; set => _weight = value; }
-
-    public WeightedNode(T element, float weight)
-    {
-        _element = element;
-        _weight = weight;
-    }
-
-    public int CompareTo(WeightedNode<T> other)
-    {
-        return _weight.CompareTo(other.Weight);
-    }
-}
