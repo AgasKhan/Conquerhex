@@ -316,6 +316,7 @@ public class Timer : Tim
     public bool Freeze
     {
         get => _freeze;
+
         private set
         {
             if (value == _freeze)
@@ -323,10 +324,14 @@ public class Timer : Tim
 
             if(value)
             {
-                if(node != null && node.List == TimersManager.instance.timersList)
-                   TimersManager.instance.timersList.Remove(node);
+                if(node != null)
+                {
+                    if(node.List == TimersManager.instance.timersList)
+                        TimersManager.instance.timersList.Remove(node);
 
-                node.Value = null;
+                    node.Value = null;
+                }
+                   
             }
             else
             {
