@@ -282,7 +282,7 @@ public class HunterIdle : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        param.energy.Substract(-param.energy.deltaTime * 3);
+        param.energy.Substract(-param.energy.DeltaTime * 3);
         if (param.energy.current == param.energy.total)
         {
             param.CurrentState = param.patrol;

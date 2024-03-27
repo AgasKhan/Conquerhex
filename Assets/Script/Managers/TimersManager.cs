@@ -302,7 +302,7 @@ public class Timer : Tim
     /// <summary>
     /// delta time seleccionado del timer
     /// </summary>
-    public float deltaTime
+    public float DeltaTime
     {
         get
         {
@@ -323,13 +323,18 @@ public class Timer : Tim
 
             if(value)
             {
-                if (node != null && node.List == TimersManager.instance.timersList)
-                   TimersManager.instance.timersList.Remove(node);                
+                if(node != null && node.List == TimersManager.instance.timersList)
+                   TimersManager.instance.timersList.Remove(node);
+
+                node.Value = null;
             }
             else
             {
                 if(node!=null)
+                {
+                    node.Value = this;
                     TimersManager.instance.timersList.AddLast(node);
+                }
                 else
                     node = TimersManager.instance.timersList.AddLast(this);
             }
@@ -448,7 +453,7 @@ public class Timer : Tim
     /// <returns></returns>
     public virtual float SubsDeltaTime()
     {
-        var aux = Substract(deltaTime * _multiply);
+        var aux = Substract(DeltaTime * _multiply);
 
         if (aux <= 0)
         {
