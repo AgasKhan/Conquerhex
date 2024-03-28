@@ -56,7 +56,7 @@ public class GameManager : SingletonMono<GameManager>
     Pictionarys<MyScripts, UnityAction> _fixedUpdate = new Pictionarys<MyScripts, UnityAction>();
 
     [SerializeField]
-    FSMGameMaganer fsmGameMaganer; //IA2-P3
+    FSMGameMaganer fsmGameMaganer;
 
     public static void RetardedOn(System.Action<bool> retardedOrder)
     {
@@ -187,7 +187,7 @@ public class GameManager : SingletonMono<GameManager>
 }
 
 [System.Serializable]
-public class FSMGameMaganer : FSMSerialize<FSMGameMaganer, GameManager> //IA2-P3
+public class FSMGameMaganer : FSMSerialize<FSMGameMaganer, GameManager>
 {
     public Load load = new Load();
     public Gameplay gamePlay = new Gameplay();
