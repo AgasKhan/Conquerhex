@@ -20,7 +20,7 @@ public class UpgradeBuilding : InteractAction<Building>
     {
         if (building.currentLevel < building.maxLevel)
         {
-            interactComp.genericMenu.detailsWindow.SetTexts(building.flyweight.nameDisplay + " Nivel " + building.currentLevel, $"En el siguiente nivel se desbloquean: {building.rewardNextLevel}\nRequisitos para el siguiente nivel: \n" + building.upgradesRequirements[building.currentLevel].GetRequiresString(building.character.inventory));
+            interactComp.genericMenu.detailsWindow.SetTexts(building.flyweight.nameDisplay + " Nivel " + building.currentLevel, $"En el siguiente nivel se desbloquean: {building.rewardNextLevel}\nRequisitos para el siguiente nivel: \n" + building.upgradesRequirements[building.currentLevel].GetRequiresString(character.inventory));
             interactComp.genericMenu.detailsWindow.SetImage(null);
             interactComp.genericMenu.CreateButton("Mejorar a nivel " + (building.currentLevel + 1).ToString(), () => building.PopUpAction(()=>Activate(building))).button.interactable = building.upgradesRequirements[building.currentLevel].CanCraft(character.inventory);
         }

@@ -9,11 +9,6 @@ public class TutorialBuild : Building
     public override string rewardNextLevel => throw new System.NotImplementedException();
     TutorialSubMenu myPortalSubMenu;
 
-    public override void EnterBuild()
-    {
-        myPortalSubMenu = new TutorialSubMenu(this);
-        myPortalSubMenu.Create();
-    }
 }
 
 [System.Serializable]

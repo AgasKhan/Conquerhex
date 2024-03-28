@@ -32,11 +32,6 @@ public class CraftingBuildController : BuildingsController
     }
 
 
-    public override void EnterBuild()
-    {
-        createSubMenu.Create();
-    }
-
     public override void UpgradeLevel()
     {
         base.UpgradeLevel();

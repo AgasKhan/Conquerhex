@@ -16,9 +16,6 @@ public class Building : Entity
     [HideInInspector]
     public CreateSubMenu myBuildSubMenu;
 
-    [HideInInspector]
-    public Character character;
-
     public virtual string rewardNextLevel
     {
         get;
@@ -76,12 +73,6 @@ public class Building : Entity
         }
     }
 
-    public virtual void EnterBuild()
-    {
-        if (controller != null)
-            controller.EnterBuild();
-    }
-
     public virtual void PopUpAction(UnityEngine.Events.UnityAction action)
     {
         var aux = MenuManager.instance.modulesMenu;
@@ -90,9 +81,7 @@ public class Building : Entity
 
     public virtual void InternalInteract(Character character)
     {
-        this.character = character;
 
-        //myBuildSubMenu.Create();
     }
 
 }
