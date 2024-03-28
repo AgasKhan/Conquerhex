@@ -5,7 +5,7 @@ using UnityEngine;
 public class IAIO : IAFather
 {
     [SerializeField]
-    NewEventManager eventsManager;
+    EventManager eventsManager;
 
     string originalTag;
 
@@ -27,7 +27,7 @@ public class IAIO : IAFather
 
     //ControllerIAIO ter;
 
-    EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
+    DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class IAIO : IAFather
 
         //ter = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.terciary.ToString()), 2);
 
-        interactEvent = eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
+        interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
         LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(_character);
         });
@@ -161,7 +161,7 @@ public class IAIO : IAFather
     {
         base.OnStayState(param);
 
-        eventsManager.events.SearchOrCreate<EventParam<Vector3>>("move").delegato.Invoke(transform.position);
+        eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move").delegato.Invoke(transform.position);
 
         var buildings = detectInteractuable.Area(transform.position, (edificio) => { return edificio.interactuable; });
 
@@ -210,29 +210,29 @@ public class IAIO : IAFather
 
     private void Health_helthUpdate(Health obj)
     {
-        eventsManager.events.SearchOrCreate<EventParam<Health>>(LifeType.all).delegato?.Invoke(obj);
+        eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
     }
 
 
     void UpdateLife(IGetPercentage arg1, float arg3)
     {
-        eventsManager.events.SearchOrCreate<EventParam<IGetPercentage, float>>(LifeType.life).delegato?.Invoke(arg1, arg3);
+        eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.life).delegato?.Invoke((arg1, arg3));
     }
 
     void UpdateRegen(IGetPercentage arg1, float arg3)
     {
-        eventsManager.events.SearchOrCreate<EventParam<IGetPercentage, float>>(LifeType.regen).delegato?.Invoke(arg1, arg3);
+        eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.regen).delegato?.Invoke((arg1, arg3));
     }
 
     private void UpdateRegenTime(IGetPercentage arg1, float arg2)
     {
-        eventsManager.events.SearchOrCreate<EventParam<IGetPercentage, float>>(LifeType.time).delegato?.Invoke(arg1, arg2);
+        eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.time).delegato?.Invoke((arg1, arg2));
     }
 }
 
 public class ControllerIAIO : IControllerDir, Init
 {
-    EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> _Event;
+    DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> _Event;
 
     WeaponKata previusControllerDir;
 
@@ -322,7 +322,7 @@ public class ControllerIAIO : IControllerDir, Init
         RefreshJoystickUI();
     }
 
-    public ControllerIAIO(EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> evento, int index)
+    public ControllerIAIO(DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> evento, int index)
     {
         _Event = evento;
 

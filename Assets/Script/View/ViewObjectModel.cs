@@ -5,7 +5,7 @@ using UnityEngine;
 public class ViewObjectModel : MonoBehaviour
 {
     [SerializeField]
-    NewEventManager eventsManager;
+    EventManager eventsManager;
 
     public IViewController[] controllers;
 
@@ -21,7 +21,7 @@ public class ViewObjectModel : MonoBehaviour
     [field: SerializeField]
     public bool defaultRight { get; private set; }
 
-    EventParam<Vector3> eventGeneric;
+    SingleEvent<Vector3> eventGeneric;
 
     bool _isTransparent;
 
@@ -31,7 +31,7 @@ public class ViewObjectModel : MonoBehaviour
 
         originalRender.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 
-        eventGeneric = eventsManager.events.SearchOrCreate<EventParam<Vector3>>("move");
+        eventGeneric = eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move");
 
         controllers = GetComponents<IViewController>();
 

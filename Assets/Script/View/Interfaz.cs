@@ -9,7 +9,7 @@ namespace UI
     public class Interfaz : MonoBehaviour
     {
         [SerializeField]
-        NewEventManager eventsManager;
+        EventManager eventsManager;
 
         [System.Serializable]
         public class ImageWidth
@@ -108,7 +108,7 @@ namespace UI
             msg("Interfaz");
             end(true);
             yield return null;
-            eventsManager.events.SearchOrCreate<EventParam<Health>>(LifeType.all).delegato += healthBarUpdate;
+            eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthBarUpdate;
         }
 
         void Update()

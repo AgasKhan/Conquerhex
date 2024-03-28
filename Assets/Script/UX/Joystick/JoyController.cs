@@ -6,7 +6,7 @@ using UnityEngine;
 public class JoyController : MonoBehaviour
 {
     [SerializeField]
-    NewEventManager eventsManager;
+    EventManager eventsManager;
 
     [SerializeField]
     bool joystick;
@@ -36,7 +36,7 @@ public class JoyController : MonoBehaviour
 
     float imageToReplaceAlpha;
 
-    EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)> events;
+    DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> events;
 
     //Timer rutina;
 
@@ -60,7 +60,7 @@ public class JoyController : MonoBehaviour
 
         LoadSystem.AddPostLoadCorutine(SetStick);
 
-        events = eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(eventController.ToString());
+        events = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(eventController.ToString());
 
         events.secondDelegato += Set;
 

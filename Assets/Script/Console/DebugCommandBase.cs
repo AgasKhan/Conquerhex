@@ -12,9 +12,9 @@ public class DebugCommandBase
     public string commandID => _commandID;
     public string commandDescription => _commandDescription;
 
-    protected NewEventManager eventManager;
+    protected EventManager eventManager;
 
-    public DebugCommandBase(string id, string description, ref NewEventManager eventManager)
+    public DebugCommandBase(string id, string description, ref EventManager eventManager)
     {
         _commandID = id;
         _commandDescription = description;
@@ -24,7 +24,7 @@ public class DebugCommandBase
 
 public class DebugCommand : DebugCommandBase
 {
-    public DebugCommand(string id, string description, ref NewEventManager eventManager) : base(id, description, ref eventManager)
+    public DebugCommand(string id, string description, ref EventManager eventManager) : base(id, description, ref eventManager)
     {
 
     }
@@ -37,7 +37,7 @@ public class DebugCommand : DebugCommandBase
 
 public class DebugCommand<T> : DebugCommandBase
 {
-    public DebugCommand(string id, string description, ref NewEventManager eventManager) : base(id, description, ref eventManager)
+    public DebugCommand(string id, string description, ref EventManager eventManager) : base(id, description, ref eventManager)
     {
 
     }

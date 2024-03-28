@@ -22,11 +22,11 @@ public class ChatSystem : MonoBehaviour
     public List<object> commandList;
 
     [SerializeField]
-    NewEventManager eventManager;
+    EventManager eventManager;
 
-    EventParam<(string, int)> giveEvent = new EventParam<(string, int)>();
-    EventParam coinEvent = new EventParam();
-    EventParam helpEvent = new EventParam();
+    SingleEvent<(string, int)> giveEvent = new SingleEvent<(string, int)>();
+    SingleEvent coinEvent = new SingleEvent();
+    SingleEvent helpEvent = new SingleEvent();
 
     private void Start()
     {
