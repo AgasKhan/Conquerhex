@@ -36,6 +36,10 @@ public abstract class FSM<TChild, TContext> : FSMSerialize<TChild, TContext> whe
 [System.Serializable]
 public abstract class FSMSerialize<TChild, TContext> : FSMParent<TChild, TContext, IState<TChild>> where TChild : FSMSerialize<TChild, TContext>
 {
+    public void EnterState(IState<TChild> state)
+    {
+        Init(state);
+    }
 }
 
 public abstract class FSMParent<TChild, TContext, TState> : ISwitchState<TChild, TState> where TChild : FSMParent<TChild, TContext, TState> where TState : IState<TChild>
