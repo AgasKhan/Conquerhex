@@ -68,20 +68,16 @@ public class GenericSubMenu : CreateSubMenu
 
     EventsCall lastButton = null;
 
-    Character myCharcter;
+    Character myCharacter;
 
-    public void SetCharcater(Character character)
+    public override void Create(Character character)
     {
-        myCharcter = character;
-    }
-
-    public override void Create()
-    {
+        myCharacter = character;
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
 
         subMenu.navbar.DestroyAll();
         subMenu.ClearBody();
-        DestroyCraftButtons();
+        DestroyLastButtons();
         base.Create();
     }
     protected override void InternalCreate()
@@ -92,7 +88,7 @@ public class GenericSubMenu : CreateSubMenu
         foreach (var item in interactComponent.interact)
         {
             item.value.InteractInit(interactComponent);
-            subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { DestroyCraftButtons(); item.value.ShowMenu(myCharcter); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+            subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { DestroyLastButtons(); item.value.ShowMenu(myCharacter); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
         
         subMenu.CreateSection(2, 6);
@@ -104,12 +100,12 @@ public class GenericSubMenu : CreateSubMenu
 
     public EventsCall CreateButton(string text, UnityEngine.Events.UnityAction action)
     {
-        DestroyCraftButtons();
+        DestroyLastButtons();
         lastButton = subMenu.AddComponent<EventsCall>().Set(text, action, "");
         return lastButton;
     }
 
-    public void DestroyCraftButtons()
+    public void DestroyLastButtons()
     {
         if (lastButton != null)
             Object.Destroy(lastButton.gameObject);

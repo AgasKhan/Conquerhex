@@ -45,16 +45,18 @@ public abstract class LogicActive<T> : LogicActive
 
 public abstract class InteractAction : LogicActive
 {
+    [HideInInspector]
+    public InteractEntityComponent interactComp;
     protected CreateSubMenu subMenu;
 
-    public virtual void InteractInit(InteractEntityComponent interactComp)
+    public virtual void InteractInit(InteractEntityComponent _interactComp)
     {
-
+        interactComp = _interactComp;
     }
 
-    public virtual void ShowMenu(Character character)//Recibe el edificio, no el customer
+    public virtual void ShowMenu(Character character)//Recibe el customer
     {
-        subMenu.Create();
+        subMenu.Create(character);
     }
 }
 public abstract class InteractAction<T> : InteractAction

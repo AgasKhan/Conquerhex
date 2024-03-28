@@ -64,6 +64,11 @@ public abstract class CreateSubMenu : Init
         InternalCreate();
     }
 
+    public virtual void Create(Character _character)
+    {
+        Create();
+    }
+
     /// <summary>
     /// Init inicializa la instancia del menú subMenu si no ha sido asignada previamente.
     /// </summary>

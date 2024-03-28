@@ -16,8 +16,11 @@ public class CraftingSubMenu : CreateSubMenu
 
     public event System.Action onCraft;
 
-    public override void Create()
+    Character myCharacter;
+
+    public override void Create(Character character)
     {
+        myCharacter = character;
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
         base.Create();
     }
@@ -76,46 +79,10 @@ public class CraftingSubMenu : CreateSubMenu
         if (lastButtonCraft != null)
             Object.Destroy(lastButtonCraft.gameObject);
     }
-    /* Se reemplaza por el Activate
-    public bool CraftAnItem(string recipeName) //(Character customer, string recipeName)
-    {
-        if (craftAction.character == null)
-            return false;
 
-        bool aux = true;
-
-        Recipes recipe = null;
-
-        foreach (var item in craftAction.currentRecipes)
-        {
-            if (recipeName == item.name)
-            {
-                aux = false;
-                recipe = item;
-                break;
-            }
-        }
-
-        if (aux)
-        {
-            Debug.Log("No se encontro la receta: " + recipeName);
-            return false;
-        }
-
-        if (recipe.CanCraft(craftAction.character.inventory))
-        {
-            recipe.Craft(craftAction.character.inventory);
-            RefreshDetailW(recipe);
-            return true;
-        }
-        else
-            return false;
-
-    }
-    */
     public void RefreshDetailW(Recipes item)
     {
-        //ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(craftAction.character.inventory), item.result.Item.image);
+        ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(myCharacter.inventory), item.result.Item.image);
 
         lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
         {
@@ -125,12 +92,12 @@ public class CraftingSubMenu : CreateSubMenu
 
         }, "");
 
-        //lastButtonCraft.button.interactable = item.CanCraft(craftAction.character.inventory);
+        lastButtonCraft.button.interactable = item.CanCraft(myCharacter.inventory);
     }
 
     void ButtonAction(Recipes item)
     {
-        //craftAction.Activate(craftAction.entity, item.nameDisplay);
+        craftAction.Activate((myCharacter, item.nameDisplay));
         onCraft?.Invoke();
     }
 

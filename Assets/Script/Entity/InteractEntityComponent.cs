@@ -13,15 +13,15 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
 
     Pictionarys <Type, InteractAction> _interact = new Pictionarys<Type, InteractAction>();
 
-    public GenericSubMenu mySubMenu;
+    public GenericSubMenu genericMenu;
 
     public virtual void ShowMenu(Character character)
     {
         if (!interactuable)
             return;
 
-        mySubMenu.SetCharcater(character);
-        mySubMenu.Create();
+        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false);
+        genericMenu.Create(character);
     }
 
     public virtual T Interact<T>() where T : InteractAction
@@ -36,14 +36,14 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
     {
         Image = param.flyweight.image;
 
-        mySubMenu.Init();
+        genericMenu.Init();
 
         foreach (var item in GetComponents<InteractAction>())
         {
             _interact.Add(item.GetType(), item);
         }
 
-        mySubMenu = new GenericSubMenu(this);
+        genericMenu = new GenericSubMenu(this);
 
         //Interact<CraftingAction>().Activate(param.);
 

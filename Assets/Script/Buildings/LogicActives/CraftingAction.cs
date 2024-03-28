@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CraftingAction : InteractAction<(Character customer, string recipeName)>
 {
-    public InteractEntityComponent interactComp;
     public override void Activate((Character customer, string recipeName) specificParam)
     {
         var customer = specificParam.customer;
@@ -41,7 +40,6 @@ public class CraftingAction : InteractAction<(Character customer, string recipeN
     public override void InteractInit(InteractEntityComponent _interactComp)
     {
         base.InteractInit(_interactComp);
-        interactComp = _interactComp;
         subMenu = new CraftingSubMenu(this);
     }
 }
