@@ -17,7 +17,7 @@ public abstract class SingletonScript<T> : ScriptableObject where T : SingletonS
 {
     static protected T instance;
 
-    protected virtual void Awake()
+    protected virtual void OnEnable()
     {
         instance = (T)this;
     }
