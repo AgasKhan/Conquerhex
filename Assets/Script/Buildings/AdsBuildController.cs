@@ -39,10 +39,6 @@ public class AdsBuildController : BuildingsController, IUnityAdsShowListener
         */
     }
 
-    public override void EnterBuild()
-    {
-       ShowAd();
-    }
 
     /*
     public void OnUnityAdsDidError(string message)

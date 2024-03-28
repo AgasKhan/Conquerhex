@@ -6,10 +6,6 @@ public class BuildingsController : MonoBehaviour, IState<Building>
 {
     protected virtual Building myBuilding { get; set; }
     
-    public virtual void EnterBuild()
-    {
-
-    }
     public virtual void UpgradeLevel()
     {
         myBuilding.currentLevel++;

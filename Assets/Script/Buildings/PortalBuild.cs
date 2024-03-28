@@ -16,16 +16,12 @@ public class PortalBuild : Building
 
         MyAwakes += MyAwake;
     }
-    */
+    
     void MyAwake()
     {
         myPortalSubMenu = new PortalSubMenu(this);
     }
-
-    public override void EnterBuild()
-    {
-        myPortalSubMenu.Create();
-    }
+    */
 }
 
 [System.Serializable]
@@ -67,7 +63,7 @@ public class PortalSubMenu : CreateSubMenu
     void ButtonAct(ShowDetails item, Recipes requirement)
     {
         DestroyLastButton();
-        myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString() + "Costo del viaje: \n" + requirement.GetRequiresString(portalBuilding.character.inventory));
+        //myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString() + "Costo del viaje: \n" + requirement.GetRequiresString(portalBuilding.character.inventory));
         myDetailsW.SetImage(item.image);
         lastButton = subMenu.AddComponent<EventsCall>().Set("Viajar", () => { Travel(item, requirement); }, "");
     }
@@ -79,13 +75,13 @@ public class PortalSubMenu : CreateSubMenu
 
     void Travel(ShowDetails item, Recipes requirement)
     {
-        if(requirement.CanCraft(portalBuilding.character.inventory))
-        {
-            requirement.Craft(portalBuilding.character.inventory);
-            LoadSystem.instance.LoadAndSavePlayer(item.nameDisplay, true);
-        }
-        else
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes combustible suficiente").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+        //if(requirement.CanCraft(portalBuilding.character.inventory))
+        //{
+        //    requirement.Craft(portalBuilding.character.inventory);
+        //    LoadSystem.instance.LoadAndSavePlayer(item.nameDisplay, true);
+        //}
+        //else
+        //    MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes combustible suficiente").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
 
     }
 

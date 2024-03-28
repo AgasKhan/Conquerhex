@@ -17,8 +17,8 @@ public class BarrierController : BuildingsController
     {
         barrier.health.noLife += barrier.DestroyConstruction;
     }
-    
-    public override void EnterBuild()
+    /*
+    public void EnterBuild()
     {
         if(barrier.currentLevel == barrier.maxLevel)
         {
@@ -35,7 +35,7 @@ public class BarrierController : BuildingsController
         else
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
     }
-
+    */
     public override void UpgradeLevel()
     {
         barrier.ChangeStructure(barrier.myStructure.damagesUpgrades[0]);
