@@ -3,38 +3,33 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 
-
 public class GameManager : SingletonMono<GameManager>
 {
-
-    public static event UnityAction onPause
+    public static event UnityAction OnPlay
     {
         add
         {
-            instance.fsmGameMaganer.pause.onPause += value;
+            instance.fsmGameMaganer.gamePlay.onEnterGamePlay += value;
         }
 
         remove
         {
-            instance.fsmGameMaganer.pause.onPause -= value;
+            instance.fsmGameMaganer.gamePlay.onEnterGamePlay -= value;
         }
     }
 
-    public static event UnityAction onPlay
+    public static event UnityAction OnPause
     {
         add
         {
-            instance.fsmGameMaganer.pause.onPlay += value;
+            instance.fsmGameMaganer.gamePlay.onExitGamePlay += value;
         }
 
         remove
         {
-            instance.fsmGameMaganer.pause.onPlay -= value;
+            instance.fsmGameMaganer.gamePlay.onExitGamePlay -= value;
         }
     }
-
-    [Tooltip("Evento llamado cuando se destruye el GameManager, usualmente en el cambio de escena")]
-    public UnityEvent onDestroyUnityEvent;
 
     public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
     public static Pictionarys<MyScripts, UnityAction> update => instance._update;
@@ -43,17 +38,25 @@ public class GameManager : SingletonMono<GameManager>
 
     public Character playerCharacter;
 
+    [SerializeField]
+    public EventManager eventManager;
+
+    [Header("Executions")]
+
     public UnityEvent awakeUnityEvent;
 
     public UnityEvent updateUnityEvent;
 
     public UnityEvent fixedUpdateUnityEvent;
 
+    public UnityEvent onDestroyUnityEvent;
+
     Pictionarys<MyScripts, UnityAction> _update = new Pictionarys<MyScripts, UnityAction>();
 
     Pictionarys<MyScripts, UnityAction> _fixedUpdate = new Pictionarys<MyScripts, UnityAction>();
 
-    FSMGameMaganer fsmGameMaganer;
+    [SerializeField]
+    FSMGameMaganer fsmGameMaganer; //IA2-P3
 
     public static void RetardedOn(System.Action<bool> retardedOrder)
     {
@@ -71,24 +74,67 @@ public class GameManager : SingletonMono<GameManager>
 
     #region funciones
 
+    public string ActualStringState()
+    {
+        return fsmGameMaganer?.CurrentState?.GetType().Name ?? "Off";
+    }
+
+    public void Load()
+    {
+        fsmGameMaganer.CurrentState = fsmGameMaganer.load;
+    }
+
+    public void GamePlay()
+    {
+        fsmGameMaganer.CurrentState = fsmGameMaganer.gamePlay;
+    }
+
     public void TogglePause()
     {
-        fsmGameMaganer.CurrentState = (fsmGameMaganer.CurrentState == fsmGameMaganer.pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+        if (fsmGameMaganer.CurrentState == fsmGameMaganer.pause || fsmGameMaganer.gamePlay == fsmGameMaganer.CurrentState)
+            fsmGameMaganer.CurrentState = (fsmGameMaganer.CurrentState == fsmGameMaganer.pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
     }
 
     public void Pause(bool pause)
     {
-        fsmGameMaganer.CurrentState = (!pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+        if (fsmGameMaganer.CurrentState != fsmGameMaganer.load)
+            fsmGameMaganer.CurrentState = (!pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
     }
 
-    public void Defeat()
+    public void Defeat(string msj)
     {
         TimersManager.Create(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
         {
-            Pause(true);
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Has muerto", "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Volver a la base", () => LoadSystem.instance.Load("Base"));
+            EndGame();
+
+            fsmGameMaganer.endGame.defeat.Invoke();
+
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow(msj, "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Volver a la base", () => LoadSystem.instance.Load("Base"));
+
+            eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato.Invoke(); ;
             //MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Has muerto", "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Ir al menu", () => LoadSystem.instance.Load("MainMenu"));
         }).SetUnscaled(true);
+
+        /*
+        TimersManager.Create(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
+        {
+            
+        }).SetUnscaled(true);
+        */
+    }
+
+    public void Victory()
+    {
+        EndGame();
+
+        fsmGameMaganer.endGame.victory.Invoke();
+
+        eventManager.events.SearchOrCreate<SingleEvent>("victory").delegato.Invoke(); ;
+    }
+
+    void EndGame()
+    {
+        fsmGameMaganer.CurrentState = fsmGameMaganer.endGame;
     }
 
     void MyUpdate(Pictionarys<MyScripts, UnityAction> update)
@@ -112,7 +158,8 @@ public class GameManager : SingletonMono<GameManager>
     protected override void Awake()
     {
         base.Awake();
-        fsmGameMaganer = new FSMGameMaganer(this);
+        fsmGameMaganer.Init(this);
+        fsmGameMaganer.EnterState(fsmGameMaganer.load);
 
         updateUnityEvent.AddListener(MyUpdate);
 
@@ -123,39 +170,91 @@ public class GameManager : SingletonMono<GameManager>
 
     private void Update()
     {
-        
+        updateUnityEvent?.Invoke();
     }
 
     private void FixedUpdate()
     {
-        updateUnityEvent.Invoke();
-        fixedUpdateUnityEvent.Invoke();
+        fixedUpdateUnityEvent?.Invoke();
     }
 
     private void OnDestroy()
     {
-        onDestroyUnityEvent.Invoke();
+        onDestroyUnityEvent?.Invoke();
     }
 
     #endregion
 }
 
-public class FSMGameMaganer : FSM<FSMGameMaganer, GameManager>
+[System.Serializable]
+public class FSMGameMaganer : FSMSerialize<FSMGameMaganer, GameManager> //IA2-P3
 {
     public Load load = new Load();
     public Gameplay gamePlay = new Gameplay();
     public Pause pause = new Pause();
+    public EndGame endGame = new EndGame();
+}
 
-    public FSMGameMaganer(GameManager reference) : base(reference)
+[System.Serializable]
+public class Load : IState<FSMGameMaganer>
+{
+    public UnityEvent onStartLoad;
+
+    public UnityEvent onFinishLoad;
+
+    public void OnEnterState(FSMGameMaganer param)
     {
-        Init(gamePlay);
+        onStartLoad.Invoke();
+    }
+
+    public void OnExitState(FSMGameMaganer param)
+    {
+        onFinishLoad.Invoke();
+    }
+
+    public void OnStayState(FSMGameMaganer param)
+    {
     }
 }
 
-public class Load : IState<FSMGameMaganer>
+[System.Serializable]
+public class Gameplay : IState<FSMGameMaganer>
 {
+    public UnityEvent onEnterGamePlayUnityEvent;
+
+    public UnityEvent onExitGamePlayUnityEvent;
+
+    public event UnityAction onEnterGamePlay;
+
+    public event UnityAction onExitGamePlay;
+
     public void OnEnterState(FSMGameMaganer param)
     {
+        onEnterGamePlayUnityEvent.Invoke();
+        onEnterGamePlay?.Invoke();
+    }
+
+    public void OnExitState(FSMGameMaganer param)
+    {
+        onExitGamePlayUnityEvent.Invoke();
+        onExitGamePlay?.Invoke();
+    }
+
+    public void OnStayState(FSMGameMaganer param)
+    {
+    }
+}
+
+[System.Serializable]
+public class EndGame : IState<FSMGameMaganer>
+{
+    public UnityEvent victory;
+
+    public UnityEvent defeat;
+
+    public void OnEnterState(FSMGameMaganer param)
+    {
+        //param.context.eventManager.events.SearchOrCreate<SingleEvent>("close").delegato.Invoke();
     }
 
     public void OnExitState(FSMGameMaganer param)
@@ -167,45 +266,32 @@ public class Load : IState<FSMGameMaganer>
     }
 }
 
-public class Gameplay : IState<FSMGameMaganer>
+[System.Serializable]
+public class Pause : IState<FSMGameMaganer>
 {
+    public UnityEvent onPauseUnityEvent;
+
+    public UnityEvent onDesPauseUnityEvent;
+
     public void OnEnterState(FSMGameMaganer param)
     {
+        Time.timeScale = 0;
+        onPauseUnityEvent.Invoke();
+        param.context.enabled = false;
+    }
+
+    public void OnExitState(FSMGameMaganer param)
+    {
+        onDesPauseUnityEvent.Invoke();
+        Time.timeScale = 1;
         param.context.enabled = true;
     }
 
-    public void OnExitState(FSMGameMaganer param)
-    {
-        param.context.enabled=(false);
-    }
-
     public void OnStayState(FSMGameMaganer param)
     {
     }
 }
 
-public class Pause : IState<FSMGameMaganer>
-{
-    public event UnityAction onPause;
-
-    public event UnityAction onPlay;
-
-    public void OnEnterState(FSMGameMaganer param)
-    {
-        onPause?.Invoke();
-        Time.timeScale = 0;
-    }
-
-    public void OnExitState(FSMGameMaganer param)
-    {
-        onPlay?.Invoke();
-        Time.timeScale = 1;
-    }
-
-    public void OnStayState(FSMGameMaganer param)
-    {
-    }
-}
 
 
 static class DebugPrint
@@ -214,19 +300,19 @@ static class DebugPrint
     static PrintF warning;
     static PrintF error;
 
-    public static void Log(string t) 
+    public static void Log(string t)
     {
         debug.Add(t);
     }
 
     public static void Warning(string t)
     {
-        warning.Add("<color=yellow>"+t+"</color>");
+        warning.Add("<color=yellow>" + t + "</color>");
     }
 
     public static void Error(string t)
     {
-        error.Add("<color=red>"+t+"</color>");
+        error.Add("<color=red>" + t + "</color>");
     }
 
     public static bool chk()
@@ -238,7 +324,7 @@ static class DebugPrint
 
     public static string PrintSalida()
     {
-        if(chk())
+        if (chk())
             return error.Out() +
                     warning.Out() +
                     debug.Out();
@@ -279,12 +365,12 @@ struct PrintF
 
     public bool LenghtChk()
     {
-        return pantalla.Length > 0 ? true: false ;
+        return pantalla.Length > 0 ? true : false;
     }
 
     public void Print(string debugMode = "debug")
     {
-        
+
         if (pantalla != null && pantalla != "")
         {
             switch (debugMode)
@@ -302,7 +388,7 @@ struct PrintF
                     break;
             }
         }
-        pantalla="";
+        pantalla = "";
     }
 
     public void Clear()

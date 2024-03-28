@@ -157,9 +157,9 @@ public class Menu : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.onPause += () => ShowMenu();
+        GameManager.OnPause += () => ShowMenu();
 
-        GameManager.onPlay += () => ShowMenu();
+        GameManager.OnPlay += () => ShowMenu();
     }
 
     private void Start()

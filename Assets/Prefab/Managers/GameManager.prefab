@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7739652029663223115}
   - component: {fileID: 7739652029663223114}
-  - component: {fileID: 7739652029663223113}
   - component: {fileID: 7739652029663223112}
   - component: {fileID: 2552611046586137618}
   - component: {fileID: 3167585331265613088}
@@ -48,6 +47,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a476fc8618cdb243a3daa8e646dfccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacleAvoidanceLayer:
+    serializedVersion: 2
+    m_Bits: 2113
+  playerCharacter: {fileID: 0}
+  eventManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
+  awakeUnityEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  updateUnityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 9192bfc5fbe4b8946bdece3c22bfe398, type: 2}
+        m_TargetAssemblyTypeName: TimersManager, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  fixedUpdateUnityEvent:
+    m_PersistentCalls:
+      m_Calls: []
   onDestroyUnityEvent:
     m_PersistentCalls:
       m_Calls:
@@ -63,32 +88,48 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  obstacleAvoidanceLayer:
-    serializedVersion: 2
-    m_Bits: 2113
-  playerCharacter: {fileID: 0}
-  awakeUnityEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  updateUnityEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  fixedUpdateUnityEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &7739652029663223113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7739652029663223119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4e1a4a56a682442bf0815e50d4cd26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timersList: []
+      - m_Target: {fileID: 11400000, guid: 9192bfc5fbe4b8946bdece3c22bfe398, type: 2}
+        m_TargetAssemblyTypeName: TimersManager, Assembly-CSharp
+        m_MethodName: MyOnDestroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  fsmGameMaganer:
+    context: {fileID: 0}
+    load:
+      onStartLoad:
+        m_PersistentCalls:
+          m_Calls: []
+      onFinishLoad:
+        m_PersistentCalls:
+          m_Calls: []
+    gamePlay:
+      onEnterGamePlayUnityEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      onExitGamePlayUnityEvent:
+        m_PersistentCalls:
+          m_Calls: []
+    pause:
+      onPauseUnityEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      onDesPauseUnityEvent:
+        m_PersistentCalls:
+          m_Calls: []
+    endGame:
+      victory:
+        m_PersistentCalls:
+          m_Calls: []
+      defeat:
+        m_PersistentCalls:
+          m_Calls: []
 --- !u!114 &7739652029663223112
 MonoBehaviour:
   m_ObjectHideFlags: 0

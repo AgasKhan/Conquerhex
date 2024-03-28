@@ -66,12 +66,12 @@ public abstract class MyScripts : MonoBehaviour
     {
         add
         {
-            GameManager.onPause += value;
+            GameManager.OnPause += value;
         }
 
         remove
         {
-            GameManager.onPause -= value;
+            GameManager.OnPause -= value;
         }
     }
 
@@ -79,12 +79,12 @@ public abstract class MyScripts : MonoBehaviour
     {
         add
         {
-            GameManager.onPlay += value;
+            GameManager.OnPlay += value;
         }
 
         remove
         {
-            GameManager.onPlay -= value;
+            GameManager.OnPlay -= value;
         }
     }
 
@@ -98,9 +98,9 @@ public abstract class MyScripts : MonoBehaviour
 
     internal void Awake()
     {
-        GameManager.onPlay += GameManager_onPlay;
+        GameManager.OnPlay += GameManager_onPlay;
 
-        GameManager.onPause += GameManager_onPause;
+        GameManager.OnPause += GameManager_onPause;
         Config();
 
         MyAwakes?.Invoke();
@@ -146,9 +146,9 @@ public abstract class MyScripts : MonoBehaviour
     {
         MyOnDestroys?.Invoke();
 
-        GameManager.onPlay -= GameManager_onPlay;
+        GameManager.OnPlay -= GameManager_onPlay;
 
-        GameManager.onPause -= GameManager_onPause;
+        GameManager.OnPause -= GameManager_onPause;
     }
 }
 

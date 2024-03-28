@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TimersManager : MonoBehaviour
-{
-    static public TimersManager instance;
 
-    public LinkedList<Timer> timersList;
+[CreateAssetMenu(menuName = "Managers/TimersManager")]
+public class TimersManager : SingletonScript<TimersManager>
+{
+    public static List<Timer> timersList => instance._timersList;
+
+    [SerializeField]
+    List<Timer> _timersList = new List<Timer>();
+
 
     /// <summary>
     /// Crea un timer que se almacena en una lista para restarlos de forma automatica
@@ -100,27 +104,19 @@ public class TimersManager : MonoBehaviour
 
     #endregion
 
-
-    private void Awake()
+    public void MyOnDestroy()
     {
-        timersList = new LinkedList<Timer>();
-        instance = this;
-
-        LoadSystem.AddPreLoadCorutine(()=> timersList.Clear());
+        timersList.Clear();
     }
 
-    void Update()
+    public void MyUpdate()
     {
-        LinkedListNode<Timer> node = timersList.First;
-
-        LinkedListNode<Timer> prev;
-
-        while (node!=null)
+        for (int i = timersList.Count - 1; i >= 0; i--)
         {
-            prev = node;
-            node = node.Next;
+            while (i >= timersList.Count)
+                i--;
 
-            prev.Value.SubsDeltaTime();
+            timersList[i].SubsDeltaTime(i);
         }
     }
 }
@@ -137,7 +133,7 @@ public class Tim : IGetPercentage
     [SerializeField]
     protected float _current;
 
-    protected bool notifyOnSuscribe=true;
+    protected bool notifyOnSuscribe = true;
 
     /// <summary>
     /// que hace cuando se setea el current
@@ -152,7 +148,7 @@ public class Tim : IGetPercentage
         get => _current;
         set
         {
-            internalSetCurrent(value-_current); //lo seteo con un delegado para asi poder quitar o agregar la funcion de ejecutar un evento al modificar
+            internalSetCurrent(value - _current); //lo seteo con un delegado para asi poder quitar o agregar la funcion de ejecutar un evento al modificar
         }
     }
 
@@ -177,9 +173,10 @@ public class Tim : IGetPercentage
 
             _onChange += value;
 
-            if(notifyOnSuscribe)
+            if (notifyOnSuscribe)
                 InternalEventSetCurrent(0);
         }
+
         remove
         {
             _onChange -= value;
@@ -252,10 +249,7 @@ public class Tim : IGetPercentage
     {
         _current += value;
 
-        if (_current > total)
-            _current = total;
-        else if (_current < 0)
-            _current = 0;
+        _current = Mathf.Clamp(_current, 0, total);
     }
 
     /// <summary>
@@ -284,19 +278,14 @@ public class Tim : IGetPercentage
 [System.Serializable]
 public class Timer : Tim
 {
-    
+
     protected bool _unscaled;
 
     protected bool loop;
 
-    float _multiply=1;
+    protected float _multiply = 1;
 
     bool _freeze = true; //por defecto no esta agregado
-
-    /// <summary>
-    /// nodo de la linkedlist
-    /// </summary>
-    LinkedListNode<Timer> node;
 
 
     /// <summary>
@@ -309,39 +298,25 @@ public class Timer : Tim
             return _unscaled ? Time.unscaledDeltaTime : Time.deltaTime;
         }
     }
-    
+
     /// <summary>
     /// Propiedad que sirve para agregar o quitar de la cola para la resta
     /// </summary>
     public bool Freeze
     {
         get => _freeze;
-
-        private set
+        set
         {
             if (value == _freeze)
                 return;
 
-            if(value)
+            if (value)
             {
-                if(node != null)
-                {
-                    if(node.List == TimersManager.instance.timersList)
-                        TimersManager.instance.timersList.Remove(node);
-
-                    node.Value = null;
-                }
-                   
+                TimersManager.timersList.Remove(this);
             }
             else
             {
-                if(node!=null)
-                {
-                    node.Value = this;
-                    TimersManager.instance.timersList.AddLast(node);
-                }
-                else
-                    node = TimersManager.instance.timersList.AddLast(this);
+                TimersManager.timersList.Add(this);
             }
 
             _freeze = value;
@@ -419,7 +394,7 @@ public class Timer : Tim
     /// </summary>
     /// <param name="totalTim">El numero a contar</param>
     /// <param name="f">Si arranca a contar o no</param>
-    public Timer Set(float totalTim, bool f=true)
+    public Timer Set(float totalTim, bool f = true)
     {
         base.Set(totalTim);
         Freeze = !f;
@@ -427,7 +402,7 @@ public class Timer : Tim
         return this;
     }
 
-   
+
     /// <summary>
     /// Setea si utiliza el time.deltatime o el Time.unscaledDeltaTime
     /// </summary>
@@ -456,7 +431,7 @@ public class Timer : Tim
     /// Realiza la resta automatica asi como las funciones necesarias dentro del TimerManager y recibe el indice dentro del manager
     /// </summary>
     /// <returns></returns>
-    public virtual float SubsDeltaTime()
+    public virtual float SubsDeltaTime(int index)
     {
         var aux = Substract(DeltaTime * _multiply);
 
@@ -469,10 +444,21 @@ public class Timer : Tim
             }
 
             else
-                Stop();
+                StopWithIndex(index);
         }
 
         return aux;
+    }
+
+    /// <summary>
+    /// Stopea de forma interna
+    /// </summary>
+    /// <param name="index"></param>
+    void StopWithIndex(int index)
+    {
+        _freeze = true;
+
+        TimersManager.timersList.RemoveAt(index);
     }
 
     /// <summary>
@@ -489,16 +475,16 @@ public class Timer : Tim
 /// <summary>
 /// rutina que ejecutara una accion desp de que termine el tiemer
 /// </summary>
-[System.Serializable] 
+[System.Serializable]
 public class TimedAction : Timer
 {
     protected Action end;
 
 
-    public override float SubsDeltaTime()
+    public override float SubsDeltaTime(int index)
     {
-        var aux = base.SubsDeltaTime();
-        if(aux<=0)
+        var aux = base.SubsDeltaTime(index);
+        if (aux <= 0)
         {
             end?.Invoke();
         }
@@ -550,11 +536,11 @@ public class TimedCompleteAction : TimedAction
 {
     protected Action update;
 
-    public override float SubsDeltaTime()
+    public override float SubsDeltaTime(int index)
     {
         update();
 
-        return base.SubsDeltaTime();
+        return base.SubsDeltaTime(index);
     }
 
 
@@ -565,7 +551,7 @@ public class TimedCompleteAction : TimedAction
     /// <returns></returns>
     public TimedCompleteAction AddToUpdate(Action update)
     {
-        this.update +=update;
+        this.update += update;
 
         return this;
     }
@@ -602,7 +588,7 @@ public class TimedLerp<T> : TimedCompleteAction
     System.Func<T> final;
     System.Func<T, T, float, T> lerp;
     public event System.Action<T> save;
-    
+
     public TimedLerp<T> AddToSave(System.Action<T> save)
     {
         this.save += save;
@@ -627,7 +613,7 @@ public class TimedLerp<T> : TimedCompleteAction
     }
 
 
-    public TimedLerp(Func<T> original, Func<T> final, float timer, Func<T, T, float, T> lerp, Action<T> save) : base(timer,null,null)
+    public TimedLerp(Func<T> original, Func<T> final, float timer, Func<T, T, float, T> lerp, Action<T> save) : base(timer, null, null)
     {
         this.original = original;
         this.final = final;

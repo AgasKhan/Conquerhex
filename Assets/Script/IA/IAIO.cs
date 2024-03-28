@@ -204,7 +204,7 @@ public class IAIO : IAFather
 
     protected override void Health_death()
     {
-        GameManager.instance.Defeat();
+        GameManager.instance.Defeat("Has muerto");
         OnExitState(_character);
     }
 
