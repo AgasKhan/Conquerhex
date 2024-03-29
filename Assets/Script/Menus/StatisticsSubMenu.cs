@@ -31,11 +31,37 @@ public class StatisticsSubMenu : CreateSubMenu
 
     void CreateWeaponButtons(Character charac)
     {
-        CreateWeaponButtons(charac, 0);
-        CreateWeaponButtons(charac, 1);
-        CreateWeaponButtons(charac, 2);
+        for (int i = 0; i < charac.caster.weapons.Count; i++)
+        {
+            //CreateWeaponButtons(charac, i);
+            CreateWeapButtons(charac.caster.weapons[i], i);
+        }
+        //CreateWeaponButtons(charac, 0);
+        //CreateWeaponButtons(charac, 1);
+        //CreateWeaponButtons(charac, 2);
     }
 
+    void CreateWeapButtons(SlotItem<MeleeWeapon> item, int index)
+    {
+        string nameWeapon = "Equip Base Weapon";
+        Sprite spriteWeapon = null;
+        string strWeapon = ">";
+
+        UnityEngine.Events.UnityAction action = () =>
+        {
+            inventorySubMenu.Create();
+        };
+
+        if (item.equiped != null)
+        {
+            nameWeapon = item.equiped.nameDisplay;
+            spriteWeapon = item.equiped.image;
+            strWeapon = "Uses: " + item.equiped.current;
+            action = () => { inventorySubMenu.SetFilter(item.equiped.GetItemBase()); /*inventorySubMenu.SetEquipAct(item.toChange, index);*/ inventorySubMenu.Create(); };
+        }
+
+        subMenu.AddComponent<ButtonA>().SetButtonA(nameWeapon, spriteWeapon, "", action);
+    }
 
     void CreateWeaponButtons(Character ch, int index)
     {

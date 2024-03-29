@@ -28,35 +28,46 @@ public class InventorySubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ResourceType.Equipment.ToString()); })
+        if(filter!= null)
+        {
+
+        }
+        else
+        {
+            subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ResourceType.Equipment.ToString()); })
                     .AddNavBarButton("Mineral", () => { ButtonAct(ResourceType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { ButtonAct(ResourceType.Gemstone.ToString()); })
                     .AddNavBarButton("Other", () => { ButtonAct(ResourceType.Other.ToString()); });
 
-        subMenu.CreateTitle("Inventory");
+            subMenu.CreateTitle("Inventory");
 
-        CreateBody();
+            CreateBody();
+        }
     }
 
-    void CreateBody()
+    void CreateBody(ItemBase filter = null)
     {
         subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
 
-        CreateButtons();
+        CreateButtons(filter);
 
         subMenu.CreateSection(3, 6);
         //subMenu.CreateChildrenSection<ScrollRect>();
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
     }
 
-    public void CreateButtons()
+    public void CreateButtons(ItemBase filter = null)
     {
         buttonsList.Clear();
 
         for (int i = 0; i < character.inventory.inventory.Count; i++)
         {
+            if (filter != null && character.inventory.inventory[i].GetItemBase() != filter)
+                continue;
+
+
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
             var item = character.inventory.inventory[i];
@@ -68,9 +79,10 @@ public class InventorySubMenu : CreateSubMenu
                {
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                    DestroyButtonsActions();
-                   CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
+                   //CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
+                   CreateButtonEquip(()=>equipAction(indexWeapon, (MeleeWeapon)item));
 
-                   if(item.GetItemBase() is WeaponKataBase)
+                   if (item.GetItemBase() is WeaponKataBase)
                    {
                        WeaponKata auxKata = (WeaponKata)item;
                        
@@ -126,6 +138,11 @@ public class InventorySubMenu : CreateSubMenu
         }
 
         buttonsListActions.Clear();
+    }
+
+    void CreateButtonEquip(System.Action _action)
+    {
+
     }
 
     void CreateButtonsActions(Item myItem, Dictionary<string, System.Action<Character, Item>> dic)
@@ -186,6 +203,19 @@ public class InventorySubMenu : CreateSubMenu
         }
 
         return details;
+    }
+
+    ItemBase filter;
+    System.Action<int, MeleeWeapon> equipAction;
+    int indexWeapon;
+    public void SetFilter(ItemBase _filter)
+    {
+        filter = _filter;
+    }
+    public void SetEquipAct(System.Action<int, MeleeWeapon> _action, int _index)
+    {
+        equipAction = _action;
+        indexWeapon = _index;
     }
 
 }
