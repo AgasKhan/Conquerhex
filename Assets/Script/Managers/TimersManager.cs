@@ -7,10 +7,23 @@ using System;
 [CreateAssetMenu(menuName = "Managers/TimersManager")]
 public class TimersManager : SingletonScript<TimersManager>
 {
-    public static List<Timer> timersList => instance._timersList;
+    public static DoubleZeldaList<Timer> timersList
+    {
+        get
+        {
+            if (instance._timersList == null)
+                instance._timersList = new DoubleZeldaList<Timer>();
 
-    [SerializeField]
-    List<Timer> _timersList = new List<Timer>();
+
+
+            return instance._timersList;
+        }
+    }
+
+    public static int CountCreated=0;
+
+    //[SerializeField]
+    DoubleZeldaList<Timer> _timersList;
 
 
     /// <summary>
@@ -111,6 +124,12 @@ public class TimersManager : SingletonScript<TimersManager>
 
     public void MyUpdate()
     {
+        foreach (var item in timersList)
+        {
+            item.SubsDeltaTime();
+        }
+
+        /*
         for (int i = timersList.Count - 1; i >= 0; i--)
         {
             while (i >= timersList.Count)
@@ -118,6 +137,7 @@ public class TimersManager : SingletonScript<TimersManager>
 
             timersList[i].SubsDeltaTime(i);
         }
+        */
     }
 }
 
@@ -261,9 +281,14 @@ public class Tim : IGetPercentage
         _onChange(this, value);
     }
 
+    protected virtual void Create()
+    {
+    }
+
     public Tim()
     {
         internalSetCurrent = InternalSetCurrent;
+        Create();
     }
 
     public Tim(float totTim)
@@ -271,14 +296,14 @@ public class Tim : IGetPercentage
         _current = totTim;
         total = totTim;
         internalSetCurrent = InternalSetCurrent;
+        Create();
     }
 }
 
 
 [System.Serializable]
-public class Timer : Tim
+public class Timer : Tim, IDoubleZeldaElement<Timer>
 {
-
     protected bool _unscaled;
 
     protected bool loop;
@@ -287,6 +312,9 @@ public class Timer : Tim
 
     bool _freeze = true; //por defecto no esta agregado
 
+    public SingleZeldaList<Timer> Parent { get; set; }
+    public Timer Previus { get ; set ; }
+    public Timer Next { get ; set ; }
 
     /// <summary>
     /// delta time seleccionado del timer
@@ -316,7 +344,7 @@ public class Timer : Tim
             }
             else
             {
-                TimersManager.timersList.Add(this);
+                TimersManager.timersList.AddLast(this);
             }
 
             _freeze = value;
@@ -334,6 +362,10 @@ public class Timer : Tim
             return _current <= 0;
         }
     }
+
+   
+
+
 
     /// <summary>
     /// Modifica el numero que multiplica la constante temporal, y asi acelerar o disminuir el timer
@@ -431,7 +463,7 @@ public class Timer : Tim
     /// Realiza la resta automatica asi como las funciones necesarias dentro del TimerManager y recibe el indice dentro del manager
     /// </summary>
     /// <returns></returns>
-    public virtual float SubsDeltaTime(int index)
+    public virtual float SubsDeltaTime(/*int index*/)
     {
         var aux = Substract(DeltaTime * _multiply);
 
@@ -444,11 +476,14 @@ public class Timer : Tim
             }
 
             else
-                StopWithIndex(index);
+                Stop();
+            //StopWithIndex(index);
         }
 
         return aux;
     }
+
+    /*
 
     /// <summary>
     /// Stopea de forma interna
@@ -460,6 +495,17 @@ public class Timer : Tim
 
         TimersManager.timersList.RemoveAt(index);
     }
+    */
+
+    protected override void Create()
+    {
+        TimersManager.CountCreated++;
+    }
+
+    protected virtual void Destroy()
+    {
+        TimersManager.CountCreated--;
+    }
 
     /// <summary>
     /// Configura el timer para su uso
@@ -469,6 +515,11 @@ public class Timer : Tim
     public Timer(float totTim) : base(totTim)
     {
         Start();
+    }
+
+    ~Timer()
+    {
+        Destroy();
     }
 }
 
@@ -481,9 +532,9 @@ public class TimedAction : Timer
     protected Action end;
 
 
-    public override float SubsDeltaTime(int index)
+    public override float SubsDeltaTime(/*int index*/)
     {
-        var aux = base.SubsDeltaTime(index);
+        var aux = base.SubsDeltaTime(/*index*/);
         if (aux <= 0)
         {
             end?.Invoke();
@@ -525,7 +576,6 @@ public class TimedAction : Timer
     {
         this.end = action;
     }
-
 }
 
 /// <summary>
@@ -536,11 +586,11 @@ public class TimedCompleteAction : TimedAction
 {
     protected Action update;
 
-    public override float SubsDeltaTime(int index)
+    public override float SubsDeltaTime(/*int index*/)
     {
         update();
 
-        return base.SubsDeltaTime(index);
+        return base.SubsDeltaTime(/*index*/);
     }
 
 

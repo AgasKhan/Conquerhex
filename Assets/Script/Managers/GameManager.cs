@@ -111,8 +111,8 @@ public class GameManager : SingletonMono<GameManager>
 
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow(msj, "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Volver a la base", () => LoadSystem.instance.Load("Base"));
 
-            eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato.Invoke(); ;
-            //MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Has muerto", "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Ir al menu", () => LoadSystem.instance.Load("MainMenu"));
+            eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato.Invoke();
+            
         }).SetUnscaled(true);
 
         /*
