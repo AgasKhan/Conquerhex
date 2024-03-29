@@ -73,16 +73,28 @@ public abstract class SingleZeldaList<T> : IEnumerable<T> where T : class, ISing
 
     public IEnumerator<T> GetEnumerator()
     {
-        T node = First;
+        T nodeIterator = First;
 
-        T prev;
+        T actual = null;
 
-        while (node != null)
+        T prev = null;
+
+        while (nodeIterator != null)
         {
-            prev = node;
-            node = node.Next;
+            if (actual?.Parent != null) //si me antiguo actual no tiene parent, significa que lo quite de la lista, por ende no me interesa como previo
+                prev = actual;
 
-            yield return prev;
+            actual = nodeIterator; //lo actualizo al nodo actual
+            nodeIterator = nodeIterator.Next; //voy al siguiente
+
+            yield return actual;            
+
+            //si despues de retornar, el siguiente nodo no tiene padre, significa que el acual es el last o saque el nodo siguiente
+            //por eso descarto que sea el last, y si poseo un previo en condiciones, me permite reobtener el nuevo siguiente
+            if (nodeIterator?.Parent == null && actual != Last && prev?.Parent!=null)
+            {
+                nodeIterator = prev.Next;
+            }
         }
     }
 
