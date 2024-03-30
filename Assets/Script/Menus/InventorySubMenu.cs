@@ -122,6 +122,8 @@ public class InventorySubMenu : CreateSubMenu
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
+
+        filterType = null;
     }
 
     void DestroyButtonsActions()
