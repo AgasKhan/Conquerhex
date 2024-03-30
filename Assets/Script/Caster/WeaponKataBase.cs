@@ -141,6 +141,10 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
 
     public virtual Vector3 Aiming => caster.aiming;
 
+    public override bool visible => !isCopy;
+
+    public bool isCopy = false;
+
     public FadeColorAttack FeedBackReference
     {
         get => _feedBackReference;
@@ -162,6 +166,13 @@ public abstract class WeaponKata : Item<WeaponKataBase>, IControllerDir, ICoolDo
     public MeleeWeapon Weapon => equipedWeapon;
 
     public bool End { get; protected set; }
+
+    public WeaponKata CreateCopy()
+    {
+        var aux = Create() as WeaponKata;
+        aux.isCopy = true;
+        return aux;
+    }
 
     public virtual void ChangeWeapon(Item weaponParam)
     {

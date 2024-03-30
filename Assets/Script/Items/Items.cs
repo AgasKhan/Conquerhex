@@ -14,7 +14,8 @@ public abstract class ItemBase : ShowDetails
     public Dictionary<string, System.Action<Character, Item>> buttonsAcctions = new Dictionary<string, System.Action<Character, Item>>();
 
     System.Type _itemType;
-    
+
+    public bool visible = true;
     
     public virtual Item Create()
     {
@@ -74,6 +75,8 @@ public abstract class Item : IShowDetails
 
     public System.Type itemType => GetType();
 
+    public virtual bool visible => _itemBase.visible;
+
     public bool HaveSameContainer(InventoryEntityComponent container)
     {
         return container == this.container;
@@ -112,9 +115,11 @@ public abstract class Item : IShowDetails
 
     public abstract Item SetItemBase(object baseItem);
 
-    public Item Create()
+    public virtual Item Create()
     {
-        return _itemBase.Create();
+        var aux = _itemBase.Create();
+        aux.Init(container);
+        return aux;
     }
 
     public virtual void GetAmounts(out int actual, out int max)
