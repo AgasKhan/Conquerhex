@@ -28,45 +28,37 @@ public class InventorySubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        if(filter!= null)
-        {
+        subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { FilterItems(ResourceType.Equipment.ToString()); })
+                    .AddNavBarButton("Mineral", () => { FilterItems(ResourceType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { FilterItems(ResourceType.Gemstone.ToString()); })
+                    .AddNavBarButton("Other", () => { FilterItems(ResourceType.Other.ToString()); });
 
-        }
-        else
-        {
-            subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { ButtonAct(ResourceType.Equipment.ToString()); })
-                    .AddNavBarButton("Mineral", () => { ButtonAct(ResourceType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { ButtonAct(ResourceType.Gemstone.ToString()); })
-                    .AddNavBarButton("Other", () => { ButtonAct(ResourceType.Other.ToString()); });
+        subMenu.CreateTitle("Inventory");
 
-            subMenu.CreateTitle("Inventory");
-
-            CreateBody();
-        }
+        CreateBody();
     }
 
-    void CreateBody(ItemBase filter = null)
+    void CreateBody()
     {
         subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
 
-        CreateButtons(filter);
+        CreateButtons();
 
         subMenu.CreateSection(3, 6);
         //subMenu.CreateChildrenSection<ScrollRect>();
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
     }
 
-    public void CreateButtons(ItemBase filter = null)
+    public void CreateButtons()
     {
         buttonsList.Clear();
 
         for (int i = 0; i < character.inventory.inventory.Count; i++)
         {
-            if (filter != null && character.inventory.inventory[i].GetItemBase() != filter)
+            if (filterType != null && !filterType.IsAssignableFrom(character.inventory.inventory[i].GetType()))
                 continue;
-
 
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
@@ -80,8 +72,12 @@ public class InventorySubMenu : CreateSubMenu
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                    DestroyButtonsActions();
                    //CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
-                   CreateButtonEquip(()=>equipAction(indexWeapon, (MeleeWeapon)item));
 
+                   CreateButtonEquip(slotItem, index);
+                   /*
+                   if (slotItem != null)
+                       CreateButtonEquip(slotItem, index);
+                   */
                    if (item.GetItemBase() is WeaponKataBase)
                    {
                        WeaponKata auxKata = (WeaponKata)item;
@@ -140,9 +136,10 @@ public class InventorySubMenu : CreateSubMenu
         buttonsListActions.Clear();
     }
 
-    void CreateButtonEquip(System.Action _action)
+    void CreateButtonEquip(SlotItem _slotItem, int _index)
     {
-
+        buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Equip", ()=> {action.Invoke(_slotItem, _index); } , ""));
+        buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(300, 75);
     }
 
     void CreateButtonsActions(Item myItem, Dictionary<string, System.Action<Character, Item>> dic)
@@ -169,7 +166,7 @@ public class InventorySubMenu : CreateSubMenu
         myDetailsW.SetActiveGameObject(true);
     }
 
-    void ButtonAct(string type)
+    void FilterItems(string type)
     {
         foreach (var item in buttonsList)
         {
@@ -185,7 +182,7 @@ public class InventorySubMenu : CreateSubMenu
 
     void ButtonAct()
     {
-        ButtonAct("");
+        FilterItems("");
     }
 
     string SetTextforItem(Item item)
@@ -205,17 +202,14 @@ public class InventorySubMenu : CreateSubMenu
         return details;
     }
 
-    ItemBase filter;
-    System.Action<int, MeleeWeapon> equipAction;
-    int indexWeapon;
-    public void SetFilter(ItemBase _filter)
+    System.Type filterType;
+    SlotItem slotItem = null;
+    System.Action<SlotItem, int> action;
+    public void SetEquipMenu<T>(SlotItem _slotItem, System.Type _type, System.Action<SlotItem, int> _action) where T : Item
     {
-        filter = _filter;
-    }
-    public void SetEquipAct(System.Action<int, MeleeWeapon> _action, int _index)
-    {
-        equipAction = _action;
-        indexWeapon = _index;
+        action = _action;
+        slotItem = _slotItem;
+        filterType = _type;
     }
 
 }

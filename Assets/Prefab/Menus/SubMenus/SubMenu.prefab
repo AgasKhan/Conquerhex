@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8140357384738110085}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -166,7 +165,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4124285577510484434}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -241,7 +239,6 @@ RectTransform:
   m_Children:
   - {fileID: 4124285577174629878}
   m_Father: {fileID: 4124285578105272891}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -281,7 +278,6 @@ RectTransform:
   m_Children:
   - {fileID: 4124285578480492384}
   m_Father: {fileID: 4124285578647064648}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -372,7 +368,6 @@ RectTransform:
   m_Children:
   - {fileID: 4124285577510484434}
   m_Father: {fileID: 4124285578647064648}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -461,7 +456,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4124285577174629878}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.428125
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -495,7 +490,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4124285577629466444}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -536,7 +530,6 @@ RectTransform:
   - {fileID: 4124285577629466444}
   - {fileID: 4124285578105272891}
   m_Father: {fileID: 8712075800380389794}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -643,7 +636,6 @@ RectTransform:
   m_Children:
   - {fileID: 5997360655041792036}
   m_Father: {fileID: 8712075800380389794}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -721,7 +713,6 @@ RectTransform:
   - {fileID: 6737014380492311458}
   - {fileID: 911784018094288375}
   m_Father: {fileID: 8712075800380389794}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -804,7 +795,6 @@ RectTransform:
   - {fileID: 8140357384738110085}
   - {fileID: 4124285578647064648}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -833,6 +823,7 @@ MonoBehaviour:
     - {fileID: 973520469625787796, guid: 0f9ce36f9a137694f891533f7238962c, type: 3}
     - {fileID: 1759002638691397182, guid: 8aafeb3de00c8864690ef025d3c2afe7, type: 3}
     - {fileID: 5508337182564850474, guid: f53f86b6ffd70f64bb98a98f64238a25, type: 3}
+    - {fileID: 2622728350171353091, guid: bce5ff3a1dd2af14c8b9ac7f0c0272f5, type: 3}
   navbar:
     selectOpaque: 1
     firstOpaque: 1
@@ -959,6 +950,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 7458593112433974111}
     m_Modifications:
     - target: {fileID: 2433765271136813870, guid: 7ba827bae67c93d4f8191dd39c863cde,
@@ -1123,6 +1115,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2433765272877674222, guid: 7ba827bae67c93d4f8191dd39c863cde, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ba827bae67c93d4f8191dd39c863cde, type: 3}
 --- !u!224 &911784018094288375 stripped
 RectTransform:
@@ -1141,6 +1136,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 7458593112433974111}
     m_Modifications:
     - target: {fileID: 2256267756387885552, guid: 8aafeb3de00c8864690ef025d3c2afe7,
@@ -1264,6 +1260,9 @@ PrefabInstance:
       value: StaticButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aafeb3de00c8864690ef025d3c2afe7, type: 3}
 --- !u!224 &6737014380492311458 stripped
 RectTransform:

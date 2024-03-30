@@ -139,21 +139,18 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
     }
 }
 
-[System.Serializable]
-public class SlotItem<T> where T : Item
+public class SlotItem
 {
     [System.NonSerialized]
     public InventoryEntityComponent inventoryComponent;
 
-    public event System.Action<int, T> toChange;
-
     [SerializeField]
-    int _indexEquipedItem = -1;
+    protected int _indexEquipedItem = -1;
 
     [SerializeReference]
-    T _equiped;
+    Item _equiped;
 
-    public T equiped
+    public Item equiped
     {
         get
         {
@@ -164,16 +161,16 @@ public class SlotItem<T> where T : Item
         }
     }
 
-    public int indexEquipedItem
+    public virtual int indexEquipedItem
     {
         //get => _indexEquipedItem;
         set
         {
             _indexEquipedItem = value;
 
-            if(_indexEquipedItem >= 0 && _indexEquipedItem < inventoryComponent.inventory.Count)
+            if (_indexEquipedItem >= 0 && _indexEquipedItem < inventoryComponent.inventory.Count)
             {
-                _equiped = inventoryComponent.inventory[_indexEquipedItem] as T;
+                _equiped = inventoryComponent.inventory[_indexEquipedItem];
             }
             else
             {
@@ -181,10 +178,35 @@ public class SlotItem<T> where T : Item
             }
 
             Debug.Log("Equipado : " + _equiped);
-            
-            toChange?.Invoke(_indexEquipedItem, equiped);
+
         }
     }
+
+}
+
+[System.Serializable]
+public class SlotItem<T>: SlotItem where T : Item
+{
+    public event System.Action<int, T> toChange;
+
+    public new T equiped
+    {
+        get
+        {
+            return base.equiped as T;
+        }
+    }
+
+    public override int indexEquipedItem 
+    { 
+        set
+        {
+            base.indexEquipedItem = value;
+            toChange?.Invoke(_indexEquipedItem, equiped);
+        } 
+    }
+
+
 }
 
 
