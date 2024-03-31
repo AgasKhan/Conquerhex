@@ -65,6 +65,7 @@ public abstract class TriggerController : IControllerDir
     {
         End = false;
         param.attack += this;
+        ability.onCast += param.AttackEvent;
         ControllerDown(ability.Aiming, 0);
     }
 
@@ -77,6 +78,7 @@ public abstract class TriggerController : IControllerDir
         Debug.Log("sali");
         ability.StopCast();
         param.attack -= this;
+        ability.onCast -= param.AttackEvent;
     }
 
     public virtual List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)

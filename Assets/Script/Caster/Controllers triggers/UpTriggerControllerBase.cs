@@ -37,6 +37,7 @@ public class UpTriggerController : TriggerController
     {
         if (!onCooldownTime)
         {
+            End = true;
             cooldown.Reset();
             return;
         }

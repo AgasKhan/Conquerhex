@@ -54,6 +54,7 @@ public class PressTriggerController : TriggerController
 
         if (!onCooldownTime)
         {
+            End = true;
             cooldown.Reset();
             return;
         }
