@@ -89,5 +89,15 @@ public abstract class TriggerController : IControllerDir
     public abstract void ControllerDown(Vector2 dir, float tim);
     public abstract void ControllerPressed(Vector2 dir, float tim);
     public abstract void ControllerUp(Vector2 dir, float tim);
+
+    /// <summary>
+    /// Get TriggerBase
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    protected T GetTrggrBs<T>() where T : TriggerControllerBase
+    {
+        return (T)triggersBase;
+    }
 }
 

@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/ChargeRangeUpTriggerControllerBase")]
-public class ChargeRangeUpTriggerControllerBase : TriggerControllerBase
+public class ChargeRangeUpTrggrCtrllrBase : TriggerControllerBase
 {
+    [Tooltip("Multiplicador de rango que se aplica por tiempo")]
+    public float multiplyRange = 1;
     protected override System.Type SetItemType()
     {
-        return typeof(ChargeRangeUpTriggerController);
+        return typeof(ChargeRangeUpTrggrCtrllr);
     }
 }
 
 /// <summary>
 /// 
 /// </summary>
-public class ChargeRangeUpTriggerController : UpTriggerController
+public class ChargeRangeUpTrggrCtrllr : UpTrggrCtrllr
 {
-    public override float FinalRange => Mathf.Clamp(range * ability.itemBase.velocityCharge, 1, base.FinalRange);
+    public override float FinalRange => Mathf.Clamp(range * GetTrggrBs<ChargeRangeUpTrggrCtrllrBase>().multiplyRange, 1, base.FinalRange);
 
     float range;
 

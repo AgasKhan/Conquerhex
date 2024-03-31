@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/PressTriggerControllerBase")]
-public class PressTriggerControllerBase : TriggerControllerBase
+public class PressTrggrCtrllrBase : TriggerControllerBase
 {
     [Tooltip("Multiplicador de espera para el golpe automatico")]
     public float timeToAttackPress;
 
     protected override System.Type SetItemType()
     {
-        return typeof(PressTriggerController);
+        return typeof(PressTrggrCtrllr);
     }
 }
 
 /// <summary>
 /// Controlador que ejecuta el ataque cuando se presiona el boton y mientas esta presionado (con mayor espera)
 /// </summary>
-public class PressTriggerController : TriggerController
+public class PressTrggrCtrllr : TriggerController
 {
     public Timer pressCooldown;
     public override void Set()
     {
         if (pressCooldown != null)
-            pressCooldown.Set(((PressTriggerControllerBase)triggersBase).timeToAttackPress * FinalVelocity);
+            pressCooldown.Set(GetTrggrBs<PressTrggrCtrllrBase>().timeToAttackPress * FinalVelocity);
         else
-            pressCooldown = TimersManager.Create(((PressTriggerControllerBase)triggersBase).timeToAttackPress * FinalVelocity);
+            pressCooldown = TimersManager.Create(GetTrggrBs<PressTrggrCtrllrBase>().timeToAttackPress * FinalVelocity);
     }
 
     public override void ControllerDown(Vector2 dir, float tim)

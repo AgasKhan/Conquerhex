@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/DashToEntityUpTriggerControllerBase")]
-public class DashToEntityUpTriggerControllerBase : TriggerControllerBase
+public class DashToEntityUpTrggrCtrllrBase : TriggerControllerBase
 {
+    [Tooltip("Impulso de velocidad que se dara cuando de el dash en direccion del primer enemigo en el area")]
+    public float velocityInDash=10;
     protected override System.Type SetItemType()
     {
-        return typeof(DashToEntityUpTriggerController);
+        return typeof(DashToEntityUpTrggrCtrllr);
     }
 }
 
-public class DashToEntityUpTriggerController : UpTriggerController
+public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 {
     Timer timerToEnd;
     bool buttonPress;
+
     public override void Init(Ability ability)
     {
         base.Init(ability);
@@ -36,7 +39,7 @@ public class DashToEntityUpTriggerController : UpTriggerController
 
         if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * ability.itemBase.velocityCharge);
+            aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * GetTrggrBs<DashToEntityUpTrggrCtrllrBase>().velocityInDash);
         }
 
         //Attack();

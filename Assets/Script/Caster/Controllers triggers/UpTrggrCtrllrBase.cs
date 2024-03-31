@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/UpTriggerControllerBase")]
-public class UpTriggerControllerBase : TriggerControllerBase
+public class UpTrggrCtrllrBase : TriggerControllerBase
 {
     protected override System.Type SetItemType()
     {
-        return typeof(UpTriggerController);
+        return typeof(UpTrggrCtrllr);
     }
 }
 
@@ -15,7 +15,7 @@ public class UpTriggerControllerBase : TriggerControllerBase
 /// <summary>
 /// Controlador que ejecuta el ataque cuando se suelta el boton de la habilidad
 /// </summary>
-public class UpTriggerController : TriggerController
+public class UpTrggrCtrllr : TriggerController
 {
     protected float originalScale;
 

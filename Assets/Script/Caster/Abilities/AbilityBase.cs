@@ -23,8 +23,6 @@ public abstract class AbilityBase : ItemBase
     [Tooltip("cooldown")]
     public float velocity;
 
-    public float velocityCharge = 1;
-
     public Damage[] damagesMultiply = new Damage[0];
 
     public Vector2Int[] indexParticles;
