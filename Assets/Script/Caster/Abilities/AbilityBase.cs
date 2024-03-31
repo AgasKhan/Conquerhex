@@ -77,21 +77,16 @@ public abstract class AbilityBase : ItemBase
     }
 
     public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector2 direction, int numObjectives, float range, float dot)
-        => detection.Detect(ref result, caster, direction, numObjectives, range, dot);
+        => detection?.Detect(ref result, caster, direction, numObjectives, range, dot);
 
     public TriggerController CreateTriggerController()
     {
         return trigger.Create();
     }
-
-    void Equip(Character chr, int item)
-    {
-        //chr.attack.actualWeapon. = item;
-    }
 }
 
 
-public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>
+public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
 {
     public event System.Action onCast;
 
@@ -99,7 +94,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public CasterEntityComponent caster;
 
-    public Timer cooldown;
+    public Timer cooldown { get; set; }
 
     protected TriggerController trigger;
 
@@ -110,6 +105,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     protected System.Action<Vector2, float> up;
 
     public DamageContainer multiplyDamage { get; protected set; }
+
+    public bool End { get; set; }
 
     public bool onCooldownTime => cooldown.Chck;
 
@@ -146,9 +143,6 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             _feedBackReference = value;
         }
     }
-
-    public bool End { get; set; }
-
     public Ability CreateCopy()
     {
         var aux = Create() as Ability;
@@ -176,6 +170,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         {
             itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
         }
+    }
+
+    public virtual void Destroy()
+    {
+        trigger.Destroy();
     }
 
     protected List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)

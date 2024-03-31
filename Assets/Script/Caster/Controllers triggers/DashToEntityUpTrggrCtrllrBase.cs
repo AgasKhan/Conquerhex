@@ -69,6 +69,11 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         Cast();
 
+        if (caster.TryGetComponent<MoveEntityComponent>(out var aux))
+        {
+            aux.move.velocity = 0;
+        }
+
         FeedBackReference?.Attack();
 
         timerToEnd.Stop();

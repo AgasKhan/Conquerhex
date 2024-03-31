@@ -17,13 +17,13 @@ public abstract class TriggerControllerBase : ShowDetails
 
 }
 
-public abstract class TriggerController : IControllerDir
+public abstract class TriggerController : IControllerDir, IAbilityComponent
 {
     public TriggerControllerBase triggersBase;
 
     protected Ability ability;
 
-    protected bool End { get => ability.End; set => ability.End = value; }
+    public bool End { get => ability.End; set => ability.End = value; }
 
     public virtual float FinalVelocity => ability.FinalVelocity;
 
@@ -46,11 +46,11 @@ public abstract class TriggerController : IControllerDir
         }
     }
 
-    public void Cast() => ability.Cast();
-
     public Timer cooldown => ability.cooldown;
 
     public List<Entity> affected => ability.affected;
+
+    public void Cast() => ability.Cast();
 
     public virtual void Init(Ability ability)
     {
@@ -59,6 +59,11 @@ public abstract class TriggerController : IControllerDir
 
     public virtual void Set()
     {
+    }
+
+    public virtual void Destroy()
+    {
+        ability = null;
     }
 
     public virtual void OnEnterState(CasterEntityComponent param)
@@ -83,7 +88,7 @@ public abstract class TriggerController : IControllerDir
 
     public virtual List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
     {
-        return ability.itemBase.Detect(ref ability.affected, ability.caster.container, dir, ability.itemBase.maxDetects, range ?? ability.FinalRange, dot ?? ability.itemBase.dot);
+        return ability.itemBase.Detect(ref ability.affected, caster.container, dir, ability.itemBase.maxDetects, range ?? FinalRange, dot ?? ability.itemBase.dot);
     }
 
     public abstract void ControllerDown(Vector2 dir, float tim);
@@ -101,3 +106,20 @@ public abstract class TriggerController : IControllerDir
     }
 }
 
+public interface IAbilityComponent
+{
+    public bool End { get ; set ; }
+    public float FinalVelocity { get; }
+
+    public  float FinalRange { get; }
+
+    public  Vector3 Aiming { get ; }
+
+    public  bool DontExecuteCast { get; }
+
+    public bool onCooldownTime { get; }
+
+    public FadeColorAttack FeedBackReference { get; set; }
+
+    public Timer cooldown { get; }
+}
