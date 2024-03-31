@@ -2,32 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/DashUpWeaponKataBase")]
-public class DashUpWeaponKataBase : WeaponKataBase
+[CreateAssetMenu(menuName = "Abilities/DashToEntityUpTriggerControllerBase")]
+public class DashToEntityUpTriggerControllerBase : TriggerControllerBase
 {
     protected override System.Type SetItemType()
     {
-        return typeof(DashUpWeaponKata);
+        return typeof(DashToEntityUpTriggerController);
     }
 }
 
-public class DashUpWeaponKata : UpWeaponKata
+public class DashToEntityUpTriggerController : UpTriggerController
 {
     Timer timerToEnd;
     bool buttonPress;
-    protected override void Init()
+    public override void Init(Ability ability)
     {
-        base.Init();
+        base.Init(ability);
         timerToEnd = TimersManager.Create(1, () => End = true).Stop();
     }
 
-    protected override void InternalControllerDown(Vector2 dir, float button)
+    public override void ControllerDown(Vector2 dir, float button)
     {
         buttonPress = true;
-        base.InternalControllerDown(dir, button);
+        base.ControllerDown(dir, button);
     }
 
-    protected override void InternalControllerUp(Vector2 dir, float button)
+    public override void ControllerUp(Vector2 dir, float button)
     {
         if (!cooldown.Chck)
             return;
@@ -36,7 +36,7 @@ public class DashUpWeaponKata : UpWeaponKata
 
         if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * itemBase.velocityCharge);
+            aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * ability.itemBase.velocityCharge);
         }
 
         //Attack();
@@ -64,7 +64,7 @@ public class DashUpWeaponKata : UpWeaponKata
         if (affected.Count == 0)
             return;
 
-        Attack();
+        Cast();
 
         FeedBackReference?.Attack();
 

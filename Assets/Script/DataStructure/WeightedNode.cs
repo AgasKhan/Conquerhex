@@ -4,7 +4,6 @@ using UnityEngine;
 [Serializable]
 public class WeightedNode<T> : IComparable<WeightedNode<T>>
 {
-
     [SerializeField] private T _element;
     [SerializeField] private float _weight;
 

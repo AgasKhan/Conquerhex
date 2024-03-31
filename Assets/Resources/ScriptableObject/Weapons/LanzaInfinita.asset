@@ -17,14 +17,21 @@ MonoBehaviour:
   _details: "La m\xE1s rapida de todas"
   maxAmount: 1
   weight: 0
+  visible: 1
+  defaultKata: {fileID: 0}
   velocity: 1
   range: 2
-  defaultKata: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771, type: 2}
   damages:
-  - amount: 7.5
+  - name: 
+    amount: 7.5
+    knockBack: 0
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  - amount: 2
+  - name: 
+    amount: 2
+    knockBack: 0
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
-  - amount: 0.5
+  - name: 
+    amount: 0.5
+    knockBack: 0
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   durability: 9999

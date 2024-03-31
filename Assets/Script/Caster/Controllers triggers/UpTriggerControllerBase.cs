@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/UpWeaponKataBase")]
-public class UpWeaponKataBase : WeaponKataBase
+[CreateAssetMenu(menuName = "Abilities/UpTriggerControllerBase")]
+public class UpTriggerControllerBase : TriggerControllerBase
 {
     protected override System.Type SetItemType()
     {
-        return typeof(UpWeaponKata);
+        return typeof(UpTriggerController);
     }
 }
 
@@ -15,20 +15,11 @@ public class UpWeaponKataBase : WeaponKataBase
 /// <summary>
 /// Controlador que ejecuta el ataque cuando se suelta el boton de la habilidad
 /// </summary>
-public class UpWeaponKata : WeaponKata
+public class UpTriggerController : TriggerController
 {
     protected float originalScale;
 
-    public override Pictionarys<string, string> GetDetails()
-    {
-        var aux = base.GetDetails();
-
-        aux.Add("Attack execution", "Ejecuta el ataque cuando se suelta el boton de la habilidad");
-
-        return aux;
-    }
-
-    protected override void InternalControllerDown(Vector2 dir, float button)
+    public override void ControllerDown(Vector2 dir, float button)
     {
         if (!cooldown.Chck)
             return;
@@ -42,9 +33,9 @@ public class UpWeaponKata : WeaponKata
     }
 
     //Durante, al mantener y moverlo
-    protected override void InternalControllerPress(Vector2 dir, float button)
+    public override void ControllerPressed(Vector2 dir, float button)
     {
-        if (!cooldown.Chck)
+        if (!onCooldownTime)
         {
             cooldown.Reset();
             return;
@@ -55,16 +46,16 @@ public class UpWeaponKata : WeaponKata
     }
 
     //Despues, al sotarlo
-    protected override void InternalControllerUp(Vector2 dir, float button)
+    public override void ControllerUp(Vector2 dir, float button)
     {
-        if (!cooldown.Chck)
+        if (!onCooldownTime)
             return;
 
         //comienza a bajar el cooldown
 
         cooldown.Reset();
 
-        Attack();
+        Cast();
 
         FeedBackReference?.Attack();
 
