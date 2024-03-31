@@ -44,6 +44,8 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
 
+        Debug.Log("++++++++++++++++\nSlot: " + (slotItem != null));
+
         CreateButtons();
 
         subMenu.CreateSection(3, 6);
@@ -55,10 +57,17 @@ public class InventorySubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
+        if (slotItem != null && slotItem.equiped != null)
+        {
+            CreateUnequipButton(slotItem);
+        }
+
         for (int i = 0; i < character.inventory.inventory.Count; i++)
         {
             if (filterType != null && !filterType.IsAssignableFrom(character.inventory.inventory[i].GetType()))
                 continue;
+
+            
 
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
@@ -73,7 +82,8 @@ public class InventorySubMenu : CreateSubMenu
                    DestroyButtonsActions();
                    //CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
 
-                   CreateButtonEquip(slotItem, index);
+                   if(slotItem != null)
+                       CreateButtonEquip(slotItem, index);
                    /*
                    if (slotItem != null)
                        CreateButtonEquip(slotItem, index);
@@ -144,6 +154,12 @@ public class InventorySubMenu : CreateSubMenu
         buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(300, 75);
     }
 
+    void CreateUnequipButton(SlotItem _slotItem)
+    {
+        var aux = subMenu.AddComponent<EventsCall>().Set("Unequip", () => { _slotItem.indexEquipedItem = -1; MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false); }, "");
+        aux.rectTransform.sizeDelta = new Vector2(300, 75);
+    }
+
     void CreateButtonsActions(Item myItem, Dictionary<string, System.Action<Character, Item>> dic)
     {
 
@@ -206,7 +222,8 @@ public class InventorySubMenu : CreateSubMenu
 
     System.Type filterType;
     SlotItem slotItem = null;
-    System.Action<SlotItem, int> action;
+    System.Action<SlotItem, int> action = null;
+
     public void SetEquipMenu<T>(SlotItem _slotItem, System.Type _type, System.Action<SlotItem, int> _action) where T : Item
     {
         action = _action;

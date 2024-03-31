@@ -106,7 +106,28 @@ public class StatisticsSubMenu : CreateSubMenu
 
         System.Action<SlotItem, int> equipKataAction = (_slotItem, _index) =>
         {
-            _slotItem.indexEquipedItem = _index;
+            var aux = _slotItem.inventoryComponent.container.GetInContainer<CasterEntityComponent>().katasCombo;
+            WeaponKata kataEquiped = null;
+
+            for (int i = 0; i < aux.Count; i++)
+            {
+                if (aux[i].equiped == _slotItem.equiped)
+                {
+                    kataEquiped = aux[i].equiped;
+                    break;
+                }
+            }
+
+            if (kataEquiped != null)
+            {
+                var kataCopy = kataEquiped.CreateCopy();
+                _slotItem.inventoryComponent.inventory.Add(kataCopy);
+                _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
+                //_slotItem.indexEquipedItem = _index;
+            }
+            else
+                _slotItem.indexEquipedItem = _index;
+
             MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
         };
 
