@@ -11,7 +11,7 @@ public class CastingDashBase : CastingActionBase
 
     protected override Type SetItemType()
     {
-        throw new NotImplementedException();
+        return typeof(CastingDash);
     }
 }
 

@@ -98,7 +98,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     public void Ability(int i)
     {
-        WeaponKata weaponKata;
+        AbilityExtCast weaponKata;
 
         if (i == 0)
         {

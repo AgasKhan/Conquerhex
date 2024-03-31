@@ -33,7 +33,6 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         for (int i = 0; i < charac.caster.weapons.Count; i++)
         {
-            //CreateWeaponButtons(charac, i);
             CreateWeapButtons(charac.caster.weapons[i]);
         }
 
@@ -41,9 +40,11 @@ public class StatisticsSubMenu : CreateSubMenu
         {
             CreateKataCombosButtons(charac.caster.katasCombo[i]);
         }
-        //CreateWeaponButtons(charac, 0);
-        //CreateWeaponButtons(charac, 1);
-        //CreateWeaponButtons(charac, 2);
+
+        for (int i = 0; i < charac.caster.abilities.Count; i++)
+        {
+            CreateAbilityButtons(charac.caster.abilities[i]);
+        }
     }
 
     void CreateWeapButtons(SlotItem<MeleeWeapon> item)
@@ -58,7 +59,7 @@ public class StatisticsSubMenu : CreateSubMenu
         System.Action< SlotItem,int > equipAction = (_slotItem, _index) =>
         {
             _slotItem.indexEquipedItem = _index;
-            MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
+            Create();
         };
         
         if (item.equiped != null)
@@ -106,35 +107,17 @@ public class StatisticsSubMenu : CreateSubMenu
 
         System.Action<SlotItem, int> equipKataAction = (_slotItem, _index) =>
         {
-            var aux = _slotItem.inventoryComponent.container.GetInContainer<CasterEntityComponent>().katasCombo;
-            WeaponKata kataEquiped = null;
-
-            for (int i = 0; i < aux.Count; i++)
-            {
-                if (aux[i].equiped == _slotItem.equiped)
-                {
-                    kataEquiped = aux[i].equiped;
-                    break;
-                }
-            }
-
-            if (kataEquiped != null)
-            {
-                var kataCopy = kataEquiped.CreateCopy();
-                _slotItem.inventoryComponent.inventory.Add(kataCopy);
-                _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
-                //_slotItem.indexEquipedItem = _index;
-            }
-            else
-                _slotItem.indexEquipedItem = _index;
-
-            MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
+            var kataCopy = ((WeaponKata)_slotItem.inventoryComponent.inventory[_index]).CreateCopy();
+            kataCopy.Init(_slotItem.inventoryComponent);
+            _slotItem.inventoryComponent.inventory.Add(kataCopy);
+            _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
+            Create();
         };
 
         System.Action<SlotItem, int> equipWeaponAction = (_slotItem, _index) =>
         {
             (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent.inventory[_index]);
-            MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false);
+            Create();
         };
 
         actionKata = () =>
@@ -149,11 +132,44 @@ public class StatisticsSubMenu : CreateSubMenu
             inventorySubMenu.Create();
         };
 
-        //subMenu.AddComponent<ButtonA>().SetButtonA(nameWeapon, spriteWeapon, strWeapon, action);
 
         var doubleButton = subMenu.AddComponent<DoubleButtonA>();
         doubleButton.left.SetButtonA(nameKata, spriteKAta, strKata, actionKata);
         doubleButton.right.SetButtonA(nameWeapon, spriteWeapon, strWeapon, actionWeapon);
+    }
+
+    void CreateAbilityButtons(SlotItem<AbilityExtCast> item)
+    {
+        string nameAbility = "Equip Ability";
+        Sprite spriteAbility = null;
+        string strAbility = "";
+        System.Type filter = typeof(AbilityExtCast);
+
+        UnityEngine.Events.UnityAction action;
+
+        System.Action<SlotItem, int> equipAction = (_slotItem, _index) =>
+        {
+            var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent.inventory[_index]).CreateCopy();
+            abilityCopy.Init(_slotItem.inventoryComponent);
+            _slotItem.inventoryComponent.inventory.Add(abilityCopy);
+            _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
+            Create();
+        };
+
+
+
+        if (item.equiped != null)
+        {
+            nameAbility = item.equiped.nameDisplay;
+            spriteAbility = item.equiped.image;
+        }
+
+        action = () =>
+        {
+            inventorySubMenu.SetEquipMenu<AbilityExtCast>(item, filter, equipAction);
+            inventorySubMenu.Create();
+        };
+        subMenu.AddComponent<ButtonA>().SetButtonA(nameAbility, spriteAbility, strAbility, action);
     }
 
     void CreateWeaponButtons(Character ch, int index)

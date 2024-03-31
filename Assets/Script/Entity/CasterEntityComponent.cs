@@ -13,10 +13,10 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     public SlotItemList<WeaponKata> katasCombo = new SlotItemList<WeaponKata>(4);
 
     [Tooltip("Habilidades equipadas y de cambio rapido")]
-    public SlotItemList<MeleeWeapon> abilities = new SlotItemList<MeleeWeapon>(5);
+    public SlotItemList<AbilityExtCast> abilities = new SlotItemList<AbilityExtCast>(5);
 
     [Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
-    public SlotItemList<WeaponKata> abilitiesCombo = new SlotItemList<WeaponKata>(4);
+    public SlotItemList<AbilityExtCast> abilitiesCombo = new SlotItemList<AbilityExtCast>(4);
 
     public DamageContainer additiveDamage;
 
@@ -35,7 +35,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
     public WeaponKata actualWeapon => weapons.actual.equiped?.defaultKata;
 
-    public WeaponKata actualAbility => abilities.actual.equiped?.defaultKata;
+    public AbilityExtCast actualAbility => abilities.actual.equiped;
 
     public void AttackEvent()
     {

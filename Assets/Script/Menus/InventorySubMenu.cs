@@ -44,8 +44,6 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.CreateSection(0, 3);
         subMenu.CreateChildrenSection<ScrollRect>();
 
-        Debug.Log("++++++++++++++++\nSlot: " + (slotItem != null));
-
         CreateButtons();
 
         subMenu.CreateSection(3, 6);
@@ -67,7 +65,8 @@ public class InventorySubMenu : CreateSubMenu
             if (filterType != null && !filterType.IsAssignableFrom(character.inventory.inventory[i].GetType()))
                 continue;
 
-            
+            if (character.inventory.inventory[i] is Ability && ((Ability)character.inventory.inventory[i]).isCopy)
+                continue;
 
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
