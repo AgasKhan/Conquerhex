@@ -275,7 +275,6 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void OnEnterState(CasterEntityComponent param)
     {
-        buttonController += this;
         trigger.OnEnterState(param);
     }
 
@@ -287,7 +286,6 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     public void OnExitState(CasterEntityComponent param)
     {
         trigger.OnExitState(param);
-        buttonController -= this;
     }
 
     #endregion
