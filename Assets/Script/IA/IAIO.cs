@@ -70,6 +70,8 @@ public class IAIO : IAFather
 
         param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
+        param.abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
+
         param.moveEventMediator.eventDown += MoveEventMediator_eventDown;
 
         VirtualControllers.movement.SuscribeController(param.moveEventMediator);
@@ -125,6 +127,20 @@ public class IAIO : IAFather
         character.Attack(0);
     }
 
+    private void AbilityEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        for (int i = 0; i < combos.Length; i++)
+        {
+            if (combos[i] == lastCombo)
+            {
+                character.Ability(i + 1);
+                return;
+            }
+        }
+
+        character.Ability(0);
+    }
+
     public override void OnExitState(Character param)
     {
         param.move.move.onTeleport -= TeleportEvent;
@@ -133,6 +149,12 @@ public class IAIO : IAFather
         param.health.regenUpdate -= UpdateRegen;
         param.health.regenTimeUpdate -= UpdateRegenTime;
         param.health.helthUpdate -= Health_helthUpdate;
+
+        param.attackEventMediator.eventDown -= AttackEventMediator_eventDown;
+
+        param.abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
+
+        param.moveEventMediator.eventDown -= MoveEventMediator_eventDown;
 
 
         VirtualControllers.movement.DesuscribeController(param.moveEventMediator);

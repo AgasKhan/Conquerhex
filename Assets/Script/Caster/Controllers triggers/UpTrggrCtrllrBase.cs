@@ -21,8 +21,12 @@ public class UpTrggrCtrllr : TriggerController
 
     public override void ControllerDown(Vector2 dir, float button)
     {
-        if (!cooldown.Chck)
+        if (!onCooldownTime)
+        {
+            End = true;
+            cooldown.Reset();
             return;
+        }
 
         var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
 
@@ -50,7 +54,11 @@ public class UpTrggrCtrllr : TriggerController
     public override void ControllerUp(Vector2 dir, float button)
     {
         if (!onCooldownTime)
+        {
+            End = true;
+            cooldown.Reset();
             return;
+        }
 
         //comienza a bajar el cooldown
 

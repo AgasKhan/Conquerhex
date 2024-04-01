@@ -47,6 +47,8 @@ public class WeaponKata : Ability
 
     public override bool DontExecuteCast => base.DontExecuteCast || WeaponEnabled == null;
 
+    public override EventControllerMediator buttonController { get => caster.attack; set => caster.attack = value; }
+
     /// <summary>
     /// Devuelve el arma si esta esta en condiciones de ser utilizada
     /// </summary>
@@ -56,6 +58,8 @@ public class WeaponKata : Ability
     /// devuelve el arma vinculada a la habilidad
     /// </summary>
     public MeleeWeapon Weapon => equipedWeapon;
+
+    
 
     public virtual void ChangeWeapon(Item weaponParam)
     {

@@ -23,11 +23,16 @@ public class AbilityExtCast : Ability
 {
     CastingAction castingAction;
 
+    public override EventControllerMediator buttonController { get => caster.ability; set => caster.ability = value; }
+    
+
     protected override void Init()
     {
         base.Init();
 
         castingAction = ((AbilityExtCastBase)itemBase).castingAction.Create();
+
+        castingAction.Init(this);
     }
 
     public override void Destroy()

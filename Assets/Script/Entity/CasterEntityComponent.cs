@@ -64,7 +64,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
 
         katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
 
-        katasCombo.actual.equiped.onCast += AttackEvent;//ver como mejorar
+        //katasCombo.actual.equiped.onCast += AttackEvent;//ver como mejorar
     }
 
 

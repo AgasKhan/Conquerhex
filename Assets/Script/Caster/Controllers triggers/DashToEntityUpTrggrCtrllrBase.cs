@@ -33,7 +33,11 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
     public override void ControllerUp(Vector2 dir, float button)
     {
         if (!cooldown.Chck)
+        {
+            End = true;
+            cooldown.Reset();
             return;
+        }
 
         cooldown.Reset();
 

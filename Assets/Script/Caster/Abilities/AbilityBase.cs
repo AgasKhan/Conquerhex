@@ -33,11 +33,11 @@ public abstract class AbilityBase : ItemBase
     [SerializeField, Header("Deteccion")]
     Detections detection;
 
-    public float range => detection.detect.radius;
+    public float range => detection?.detect?.radius ?? 0;
 
-    public int maxDetects => detection.detect.maxDetects;
+    public int maxDetects => detection?.detect?.maxDetects ?? 0;
 
-    public float dot => detection.detect.dot;
+    public float dot => detection?.detect?.dot ?? 0;
 
     public override Pictionarys<string, string> GetDetails()
     {
@@ -94,6 +94,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public CasterEntityComponent caster;
 
+    public bool isCopy = false;
+
     public Timer cooldown { get; set; }
 
     protected TriggerController trigger;
@@ -132,7 +134,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public override bool visible => !isCopy;
 
-    public bool isCopy = false;
+    public abstract EventControllerMediator buttonController { get; set; }    
 
     public FadeColorAttack FeedBackReference
     {
@@ -166,10 +168,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
         var damageds = InternalCast(affected);
 
-        foreach (var dmgEntity in damageds)
-        {
-            itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
-        }
+        if(damageds!=null)
+            foreach (var dmgEntity in damageds)
+            {
+                itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
+            }
     }
 
     public virtual void Destroy()
@@ -272,6 +275,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void OnEnterState(CasterEntityComponent param)
     {
+        buttonController += this;
         trigger.OnEnterState(param);
     }
 
@@ -283,14 +287,18 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     public void OnExitState(CasterEntityComponent param)
     {
         trigger.OnExitState(param);
+        buttonController -= this;
     }
 
     #endregion
 
+
+
     #region internal functions
 
-
     protected abstract IEnumerable<Entity> InternalCast(List<Entity> entities);
+
+    
     #endregion
 
     protected void MyControllerVOID(Vector2 dir, float tim)

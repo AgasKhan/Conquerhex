@@ -19,7 +19,7 @@ public class ItemContainer : MonoBehaviour
             Debug.Log("BD doesnt contain Player");
         }
 
-        GetComponent<ItemsGiver>().Activate(character);
+        LoadSystem.AddPostLoadCorutine(()=> GetComponent<ItemsGiver>()?.Activate(character));
     }
 
 }

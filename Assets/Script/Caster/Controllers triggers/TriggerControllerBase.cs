@@ -69,7 +69,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     public virtual void OnEnterState(CasterEntityComponent param)
     {
         End = false;
-        param.attack += this;
+        ability.buttonController += this;
         ability.onCast += param.AttackEvent;
         ControllerDown(ability.Aiming, 0);
     }
@@ -82,7 +82,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     {
         Debug.Log("sali");
         ability.StopCast();
-        param.attack -= this;
+        ability.buttonController -= this;
         ability.onCast -= param.AttackEvent;
     }
 

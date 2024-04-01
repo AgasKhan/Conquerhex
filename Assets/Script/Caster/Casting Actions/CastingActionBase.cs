@@ -42,6 +42,11 @@ public abstract class CastingAction : IAbilityComponent
 
     public abstract IEnumerable<Entity> Cast(List<Entity> entities);
 
+    public virtual void Init(Ability ability)
+    {
+        this.ability = ability;
+    }
+
     public virtual void Destroy()
     {
         ability = null;
