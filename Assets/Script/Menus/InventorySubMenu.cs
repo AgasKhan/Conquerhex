@@ -17,6 +17,8 @@ public class InventorySubMenu : CreateSubMenu
 
     DetailsWindow myDetailsW;
 
+    bool isEquipMenu = false;
+
     public void ExchangeItems(InventoryEntityComponent playerInv, InventoryEntityComponent storageInv, Item itemToMove)
     {
         itemToMove.GetAmounts(out int actual, out int max);
@@ -28,9 +30,9 @@ public class InventorySubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        subMenu.AddNavBarButton("All", ButtonAct).AddNavBarButton("Equipment", () => { FilterItems(ResourceType.Equipment.ToString()); })
-                    .AddNavBarButton("Mineral", () => { FilterItems(ResourceType.Mineral.ToString()); }).AddNavBarButton("Gemstone", () => { FilterItems(ResourceType.Gemstone.ToString()); })
-                    .AddNavBarButton("Other", () => { FilterItems(ResourceType.Other.ToString()); });
+        subMenu.AddNavBarButton("All", () => { FilterItems(""); }).AddNavBarButton("Equipment", () => { FilterItems("MeleeWeapon"); })
+                    .AddNavBarButton("Resources", () => { FilterItems("Resources_Item"); }).AddNavBarButton("Katas", () => { FilterItems("WeaponKata"); })
+                    .AddNavBarButton("Abilities", () => { FilterItems("AbilityExtCast"); });
 
         subMenu.CreateTitle("Inventory");
 
@@ -55,7 +57,7 @@ public class InventorySubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
-        if (slotItem != null && slotItem.equiped != null)
+        if (slotItem != null && slotItem.equiped != null && isEquipMenu)
         {
             CreateUnequipButton(slotItem);
         }
@@ -81,7 +83,7 @@ public class InventorySubMenu : CreateSubMenu
                    DestroyButtonsActions();
                    //CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
 
-                   if(slotItem != null)
+                   if(slotItem != null && isEquipMenu)
                        CreateButtonEquip(slotItem, index);
                    /*
                    if (slotItem != null)
@@ -176,7 +178,6 @@ public class InventorySubMenu : CreateSubMenu
         }
     }
 
-
     void ShowItemDetails(string nameDisplay, string details, Sprite Image)
     {       
         myDetailsW.SetTexts(nameDisplay,details).SetImage(Image);
@@ -197,10 +198,6 @@ public class InventorySubMenu : CreateSubMenu
         DestroyButtonsActions();
     }
 
-    void ButtonAct()
-    {
-        FilterItems("");
-    }
 
     string SetTextforItem(Item item)
     {
@@ -228,6 +225,7 @@ public class InventorySubMenu : CreateSubMenu
         action = _action;
         slotItem = _slotItem;
         filterType = _type;
+        isEquipMenu = true;
     }
 
 }

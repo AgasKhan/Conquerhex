@@ -19,8 +19,7 @@ public class ItemContainer : MonoBehaviour
             Debug.Log("BD doesnt contain Player");
         }
 
-        character.inventory.AddOrSubstractItems("Real Dash", 1);
-        ((AbilityExtCast)character.inventory.inventory[character.inventory.inventory.Count - 1]).Init(character.inventory);
+        GetComponent<ItemsGiver>().Activate(character);
     }
 
 }

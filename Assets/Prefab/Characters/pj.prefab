@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 6295448971589143364}
   - component: {fileID: 7607633304618281516}
   - component: {fileID: 6295448971589143363}
+  - component: {fileID: -5021417744897424921}
   m_Layer: 7
   m_Name: pj
   m_TagString: Player
@@ -79,6 +80,7 @@ MonoBehaviour:
       maxDepth: 0
       minNormalAngle: 0
       maxNormalAngle: 0
+  lastCombo: 
 --- !u!114 &6295448971589143385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,9 +111,9 @@ MonoBehaviour:
   <flyweight>k__BackingField: {fileID: 11400000, guid: 35ae1ede20b545d499b2616a39a00920,
     type: 2}
   <healthBase>k__BackingField: {fileID: 0}
-  inventory: {fileID: 0}
-  attack: {fileID: 0}
-  move: {fileID: 0}
+  <inventory>k__BackingField: {fileID: 0}
+  <caster>k__BackingField: {fileID: 0}
+  <move>k__BackingField: {fileID: 0}
 --- !u!114 &8270764340118452384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,12 +144,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d76d5333d1e7740962892444fa7b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
+  weapons:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  katasCombo:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  abilities:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  abilitiesCombo:
+    list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  aiming: {x: 0, y: 0, z: 0}
   <flyweight>k__BackingField: {fileID: 0}
-  weaponKataIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &7012064593822611016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +395,23 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6295448971589143386}
   m_Enabled: 1
+--- !u!114 &-5021417744897424921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c9cdf4c5d3e774a96b57a6645cb96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - Item: {fileID: 11400000, guid: 418c233b04005cb4da05f4b58c0b80d9, type: 2}
+    Amount: 1
+  - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
+    Amount: 20
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0

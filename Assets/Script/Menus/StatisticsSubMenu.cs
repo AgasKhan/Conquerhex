@@ -33,7 +33,11 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         for (int i = 0; i < charac.caster.weapons.Count; i++)
         {
-            CreateWeapButtons(charac.caster.weapons[i]);
+            CreateGenericButton(charac.caster.weapons[i], "Equip Weapon", 
+            (_slotItem, _index) =>
+            {
+                _slotItem.indexEquipedItem = _index; Create();
+            });
         }
 
         for (int i = 0; i < charac.caster.katasCombo.Count ; i++)
@@ -43,38 +47,41 @@ public class StatisticsSubMenu : CreateSubMenu
 
         for (int i = 0; i < charac.caster.abilities.Count; i++)
         {
-            CreateAbilityButtons(charac.caster.abilities[i]);
+            CreateGenericButton(charac.caster.abilities[i], "Equip Ability",
+            (_slotItem, _index) =>
+            {
+                var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent.inventory[_index]).CreateCopy();
+                abilityCopy.Init(_slotItem.inventoryComponent);
+                _slotItem.inventoryComponent.inventory.Add(abilityCopy);
+                _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
+                Create();
+            });
         }
     }
-
-    void CreateWeapButtons(SlotItem<MeleeWeapon> item)
+    void CreateGenericButton<T>(SlotItem<T> item, string defaultName, System.Action<SlotItem, int> equipAction) where T : Item
     {
-        string nameWeapon = "Equip Weapon";
-        Sprite spriteWeapon = null;
-        string strWeapon = "";
-        System.Type filter =  typeof(MeleeWeapon);
+        string name = defaultName;
+        Sprite sprite = null;
+        string str = "";
+        System.Type filter = typeof(T);
 
-        UnityEngine.Events.UnityAction action;
-
-        System.Action< SlotItem,int > equipAction = (_slotItem, _index) =>
-        {
-            _slotItem.indexEquipedItem = _index;
-            Create();
-        };
-        
-        if (item.equiped != null)
-        {
-            nameWeapon = item.equiped.nameDisplay;
-            spriteWeapon = item.equiped.image;
-            strWeapon = "Uses: " + item.equiped.current;
-        }
-
-        action = () =>
+        UnityEngine.Events.UnityAction action = () =>
         {
             inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, filter, equipAction);
             inventorySubMenu.Create();
         };
-        subMenu.AddComponent<ButtonA>().SetButtonA(nameWeapon, spriteWeapon, strWeapon, action);
+
+
+        if (item.equiped != null)
+        {
+            name = item.equiped.nameDisplay;
+            sprite = item.equiped.image;
+
+            if(item.equiped is MeleeWeapon)
+                str = "Uses: " + (item.equiped as MeleeWeapon).current;
+        }
+
+        subMenu.AddComponent<ButtonA>().SetButtonA(name, sprite, str, action);
     }
 
     void CreateKataCombosButtons(SlotItem<WeaponKata> kata)
@@ -91,13 +98,15 @@ public class StatisticsSubMenu : CreateSubMenu
         Sprite spriteWeapon = null;
         string strWeapon = "";
         System.Type filterWeapon = typeof(MeleeWeapon);
+        bool interactiveWeap = false;
 
         if (kata.equiped != null)
         {
             nameKata = kata.equiped.nameDisplay;
             spriteKAta = kata.equiped.image;
+            interactiveWeap = true;
 
-            if(kata.equiped.Weapon != null)
+            if (kata.equiped.WeaponEnabled != null)
             {
                 nameWeapon = kata.equiped.Weapon.nameDisplay;
                 spriteWeapon = kata.equiped.Weapon.image;
@@ -135,41 +144,7 @@ public class StatisticsSubMenu : CreateSubMenu
 
         var doubleButton = subMenu.AddComponent<DoubleButtonA>();
         doubleButton.left.SetButtonA(nameKata, spriteKAta, strKata, actionKata);
-        doubleButton.right.SetButtonA(nameWeapon, spriteWeapon, strWeapon, actionWeapon);
-    }
-
-    void CreateAbilityButtons(SlotItem<AbilityExtCast> item)
-    {
-        string nameAbility = "Equip Ability";
-        Sprite spriteAbility = null;
-        string strAbility = "";
-        System.Type filter = typeof(AbilityExtCast);
-
-        UnityEngine.Events.UnityAction action;
-
-        System.Action<SlotItem, int> equipAction = (_slotItem, _index) =>
-        {
-            var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent.inventory[_index]).CreateCopy();
-            abilityCopy.Init(_slotItem.inventoryComponent);
-            _slotItem.inventoryComponent.inventory.Add(abilityCopy);
-            _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
-            Create();
-        };
-
-
-
-        if (item.equiped != null)
-        {
-            nameAbility = item.equiped.nameDisplay;
-            spriteAbility = item.equiped.image;
-        }
-
-        action = () =>
-        {
-            inventorySubMenu.SetEquipMenu<AbilityExtCast>(item, filter, equipAction);
-            inventorySubMenu.Create();
-        };
-        subMenu.AddComponent<ButtonA>().SetButtonA(nameAbility, spriteAbility, strAbility, action);
+        doubleButton.right.SetButtonA(nameWeapon, spriteWeapon, strWeapon, actionWeapon).button.interactable = interactiveWeap;
     }
 
     void CreateWeaponButtons(Character ch, int index)
