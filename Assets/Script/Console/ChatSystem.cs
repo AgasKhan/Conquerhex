@@ -19,7 +19,7 @@ public class ChatSystem : MonoBehaviour
 
     public static DebugCommand HELP;
 
-    public List<object> commandList;
+    public List<DebugCommandBase> commandList;
 
     [SerializeField]
     EventManager eventManager;
@@ -35,26 +35,29 @@ public class ChatSystem : MonoBehaviour
         {
             for (int i = 0; i < commandList.Count; i++)
             {
-                DebugCommandBase command = commandList[i] as DebugCommandBase;
+                DebugCommandBase command = commandList[i];
                 string label = $"{command.commandID} - {command.commandDescription}";
                 WriteMsg(label);
             }
         };
         giveEvent.delegato += (tupla)=> GameManager.instance.playerCharacter.inventory.AddOrSubstractItems(tupla.Item1, tupla.Item2);
         
+
         eventManager.events.AddRange(new Pictionarys<string, Internal.SpecificEventParent>()
         {
-            {CommandsList.Coins, coinEvent },
-            {CommandsList.Help,  helpEvent}
+            {CommandsList.Coins, coinEvent},
+            {CommandsList.Help,  helpEvent},
+            {CommandsList.Give, giveEvent}
         });
-
+        /*
         eventManager.events.Add(CommandsList.Coins, coinEvent);
         eventManager.events.Add(CommandsList.Help, helpEvent);
         eventManager.events.Add(CommandsList.Give, giveEvent);
+        */
 
-        COINS = new DebugCommand(CommandsList.Coins, "Gives 100 coins to the player", ref eventManager);
-        HELP = new DebugCommand("help", "Shows the list of commands", ref eventManager);
-        GIVE = new DebugCommand<(string, int)>(CommandsList.Give, "Gives any item to the player", ref eventManager);
+        COINS = new DebugCommand(CommandsList.Coins, "Gives 100 coins to the player");
+        HELP = new DebugCommand(CommandsList.Help, "Shows the list of commands");
+        GIVE = new DebugCommand<(string, int)>(CommandsList.Give, "Gives any item to the player");
 
         /*
     COINS = new DebugCommand("coins", "Gives 100 coins to the player", "coins", () =>
@@ -74,7 +77,7 @@ public class ChatSystem : MonoBehaviour
         }
     });
 */
-        commandList = new List<object>
+        commandList = new List<DebugCommandBase>
         {
             COINS,
             HELP,
@@ -126,18 +129,20 @@ public class ChatSystem : MonoBehaviour
     {
         WriteMsg(input);
 
-        string[] properties = input.Split(' ');
-
         for (int i = 0; i < commandList.Count; i++)
         {
-            DebugCommandBase commandBase = commandList[i] as DebugCommandBase;
-
-            if (input.Contains(commandBase.commandID))
+            if(input.Contains(commandList[i].commandID))
             {
-                if (commandList[i] as DebugCommand != null)
-                    (commandList[i] as DebugCommand).Invoke();
-                else if (commandList[i] as DebugCommand<(string,int)> != null)
-                    (commandList[i] as DebugCommand<(string, int)>).Invoke((properties[1], int.Parse(properties[2])));
+                string[] properties = input.Split(' ');
+
+                if (properties.Length > 1)
+                {
+                    eventManager.Trigger(commandList[i].commandID, (properties[1], int.Parse(properties[2])));
+                }
+                else
+                {
+                    eventManager.Trigger(commandList[i].commandID);
+                }
             }
         }
     }
@@ -154,7 +159,7 @@ public class ChatSystem : MonoBehaviour
 
 public static class CommandsList
 {
-    public static string Give = "Give";
-    public static string Coins = "Coins";
-    public static string Help = "Help";
+    public static string Give = "give";
+    public static string Coins = "coins";
+    public static string Help = "help";
 }
