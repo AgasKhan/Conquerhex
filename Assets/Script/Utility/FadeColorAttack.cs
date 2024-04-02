@@ -97,6 +97,27 @@ public class FadeColorAttack : MonoBehaviour
         return this;
     }
 
+    public FadeColorAttack DotAngle(float dot)
+    {
+        sprite.material.SetFloat("_Dot", dot);
+
+        return this;
+    }
+
+    public FadeColorAttack InternalArea(float area)
+    {
+        sprite.material.SetFloat("_InternalArea", area);
+
+        return this;
+    }
+
+    public FadeColorAttack Direction(Vector2 dir)
+    {
+        transform.up = dir.Vec2to3(transform.up.z);
+
+        return this;
+    }
+
     public FadeColorAttack Area(out float number)
     {
         number = transform.localScale.x;
@@ -123,6 +144,7 @@ public class FadeColorAttack : MonoBehaviour
 
     private void OnEnable()
     {
+        DotAngle(-1);
         sprite.color = areaColor.ChangeAlphaCopy(0);
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);

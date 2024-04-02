@@ -37,7 +37,7 @@ public abstract class AbilityBase : ItemBase
 
     public int maxDetects => detection?.detect?.maxDetects ?? 0;
 
-    public float dot => detection?.detect?.dot ?? 0;
+    public float dot => detection?.detect?.dot ?? -1;
 
     public override Pictionarys<string, string> GetDetails()
     {
@@ -123,6 +123,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             cooldown.onChange -= value;
         }
     }
+
+    public virtual float Dot => itemBase.dot;
 
     public virtual float FinalVelocity => itemBase.velocity;
 

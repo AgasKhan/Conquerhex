@@ -29,6 +29,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public virtual float FinalRange => ability.FinalRange;
 
+    public virtual float Dot => ability.Dot;
+
     public virtual Vector3 Aiming => ability.Aiming;
 
     public virtual bool DontExecuteCast => ability.DontExecuteCast;
