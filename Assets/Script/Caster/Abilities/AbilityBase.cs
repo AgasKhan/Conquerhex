@@ -130,7 +130,14 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public virtual float FinalRange => itemBase.range;
 
-    public virtual Vector3 Aiming => caster.aiming;
+    public virtual Vector3 Aiming
+    {
+        get => caster.aiming;
+        set
+        {
+            caster.aiming = value;
+        }
+    }
 
     public virtual bool DontExecuteCast => caster == null || !caster.isActiveAndEnabled;
 
@@ -186,10 +193,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         affected = trigger.InternalDetect(dir, timePressed, range, dot);
 
-        foreach (var item in affected)
-        {
-            item.Detect();
-        }
+        if (affected != null)
+            foreach (var item in affected)
+            {
+                item.Detect();
+            }
 
         return affected;
     }

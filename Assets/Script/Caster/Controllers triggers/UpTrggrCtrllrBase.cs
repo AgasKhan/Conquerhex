@@ -46,8 +46,11 @@ public class UpTrggrCtrllr : TriggerController
             return;
         }
 
-        FeedBackReference.Area(originalScale * FinalRange);
-        Detect(dir, button);
+        Aiming = Vector2.Lerp(Aiming, dir, Time.deltaTime);
+
+        FeedBackReference.Area(originalScale * FinalRange).Direction(Aiming);
+
+        Detect(Aiming, button);
     }
 
     //Despues, al sotarlo

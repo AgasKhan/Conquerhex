@@ -31,13 +31,14 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public virtual float Dot => ability.Dot;
 
-    public virtual Vector3 Aiming => ability.Aiming;
-
     public virtual bool DontExecuteCast => ability.DontExecuteCast;
 
     public bool onCooldownTime => ability.onCooldownTime;
 
     public CasterEntityComponent caster => ability.caster;
+    public Timer cooldown => ability.cooldown;
+
+    public List<Entity> affected => ability.affected;
 
     public FadeColorAttack FeedBackReference
     {
@@ -48,9 +49,17 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
-    public Timer cooldown => ability.cooldown;
+    public virtual Vector3 Aiming
+    {
+        get => ability.Aiming;
 
-    public List<Entity> affected => ability.affected;
+        set
+        {
+            ability.Aiming = value;
+        }
+    }
+
+
 
     public void Cast() 
         => ability.Cast();

@@ -26,10 +26,18 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
     public override void ControllerDown(Vector2 dir, float button)
     {
-        buttonPress = true;
         base.ControllerDown(dir, button);
+        if (!onCooldownTime)
+        {
+            End = true;
+            cooldown.Reset();
+            return;
+        }
+        buttonPress = true;
+        
         FeedBackReference.DotAngle(Dot);
     }
+    /*
 
     public override void ControllerPressed(Vector2 dir, float button)
     {
@@ -43,6 +51,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         FeedBackReference.Area(originalScale * FinalRange);
         Detect(Aiming, button);
     }
+    */
 
     public override void ControllerUp(Vector2 dir, float button)
     {

@@ -21,7 +21,7 @@ public class CastingDash : CastingAction<CastingDashBase>
     {
         if (caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            aux.move.Velocity(Aiming.normalized * castingActionBase.velocityInDash);
+            aux.move.Velocity(aux.move.direction * castingActionBase.velocityInDash);
         }
 
         return null;

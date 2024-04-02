@@ -247,14 +247,24 @@ public class VirtualControllers : MonoBehaviour
         {
             get
             {
-                dir.Set(horizontal.pressed, vertical.pressed);
-
-                if (dir.sqrMagnitude > 1)
-                    dir.Normalize();
+                UpdateAxis(true);
 
                 return dir;
             }
         }
+
+        protected void UpdateAxis(bool b = false)
+        {
+            float h = horizontal.pressed;
+            float v = vertical.pressed;
+
+            if (b || (h!=0&&v!=0))
+                dir.Set(h, v);
+
+            if (dir.sqrMagnitude > 1)
+                dir.Normalize();
+        }
+
 
         public override void MyUpdate()
         {
@@ -274,7 +284,6 @@ public class VirtualControllers : MonoBehaviour
                 else
                     OnStayState(dir);
             }
-
         }
 
         public override void Destroy()
@@ -339,6 +348,8 @@ public class VirtualControllers : MonoBehaviour
 
         public override void MyUpdate()
         {
+            UpdateAxis();
+
             if (button.down)
             {
                 OnEnterState(dir);
