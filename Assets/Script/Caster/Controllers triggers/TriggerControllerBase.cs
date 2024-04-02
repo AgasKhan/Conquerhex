@@ -52,7 +52,11 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public List<Entity> affected => ability.affected;
 
-    public void Cast() => ability.Cast();
+    public void Cast() 
+        => ability.Cast();
+
+    public List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null) 
+        => ability.Detect(dir, timePressed, range, dot);
 
     public virtual void Init(Ability ability)
     {
@@ -88,9 +92,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         ability.onCast -= param.AttackEvent;
     }
 
-    public virtual List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
+    public virtual List<Entity> InternalDetect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
     {
-        return ability.itemBase.Detect(ref ability.affected, caster.container, dir, ability.itemBase.maxDetects, range ?? FinalRange, dot ?? ability.itemBase.dot);
+        return ability.itemBase.Detect(ref ability.affected, caster.container, dir, ability.itemBase.maxDetects, range ?? FinalRange, dot ?? Dot);
     }
 
     public abstract void ControllerDown(Vector2 dir, float tim);

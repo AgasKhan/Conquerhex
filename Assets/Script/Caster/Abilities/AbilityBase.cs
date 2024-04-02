@@ -182,9 +182,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         trigger.Destroy();
     }
 
-    protected List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
+    public List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
     {
-        affected = trigger.Detect(dir, timePressed, range, dot);
+        affected = trigger.InternalDetect(dir, timePressed, range, dot);
 
         foreach (var item in affected)
         {

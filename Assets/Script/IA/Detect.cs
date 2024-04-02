@@ -271,7 +271,11 @@ public class Detect<T> : DetectParent<T> where T : class
         {
             var posDamageable = (results[i] as Component).transform.position.Vect3To2();
 
-            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
+            var vecDot = Vector2.Dot((posDamageable - pos).normalized, dir);
+
+            //Debug.Log($"MyPos: {pos} - {(results[i] as Component).name} pos: {posDamageable} - dir: {dir} - normalize {(posDamageable - pos).normalized} - {dot} > {vecDot}={dot > vecDot}");
+
+            if (dot > vecDot)
             {
                 results.RemoveAt(i);
             }
@@ -371,10 +375,10 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
             if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
             {
                 damageables.RemoveAt(i);
-                continue;
             }
         }
-        /*
+
+        /*        
         dir *= radius;
         
         Debug.DrawRay(pos, dir, Color.red);
@@ -383,6 +387,7 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
 
         Debug.DrawRay(pos, Quaternion.Euler(0, 0, -Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
         */
+
         return damageables;
     }
 

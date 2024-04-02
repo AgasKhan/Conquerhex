@@ -28,6 +28,20 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
     {
         buttonPress = true;
         base.ControllerDown(dir, button);
+        FeedBackReference.DotAngle(Dot);
+    }
+
+    public override void ControllerPressed(Vector2 dir, float button)
+    {
+        if (!onCooldownTime)
+        {
+            End = true;
+            cooldown.Reset();
+            return;
+        }
+
+        FeedBackReference.Area(originalScale * FinalRange);
+        Detect(Aiming, button);
     }
 
     public override void ControllerUp(Vector2 dir, float button)
