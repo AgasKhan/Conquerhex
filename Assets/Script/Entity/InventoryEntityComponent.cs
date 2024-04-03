@@ -9,7 +9,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
     [SerializeReference]
     public List<Item> inventory = new List<Item>();
 
-    public virtual float weightCapacity { get; }
+    public virtual float weightCapacity => container.flyweight.GetFlyWeight<BodyBase>().weightCapacity;
 
     public float currentWeight = 0f;
 
