@@ -12,4 +12,16 @@ public class Biomes : ShowDetails
     public int inversaDensidad = 3;
     public Spawner spawner;
     public Pictionarys<GameObject, int> props= new Pictionarys<GameObject, int>();
+
+    [ContextMenu("Cargar assets de la carpeta")]
+    void LoadAssets()
+    {
+        string path = BaseData.pathProps + nameDisplay + "/";
+
+        foreach (var item in LoadSystem.LoadAssets<GameObject>(path))
+        {
+            if (!props.ContainsKey(item))
+                props.Add(item, 10);
+        }
+    }
 }

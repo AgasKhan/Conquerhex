@@ -20,7 +20,7 @@ public class TimersManager : SingletonScript<TimersManager>
         }
     }
 
-    public static int CountCreated=0;
+    //public static int CountCreated=0;
 
     //[SerializeField]
     DoubleZeldaList<Timer> _timersList;
@@ -499,12 +499,12 @@ public class Timer : Tim, IDoubleZeldaElement<Timer>
 
     protected override void Create()
     {
-        TimersManager.CountCreated++;
+        //TimersManager.CountCreated++;
     }
 
     protected virtual void Destroy()
     {
-        TimersManager.CountCreated--;
+        //TimersManager.CountCreated--;
     }
 
     /// <summary>

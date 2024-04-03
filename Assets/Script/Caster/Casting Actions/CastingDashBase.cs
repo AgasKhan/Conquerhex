@@ -19,7 +19,7 @@ public class CastingDash : CastingAction<CastingDashBase>
 {
     public override IEnumerable<Entity> Cast(List<Entity> entities)
     {
-        if (caster.TryGetComponent<MoveEntityComponent>(out var aux))
+        if (caster.TryGetInContainer<MoveEntityComponent>(out var aux))
         {
             aux.move.Velocity(aux.move.direction * castingActionBase.velocityInDash);
         }

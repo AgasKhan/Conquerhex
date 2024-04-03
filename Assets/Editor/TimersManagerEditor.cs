@@ -15,7 +15,7 @@ public class TimersManagerEditor : Editor
 
         //TimersManager timersManager = target as TimersManager;
 
-        GUILayout.Label(("Cantidad de timers creados: " + TimersManager.CountCreated).RichText("size", "15"), style);
+        //GUILayout.Label(("Cantidad de timers creados: " + TimersManager.CountCreated).RichText("size", "15"), style);
 
         GUILayout.Label(("Cantidad de timers en la lista: " + TimersManager.timersList.Count).RichText("size", "15"), style);
 

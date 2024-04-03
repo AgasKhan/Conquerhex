@@ -53,17 +53,6 @@ public class LoadMap : SingletonMono<LoadMap>
 
         basePos.x = HexagonsManager.lado * basePos.x * basePos.x;
 
-        foreach (var biome in biomes)
-        {
-            string path = "Props/" + biome.key.nameDisplay + "/";
-
-            foreach (var item in LoadSystem.LoadAssets<GameObject>(path))
-            {
-                if (!biome.key.props.ContainsKey(item))
-                    biome.key.props.Add(item, 10);
-            }
-        }
-
         //StartCoroutine(VincularHexagonos());
 
         msg2("Ejecutando algoritmo de vinculacion de hexagonos");

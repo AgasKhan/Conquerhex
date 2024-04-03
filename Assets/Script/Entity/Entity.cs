@@ -20,8 +20,6 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
     public event System.Action onDetected;
 
-    public CarlitoEntity carlitosPrefab;
-
     [field : SerializeField]
     public Transform[] carlitos { get; private set; }
 
@@ -240,16 +238,13 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
             }
         }
 
-        if (carlitosPrefab == null)
-            return;
-
         carlitos = new Transform[6];
 
         for (int i = 0; i < carlitos.Length; i++)
         {
-            carlitos[i] = Instantiate(carlitosPrefab, transform).transform;
+            carlitos[i] = Instantiate(BaseData.Carlitos, transform).transform;
 
-            carlitos[i].name = "Carlitos (" + i + ")";
+            carlitos[i].name = "Carlitos (" + i + ") de " + name;
 
             carlitos[i].transform.SetPositionAndRotation(transform.position, transform.rotation);
 

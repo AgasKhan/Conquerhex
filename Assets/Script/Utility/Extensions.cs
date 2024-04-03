@@ -466,7 +466,7 @@ public static class Extensions
         return pic;
     }
 
-    /*
+    
     /// <summary>
     /// 
     /// </summary>
@@ -474,18 +474,18 @@ public static class Extensions
     /// <typeparam name="V"></typeparam>
     /// <param name="pictionary"></param>
     /// <returns></returns>
-    static public Pictionarys<K, V> ToPictionarys<K, V>(this IEnumerable<Pictionary<K, V>> pictionary)
+    static public Dictionary<K, V> ToDictionary<K, V>(this Pictionarys<K,V> pictionary)
     {
-        Pictionarys<K, V> pic = new Pictionarys<K, V>();
+        Dictionary<K, V> dic = new Dictionary<K, V>();
 
         foreach (var item in pictionary)
         {
-            pic.Add(item);
+            dic.Add(item.key, item.value);
         }
 
-        return pic;
+        return dic;
     }
-    */
+    
 
     /// <summary>
     /// Filtra todos aquellos que no esten en el radio de toComp
