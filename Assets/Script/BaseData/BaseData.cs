@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using SaveSystem;
 
 [CreateAssetMenu(menuName = "BaseData/BaseData", fileName = "Base Data")]
 public class BaseData : SingletonScript<BaseData>
@@ -16,10 +16,12 @@ public class BaseData : SingletonScript<BaseData>
     bool TimeSlicing => true;
 
     [SerializeField]
+    AuxClass<List<SaveObject>> saveData = new AuxClass<List<SaveObject>>(new List<SaveObject>());
+
+    [SerializeField]
     Pictionarys<string, GameObject> prefabsPic = new Pictionarys<string, GameObject>();
 
     Dictionary<string, GameObject> prefabs;
-
 
     [ContextMenu("Cargar los prefabs")]
     void ChargePrefabs()
@@ -32,6 +34,10 @@ public class BaseData : SingletonScript<BaseData>
         }
     }
 
+    public void LoadAll()
+    {
+
+    }
 
     void LoadObject(SaveObject saveObject, Transform parent = null)
     {
@@ -59,58 +65,15 @@ public class BaseData : SingletonScript<BaseData>
         }
     }
 
-
-    void SaveObject(GameObject saveObject, out SaveObject svObject)
+    public void SaveObject(GameObject saveObject)
     {
-        svObject = new SaveObject();
+        var aux = new AuxClass<SaveObject>(new SaveObject());
 
-        svObject.gameObject = saveObject.name;
-
-        svObject.pos = saveObject.transform.position;
-
-        svObject.rotation = saveObject.transform.rotation.eulerAngles;
-
-        svObject.dataComponent = saveObject.GetComponents<ISaveObject>().Select(
-            
-            (svObj) => 
-            {     
-                return new Data()
-                {
-                    name = svObj.GetType().Name,
-
-                    data = svObj.Save()
-                };
-            }
-            
-            ).ToArray();
+        GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject, (svObj)=> saveData.value.Add(svObj)));
     }
 
-    IEnumerator SaveObjectAsync(GameObject saveObject)
+    IEnumerator SaveObjectAsync(GameObject saveObject, System.Action<SaveObject> action)
     {
-        SaveObject(saveObject, out SaveObject svObject);
-
-        yield return null;
-        List<SaveObject> childs = new List<SaveObject>();
-
-        for (int i = 0; i < saveObject.transform.childCount; i++)
-        {
-            yield return GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject.transform.GetChild(i).gameObject));
-
-            //SaveObject(saveObject.transform.GetChild(i).gameObject, out SaveObject aux);
-            //childs.Add(aux);
-
-            yield return null;
-        }
-
-        AuxClass<SaveObject[]> auxClass = new AuxClass<SaveObject[]>(childs.ToArray());
-
-        svObject.childs = JsonUtility.ToJson(childs);
-    }
-
-    IEnumerator SaveObjectAsync2(GameObject saveObject, AuxClass<SaveObject> _svObject)
-    {
-        //SaveObject svObject = _svObject.value;
-
         SaveObject svObject = new SaveObject();
 
         svObject.gameObject = saveObject.name;
@@ -137,14 +100,17 @@ public class BaseData : SingletonScript<BaseData>
 
         List<SaveObject> childs = new List<SaveObject>();
 
+        SaveObject bufferAux = new SaveObject();
+
+        System.Action<SaveObject> aux = (_svObj) => bufferAux = _svObj;
+
         if (saveObject.transform.childCount > 0)
         {
             for (int i = 0; i < saveObject.transform.childCount; i++)
             {
-                yield return GameManager.instance.StartCoroutine(SaveObjectAsync2(saveObject.transform.GetChild(i).gameObject, _svObject));
-                //SaveObject(saveObject.transform.GetChild(i).gameObject, out SaveObject aux);
+                yield return GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject.transform.GetChild(i).gameObject, aux));
 
-                childs.Add(_svObject.value);
+                childs.Add(bufferAux);
 
                 yield return null;
             }
@@ -153,36 +119,39 @@ public class BaseData : SingletonScript<BaseData>
 
             svObject.childs = JsonUtility.ToJson(childs);
         }
+
+        action.Invoke(svObject);
     }
-
 }
-
-[System.Serializable]
-public struct SaveObject
-{
-    public string gameObject;//prefab
-
-    public Vector3 pos;
-
-    public Vector3 rotation;
-
-    public Data[] dataComponent;
-
-    public string childs;
-}
-
-
-[System.Serializable]
-public struct Data
-{
-    public string name;
-    public string data;
-}
-
 
 public interface ISaveObject
 {
     string Save();
 
     void Load(string str);
+}
+
+namespace SaveSystem
+{
+    [System.Serializable]
+    public struct SaveObject
+    {
+        public string gameObject;//prefab
+
+        public Vector3 pos;
+
+        public Vector3 rotation;
+
+        public Data[] dataComponent;
+
+        public string childs;
+    }
+
+
+    [System.Serializable]
+    public struct Data
+    {
+        public string name;
+        public string data;
+    }
 }
