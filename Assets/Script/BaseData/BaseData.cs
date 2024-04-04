@@ -90,7 +90,6 @@ public class BaseData : SingletonScript<BaseData>
         SaveObject(saveObject, out SaveObject svObject);
 
         yield return null;
-
         List<SaveObject> childs = new List<SaveObject>();
 
         for (int i = 0; i < saveObject.transform.childCount; i++)
@@ -98,7 +97,6 @@ public class BaseData : SingletonScript<BaseData>
             yield return GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject.transform.GetChild(i).gameObject));
 
             //SaveObject(saveObject.transform.GetChild(i).gameObject, out SaveObject aux);
-
             //childs.Add(aux);
 
             yield return null;
@@ -106,7 +104,55 @@ public class BaseData : SingletonScript<BaseData>
 
         AuxClass<SaveObject[]> auxClass = new AuxClass<SaveObject[]>(childs.ToArray());
 
-        svObject.childs = JsonUtility.ToJson(auxClass);
+        svObject.childs = JsonUtility.ToJson(childs);
+    }
+
+    IEnumerator SaveObjectAsync2(GameObject saveObject, AuxClass<SaveObject> _svObject)
+    {
+        //SaveObject svObject = _svObject.value;
+
+        SaveObject svObject = new SaveObject();
+
+        svObject.gameObject = saveObject.name;
+
+        svObject.pos = saveObject.transform.position;
+
+        svObject.rotation = saveObject.transform.rotation.eulerAngles;
+
+        svObject.dataComponent = saveObject.GetComponents<ISaveObject>().Select(
+
+            (svObj) =>
+            {
+                return new Data()
+                {
+                    name = svObj.GetType().Name,
+
+                    data = svObj.Save()
+                };
+            }
+
+            ).ToArray();
+
+        yield return null;
+
+        List<SaveObject> childs = new List<SaveObject>();
+
+        if (saveObject.transform.childCount > 0)
+        {
+            for (int i = 0; i < saveObject.transform.childCount; i++)
+            {
+                yield return GameManager.instance.StartCoroutine(SaveObjectAsync2(saveObject.transform.GetChild(i).gameObject, _svObject));
+                //SaveObject(saveObject.transform.GetChild(i).gameObject, out SaveObject aux);
+
+                childs.Add(_svObject.value);
+
+                yield return null;
+            }
+
+            AuxClass<SaveObject[]> auxClass = new AuxClass<SaveObject[]>(childs.ToArray());
+
+            svObject.childs = JsonUtility.ToJson(childs);
+        }
     }
 
 }
