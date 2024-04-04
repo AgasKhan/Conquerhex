@@ -16,7 +16,7 @@ public class BaseData : SingletonScript<BaseData>
     bool TimeSlicing => true;
 
     [SerializeField]
-    AuxClass<List<SaveObject>> saveData = new AuxClass<List<SaveObject>>(new List<SaveObject>());
+    List<SaveObject> saveData = new List<SaveObject>();
 
     [SerializeField]
     Pictionarys<string, GameObject> prefabsPic = new Pictionarys<string, GameObject>();
@@ -69,7 +69,7 @@ public class BaseData : SingletonScript<BaseData>
     {
         var aux = new AuxClass<SaveObject>(new SaveObject());
 
-        GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject, (svObj)=> saveData.value.Add(svObj)));
+        GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject, (svObj)=> saveData.Add(svObj)));
     }
 
     IEnumerator SaveObjectAsync(GameObject saveObject, System.Action<SaveObject> action)
