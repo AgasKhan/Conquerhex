@@ -57,7 +57,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
         msg2("Ejecutando algoritmo de vinculacion de hexagonos");
 
-        yield return new WaitForCorutines(this, HexagonsManager.instance.VincularHexagonos, (s)=> msg2(s));
+        yield return new WaitForCorutinesForLoad(this, HexagonsManager.instance.VincularHexagonos, (s)=> msg2(s));
 
         for (int i = 0; i < hexagonos.GetLength(0); i++)
         {
@@ -104,7 +104,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
             arrHexTeleport.name = "Hexagono " + i;
         }
-        end(true);
+        //end(true);
     }
 
     
@@ -138,7 +138,7 @@ public class LoadMap : SingletonMono<LoadMap>
             yield return null;
         }
         
-        yield return new WaitForCorutines(this, LoadHex, (s) => msg(s));    
+        yield return new WaitForCorutinesForLoad(this, LoadHex, (s) => msg(s));    
 
         if (arrHexCreados.GetLength(0) > 1 && victoria!=null)
         {
@@ -157,7 +157,7 @@ public class LoadMap : SingletonMono<LoadMap>
             playerPublic.transform.localPosition = new Vector3(0, 0, 0);
         }
         
-        end(true);
+        //end(true);
     }
 }
 

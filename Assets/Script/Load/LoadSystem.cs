@@ -8,8 +8,8 @@ using System.Linq;
 
 public class LoadSystem : SingletonMono<LoadSystem>
 {
-    static List<WaitForCorutines.MyCoroutine> preLoad = new List<WaitForCorutines.MyCoroutine>();
-    static List<WaitForCorutines.MyCoroutine> postLoad = new List<WaitForCorutines.MyCoroutine>();
+    static List<WaitForCorutinesForLoad.MyCoroutine> preLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
+    static List<WaitForCorutinesForLoad.MyCoroutine> postLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
 
     static List<System.Action> preLoadEvent = new List<System.Action>();
     static List<System.Action> postLoadEvent = new List<System.Action>();
@@ -61,12 +61,12 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
     //delegado especifico
 
-    public static void AddPreLoadCorutine(WaitForCorutines.MyCoroutine myCoroutine, int insert=-1)
+    public static void AddPreLoadCorutine(WaitForCorutinesForLoad.MyCoroutine myCoroutine, int insert=-1)
     {
         preLoad.AddOrInsert(myCoroutine, insert);
     }
 
-    public static void AddPostLoadCorutine(WaitForCorutines.MyCoroutine myCoroutine, int insert = -1)
+    public static void AddPostLoadCorutine(WaitForCorutinesForLoad.MyCoroutine myCoroutine, int insert = -1)
     {
         postLoad.AddOrInsert(myCoroutine, insert);
     }
@@ -135,7 +135,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
         //loadscene = true;
         for (int i = 0; i < preLoad.Count; i++)
         {
-            yield return new WaitForCorutines(this, preLoad[i], (s) => loadScreen.Progress((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
+            yield return new WaitForCorutinesForLoad(this, preLoad[i], (s) => loadScreen.Progress((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
             stopwatch.Restart();
         }
 
@@ -175,7 +175,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
         //awake ejecutar
-        yield return new WaitForCorutines(this, PostLoad, (s) => loadScreen.Progress(s));
+        yield return new WaitForCorutinesForLoad(this, PostLoad, (s) => loadScreen.Progress(s));
     }
 
     IEnumerator PostLoad(System.Action<bool> end, System.Action<string> msg)
@@ -191,7 +191,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
 
         for (int i = 0; i < postLoad.Count; i++)
         {
-            yield return new WaitForCorutines(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
+            yield return new WaitForCorutinesForLoad(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
         }
 
         yield return null;
@@ -234,19 +234,33 @@ public class LoadSystem : SingletonMono<LoadSystem>
     }
 }
 
-public class WaitForCorutines : CustomYieldInstruction
+public class WaitForCorutinesForLoad : CustomYieldInstruction
 {
     public delegate IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg);
 
     public override bool keepWaiting => !end;
 
-    bool end=false;
+    protected bool end = false;
 
-    public WaitForCorutines(MonoBehaviour mono,MyCoroutine coroutine, System.Action<string> msg)
+    protected IEnumerator coroutine;
+
+    protected MonoBehaviour mono;
+
+    IEnumerator MyRutine()
     {
-        mono.StartCoroutine(coroutine((b)=>end=b, msg));
+        yield return mono.StartCoroutine(coroutine);
+        end = true;
+    }
+
+    public WaitForCorutinesForLoad(MonoBehaviour mono,MyCoroutine coroutine, System.Action<string> msg)
+    {
+        this.mono = mono;
+        this.coroutine = coroutine.Invoke((b) => end = b, msg);
+
+        mono.StartCoroutine(MyRutine());
     }
 }
+
 
 
 [System.Serializable]

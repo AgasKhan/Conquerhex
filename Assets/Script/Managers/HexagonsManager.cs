@@ -202,7 +202,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
             msg("Generacion no grata, rearmando");
             yield return null;
-            yield return new WaitForCorutines(this,VincularHexagonos,(s)=>msg(s));
+            yield return new WaitForCorutinesForLoad(this,VincularHexagonos,(s)=>msg(s));
             msg("rearmado exitoso");
         }
         else
@@ -212,7 +212,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         msg("generacion correcta");
 
-        end(true);
+        //end(true);
     }
 
     /// <summary>
