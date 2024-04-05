@@ -13,6 +13,10 @@ public class BaseData : SingletonScript<BaseData>
 
     public CarlitoEntity carlitos;
 
+    string baseData = "";
+
+    Pictionarys<int, string> savedGames = new Pictionarys<int, string>();
+
     bool TimeSlicing => true;
 
     [SerializeField]
@@ -34,45 +38,61 @@ public class BaseData : SingletonScript<BaseData>
         }
     }
 
-    public void LoadAll()
+    public void LoadAll(Transform parent)
     {
-
+        foreach (var item in saveData)
+        {
+            GameManager.instance.StartCoroutine(LoadObjectAsync(item, parent, (obj) => { Debug.Log("Termino la carga de: " + obj.gameObject); }));
+        }
     }
 
-    void LoadObject(SaveObject saveObject, Transform parent = null)
+    IEnumerator LoadObjectAsync(SaveObject saveObject, Transform parent, System.Action<SaveObject> endAction)
     {
         if (prefabs == null)
             prefabs = prefabsPic.ToDictionary();
 
         var aux = Instantiate(prefabs[saveObject.gameObject], saveObject.pos, Quaternion.Euler(saveObject.rotation), parent);
+        yield return null;
 
         foreach (var item in aux.GetComponents<ISaveObject>())
         {
             for (int i = 0; i < saveObject.dataComponent.Length; i++)
             {
-                if(item.GetType().Name == saveObject.dataComponent[i].name)
+                if (item.GetType().Name == saveObject.dataComponent[i].name)
                 {
                     item.Load(saveObject.dataComponent[i].data);
 
                     break;
                 }
+
+                yield return null;
+            }
+
+            yield return null;
+        }
+
+        var childsArray = JsonUtility.FromJson<AuxClassField<SaveObject[]>>(saveObject.childs);
+        if (childsArray != null)
+        {
+            foreach (var item in childsArray.value)
+            {
+                yield return GameManager.instance.StartCoroutine(LoadObjectAsync(item, aux.transform, endAction));
+
+                yield return null;
             }
         }
 
-        foreach (var item in JsonUtility.FromJson<AuxClass<SaveObject[]>>(saveObject.childs).value)
-        {
-            LoadObject(item, aux.transform);
-        }
+        endAction?.Invoke(saveObject);
     }
 
     public void SaveObject(GameObject saveObject)
     {
-        var aux = new AuxClass<SaveObject>(new SaveObject());
+        var aux = new AuxClassField<SaveObject>(new SaveObject());
 
         GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject, (svObj)=> saveData.Add(svObj)));
     }
 
-    IEnumerator SaveObjectAsync(GameObject saveObject, System.Action<SaveObject> action)
+    IEnumerator SaveObjectAsync(GameObject saveObject, System.Action<SaveObject> endAction)
     {
         SaveObject svObject = new SaveObject();
 
@@ -115,12 +135,28 @@ public class BaseData : SingletonScript<BaseData>
                 yield return null;
             }
 
-            AuxClass<SaveObject[]> auxClass = new AuxClass<SaveObject[]>(childs.ToArray());
+            AuxClassField<SaveObject[]> auxClass = new AuxClassField<SaveObject[]>(childs.ToArray());
+            //AuxClass<List<SaveObject>> auxClass2 = new AuxClass<List<SaveObject>>(childs);
 
-            svObject.childs = JsonUtility.ToJson(childs);
+            svObject.childs = JsonUtility.ToJson(auxClass);
         }
 
-        action.Invoke(svObject);
+        endAction.Invoke(svObject);
+    }
+
+    public void SaveGameInJson(int slot)
+    {
+        AuxClassField<List<SaveObject>> aux = new AuxClassField<List<SaveObject>>(saveData);
+        savedGames[slot] = JsonUtility.ToJson(aux);
+    }
+
+    public void DeleteAll()
+    {
+        saveData.Clear();
+        foreach (var item in savedGames)
+        {
+            item.value = "";
+        }
     }
 }
 

@@ -225,3 +225,15 @@ public class AuxClass<T>
         value = o;
     }
 }
+
+[System.Serializable]
+public class AuxClassField<T>
+{
+    [SerializeField]
+    public T value;
+
+    public AuxClassField(T o)
+    {
+        value = o;
+    }
+}
