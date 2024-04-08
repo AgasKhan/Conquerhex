@@ -15,22 +15,5 @@ MonoBehaviour:
   _nameDisplay: Stab
   _image: {fileID: 2005273733, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
   _details: 
-  maxAmount: 1
-  weight: 0
-  joystick: 0
-  particles:
-  - {fileID: 8863688557425813847, guid: 36f18e5daf19ca04fb9f9b736eb4391d, type: 3}
-  audios:
-    pictionaries: []
-  velocity: 1.5
-  velocityCharge: 10
-  damageToWeapon: 1
-  damagesMultiply:
-  - name: 
-    amount: 1.5
-    knockBack: 0
-    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  RequiredDamage: []
-  indexParticles:
-  - {x: 1, y: 9}
-  detection: {fileID: 11400000, guid: 27dde88104245274dbe0222e8714b08a, type: 2}
+  velocityInDash: 10
+  timerDash: 5
