@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SavingAction : InteractAction<(Character character, int slot)>
+public class SavingAction : InteractAction<(Character character, string slotName)>
 {
     public BaseData baseData;
-    public override void Activate((Character character, int slot) specificParam)
+    public override void Activate((Character character, string slotName) specificParam)
     {
         var customer = specificParam.character;
 
-        baseData.SaveGame(specificParam.slot);
+        baseData.SaveGame(specificParam.slotName);
     }
 
     public override void InteractInit(InteractEntityComponent _interactComp)
@@ -49,7 +49,7 @@ public class SaveSubMenu : CreateSubMenu
 
         foreach (var item in saveAction.baseData.savedGames)
         {
-            subMenu.AddComponent<EventsCall>().Set("Save game in slot " + item.key, () => { DestroyLastButtons(); ShowSlot(item.key); }, "").rectTransform.sizeDelta = new Vector2(350, 75);
+            subMenu.AddComponent<EventsCall>().Set("Save game: " + item.key, () => { DestroyLastButtons(); ShowSlot(item.key.nameDisplay); }, "").rectTransform.sizeDelta = new Vector2(350, 75);
         }
 
         subMenu.CreateSection(3, 6);
@@ -66,10 +66,10 @@ public class SaveSubMenu : CreateSubMenu
         return lastButton;
     }
 
-    public void ShowSlot(int slot)
+    public void ShowSlot(string slotName)
     {
-        detailsWindow.SetTexts("Game slot: " + slot, "Last modification date: ").SetImage(null);
-        CreateButton("Save Game", ()=> saveAction.Activate((myCharacter, slot)));
+        detailsWindow.SetTexts("Game name: " + slotName, "Last modification date: ").SetImage(null);
+        CreateButton("Save Game", ()=> saveAction.Activate((myCharacter, slotName)));
     }
 
     public void DestroyLastButtons()

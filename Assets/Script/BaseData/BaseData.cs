@@ -13,9 +13,9 @@ public class BaseData : SingletonScript<BaseData>
 
     public CarlitoEntity carlitos;
 
-    public int currentSlot = 1;
+    public string currentSlot = "Slot 1";
 
-    public Pictionarys<int, string> savedGames = new Pictionarys<int, string>();
+    public Pictionarys<ShowDetails, string> savedGames = new Pictionarys<ShowDetails, string>();
 
     bool TimeSlicing => true;
 
@@ -148,9 +148,9 @@ public class BaseData : SingletonScript<BaseData>
         SaveGame(currentSlot);
     }
 
-    public void SaveGame(int slot)
+    public void SaveGame(string slotName)
     {
-        savedGames[slot] = JsonUtility.ToJson(new AuxClassField<List<SaveObject>>(saveData));
+        savedGames[SearchSlot(slotName)] = JsonUtility.ToJson(new AuxClassField<List<SaveObject>>(saveData));
     }
 
     public void DeleteCurrentGame()
@@ -159,9 +159,19 @@ public class BaseData : SingletonScript<BaseData>
         DeleteGame(currentSlot);
     }
 
-    public void DeleteGame(int slot)
+    public void DeleteGame(string slotName)
     {
-        savedGames[slot] = "";
+        savedGames[SearchSlot(slotName)] = "";
+    }
+
+    int SearchSlot(string slotName)
+    {
+        for (int i = 0; i < savedGames.Count; i++)
+        {
+            if (savedGames.keys[i].nameDisplay == slotName)
+                return i;
+        }
+        return -1;
     }
 
     public void DeleteAll()
