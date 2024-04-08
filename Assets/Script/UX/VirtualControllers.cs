@@ -356,15 +356,15 @@ public class VirtualControllers : MonoBehaviour
                 press = true;
             }
 
-            if (press)
-            {
-                OnStayState(dir);
-            }
-
             if (button.up)
             {
                 OnExitState(dir);
                 press = false;
+            }
+
+            if (press)
+            {
+                OnStayState(dir);
             }
         }
         

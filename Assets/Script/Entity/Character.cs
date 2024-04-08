@@ -18,14 +18,14 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public EventControllerMediator abilityEventMediator = new EventControllerMediator();
 
     /// <summary>
-    /// Boton movimiento
-    /// </summary>
-    public EventControllerMediator moveEventMediator = new EventControllerMediator();
-
-    /// <summary>
     /// Boton de dash/tercera habilidad
     /// </summary>
     public EventControllerMediator dashEventMediator = new EventControllerMediator();
+
+    /// <summary>
+    /// Boton movimiento
+    /// </summary>
+    public EventControllerMediator moveEventMediator = new EventControllerMediator();
 
     IState<Character> _ia;
 
@@ -90,24 +90,53 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
             weaponKata = caster.katasCombo.Actual(i - 1).equiped;
         }
 
-        castingActionCharacter.stateWithEnd = weaponKata;
+        castingActionCharacter.OnEnter+= () => attackEventMediator += caster.abilityControllerMediator;
+        castingActionCharacter.OnExit += () => attackEventMediator -= caster.abilityControllerMediator;
 
+        castingActionCharacter.stateWithEnd = weaponKata;
 
         Action = castingActionCharacter;
     }
 
     public void Ability(int i)
     {
-        AbilityExtCast weaponKata;
+        castingActionCharacter.OnEnter += () => abilityEventMediator += caster.abilityControllerMediator;
+        castingActionCharacter.OnExit += () => abilityEventMediator -= caster.abilityControllerMediator;
 
         if (i == 0)
         {
-            weaponKata = caster.actualAbility;
+            PrivateAbility(0);
         }
         else
         {
-            weaponKata = caster.abilitiesCombo.Actual(i - 1).equiped;
+            PrivateAbility(i+1);
         }
+    }
+
+    public void AlternateAbility()
+    {
+        castingActionCharacter.OnEnter += () => dashEventMediator += caster.abilityControllerMediator;
+        castingActionCharacter.OnExit += () => dashEventMediator -= caster.abilityControllerMediator;
+
+        PrivateAbility(1);
+    }
+
+    void PrivateAbility(int i)
+    {
+        AbilityExtCast weaponKata;
+
+       /*
+       if (i == 0)
+       {
+           weaponKata = caster.actualAbility;
+       }
+       else
+       {
+           weaponKata = caster.abilitiesCombo.Actual(i - 1).equiped;
+       }
+       */
+
+        weaponKata = caster.abilities.Actual(i).equiped;
 
         castingActionCharacter.stateWithEnd = weaponKata;
 
@@ -120,7 +149,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         base.Config();
         MyAwakes += MyAwake;
         MyStarts += MyStart;
-        //MyUpdates += fsmCharacter.UpdateState;
     }
 
     void MyAwake()
@@ -173,74 +201,6 @@ namespace FSMCharacterAndStates
     }
 
     /// <summary>
-    /// Estado del character dedicado a realizar una accion generica que cuando termina vuelve al estado de move
-    /// </summary>
-    public class ActionStateCharacter : IState<FSMCharacter>
-    {
-        public IStateWithEnd<FSMAutomaticEnd<Character>> stateWithEnd;
-
-        FSMAutomaticEnd<Character> InternalCharacterAction = new FSMAutomaticEnd<Character>();
-
-        public void OnEnterState(FSMCharacter param)
-        {
-            InternalCharacterAction.EnterState(stateWithEnd);
-        }
-
-        public void OnStayState(FSMCharacter param)
-        {
-            InternalCharacterAction.UpdateState();
-            if (InternalCharacterAction.end)
-                param.CurrentState = param.context.moveStateCharacter;
-        }
-
-        public void OnExitState(FSMCharacter param)
-        {
-        }
-
-        public ActionStateCharacter(Character character)
-        {
-            InternalCharacterAction.Init(character);
-        }
-    }
-
-    /// <summary>
-    /// Estado del character dedicado a realizar el casteo de una habilidad
-    /// </summary>
-    public class CastingActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
-    {
-        public bool End => stateWithEnd?.End ?? true;
-
-        public IStateWithEnd<CasterEntityComponent> stateWithEnd;
-
-        public void OnEnterState(FSMAutomaticEnd<Character> param)
-        {
-            param.context.attackEventMediator += param.context.caster.attack;
-
-            param.context.abilityEventMediator += param.context.caster.ability;
-
-            //internalFsm.EnterState(param.context.caster.preState);
-
-            stateWithEnd?.OnEnterState(param.context.caster);            
-        }
-
-        public void OnStayState(FSMAutomaticEnd<Character> param)
-        {
-            stateWithEnd?.OnStayState(param.context.caster);
-        }
-
-        public void OnExitState(FSMAutomaticEnd<Character> param)
-        {
-            stateWithEnd?.OnExitState(param.context.caster);
-
-            param.context.attackEventMediator -= param.context.caster.attack;
-
-            param.context.abilityEventMediator -= param.context.caster.ability;
-
-            stateWithEnd = null;
-        }
-    }
-
-    /// <summary>
     /// Estado por defecto del personaje
     /// </summary>
     public class MoveStateCharacter : IState<FSMCharacter>
@@ -266,5 +226,147 @@ namespace FSMCharacterAndStates
         {
         }
     }
+
+    /// <summary>
+    /// Estado del character dedicado a realizar una accion generica que cuando termina vuelve al estado de move
+    /// </summary>
+    public class ActionStateCharacter : IState<FSMCharacter>
+    {
+        public IStateWithEnd<FSMAutomaticEnd<Character>> stateWithEnd;
+
+        FSMAutomaticEnd<Character> InternalCharacterAction = new FSMAutomaticEnd<Character>();
+
+        public void OnEnterState(FSMCharacter param)
+        {
+            InternalCharacterAction.EnterState(stateWithEnd);
+        }
+
+        public void OnStayState(FSMCharacter param)
+        {
+            InternalCharacterAction.UpdateState();
+            if (InternalCharacterAction.end)
+                param.CurrentState = param.context.moveStateCharacter;
+        }
+
+        public void OnExitState(FSMCharacter param)
+        {
+            if(!InternalCharacterAction.end)
+                stateWithEnd.OnExitState(InternalCharacterAction);
+        }
+
+        public ActionStateCharacter(Character character)
+        {
+            InternalCharacterAction.Init(character);
+        }
+    }
+
+    /// <summary>
+    /// Estado del character dedicado a realizar el casteo de una habilidad
+    /// </summary>
+    public class CastingActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
+    {
+        IStateWithEnd<CasterEntityComponent> _stateWithEnd;
+
+        FSMAutomaticEnd<Character> param;
+
+        System.Action _OnEnter;
+
+        System.Action _OnExit;
+
+        public bool End => stateWithEnd?.End ?? true;
+
+        //public bool End => stateWithEnd == null ? true : false;
+
+        public event System.Action OnEnter
+        {
+            add
+            {
+                //_OnEnter = _OnEnter.AddUniqueExecution(value);
+
+                System.Action action = null;
+
+                action = () =>
+                {
+                    value();
+                    _OnEnter -= value;
+                    _OnEnter -= action;
+                };
+
+                _OnEnter += action;
+            }
+            remove
+            {
+            }
+        }
+
+        public event System.Action OnExit
+        {
+            add
+            {
+                System.Action action = null;
+
+                action = () =>
+                {
+                    value();
+                    _OnExit -= value;
+                    _OnExit -= action;
+                };
+
+                _OnExit += action;
+            }
+            remove
+            {
+            }
+        }
+
+        public IStateWithEnd<CasterEntityComponent> stateWithEnd
+        {
+            get => _stateWithEnd;
+
+            set
+            {
+                if (param != null)
+                {
+                    stateWithEnd.OnExitState(param.context.caster);
+
+                    _OnExit?.Invoke();
+
+                    _stateWithEnd = value;
+
+                    _OnEnter?.Invoke();
+
+                    stateWithEnd?.OnEnterState(param.context.caster);
+                }
+                else
+                    _stateWithEnd = value;
+            }
+        }
+
+        public void OnEnterState(FSMAutomaticEnd<Character> param)
+        {
+            this.param = param;
+
+            _OnEnter?.Invoke();
+
+            stateWithEnd?.OnEnterState(param.context.caster);
+        }
+
+        public void OnStayState(FSMAutomaticEnd<Character> param)
+        {
+            stateWithEnd?.OnStayState(param.context.caster);
+        }
+
+        public void OnExitState(FSMAutomaticEnd<Character> param)
+        {
+            this.param = null;
+            _stateWithEnd?.OnExitState(param.context.caster);
+
+            _stateWithEnd = null;
+
+            _OnExit?.Invoke();
+        }
+    }
+
+    
 }
 

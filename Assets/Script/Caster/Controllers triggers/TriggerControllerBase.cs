@@ -14,7 +14,6 @@ public abstract class TriggerControllerBase : ShowDetails
     }
 
     protected abstract System.Type SetItemType();
-
 }
 
 public abstract class TriggerController : IControllerDir, IAbilityComponent
@@ -83,8 +82,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public virtual void OnEnterState(CasterEntityComponent param)
     {
-        End = false;
-        ability.buttonController += this;
+        ability.End = false;
+        param.abilityControllerMediator += this;
         ability.onCast += param.AttackEvent;
         ControllerDown(ability.Aiming, 0);
     }
@@ -97,7 +96,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     {
         Debug.Log("sali");
         ability.StopCast();
-        ability.buttonController -= this;
+        param.abilityControllerMediator -= this;
         ability.onCast -= param.AttackEvent;
     }
 

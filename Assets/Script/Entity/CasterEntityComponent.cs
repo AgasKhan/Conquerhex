@@ -13,10 +13,12 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     public SlotItemList<WeaponKata> katasCombo = new SlotItemList<WeaponKata>(4);
 
     [Tooltip("Habilidades equipadas y de cambio rapido")]
-    public SlotItemList<AbilityExtCast> abilities = new SlotItemList<AbilityExtCast>(5);
+    public SlotItemList<AbilityExtCast> abilities = new SlotItemList<AbilityExtCast>(6);
 
+    /*
     [Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
     public SlotItemList<AbilityExtCast> abilitiesCombo = new SlotItemList<AbilityExtCast>(4);
+    */
 
     public DamageContainer additiveDamage;
 
@@ -29,9 +31,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }
 
-    public EventControllerMediator attack { get; set; } = new EventControllerMediator();
-
-    public EventControllerMediator ability { get; set; } = new EventControllerMediator();
+    public EventControllerMediator abilityControllerMediator { get; set; } = new EventControllerMediator();
 
     public WeaponKata actualWeapon => weapons.actual.equiped?.defaultKata;
 
@@ -85,7 +85,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
         weapons.Init(inventoryEntity);
         abilities.Init(inventoryEntity);
         katasCombo.Init(inventoryEntity);
-        abilitiesCombo.Init(inventoryEntity);
+        //abilitiesCombo.Init(inventoryEntity);
 
         additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
 

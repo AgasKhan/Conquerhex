@@ -22,7 +22,7 @@ public class WeaponSelectSubMenu : CreateSubMenu
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
 
-        var aux = myCharacter.GetInContainer<CasterEntityComponent>().abilitiesCombo;
+        var aux = myCharacter.GetInContainer<CasterEntityComponent>().abilities;
 
         for (int i = 0; i < aux.Count; i++)
         {

@@ -361,6 +361,24 @@ public static class Extensions
     #endregion
 
 
+    static public T AddUniqueExecution<T>(this T evento, T toAdd) where T : System.Delegate
+    {
+        System.Action action = null;
+        //System.Func<System.Action> func = () => action;
+
+        evento = (T)System.Delegate.Combine(evento, toAdd);
+
+        action = ()=>
+        {
+            evento = (T)System.Delegate.RemoveAll(evento, toAdd);
+            evento = (T)System.Delegate.RemoveAll(evento, action);
+        };
+
+        evento = (T)System.Delegate.Combine(evento, action);
+
+        return evento;
+    }
+
     /// <summary>
     /// Añade o inserta en una lista dependiendo de la posicion deseada
     /// </summary>

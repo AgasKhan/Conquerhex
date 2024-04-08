@@ -7,6 +7,8 @@ public class DashToEntityUpTrggrCtrllrBase : TriggerControllerBase
 {
     [Tooltip("Impulso de velocidad que se dara cuando de el dash en direccion del primer enemigo en el area")]
     public float velocityInDash=10;
+
+    public float timerDash = 1;
     protected override System.Type SetItemType()
     {
         return typeof(DashToEntityUpTrggrCtrllr);
@@ -21,37 +23,21 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
     public override void Init(Ability ability)
     {
         base.Init(ability);
-        timerToEnd = TimersManager.Create(1, () => End = true).Stop();
+        timerToEnd = TimersManager.Create(GetTrggrBs<DashToEntityUpTrggrCtrllrBase>().timerDash, () => End = true).Stop();
     }
 
     public override void ControllerDown(Vector2 dir, float button)
     {
         base.ControllerDown(dir, button);
-        if (!onCooldownTime)
+        if (End)
         {
-            End = true;
-            cooldown.Reset();
             return;
         }
+
         buttonPress = true;
         
         FeedBackReference.DotAngle(Dot);
     }
-    /*
-
-    public override void ControllerPressed(Vector2 dir, float button)
-    {
-        if (!onCooldownTime)
-        {
-            End = true;
-            cooldown.Reset();
-            return;
-        }
-
-        FeedBackReference.Area(originalScale * FinalRange);
-        Detect(Aiming, button);
-    }
-    */
 
     public override void ControllerUp(Vector2 dir, float button)
     {
@@ -61,20 +47,16 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             cooldown.Reset();
             return;
         }
-
+        
         cooldown.Reset();
 
         if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
             aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * GetTrggrBs<DashToEntityUpTrggrCtrllrBase>().velocityInDash);
         }
-
-        //Attack();
-
-        //reference?.Attack();
-
-        if (affected.Count == 0)
+        else
         {
+            Cast();
             End = true;
             return;
         }

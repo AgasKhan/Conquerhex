@@ -21,23 +21,10 @@ public class IAIO : IAFather
 
     InteractEntityComponent lastInteractuable;
 
-    //ControllerIAIO prin;
-
-    //ControllerIAIO sec;
-
-    //ControllerIAIO ter;
-
     DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
 
     private void Awake()
-    {
-
-        //prin = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.principal.ToString()), 0);
-
-        //sec = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.secondary.ToString()), 1);
-
-        //ter = new ControllerIAIO(eventsManager.events.SearchOrCreate<EventTwoParam<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.terciary.ToString()), 2);
-
+    {      
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
         LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(_character);
@@ -64,15 +51,13 @@ public class IAIO : IAFather
 
         param.health.helthUpdate += Health_helthUpdate;
 
-        //prin.Init();
-        //sec.Init();
-        //ter.Init();
-
         param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
         param.abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
 
         param.moveEventMediator.eventDown += MoveEventMediator_eventDown;
+
+        param.dashEventMediator.eventDown += DashEventMediator_eventDown;
 
         VirtualControllers.movement.SuscribeController(param.moveEventMediator);
 
@@ -80,7 +65,7 @@ public class IAIO : IAFather
 
         VirtualControllers.secondary.SuscribeController(param.abilityEventMediator);
 
-        //VirtualControllers.terciary.SuscribeController(ter);
+        VirtualControllers.terciary.SuscribeController(param.dashEventMediator);
     }
 
     private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
@@ -133,12 +118,17 @@ public class IAIO : IAFather
         {
             if (combos[i] == lastCombo)
             {
-                character.Ability(i + 1);
+                character.Ability(i + 2);
                 return;
             }
         }
 
         character.Ability(0);
+    }
+
+    private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        character.AlternateAbility();
     }
 
     public override void OnExitState(Character param)
@@ -156,6 +146,7 @@ public class IAIO : IAFather
 
         param.moveEventMediator.eventDown -= MoveEventMediator_eventDown;
 
+        param.dashEventMediator.eventDown -= DashEventMediator_eventDown;
 
         VirtualControllers.movement.DesuscribeController(param.moveEventMediator);
 
@@ -163,11 +154,7 @@ public class IAIO : IAFather
 
         VirtualControllers.secondary.DesuscribeController(param.abilityEventMediator);
 
-        //VirtualControllers.terciary.DesuscribeController(ter);
-
-        //prin.Exit();
-        //sec.Exit();
-        //ter.Exit();
+        VirtualControllers.terciary.DesuscribeController(param.dashEventMediator);
 
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 

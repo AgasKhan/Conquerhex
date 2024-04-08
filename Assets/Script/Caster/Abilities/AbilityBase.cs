@@ -143,8 +143,6 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public override bool visible => !isCopy;
 
-    public abstract EventControllerMediator buttonController { get; set; }    
-
     public FadeColorAttack FeedBackReference
     {
         get => _feedBackReference;
@@ -247,6 +245,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         if (DontExecuteCast)
         {
+            Debug.Log("sali comenzando a estar presionado");
             StopCast();
             End = true;
             return;
@@ -261,6 +260,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         if (DontExecuteCast)
         {
+            Debug.Log("sali estando presionado");
             StopCast();
             End = true;
             return;
@@ -273,6 +273,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         if (DontExecuteCast)
         {
+            Debug.Log("sali finalizando a estar presionado");
             StopCast();
             End = true;
             return;

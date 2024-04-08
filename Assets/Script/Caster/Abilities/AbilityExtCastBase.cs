@@ -21,10 +21,7 @@ public class AbilityExtCastBase : AbilityBase
 
 public class AbilityExtCast : Ability
 {
-    CastingAction castingAction;
-
-    public override EventControllerMediator buttonController { get => caster.ability; set => caster.ability = value; }
-    
+    CastingAction castingAction;    
 
     protected override void Init()
     {
