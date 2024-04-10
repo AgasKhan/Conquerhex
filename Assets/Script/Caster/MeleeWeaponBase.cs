@@ -18,6 +18,8 @@ public class MeleeWeaponBase : ItemBase
 
     public float durability;
 
+    public Recipes recipe;
+
     #region FUNCIONES
 
     public override Pictionarys<string, string> GetDetails()

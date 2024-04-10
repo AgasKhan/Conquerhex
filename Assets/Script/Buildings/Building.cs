@@ -49,7 +49,9 @@ public class Building : Entity
 
         controller.OnEnterState(this);
 
-        upgradesRequirements = flyweight.GetFlyWeight<UpgradeBase>().upgradesRequirements;
+        var aux = flyweight.GetFlyWeight<UpgradeBase>();
+        if (aux != null)
+            upgradesRequirements = aux.upgradesRequirements;
 
         
 

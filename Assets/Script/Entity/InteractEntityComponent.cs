@@ -19,7 +19,7 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
     {
         if (!interactuable)
             return;
-
+        genericMenu.Init();
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false);
         genericMenu.Create(character);
     }
@@ -35,8 +35,6 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
     public override void OnEnterState(Entity param)
     {
         Image = param.flyweight.image;
-
-        genericMenu.Init();
 
         foreach (var item in GetComponents<InteractAction>())
         {

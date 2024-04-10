@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CraftingBuild : Building
 {
-    public Pictionarys<int, List<Recipes>> levelRecipes = new Pictionarys<int, List<Recipes>>();
+    public Pictionarys<int, List<MeleeWeaponBase>> levelRecipes = new Pictionarys<int, List<MeleeWeaponBase>>();
 
-    public List<Recipes> currentRecipes = new List<Recipes>();
+    public List<MeleeWeaponBase> currentRecipes = new List<MeleeWeaponBase>();
 
     public override string rewardNextLevel
     {
@@ -14,7 +14,7 @@ public class CraftingBuild : Building
         {
             string aux = "";
             foreach (var item in levelRecipes[currentLevel + 1])
-                aux += "\n" + item.result.Item.nameDisplay;
+                aux += "\n" + item.nameDisplay;
             
             return aux;
         }

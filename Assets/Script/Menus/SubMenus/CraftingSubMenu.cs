@@ -71,7 +71,7 @@ public class CraftingSubMenu : CreateSubMenu
                     RefreshDetailW(item);
                 };
 
-            buttonsList.Add(button.SetButtonA(item.result.Item.nameDisplay, item.result.Item.image,"", action).SetType(item.result.Item.GetType().ToString()));
+            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image,"", action).SetType(item.GetType().ToString()));
         }
     }
     void DestroyButtonCraft()
@@ -80,9 +80,9 @@ public class CraftingSubMenu : CreateSubMenu
             Object.Destroy(lastButtonCraft.gameObject);
     }
 
-    public void RefreshDetailW(Recipes item)
+    public void RefreshDetailW(MeleeWeaponBase item)
     {
-        ShowResultDetails(item.result.Item.nameDisplay, item.result.Item.GetDetails().ToString() + "Materiales necesarios: \n" + item.GetRequiresString(myCharacter.inventory), item.result.Item.image);
+        ShowResultDetails(item.nameDisplay, item.GetDetails().ToString() + "Materiales necesarios: \n" + item.recipe.GetRequiresString(myCharacter.inventory), item.image);
 
         lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
         {
@@ -92,12 +92,12 @@ public class CraftingSubMenu : CreateSubMenu
 
         }, "");
 
-        lastButtonCraft.button.interactable = item.CanCraft(myCharacter.inventory);
+        lastButtonCraft.button.interactable = item.recipe.CanCraft(myCharacter.inventory);
     }
 
-    void ButtonAction(Recipes item)
+    void ButtonAction(MeleeWeaponBase item)
     {
-        craftAction.Activate((myCharacter, item.nameDisplay));
+        craftAction.Activate((myCharacter, item));
         onCraft?.Invoke();
     }
 

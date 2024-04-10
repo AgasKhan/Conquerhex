@@ -17,12 +17,18 @@ MonoBehaviour:
   _details: 
   maxAmount: 1
   weight: 0
-  itemType: 4
+  visible: 1
+  defaultKata: {fileID: 0}
   velocity: 0.75
   range: 1.25
   damages:
-  - amount: 25
+  - name: 
+    amount: 25
+    knockBack: 0
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  - amount: 8.333333
+  - name: 
+    amount: 8.333333
+    knockBack: 0
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   durability: 120
+  recipe: {fileID: 11400000, guid: 0a23a2d221886ed4fbf59f2509f4a64e, type: 2}

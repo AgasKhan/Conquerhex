@@ -7,7 +7,10 @@ public class Recipes : ItemBase
 {
     public List<Ingredient> materials;
 
-    public Ingredient result;
+    //public Ingredient result;
+
+    [Range(1,20)]
+    public int resultAmount = 1;
 
     public Color resultColor;
 
@@ -32,18 +35,17 @@ public class Recipes : ItemBase
         return true;
     }
 
-    public void Craft(InventoryEntityComponent container)
+    public void Craft(InventoryEntityComponent container, string resultName = "")
     {
         foreach (var ingredient in materials)
         {
-            container.AddOrSubstractItems(ingredient.Item.nameDisplay, - ingredient.Amount);
+            container.AddOrSubstractItems(ingredient.Item.nameDisplay, -ingredient.Amount);
         }
 
-        if(result.Item != null)
+        if (resultName != "")
         {
             //result.Item.image.color = resultColor;
-            container.AddOrSubstractItems(result.Item.nameDisplay, result.Amount);
-
+            container.AddOrSubstractItems(resultName, resultAmount);
         }
 
         foreach (var ingredient in materials)

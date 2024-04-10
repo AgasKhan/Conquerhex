@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingAction : InteractAction<(Character customer, string recipeName)>
+public class CraftingAction : InteractAction<(Character customer, MeleeWeaponBase recipeName)>
 {
-    public override void Activate((Character customer, string recipeName) specificParam)
+    public override void Activate((Character customer, MeleeWeaponBase recipeName) specificParam)
     {
         var customer = specificParam.customer;
-        var recipeName = specificParam.recipeName;
+        var itemToCraft = specificParam.recipeName;
 
         if (customer == null)
             return;
@@ -16,23 +16,23 @@ public class CraftingAction : InteractAction<(Character customer, string recipeN
 
         foreach (var item in ((CraftingBuild)interactComp.container).currentRecipes)
         {
-            if (recipeName == item.name)
+            if (itemToCraft == item)
             {
-                recipe = item;
+                recipe = item.recipe;
                 break;
             }
         }
 
         if (recipe == null)
         {
-            Debug.Log("No se encontro la receta: " + recipeName);
+            Debug.Log("No se encontro la receta: " + itemToCraft);
             return;
         }
 
         if (recipe.CanCraft(customer.inventory))
         {
-            recipe.Craft(customer.inventory);
-            ((CraftingSubMenu)subMenu).RefreshDetailW(recipe);
+            recipe.Craft(customer.inventory, itemToCraft.nameDisplay);
+            ((CraftingSubMenu)subMenu).RefreshDetailW(itemToCraft);
             return;
         }
     }
