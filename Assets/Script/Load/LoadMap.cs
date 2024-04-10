@@ -62,9 +62,9 @@ public class LoadMap : SingletonMono<LoadMap>
         for (int i = 0; i < hexagonos.GetLength(0); i++)
         {
             //espera para la carga
-            if (LoadSystem.stopwatch.ElapsedMilliseconds > 1f/60)
+            if (GameManager.SlowFrameRate)
             {
-                LoadSystem.stopwatch.Restart();
+                //LoadSystem.stopwatch.Restart();
 
                 tiempoCarga += Time.unscaledDeltaTime;
 

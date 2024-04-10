@@ -31,8 +31,16 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
-    public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
-    public static Pictionarys<MyScripts, UnityAction> update => instance._update;
+    public static Queue<System.Action> eventQueue = new Queue<System.Action>(); 
+
+    public static Dictionary<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
+    public static Dictionary<MyScripts, UnityAction> update => instance._update;
+
+    public static bool HightFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 120);
+
+    public static bool MediumFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 60);
+
+    public static bool SlowFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 30);
 
     public LayerMask obstacleAvoidanceLayer;
 
@@ -51,12 +59,14 @@ public class GameManager : SingletonMono<GameManager>
 
     public UnityEvent onDestroyUnityEvent;
 
-    Pictionarys<MyScripts, UnityAction> _update = new Pictionarys<MyScripts, UnityAction>();
+    Dictionary<MyScripts, UnityAction> _update = new Dictionary<MyScripts, UnityAction>();
 
-    Pictionarys<MyScripts, UnityAction> _fixedUpdate = new Pictionarys<MyScripts, UnityAction>();
+    Dictionary<MyScripts, UnityAction> _fixedUpdate = new Dictionary<MyScripts, UnityAction>();
 
     [SerializeField]
     FSMGameMaganer fsmGameMaganer;
+
+    System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
     public static void RetardedOn(System.Action<bool> retardedOrder)
     {
@@ -137,12 +147,19 @@ public class GameManager : SingletonMono<GameManager>
         fsmGameMaganer.CurrentState = fsmGameMaganer.endGame;
     }
 
-    void MyUpdate(Pictionarys<MyScripts, UnityAction> update)
+    void MyUpdate(Dictionary<MyScripts, UnityAction> update)
     {
+        foreach (var item in update)
+        {
+            item.Value();
+        }
+
+        /*
         for (int i = 0; i < update.Count; i++)
         {
             update[i]();
         }
+        */
     }
 
     void MyUpdate()
@@ -170,7 +187,16 @@ public class GameManager : SingletonMono<GameManager>
 
     private void Update()
     {
+        stopwatch.Restart();
+
         updateUnityEvent?.Invoke();
+
+        do
+        {
+            if (eventQueue.TryDequeue(out var action))
+                action();
+
+        } while (eventQueue.Count > 0 && !MediumFrameRate);
     }
 
     private void FixedUpdate()
