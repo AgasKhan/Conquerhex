@@ -33,8 +33,8 @@ public class GameManager : SingletonMono<GameManager>
 
     public static Queue<System.Action> eventQueue = new Queue<System.Action>(); 
 
-    public static Dictionary<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
-    public static Dictionary<MyScripts, UnityAction> update => instance._update;
+    public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
+    public static Pictionarys<MyScripts, UnityAction> update => instance._update;
 
     public static bool HightFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 120);
 
@@ -59,9 +59,9 @@ public class GameManager : SingletonMono<GameManager>
 
     public UnityEvent onDestroyUnityEvent;
 
-    Dictionary<MyScripts, UnityAction> _update = new Dictionary<MyScripts, UnityAction>();
+    Pictionarys<MyScripts, UnityAction> _update = new Pictionarys<MyScripts, UnityAction>();
 
-    Dictionary<MyScripts, UnityAction> _fixedUpdate = new Dictionary<MyScripts, UnityAction>();
+    Pictionarys<MyScripts, UnityAction> _fixedUpdate = new Pictionarys<MyScripts, UnityAction>();
 
     [SerializeField]
     FSMGameMaganer fsmGameMaganer;
@@ -147,11 +147,11 @@ public class GameManager : SingletonMono<GameManager>
         fsmGameMaganer.CurrentState = fsmGameMaganer.endGame;
     }
 
-    void MyUpdate(Dictionary<MyScripts, UnityAction> update)
+    void MyUpdate(Pictionarys<MyScripts, UnityAction> update)
     {
         foreach (var item in update)
         {
-            item.Value();
+            item.value();
         }
 
         /*
