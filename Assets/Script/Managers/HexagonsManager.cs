@@ -58,6 +58,69 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         return ((lado - 3) >= 0) ? (lado - 3) : (lado + 3);
     }
 
+    /// <summary>
+    /// setea los renders en base a este hexagono
+    /// </summary>
+    /// <param name="lado"></param>
+    public static void SetRenders(Hexagone hex, int lado = -1)
+    {
+        MainCamera.instance.SetProyections(hex);
+
+        if (lado >= 0)
+        {
+            MainCamera.instance.transform.position = new Vector3(
+                hex.ladosPuntos[LadoOpuesto(lado), 0] - (hex.ladosPuntos[lado, 0] - Camera.main.transform.position.x),
+                hex.ladosPuntos[LadoOpuesto(lado), 1] - (hex.ladosPuntos[lado, 1] - Camera.main.transform.position.y),
+                MainCamera.instance.transform.position.z);    
+        }
+
+        for (int i = 0; i < MainCamera.instance.rendersOverlay.Length; i++)
+        {
+            bool add = true;
+
+            //chequeo la duplicidad
+            for (int j = 0; j < activeHex.Count; j++)
+            {
+                if (hex.ladosArray[i].id == activeHex[j].id)
+                    add = false;
+            }
+
+            if(add)
+                activeHex.Add(hex.ladosArray[i].id, hex.ladosArray[i]);
+        }
+
+        instance.StartCoroutine(SetProyectionRoutine(hex));
+    }
+
+    static IEnumerator SetProyectionRoutine(Hexagone hex)
+    {
+        for (int i = activeHex.Count - 1; i >= 0; i--)
+        {
+            bool off = true;
+
+            for (int l = 0; l < 6; l++)
+            {
+                if (hex.id == activeHex[i].id || hex.ladosArray[l].id == activeHex[i].id)
+                {
+                    off = false;
+                    break;
+                }
+            }
+
+            if (off)
+            {
+                activeHex[i].SetActiveGameObject(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+                activeHex.RemoveAt(i);
+            }
+            else
+            {
+                activeHex[i].SetActiveGameObject(true);
+            }
+
+            yield return null;
+        }
+    }
+
     public void LocalSidePosHex(float magnitud = 1f)
     {
         DebugPrint.Log("Calculo de posición de lados");
@@ -341,7 +404,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
             activeHex.Add(0, arrHexCreados[0]);
 
-            arrHexCreados[0].SetRenders();
+            SetRenders(arrHexCreados[0]);
         });
     }
 }

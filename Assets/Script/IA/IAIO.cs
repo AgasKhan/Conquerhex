@@ -201,9 +201,8 @@ public class IAIO : IAFather
 
     private void TeleportEvent(Hexagone obj, int lado)
     {
-        obj.SetRenders(HexagonsManager.LadoOpuesto(lado));
+        HexagonsManager.SetRenders(obj, HexagonsManager.LadoOpuesto(lado));
 
-        
 
         if (HexagonsManager.idMaxLevel == obj.id)
         {

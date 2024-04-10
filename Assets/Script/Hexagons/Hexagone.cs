@@ -138,60 +138,6 @@ public class Hexagone : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// setea los renders en base a este hexagono
-    /// </summary>
-    /// <param name="lado"></param>
-    public void SetRenders(int lado = -1)
-    {
-        var activeHex = HexagonsManager.activeHex;
-
-        MainCamera.instance.SetProyections(this);
-
-        if (lado >= 0)
-        {
-            MainCamera.instance.transform.position = new Vector3(
-                 ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - (ladosPuntos[lado, 0] - Camera.main.transform.position.x),
-                 ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - (ladosPuntos[lado, 1] - Camera.main.transform.position.y),
-                 MainCamera.instance.transform.position.z);
-
-            //MainCamera.instance.rendersOverlay[HexagonsManager.LadoOpuesto(lado)].gameObject.SetActive(false);
-
-            //MainCamera.instance.rendersOverlay[lado].gameObject.SetActive(true);            
-        }
-            
-        for (int i = 0; i < MainCamera.instance.rendersOverlay.Length; i++)
-        {
-            //ladosArray[i].SetActiveGameObject(true);
-            activeHex.Add(ladosArray[i].id, ladosArray[i]);
-        }
-
-
-        for (int i = activeHex.Count - 1; i >= 0; i--)
-        {
-            bool off = true;
-
-            for (int l = 0; l < 6; l++)
-            {
-                if (id == activeHex[i].id || ladosArray[l].id == activeHex[i].id)
-                {
-                    off = false;
-                    break;
-                }
-            }
-
-            if (off)
-            {
-                activeHex[i].SetActiveGameObject(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
-                activeHex.RemoveAt(i);
-            }
-            else
-            {
-                activeHex[i].SetActiveGameObject(true);
-            }
-        }
-    }
-
     public Hexagone SetProyections(Transform original, IEnumerable<Transform> components, bool setParent = false)
     {
         int i = 0;
