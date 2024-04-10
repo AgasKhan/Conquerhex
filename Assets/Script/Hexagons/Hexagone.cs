@@ -93,8 +93,8 @@ public class Hexagone : MonoBehaviour
 
     public void SetEdgePoint(int i)
     {
-        this.ladosPuntos[i, 0] = transform.position.x + HexagonsManager.auxCalc[i, 0];
-        this.ladosPuntos[i, 1] = transform.position.y + HexagonsManager.auxCalc[i, 1];
+        this.ladosPuntos[i, 0] = transform.position.x + HexagonsManager.localApotema[i, 0];
+        this.ladosPuntos[i, 1] = transform.position.y + HexagonsManager.localApotema[i, 1];
     }
    
     public void FillPropsPos(bool spawn, bool centro = false)
@@ -153,6 +153,28 @@ public class Hexagone : MonoBehaviour
         }
 
         return this;
+    }
+
+    public int AristaMasCercana(Transform obj)
+    {
+        float sqrDistance = float.PositiveInfinity;
+        int resultado = -1;
+
+        for (int i = 0; i < 6; i++)
+        {
+
+            Vector3 dist = (new Vector3(HexagonsManager.localRadio[i, 0], HexagonsManager.localRadio[i, 1]) + transform.position) - obj.position;
+
+            //Debug.DrawLine(transform.position,dist + obj.position, Color.red, 5);
+
+            if(dist.sqrMagnitude < sqrDistance)
+            {
+                resultado = i;
+                sqrDistance = dist.sqrMagnitude;
+            }
+        }
+
+        return resultado;
     }
 
 

@@ -27,15 +27,16 @@ public abstract class MyScripts : MonoBehaviour
         remove
         {
             _update -= value;
-            if(_update == null)
-            {
-                GameManager.eventQueue.Enqueue(RemoveUpdate);
-                return;
-            }
+
 
             if (gameObject.activeSelf)
                 GameManager.eventQueue.Enqueue(SaveUpdate);
-            
+
+            if (_update == null)
+            {
+                GameManager.eventQueue.Enqueue(RemoveUpdate);
+            }
+
         }
     }
 
@@ -51,14 +52,13 @@ public abstract class MyScripts : MonoBehaviour
         {
             _fixedUpdate -= value;
 
+            if (gameObject.activeSelf)
+                GameManager.eventQueue.Enqueue(SaveFixedUpdate);
+
             if (_fixedUpdate == null)
             {
                 GameManager.eventQueue.Enqueue(RemoveFixedUpdate);
-                return;
             }
-
-            if (gameObject.activeSelf)
-                GameManager.eventQueue.Enqueue(SaveFixedUpdate);
         }
     }
 
@@ -98,7 +98,8 @@ public abstract class MyScripts : MonoBehaviour
 
     private void SaveUpdate()
     {
-        GameManager.update.CreateOrSave(this, _update);
+        if(_update!=null)
+            GameManager.update.CreateOrSave(this, _update);
     }
 
     private void RemoveUpdate()
@@ -108,7 +109,8 @@ public abstract class MyScripts : MonoBehaviour
 
     private void SaveFixedUpdate()
     {
-        GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
+        if (_fixedUpdate != null)
+            GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
     }
 
     private void RemoveFixedUpdate()
@@ -149,11 +151,9 @@ public abstract class MyScripts : MonoBehaviour
 
         GameManager.eventQueue.Enqueue(()=>
             {
-                if (_update != null)
-                    SaveUpdate();
+                SaveUpdate();
 
-                if (_fixedUpdate != null)
-                    SaveFixedUpdate();
+                SaveFixedUpdate();
             });
     }
 
