@@ -117,7 +117,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 activeHex[i].SetActiveGameObject(true);
             }
 
-            yield return null;
+            if(GameManager.MediumFrameRate)
+                yield return null;
         }
     }
 

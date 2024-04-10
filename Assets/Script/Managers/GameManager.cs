@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class GameManager : SingletonMono<GameManager>
 {
@@ -155,10 +156,22 @@ public class GameManager : SingletonMono<GameManager>
         }
 
         /*
+        
         for (int i = 0; i < update.Count; i++)
         {
             update[i]();
         }
+
+        Task[] tasks = new Task[update.Count];
+
+        for (int i = 0; i < update.Count; i++)
+        {
+            update[i]();
+            int index = i; // Captura de la variable en el contexto del bucle
+            tasks[index] = Task.Run(() => update[index]());
+        }
+
+        Task.WaitAll(tasks);
         */
     }
 
