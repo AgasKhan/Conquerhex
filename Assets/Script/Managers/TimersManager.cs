@@ -264,7 +264,7 @@ public class Tim : IGetPercentage
 
     public float Percentage()
     {
-        return current / total;
+        return total>0 ? current / total : 0;
     }
 
     public float InversePercentage()
@@ -306,7 +306,7 @@ public class Tim : IGetPercentage
     public Tim(float totTim)
     {
         _current = totTim;
-        total = totTim;
+        _total = totTim;
         internalSetCurrent = InternalSetCurrent;
         Create();
     }
