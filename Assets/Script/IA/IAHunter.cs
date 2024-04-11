@@ -27,11 +27,11 @@ public class IAHunter : IAFather, IGetPatrol, Init
 
     public AutomaticAttack attk;
 
-    public MoveAbstract move
+    public MoveEntityComponent move
     {
         get
         {
-            return _character.move.move;
+            return _character.move;
         }
     }
 
@@ -149,7 +149,7 @@ public class HunterIntern : FSM<HunterIntern, IAHunter>
 public class HunterPatrol : IState<HunterIntern>
 {
     IAHunter hunter;
-    MoveAbstract move;
+    MoveEntityComponent move;
     Vector2 dir;
 
     Vector2 conoDir;

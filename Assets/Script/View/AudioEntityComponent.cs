@@ -46,7 +46,7 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
         if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
         {
             if (audios.ContainsKey(teleportAudio))
-                move.move.onTeleport += TeleportAudio;
+                move.onTeleport += TeleportAudio;
         }
     }
 

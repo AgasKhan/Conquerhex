@@ -43,7 +43,7 @@ public class IAIO : IAFather
 
         param.gameObject.tag = "Player";
 
-        param.move.move.onTeleport += TeleportEvent;
+        param.move.onTeleport += TeleportEvent;
 
         param.health.lifeUpdate += UpdateLife;
         param.health.regenUpdate += UpdateRegen;
@@ -133,7 +133,7 @@ public class IAIO : IAFather
 
     public override void OnExitState(Character param)
     {
-        param.move.move.onTeleport -= TeleportEvent;
+        param.move.onTeleport -= TeleportEvent;
 
         param.health.lifeUpdate -= UpdateLife;
         param.health.regenUpdate -= UpdateRegen;

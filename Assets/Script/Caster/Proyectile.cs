@@ -9,8 +9,6 @@ public class Proyectile : Entity
 
     public Vector2Int[] objectSpawner;
 
-    public MoveAbstract move => moveComponent.move;
-
     Damage[] damages;
 
     Timer off;
@@ -41,7 +39,7 @@ public class Proyectile : Entity
         //moveComponent = GetInContainer<MoveEntityComponent>();
 
         if(TryGetInContainer(out moveComponent))
-            move.onMove += Move_onMove;
+            moveComponent.onMove += Move_onMove;
     }
 
     private void Move_onMove(Vector2 obj)
@@ -68,7 +66,7 @@ public class Proyectile : Entity
         gameObject.SetActive(true);
         //team = owner.team;
         damages = dmg;
-        move.Velocity(dir.normalized * move.objectiveVelocity);
+        moveComponent.Velocity(dir.normalized);
         off.Start();
     }
 

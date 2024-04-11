@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0}
   aceleration:
     _total: 100
     _current: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
   _velocity:
     _total: 100
     _current: 0
-  objectiveVelocity: 7.5
+  <objectiveVelocity>k__BackingField: 7.5
 --- !u!50 &6295448971589143367
 Rigidbody2D:
   serializedVersion: 4
@@ -507,6 +507,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 987104258754839960, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 6295448971589143385}
     - target: {fileID: 3115218222824334144, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: animator

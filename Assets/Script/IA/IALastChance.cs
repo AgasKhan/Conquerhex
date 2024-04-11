@@ -29,7 +29,7 @@ public class IALastChance : IAFather
         }
         else
         {
-            _character.move.move.ControllerPressed((enemy.transform.position - transform.position).normalized * (timer.Chck ? 1 : -1),0);
+            _character.move.ControllerPressed((enemy.transform.position - transform.position).normalized * (timer.Chck ? 1 : -1),0);
         }
     }
 

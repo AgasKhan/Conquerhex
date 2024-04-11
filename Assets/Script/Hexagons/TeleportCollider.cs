@@ -39,7 +39,7 @@ public class TeleportCollider : MonoBehaviour
         vectorSalida = (other.transform.position - transform.position).normalized;
 
         //le doy un empujon para que no se quede en el medio
-        fisicaOther.Acelerator(velocityTransfer * fisicaOther.direction, velocityTransfer);
+        fisicaOther.Acelerator(fisicaOther.direction, velocityTransfer, velocityTransfer);
 
         lado = HexagonsManager.CalcEdge(vectorSalida);
 

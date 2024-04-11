@@ -211,14 +211,14 @@ namespace FSMCharacterAndStates
 
         public void OnEnterState(FSMCharacter param)
         {
-            param.context.moveEventMediator += param.context.move.move;
+            param.context.moveEventMediator += param.context.move;
 
             OnActionEnter?.Invoke();
         }
 
         public void OnExitState(FSMCharacter param)
         {
-            param.context.moveEventMediator -= param.context.move.move;
+            param.context.moveEventMediator -= param.context.move;
 
             OnActionExit?.Invoke();
         }

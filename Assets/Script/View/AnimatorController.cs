@@ -42,9 +42,9 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
         container.GetInContainer<CasterEntityComponent>().onAttack += Ia_onAttack;
 
-        container.GetInContainer<MoveEntityComponent>().move.onIdle += Ia_onIdle;
+        container.GetInContainer<MoveEntityComponent>().onIdle += Ia_onIdle;
 
-        container.GetInContainer<MoveEntityComponent>().move.onMove += Ia_onMove;
+        container.GetInContainer<MoveEntityComponent>().onMove += Ia_onMove;
 
         container.health.death += Ia_onDeath;
     }

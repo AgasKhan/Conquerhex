@@ -70,7 +70,7 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
         {
-            move.move.onMove += Move_onMove;
+            move.onMove += Move_onMove;
         }
 
         if (onDeathParticlePrefab != null)

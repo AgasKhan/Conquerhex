@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FollowIA : StateMachineBehaviour
 {
-    MoveAbstract meMove;
+    MoveEntityComponent meMove;
     IAAnimator me;
     
 
@@ -13,7 +13,7 @@ public class FollowIA : StateMachineBehaviour
     {
         if (me == null)
         {
-            meMove = animator.GetComponentInParent<MoveAbstract>();
+            meMove = animator.GetComponentInParent<MoveEntityComponent>();
             me = animator.GetComponentInParent<IAAnimator>();
         }
     }

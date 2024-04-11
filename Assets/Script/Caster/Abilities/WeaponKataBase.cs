@@ -142,7 +142,7 @@ public class WeaponKata : Ability
     {
         base.Init();
 
-        Debug.Log("se creo weapon kata " + caster.name);
+        //Debug.Log("se creo weapon kata " + caster.name);
 
         equipedWeapon?.Init(container);
 

@@ -13,7 +13,7 @@ public class IABoid : IAFather
     [SerializeField]
     public Pictionarys<string, SteeringWithTarget> steerings;
 
-    MoveAbstract move;
+    MoveEntityComponent move;
 
     protected Vector2 dir = Vector2.zero;
 
@@ -23,7 +23,7 @@ public class IABoid : IAFather
     {
         base.OnEnterState(param);
 
-        move = param.move.move;
+        move = param.move;
 
         BoidsManager.list.Add(this);
 

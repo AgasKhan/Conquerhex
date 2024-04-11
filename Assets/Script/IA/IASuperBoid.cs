@@ -125,7 +125,7 @@ public class BoidAttack : IState<FSMBoid>
         {
             var aux = param.context.transform.position - param.context.lider.transform.position;
 
-            param.context.character.move.move.Acelerator( aux.Vect3To2().normalized, 1f / aux.Vect3To2().magnitude); 
+            param.context.character.move.ControllerPressed(aux.normalized,0); 
 
             if (param.context.lider.health.actualLife < param.context.lider.health.maxLife / 2)
             {

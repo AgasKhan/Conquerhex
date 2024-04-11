@@ -52,7 +52,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            aux.move.Velocity((affected[0].transform.position - caster.transform.position).normalized * GetTrggrBs<DashToEntityUpTrggrCtrllrBase>().velocityInDash);
+            aux.Velocity((affected[0].transform.position - caster.transform.position).normalized , GetTrggrBs<DashToEntityUpTrggrCtrllrBase>().velocityInDash);
         }
         else
         {
@@ -80,7 +80,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         if (caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            aux.move.velocity = 0;
+            aux.velocity = 0;
         }
 
         FeedBackReference?.Attack();
