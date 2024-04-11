@@ -10,7 +10,7 @@ public interface IDamageable
     /// Internal manage damage
     /// </summary>
     /// <param name="dmg"></param>
-    void TakeDamage(ref Damage dmg);
+    void InternalTakeDamage(ref Damage dmg);
 }
 
 [System.Serializable]
@@ -163,7 +163,45 @@ namespace DamageTypes
 {
     public enum Target
     {
-        all, life, regen
+        all, life, regen, maxLife, maxRegen
     }
 }
 
+
+/*
+ 
+Puro - padre de todos los tipos de danio - en su forma pura hace el danio de forma comun y corriente
+
+Fisico - padre de los danios fisicos - en su forma pura hace danio solo a la vida
+
+Elemental - padre de los danios elementales - en su forma pura hace danio solo a la regeneracion
+
+DebuffLife - danio interno solo destinado a actuar como debufo - en su forma pura resta la cantidad maxima de vida
+
+DebuffRegen - danio interno solo destinado a actuar como debufo - en su forma pura resta la cantidad maxima de regeneracion
+
+//////////////////////////////////////////////////////////////
+
+Fisicos:
+Impactante - realiza mas danio a la vida en una relacion inversamente proporcional a la cantidad de regeneracion del enemigo
+Cortante - realiza 0.1 de danio a la regeneracion por segundo, por la cantidad de danio % realizado a la vida
+Perforante - realiza mas danio a la regeneracion en una realacion inversamente proporcional a la cantidad de salud del enemigo (1% minimo)
+
+Elementales:
+Frio - El daño que haces originalmente a la vida, es el que le quitas a la cantidad máxima de vida en la barra 
+Calor- Te quita la mitad de la vida que te falta tanto en la vida como en la regeneracion
+
+
+*/
+
+
+
+//bioma desertico   * ganancia +25%
+//bioma nevado      * ganancia -25%
+
+//parry energia minima necesaria para castear 25
+//de ser exitoso 75
+//con calor 100
+//con frio  50
+
+//de fracasar 0

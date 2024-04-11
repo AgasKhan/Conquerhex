@@ -7,7 +7,7 @@ namespace DamageTypes
 
     [CreateAssetMenu(menuName = "Weapons/PureDamage", fileName = "PureDamage")]
     /// <summary>
-    /// Clase padre de los tipos de danio
+    /// Puro - padre de todos los tipos de danio - en su forma pura hace el danio de forma comun y corriente
     /// </summary>
     public class PureDamage : ShowDetails
     {
