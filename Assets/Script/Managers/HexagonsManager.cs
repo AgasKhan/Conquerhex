@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class HexagonsManager : SingletonMono<HexagonsManager>
 {
@@ -8,7 +9,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static Pictionarys<int, Hexagone> activeHex => instance._activeHex;
 
-    public static float[,] auxCalc => instance._auxCalc;
+    public static float[,] localApotema => instance._localApotema;
+
+    public static float[,] localRadio => instance._localRadio;
 
     public static GameObject hexagono => instance._hexagono;
 
@@ -19,6 +22,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     public static float lado;
 
     public static float apotema;
+
+    public static float radio => lado;
 
     public Vector2 anguloDefecto;
 
@@ -31,7 +36,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     Pictionarys<int, Hexagone> _activeHex = new Pictionarys<int, Hexagone>();
 
     [SerializeReference]
-    float[,] _auxCalc = new float[6, 2];
+    float[,] _localApotema = new float[6, 2];
+
+    float[,] _localRadio = new float[6, 2];
 
     [SerializeReference]
     GameObject _hexagono;
@@ -62,7 +69,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     /// setea los renders en base a este hexagono
     /// </summary>
     /// <param name="lado"></param>
-    public static void SetRenders(Hexagone hex, int lado = -1)
+    public static void SetRenders(Hexagone hex, int lado = -1, int arista = -1)
     {
         MainCamera.instance.SetProyections(hex);
 
@@ -74,7 +81,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 MainCamera.instance.transform.position.z);    
         }
 
-        for (int i = 0; i < MainCamera.instance.rendersOverlay.Length; i++)
+        for (int i = hex.ladosArray.Length-1; i >=0 ; i--)
         {
             bool add = true;
 
@@ -82,20 +89,46 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             for (int j = 0; j < activeHex.Count; j++)
             {
                 if (hex.ladosArray[i].id == activeHex[j].id)
+                {
                     add = false;
+                    break;
+                }  
             }
 
             if(add)
+            {
                 activeHex.Add(hex.ladosArray[i].id, hex.ladosArray[i]);
+            }
         }
 
-        instance.StartCoroutine(SetProyectionRoutine(hex));
+        instance.StartCoroutine(SetProyectionRoutine(hex, lado, arista));
     }
 
-    static IEnumerator SetProyectionRoutine(Hexagone hex)
+    static IEnumerator SetProyectionRoutine(Hexagone hex, int lado = -1, int arista = -1)
     {
+        int index = lado == arista ? lado + 1 : lado - 1;
+
+        if (index < 0)
+            index = 5;
+
+        //Debug.Log($"Tu lado a cargar es: {index} - {lado} {arista}" );
+
+        for (int i = 0; i < hex.ladosArray.Length; i++)
+        {
+            if (index > 5)
+                index = 0;
+
+            hex.ladosArray[index].SetActiveGameObject(true);
+
+            index++;
+
+            if (GameManager.MediumFrameRate)
+                yield return null;
+        }
+
         for (int i = activeHex.Count - 1; i >= 0; i--)
         {
+
             bool off = true;
 
             for (int l = 0; l < 6; l++)
@@ -112,40 +145,56 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 activeHex[i].SetActiveGameObject(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
                 activeHex.RemoveAt(i);
             }
-            else
-            {
-                activeHex[i].SetActiveGameObject(true);
-            }
-
-            yield return null;
+            
+            if(GameManager.MediumFrameRate)
+                yield return null;
         }
     }
 
-    public void LocalSidePosHex(float magnitud = 1f)
+    void LocalApotema(float magnitud = 1f)
     {
         DebugPrint.Log("Calculo de posición de lados");
 
         //calcula las coordenadas relativas de los lados de los hexagonos y lo retorna
-        for (int i = 0; i < auxCalc.GetLength(0); i++)
+        for (int i = 0; i < localApotema.GetLength(0); i++)
         {
-            /*
-            auxCalc[i, 0] = ((((lado/2) * Mathf.Sin((1f / 3f) * Mathf.PI)) / (Mathf.Sin((1f / 6f) )* Mathf.PI))) * Mathf.Cos((1f / 2f) * Mathf.PI + (1f / 3f * Mathf.PI) * i);
-            auxCalc[i, 1] = ((((lado/2) * Mathf.Sin((1f / 3f) * Mathf.PI)) / (Mathf.Sin((1f / 6f) )* Mathf.PI))) * Mathf.Sin((1f / 2f) * Mathf.PI + (1f / 3f * Mathf.PI) * i);
-            */
+            var aux = (Quaternion.Euler(0, 0, - (60 * i)) * Vector3.up) * apotema;
 
             //Cuenta que calcula los puntos relativos
-            auxCalc[i, 0] = (apotema) * Mathf.Cos((1f / 2f) * Mathf.PI - (1f / 3f) * Mathf.PI * i) * magnitud;
-            auxCalc[i, 1] = (apotema) * Mathf.Sin((1f / 2f) * Mathf.PI - (1f / 3f) * Mathf.PI * i) * magnitud;
+            //localApotema[i, 0] = (apotema) * Mathf.Cos((1f / 2f) * Mathf.PI - (1f / 3f) * Mathf.PI * i) * magnitud;
+            //localApotema[i, 1] = (apotema) * Mathf.Sin((1f / 2f) * Mathf.PI - (1f / 3f) * Mathf.PI * i) * magnitud;
 
-            DebugPrint.Log(auxCalc[i, 0] + " " + auxCalc[i, 1]);
+            localApotema[i, 0] = aux.x * magnitud;
+            localApotema[i, 1] = aux.y * magnitud;
 
+
+            DebugPrint.Log(localApotema[i, 0] + " " + localApotema[i, 1]);
+
+        }
+    }
+
+    void LocalRadio(float magnitud = 1f)
+    {
+        DebugPrint.Log("Calculo de posición de aristas");
+
+        //calcula las coordenadas relativas de los lados de los hexagonos y lo retorna
+        for (int i = 0; i < localRadio.GetLength(0); i++)
+        {
+
+            var aux = (Quaternion.Euler(0, 0, 60 - (60 * i)) * Vector3.right) * radio;
+
+            //Cuenta que calcula los puntos relativos
+            localRadio[i, 0] = aux.x * magnitud;
+            localRadio[i, 1] = aux.y * magnitud;
+
+            DebugPrint.Log(localRadio[i, 0] + " " + localRadio[i, 1]);
         }
     }
 
     static public Vector3 AbsSidePosHex(Vector3 posicionInicial, int lado, float z, float multiplicador = 1)
     {
         //accede a la variable global que contiene las coordenadas relativas y las guarda en un vector3, asi mismo permite multiplicarlas por un escalar
-        return new Vector3(posicionInicial.x + auxCalc[lado, 0] * multiplicador, posicionInicial.y + auxCalc[lado, 1] * multiplicador, z);
+        return new Vector3(posicionInicial.x + localApotema[lado, 0] * multiplicador, posicionInicial.y + localApotema[lado, 1] * multiplicador, z);
     }
 
     public IEnumerator VincularHexagonos(System.Action<bool> end, System.Action<string> msg)
@@ -390,7 +439,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         anguloDefecto = new Vector2(Mathf.Cos((2f / 3f) * Mathf.PI), Mathf.Sin((2f / 3f) * Mathf.PI));
 
-        LocalSidePosHex();
+        LocalApotema();
+
+        LocalRadio();
 
         DebugPrint.Log("Informacion de seteo");
 

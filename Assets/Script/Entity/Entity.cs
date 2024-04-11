@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using ComponentsAndContainers;
 using System.Collections.Generic;
 using UnityEngine;
-using ComponentsAndContainers;
 public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 {
+
+    public const float tickTimeDamage = 1 / 3f;
+
     public struct StateDamage
     {
         public Timer endCheck;
@@ -48,7 +50,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
     public void TakeDamage(Damage dmg)
     {
-        TakeDamage(ref dmg);
+        InternalTakeDamage(ref dmg);
 
         UI.Interfaz.instance?.PopTextDamage(this, dmg.ToString());
 
@@ -70,7 +72,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
         //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
 
-    public virtual void TakeDamage(ref Damage dmg)
+    public virtual void InternalTakeDamage(ref Damage dmg)
     {
         if (vulnerabilities!=null)
             for (int i = 0; i < vulnerabilities.Length; i++)
@@ -91,13 +93,13 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
                 if (health.actualLife > 0 || health.actualRegen > 0)
                 {
-                    health.TakeDamage(dmg.amount);
+                    health.TakeAllDamage(dmg.amount);
                     onTakeDamage?.Invoke(dmg);
                 }
                 else
-                    dmg.amount = 0;                
+                    dmg.amount = 0;
 
-                break;
+            break;
 
             case DamageTypes.Target.life:
 
@@ -109,7 +111,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
                 else
                     dmg.amount = 0;
 
-                break;
+            break;
 
             case DamageTypes.Target.regen:
 
@@ -121,14 +123,41 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
                 else
                     dmg.amount = 0;
 
+            break;
+
+            case DamageTypes.Target.maxLife:
+                if (health.actualLife > 0)
+                {
+                    health.TakeMaxLifeDamage(dmg.amount);
+                    onTakeDamage?.Invoke(dmg);
+                }
+                else
+                    dmg.amount = 0;
+
+            break;
+
+            case DamageTypes.Target.maxRegen:
+
+                if (health.actualRegen > 0)
+                {
+                    health.TakeMaxRegenDamage(dmg.amount);
+                    onTakeDamage?.Invoke(dmg);
+                }
+                else
+                    dmg.amount = 0;
+            break;
+                /*
+            default:
+
                 break;
+                */
         }
 
         dmg.ActionInitialiced(this, dmg.amount);
 
         foreach (var item in damageables)
         {
-            item.TakeDamage(ref dmg);
+            item.InternalTakeDamage(ref dmg);
         }
 
         health.StartRegenTimer();
@@ -221,7 +250,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
         if (healthBase == null)
             healthBase = flyweight.GetFlyWeight<HealthBase>();
 
-        tickDamage = TimersManager.Create(1f/3, ()=> updateTickDamage?.Invoke() ).SetLoop(true).Stop() as TimedAction;
+        tickDamage = TimersManager.Create(tickTimeDamage, ()=> updateTickDamage?.Invoke() ).SetLoop(true).Stop() as TimedAction;
 
         health.Init(healthBase.life, healthBase.regen);
 
@@ -267,6 +296,12 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 [System.Serializable]
 public class Health
 {
+    public event System.Action noLife;
+    public event System.Action reLife;
+    public event System.Action death;
+
+    public event System.Action<Health> helthUpdate;
+
     [SerializeField]
     Tim life;
     [SerializeField]
@@ -274,17 +309,24 @@ public class Health
     [SerializeField]
     TimedAction timeToRegen;
 
+    const int multiplyTimerRegenMax = 2;
+
+    const float tickTimerRegen = 3;
+    
+    [SerializeField]
+    bool deathBool = false;
+
+    [SerializeField]
+    bool regenCancelStop = false;
+
     public float maxLife => life.total;
     public float actualLife => life.current;
     public float maxRegen => regen.total;
     public float actualRegen => regen.current;
     public float actualCoolDownRegen => timeToRegen.current;
     public float MaxCoolDownRegen => timeToRegen.total;
-
     public float nextRegenLife => (regen.current / 100f) * life.total + life.current;
-
-    public event System.Action<Health> helthUpdate;
-
+    
     public event System.Action<IGetPercentage, float> lifeUpdate
     {
         add
@@ -321,15 +363,6 @@ public class Health
         }
     }
 
-    public event System.Action noLife;
-
-    public event System.Action reLife;
-
-    public event System.Action death;
-
-    [SerializeField]
-    bool deathBool = false;
-
     public void StartRegenTimer()
     {
         timeToRegen.Start();
@@ -346,13 +379,41 @@ public class Health
     {
         timeToRegen.Reset();
 
-        if (regen.Substract(amount) <= 0 && life.current <= 0 && !deathBool)
-        {
-            death?.Invoke();
-            deathBool = true;
-        }
+        regen.Substract(amount);
 
-        //regenUpdate?.Invoke(regen, amount);
+        DeathCheck();
+
+        return regen.Percentage();
+    }
+
+    public float TakeMaxRegenDamage(float amount)
+    {
+        timeToRegen.Reset();
+
+        regen.total-= amount;
+
+        int cantidad = multiplyTimerRegenMax;
+
+        regenCancelStop = true;
+
+        System.Action action = null;
+
+        action = () =>
+        {
+            cantidad--;
+
+            if (cantidad <= 0)
+            {
+                timeToRegen.SubstractToEnd(action);
+                regen.total += amount;
+
+                regenCancelStop = false;
+            }
+        };
+
+        timeToRegen.AddToEnd(action);
+
+        DeathCheck();
 
         return regen.Percentage();
     }
@@ -363,15 +424,43 @@ public class Health
 
         life.Substract(amount);
 
-        if (life.current <= 0)
-        {           
-            noLife?.Invoke();
-        }
+        DeathCheck();
 
         return life.Percentage();
     }
 
-    public float TakeDamage(float amount)
+    public float TakeMaxLifeDamage(float amount)
+    {
+        timeToRegen.Reset();
+
+        life.total -= amount;
+
+        int cantidad = multiplyTimerRegenMax;
+
+        regenCancelStop = true;
+
+        System.Action action = null;
+
+        action = () =>
+        {
+            cantidad--;
+
+            if(cantidad<=0)
+            {
+                timeToRegen.SubstractToEnd(action);
+                life.total += amount;
+                regenCancelStop = false;
+            }
+        };
+
+        timeToRegen.AddToEnd(action);
+
+        DeathCheck();
+
+        return life.Percentage();
+    }
+
+    public float TakeAllDamage(float amount)
     {
         if (life.current - amount <= 0)
         {
@@ -386,12 +475,23 @@ public class Health
             TakeLifeDamage(amount);
         }
 
-        
-
-        //lifeUpdate?.Invoke(life, amount);
-
-        //actualizar ui
         return life.Percentage();
+    }
+
+    void DeathCheck()
+    {
+        if(!deathBool)
+        {
+            if (regen.current <= 0 && life.current <= 0)
+            {
+                death?.Invoke();
+                deathBool = true;
+            }
+            else if (life.current <= 0)
+            {
+                noLife?.Invoke();
+            }
+        }
     }
 
     void Regen()
@@ -399,7 +499,7 @@ public class Health
         if (life == null || regen == null)
             return;
 
-        if (regen.current == regen.total && life.current == life.total || deathBool)
+        if ((!regenCancelStop && regen.current == regen.total && life.current == life.total) || deathBool)
         {
             timeToRegen.Stop();
             return;
@@ -439,7 +539,7 @@ public class Health
             regen.onChange += (a, b) => helthUpdate?.Invoke(this);
         }
 
-        timeToRegen = TimersManager.Create(3, Regen);
+        timeToRegen = TimersManager.Create(tickTimerRegen, Regen);
 
         timeToRegen.SetLoop(true);
 

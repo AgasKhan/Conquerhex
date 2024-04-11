@@ -503,7 +503,19 @@ public static class Extensions
 
         return dic;
     }
-    
+
+    static public void CreateOrSave<K, V>(this Dictionary<K, V> pictionary, K key, V value)
+    {
+        if (pictionary.ContainsKey(key))
+        {
+            pictionary[key] = value;
+        }
+        else
+        {
+            pictionary.Add(key, value);
+        }
+    }
+
 
     /// <summary>
     /// Filtra todos aquellos que no esten en el radio de toComp

@@ -8,19 +8,23 @@ public class MoveTr : MoveAbstract
     
     protected override void Config()
     {
-        MyAwakes += MyAwake;
+        //MyAwakes += MyAwake;
         MyUpdates += MyUpdate;
 
+        /*
         if (rend != null)
             MyUpdates += MyUpdateRender;
+        */
     }
 
     void MyAwake()
     {
         rend = GetComponentInChildren<SpriteRenderer>();
 
+        /*
         if (rend != null)
             MyUpdates += MyUpdateRender;
+        */
     }
 
     protected void MyUpdate()

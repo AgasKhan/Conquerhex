@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace DamageTypes
 {
-
+    /// <summary>
+    /// Cortante - realiza 0.1 de danio a la regeneracion por segundo, por la cantidad de danio % realizado a la vida
+    /// </summary>
     [CreateAssetMenu(menuName = "Weapons/Slash", fileName = "Slash")]
     public class Slash : PhysicalDamage
     {
@@ -13,13 +15,11 @@ namespace DamageTypes
             if (entity.health.maxRegen <= 0)
                 return;
 
-            var dmg = Damage.Create<ElementalDamage>(1);
+            var dmg = Damage.Create<ElementalDamage>(Entity.tickTimeDamage/10);
 
-            entity.Effect(amount / 3,
+            entity.Effect(amount / entity.health.maxLife,
                 () =>
                 {
-                    //dmg.amount = 1;
-
                     entity.TakeDamage(dmg);
                 },
                 null

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class GameManager : SingletonMono<GameManager>
 {
@@ -31,8 +32,16 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
+    public static Queue<System.Action> eventQueue = new Queue<System.Action>(); 
+
     public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
     public static Pictionarys<MyScripts, UnityAction> update => instance._update;
+
+    public static bool HightFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 120);
+
+    public static bool MediumFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 60);
+
+    public static bool SlowFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 30);
 
     public LayerMask obstacleAvoidanceLayer;
 
@@ -57,6 +66,8 @@ public class GameManager : SingletonMono<GameManager>
 
     [SerializeField]
     FSMGameMaganer fsmGameMaganer;
+
+    System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
     public static void RetardedOn(System.Action<bool> retardedOrder)
     {
@@ -139,10 +150,29 @@ public class GameManager : SingletonMono<GameManager>
 
     void MyUpdate(Pictionarys<MyScripts, UnityAction> update)
     {
+        foreach (var item in update)
+        {
+            item.value();
+        }
+
+        /*
+        
         for (int i = 0; i < update.Count; i++)
         {
             update[i]();
         }
+
+        Task[] tasks = new Task[update.Count];
+
+        for (int i = 0; i < update.Count; i++)
+        {
+            update[i]();
+            int index = i; // Captura de la variable en el contexto del bucle
+            tasks[index] = Task.Run(() => update[index]());
+        }
+
+        Task.WaitAll(tasks);
+        */
     }
 
     void MyUpdate()
@@ -170,7 +200,16 @@ public class GameManager : SingletonMono<GameManager>
 
     private void Update()
     {
+        stopwatch.Restart();
+
         updateUnityEvent?.Invoke();
+
+        do
+        {
+            if (eventQueue.TryDequeue(out var action))
+                action();
+
+        } while (eventQueue.Count > 0 && !MediumFrameRate);
     }
 
     private void FixedUpdate()

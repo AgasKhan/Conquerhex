@@ -145,10 +145,11 @@ public class TimersManager : SingletonScript<TimersManager>
 [System.Serializable]
 public class Tim : IGetPercentage
 {
+    [SerializeField]
     /// <summary>
     /// Valor maximo en el cual clampea
     /// </summary>
-    public float total;
+    protected float _total;
 
     [SerializeField]
     protected float _current;
@@ -159,6 +160,17 @@ public class Tim : IGetPercentage
     /// que hace cuando se setea el current
     /// </summary>
     protected System.Action<float> internalSetCurrent;
+
+    public virtual float total
+    {
+        get => _total;
+        set
+        {
+            _total = value;
+
+            current = current;
+        }
+    }
 
     /// <summary>
     /// Valor actual

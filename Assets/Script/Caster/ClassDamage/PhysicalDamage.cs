@@ -6,7 +6,7 @@ namespace DamageTypes
 {
     [CreateAssetMenu(menuName = "Weapons/PhysicalDamage", fileName = "PhysicalDamage")]
     /// <summary>
-    /// este es el daño fisico
+    /// Fisico - padre de los danios fisicos - en su forma pura hace danio solo a la vida
     /// </summary>
     public class PhysicalDamage : PureDamage
     {

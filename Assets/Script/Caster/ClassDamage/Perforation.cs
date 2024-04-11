@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace DamageTypes
 {
+    /// <summary>
+    /// Perforante - realiza mas danio a la regeneracion en una realacion inversamente proporcional a la cantidad de salud del enemigo (1% minimo)
+    /// </summary>
     [CreateAssetMenu(menuName = "Weapons/Perforation", fileName = "Perforation")]
     public class Perforation : PhysicalDamage
     {
@@ -12,10 +15,12 @@ namespace DamageTypes
             if (entity.health.maxRegen <= 0)
                 return;
 
-            //entity.health.TakeRegenDamage();
-            var aux =  Random.Range(1, 4) / 3f;
+            float multiply = 1 - (entity.health.actualLife / entity.health.maxLife);
 
-            Damage damage = Damage.Create<ElementalDamage>(aux * amount);
+            if (multiply < 0.01f)
+                multiply = 0.01f;
+
+            Damage damage = Damage.Create<ElementalDamage>(multiply * amount);
 
             entity.Effect(0, null, () => 
             {
