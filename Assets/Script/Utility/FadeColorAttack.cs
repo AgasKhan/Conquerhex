@@ -106,7 +106,7 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack InternalArea(float area)
     {
-        sprite.material.SetFloat("_InternalArea", area);
+        sprite.material.SetFloat("_InternalArea", area * transform.localScale.x);
 
         return this;
     }
@@ -124,9 +124,12 @@ public class FadeColorAttack : MonoBehaviour
         return this;
     }
 
-    public FadeColorAttack Area(float number)
+    public FadeColorAttack Area(float max, float min=0)
     {
-        transform.localScale = Vector3.one * 2 * number;
+        transform.localScale = Vector3.one * 2 * max;
+
+        InternalArea(min);
+
         //light2D.pointLightOuterRadius = number;
         return this;
     }

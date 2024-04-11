@@ -33,7 +33,9 @@ public abstract class AbilityBase : ItemBase
     [SerializeField, Header("Deteccion")]
     Detections detection;
 
-    public float range => detection?.detect?.radius ?? 0;
+    public float maxRange => detection?.detect?.maxRadius ?? 0;
+
+    public float minRange => detection?.detect?.minRadius ?? 0;
 
     public int maxDetects => detection?.detect?.maxDetects ?? 0;
 
@@ -76,8 +78,8 @@ public abstract class AbilityBase : ItemBase
             PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
     }
 
-    public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector2 direction, int numObjectives, float range, float dot)
-        => detection?.Detect(ref result, caster, direction, numObjectives, range, dot);
+    public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector2 direction, int numObjectives, float minRange, float maxRange, float dot)
+        => detection?.Detect(ref result, caster, direction, numObjectives, minRange, maxRange, dot);
 
     public TriggerController CreateTriggerController()
     {
@@ -128,7 +130,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public virtual float FinalVelocity => itemBase.velocity;
 
-    public virtual float FinalRange => itemBase.range;
+    public virtual float FinalMaxRange => itemBase.maxRange;
+
+    public virtual float FinalMinRange => itemBase.minRange;
 
     public virtual Vector3 Aiming
     {
@@ -187,9 +191,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         trigger.Destroy();
     }
 
-    public List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
+    public List<Entity> Detect(Vector2 dir, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
-        affected = trigger.InternalDetect(dir, timePressed, range, dot);
+        affected = trigger.InternalDetect(dir, timePressed, minRange, maxRange, dot);
 
         if (affected != null)
             foreach (var item in affected)

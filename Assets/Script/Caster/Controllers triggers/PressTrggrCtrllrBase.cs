@@ -39,7 +39,7 @@ public class PressTrggrCtrllr : TriggerController
 
         aux.SetParent(caster.transform);
 
-        reference.Area(FinalRange);
+        reference.Area(FinalMaxRange);
 
         reference.Attack();
 

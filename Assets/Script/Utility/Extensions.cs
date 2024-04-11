@@ -285,6 +285,51 @@ public static class Extensions
             return float.PositiveInfinity;
     }
 
+    /// <summary>
+    /// Calculo automatico del sqrMagnitude de un componente y un vector
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="component"></param>
+    /// <param name="toComp"></param>
+    /// <returns></returns>
+    static public float SqrDistance<T>(this T component, Vector3 toComp) where T : Component
+    {
+        if (component)
+            return (toComp - component.transform.position).sqrMagnitude;
+        else
+            return float.PositiveInfinity;
+    }
+
+    /// <summary>
+    /// Calculo automatico del sqrMagnitude de un componente y un vector
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="component"></param>
+    /// <param name="toComp"></param>
+    /// <returns></returns>
+    static public float SqrDistance<T>(this T component, Vector2 toComp) where T : Component
+    {
+        if (component)
+            return (toComp.Vec2to3(component.transform.position.z) - component.transform.position).sqrMagnitude;
+        else
+            return float.PositiveInfinity;
+    }
+
+    static public bool IsInRadius<T>(this T component, Vector2 toComp, float radius) where T : Component
+    {
+        return component.SqrDistance(toComp) <= radius * radius;
+    }
+
+    static public bool IsInRadius<T>(this T component, Vector3 toComp, float radius) where T : Component
+    {
+        return component.SqrDistance(toComp) <= radius * radius;
+    }
+
+    static public bool IsInRadius<T>(this T component, Component toComp, float radius) where T : Component
+    {
+        return component.SqrDistance(toComp) <= radius * radius;
+    }
+
     #endregion
 
 
@@ -527,7 +572,7 @@ public static class Extensions
     /// <returns></returns>
     static public IEnumerable<T> InRadiusOf<T>(this IEnumerable<T> comp, Component toComp, float radius) where T : Component
     {
-        return comp.Where((component) => toComp.SqrDistance(component) <= radius * radius);
+        return comp.Where((component) => toComp.IsInRadius(component, radius));
     }
 
     /// <summary>

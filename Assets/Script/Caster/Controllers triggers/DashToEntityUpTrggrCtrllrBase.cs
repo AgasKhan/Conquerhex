@@ -70,8 +70,8 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference.Area(originalScale * FinalRange * 1f / 4);
-        Detect(Aiming, 0, FinalRange * 1f / 4);
+        FeedBackReference.Area(originalScale * FinalMaxRange * 1f / 4);
+        Detect(Aiming, 0, FinalMaxRange * 1f / 4);
 
         if (affected.Count == 0)
             return;

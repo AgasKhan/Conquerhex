@@ -25,7 +25,7 @@ public class AutomaticAttack
         get
         {
             if (weaponKata != null)
-                return weaponKata.FinalRange;
+                return weaponKata.FinalMaxRange;
             else
                 return 0;
         }

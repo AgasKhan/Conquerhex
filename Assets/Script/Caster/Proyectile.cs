@@ -76,6 +76,6 @@ public class Proyectile : Entity
     {
         Gizmos.color = Color.red;
 
-        Gizmos.DrawSphere(collision.position, detect.radius);
+        Gizmos.DrawSphere(collision.position, detect.maxRadius);
     }
 }

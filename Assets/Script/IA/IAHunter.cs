@@ -232,16 +232,16 @@ public class HunterChase : IState<HunterIntern>
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
-        if (distance > param.context.detectCordero.radius * param.context.detectCordero.radius || !steerings.targets[0].visible)
+        if (distance > param.context.detectCordero.maxRadius * param.context.detectCordero.maxRadius || !steerings.targets[0].visible)
         {
             param.CurrentState = param.patrol;
             return;
         }
-        else if (distance >= param.context.detectCordero.radius / 2)
+        else if (distance >= param.context.detectCordero.maxRadius / 2)
         {
             steerings.SwitchSteering<Pursuit>();
         }
-        else if (distance < param.context.detectCordero.radius / 3)
+        else if (distance < param.context.detectCordero.maxRadius / 3)
         {
             steerings.SwitchSteering<Seek>();
         }

@@ -26,7 +26,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public virtual float FinalVelocity => ability.FinalVelocity;
 
-    public virtual float FinalRange => ability.FinalRange;
+    public virtual float FinalMaxRange => ability.FinalMaxRange;
+
+    public virtual float FinalMinRange => ability.FinalMinRange;
 
     public virtual float Dot => ability.Dot;
 
@@ -58,13 +60,11 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
-
-
     public void Cast() 
         => ability.Cast();
 
-    public List<Entity> Detect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null) 
-        => ability.Detect(dir, timePressed, range, dot);
+    public List<Entity> Detect(Vector2 dir, float timePressed = 0, float? maxRange = null, float? minRange = null,  float? dot = null) 
+        => ability.Detect(dir, timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
 
     public virtual void Init(Ability ability)
     {
@@ -100,9 +100,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         ability.onCast -= param.AttackEvent;
     }
 
-    public virtual List<Entity> InternalDetect(Vector2 dir, float timePressed = 0, float? range = null, float? dot = null)
+    public virtual List<Entity> InternalDetect(Vector2 dir, float timePressed = 0, float? minRange=null, float? maxRange=null, float? dot = null)
     {
-        return ability.itemBase.Detect(ref ability.affected, caster.container, dir, ability.itemBase.maxDetects, range ?? FinalRange, dot ?? Dot);
+        return ability.itemBase.Detect(ref ability.affected, caster.container, dir, ability.itemBase.maxDetects, minRange ?? FinalMinRange, maxRange ?? FinalMaxRange, dot ?? Dot);
     }
 
     public abstract void ControllerDown(Vector2 dir, float tim);
@@ -125,7 +125,9 @@ public interface IAbilityComponent
     public bool End { get ; set ; }
     public float FinalVelocity { get; }
 
-    public  float FinalRange { get; }
+    public  float FinalMaxRange { get; }
+
+    public float FinalMinRange { get; }
 
     public  Vector3 Aiming { get ; }
 

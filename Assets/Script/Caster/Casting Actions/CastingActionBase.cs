@@ -26,7 +26,9 @@ public abstract class CastingAction : IAbilityComponent
 
     public float FinalVelocity => (ability).FinalVelocity;
 
-    public float FinalRange => (ability).FinalRange;
+    public float FinalMaxRange => (ability).FinalMaxRange;
+
+    public float FinalMinRange => (ability).FinalMinRange;
 
     public Vector3 Aiming => (ability).Aiming;
 

@@ -43,7 +43,7 @@ public class WeaponKata : Ability
 
     public override float FinalVelocity => base.FinalVelocity * (WeaponEnabled?.itemBase.velocity ?? 1);
 
-    public override float FinalRange => base.FinalRange * (WeaponEnabled?.itemBase.range ?? 1);
+    public override float FinalMaxRange => base.FinalMaxRange * (WeaponEnabled?.itemBase.range ?? 1);
 
     public override bool DontExecuteCast => base.DontExecuteCast || WeaponEnabled == null;
 
