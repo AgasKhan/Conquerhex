@@ -129,8 +129,19 @@ public class BaseData : SingletonScript<BaseData>
             for (int i = 0; i < saveObject.transform.childCount; i++)
             {
                 yield return GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject.transform.GetChild(i).gameObject, aux));
+                
+                for (int j = 0; j < prefabsPic.Count; j++)
+                {
 
-                childs.Add(bufferAux);
+                    if (saveObject.transform.GetChild(i).gameObject.name == prefabsPic.keys[j])
+                    {
+                        
+                        yield return GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject.transform.GetChild(i).gameObject, aux));
+                
+                        childs.Add(bufferAux);
+                        
+                    }
+                }
 
                 yield return null;
             }
