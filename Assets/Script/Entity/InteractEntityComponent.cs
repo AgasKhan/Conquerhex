@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class InteractEntityComponent : ComponentOfContainer<Entity>
 {
@@ -42,6 +43,28 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
         }
 
         genericMenu = new GenericSubMenu(this);
+
+        Action<SubMenus> menuAction =
+        (subMenu) =>
+        {
+            subMenu.CreateSection(0, 2);
+            subMenu.CreateChildrenSection<ScrollRect>();
+
+            foreach (var item in genericMenu.interactComponent.interact)
+            {
+                item.value.InteractInit(genericMenu.interactComponent);
+                subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { genericMenu.DestroyLastButtons(); item.value.ShowMenu(genericMenu.myCharacter); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+            }
+
+            subMenu.CreateSection(2, 6);
+            subMenu.CreateChildrenSection<ScrollRect>();
+            genericMenu.detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", genericMenu.interactComponent.container.flyweight.GetDetails()["Description"]).SetImage(genericMenu.interactComponent.container.flyweight.image);
+            
+            subMenu.CreateTitle(genericMenu.interactComponent.container.flyweight.nameDisplay);
+
+        };
+
+        genericMenu.SetCreateAct(menuAction);
 
         //Interact<CraftingAction>().Activate(param.);
 

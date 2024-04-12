@@ -76,6 +76,19 @@ public class Recipes : ItemBase
         
         return aux.RichText("color", "#ffa500ff");
     }
+
+    public string GetIngredientsStr()
+    {
+        string aux = "Materials: \n";
+
+        for (int i = 0; i < materials.Count; i++)
+        {
+            aux += materials[i].Item.nameDisplay + " " + materials[i].Amount + "\n";
+        }
+
+        return aux.RichText("color", "#ffa500ff");
+    }
+
     public Pictionarys<string, Sprite> GetRequireItems()
     {
         Pictionarys<string, Sprite> aux = new Pictionarys<string, Sprite>();
