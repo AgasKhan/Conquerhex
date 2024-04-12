@@ -100,7 +100,7 @@ public class LoadMap : SingletonMono<LoadMap>
             //arrHexCreados[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(Random.Range(1, 11)/10f, Random.Range(1, 11) / 10f, Random.Range(1, 11) / 10f, 1f));
             arrHexTeleport.transform.position = CalculateHexagonoPos(i);
 
-            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes.RandomPic()).SetTeleportEdge(hexagonos[i]).FillTilePos().FillPropsPos(i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
+            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes.RandomPic()).SetTeleportEdge(hexagonos[i]).SetTerrain().FillPropsPos(i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
 
             arrHexTeleport.name = "Hexagono " + i;
         }

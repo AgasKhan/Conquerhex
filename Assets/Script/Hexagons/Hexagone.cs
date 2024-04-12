@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class Hexagone : MonoBehaviour
 {
+    [SerializeField]
+    public Random.State seedTerrain;
+
     public int id;
 
     public int level;
@@ -20,17 +24,31 @@ public class Hexagone : MonoBehaviour
 
     public Tilemap map;
 
-    public bool manualTiles=false;
+    public bool manualTiles = false;
 
-    public bool manualProps=false;
+    public bool manualProps = false;
 
     public bool manualSetEdge = false;
 
     public int lenght = 42;
 
+    public HashSet<Entity> childsEntities { get; private set; } = new HashSet<Entity>();
+
     [SerializeField]
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
     bool manualSpawnSpawner = false;
+
+    public IEnumerable<Entity> AllChildEntities => childsEntities.Concat(ladosArray.SelectMany((hex)=>hex.childsEntities));
+
+    public void ExitEntity(Entity entity)
+    {
+        childsEntities.Remove(entity);
+    }
+
+    public void EnterEntity(Entity entity)
+    {
+        childsEntities.Add(entity);
+    }
 
     public Hexagone SetID(int i)
     {
@@ -72,8 +90,10 @@ public class Hexagone : MonoBehaviour
         return this;
     }
 
-    public Hexagone FillTilePos()
+    public Hexagone SetTerrain()
     {
+        seedTerrain = Random.state;
+
         int x = Vector3Int.RoundToInt(transform.position).x - (lenght / 2);
         int y = Vector3Int.RoundToInt(transform.position).y - (lenght / 2);
 
@@ -181,7 +201,7 @@ public class Hexagone : MonoBehaviour
     private void Start()
     {
         if (!manualTiles)
-            FillTilePos();
+            SetTerrain();
 
         if(!manualProps)
         {
