@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 {
-
     public const float tickTimeDamage = 1 / 3f;
 
     public struct StateDamage
@@ -17,6 +16,8 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     public Team team;
     
     public Health health;
+
+    public Hexagone hexagoneParent;
 
     public event System.Action<Damage> onTakeDamage;
 
@@ -233,7 +234,16 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
     public void Teleport(Hexagone hexagone, int lado)
     {
+        if (hexagone == hexagoneParent)
+            return;
+
         hexagone.SetProyections(transform,carlitos);
+
+        hexagoneParent?.ExitEntity(this);
+
+        hexagoneParent = hexagone;
+
+        hexagoneParent.EnterEntity(this);
 
         for (int i = 0; i < carlitos.Length; i++)
         {

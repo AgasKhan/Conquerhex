@@ -31,6 +31,14 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     [SerializeField]
     float _energy;
 
+    public int MaxEnergy => flyweight?.energy ?? 0;
+
+    public bool EnergyStatic => flyweight?.energyStatic ?? true;
+
+    public float ChargeEnergy => flyweight?.chargeEnergy ?? 0;
+
+    public float EnergyDefault => flyweight?.energyDefault ?? 0;
+
     [Tooltip("Representa la parte llena de la barra")]
     public float PositiveEnergy
     {
@@ -52,15 +60,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
             enabled = true;
         }
     }
-
-    public int MaxEnergy => flyweight?.energy ?? 0;
-
-    public bool EnergyStatic => flyweight?.energyStatic ?? true;
-
-    public float ChargeEnergy => flyweight?.chargeEnergy ?? 0;
-
-    public float EnergyDefault => flyweight?.energyDefault ?? 0;
-
 
     [field: SerializeField]
     public AttackBase flyweight { get; protected set; }

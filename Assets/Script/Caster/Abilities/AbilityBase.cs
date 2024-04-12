@@ -18,10 +18,22 @@ public abstract class AbilityBase : ItemBase
     [SerializeField]
     public Pictionarys<string, AudioLink> audios = new Pictionarys<string, AudioLink>();
 
-    [Header("Statitics")]
+    [Header("Statitics"),Space()]
 
     [Tooltip("cooldown")]
     public float velocity;
+
+    [Tooltip("Costo de ejecusion:" +
+        "\nSi es positivo consume energia" +
+        "\nSi es negativo sumara energia")]
+    public float costExecution = 0;
+
+    [Tooltip("Costo por manutencion:" +
+        "\nSi es positivo consume energia" +
+        "\nSi es negativo sumara energia" +
+        "\nEste costo no se quitara de forma automatica")]
+    public float costHandle = 0;
+
 
     public Damage[] damagesMultiply = new Damage[0];
 
@@ -144,6 +156,10 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     }
 
     public virtual bool DontExecuteCast => caster == null || !caster.isActiveAndEnabled;
+
+    public virtual float CostExecution => itemBase.costExecution;
+
+    public virtual float CostHandle => itemBase.costHandle;
 
     public override bool visible => !isCopy;
 
@@ -290,6 +306,14 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void OnEnterState(CasterEntityComponent param)
     {
+        if ((CostExecution < 0 && -CostExecution > param.NegativeEnergy) || (CostExecution > 0 && CostExecution > param.PositiveEnergy))
+        {
+            End = true;
+            return;
+        }
+
+        param.NegativeEnergy += CostExecution;//siempre le quito el costo de la habilidad
+
         trigger.OnEnterState(param);
     }
 
