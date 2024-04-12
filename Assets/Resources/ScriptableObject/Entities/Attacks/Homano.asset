@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789d9d0bf1f5c714a8ebf28b525cc4d2, type: 3}
   m_Name: Homano
   m_EditorClassIdentifier: 
+  energy: 100
+  chargeEnergy: 1
+  energyStatic: 0
+  energyDefault: 0.5
   kataCombos:
   - kata: {fileID: 11400000, guid: 25c32209251f7b84db2f5362d0c971f6, type: 2}
     weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
   - kata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
     weapon: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
+  habilities: []
   additiveDamage:
   - name: Perforation
     amount: 2

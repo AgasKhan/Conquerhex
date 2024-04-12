@@ -51,11 +51,11 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
     public override void OnStayState(Entity param)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public override void OnExitState(Entity param)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }

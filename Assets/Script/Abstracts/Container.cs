@@ -10,13 +10,11 @@ namespace ComponentsAndContainers
     {
         public ChildContainer container => (ChildContainer)this; //el hijo
 
-        SuperDickLite<IComponent<ChildContainer>> _container = new SuperDickLite<IComponent<ChildContainer>>();
-
-        //Dictionary<System.Type, IComponent<ChildContainer>> _container = new Dictionary<System.Type, IComponent<ChildContainer>>();
+        protected SuperDickLite<IComponent<ChildContainer>> componentsInCointainer = new SuperDickLite<IComponent<ChildContainer>>();
 
         public bool TryGetInContainer<T>(out T component) where T : IComponent<ChildContainer>
         {
-            var b = _container.TryGetValue(typeof(T), out var comp);
+            var b = componentsInCointainer.TryGetValue(typeof(T), out var comp);
 
             component = (T)comp;
 
@@ -25,14 +23,14 @@ namespace ComponentsAndContainers
 
         public T GetInContainer<T>() where T : IComponent<ChildContainer>
         {
-            return (T)_container[typeof(T)];
+            return (T)componentsInCointainer[typeof(T)];
         }
 
         public void RemoveInContainer<T>() where T : IComponent<ChildContainer>
         {
-            _container[typeof(T)].OnExitState(container);
+            componentsInCointainer[typeof(T)].OnExitState(container);
 
-            _container[typeof(T)] = null;
+            componentsInCointainer[typeof(T)] = null;
 
             //var component = GetInContainer<T>();
 
@@ -43,7 +41,7 @@ namespace ComponentsAndContainers
 
         public void AddInContainer<T>(T component) where T : IComponent<ChildContainer>
         {
-            _container[component.GetType()] = component;
+            componentsInCointainer[component.GetType()] = component;
 
             //_container.Add(component.GetType(), component);
 
@@ -60,7 +58,7 @@ namespace ComponentsAndContainers
         {
             foreach (var component in GetComponents<IComponent<ChildContainer>>())
             {
-                _container[component.GetType()] = component;
+                componentsInCointainer[component.GetType()] = component;
 
                 component.OnSetContainer(container);
 
@@ -69,7 +67,7 @@ namespace ComponentsAndContainers
                 //_container.Add(component.GetType(), component);
             }
 
-            foreach (var component in _container)
+            foreach (var component in componentsInCointainer)
             {
                 component.OnEnterState(container);
             }

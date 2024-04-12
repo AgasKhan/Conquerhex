@@ -57,7 +57,7 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
 
     public void OnStayState(Entity param)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     private void Health_regenUpdate(IGetPercentage percentage, float number)

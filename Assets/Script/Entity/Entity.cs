@@ -248,6 +248,19 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     {
         base.Config();
         MyAwakes = MyAwakes + MyAwake;
+
+        //MyUpdates += Entity_MyUpdates;
+    }
+
+    private void Entity_MyUpdates()
+    {
+        if (health.IsDeath)
+            return;
+
+        foreach (var item in componentsInCointainer)
+        {
+            item.OnStayState(this);
+        }
     }
 
     private void MyAwake()
