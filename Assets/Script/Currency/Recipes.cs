@@ -89,6 +89,27 @@ public class Recipes : ItemBase
         return aux.RichText("color", "#ffa500ff");
     }
 
+    public string GetIngredientsStr(float porcentual)
+    {
+        string aux = "Materials: \n";
+
+        for (int i = 0; i < materials.Count; i++)
+        {
+            aux += GetMaterials(materials[i],porcentual);
+        }
+
+        return aux.RichText("color", "#ffa500ff");
+    }
+    string GetMaterials(Ingredient ing, float porcentual)
+    {
+        var aux = Mathf.RoundToInt(ing.Amount * porcentual);
+        if (aux == 0)
+            return "";
+        else
+            return ing.Item.nameDisplay + " " + aux + "\n";
+    }
+
+
     public Pictionarys<string, Sprite> GetRequireItems()
     {
         Pictionarys<string, Sprite> aux = new Pictionarys<string, Sprite>();

@@ -16,70 +16,31 @@ public class SavingAction : InteractAction<(Character character, string slotName
     public override void InteractInit(InteractEntityComponent _interactComp)
     {
         base.InteractInit(_interactComp);
-        subMenu = new SaveSubMenu(this);
-    }
-}
+        subMenu = new GenericSubMenu(_interactComp);
+        GenericSubMenu menu = subMenu as GenericSubMenu;
 
-[System.Serializable]
-public class SaveSubMenu : CreateSubMenu
-{
-    SavingAction saveAction;
-
-    [HideInInspector]
-    public DetailsWindow detailsWindow;
-
-    EventsCall lastButton = null;
-
-    Character myCharacter;
-
-    public override void Create(Character character)
-    {
-        myCharacter = character;
-        subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
-
-        subMenu.navbar.DestroyAll();
-        subMenu.ClearBody();
-        DestroyLastButtons();
-        base.Create();
-    }
-    protected override void InternalCreate()
-    {
-        subMenu.CreateSection(0, 3);
-        subMenu.CreateChildrenSection<ScrollRect>();
-
-        foreach (var item in saveAction.baseData.savedGames)
+        System.Action<SubMenus> menuAction =
+        (internalSubMenu) =>
         {
-            subMenu.AddComponent<EventsCall>().Set("Save game: " + item.key, () => { DestroyLastButtons(); ShowSlot(item.key.nameDisplay); }, "").rectTransform.sizeDelta = new Vector2(350, 75);
-        }
+            internalSubMenu.CreateSection(0, 3);
+            internalSubMenu.CreateChildrenSection<ScrollRect>();
 
-        subMenu.CreateSection(3, 6);
-        subMenu.CreateChildrenSection<ScrollRect>();
-        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", "").SetImage(null);
+            foreach (var item in baseData.savedGames)
+            {
+                internalSubMenu.AddComponent<EventsCall>().Set("Save game: " + item.key, 
+                    () => 
+                    { 
+                        menu.DestroyLastButtons();
+                        menu.detailsWindow.SetTexts("Game name: " + item.key.nameDisplay, "Last modification date: ").SetImage(null);
+                        menu.CreateButton("Save Game", () => Activate((menu.myCharacter, item.key.nameDisplay)));
+                    }, "").rectTransform.sizeDelta = new Vector2(350, 75);
+            }
 
-        subMenu.CreateTitle("Save Building");
-    }
+            internalSubMenu.CreateSection(3, 6);
+            internalSubMenu.CreateChildrenSection<ScrollRect>();
+            menu.detailsWindow = internalSubMenu.AddComponent<DetailsWindow>().SetTexts("", "").SetImage(null);
 
-    public EventsCall CreateButton(string text, UnityEngine.Events.UnityAction action)
-    {
-        DestroyLastButtons();
-        lastButton = subMenu.AddComponent<EventsCall>().Set(text, action, "");
-        return lastButton;
-    }
-
-    public void ShowSlot(string slotName)
-    {
-        detailsWindow.SetTexts("Game name: " + slotName, "Last modification date: ").SetImage(null);
-        CreateButton("Save Game", ()=> saveAction.Activate((myCharacter, slotName)));
-    }
-
-    public void DestroyLastButtons()
-    {
-        if (lastButton != null)
-            Object.Destroy(lastButton.gameObject);
-    }
-
-    public SaveSubMenu(SavingAction _entity)
-    {
-        saveAction = _entity;
+            internalSubMenu.CreateTitle("Save Building");
+        };
     }
 }

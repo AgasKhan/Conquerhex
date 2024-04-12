@@ -139,14 +139,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   automatick:
     timerToAttack:
-      total: 0
+      _total: 0
       _current: 0
     timerChargeAttack:
-      total: 0
+      _total: 0
       _current: 0
   detectEntities:
-    radius: 8
-    distance: 0
+    maxRadius: 0
+    minRadius: 0
     inverse: 0
     dot: 1
     _maxDetects: 0
@@ -180,25 +180,24 @@ MonoBehaviour:
   team: 1
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
     deathBool: 0
-  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
+    regenCancelStop: 0
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 11400000, guid: 35ae1ede20b545d499b2616a39a00920,
     type: 2}
   <healthBase>k__BackingField: {fileID: 11400000, guid: ac5a2a294b48a3a4092765b98dcb809f,
     type: 2}
-  inventory: {fileID: 0}
-  caster: {fileID: 0}
-  move: {fileID: 0}
+  <inventory>k__BackingField: {fileID: 0}
+  <caster>k__BackingField: {fileID: 0}
+  <move>k__BackingField: {fileID: 0}
 --- !u!114 &2904035125237228758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,17 +210,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0}
   aceleration:
-    total: 60
+    _total: 30
     _current: 0
   _desaceleration:
-    total: 15
+    _total: 30
     _current: 15
   _velocity:
-    total: 50
+    _total: 10
     _current: 0
-  objectiveVelocity: 6
+  <objectiveVelocity>k__BackingField: 0
 --- !u!114 &-781762564285894486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,24 +387,6 @@ MonoBehaviour:
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
-  abilities:
-    list:
-    - _indexEquipedItem: -1
-      _equiped:
-        rid: -2
-    - _indexEquipedItem: -1
-      _equiped:
-        rid: -2
-    - _indexEquipedItem: -1
-      _equiped:
-        rid: -2
-    - _indexEquipedItem: -1
-      _equiped:
-        rid: -2
-    - _indexEquipedItem: -1
-      _equiped:
-        rid: -2
-    <indexer>k__BackingField: 0
   katasCombo:
     list:
     - _indexEquipedItem: -1
@@ -421,8 +402,11 @@ MonoBehaviour:
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
-  abilitiesCombo:
+  abilities:
     list:
+    - _indexEquipedItem: -1
+      _equiped:
+        rid: -2
     - _indexEquipedItem: -1
       _equiped:
         rid: -2

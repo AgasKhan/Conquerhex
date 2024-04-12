@@ -7,8 +7,6 @@ public class TutorialBuild : Building
 {
     public List<ShowDetails> allTutorials = new List<ShowDetails>();
     public override string rewardNextLevel => throw new System.NotImplementedException();
-    TutorialSubMenu myPortalSubMenu;
-
 }
 
 [System.Serializable]

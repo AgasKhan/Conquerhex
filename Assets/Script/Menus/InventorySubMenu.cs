@@ -81,14 +81,10 @@ public class InventorySubMenu : CreateSubMenu
                {
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                    DestroyButtonsActions();
-                   //CreateButtonsActions(item, item.GetItemBase().buttonsAcctions);
-
+                   
                    if(slotItem != null && isEquipMenu)
                        CreateButtonEquip(slotItem, index);
-                   /*
-                   if (slotItem != null)
-                       CreateButtonEquip(slotItem, index);
-                   */
+
                    if (item.GetItemBase() is WeaponKataBase)
                    {
                        WeaponKata auxKata = (WeaponKata)item;
@@ -163,7 +159,6 @@ public class InventorySubMenu : CreateSubMenu
 
     void CreateButtonsActions(Item myItem, Dictionary<string, System.Action<Character, Item>> dic)
     {
-
         foreach (var item in dic)
         {
             buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set(item.Key, 

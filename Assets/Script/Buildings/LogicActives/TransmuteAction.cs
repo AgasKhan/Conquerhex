@@ -44,7 +44,7 @@ public class TransmuteAction : InteractAction<(Character character, MeleeWeaponB
                     { 
                         menu.DestroyLastButtons();
                         menu.detailsWindow.SetTexts(item.nameDisplay, item.GetDetails().ToString("\n") + (item.GetItemBase() as MeleeWeaponBase).recipe.GetIngredientsStr()).SetImage(item.image);
-                        menu.CreateButton("Transmute", () => { menu.detailsWindow.SetActive(true); Activate((menu.myCharacter, item.GetItemBase() as MeleeWeaponBase)); });
+                        menu.CreateButton("Transmute", () => { menu.detailsWindow.SetActive(true); Activate((menu.myCharacter, item.GetItemBase() as MeleeWeaponBase)); internalSubMenu.gameObject.SetActive(false); });
 
                     }).rectTransform.sizeDelta = new Vector2(300, 150);
             }

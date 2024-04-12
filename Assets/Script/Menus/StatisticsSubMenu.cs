@@ -146,39 +146,4 @@ public class StatisticsSubMenu : CreateSubMenu
         doubleButton.left.SetButtonA(nameKata, spriteKAta, strKata, actionKata);
         doubleButton.right.SetButtonA(nameWeapon, spriteWeapon, strWeapon, actionWeapon).button.interactable = interactiveWeap;
     }
-
-    void CreateWeaponButtons(Character ch, int index)
-    {
-        ch.caster.katasCombo.Actual(index);
-
-        string nameKata = "Ranura habilidad vacia";
-        Sprite spriteKata = null;
-        string nameArmas = "Ranura arma vacia";
-        Sprite spriteWeapon = null;
-        string strWeapon = "";
-
-        UnityEngine.Events.UnityAction action = () =>
-        {
-            ch.caster.katasCombo.Actual(index);
-            inventorySubMenu.Create();
-        };
-
-        if (ch.caster.katasCombo.actual.equiped != null)
-        {
-            nameKata = ch.caster.katasCombo.actual.equiped.nameDisplay;
-            spriteKata = ch.caster.katasCombo.actual.equiped.image;
-
-            if(ch.caster.katasCombo.actual.equiped.WeaponEnabled != null)
-            {
-                nameArmas = ch.caster.katasCombo.actual.equiped.WeaponEnabled.nameDisplay;
-                spriteWeapon = ch.caster.katasCombo.actual.equiped.WeaponEnabled.image;
-                strWeapon = "Uses: " + ch.caster.katasCombo.actual.equiped.WeaponEnabled.current;
-
-            }
-
-            subMenu.AddComponent<ButtonA>().SetButtonA(nameArmas, spriteWeapon, "", action);
-        }
-
-        //subMenu.AddComponent<ButtonA>().SetButtonA(nameKata, spriteKata, "", action);
-    }
 }
