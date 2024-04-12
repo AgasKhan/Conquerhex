@@ -17,7 +17,7 @@ namespace DamageTypes
 
             var dmg = Damage.Create<ElementalDamage>(Entity.tickTimeDamage/10);
 
-            entity.Effect(amount / entity.health.maxLife,
+            entity.Effect(amount / entity.health.maxLife * 100,
                 () =>
                 {
                     entity.TakeDamage(dmg);

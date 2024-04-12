@@ -8,7 +8,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
     public struct StateDamage
     {
-        public Timer endCheck;
+        public float endCheck;
 
         public System.Action tickDamageEnd;
 
@@ -171,32 +171,39 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
     /// <param name="end">que deseo realizar cuando termine el efecto</param>
     public void Effect(float time, System.Action update, System.Action end)
     {
+        if (health.IsDeath)
+            return;
+
         StateDamage stateDamage;
 
-        stateDamage.endCheck = TimersManager.Create(time);
-
+        stateDamage.endCheck = time;
+        
         stateDamage.updateTick = null;
+
+        stateDamage.tickDamageEnd = null;
 
         //se ejecutara cuando muere el personaje
         stateDamage.tickDamageEnd =
         () =>
         {
-            //lleva el timer a 0, haciendo que la funcion de fin del timer
-            stateDamage.endCheck.SetInitCurrent(0);
+            health.death -= stateDamage.tickDamageEnd;
+            updateTickDamage -= stateDamage.updateTick;
+
+            end?.Invoke();
+
+            if (updateTickDamage == null)
+                tickDamage.Stop();
         };
 
         stateDamage.updateTick = () =>
         {
             update?.Invoke();
 
-            if (stateDamage.endCheck.Chck)
-            {
-                end?.Invoke();
-                health.death -= stateDamage.tickDamageEnd;
-                updateTickDamage -= stateDamage.updateTick;
+            stateDamage.endCheck -= tickTimeDamage;
 
-                if(updateTickDamage==null)
-                    tickDamage.Stop();
+            if (stateDamage.endCheck<=0)
+            {
+                stateDamage.tickDamageEnd();
             }
         };
 
@@ -326,7 +333,9 @@ public class Health
     public float actualCoolDownRegen => timeToRegen.current;
     public float MaxCoolDownRegen => timeToRegen.total;
     public float nextRegenLife => (regen.current / 100f) * life.total + life.current;
-    
+
+    public bool IsDeath => deathBool;
+
     public event System.Action<IGetPercentage, float> lifeUpdate
     {
         add
