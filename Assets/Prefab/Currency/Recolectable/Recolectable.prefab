@@ -25,6 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2790657688179249189}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,7 +34,6 @@ Transform:
   - {fileID: 6398368280033913492}
   - {fileID: 3915412827694575198}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3849503840052946532
 MonoBehaviour:
@@ -47,39 +47,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b69541b12351444aa9d594b53532e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 3
-  health:
-    life:
-      total: 0
-      _current: 0
-    regen:
-      total: 0
-      _current: 0
-    timeToRegen:
-      total: 0
-      _current: 0
-    deathBool: 0
-  drops: []
-  audioManager: {fileID: 0}
-  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
-  <carlitos>k__BackingField: []
-  interact:
-    pictionaries: []
   inventory: []
   currentWeight: 0
   travelItem: []
   mySprite: {fileID: 5196309304934902380}
   areaFarming:
-    radius: 10
-    distance: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 128
-    _maxDetects: 0
-    _minDetects: 0
+    maxRadius: 1
+    minRadius: 0
     inverse: 0
     dot: 1
+    _maxDetects: 1
+    _minDetects: 0
+    contactFilter2D:
+      useTriggers: 0
+      useLayerMask: 0
+      useDepth: 0
+      useOutsideDepth: 0
+      useNormalAngle: 0
+      useOutsideNormalAngle: 0
+      layerMask:
+        serializedVersion: 2
+        m_Bits: 0
+      minDepth: 0
+      maxDepth: 0
+      minNormalAngle: 0
+      maxNormalAngle: 0
   references:
     version: 2
     RefIds: []
@@ -93,6 +85,25 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -104,6 +115,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8155588718149302041}
     m_Modifications:
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
@@ -183,6 +195,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 135a5d7445645394c8a553fdb6e815a0, type: 3}
 --- !u!4 &3915412827694575198 stripped
 Transform:
@@ -201,6 +216,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8155588718149302041}
     m_Modifications:
     - target: {fileID: 3302442363463960437, guid: 10434d6bf3af98b46a88ab696f543ee3,
@@ -809,6 +825,9 @@ PrefabInstance:
       value: 0.03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10434d6bf3af98b46a88ab696f543ee3, type: 3}
 --- !u!4 &6398368280033913492 stripped
 Transform:
