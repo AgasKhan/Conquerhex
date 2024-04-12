@@ -143,6 +143,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
     {
         container = null;
         inventoryEntity = null;
+        enabled = false;
     }
 
     public override void OnEnterState(Entity param)
