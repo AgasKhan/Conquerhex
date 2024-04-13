@@ -31,29 +31,48 @@ public class MainCamera : SingletonMono<MainCamera>
                 return cameras[index+2].transform;
             }
         }
-    }    
-    
-    public MapTransform rendersOverlay;
+    }
 
-    public Material CameraRenderer;
+    [Header("Configuracion general")]
+
+    public Shake shake = new Shake();
 
     public Transform obj;
 
     public bool perspective;
-
-    public Vector2[] pointsInScreen;
-
-    public Vector3[] points;
-
-    Vector3[] _points;
-
-    Vector3[] _points2;
 
     [SerializeField]
     Vector3 rotationPerspective;
 
     [SerializeField]
     Vector3 vectorPerspective;
+
+    [Header("Configuracion interna")]
+
+    [SerializeField]
+    EventManager eventManager;
+
+    [SerializeField]
+    Transform shakeTr;
+
+    [SerializeField]
+    Transform offsetTr;
+
+    [SerializeField]
+    Material CameraRenderer;
+
+    [SerializeField]
+    MapTransform rendersOverlay;
+
+    [SerializeField]
+    Vector2[] pointsInScreen;
+
+    [SerializeField]
+    Vector3[] points;
+
+    Vector3[] _points;
+
+    Vector3[] _points2;
 
     Camera main;
 
@@ -86,9 +105,22 @@ public class MainCamera : SingletonMono<MainCamera>
         base.Awake();
         main = Camera.main;
         plane = new Plane(Vector3.forward, 0);
+
+        shake.position += Shake_position;
+        shake.Init(shakeTr.localPosition);
+
+        eventManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato+= ShakeStart;
     }
 
-    
+    void ShakeStart(Health health)
+    {
+        shake.Execute(1 - (health.actualLife/health.maxLife));
+    }
+
+    private void Shake_position(Vector3 obj)
+    {
+        shakeTr.localPosition = obj;
+    }
 
     private void OnEnable()
     {
@@ -192,6 +224,7 @@ public class MainCamera : SingletonMono<MainCamera>
     private void OnDestroy()
     {
         RefreshMaterial(false);
+        eventManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato -= ShakeStart;
     }
 
 

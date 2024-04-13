@@ -155,7 +155,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         }
     }
 
-    public virtual bool DontExecuteCast => caster == null || !caster.isActiveAndEnabled;
+    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeSelf;
 
     public virtual float CostExecution => itemBase.costExecution;
 

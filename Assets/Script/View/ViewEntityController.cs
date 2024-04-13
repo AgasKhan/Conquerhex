@@ -18,11 +18,8 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
     public ComplexColor colorSetter = new ComplexColor();
 
-    [SerializeField, Range(0f, 2f)]
-    float _shakeIntensity;
-
-    [SerializeField, Range(0f, 2f)]
-    float _shakeDuration;
+    [SerializeField]
+    Shake shake = new Shake();
 
     [SerializeField]
     GameObject onDeathParticlePrefab;
@@ -30,10 +27,6 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
     Vector2Int indexParticle;
 
     ParticleSystem onDeathParticle;
-
-    Vector3 _initialPosition;
-
-    TimedCompleteAction shakeManager;
 
     TimedCompleteAction timDamaged = null;
 
@@ -52,8 +45,6 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         viewObjectModel = param;
 
-        _initialPosition = transform.localPosition;
-
         colorSetter.setter += ColorSetter_setter;
 
         colorSetter.Add(originalSpriteRenderer.color);
@@ -62,7 +53,9 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         entity.onDetected += Entity_onDetected;
 
-        shakeManager = (TimedCompleteAction)TimersManager.Create(_shakeDuration, Shake, EndShake).Stop();
+        shake.position += Shake_position;
+
+        shake.Init(transform.localPosition);
 
         timDetected = TimersManager.Create(detected, Color.white, 0.1f, Color.Lerp, ChangeColor);
 
@@ -78,6 +71,11 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
             indexParticle = PoolManager.SrchInCategory("Particles", onDeathParticlePrefab.name);
             entity.health.death += Health_death;
         }
+    }
+
+    private void Shake_position(Vector3 obj)
+    {
+        transform.localPosition = obj;
     }
 
     public void OnStayState(ViewObjectModel param)
@@ -158,22 +156,10 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
     void ShakeSprite(Damage dmg)
     {
-        if (_shakeDuration > 0 && gameObject.activeSelf)
-        {
-            shakeManager.Reset();
-        }
+        shake.Execute();
     }
 
-    void Shake()
-    {
-        Vector3 randomPoint = new Vector3(Random.Range(_initialPosition.x - _shakeIntensity, _initialPosition.x + _shakeIntensity), Random.Range(_initialPosition.y - _shakeIntensity, _initialPosition.y + _shakeIntensity), _initialPosition.z);
-        transform.localPosition = randomPoint;
-    }
-
-    void EndShake()
-    {
-        transform.localPosition = _initialPosition;
-    }
+    
 }
 
 
@@ -221,5 +207,50 @@ public class ComplexColor
         {
             RefreshColor();
         }
+    }
+}
+
+[System.Serializable]
+public class Shake
+{
+    public event System.Action<Vector3> position;
+
+    [SerializeField, Range(0f, 2f)]
+    float _shakeIntensity;
+
+    [SerializeField, Range(0f, 2f)]
+    float _shakeDuration;
+
+    TimedCompleteAction shakeManager;
+
+    float _shakeMultiply=1;
+
+    Vector3 _initialPosition;
+
+    public void Init(Vector3 initialPosition)
+    {
+        this._initialPosition = initialPosition;
+        shakeManager = (TimedCompleteAction)TimersManager.Create(_shakeDuration, ShakeAction, EndShake).Stop();
+    }
+
+
+    public void Execute(float multiply = 1)
+    {
+        if (_shakeDuration > 0)
+        {
+            shakeManager.Reset();
+
+            _shakeMultiply = multiply;
+        }
+    }
+
+    void ShakeAction()
+    {
+        position?.Invoke(Random.insideUnitSphere * _shakeIntensity * _shakeMultiply);
+    }
+
+    void EndShake()
+    {
+        position?.Invoke(_initialPosition);
     }
 }

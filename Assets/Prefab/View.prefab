@@ -174,8 +174,9 @@ MonoBehaviour:
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   detected: {r: 1, g: 0.5, b: 0.5, a: 1}
-  _shakeIntensity: 0.2
-  _shakeDuration: 0.11
+  shake:
+    _shakeIntensity: 0.2
+    _shakeDuration: 0.1
   onDeathParticlePrefab: {fileID: 0}
 --- !u!114 &6011293649829747602
 MonoBehaviour:

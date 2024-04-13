@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789d9d0bf1f5c714a8ebf28b525cc4d2, type: 3}
   m_Name: Cazadoroso
   m_EditorClassIdentifier: 
+  energy: 100
+  chargeEnergy: 1
+  energyStatic: 0
+  energyDefault: 0.31
   kataCombos:
   - kata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
     weapon: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
   - kata: {fileID: 11400000, guid: 25c32209251f7b84db2f5362d0c971f6, type: 2}
     weapon: {fileID: 11400000, guid: 4503a50c1f70575499f64f55a44764df, type: 2}
+  habilities: []
   additiveDamage: []

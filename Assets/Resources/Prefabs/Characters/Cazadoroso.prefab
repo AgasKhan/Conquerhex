@@ -71,7 +71,7 @@ MonoBehaviour:
         steering: {fileID: 8125905815628775838}
         weight: 1
   detectCordero:
-    maxRadius: 0
+    maxRadius: 5
     minRadius: 0
     inverse: 0
     dot: 0.7
@@ -137,7 +137,7 @@ MonoBehaviour:
         steering: {fileID: 8125905815628775838}
         weight: 1
   detectCordero:
-    maxRadius: 0
+    maxRadius: 5
     minRadius: 0
     inverse: 0
     dot: 0.7
@@ -207,6 +207,7 @@ MonoBehaviour:
       _current: 0
     deathBool: 0
     regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 11400000, guid: 846cca39604224c49adcde1b6550e3e5,
     type: 2}
@@ -309,6 +310,7 @@ MonoBehaviour:
         rid: -2
     <indexer>k__BackingField: 0
   aiming: {x: 0, y: 0, z: 0}
+  _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
   references:
     version: 2

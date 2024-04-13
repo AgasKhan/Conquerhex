@@ -108,6 +108,8 @@ public class RenderTextureHex : MonoBehaviour
     {
         _auxBool = false;
 
+        /*
+
         for (int i = 0; i < MainCamera.instance.points.Length; i++)
         {
             if (col.OverlapPoint(MainCamera.instance.points[i]))
@@ -118,6 +120,7 @@ public class RenderTextureHex : MonoBehaviour
             }
         }
 
+        */
         Enabled = _auxBool;
     }
     

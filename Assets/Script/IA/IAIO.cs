@@ -23,61 +23,17 @@ public class IAIO : IAFather
 
     DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
 
-    private void Awake()
-    {      
-        interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
-        LoadSystem.AddPreLoadCorutine(() => {
-            OnExitState(_character);
-        });
-
-        comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
-    }
-
-    public override void OnEnterState(Character param)
-    {
-        base.OnEnterState(param);
-
-        GameManager.instance.playerCharacter = param;
-
-        originalTag = param.gameObject.tag;
-
-        param.gameObject.tag = "Player";
-
-        param.move.onTeleport += TeleportEvent;
-
-        param.health.lifeUpdate += UpdateLife;
-        param.health.regenUpdate += UpdateRegen;
-        param.health.regenTimeUpdate += UpdateRegenTime;
-
-        param.health.helthUpdate += Health_helthUpdate;
-
-        param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
-
-        param.abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
-
-        param.moveEventMediator.eventDown += MoveEventMediator_eventDown;
-
-        param.dashEventMediator.eventDown += DashEventMediator_eventDown;
-
-        VirtualControllers.movement.SuscribeController(param.moveEventMediator);
-
-        VirtualControllers.principal.SuscribeController(param.attackEventMediator);
-
-        VirtualControllers.secondary.SuscribeController(param.abilityEventMediator);
-
-        VirtualControllers.terciary.SuscribeController(param.dashEventMediator);
-    }
 
     private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
     {
         Vector2 tecla = arg1.AproxDir();
 
-        if(tecla!=Vector2.zero)
+        if (tecla != Vector2.zero)
         {
             comboReset.Reset();
 
             if (lastCombo.Length >= 2)
-                lastCombo = new string(lastCombo[^1],1);
+                lastCombo = new string(lastCombo[^1], 1);
 
             if (tecla.x > 0)
             {
@@ -95,16 +51,16 @@ public class IAIO : IAFather
             {
                 lastCombo += "↓";
             }
-        }        
+        }
     }
 
     private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
-    {         
+    {
         for (int i = 0; i < combos.Length; i++)
         {
-            if(combos[i] == lastCombo)
+            if (combos[i] == lastCombo)
             {
-                character.Attack(i+1);
+                character.Attack(i + 1);
                 return;
             }
         }
@@ -131,6 +87,45 @@ public class IAIO : IAFather
         character.AlternateAbility();
     }
 
+    
+
+    public override void OnEnterState(Character param)
+    {
+        base.OnEnterState(param);
+
+        GameManager.instance.playerCharacter = param;
+
+        originalTag = param.gameObject.tag;
+
+        param.gameObject.tag = "Player";
+
+        param.move.onTeleport += TeleportEvent;
+
+        param.health.lifeUpdate += UpdateLife;
+        param.health.regenUpdate += UpdateRegen;
+        param.health.regenTimeUpdate += UpdateRegenTime;
+
+        param.onTakeDamage += OnTakeDamage;
+
+        param.health.helthUpdate += Health_helthUpdate;
+
+        param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
+
+        param.abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
+
+        param.moveEventMediator.eventDown += MoveEventMediator_eventDown;
+
+        param.dashEventMediator.eventDown += DashEventMediator_eventDown;
+
+        VirtualControllers.movement.SuscribeController(param.moveEventMediator);
+
+        VirtualControllers.principal.SuscribeController(param.attackEventMediator);
+
+        VirtualControllers.secondary.SuscribeController(param.abilityEventMediator);
+
+        VirtualControllers.terciary.SuscribeController(param.dashEventMediator);
+    }
+
     public override void OnExitState(Character param)
     {
         param.move.onTeleport -= TeleportEvent;
@@ -139,6 +134,7 @@ public class IAIO : IAFather
         param.health.regenUpdate -= UpdateRegen;
         param.health.regenTimeUpdate -= UpdateRegenTime;
         param.health.helthUpdate -= Health_helthUpdate;
+        param.onTakeDamage -= OnTakeDamage;
 
         param.attackEventMediator.eventDown -= AttackEventMediator_eventDown;
 
@@ -216,6 +212,11 @@ public class IAIO : IAFather
         OnExitState(_character);
     }
 
+    private void OnTakeDamage(Damage obj)
+    {
+        eventsManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato?.Invoke(character.health);
+    }
+
     private void Health_helthUpdate(Health obj)
     {
         eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
@@ -235,6 +236,16 @@ public class IAIO : IAFather
     private void UpdateRegenTime(IGetPercentage arg1, float arg2)
     {
         eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.time).delegato?.Invoke((arg1, arg2));
+    }
+
+    private void Awake()
+    {
+        interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
+        LoadSystem.AddPreLoadCorutine(() => {
+            OnExitState(_character);
+        });
+
+        comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
     }
 }
 
