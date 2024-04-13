@@ -19,7 +19,20 @@ MonoBehaviour:
     pictionaries:
     - key: {fileID: 11400000, guid: 641978042ad5c2348af39d2a38e012b2, type: 2}
       value: 
-  saveData: []
+  saveData:
+  - gameObject: Edificio
+    pos: {x: 259.9, y: 56.82, z: 0}
+    rotation: {x: -0, y: 0, z: 0}
+    dataComponent:
+    - name: CraftingBuild
+      data: '{"currentRecipes":{"value":[{"instanceID":20814},{"instanceID":20816},{"instanceID":20818},{"instanceID":36690},{"instanceID":17366}]},"currentLevel":0}'
+    childs: '{"value":[{"gameObject":"Animation","pos":{"x":259.8999938964844,"y":56.81999969482422,"z":0.0},"rotation":{"x":315.0,"y":0.0,"z":0.0},"dataComponent":[],"childs":"{\"value\":[{\"gameObject\":\"Sprite\",\"pos\":{\"x\":259.8999938964844,\"y\":56.81999969482422,\"z\":0.0},\"rotation\":{\"x\":315.0,\"y\":0.0,\"z\":0.0},\"dataComponent\":[],\"childs\":\"\"}]}"},{"gameObject":"Carlitos
+      (0) de Crafting","pos":{"x":259.8999938964844,"y":-29.782543182373048,"z":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"dataComponent":[],"childs":""},{"gameObject":"Carlitos
+      (1) de Crafting","pos":{"x":184.89999389648438,"y":13.518730163574219,"z":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"dataComponent":[],"childs":""},{"gameObject":"Carlitos
+      (2) de Crafting","pos":{"x":184.89999389648438,"y":100.12126159667969,"z":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"dataComponent":[],"childs":""},{"gameObject":"Carlitos
+      (3) de Crafting","pos":{"x":259.8999938964844,"y":143.42254638671876,"z":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"dataComponent":[],"childs":""},{"gameObject":"Carlitos
+      (4) de Crafting","pos":{"x":334.8999938964844,"y":100.12126922607422,"z":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"dataComponent":[],"childs":""},{"gameObject":"Carlitos
+      (5) de Crafting","pos":{"x":334.8999938964844,"y":13.518720626831055,"z":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"dataComponent":[],"childs":""}]}'
   prefabsPic:
     pictionaries:
     - key: Cazadoroso
@@ -60,6 +73,48 @@ MonoBehaviour:
         type: 3}
     - key: pj
       value: {fileID: 6295448971589143386, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+    - key: Barrier
+      value: {fileID: 5268588540194310581, guid: 2a5c3ef4d84189944801976ce19254d2,
+        type: 3}
+    - key: BaseConstruction
+      value: {fileID: 5834125155675881231, guid: c9039b4799e1f3740ba849eae3565781,
+        type: 3}
+    - key: CraftingBuild
+      value: {fileID: 6773200482067112399, guid: af88cb8044413c44485da86aef10af9b,
+        type: 3}
+    - key: Edifico 1
+      value: {fileID: 6773200482067112399, guid: bdc3473dc5089914daed1186db6c6d6c,
+        type: 3}
+    - key: Edifico 2
+      value: {fileID: 6773200482067112399, guid: d3f9c9ab9a1c76040a2f55a6500d9b17,
+        type: 3}
+    - key: Edifico 3
+      value: {fileID: 6773200482067112399, guid: 2eaeb65b95287a34bb31c2d3d29d0203,
+        type: 3}
+    - key: Edifico 4
+      value: {fileID: 6773200482067112399, guid: 805c8612b1c8e6c43ad1b8a8d0cb9138,
+        type: 3}
+    - key: Edifico 5
+      value: {fileID: 6773200482067112399, guid: 6e1d31f0976330a48ab3340a875f0cdb,
+        type: 3}
+    - key: Edifico 6
+      value: {fileID: 6773200482067112399, guid: 388a89b73d5d4c647a6f53d8dbce76e2,
+        type: 3}
+    - key: EnemyTurret
+      value: {fileID: 5842742153568021646, guid: 552cc18fa7317294c947358d2a0a57f3,
+        type: 3}
+    - key: Nexus
+      value: {fileID: 4843059436740965466, guid: 6534f9d3ff764c2479d12791060e25c0,
+        type: 3}
+    - key: Transmutator
+      value: {fileID: 6644827579059899102, guid: e0980949126bca3498a8578039d2f86a,
+        type: 3}
+    - key: Turret
+      value: {fileID: 7579654791528757297, guid: 0d5f3d408bbc3bb44b864e27a6e6faeb,
+        type: 3}
+    - key: TurretConstruct
+      value: {fileID: 8365867905914006924, guid: 4505879b8a9851249a14c8128f2b0d73,
         type: 3}
     - key: Hexagono
       value: {fileID: 4467571277743417452, guid: 6b5900aa9a556e54d818a6fe09263a51,

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingBuild : Building
+public class CraftingBuild : Building, ISaveObject
 {
     public Pictionarys<int, List<MeleeWeaponBase>> levelRecipes = new Pictionarys<int, List<MeleeWeaponBase>>();
 
@@ -25,4 +25,31 @@ public class CraftingBuild : Building
         controller.UpgradeLevel();
     }
 
+    public string Save()
+    {
+        CraftBuildData data = new CraftBuildData(currentRecipes, currentLevel);
+
+        return JsonUtility.ToJson(data);
+    }
+
+    public void Load(string str)
+    {
+        CraftBuildData data = JsonUtility.FromJson<CraftBuildData>(str);
+
+        currentRecipes = data.currentRecipes.value;
+        currentLevel = data.currentLevel;
+    }
+}
+
+[System.Serializable]
+public class CraftBuildData
+{
+    public AuxClass<List<MeleeWeaponBase>> currentRecipes;
+    public int currentLevel;
+
+    public CraftBuildData(List<MeleeWeaponBase> list, int level)
+    {
+        currentRecipes = new AuxClass<List<MeleeWeaponBase>>(list);
+        currentLevel = level;
+    }
 }

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 781557696634203197}
   - component: {fileID: 7324791073229505215}
   m_Layer: 0
-  m_Name: Edifico
+  m_Name: CraftingBuild
   m_TagString: Props
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,15 +115,17 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
     deathBool: 0
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 11400000, guid: 0756ea0cb8293ce40a2a3851e22edbe8,
     type: 2}
@@ -143,21 +145,16 @@ MonoBehaviour:
       value: []
     - key: 1
       value:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      - {fileID: 11400000, guid: dd10d2ba527b3594dba010ad70c146ea, type: 2}
+      - {fileID: 11400000, guid: 31c92f0ddeb8e924baab553382004b30, type: 2}
+      - {fileID: 11400000, guid: 41a8b9ae7c5ef9546a6465e0f7c865b8, type: 2}
+      - {fileID: 11400000, guid: 3385f69350ec53241822acc73a292f10, type: 2}
     - key: 2
       value:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-    - key: 5
-      value:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      - {fileID: 11400000, guid: a16cec6ee255cad4bafca55a213482c1, type: 2}
+      - {fileID: 11400000, guid: bffb1c871bddda44985fb5fd17afd90d, type: 2}
+      - {fileID: 11400000, guid: a3a0b1941bd42c14c9d6dccacddbf615, type: 2}
+      - {fileID: 11400000, guid: 8f637798bd6f42248b897fe0f2fb0383, type: 2}
   currentRecipes:
   - {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
   - {fileID: 11400000, guid: 3014ab0f8d387644dac2bae02ba3c505, type: 2}
@@ -222,6 +219,8 @@ MonoBehaviour:
   genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
+    myCharacter: {fileID: 0}
+    interactComponent: {fileID: 0}
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0
