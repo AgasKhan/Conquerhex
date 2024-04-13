@@ -151,12 +151,9 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
         colorSetter.Remove(damaged2);
         colorSetter.Remove(damaged1);
     }
-
-    
-
     private void ColorSetter_setter(Color obj)
     {
-        originalSpriteRenderer.color = obj;
+        originalSpriteRenderer.material.SetColor("_Color",obj);
     }
 
     void ShakeSprite(Damage dmg)
