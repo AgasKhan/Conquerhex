@@ -175,6 +175,16 @@ public class Hexagone : MonoBehaviour
         return this;
     }
 
+    public IEnumerable<Vector3> AllEquivalentPos(Vector3 pos)
+    {
+        yield return pos;
+
+        for (int i = 0; i < ladosArray.Length; i++)
+        {
+            yield return HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), pos.z, 2) + (pos - transform.position);
+        }
+    }
+
     public int AristaMasCercana(Transform obj)
     {
         float sqrDistance = float.PositiveInfinity;

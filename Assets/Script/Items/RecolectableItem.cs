@@ -7,9 +7,6 @@ public class RecolectableItem : InventoryEntityComponent
     [SerializeField]
     SpriteRenderer mySprite;
 
-    [SerializeField]
-    protected Detect<Character> areaFarming;
-
     ResourcesBase_ItemBase itemBase;
 
     public float weight => itemBase.weight;
@@ -17,6 +14,8 @@ public class RecolectableItem : InventoryEntityComponent
     Timer recolect;
 
     InventoryEntityComponent referenceToTravel;
+
+    Hexagone hex;
 
     void Awake()
     {
@@ -28,24 +27,22 @@ public class RecolectableItem : InventoryEntityComponent
             
         })
         .Stop().SetInitCurrent(0);
+
     }
 
     void FixedUpdate()
     {
-        var characters = areaFarming.Area(transform.position, (algo) => { return true; });
-
-        foreach (var character in characters)
+        foreach (var entity in hex.childsEntities)
         {
-            //if (character.currentWeight + weight <= character.weightCapacity)
-            var aux = character.flyweight;
-            var dist = character.transform.position - transform.position;
+            if (!(entity is Character))
+                continue;
 
-            if (dist.sqrMagnitude <= aux.areaFarming * aux.areaFarming)
+            if (transform.IsInRadius(entity, entity.flyweight.areaFarming))
             {
-                Recolect(character.inventory);
+                Recolect(entity.GetInContainer<InventoryEntityComponent>());
                 break;
             }
-        }
+        }   
     }
 
     public void Recolect(InventoryEntityComponent entity)
@@ -77,6 +74,9 @@ public class RecolectableItem : InventoryEntityComponent
         AddOrSubstractItems(item.nameDisplay, 1);
 
         itemBase = item;
+
+
+        hex = GetComponentInParent<Hexagone>();
     }
 }
 

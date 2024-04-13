@@ -20,7 +20,11 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
 
             for (int ii = 0; ii < rng; ii++)
             {
-                PoolManager.SpawnPoolObject(Vector2Int.zero, out RecolectableItem reference, transform.position + new Vector3(Random.Range(-1.2f, 1.2f), Random.Range(-1.2f, 1.2f)));
+                PoolManager.SpawnPoolObject(Vector2Int.zero, 
+                    out RecolectableItem reference, 
+                    transform.position + (Random.insideUnitCircle * 1.2f).Vec2to3(0), 
+                    Quaternion.identity, 
+                    container?.hexagoneParent?.transform);
 
                 reference.Init(dropItem.item);
             }

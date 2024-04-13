@@ -147,7 +147,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
         {
             preLoadEvent[i]();
             loadScreen.Progress((((i + 1f) / (preLoadEvent.Count)) * (1f / 6) + (1f / 6)) * 100);
-            if (GameManager.SlowFrameRate)
+            if (GameManager.VerySlowFrameRate)
             {
                 yield return null;
                 //stopwatch.Restart();
@@ -201,7 +201,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
             postLoadEvent[i]();
             loadScreen.Progress(( ((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6 )*100, $"Load scripts: {i}/{postLoadEvent.Count}");
 
-            if (GameManager.SlowFrameRate)
+            if (GameManager.VerySlowFrameRate)
             {
                 yield return null;
                 //stopwatch.Restart();

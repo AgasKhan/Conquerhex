@@ -43,6 +43,8 @@ public class GameManager : SingletonMono<GameManager>
 
     public static bool SlowFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 30);
 
+    public static bool VerySlowFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 15);
+
     public LayerMask obstacleAvoidanceLayer;
 
     public Character playerCharacter;

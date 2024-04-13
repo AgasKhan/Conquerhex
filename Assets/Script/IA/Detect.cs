@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+#region parent
 public abstract class DetectParent<T> where T : class
 {
+    protected const int cantidad = 50;
+
     [Tooltip("Radio maximo de deteccion")]
     public float maxRadius;
 
@@ -25,6 +27,10 @@ public abstract class DetectParent<T> where T : class
 
     protected CompareDist<Component> compareDist = new CompareDist<Component>();
 
+    protected Transform[] transformsBuffer = new Transform[cantidad];
+
+    protected int length;
+
     /// <summary>
     /// diametro
     /// </summary>
@@ -40,13 +46,13 @@ public abstract class DetectParent<T> where T : class
     /// </summary>
     public int minDetects => _minDetects;
 
-    public abstract List<T> Area(Vector2 pos, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius);
+    public abstract List<T> Area(Vector3 pos, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius);
 
-    public abstract List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius, float dot);
+    public abstract List<T> Cone(Vector3 pos, Vector3 dir, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius, float dot);
 
-    public abstract List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1);
+    public abstract List<T> Ray(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float distance = -1);
 
-    public abstract List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1);
+    public abstract void RayTransform(Vector3 pos, Vector3 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1);
 
     /// <summary>
     /// 
@@ -54,12 +60,12 @@ public abstract class DetectParent<T> where T : class
     /// <param name="pos"></param>
     /// <param name="chck">Criterio de busqueda</param>
     /// <returns></returns>
-    public List<T> Area(Vector2 pos, System.Func<T, bool> chck)
+    public List<T> Area(Vector3 pos, System.Func<T, bool> chck)
     {
         return Area(pos, minDetects, maxDetects, chck, minRadius, maxRadius);
     }
 
-    public List<T> Cone(Vector2 pos, Vector2 dir, System.Func<T, bool> chck)
+    public List<T> Cone(Vector3 pos, Vector3 dir, System.Func<T, bool> chck)
     {
         return Cone(pos, dir, minDetects, maxDetects, chck, minRadius, maxRadius, dot);
     }
@@ -71,9 +77,9 @@ public abstract class DetectParent<T> where T : class
     /// <param name="dir"></param>
     /// <param name="distance"></param>
     /// <returns></returns>
-    public List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, float distance = -1)
+    public void RayTransform(Vector3 pos, Vector3 dir, System.Func<Transform, bool> chck, float distance = -1)
     {
-        return RayTransform(pos, dir, chck, minDetects, maxDetects, distance);
+        RayTransform(pos, dir, chck, minDetects, maxDetects, distance);
     }
 
     /// <summary>
@@ -83,9 +89,9 @@ public abstract class DetectParent<T> where T : class
     /// <param name="dir"></param>
     /// <param name="distance"></param>
     /// <returns></returns>
-    public List<T> Ray(Vector2 pos, Vector2 dir, float distance = -1)
+    public List<T> Ray(Vector3 pos, Vector3 dir, float distance = -1)
     {
-        return Ray(pos, dir, (entity) => true, distance);
+        return Ray(pos, dir, (entity) => true, minDetects, maxDetects,distance);
     }
 
     /// <summary>
@@ -96,12 +102,12 @@ public abstract class DetectParent<T> where T : class
     /// <param name="chck">Si cumple con el criterio de busqueda</param>
     /// <returns></returns>
 
-    public List<T> ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius, float dot)
+    public List<T> ConeWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius, float dot)
     {
         return WithRay(caster, Cone(caster.position, dir, 0, 0, chck, minRadius, maxRadius, dot), maxDetects);
     }
 
-    public List<T> ConeWithRay(Transform caster, Vector2 dir, System.Func<T, bool> chck)
+    public List<T> ConeWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck)
     {
         return ConeWithRay(caster, dir, chck, maxDetects, minRadius, maxRadius, dot);
     }
@@ -191,16 +197,16 @@ public abstract class DetectParent<T> where T : class
         {
             var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
 
-            var aux = RayTransform(posDamageable, (pos - posDamageable), (tr) => true, 0, 0, (pos - posDamageable).magnitude);
+            RayTransform(posDamageable, (pos - posDamageable), (tr) => true, 0, 0, (pos - posDamageable).magnitude);
 
-            if (aux != null && aux.Count > 0)//si colisiono significa q no tengo vision directa
+            if (length > 0)//si colisiono significa q no tengo vision directa
             {
                 bool chckCaster = true;
 
                 //Para chequear si en algunos de los primeros esta el caster
-                for (int ii = 0; ii < Mathf.Clamp(aux.Count, 0, 2); ii++)
+                for (int ii = 0; ii < Mathf.Clamp(length, 0, 2); ii++)
                 {
-                    if (aux[ii].transform == caster)
+                    if (transformsBuffer[ii].transform == caster)
                     {
                         chckCaster = false;
                     }
@@ -230,6 +236,136 @@ public abstract class DetectParent<T> where T : class
     }
 }
 
+#endregion
+
+[System.Serializable]
+public class Detect3D<T> : DetectParent<T> where T : class
+{
+    [SerializeField]
+    LayerMask layerMask;
+
+    List<T> results = new List<T>();
+
+    Collider[] buffer = new Collider[cantidad];
+
+    RaycastHit[] auxRaycastHit = new RaycastHit[cantidad];
+
+    public override List<T> Area(Vector3 position, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius)
+    {
+        results.Clear();
+
+        length = Physics.OverlapCapsuleNonAlloc(position.Vect3Copy_Z(-10), position.Vect3Copy_Z(10), maxRadius, buffer, layerMask);
+
+        for (int i = 0; i < length; i++)
+        {
+            if(!buffer[i].IsInRadius(position, minRadius) && buffer[i].TryGetComponent(out T obj) && chck(obj))
+            {
+                Add(results, obj, position);
+            }
+
+            if(max>0 && results.Count-1>=max)
+            {
+                return results;
+            }
+        }
+
+        if (results.Count < min)
+        {
+            results.Clear();
+        }
+
+        //lento
+        /*
+        foreach (var item in hexagoneToSearch().AllChildEntities)
+        {
+            foreach (var transform in item.container.carlitos)
+            {
+                if (item.IsInRadius(transform, maxRadius) && !item.IsInRadius(transform, minRadius) && item.TryGetInContainer<T>(out var aux) && chck(aux))
+                {
+                    Add(results, aux, position);
+                    break;
+                }
+            }
+        }
+        */
+        return results;
+    }
+
+    public override List<T> Cone(Vector3 pos, Vector3 dir, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius, float dot)
+    {
+        dir.Normalize();
+
+        var copyChck = chck;
+
+        chck = (T obj) =>
+          {
+              var posDamageable = (obj as Component).transform.position;
+
+              var vecDot = Vector2.Dot((posDamageable - pos).normalized.Vect3To2(), dir.Vect3To2());
+
+              //Debug.Log($"MyPos: {pos} - {(results[i] as Component).name} pos: {posDamageable} - dir: {dir} - normalize {(posDamageable - pos).normalized} - {dot} > {vecDot}={dot > vecDot}");
+
+              return copyChck(obj) && dot > vecDot;
+          };
+
+        Area(pos, min, max, chck, minRadius, maxRadius);
+
+        return results;
+    }
+
+    public override List<T> Ray(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float distance = -1)
+    {
+        results.Clear();
+
+        RayTransform(pos, dir, (tr) => 
+        {
+            bool b = tr.TryGetComponent<T>(out var toAdd) && chck(toAdd);
+
+            if(b)
+                Add(results, toAdd, pos);
+
+            return b;
+        }, min, max, distance);
+
+        if (length < min)
+            results.Clear();
+
+        return results;
+    }
+
+    public override void RayTransform(Vector3 pos, Vector3 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
+    {
+        length = Physics.RaycastNonAlloc(pos, dir, auxRaycastHit, distance > 0 ? distance : float.PositiveInfinity, layerMask);
+
+        int j = 0;
+
+        for (int i = 0; i < length; i++)
+        {
+            if(chck(auxRaycastHit[i].transform))
+            {
+                transformsBuffer[j] = auxRaycastHit[i].transform;
+                j++;
+            }
+            if(max > 0 && j >=max)
+            {
+                length = j;
+                return;
+            }
+        }
+
+        if (min > j)
+        {
+            length = 0;
+            return;
+        }
+        
+        length = j;
+    }
+
+}
+
+#region old
+
 
 [System.Serializable]
 public class Detect<T> : DetectParent<T> where T : class
@@ -242,9 +378,7 @@ public class Detect<T> : DetectParent<T> where T : class
 
     List<RaycastHit2D> auxRaycastHit = new List<RaycastHit2D>();
 
-    int length;
-
-    public override List<T> Area(Vector2 pos, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius)
+    public override List<T> Area(Vector3 pos, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius)
     {
         results.Clear();
 
@@ -262,7 +396,7 @@ public class Detect<T> : DetectParent<T> where T : class
         return results;
     }
 
-    public override List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius, float dot)
+    public override List<T> Cone(Vector3 pos, Vector3 dir, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius, float dot)
     {
         Area(pos, min, max, chck, minRadius, maxRadius);
 
@@ -270,9 +404,9 @@ public class Detect<T> : DetectParent<T> where T : class
 
         for (int i = results.Count - 1; i >= 0; i--)
         {
-            var posDamageable = (results[i] as Component).transform.position.Vect3To2();
+            var posDamageable = (results[i] as Component).transform.position;
 
-            var vecDot = Vector2.Dot((posDamageable - pos).normalized, dir);
+            var vecDot = Vector2.Dot((posDamageable - pos).normalized.Vect3To2(), dir.Vect3To2());
 
             //Debug.Log($"MyPos: {pos} - {(results[i] as Component).name} pos: {posDamageable} - dir: {dir} - normalize {(posDamageable - pos).normalized} - {dot} > {vecDot}={dot > vecDot}");
 
@@ -285,42 +419,78 @@ public class Detect<T> : DetectParent<T> where T : class
         return results;
     }
 
-    public override List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
+    public override List<T> Ray(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float distance = -1)
     {
         results.Clear();
 
-        RayTransform(pos, dir, (tr) => true, distance);
-
-        for (int i = 0; i < auxRaycastHit.Count; i++)
+        RayTransform(pos, dir, (tr) =>
         {
-            if (auxRaycastHit[i].collider.TryGetComponent<T>(out var toAdd) && chck(toAdd))
+            bool b = tr.TryGetComponent<T>(out var toAdd) && chck(toAdd);
+
+            if (b)
                 Add(results, toAdd, pos);
-        }
+
+            return b;
+        }, min, max, distance);
+
+        if (length < min)
+            results.Clear();
 
         return results;
     }
 
-    public override List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
+    public override void RayTransform(Vector3 pos, Vector3 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
     {
         length = Physics2D.Raycast(pos, dir, contactFilter2D, auxRaycastHit, distance > 0 ? distance : float.PositiveInfinity);
 
-        if (min > length)
-            return null;
+        int j = 0;
 
-        if (length > max)
-            length = max;
-
-        for (int i = length - 1; i >= 0; i++)
+        for (int i = 0; i < length; i++)
         {
-            if (!chck(auxRaycastHit[i].transform))
-                auxRaycastHit.RemoveAt(i);
+            if (chck(auxRaycastHit[i].transform))
+            {
+                transformsBuffer[j] = auxRaycastHit[i].transform;
+                j++;
+            }
+            if (max>0 && j >= max)
+            {
+                length = j;
+                return;
+            }
         }
 
-        return auxRaycastHit;
+        if (min > j)
+        {
+            length = 0;
+            return;
+        }
+
+        length = j;
     }
 
 }
 
+#endregion
+
+public class CompareDist<T> : IComparer<T> where T : Component
+{
+    public Vector3 me;
+
+    public bool inverse = false;
+
+    public int Compare(T x, T y)
+    {
+        var aux = (x.transform.position - me).magnitude > (y.transform.position - me).magnitude;
+
+        if (inverse)
+            aux = !aux;
+
+        return System.Convert.ToInt32(aux);
+    }
+}
+
+
+/*
 
 [System.Serializable]
 public class DetectAlloc<T> : DetectParent<T> where T : class
@@ -334,7 +504,7 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
     /// <param name="pos"></param>
     /// <param name="chck">Criterio de busqueda</param>
     /// <returns></returns>
-    public override List<T> Area(Vector2 pos, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius)
+    public override List<T> Area(Vector3 pos, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius)
     {
         var aux = Physics2D.OverlapCircleAll(pos, maxRadius, layerMask);
 
@@ -363,7 +533,7 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
         return damageables;
     }
 
-    public override List<T> Cone(Vector2 pos, Vector2 dir, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius, float dot)
+    public override List<T> Cone(Vector3 pos, Vector3 dir, int min, int max, System.Func<T, bool> chck, float minRadius, float maxRadius, float dot)
     {
         var damageables = Area(pos, 0, 0, chck, minRadius, maxRadius);
 
@@ -371,15 +541,15 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
 
         for (int i = damageables.Count - 1; i >= 0; i--)
         {
-            var posDamageable = (damageables[i] as Component).transform.position.Vect3To2();
+            var posDamageable = (damageables[i] as Component).transform.position;
 
-            if (dot > Vector2.Dot((posDamageable - pos).normalized, dir))
+            if (dot > Vector2.Dot((posDamageable - pos).normalized.Vect3To2(), dir.Vect3To2()))
             {
                 damageables.RemoveAt(i);
             }
         }
 
-        /*        
+                
         dir *= radius;
         
         Debug.DrawRay(pos, dir, Color.red);
@@ -387,13 +557,13 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
         Debug.DrawRay(pos, Quaternion.Euler(0, 0, Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
 
         Debug.DrawRay(pos, Quaternion.Euler(0, 0, -Mathf.Acos(dot) * Mathf.Rad2Deg) * dir, Color.blue);
-        */
+        
 
         return damageables;
     }
 
 
-    public override List<RaycastHit2D> RayTransform(Vector2 pos, Vector2 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
+    public override List<RaycastHit2D> RayTransform(Vector3 pos, Vector3 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
     {
         var aux = Physics2D.RaycastAll(pos, dir, distance < 0 ? this.maxRadius : distance, layerMask);
 
@@ -430,7 +600,7 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
 
 
 
-    public override List<T> Ray(Vector2 pos, Vector2 dir, System.Func<T, bool> chck, float distance = -1)
+    public override List<T> Ray(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, float distance = -1)
     {
         List<T> result = new List<T>();
 
@@ -454,21 +624,4 @@ public class DetectAlloc<T> : DetectParent<T> where T : class
     }
 
 }
-
-
-public class CompareDist<T> : IComparer<T> where T: Component
-{
-    public Vector3 me;
-
-    public bool inverse=false;
-
-    public int Compare(T x, T y)
-    {
-        var aux = (x.transform.position - me).magnitude > (y.transform.position - me).magnitude;
-
-        if (inverse)
-            aux = !aux;
-
-        return System.Convert.ToInt32(aux);
-    }
-}
+*/

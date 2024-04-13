@@ -144,6 +144,17 @@ public static class Extensions
     }
 
 
+    /// <summary>
+    /// La version del vector 2 en el plano xz
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    static public Vector2 Vect3To2XZ(this Vector3 vector)
+    {
+        return new Vector2(vector.x,vector.z);
+    }
+
+
 
     /// <summary>
     /// Crea un vector 2 a partir de un vector 3
