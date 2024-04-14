@@ -6,13 +6,13 @@ using UnityEngine;
 public abstract class MoveAbstract : MyScripts , IMove
 {
     [field: SerializeField]
-    public Vector2 direction { get; set; }
+    public Vector3 direction { get; set; }
 
     public Tim aceleration = new Tim();
 
     public Tim _desaceleration = new Tim();
 
-    public event System.Action<Vector2> onMove;
+    public event System.Action<Vector3> onMove;
 
     public event System.Action onIdle;
 
@@ -52,7 +52,7 @@ public abstract class MoveAbstract : MyScripts , IMove
         }
     }
 
-    public virtual Vector2 vectorVelocity 
+    public virtual Vector3 vectorVelocity 
     {
         get => velocity * direction;
         set
@@ -66,7 +66,7 @@ public abstract class MoveAbstract : MyScripts , IMove
         tim.current = number;
     }
 
-    public virtual MoveAbstract Acelerator(Vector2 dirNormalized, float magnitud, float? objectiveVelocity = null)
+    public virtual MoveAbstract Acelerator(Vector3 dirNormalized, float magnitud, float? objectiveVelocity = null)
     {
         if (objectiveVelocity == null)
             objectiveVelocity = this.objectiveVelocity;
@@ -78,7 +78,7 @@ public abstract class MoveAbstract : MyScripts , IMove
 
         var vecVelocity = vectorVelocity;
 
-        vecVelocity += Vector2.ClampMagnitude((Time.deltaTime * magnitud * dirNormalized) + vecVelocity, (float)objectiveVelocity) - vecVelocity;
+        vecVelocity += Vector3.ClampMagnitude((Time.deltaTime * magnitud * dirNormalized) + vecVelocity, (float)objectiveVelocity) - vecVelocity;
 
         aceleration.current = magnitud;
 
@@ -89,14 +89,14 @@ public abstract class MoveAbstract : MyScripts , IMove
         return this;
     }
 
-    public void Velocity(Vector2 dir, float? velocity=null)
+    public void Velocity(Vector3 dir, float? velocity=null)
     {
         this.velocity = velocity?? objectiveVelocity;
 
         this.direction = dir;
     }
 
-    MoveAbstract Velocity(Vector2 dir)
+    MoveAbstract Velocity(Vector3 dir)
     {
         velocity = dir.magnitude;
 
@@ -117,7 +117,7 @@ public abstract class MoveAbstract : MyScripts , IMove
         onIdle?.Invoke();
     }
 
-    protected void OnMove(Vector2 vec)
+    protected void OnMove(Vector3 vec)
     {
         onMove?.Invoke(vec);
     }
@@ -125,7 +125,7 @@ public abstract class MoveAbstract : MyScripts , IMove
 
 public interface IMove
 {
-    public event System.Action<Vector2> onMove;
+    public event System.Action<Vector3> onMove;
 
     public event System.Action onIdle;
 
@@ -134,7 +134,7 @@ public interface IMove
     /// </summary>
     public event System.Action<Hexagone, int> onTeleport;
 
-    public Vector2 direction { get; set; }
+    public Vector3 direction { get; set; }
 
     public float objectiveVelocity { get; set; }
 
@@ -160,7 +160,7 @@ public interface IMove
     /// ATENCION: es mas lenta para setear que su contraparte manual Velocity(Vector2 dir, float velocity)<br/>
     /// Funcion destinada a setear de forma manual la direccion de la velocidad
     /// </summary>
-    public Vector2 vectorVelocity { get; set; }
+    public Vector3 vectorVelocity { get; set; }
 
 
 
@@ -169,5 +169,5 @@ public interface IMove
     /// </summary>
     /// <param name="dir">debe de estar normalizada para NO romperse</param>
     /// <param name="velocity">Por defecto sera la velocidad objetivo del componente</param>
-    public void Velocity(Vector2 dir, float? velocity = null);
+    public void Velocity(Vector3 dir, float? velocity = null);
 }

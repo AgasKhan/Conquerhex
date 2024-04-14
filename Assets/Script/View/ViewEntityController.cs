@@ -88,7 +88,7 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
         throw new System.NotImplementedException();
     }
 
-    private void Move_onMove(Vector2 obj)
+    private void Move_onMove(Vector3 obj)
     {
         if (obj.x < 0)
         {

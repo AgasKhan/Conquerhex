@@ -42,7 +42,7 @@ public class Proyectile : Entity
             moveComponent.onMove += Move_onMove;
     }
 
-    private void Move_onMove(Vector2 obj)
+    private void Move_onMove(Vector3 obj)
     {
         transform.up = obj;
     }

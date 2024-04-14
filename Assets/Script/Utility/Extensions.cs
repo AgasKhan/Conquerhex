@@ -194,7 +194,7 @@ public static class Extensions
     /// <returns></returns>
     static public Vector3 Vect2To3XZ(this Vector2 vector, float y)
     {
-        return new Vector3(vector.x, y,vector.y);
+        return new Vector3(vector.x, y, vector.y);
     }
 
     /// <summary>

@@ -17,7 +17,7 @@ public class AnimatorController : ComponentOfContainer<Entity>
     [SerializeField]
     string deathNameAnim = "Death";
 
-    private void Ia_onMove(Vector2 obj)
+    private void Ia_onMove(Vector3 obj)
     {
         animator.SetBool(moveNameAnim, true);
     }

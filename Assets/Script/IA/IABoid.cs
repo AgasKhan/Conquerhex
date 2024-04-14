@@ -15,9 +15,9 @@ public class IABoid : IAFather
 
     MoveEntityComponent move;
 
-    protected Vector2 dir = Vector2.zero;
+    protected Vector3 dir = Vector3.zero;
 
-    delegate void _FuncBoid(ref Vector2 desired, IABoid objective, Vector2 dirToBoid);
+    delegate void _FuncBoid(ref Vector3 desired, IABoid objective, Vector3 dirToBoid);
     
     public override void OnEnterState(Character param)
     {
@@ -96,9 +96,9 @@ public class IABoid : IAFather
     }
 
 
-    Vector2 BoidIntern(_FuncBoid func, bool promedio, float radius)
+    Vector3 BoidIntern(_FuncBoid func, bool promedio, float radius)
     {
-        Vector2 desired = Vector2.zero;
+        Vector3 desired = Vector2.zero;
         int count = 0;
 
         //Por cada boid
@@ -108,7 +108,7 @@ public class IABoid : IAFather
             if (boid == this || boid.character.team != character.team) continue;
 
             //Saco la direccion hacia el boid
-            Vector2 dirToBoid = boid.transform.position - transform.position; //seek.Calculate(boid.value.move);
+            Vector3 dirToBoid = boid.transform.position - transform.position; //seek.Calculate(boid.value.move);
 
             //Si esta dentro del rango de vision, seteo un func que variará según el movimiento que se desea
 
@@ -121,7 +121,7 @@ public class IABoid : IAFather
 
         }
 
-        if (desired == Vector2.zero) return desired;
+        if (desired == Vector3.zero) return desired;
 
         //En caso de requerir tener el promedio de todos los boids, promedio con mi desired
         if (promedio)
@@ -129,36 +129,36 @@ public class IABoid : IAFather
         return desired;
     }
 
-    protected Vector2 Separation()
+    protected Vector3 Separation()
     {
         return BoidIntern(Separation, false, BoidsManager.instance.SeparationRadius);
     }
 
-    void Separation(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
+    void Separation(ref Vector3 desired, IABoid boid, Vector3 dirToBoid)
     {
         desired -= dirToBoid;
     }
 
-    protected Vector2 Alignment()
+    protected Vector3 Alignment()
     {
         return BoidIntern(Alignment, true, BoidsManager.instance.ViewRadius);
     }
 
-    void Alignment(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
+    void Alignment(ref Vector3 desired, IABoid boid, Vector3 dirToBoid)
     {
         desired += boid.move.vectorVelocity;
     }
 
-    protected Vector2 Cohesion()
+    protected Vector3 Cohesion()
     {
         var aux = BoidIntern(Cohesion, true, BoidsManager.instance.ViewRadius);
 
-        return aux == Vector2.zero ? Vector2.zero : aux - transform.position.Vect3To2();
+        return aux == Vector3.zero ? Vector3.zero : aux - transform.position;
     }
 
-    void Cohesion(ref Vector2 desired, IABoid boid, Vector2 dirToBoid)
+    void Cohesion(ref Vector3 desired, IABoid boid, Vector3 dirToBoid)
     {
-        desired += (Vector2)boid.transform.position;
+        desired += boid.transform.position;
     }
 
 
@@ -197,7 +197,7 @@ public class SteeringWithTarget
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
-    public Vector2 this[int i]
+    public Vector3 this[int i]
     {
         get
         {

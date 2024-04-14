@@ -151,9 +151,9 @@ public class FadeColorAttack : MonoBehaviour
         return this;
     }
 
-    public FadeColorAttack Direction(Vector2 dir)
+    public FadeColorAttack Direction(Vector3 dir)
     {
-        areaFeedback.localRotation = Quaternion.Euler(0,0,Utilitys.DifAngulosVectores(Vector2.up,dir));
+        areaFeedback.localRotation = Quaternion.Euler(0,0,Utilitys.DifAngulosVectores(Vector2.up, dir.Vect3To2XZ()));
 
         return this;
     }
@@ -166,7 +166,7 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack Area(float max, float min=0)
     {
-        transform.localScale = Vector3.one * 2 * max;
+        transform.localScale = Vector3.one * 1.4f * max;
         area = "MaxRadius: " + max.ToStringFixed();
         InternalArea(min);
 

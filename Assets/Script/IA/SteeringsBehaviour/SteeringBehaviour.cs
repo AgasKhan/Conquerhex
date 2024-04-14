@@ -7,9 +7,9 @@ public abstract class SteeringBehaviour : MonoBehaviour
     [SerializeField]
     protected MoveAbstract me;
 
-    protected Vector2 _desiredVelocity;
-    protected Vector2 _steering;
-    protected Vector2 _direction;
+    protected Vector3 _desiredVelocity;
+    protected Vector3 _steering;
+    protected Vector3 _direction;
 
     public virtual SteeringBehaviour SwitchSteering<T>() where T : SteeringBehaviour
     {
@@ -24,7 +24,7 @@ public abstract class SteeringBehaviour : MonoBehaviour
         return aux;
     }
 
-    protected virtual Vector2 Direction(MoveAbstract target,float multiply = 1)
+    protected virtual Vector3 Direction(MoveAbstract target,float multiply = 1)
     {
 
         _direction = (target.transform.position - me.transform.position).Vect3To2();
@@ -47,9 +47,9 @@ public abstract class SteeringBehaviour : MonoBehaviour
     }
     */
 
-    protected abstract Vector2 InternalCalculate(MoveAbstract target);
+    protected abstract Vector3 InternalCalculate(MoveAbstract target);
     
-    public Vector2 Calculate(MoveAbstract target)
+    public Vector3 Calculate(MoveAbstract target)
     {
         return InternalCalculate(target);
     }

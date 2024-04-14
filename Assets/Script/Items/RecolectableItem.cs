@@ -32,6 +32,9 @@ public class RecolectableItem : InventoryEntityComponent
 
     void FixedUpdate()
     {
+        if (hex == null)
+            return;
+
         foreach (var entity in hex.childsEntities)
         {
             if (!(entity is Character))
