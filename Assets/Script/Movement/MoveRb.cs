@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MoveRb : MoveTr
 {
-    Rigidbody2D rb;
+    Rigidbody rb;
 
-    public override Vector2 vectorVelocity => rb.velocity;
+    public override Vector2 vectorVelocity => rb.velocity.Vect3To2XZ();
 
     protected override void Config()
     {
@@ -16,12 +16,12 @@ public class MoveRb : MoveTr
 
     void MyAwake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
     }
 
     protected override void MyFixedUpdate()
     {
-        rb.velocity = (direction * _velocity.current).Vec2to3(0);
+        rb.velocity = (direction * _velocity.current).Vect2To3XZ(0);
         _velocity.Substract(_desaceleration.current * Time.fixedDeltaTime);
 
         if (_velocity.current <= 0)

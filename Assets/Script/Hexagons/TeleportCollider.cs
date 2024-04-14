@@ -22,14 +22,14 @@ public class TeleportCollider : MonoBehaviour
 
     int lado;
 
-    Vector2 vectorSalida;
+    Vector3 vectorSalida;
 
     private void Awake()
     {
         teleport = GetComponentInParent<Hexagone>();
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerStay(Collider other)
     {
         MoveAbstract fisicaOther = other.GetComponent<MoveAbstract>();
 
@@ -41,7 +41,7 @@ public class TeleportCollider : MonoBehaviour
         //le doy un empujon para que no se quede en el medio
         fisicaOther.Acelerator(fisicaOther.direction, velocityTransfer, velocityTransfer);
 
-        lado = HexagonsManager.CalcEdge(vectorSalida);
+        lado = HexagonsManager.CalcEdge(vectorSalida.Vect3To2XZ());
 
         Hexagone arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
 
@@ -53,13 +53,13 @@ public class TeleportCollider : MonoBehaviour
         (anguloVelocidad < 180 && anguloVelocidad > 0)
         {
             difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
-            difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.y;
+            difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.z;
 
             other.gameObject.transform.position =
                 new Vector3(
                     arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - difEspejada[0],
-                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1],
-                    other.transform.position.z);
+                    other.transform.position.y,
+                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1]);
                 
             fisicaOther.Teleport(arrHexTeleport, lado);
 

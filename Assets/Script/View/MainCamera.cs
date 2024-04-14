@@ -109,7 +109,7 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         base.Awake();
         main = Camera.main;
-        plane = new Plane(Vector3.forward, 0);
+        plane = new Plane(Vector3.up, 0);
 
         shake.position += Shake_position;
         shake.Init(shakeTr.localPosition);
@@ -203,13 +203,13 @@ public class MainCamera : SingletonMono<MainCamera>
             camerasEdge[i] = (false);
         }
 
-        transform.position  = obj.position.Vect3Copy_Z(transform.position.z);
+        transform.position  = obj.position.Vect3Copy_Y(transform.position.y);
 
         for (int i = 0; i < points.Length; i++)
         {
             points[i] = _points2[i] + main.transform.position;
 
-            var translatedPoint = points[i] - centerPoint;
+            var translatedPoint = (points[i] - centerPoint).Vect3To2XZ();
 
             int lado = HexagonsManager.CalcEdge(translatedPoint);
 

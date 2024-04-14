@@ -68,7 +68,7 @@ public static class Utilitys
 
 
     /// <summary>
-    /// devuelve la diferencia real entre angulos de 2 vectores (OJO QUE ESTA FUNCION SOLO SIRVE CON VECTOR2)
+    /// devuelve la diferencia real entre angulos de 2 vectores <br/> OJO QUE ESTA FUNCION SOLO SIRVE CON VECTOR2
     /// </summary>
     /// <param name="vec1"></param>
     /// <param name="vec2"></param>

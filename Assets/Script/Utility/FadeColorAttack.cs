@@ -153,7 +153,7 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack Direction(Vector2 dir)
     {
-        areaFeedback.up = dir.Vec2to3(areaFeedback.up.z);
+        areaFeedback.localRotation = Quaternion.Euler(0,0,Utilitys.DifAngulosVectores(Vector2.up,dir));
 
         return this;
     }
