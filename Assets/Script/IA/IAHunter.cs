@@ -151,9 +151,9 @@ public class HunterPatrol : IState<HunterIntern>
 {
     IAHunter hunter;
     MoveEntityComponent move;
-    Vector2 dir;
+    Vector3 dir;
 
-    Vector2 conoDir;
+    Vector3 conoDir;
 
     List<Entity> corderos = new List<Entity>();
 
@@ -181,7 +181,7 @@ public class HunterPatrol : IState<HunterIntern>
         }
 
         if (move.vectorVelocity.sqrMagnitude >= 0.01f)
-            conoDir = Vector2.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
+            conoDir = Vector3.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
 
         this.move.ControllerPressed(dir, 0);
     }
@@ -193,7 +193,7 @@ public class HunterPatrol : IState<HunterIntern>
 
     void StartWait()
     {
-        dir = Vector2.zero;
+        dir = Vector3.zero;
     }
 
     void Move()
@@ -252,7 +252,7 @@ public class HunterChase : IState<HunterIntern>
             param.context.attk.Attack();
         }
 
-        param.context.move.ControllerPressed(steerings[0], 0);
+        param.context.move.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
     }
 
     public void OnExitState(HunterIntern param)
