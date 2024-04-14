@@ -31,7 +31,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
     {
         get
         {
-            return _character.move;
+            return character.move;
         }
     }
 
@@ -39,7 +39,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
     {
         get
         {
-            return _character.team;
+            return character.team;
         }
     }
 
@@ -75,6 +75,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
     public override void OnExitState(Character param)
     {
         attk.StopTimers();
+        attk = null;
         base.OnExitState(param);
     }
 

@@ -25,7 +25,7 @@ public class AutomaticAttack
         get
         {
             if (weaponKata != null)
-                return weaponKata.FinalMaxRange;
+                return weaponKata.AttackArea;
             else
                 return 0;
         }
@@ -83,7 +83,7 @@ public class AutomaticAttack
     {
         weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);
         timerChargeAttack.Stop().SetInitCurrent(0);
-        timerToAttack.Set(1);
+        timerToAttack.Set(1).Stop();
     }
 
     public AutomaticAttack(CasterEntityComponent entity, int index)

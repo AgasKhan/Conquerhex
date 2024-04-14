@@ -99,6 +99,11 @@ public class MainCamera : SingletonMono<MainCamera>
         }
     }
 
+    public void OnCharacterSelected(Character character)
+    {
+        obj = character.transform;
+    }
+
 
     protected override void Awake()
     {
@@ -110,6 +115,8 @@ public class MainCamera : SingletonMono<MainCamera>
         shake.Init(shakeTr.localPosition);
 
         eventManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato+= ShakeStart;
+
+        eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += OnCharacterSelected;
     }
 
     void ShakeStart(Health health)

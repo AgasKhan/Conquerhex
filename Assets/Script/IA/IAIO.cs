@@ -23,6 +23,8 @@ public class IAIO : IAFather
 
     DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
 
+    SingleEvent<Character> characterEvent;
+
 
     private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
     {
@@ -159,7 +161,7 @@ public class IAIO : IAFather
         lastInteractuable = null;
         param.gameObject.tag = originalTag;
 
-        base.OnExitState(_character);
+        base.OnExitState(character);
     }
 
     public override void OnStayState(Character param)
@@ -208,8 +210,10 @@ public class IAIO : IAFather
 
     protected override void Health_death()
     {
-        GameManager.instance.Defeat("Has muerto");
-        OnExitState(_character);
+        OnExitState(character);
+
+        if(character==GameManager.instance.playerCharacter)
+            GameManager.instance.Defeat("Has muerto");
     }
 
     private void OnTakeDamage(Damage obj)
@@ -238,14 +242,45 @@ public class IAIO : IAFather
         eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.time).delegato?.Invoke((arg1, arg2));
     }
 
+    private void OnCharacterSelected(Character chara)
+    {
+        if(character!=null)
+            character.CurrentState = character.GetComponent<IAFather>();
+
+        chara.CurrentState = this;
+    }
+
+    private void Update()
+    {
+        if(character!=null)
+        {
+            enabled = false;
+            return;
+        }
+
+        UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Press attack for return to your Body");
+    }
+
     private void Awake()
     {
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
         LoadSystem.AddPreLoadCorutine(() => {
-            OnExitState(_character);
+            OnExitState(character);
         });
 
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
+
+        characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
+
+        characterEvent.delegato += OnCharacterSelected;
+
+        VirtualControllers.principal.eventDown += NoCharacterSelected;
+    }
+
+    private void NoCharacterSelected(Vector2 arg1, float arg2)
+    {
+        characterEvent.delegato.Invoke(GameManager.instance.playerCharacter);
+        VirtualControllers.principal.eventDown -= NoCharacterSelected;
     }
 }
 

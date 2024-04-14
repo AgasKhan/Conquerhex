@@ -13,7 +13,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static float[,] localRadio => instance._localRadio;
 
-    public static GameObject hexagono => instance._hexagono;
+    public static Hexagone hexagono => instance._hexagono;
 
     public static int[][,] hexagonos => instance._hexagonos;
 
@@ -29,24 +29,28 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static int idMaxLevel=> instance._idMaxLevel;
 
+    [SerializeField]
+    EventManager eventManager;
+
+    [SerializeReference]
+    Hexagone _hexagono;
+
+    [SerializeReference]
+    int _idMaxLevel;
+
+
+    float[,] _localApotema = new float[6, 2];
+
+    float[,] _localRadio = new float[6, 2];
+
+    int[][,] _hexagonos;
+
+
     [SerializeReference]
     Hexagone[] _arrHexCreados;
 
     [SerializeField]
     Pictionarys<int, Hexagone> _activeHex = new Pictionarys<int, Hexagone>();
-
-    [SerializeReference]
-    float[,] _localApotema = new float[6, 2];
-
-    float[,] _localRadio = new float[6, 2];
-
-    [SerializeReference]
-    GameObject _hexagono;
-
-    int[][,] _hexagonos;
-
-    [SerializeReference]
-    int _idMaxLevel;
 
     public static void SetArrayHexagons(int number)
     {
@@ -449,13 +453,15 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         DebugPrint.Log("apotema " + apotema);
 
-        LoadSystem.AddPostLoadCorutine(() => {
+        eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato +=
 
-            arrHexCreados[0].gameObject.SetActive(true);
+        (character) => {
 
-            activeHex.Add(0, arrHexCreados[0]);
+            character.hexagoneParent.SetActiveGameObject(true);
 
-            SetRenders(arrHexCreados[0]);
-        });
+            activeHex.Add(character.hexagoneParent.id, character.hexagoneParent);
+
+            SetRenders(character.hexagoneParent);
+        };
     }
 }

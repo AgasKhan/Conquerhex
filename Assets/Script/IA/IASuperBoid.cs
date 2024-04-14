@@ -42,26 +42,26 @@ public class IASuperBoid : IABoid
 
         //enemigo
 
-        steerings["enemy"].targets = detectEnemy.AreaWithRay(_character.transform, (algo) => { return algo.visible && _character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        steerings["enemy"].targets = detectEnemy.AreaWithRay(character.transform, (algo) => { return algo.visible && character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
 
 
         //Lider
         
-        var recursos = detectObjective.AreaWithRay(_character.transform, (target) => 
+        var recursos = detectObjective.AreaWithRay(character.transform, (target) => 
         {
             var entity = target.GetEntity();
 
-            return entity != null && _character.team == entity.team && (entity is Character) &&  !(((Character)entity).CurrentState is IABoid);
+            return entity != null && character.team == entity.team && (entity is Character) &&  !(((Character)entity).CurrentState is IABoid);
         });
 
         lider = null;
 
         for (int i = 0; i < recursos.Count; i++)
         {
-            if (distance > (recursos[i].GetEntity().transform.position - _character.transform.position).sqrMagnitude)
+            if (distance > (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude)
             {
                 lider = recursos[i].GetEntity();
-                distance = (recursos[i].GetEntity().transform.position - _character.transform.position).sqrMagnitude;
+                distance = (recursos[i].GetEntity().transform.position - character.transform.position).sqrMagnitude;
             }
         }
 

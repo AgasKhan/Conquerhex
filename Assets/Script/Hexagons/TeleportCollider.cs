@@ -60,17 +60,16 @@ public class TeleportCollider : MonoBehaviour
                     arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - difEspejada[0],
                     arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1],
                     other.transform.position.z);
+                
+            fisicaOther.Teleport(arrHexTeleport, lado);
 
-            other.gameObject.transform.SetParent(arrHexTeleport.transform);
-
-            if(!arrHexTeleport.gameObject.activeSelf)
+            /*
+            if (!arrHexTeleport.gameObject.activeSelf)
             {
                 arrHexTeleport.gameObject.SetActive(true);
                 arrHexTeleport.gameObject.SetActive(false);
             }
-                
-            fisicaOther.Teleport(arrHexTeleport, lado);
-            
+            */
         }
     }
 }

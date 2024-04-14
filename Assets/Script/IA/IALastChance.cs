@@ -20,7 +20,7 @@ public class IALastChance : IAFather
     // Update is called once per frame
     void Update()
     {
-        if (enemy == null || _character==null)
+        if (enemy == null || character == null)
             return;
 
         if((enemy.transform.position - transform.position).sqrMagnitude < distanceAttack * distanceAttack && prin.timerChargeAttack.Chck && sec.timerChargeAttack.Chck)
@@ -29,7 +29,7 @@ public class IALastChance : IAFather
         }
         else
         {
-            _character.move.ControllerPressed((enemy.transform.position - transform.position).normalized * (timer.Chck ? 1 : -1),0);
+            character.move.ControllerPressed((enemy.transform.position - transform.position).normalized * (timer.Chck ? 1 : -1),0);
         }
     }
 
@@ -58,7 +58,7 @@ public class IALastChance : IAFather
     {
         if(collision.TryGetComponent(out Entity enemy))
         {
-            if (enemy.team != _character.team)
+            if (enemy.team != character.team)
                 this.enemy = enemy.GetComponent<MoveAbstract>();
 
             
@@ -72,15 +72,15 @@ public class IALastChance : IAFather
 
     public override void OnEnterState(Character param)
     {
-        _character = param;
+        base.OnEnterState(param);
 
         //timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
         doryEnemy = TimersManager.Create(10, () => enemy = null);
 
-        prin = new AutomaticAttack(_character.caster, 0);
+        prin = new AutomaticAttack(character.caster, 0);
 
-        sec = new AutomaticAttack(_character.caster, 1);
+        sec = new AutomaticAttack(character.caster, 1);
 
         timer = TimersManager.Create(1);
 
@@ -91,7 +91,7 @@ public class IALastChance : IAFather
 
     public override void OnExitState(Character param)
     {
-
+        base.OnExitState(param);
     }
 
     public override void OnStayState(Character param)

@@ -47,6 +47,7 @@ public class GameManager : SingletonMono<GameManager>
 
     public LayerMask obstacleAvoidanceLayer;
 
+    [Tooltip("Original player character")]
     public Character playerCharacter;
 
     [SerializeField]
@@ -142,7 +143,7 @@ public class GameManager : SingletonMono<GameManager>
 
         fsmGameMaganer.endGame.victory.Invoke();
 
-        eventManager.events.SearchOrCreate<SingleEvent>("victory").delegato.Invoke(); ;
+        eventManager.events.SearchOrCreate<SingleEvent>("victory").delegato.Invoke();
     }
 
     void EndGame()

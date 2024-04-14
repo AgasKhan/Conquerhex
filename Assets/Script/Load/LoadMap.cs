@@ -13,7 +13,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
     public Tilemap map;
 
-    public MoveAbstract playerPublic;
+    //public MoveAbstract playerPublic;
 
     public GameObject victoria;
 
@@ -23,7 +23,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
     Hexagone[] arrHexCreados => HexagonsManager.arrHexCreados;
 
-    GameObject hexagono => HexagonsManager.hexagono;
+    Hexagone hexagono => HexagonsManager.hexagono;
 
     int[][,] hexagonos => HexagonsManager.hexagonos;
 
@@ -91,7 +91,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
             //spawn hexagonos
 
-            arrHexTeleport = Instantiate(hexagono).GetComponent<Hexagone>();
+            arrHexTeleport = Instantiate(hexagono);
 
             arrHexTeleport.gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
 
@@ -151,10 +151,11 @@ public class LoadMap : SingletonMono<LoadMap>
         DebugPrint.Log("Tiempo total de carga: " + tiempoCarga);
         DebugPrint.Log("Carga finalizada");
 
-        if(playerPublic != null)
+        if(GameManager.instance.playerCharacter != null)
         {
-            playerPublic.transform.parent = arrHexCreados[0].transform;
-            playerPublic.transform.localPosition = new Vector3(0, 0, 0);
+            GameManager.instance.playerCharacter.transform.parent = arrHexCreados[0].transform;
+            GameManager.instance.playerCharacter.transform.localPosition = new Vector3(0, 0, 0);
+            arrHexCreados[0].EnterEntity(GameManager.instance.playerCharacter);
         }
         
         //end(true);

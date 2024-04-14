@@ -138,6 +138,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         }
     }
 
+    public float AttackArea => trigger.FinalMaxRange;
+
     public virtual float Dot => itemBase.dot;
 
     public virtual float FinalVelocity => itemBase.velocity;

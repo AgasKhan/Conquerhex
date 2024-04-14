@@ -6,7 +6,7 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 {
     //public Timer timerStun = null;
 
-    protected Character _character;
+    Character _character;
 
     public Character character => _character;
 
@@ -38,6 +38,8 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
     public virtual void OnExitState(Character param)
     {
         param.health.death -= Health_death;
+
+        _character = null;
     }
 
     public virtual void OnStayState(Character param)

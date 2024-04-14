@@ -42,11 +42,14 @@ public class Hexagone : MonoBehaviour
 
     public void ExitEntity(Entity entity)
     {
+        entity.hexagoneParent = null;
         childsEntities.Remove(entity);
     }
 
     public void EnterEntity(Entity entity)
     {
+        entity.hexagoneParent?.ExitEntity(entity);
+        entity.hexagoneParent = this;
         childsEntities.Add(entity);
     }
 

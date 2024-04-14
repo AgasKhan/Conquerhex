@@ -13,6 +13,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
         public System.Action updateTick;
     }
+
     public Team team;
     
     public Health health;
@@ -241,9 +242,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
 
         hexagoneParent?.ExitEntity(this);
 
-        hexagoneParent = hexagone;
-
-        hexagoneParent.EnterEntity(this);
+        hexagone.EnterEntity(this);
 
         for (int i = 0; i < carlitos.Length; i++)
         {
@@ -310,7 +309,8 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
             //carlitos[i].SetActiveGameObject(false);
         }
 
-        LoadSystem.AddPostLoadCorutine(() => {
+        LoadSystem.AddPostLoadCorutine(() => 
+        {
             Hexagone hexagone = GetComponentInParent<Hexagone>();
 
             if (hexagone != null)

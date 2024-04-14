@@ -108,6 +108,7 @@ public abstract class MoveAbstract : MyScripts , IMove
     public void Teleport(Hexagone hexagone, int lado)
     {
         onTeleport?.Invoke(hexagone, lado);
+        transform.SetParent(hexagone.transform);
     }
 
 
