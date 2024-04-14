@@ -128,24 +128,6 @@ MonoBehaviour:
   passIndex: 0
   bindDepthStencilAttachment: 0
   m_Version: 1
---- !u!114 &-700575921547012491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa0ef948bee3975418fd9c43f38032e0, type: 3}
-  m_Name: GrabPassRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  _timing: 0
-  _grabbedTextureName: _GrabbedTexture
-  _shaderLightModes:
-  - Universal2DA
-  _sortingCriteria: -1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,12 +145,12 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: -700575921547012491}
+  - {fileID: 3233976003540843404}
   - {fileID: -4559962870005143157}
   - {fileID: -2646888164137629011}
   - {fileID: -3194483877275257867}
   - {fileID: -3850841579667572443}
-  m_RendererFeatureMap: 7596ff41e90d47f68b695ff0edc1b7c0ad0a64103d5d44dbf5b34bb6d6e9aad325399c65fc0f8fca
+  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0ad0a64103d5d44dbf5b34bb6d6e9aad325399c65fc0f8fca
   m_UseNativeRenderPass: 1
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -211,3 +193,22 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
+--- !u!114 &3233976003540843404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d110ecadedc297c45867b005e3a4fdbd, type: 3}
+  m_Name: GrabPassRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  _timing: 0
+  _grabbedTextureName: _GrabbedTexture
+  _shaderLightModes:
+  - Universal2DA
+  _sortingCriteria: -1
+  SceneCameraView: 0
