@@ -25,7 +25,7 @@ public struct Damage
 
     public override string ToString()
     {
-        return Math.Round(amount,2).ToString().RichTextColor(typeInstance.color);
+        return amount.ToStringFixed().RichTextColor(typeInstance.color);
     }
 
     public override bool Equals(object obj)

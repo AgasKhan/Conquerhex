@@ -17,6 +17,8 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     public Color lightColor;
 
+
+
     /*
     [SerializeReference]
     TimedAction offTimer;
@@ -46,13 +48,46 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     FadeOnOff fadeOnOff;
 
+    [SerializeField]
+    Transform areaFeedback;
+
+    [SerializeField]
+    TMPro.TextMeshProUGUI text;
+
+    [SerializeField]
+    float velocityRotation = 5;
+
+    string _area;
+
+    string _angle;
+    string area
+    {
+        set
+        {
+            _area = value;
+            text.text = $"{_area}\n{_angle}";
+        }
+    }
+    string angle
+    {
+        set
+        {
+            _angle = value;
+            text.text = $"{_area}\n{_angle}";
+        }
+    }
+
     //[SerializeField]
     //UnityEngine.Rendering.Universal.Light2D light2D;
 
     public Color color
     {
         get => sprite.color;
-        set => sprite.color = value;
+        set
+        {
+            sprite.color = value;
+            text.color = value;
+        }
     } 
 
     private void Awake()
@@ -63,16 +98,21 @@ public class FadeColorAttack : MonoBehaviour
 
         fadeOnOff.Init();
 
-        attackTimer = TimersManager.Create(() => sprite.color, attackColor, fadeAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
+        attackTimer = TimersManager.Create(() => color, attackColor, fadeAttack, Color.Lerp, (fadecolor) => color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, color.a));
 
-        noAttackTimer = TimersManager.Create(() => sprite.color, areaColor, fadeNoAttack, Color.Lerp, (fadecolor) => sprite.color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, sprite.color.a));
+        noAttackTimer = TimersManager.Create(() => color, areaColor, fadeNoAttack, Color.Lerp, (fadecolor) => color = new Color(fadecolor.r, fadecolor.g, fadecolor.b, color.a));
 
         attackTimer.AddToEnd(()=> NoAttack());
     }
 
+    private void Update()
+    {
+        text.transform.rotation *= Quaternion.Euler(0,0, velocityRotation*Time.deltaTime);
+    }
+
     private void FadeMenu_alphas(float obj)
     {
-        sprite.color = sprite.color.ChangeAlphaCopy(obj);
+        color = color.ChangeAlphaCopy(obj);
         //light2D.color = lightColor.ChangeAlphaCopy(obj/2);
     }
 
@@ -100,7 +140,7 @@ public class FadeColorAttack : MonoBehaviour
     public FadeColorAttack DotAngle(float dot)
     {
         sprite.material.SetFloat("_Dot", dot);
-
+        angle = "Angle: " + dot.ToStringFixed();
         return this;
     }
 
@@ -113,7 +153,7 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack Direction(Vector2 dir)
     {
-        transform.up = dir.Vec2to3(transform.up.z);
+        areaFeedback.up = dir.Vec2to3(areaFeedback.up.z);
 
         return this;
     }
@@ -127,7 +167,7 @@ public class FadeColorAttack : MonoBehaviour
     public FadeColorAttack Area(float max, float min=0)
     {
         transform.localScale = Vector3.one * 2 * max;
-
+        area = "MaxRadius: " + max.ToStringFixed();
         InternalArea(min);
 
         //light2D.pointLightOuterRadius = number;
@@ -148,7 +188,7 @@ public class FadeColorAttack : MonoBehaviour
     private void OnEnable()
     {
         DotAngle(-1);
-        sprite.color = areaColor.ChangeAlphaCopy(0);
+        color = areaColor.ChangeAlphaCopy(0);
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);
     }

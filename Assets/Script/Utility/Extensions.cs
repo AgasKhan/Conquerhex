@@ -7,6 +7,16 @@ using System.Linq;
 
 public static class Extensions
 {
+    #region numbers
+
+    public static string ToStringFixed(this float number)
+    {
+        return System.Math.Round(number, 2).ToString();
+    }
+
+    #endregion
+
+
     #region Vectors
     /// <summary>
     /// devuelve una direccion aproximada del vector que se determina en base a el valor mayor sus componentes
