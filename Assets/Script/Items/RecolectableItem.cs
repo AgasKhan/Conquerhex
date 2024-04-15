@@ -13,9 +13,9 @@ public class RecolectableItem : InventoryEntityComponent
 
     Timer recolect;
 
-    InventoryEntityComponent referenceToTravel;
+    public InventoryEntityComponent referenceToTravel;
 
-    Hexagone hex;
+    public Hexagone hex;
 
     void Awake()
     {
@@ -78,7 +78,7 @@ public class RecolectableItem : InventoryEntityComponent
 
         itemBase = item;
 
-
+        Debug.Log("Se hizo el INIT de: " + item.nameDisplay);
         hex = GetComponentInParent<Hexagone>();
     }
 }
