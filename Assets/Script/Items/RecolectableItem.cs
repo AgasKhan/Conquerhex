@@ -13,9 +13,9 @@ public class RecolectableItem : InventoryEntityComponent
 
     Timer recolect;
 
-    public InventoryEntityComponent referenceToTravel;
+    InventoryEntityComponent referenceToTravel;
 
-    public Hexagone hex;
+    Hexagone hex;
 
     void Awake()
     {
