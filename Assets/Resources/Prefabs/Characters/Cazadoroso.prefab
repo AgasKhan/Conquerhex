@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 8125905815628775838}
   - component: {fileID: 1923887133863855665}
   - component: {fileID: 1923887133863855666}
-  - component: {fileID: 1923887133863855816}
-  - component: {fileID: 8570676347774531570}
+  - component: {fileID: -2959195152094096456}
+  - component: {fileID: -5499692822242714834}
   m_Layer: 7
   m_Name: Cazadoroso
   m_TagString: Enemigo
@@ -75,22 +75,11 @@ MonoBehaviour:
     minRadius: 0
     inverse: 0
     dot: 0.7
-    _maxDetects: 0
+    _maxDetects: 1
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
   energy: 15
   patrol:
     reverse: 0
@@ -143,20 +132,9 @@ MonoBehaviour:
     dot: 0.7
     _maxDetects: 0
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
   energy: 15
   patrol:
     reverse: 1
@@ -385,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <direction>k__BackingField: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0, z: 0}
   aceleration:
     _total: 30
     _current: 30
@@ -408,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <direction>k__BackingField: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0, z: 0}
   aceleration:
     _total: 30
     _current: 0
@@ -489,15 +467,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
---- !u!58 &1923887133863855816
-CircleCollider2D:
+--- !u!136 &-2959195152094096456
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923887133863855815}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -506,51 +482,41 @@ CircleCollider2D:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.24}
+  m_ProvidesContacts: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
---- !u!50 &8570676347774531570
-Rigidbody2D:
-  serializedVersion: 4
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!54 &-5499692822242714834
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923887133863855815}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDrag: 0
+  m_Drag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Constraints: 116
   m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!1001 &4492813437207219381
 PrefabInstance:
   m_ObjectHideFlags: 0

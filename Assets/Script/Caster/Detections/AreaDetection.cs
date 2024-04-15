@@ -9,7 +9,7 @@ using UnityEngine;
 [System.Serializable]
 public class AreaDetection : Detections
 {
-    public override List<IGetEntity> InternalDetect(Entity caster, Vector2 direction, int numObjectives, float minRange, float maxRange, float dot)
+    public override List<IGetEntity> InternalDetect(Entity caster, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
     {
         return detect.AreaWithRay(caster.transform, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), numObjectives, minRange, maxRange);
     }

@@ -43,7 +43,7 @@ public class IAHunterPathFanding : IAHunter
     }
 
 
-    private void Move_onMove(Vector2 obj)
+    private void Move_onMove(Vector3 obj)
     {
         pathFinding.ViewOfTarget();
     }

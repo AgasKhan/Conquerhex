@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3737242504853074026}
   - component: {fileID: 3737242504853074028}
-  - component: {fileID: 3737242504853074027}
   - component: {fileID: 3540766381373754454}
   - component: {fileID: 7620313239268833535}
+  - component: {fileID: 8222331521218330413}
+  - component: {fileID: 5923664284066212836}
   m_Layer: 11
   m_Name: 1_DestructibleObject
   m_TagString: Props
@@ -51,17 +52,17 @@ MonoBehaviour:
   team: 3
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
     deathBool: 0
-  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 11400000, guid: 0261c8f9edf440e4cbc550f66f345ed1,
     type: 2}
@@ -69,41 +70,6 @@ MonoBehaviour:
     type: 2}
   inventory: {fileID: 3540766381373754454}
   drop: {fileID: 7620313239268833535}
---- !u!70 &3737242504853074027
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7226389105525512022}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0000000107626255, y: -0.076383255}
-  m_Size: {x: 0.46179688, y: 0.17723474}
-  m_Direction: 1
 --- !u!114 &3540766381373754454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +100,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2175171fb572ac44a001ece1601d4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drops: []
+--- !u!54 &8222331521218330413
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7226389105525512022}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &5923664284066212836
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7226389105525512022}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &182513100124275803
 PrefabInstance:
   m_ObjectHideFlags: 0

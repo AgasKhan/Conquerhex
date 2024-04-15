@@ -29,7 +29,7 @@ public class MoveTr : MoveAbstract
 
     protected virtual void MyFixedUpdate()
     {
-        transform.position += (direction * _velocity.current * Time.fixedDeltaTime).Vec2to3(0);
+        transform.position += (direction * _velocity.current * Time.fixedDeltaTime);
 
         _velocity.Substract(_desaceleration.current * Time.fixedDeltaTime);
 

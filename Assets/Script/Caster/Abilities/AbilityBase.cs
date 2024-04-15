@@ -90,7 +90,7 @@ public abstract class AbilityBase : ItemBase
             PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
     }
 
-    public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector2 direction, int numObjectives, float minRange, float maxRange, float dot)
+    public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
         => detection?.Detect(ref result, caster, direction, numObjectives, minRange, maxRange, dot);
 
     public TriggerController CreateTriggerController()
@@ -209,7 +209,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         trigger.Destroy();
     }
 
-    public List<Entity> Detect(Vector2 dir, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    public List<Entity> Detect(Vector3 dir, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
         affected = trigger.InternalDetect(dir, timePressed, minRange, maxRange, dot);
 

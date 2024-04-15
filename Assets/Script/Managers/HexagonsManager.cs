@@ -80,10 +80,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         if (lado >= 0)
         {
             MainCamera.instance.transform.position = new Vector3(
-                hex.ladosPuntos[LadoOpuesto(lado), 0] - (hex.ladosPuntos[lado, 0] - Camera.main.transform.position.x),
-                hex.ladosPuntos[LadoOpuesto(lado), 1] - (hex.ladosPuntos[lado, 1] - Camera.main.transform.position.y),
-                MainCamera.instance.transform.position.z);    
+                hex.ladosPuntos[LadoOpuesto(lado), 0] - (hex.ladosPuntos[lado, 0] - MainCamera.instance.transform.position.x),
+                MainCamera.instance.transform.position.y,
+                hex.ladosPuntos[LadoOpuesto(lado), 1] - (hex.ladosPuntos[lado, 1] - MainCamera.instance.transform.position.z));    
         }
+        
 
         for (int i = hex.ladosArray.Length-1; i >=0 ; i--)
         {
@@ -185,7 +186,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         for (int i = 0; i < localRadio.GetLength(0); i++)
         {
 
-            var aux = (Quaternion.Euler(0, 0, 60 - (60 * i)) * Vector3.right) * radio;
+            Vector3 aux = (Quaternion.Euler(0, 0, 60 - (60 * i)) * Vector3.right) * radio;
 
             //Cuenta que calcula los puntos relativos
             localRadio[i, 0] = aux.x * magnitud;
@@ -195,10 +196,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         }
     }
 
-    static public Vector3 AbsSidePosHex(Vector3 posicionInicial, int lado, float z, float multiplicador = 1)
+    static public Vector3 AbsSidePosHex(Vector3 posicionInicial, int lado, float y, float multiplicador = 1)
     {
         //accede a la variable global que contiene las coordenadas relativas y las guarda en un vector3, asi mismo permite multiplicarlas por un escalar
-        return new Vector3(posicionInicial.x + localApotema[lado, 0] * multiplicador, posicionInicial.y + localApotema[lado, 1] * multiplicador, z);
+        return new Vector3(posicionInicial.x + localApotema[lado, 0] * multiplicador, y, posicionInicial.z + localApotema[lado, 1] * multiplicador);
     }
 
     public IEnumerator VincularHexagonos(System.Action<bool> end, System.Action<string> msg)

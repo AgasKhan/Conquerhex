@@ -25,18 +25,18 @@ public class ObstacleAvoidance : SteeringBehaviour
         return this;
     }
 
-    protected override Vector2 InternalCalculate(MoveAbstract target)
+    protected override Vector3 InternalCalculate(MoveAbstract target)
     {
         if (steering == null)
-            return Vector2.zero;
+            return Vector3.zero;
 
         _direction = steering.Calculate(target);
 
-        var aux = Physics2D.RaycastAll(transform.position, _direction, _direction.magnitude, GameManager.instance.obstacleAvoidanceLayer);
+        var aux = Physics.RaycastAll(transform.position, _direction, _direction.magnitude, GameManager.instance.obstacleAvoidanceLayer);
 
         if (aux != null && aux.Length > 1)
         {
-            _direction = Quaternion.Euler(0, 0, angle * dirSigned) * _direction;
+            _direction = Quaternion.Euler(0, angle * dirSigned, 0) * _direction;
         }
 
         return _direction;

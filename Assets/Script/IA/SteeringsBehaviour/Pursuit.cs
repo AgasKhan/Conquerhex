@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class Pursuit : SteeringBehaviour
 {
-
-
-    protected override Vector2 InternalCalculate(MoveAbstract target)
+    protected override Vector3 InternalCalculate(MoveAbstract target)
     {
         //Calculo la distancia hacia el objetivo
         var ourDir = Direction(target);
 
         //Saco la distancia según dónde estará el enemigo que va a una determinada velocidad
-        Vector2 _directionToTarget = (target.transform.position.Vect3To2() + target.vectorVelocity) - me.transform.position.Vect3To2();
+        Vector3 _directionToTarget = (target.transform.position + target.vectorVelocity) - me.transform.position;
 
         //Realizo una proyección del vector entre el punto donde estará el enemigo y nuestra posición actual
-        Vector2 aux = Vector3.Project(_directionToTarget, ourDir);
+        Vector3 aux = Vector3.Project(_directionToTarget, ourDir);
 
         //Sumo el vector posición nuestra junto a la posición futura del enemigo y le resto la proyección para interceptarlo en caso de estar cerca o gire bruscamente
-        Vector2 _directionToGo = ourDir + _directionToTarget - aux;
+        Vector3 _directionToGo = ourDir + _directionToTarget - aux;
 
 
         //Vector2 agentToTarget = _directionToGo - (Vector2)transform.position; 

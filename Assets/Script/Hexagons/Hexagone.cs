@@ -98,7 +98,7 @@ public class Hexagone : MonoBehaviour
         seedTerrain = Random.state;
 
         int x = Vector3Int.RoundToInt(transform.position).x - (lenght / 2);
-        int y = Vector3Int.RoundToInt(transform.position).y - (lenght / 2);
+        int y = Vector3Int.RoundToInt(transform.position).z - (lenght / 2);
 
         int xFin = x + lenght;
         int yFin = y + lenght;
@@ -117,25 +117,25 @@ public class Hexagone : MonoBehaviour
     public void SetEdgePoint(int i)
     {
         this.ladosPuntos[i, 0] = transform.position.x + HexagonsManager.localApotema[i, 0];
-        this.ladosPuntos[i, 1] = transform.position.y + HexagonsManager.localApotema[i, 1];
+        this.ladosPuntos[i, 1] = transform.position.z + HexagonsManager.localApotema[i, 1];
     }
    
     public void FillPropsPos(bool spawn, bool centro = false)
     {
         Vector3 center = transform.position;
         int x = Vector3Int.RoundToInt(center).x - (lenght / 2);
-        int y = Vector3Int.RoundToInt(center).y - (lenght / 2);
+        int z = Vector3Int.RoundToInt(center).z - (lenght / 2);
 
         int xFin = x + lenght;
-        int yFin = y + lenght;
+        int zFin = z + lenght;
 
         for (int i = x; i < xFin; i += biomes.inversaDensidad+1)
         {
 
-            for (int ii = y; ii < yFin; ii += biomes.inversaDensidad+1)
+            for (int ii = z; ii < zFin; ii += biomes.inversaDensidad+1)
             {
                 
-                var newDistPos=new Vector3(i, ii, center.z) - transform.position;
+                var newDistPos=new Vector3(i, center.y, ii) - transform.position;
 
                 //var newDistPos = (new Vector3(i, ii, transform.position.z) - transform.position);
 
@@ -146,7 +146,7 @@ public class Hexagone : MonoBehaviour
                         float rng1 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
                         float rng2 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
 
-                        GameObject prop = Instantiate(biomes.props.RandomPic(level), new Vector3((i - biomes.inversaDensidad/2f) + rng1 / 10f, (ii - biomes.inversaDensidad / 2f) + rng2 / 10f, center.z), Quaternion.identity);
+                        GameObject prop = Instantiate(biomes.props.RandomPic(level), new Vector3((i - biomes.inversaDensidad/2f) + rng1 / 10f, center.y, (ii - biomes.inversaDensidad / 2f) + rng2 / 10f), Quaternion.identity);
 
                         prop.transform.SetParent(transform);
                     }
@@ -154,7 +154,7 @@ public class Hexagone : MonoBehaviour
                     {
                         //SpawnEnemy(hex.transform, new Vector3(i, ii, center.z));
                         if(biomes.spawner!=null)
-                            Instantiate(biomes.spawner, new Vector3(i, ii, center.z), Quaternion.identity).transform.SetParent(transform);
+                            Instantiate(biomes.spawner, new Vector3(i, center.y, ii), Quaternion.identity).transform.SetParent(transform);
                     }
                 }
             }
@@ -167,7 +167,7 @@ public class Hexagone : MonoBehaviour
 
         foreach (var component in components)
         {
-            component.transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), component.transform.position.z, 2) + (original.position - transform.position).Vect3Copy_Z(0);
+            component.transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), component.transform.position.y, 2) + (original.position - transform.position).Vect3Copy_Y(0);
 
             if (setParent)
                 component.transform.SetParent(ladosArray[i].transform, true);
@@ -184,7 +184,7 @@ public class Hexagone : MonoBehaviour
 
         for (int i = 0; i < ladosArray.Length; i++)
         {
-            yield return HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), pos.z, 2) + (pos - transform.position);
+            yield return HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), pos.y, 2) + (pos - transform.position);
         }
     }
 
@@ -196,7 +196,7 @@ public class Hexagone : MonoBehaviour
         for (int i = 0; i < 6; i++)
         {
 
-            Vector3 dist = (new Vector3(HexagonsManager.localRadio[i, 0], HexagonsManager.localRadio[i, 1]) + transform.position) - obj.position;
+            Vector3 dist = (new Vector3(HexagonsManager.localRadio[i, 0], 0 ,HexagonsManager.localRadio[i, 1]) + transform.position) - obj.position;
 
             //Debug.DrawLine(transform.position,dist + obj.position, Color.red, 5);
 

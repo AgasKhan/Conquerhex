@@ -250,6 +250,12 @@ public class IAIO : IAFather
         chara.CurrentState = this;
     }
 
+    private void NoCharacterSelected(Vector2 arg1, float arg2)
+    {
+        characterEvent.delegato.Invoke(GameManager.instance.playerCharacter);
+        VirtualControllers.principal.eventDown -= NoCharacterSelected;
+    }
+
     private void Update()
     {
         if(character!=null)
@@ -274,14 +280,10 @@ public class IAIO : IAFather
 
         characterEvent.delegato += OnCharacterSelected;
 
-        VirtualControllers.principal.eventDown += NoCharacterSelected;
+        LoadSystem.AddPostLoadCorutine(()=> VirtualControllers.principal.eventDown += NoCharacterSelected);
     }
 
-    private void NoCharacterSelected(Vector2 arg1, float arg2)
-    {
-        characterEvent.delegato.Invoke(GameManager.instance.playerCharacter);
-        VirtualControllers.principal.eventDown -= NoCharacterSelected;
-    }
+    
 }
 
 public class ControllerIAIO : IControllerDir, Init

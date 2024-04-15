@@ -5,7 +5,7 @@ using UnityEngine;
 public class Seek : SteeringBehaviour
 {
 
-    protected override Vector2 InternalCalculate(MoveAbstract target)
+    protected override Vector3 InternalCalculate(MoveAbstract target)
     {
         return Direction(target);
     }

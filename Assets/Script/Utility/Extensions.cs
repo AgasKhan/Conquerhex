@@ -188,6 +188,16 @@ public static class Extensions
     }
 
     /// <summary>
+    /// La version del vector 2 en el plano xz
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    static public Vector3 Vect2To3XZ(this Vector2 vector, float y)
+    {
+        return new Vector3(vector.x, y, vector.y);
+    }
+
+    /// <summary>
     /// Setea el vector 2 en cero y lo retorna
     /// </summary>
     /// <param name="vector"></param>

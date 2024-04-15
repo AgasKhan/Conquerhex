@@ -23,7 +23,7 @@ public class DestructibleObjects : Entity
 
     private void MyAwake()
     {
-        health.noLife += Health_noLife;
+        health.death += Health_noLife;
     }
 
     private void Health_noLife()

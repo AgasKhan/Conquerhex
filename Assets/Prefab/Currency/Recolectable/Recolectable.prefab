@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8155588718149302041}
   - component: {fileID: 3849503840052946532}
-  - component: {fileID: 2078342864}
+  - component: {fileID: 7952715998685505811}
   m_Layer: 6
   m_Name: Recolectable
   m_TagString: Untagged
@@ -51,65 +51,38 @@ MonoBehaviour:
   currentWeight: 0
   travelItem: []
   mySprite: {fileID: 5196309304934902380}
-  areaFarming:
-    maxRadius: 1
-    minRadius: 0
-    inverse: 0
-    dot: 1
-    _maxDetects: 1
-    _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+  referenceToTravel: {fileID: 0}
+  hex: {fileID: 0}
   references:
     version: 2
     RefIds: []
---- !u!58 &2078342864
-CircleCollider2D:
+--- !u!54 &7952715998685505811
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2790657688179249189}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!1001 &4646386922858054440
 PrefabInstance:
   m_ObjectHideFlags: 0

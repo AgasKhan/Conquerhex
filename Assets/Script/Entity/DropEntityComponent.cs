@@ -22,9 +22,10 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
             {
                 PoolManager.SpawnPoolObject(Vector2Int.zero, 
                     out RecolectableItem reference, 
-                    transform.position + (Random.insideUnitCircle * 1.2f).Vec2to3(0), 
-                    Quaternion.identity, 
-                    container?.hexagoneParent?.transform);
+                    transform.position + (Random.insideUnitCircle * 1.2f).Vect2To3XZ(0), 
+                    Quaternion.identity,
+                    //container?.hexagoneParent?.transform);
+                    transform.parent);
 
                 reference.Init(dropItem.item);
             }
