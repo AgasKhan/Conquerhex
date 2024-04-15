@@ -161,18 +161,9 @@ public class BaseData : SingletonScript<BaseData>
 
     public void SaveGame(string slotName)
     {
-        savedGames[SearchSlot(slotName)] = JsonUtility.ToJson(new AuxClassField<List<SaveObject>>(saveData));
-    }
-
-    public void DeleteCurrentGame()
-    {
-        saveData.Clear();
-        DeleteGame(currentSlot);
-    }
-
-    public void DeleteGame(string slotName)
-    {
-        savedGames[SearchSlot(slotName)] = "";
+        var data = JsonUtility.ToJson(new AuxClassField<List<SaveObject>>(saveData));
+        savedGames[SearchSlot(slotName)] = data;
+        PlayerPrefs.SetString(slotName, data);
     }
 
     int SearchSlot(string slotName)
@@ -185,6 +176,18 @@ public class BaseData : SingletonScript<BaseData>
         return -1;
     }
 
+    public void DeleteCurrentGame()
+    {
+        saveData.Clear();
+        DeleteGame(currentSlot);
+    }
+
+    public void DeleteGame(string slotName)
+    {
+        savedGames[SearchSlot(slotName)] = "";
+        PlayerPrefs.DeleteKey(slotName);
+    }
+
     public void DeleteAll()
     {
         saveData.Clear();
@@ -192,6 +195,7 @@ public class BaseData : SingletonScript<BaseData>
         {
             item.value = "";
         }
+        PlayerPrefs.DeleteAll();
     }
 }
 

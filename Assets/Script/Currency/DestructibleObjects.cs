@@ -10,24 +10,23 @@ public class DestructibleObjects : Entity
     public InventoryEntityComponent inventory;
     public DropEntityComponent drop;
     
-    
     //protected override Damage[] vulnerabilities => _structure.vulnerabilities;
 
-    
     protected override void Config()
     {
         base.Config();
 
         MyAwakes += MyAwake;
+        MyStarts += MyStart;
     }
 
     private void MyAwake()
     {
-        health.death += Health_noLife;
+        health.death += () => gameObject.SetActive(false);
     }
 
-    private void Health_noLife()
+    private void MyStart()
     {
-        gameObject.SetActive(false);
+        hexagoneParent = GetComponentInParent<Hexagone>();
     }
 }

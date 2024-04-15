@@ -24,8 +24,7 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
                     out RecolectableItem reference, 
                     transform.position + (Random.insideUnitCircle * 1.2f).Vect2To3XZ(0), 
                     Quaternion.identity,
-                    //container?.hexagoneParent?.transform);
-                    transform.parent);
+                    container?.hexagoneParent?.transform);
 
                 reference.Init(dropItem.item);
             }
