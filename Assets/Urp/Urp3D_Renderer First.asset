@@ -17,7 +17,7 @@ MonoBehaviour:
     targetLayer:
       serializedVersion: 2
       m_Bits: 8192
-    renderPassEvent: 550
+    renderPassEvent: 600
     materialBlitter: {fileID: 2100000, guid: cf096d8b32535d346aa55ab3faa52d55, type: 2}
     pass: -1
     materialCombined: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: RenderToMainCamera
   m_EditorClassIdentifier: 
   m_Active: 1
-  injectionPoint: 550
+  injectionPoint: 600
   fetchColorBuffer: 0
   requirements: 0
   passMaterial: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbff09b8b5a58cc45b8a20c5444c54ce, type: 3}
   m_Name: PixelArt
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   injectionPoint: 450
   fetchColorBuffer: 1
   requirements: 0

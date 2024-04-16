@@ -83,7 +83,7 @@ Shader "Custom/MultiRenderTexture"
 
         float4 frag(v2f input) : SV_Target
         {
-            float4 color = float4(1, 1, 1, 1);
+            float4 color = float4(0, 0, 0, 1);
 
             _Texs[0] = _MainCamera;
             _Texs[1] = _Camera0;
