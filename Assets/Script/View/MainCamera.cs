@@ -219,6 +219,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
         transform.position  = obj.position.Vect3Copy_Y(transform.position.y);
 
+        if (HexagonsManager.instance == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < points.Length; i++)
         {
             points[i] = _points2[i] + main.transform.position;
