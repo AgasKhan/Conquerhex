@@ -116,6 +116,9 @@ public class MainCamera : SingletonMono<MainCamera>
 
     void Refresh()
     {
+        if (main == null)
+            return;
+
         points = new Vector3[pointsInScreen.Length];
 
         _points = new Vector3[pointsInScreen.Length];
