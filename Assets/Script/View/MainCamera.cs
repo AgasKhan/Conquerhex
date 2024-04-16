@@ -50,6 +50,9 @@ public class MainCamera : SingletonMono<MainCamera>
     [Header("Configuracion interna")]
 
     [SerializeField]
+    Camera main;
+
+    [SerializeField]
     EventManager eventManager;
 
     [SerializeField]
@@ -73,8 +76,6 @@ public class MainCamera : SingletonMono<MainCamera>
     Vector3[] _points;
 
     Vector3[] _points2;
-
-    Camera main;
 
     Plane plane;
 
@@ -175,7 +176,6 @@ public class MainCamera : SingletonMono<MainCamera>
 
     private void OnValidate()
     {
-        main = Camera.main;
         Refresh();
     }
 
@@ -187,7 +187,6 @@ public class MainCamera : SingletonMono<MainCamera>
     protected override void Awake()
     {
         base.Awake();
-        main = Camera.main;
         plane = new Plane(Vector3.up, 0);
 
         shake.position += Shake_position;
