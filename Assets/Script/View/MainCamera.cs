@@ -89,7 +89,6 @@ public class MainCamera : SingletonMono<MainCamera>
         centerPoint = hexagone.transform.position;
     }
 
-
     private void RefreshMaterial(bool on = true)
     {
         for (int i = 0; i < rendersOverlay.Length; i++)
@@ -103,21 +102,7 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         obj = character.transform;
     }
-
-
-    protected override void Awake()
-    {
-        base.Awake();
-        main = Camera.main;
-        plane = new Plane(Vector3.up, 0);
-
-        shake.position += Shake_position;
-        shake.Init(shakeTr.localPosition);
-
-        eventManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato+= ShakeStart;
-
-        eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += OnCharacterSelected;
-    }
+    
 
     void ShakeStart(Health health)
     {
@@ -129,7 +114,7 @@ public class MainCamera : SingletonMono<MainCamera>
         shakeTr.localPosition = obj;
     }
 
-    private void OnEnable()
+    void Refresh()
     {
         points = new Vector3[pointsInScreen.Length];
 
@@ -183,16 +168,40 @@ public class MainCamera : SingletonMono<MainCamera>
                 _points2[i] = ray.GetPoint(distance) - main.transform.position;
             }
         }
+    }
 
-        LoadSystem.AddPostLoadCorutine(()=>
+    private void OnValidate()
+    {
+        main = Camera.main;
+        Refresh();
+    }
+
+    private void OnEnable()
+    {
+        Refresh();
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        main = Camera.main;
+        plane = new Plane(Vector3.up, 0);
+
+        shake.position += Shake_position;
+        shake.Init(shakeTr.localPosition);
+
+        eventManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato += ShakeStart;
+
+        eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += OnCharacterSelected;
+
+        LoadSystem.AddPostLoadCorutine(() =>
         {
-
-            SetProyections(HexagonsManager.arrHexCreados[0]);
-            
+            if (HexagonsManager.instance != null)
+                SetProyections(HexagonsManager.arrHexCreados[0]);
         });
     }
 
-    
+
     private void LateUpdate()
     {
         if (obj == null)
