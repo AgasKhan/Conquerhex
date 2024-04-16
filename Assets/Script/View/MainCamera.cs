@@ -85,6 +85,9 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public void SetProyections(Hexagone hexagone)
     {
+        if (hexagone == null)
+            return;
+
         hexagone.SetProyections(main.transform.parent, rendersOverlay.Parents);
 
         centerPoint = hexagone.transform.position;
@@ -199,7 +202,7 @@ public class MainCamera : SingletonMono<MainCamera>
         LoadSystem.AddPostLoadCorutine(() =>
         {
             if (HexagonsManager.instance != null)
-                SetProyections(HexagonsManager.arrHexCreados[0]);
+                SetProyections(HexagonsManager.arrHexCreados?[0]);
         });
     }
 
@@ -243,6 +246,7 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         RefreshMaterial(false);
         eventManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato -= ShakeStart;
+        eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato -= OnCharacterSelected;
     }
 
 
