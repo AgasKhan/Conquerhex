@@ -5,7 +5,11 @@ using UnityEngine;
 #region parent
 public abstract class DetectParent<T> where T : class
 {
+    public static bool ChckEmpety(T obj) => true;
+    public static bool ChckTrEmpety(Transform obj) => true;
+
     protected const int cantidad = 50;
+    public List<T> results { get; private set; } = new List<T>();
 
     [Tooltip("Radio maximo de deteccion")]
     public float maxRadius;
@@ -20,14 +24,30 @@ public abstract class DetectParent<T> where T : class
     public float dot = 1;
 
     [SerializeField]
-    protected int _maxDetects;
+    int _maxDetects;
 
     [SerializeField]
-    protected int _minDetects;
+    int _minDetects;
 
     protected CompareDist<Component> compareDist = new CompareDist<Component>();
 
     protected Transform[] transformsBuffer = new Transform[cantidad];
+
+    protected System.Func<T, bool> chck;
+
+    protected System.Func<T, bool> chckWithRay;
+
+    protected System.Func<Transform, bool> chckTR;
+
+    protected Transform caster;
+
+    protected T selected;
+
+    protected Vector3 pos;
+
+    protected Vector3 dir;
+
+    protected float internalDot;
 
     protected int length;
 
@@ -91,7 +111,7 @@ public abstract class DetectParent<T> where T : class
     /// <returns></returns>
     public List<T> Ray(Vector3 pos, Vector3 dir, float distance = -1)
     {
-        return Ray(pos, dir, (entity) => true, minDetects, maxDetects,distance);
+        return Ray(pos, dir, ChckEmpety, minDetects, maxDetects,distance);
     }
 
     /// <summary>
@@ -104,7 +124,20 @@ public abstract class DetectParent<T> where T : class
 
     public List<T> ConeWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius, float dot)
     {
-        return WithRay(caster, Cone(caster.position, dir, chck, 0, 0, minRadius, maxRadius, dot), maxDetects);
+        this.chckWithRay = chck;
+        this.caster = caster;
+        this.pos = caster.position;
+
+        return Cone(caster.position, dir, WithRay, minDetects, maxDetects, minRadius, maxRadius, dot);
+    }
+
+    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius)
+    {
+        this.chckWithRay = chck;
+        this.caster = caster;
+        this.pos = caster.position;
+
+        return Area(caster.position, WithRay, minDetects, maxDetects, minRadius, maxRadius);
     }
 
     public List<T> ConeWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck)
@@ -117,17 +150,12 @@ public abstract class DetectParent<T> where T : class
         return ConeWithRay(caster, caster.right, chck, maxDetects, minRadius, maxRadius, dot);
     }
 
-    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius)
-    {
-        return WithRay(caster, Area(caster.transform.position, chck, minDetects, 0, minRadius, maxRadius), maxDetects);
-    }
+
 
     public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck)
     {
         return AreaWithRay(caster, chck, maxDetects, minRadius, maxRadius);
     }
-
-
 
     protected virtual void Add(List<T> list, T add, Vector3 pos)
     {
@@ -135,14 +163,6 @@ public abstract class DetectParent<T> where T : class
             return;
 
         InternalAdd(list, add as Component, pos);
-    }
-
-    protected virtual void Add(List<RaycastHit2D> list, RaycastHit2D add, Vector3 pos)
-    {
-        if (list.Contains(add))
-            return;
-
-        list.Add(add);
     }
 
     void InternalAdd(List<T> list, Component add, Vector3 pos)
@@ -183,44 +203,36 @@ public abstract class DetectParent<T> where T : class
     }
 
     /// <summary>
-    /// Remueve de la lista aquellos que no tienen vision directa con el caster
+    /// Condicion que solo permite aceptar el damageable, si tiene vision directa<br/>
+    /// Setear el chckWithRay y el position de forma obligatoria
     /// </summary>
     /// <param name="caster"></param>
     /// <param name="damageables"></param>
     /// <param name="maxDetects"></param>
     /// <returns></returns>
-    protected List<T> WithRay(Transform caster, List<T> damageables, int maxDetects)
+    protected bool WithRay(T damageables)
     {
-        var pos = caster.position;
+        if (!chckWithRay(damageables))
+            return false;
 
-        for (int i = damageables.Count - 1; i >= 0; i--)
-        {
-            var posDamageable = (damageables[i] as Component).transform.position;
+        var posDamageable = (damageables as Component).transform.position;
 
-            RayTransform(posDamageable, (pos - posDamageable), (tr) => caster.transform!=tr && (damageables[i] as Component).transform!=tr, 0, 0, (pos - posDamageable).magnitude);
+        selected = damageables;
 
-            if (length > 0)//si colisiono significa q no tengo vision directa
-            {
-                damageables.RemoveAt(i);
-            }
-        }
+        RayTransform(posDamageable, (pos - posDamageable), InternalWithRay, 0, 0, (pos - posDamageable).magnitude);
 
-        if (maxDetects > 0)
-        {
-            var count = damageables.Count;
+        return length <= 0;
+    }
 
-            if (maxDetects > count)
-            {
-                maxDetects = count;
-            }
-
-            for (int i = 0; i < (count - maxDetects); i++)
-            {
-                damageables.RemoveAt(count - (1 + 1 * i));
-            }
-        }
-
-        return damageables;
+    /// <summary>
+    /// Trabaja con el caster y el selected definidos<br/>
+    /// Setearlos antes de usar
+    /// </summary>
+    /// <param name="tr"></param>
+    /// <returns></returns>
+    private bool InternalWithRay(Transform tr)
+    {
+        return caster != tr && (selected as Component).transform != tr;
     }
 }
 
@@ -231,8 +243,6 @@ public class Detect<T> : DetectParent<T> where T : class
 {
     [SerializeField]
     LayerMask layerMask;
-
-    List<T> results = new List<T>();
 
     Collider[] buffer = new Collider[cantidad];
 
@@ -246,13 +256,12 @@ public class Detect<T> : DetectParent<T> where T : class
 
         //length = Physics.OverlapSphereNonAlloc(position, maxRadius, buffer, layerMask);
 
-        
+
         //Debug.DrawLine(position.Vect3Copy_Y(-10), position.Vect3Copy_Y(10), Color.red,5);
-        
+
         //Debug.DrawLine(position.Vect3Copy_X(position.x - maxRadius), position.Vect3Copy_X(position.x + maxRadius), Color.red, 5);
 
         //Debug.DrawLine(position.Vect3Copy_Z(position.z - maxRadius), position.Vect3Copy_Z(position.z + maxRadius), Color.red, 5);
-        
 
         for (int i = 0; i < length; i++)
         {
@@ -261,7 +270,7 @@ public class Detect<T> : DetectParent<T> where T : class
                 Add(results, obj, position);
             }
 
-            if(max>0 && results.Count-1>=max)
+            if(max>0 && results.Count>=max)
             {
                 return results;
             }
@@ -269,6 +278,7 @@ public class Detect<T> : DetectParent<T> where T : class
 
         if (results.Count < min)
         {
+            length = 0;
             results.Clear();
         }
 
@@ -291,44 +301,66 @@ public class Detect<T> : DetectParent<T> where T : class
 
     public override List<T> Cone(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float minRadius, float maxRadius, float dot)
     {
-        dir.Normalize();
+        this.dir = dir.normalized;
+        this.pos = pos;
+        this.chck = chck;
+        this.internalDot = dot;
 
-        var copyChck = chck;
-
-        chck = (T obj) =>
-          {
-              var posDamageable = (obj as Component).transform.position;
-
-              var vecDot = Vector2.Dot((posDamageable - pos).normalized.Vect3To2XZ(), dir.Vect3To2XZ());
-
-              //Debug.Log($"MyPos: {pos} - {(results[i] as Component).name} pos: {posDamageable} - dir: {dir} - normalize {(posDamageable - pos).normalized} - {dot} > {vecDot}={dot > vecDot}");
-
-              return dot <= vecDot && copyChck(obj);
-          };
-
-        Area(pos, chck, min, max, minRadius, maxRadius);
+        Area(pos, InternalConeChck, min, max, minRadius, maxRadius);
 
         return results;
+    }
+
+    /// <summary>
+    /// Trabaja con la pos, dir, internalDot, chck<br/>
+    /// Setear antes de usar
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    private bool InternalConeChck(T obj)
+    {
+        var posDamageable = (obj as Component).transform.position;
+
+        var vecDot = Vector2.Dot((posDamageable - pos).normalized.Vect3To2XZ(), dir.Vect3To2XZ());
+
+        return internalDot <= vecDot && chck(obj);
     }
 
     public override List<T> Ray(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float distance = -1)
     {
         results.Clear();
 
-        RayTransform(pos, dir, (tr) => 
-        {
-            bool b = tr.TryGetComponent<T>(out var toAdd) && chck(toAdd);
+        this.pos = pos;
 
-            if(b)
-                Add(results, toAdd, pos);
+        this.chck = chck;
 
-            return b;
-        }, min, max, distance);
+        RayTransform(pos, dir, InternalRayChck, min, max, distance);
 
         if (length < min)
+        {
+            length = 0;
             results.Clear();
+        }
+            
 
         return results;
+    }
+
+
+    /// <summary>
+    /// Trabaja con la pos, chck<br/>
+    /// Setear antes de usar
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    private bool InternalRayChck(Transform tr)
+    {
+        bool b = tr.TryGetComponent<T>(out var toAdd) && chck(toAdd);
+
+        if (b)
+            Add(results, toAdd, pos);
+
+        return b;
     }
 
     public override void RayTransform(Vector3 pos, Vector3 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
@@ -369,8 +401,6 @@ public class Detect<T> : DetectParent<T> where T : class
 public class Detect2D<T> : DetectParent<T> where T : class
 {
     public ContactFilter2D contactFilter2D;
-
-    List<T> results = new List<T>();
 
     List<Collider2D> auxCollider = new List<Collider2D>();
 

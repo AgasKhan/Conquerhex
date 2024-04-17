@@ -152,10 +152,7 @@ public class HunterPatrol : IState<HunterIntern>
     IAHunter hunter;
     MoveEntityComponent move;
     Vector3 dir;
-
     Vector3 conoDir;
-
-    List<Entity> corderos = new List<Entity>();
 
     public void OnEnterState(HunterIntern param)
     {
@@ -171,11 +168,11 @@ public class HunterPatrol : IState<HunterIntern>
 
         //var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
         
-        param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return target.visible && param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; }).ToEntity(ref corderos);
+        param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return target.visible && param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });       
 
-        if (corderos.Count > 0)
+        if (param.context.detectCordero.results.Count > 0)
         {
-            param.context.steerings["corderitos"].targets.Add(corderos[0]);
+            param.context.steerings["corderitos"].targets.Add(param.context.detectCordero.results[0]);
             param.CurrentState = param.chase;
             return;
         }
