@@ -17,7 +17,6 @@ public class DestructibleObjects : Entity
         base.Config();
 
         MyAwakes += MyAwake;
-        MyStarts += MyStart;
     }
 
     private void MyAwake()
@@ -25,7 +24,7 @@ public class DestructibleObjects : Entity
         health.death += () => gameObject.SetActive(false);
     }
 
-    private void MyStart()
+    private void OnEnable()
     {
         hexagoneParent = GetComponentInParent<Hexagone>();
     }

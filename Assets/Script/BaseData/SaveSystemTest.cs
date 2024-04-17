@@ -30,6 +30,17 @@ public class SaveSystemTest : MonoBehaviour
             baseData.DeleteAll();
         }
 
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            Debug.Log("Guardado en Json");
+            baseData.SaveGame("Slot 1");
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Debug.Log("Cargado desde Json");
+            baseData.LoadGame("Slot 1");
+        }
     }
 
 
