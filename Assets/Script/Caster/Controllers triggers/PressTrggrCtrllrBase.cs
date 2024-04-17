@@ -20,12 +20,14 @@ public class PressTrggrCtrllrBase : TriggerControllerBase
 public class PressTrggrCtrllr : TriggerController
 {
     public Timer pressCooldown;
+
+    new public PressTrggrCtrllrBase triggerBase => (PressTrggrCtrllrBase)base.triggerBase;
     public override void Set()
     {
         if (pressCooldown != null)
-            pressCooldown.Set(GetTrggrBs<PressTrggrCtrllrBase>().timeToAttackPress * FinalVelocity);
+            pressCooldown.Set(triggerBase.timeToAttackPress * FinalVelocity);
         else
-            pressCooldown = TimersManager.Create(GetTrggrBs<PressTrggrCtrllrBase>().timeToAttackPress * FinalVelocity);
+            pressCooldown = TimersManager.Create(triggerBase.timeToAttackPress * FinalVelocity);
     }
 
     public override void ControllerDown(Vector2 dir, float tim)

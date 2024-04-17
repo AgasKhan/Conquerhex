@@ -8,7 +8,7 @@ public abstract class TriggerControllerBase : ShowDetails
     {
         var aux = System.Activator.CreateInstance(SetItemType()) as TriggerController;
 
-        aux.triggersBase = this;
+        aux.triggerBase = this;
 
         return aux;
     }
@@ -18,7 +18,7 @@ public abstract class TriggerControllerBase : ShowDetails
 
 public abstract class TriggerController : IControllerDir, IAbilityComponent
 {
-    public TriggerControllerBase triggersBase;
+    public TriggerControllerBase triggerBase;
 
     protected Ability ability;
 
@@ -108,16 +108,6 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     public abstract void ControllerDown(Vector2 dir, float tim);
     public abstract void ControllerPressed(Vector2 dir, float tim);
     public abstract void ControllerUp(Vector2 dir, float tim);
-
-    /// <summary>
-    /// Get TriggerBase
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    protected T GetTrggrBs<T>() where T : TriggerControllerBase
-    {
-        return (T)triggersBase;
-    }
 }
 
 public interface IAbilityComponent

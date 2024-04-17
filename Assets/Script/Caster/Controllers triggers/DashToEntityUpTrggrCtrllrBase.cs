@@ -20,10 +20,12 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
     Timer timerToEnd;
     bool buttonPress;
 
+    new public DashToEntityUpTrggrCtrllrBase triggerBase => (DashToEntityUpTrggrCtrllrBase)base.triggerBase;
+
     public override void Init(Ability ability)
     {
         base.Init(ability);
-        timerToEnd = TimersManager.Create(GetTrggrBs<DashToEntityUpTrggrCtrllrBase>().timerDash, () => End = true).Stop();
+        timerToEnd = TimersManager.Create(triggerBase.timerDash, () => End = true).Stop();
     }
 
     public override void ControllerDown(Vector2 dir, float button)
@@ -52,7 +54,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            aux.Velocity((affected[0].transform.position - caster.transform.position).normalized , GetTrggrBs<DashToEntityUpTrggrCtrllrBase>().velocityInDash);
+            aux.Velocity((affected[0].transform.position - caster.transform.position).normalized , triggerBase.velocityInDash);
         }
         else
         {

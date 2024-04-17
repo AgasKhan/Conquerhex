@@ -18,7 +18,9 @@ public class ChargeRangeUpTrggrCtrllrBase : TriggerControllerBase
 /// </summary>
 public class ChargeRangeUpTrggrCtrllr : UpTrggrCtrllr
 {
-    public override float FinalMaxRange => Mathf.Clamp(range * GetTrggrBs<ChargeRangeUpTrggrCtrllrBase>().multiplyRange, 1, base.FinalMaxRange);
+    new public ChargeRangeUpTrggrCtrllrBase triggerBase => (ChargeRangeUpTrggrCtrllrBase)base.triggerBase;
+
+    public override float FinalMaxRange => Mathf.Clamp(range * triggerBase.multiplyRange, 1, base.FinalMaxRange);
 
     float range;
 
