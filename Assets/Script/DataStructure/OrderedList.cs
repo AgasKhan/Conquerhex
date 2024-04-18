@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Version serializable de una lista ordenada
+/// </summary>
+/// <typeparam name="T"></typeparam>
 [System.Serializable]
 public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : IComparable
 {
