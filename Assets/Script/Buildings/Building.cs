@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class Building : Entity
 {
+    // Mover a scrreable
     public Recipes[] upgradesRequirements;
     public ResourceType[] NavBarButtons;
     public BuildingsController controller;
     public InteractEntityComponent interactComp;
     //public Pictionarys<string, LogicActive> quickActs;
+    public LevelComponent levelComp;
 
-    [HideInInspector]
-    public int currentLevel = 0;
+    public int currentLevel
+    {
+        get => levelComp.CurrentLevel;
+        set
+        {
+            levelComp.CurrentLevel = value;
+        }
+    }
 
     [HideInInspector]
     public CreateSubMenu myBuildSubMenu;
@@ -44,6 +52,10 @@ public class Building : Entity
         //myBuildSubMenu = new BuildingsSubMenu(this);
 
         interactComp = GetInContainer<InteractEntityComponent>();
+        
+        levelComp= GetInContainer<LevelComponent>();
+
+        levelComp.MaxLevel = () => { return upgradesRequirements.Length; };
 
         controller = GetComponent<BuildingsController>();
 
@@ -54,10 +66,8 @@ public class Building : Entity
             upgradesRequirements = aux.upgradesRequirements;
 
         
-
-        if (SaveWithJSON.BD.ContainsKey(flyweight.nameDisplay + "Level"))
-            currentLevel = SaveWithJSON.LoadFromPictionary<int>(flyweight.nameDisplay + "Level");
     }
+
 
     public virtual void UpgradeLevel()
     {
@@ -68,10 +78,6 @@ public class Building : Entity
         else
         {
             currentLevel++;
-            if (currentLevel > maxLevel)
-                currentLevel = maxLevel;
-
-            SaveWithJSON.SaveInPictionary(flyweight.nameDisplay + "Level", currentLevel);
         }
     }
 

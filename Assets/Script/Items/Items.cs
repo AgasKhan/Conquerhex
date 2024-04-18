@@ -109,6 +109,12 @@ public abstract class Item : IShowDetails
         onDrop?.Invoke();
 
         onChangeContainer?.Invoke(inventoryEntityComponent);
+
+        container.inventory.Remove(this);
+
+        container = inventoryEntityComponent;
+
+        container.inventory.Add(this);
     }
 
     protected abstract void Init();
@@ -181,6 +187,8 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 {
     [SerializeField]
     int actual = 1;
+
+    List<int> stacks = new List<int>();
 
     public override Item AddAmount(int amount, out int resto)
     {
