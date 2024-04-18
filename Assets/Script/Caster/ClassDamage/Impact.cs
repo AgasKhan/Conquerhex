@@ -12,7 +12,7 @@ namespace DamageTypes
     {
         public override void IntarnalAction(Entity entity, float amount)
         {
-            float multiply = 1 - (entity.health.actualRegen / entity.health.maxRegen);
+            float multiply = entity.health.maxRegen > 0 ? 1 - (entity.health.actualRegen / entity.health.maxRegen) : 1;
 
 
             entity.TakeDamage(Damage.Create<PhysicalDamage>(multiply * amount));

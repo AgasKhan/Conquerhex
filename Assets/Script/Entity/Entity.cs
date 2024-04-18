@@ -514,14 +514,15 @@ public class Health
     {
         if(!deathBool)
         {
-            if (regen.current <= 0 && life.current <= 0)
-            {
-                death?.Invoke();
-                deathBool = true;
-            }
-            else if (life.current <= 0)
+            if (life.current <= 0)
             {
                 noLife?.Invoke();
+
+                if (regen.current <= 0)
+                {
+                    death?.Invoke();
+                    deathBool = true;
+                }
             }
         }
     }
