@@ -606,6 +606,18 @@ public static class Extensions
         return comp.Where((component) => toComp.IsInRadius(component, radius));
     }
 
+    static public string ToString<T>(this IEnumerable<T> ts , System.Func<T,string> funcToPrint)
+    {
+        string s = string.Empty;
+
+        foreach (var item in ts)
+        {
+            s += funcToPrint(item);
+        }
+
+        return s;
+    }
+
     /// <summary>
     /// Llena un la lista de resultados ignorando a los repetidos
     /// </summary>
