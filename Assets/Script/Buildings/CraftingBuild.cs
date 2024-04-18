@@ -6,7 +6,9 @@ public class CraftingBuild : Building, ISaveObject
 {
     public Pictionarys<int, List<MeleeWeaponBase>> levelRecipes = new Pictionarys<int, List<MeleeWeaponBase>>();
 
-    public List<MeleeWeaponBase> currentRecipes = new List<MeleeWeaponBase>();
+    public List<MeleeWeaponBase> currentRecipes => data.currentRecipes;
+
+    SvData data;
 
     public override string rewardNextLevel
     {
@@ -27,29 +29,28 @@ public class CraftingBuild : Building, ISaveObject
 
     public string Save()
     {
-        CraftBuildData data = new CraftBuildData(currentRecipes, currentLevel);
+        SvData data = new SvData(currentRecipes, currentLevel);
 
         return JsonUtility.ToJson(data);
     }
 
     public void Load(string str)
     {
-        CraftBuildData data = JsonUtility.FromJson<CraftBuildData>(str);
+        SvData data = JsonUtility.FromJson<SvData>(str);
 
-        currentRecipes = data.currentRecipes.value;
         currentLevel = data.currentLevel;
     }
-}
 
-[System.Serializable]
-public class CraftBuildData
-{
-    public AuxClass<List<MeleeWeaponBase>> currentRecipes;
-    public int currentLevel;
-
-    public CraftBuildData(List<MeleeWeaponBase> list, int level)
+    [System.Serializable]
+    public class SvData
     {
-        currentRecipes = new AuxClass<List<MeleeWeaponBase>>(list);
-        currentLevel = level;
+        public List<MeleeWeaponBase> currentRecipes;
+        public int currentLevel;
+
+        public SvData(List<MeleeWeaponBase> list, int level)
+        {
+            currentRecipes = new List<MeleeWeaponBase>(list);
+            currentLevel = level;
+        }
     }
 }

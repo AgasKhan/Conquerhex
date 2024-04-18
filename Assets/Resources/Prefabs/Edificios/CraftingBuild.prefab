@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6773200482067112401}
-  - component: {fileID: 1810831124099905929}
   - component: {fileID: 7916468427344862715}
   - component: {fileID: 8243870061219083652}
   - component: {fileID: 555880606947407103}
   - component: {fileID: 3466454170566741729}
   - component: {fileID: 781557696634203197}
   - component: {fileID: 7324791073229505215}
+  - component: {fileID: 3816929757864241773}
   m_Layer: 0
   m_Name: CraftingBuild
   m_TagString: Props
@@ -39,41 +39,6 @@ Transform:
   - {fileID: 7939103049160598146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &1810831124099905929
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6773200482067112399}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.11173126, y: 0.68}
-  m_Size: {x: 5.7248726, y: 2.7199929}
-  m_Direction: 1
 --- !u!114 &7916468427344862715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +103,7 @@ MonoBehaviour:
   NavBarButtons: 0400000000000000
   controller: {fileID: 781557696634203197}
   interactComp: {fileID: 7324791073229505215}
-  currentLevel: 0
+  levelComp: {fileID: 0}
   levelRecipes:
     pictionaries:
     - key: 0
@@ -155,10 +120,6 @@ MonoBehaviour:
       - {fileID: 11400000, guid: bffb1c871bddda44985fb5fd17afd90d, type: 2}
       - {fileID: 11400000, guid: a3a0b1941bd42c14c9d6dccacddbf615, type: 2}
       - {fileID: 11400000, guid: 8f637798bd6f42248b897fe0f2fb0383, type: 2}
-  currentRecipes:
-  - {fileID: 11400000, guid: ed096936234b7a64997b7cfaa1c20b71, type: 2}
-  - {fileID: 11400000, guid: 3014ab0f8d387644dac2bae02ba3c505, type: 2}
-  - {fileID: 11400000, guid: dbc5938c72fc2044582987c769980a9e, type: 2}
 --- !u!114 &3466454170566741729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +182,29 @@ MonoBehaviour:
     detailsWindow: {fileID: 0}
     myCharacter: {fileID: 0}
     interactComponent: {fileID: 0}
+--- !u!136 &3816929757864241773
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8428347
+  m_Height: 6.121073
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.21483094, z: 0}
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0

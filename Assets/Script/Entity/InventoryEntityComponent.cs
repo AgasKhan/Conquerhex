@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ComponentsAndContainers;
-public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemContainer
+public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObject //, IItemContainer
 {
     //public Pictionarys<string,LogicActive> interact; //funciones de un uso para la interaccion
 
@@ -14,8 +14,6 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
     public float currentWeight = 0f;
 
     //Pictionarys<string, LogicActive> actions; //funciones de un uso para cuestiones internas
-
-    public List<Timer> travelItem = new List<Timer>();
 
     public override void OnEnterState(Entity param)
     {
@@ -41,28 +39,39 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
         entity.inventory.Clear();
     }
 
-    protected void AddAllItems(List<Item> items)
+    protected List<Item> AddAllItems(List<Item> items)
     {
-        //inventory.AddRange(items);
         Debug.Log(string.Join("", inventory));
 
-        foreach (var item in items)
+        for (int i = items.Count - 1; i >= 0; i--)
         {
-            if (currentWeight + item.GetItemBase().weight <= weightCapacity)
-            {
-                item.GetAmounts(out int actual, out int max);
-                AddOrSubstractItems(item.nameDisplay, actual);
+            items[i].ChangeContainer(this);
+            currentWeight += items[i].GetItemBase().weight;
+            items.Remove(items[i]);
+        }
 
-                currentWeight += item.GetItemBase().weight;
-            }
-            else
+        return items;
+    }
+
+    public void AddAndStackItems(Item item)
+    {
+        item.GetAmounts(out int act, out int mx);
+        int amount = act;
+
+        if (amount == 0)
+            return;
+
+        for (int i = inventory.Count - 1; i >= 0; i--)
+        {
+            if (item == inventory[i])
             {
-                foreach (var timer in travelItem)
-                {
-                    timer.Stop();
-                }
+                inventory[i].GetAmounts(out int actual, out int max);
+
+                inventory[i].AddAmount(amount, out amount);
             }
-        }        
+        }
+
+        AddOrCreate(item.GetItemBase(), amount);
     }
 
     public int ItemCount(string itemName)
@@ -124,6 +133,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
         //Debug.Log(string.Join("", inventory));
     }
 
+
     void AddOrCreate(ItemBase itemBase, int amount)
     {
         if (amount > 0)
@@ -136,6 +146,16 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity> //, IItemCo
 
             AddOrCreate(itemBase, amount);
         }
+    }
+
+    public string Save()
+    {
+        return JsonUtility.ToJson(this);
+    }
+
+    public void Load(string str)
+    {
+        JsonUtility.FromJsonOverwrite(str, this);
     }
 }
 

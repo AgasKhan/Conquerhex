@@ -9,10 +9,6 @@ public class BuildingsController : MonoBehaviour, IState<Building>
     public virtual void UpgradeLevel()
     {
         myBuilding.currentLevel++;
-        if (myBuilding.currentLevel > myBuilding.maxLevel)
-            myBuilding.currentLevel = myBuilding.maxLevel;
-
-        SaveWithJSON.SaveInPictionary(myBuilding.flyweight.nameDisplay + "Level", myBuilding.currentLevel);
     }
 
     public void OnEnterState(Building param)

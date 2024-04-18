@@ -19,15 +19,18 @@ public class RecolectableItem : InventoryEntityComponent
 
     void Awake()
     {
-        recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 1, Vector3.Slerp, (pos) => transform.position = pos)
+        recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 10, Vector3.Slerp, (pos) => transform.position = pos)
+        .AddToUpdate(() =>
+        {
+            if ((weight + referenceToTravel.weightCapacity) > referenceToTravel.weightCapacity)
+                recolect.Stop().SetInitCurrent(0);
+        })
         .AddToEnd(() =>
         {
             referenceToTravel.AddAllItems(this);
             gameObject.SetActive(false);
-            
         })
         .Stop().SetInitCurrent(0);
-
     }
 
     void FixedUpdate()
@@ -56,9 +59,6 @@ public class RecolectableItem : InventoryEntityComponent
         //Debug.Log("me quiere recoger: " + entity.name);
 
         referenceToTravel = entity;
-
-        entity.travelItem.Add(recolect);
-
         recolect.Reset();
     }
 
@@ -78,7 +78,6 @@ public class RecolectableItem : InventoryEntityComponent
 
         itemBase = item;
 
-        Debug.Log("Se hizo el INIT de: " + item.nameDisplay);
         hex = GetComponentInParent<Hexagone>();
     }
 }
