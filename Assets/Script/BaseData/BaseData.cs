@@ -38,11 +38,22 @@ public class BaseData : SingletonScript<BaseData>
         }
     }
 
-    public void LoadAll(Transform parent)
+    public void LoadGame(string slot)
+    {
+        if (PlayerPrefs.HasKey(slot))
+        {
+            saveData = JsonUtility.FromJson<AuxClassField<List<SaveObject>>>(PlayerPrefs.GetString(slot)).value;
+            LoadAll();
+        }
+        else
+            Debug.LogError("EL slot de nombre:" + slot + ". No existe");
+    }
+
+    public void LoadAll(Transform parent = null)
     {
         foreach (var item in saveData)
         {
-            GameManager.instance.StartCoroutine(LoadObjectAsync(item, parent, (obj) => { Debug.Log("Termino la carga de: " + obj.gameObject); }));
+            GameManager.instance.StartCoroutine(LoadObjectDataAsync(item, parent, (obj) => { Debug.Log("Termino la carga de: " + obj.gameObject); }));
         }
     }
 
@@ -84,12 +95,46 @@ public class BaseData : SingletonScript<BaseData>
 
         endAction?.Invoke(saveObject);
     }
+    IEnumerator LoadObjectDataAsync(SaveObject saveObject, Transform parent, System.Action<SaveObject> endAction)
+    {
+        GameObject aux = parent.gameObject;
+        
+        foreach (var item in aux.GetComponents<ISaveObject>())
+        {
+            for (int i = 0; i < saveObject.dataComponent.Length; i++)
+            {
+                if (item.GetType().Name == saveObject.dataComponent[i].name)
+                {
+                    item.Load(saveObject.dataComponent[i].data);
+
+                    break;
+                }
+                yield return null;
+            }
+
+            yield return null;
+        }
+
+        var childsArray = JsonUtility.FromJson<AuxClassField<SaveObject[]>>(saveObject.childs);
+        if (childsArray != null)
+        {
+            var childs = childsArray.value;
+            for (int i = 0; i < childs.Length; i++)
+            {
+                yield return GameManager.instance.StartCoroutine(LoadObjectDataAsync(childs[i], parent.GetChild(i).transform, endAction));
+
+                yield return null;
+            }
+        }
+
+        endAction?.Invoke(saveObject);
+    }
 
     public void SaveObject(GameObject saveObject)
     {
         var aux = new AuxClassField<SaveObject>(new SaveObject());
 
-        GameManager.instance.StartCoroutine(SaveObjectAsync(saveObject, (svObj)=> saveData.Add(svObj)));
+        GameManager.instance.StartCoroutine(SaveObjectDataAsync(saveObject, (svObj)=> saveData.Add(svObj)));
     }
 
     IEnumerator SaveObjectAsync(GameObject saveObject, System.Action<SaveObject> endAction)
@@ -143,6 +188,56 @@ public class BaseData : SingletonScript<BaseData>
                     }
                 }
 
+                yield return null;
+            }
+
+            AuxClassField<SaveObject[]> auxClass = new AuxClassField<SaveObject[]>(childs.ToArray());
+
+            svObject.childs = JsonUtility.ToJson(auxClass);
+        }
+
+        endAction.Invoke(svObject);
+    }
+
+    IEnumerator SaveObjectDataAsync(GameObject saveObject, System.Action<SaveObject> endAction)
+    {
+        SaveObject svObject = new SaveObject();
+
+        svObject.gameObject = saveObject.transform.GetHashCode().ToString();
+
+        svObject.pos = saveObject.transform.position;
+
+        svObject.rotation = saveObject.transform.rotation.eulerAngles;
+
+        svObject.dataComponent = saveObject.GetComponents<ISaveObject>().Select(
+
+            (svObj) =>
+            {
+                return new Data()
+                {
+                    name = svObj.GetType().Name,
+
+                    data = svObj.Save()
+                };
+            }
+
+            ).ToArray();
+
+        yield return null;
+
+        List<SaveObject> childs = new List<SaveObject>();
+
+        SaveObject bufferAux = new SaveObject();
+
+        System.Action<SaveObject> aux = (_svObj) => bufferAux = _svObj;
+
+        if (saveObject.transform.childCount > 0)
+        {
+            for (int i = 0; i < saveObject.transform.childCount; i++)
+            {
+                yield return GameManager.instance.StartCoroutine(SaveObjectDataAsync(saveObject.transform.GetChild(i).gameObject, aux));
+                childs.Add(bufferAux);
+               
                 yield return null;
             }
 
