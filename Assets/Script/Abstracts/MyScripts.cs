@@ -132,9 +132,6 @@ public abstract class MyScripts : MonoBehaviour
 
     internal void Awake()
     {
-        GameManager.OnPlay += GameManager_onPlay;
-
-        GameManager.OnPause += GameManager_onPause;
         Config();
 
         MyAwakes?.Invoke();
@@ -149,6 +146,10 @@ public abstract class MyScripts : MonoBehaviour
     {
         MyOnEnables?.Invoke();
 
+        GameManager.OnPlay += GameManager_onPlay;
+
+        GameManager.OnPause += GameManager_onPause;
+
         GameManager.eventQueue.Enqueue(()=>
             {
                 SaveUpdate();
@@ -160,6 +161,10 @@ public abstract class MyScripts : MonoBehaviour
     private void OnDisable()
     {
         MyOnDisables?.Invoke();
+
+        GameManager.OnPlay -= GameManager_onPlay;
+
+        GameManager.OnPause -= GameManager_onPause;
 
         GameManager.eventQueue.Enqueue(() =>
         {
