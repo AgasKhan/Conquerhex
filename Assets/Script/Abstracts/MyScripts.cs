@@ -95,6 +95,7 @@ public abstract class MyScripts : MonoBehaviour
     UnityEngine.Events.UnityAction _fixedUpdate;
 
     bool active=true;
+    bool onPauseSuscribe = false;
 
     private void SaveUpdate()
     {
@@ -144,32 +145,40 @@ public abstract class MyScripts : MonoBehaviour
 
     private void OnEnable()
     {
-        MyOnEnables?.Invoke();
-
-        GameManager.OnPlay += GameManager_onPlay;
-
-        GameManager.OnPause += GameManager_onPause;
-
         GameManager.eventQueue.Enqueue(()=>
             {
+                MyOnEnables?.Invoke();
+
                 SaveUpdate();
 
                 SaveFixedUpdate();
+
+                if (!onPauseSuscribe)
+                {
+                    GameManager.OnPlay += GameManager_onPlay;
+
+                    GameManager.OnPause += GameManager_onPause;
+
+                    onPauseSuscribe = true;
+                }
             });
     }
 
     private void OnDisable()
     {
-        MyOnDisables?.Invoke();
-
-        GameManager.OnPlay -= GameManager_onPlay;
-
-        GameManager.OnPause -= GameManager_onPause;
-
         GameManager.eventQueue.Enqueue(() =>
         {
+            MyOnDisables?.Invoke();
             RemoveUpdate();
             RemoveFixedUpdate();
+            if (!gameObject.activeInHierarchy && onPauseSuscribe)
+            {
+                GameManager.OnPlay -= GameManager_onPlay;
+
+                GameManager.OnPause -= GameManager_onPause;
+
+                onPauseSuscribe = false;
+            }
         });
     }
     private void OnDestroy()
