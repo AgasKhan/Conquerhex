@@ -37,19 +37,33 @@ public class EventControllerMediator : IEventController, IControllerDir
     public event Action<Vector2, float> eventPress;
     public event Action<Vector2, float> eventUp;
 
+    public bool Enabled
+    {
+        get => _enabled;
+        set
+        {
+            _enabled = value;
+        }
+    }
+
+    bool _enabled = true;
+
     public void ControllerDown(Vector2 dir, float tim)
     {
-        eventDown?.Invoke(dir, tim);
+        if(Enabled)
+            eventDown?.Invoke(dir, tim);
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        eventPress?.Invoke(dir, tim);
+        if (Enabled)
+            eventPress?.Invoke(dir, tim);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        eventUp?.Invoke(dir, tim);
+        if (Enabled)
+            eventUp?.Invoke(dir, tim);
     }
 
 

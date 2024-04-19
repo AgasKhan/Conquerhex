@@ -149,6 +149,30 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         base.Config();
         MyAwakes += MyAwake;
         MyStarts += MyStart;
+        MyOnEnables += MyEnables;
+        MyOnDisables += MyDisables;
+    }
+
+    void MyEnables()
+    {
+        attackEventMediator.Enabled = true;
+
+        abilityEventMediator.Enabled = true;
+
+        dashEventMediator.Enabled = true;
+
+        moveEventMediator.Enabled = true;
+    }
+
+    void MyDisables()
+    {
+        attackEventMediator.Enabled =false;
+
+        abilityEventMediator.Enabled = false;
+
+        dashEventMediator.Enabled = false;
+
+        moveEventMediator.Enabled = false;
     }
 
     void MyAwake()
