@@ -60,7 +60,7 @@ public abstract class ItemBase : ShowDetails
 [System.Serializable]
 public abstract class Item : IShowDetails
 {
-    public event System.Action onDrop;
+    public event System.Action onDrop;//si ejecuto el ondrop, este desequipa el item
     public event System.Action<InventoryEntityComponent> onChangeContainer;
 
     [SerializeField]
@@ -115,6 +115,15 @@ public abstract class Item : IShowDetails
         container = inventoryEntityComponent;
 
         container.inventory.Add(this);
+    }
+
+    public virtual void Destroy()
+    {
+        onDrop?.Invoke();
+
+        container.inventory.Remove(this);
+
+        container = null;
     }
 
     protected abstract void Init();

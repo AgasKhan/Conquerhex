@@ -108,7 +108,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public CasterEntityComponent caster;
 
-    public bool isCopy = false;
+    public Ability original;
+
+    public bool IsCopy => original != null;
 
     public Timer cooldown { get; set; }
 
@@ -163,7 +165,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public virtual float CostHandle => itemBase.costHandle;
 
-    public override bool visible => !isCopy;
+    public override bool visible => !IsCopy;
 
     public FadeColorAttack FeedBackReference
     {
@@ -177,7 +179,10 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     public Ability CreateCopy()
     {
         var aux = Create() as Ability;
-        aux.isCopy = true;
+        aux.original = this;
+
+        onDrop += aux.OnDropOriginal;
+
         return aux;
     }
 
@@ -204,8 +209,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             }
     }
 
-    public virtual void Destroy()
+    public override void Destroy()
     {
+        base.Destroy();
         trigger.Destroy();
     }
 
@@ -228,6 +234,13 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             cooldown = TimersManager.Create(FinalVelocity);
         else
             cooldown.Set(FinalVelocity);
+    }
+
+    private void OnDropOriginal()
+    {
+        original.onDrop -= OnDropOriginal;//original
+
+        Destroy();
     }
 
 

@@ -67,7 +67,7 @@ public class InventorySubMenu : CreateSubMenu
             if (filterType != null && !filterType.IsAssignableFrom(character.inventory.inventory[i].GetType()))
                 continue;
 
-            if (character.inventory.inventory[i] is Ability && ((Ability)character.inventory.inventory[i]).isCopy)
+            if (character.inventory.inventory[i] is Ability && ((Ability)character.inventory.inventory[i]).IsCopy)
                 continue;
 
             ButtonA button = subMenu.AddComponent<ButtonA>();

@@ -221,12 +221,21 @@ public class SlotItem<T>: SlotItem where T : Item
     { 
         set
         {
+            if (equiped != null)
+                equiped.onDrop -= EquipedOnDrop;
+
             base.indexEquipedItem = value;
             toChange?.Invoke(_indexEquipedItem, equiped);
+
+            if(equiped!=null)
+                equiped.onDrop += EquipedOnDrop;
         } 
     }
 
-
+    private void EquipedOnDrop()
+    {
+        indexEquipedItem = -1;
+    }
 }
 
 
