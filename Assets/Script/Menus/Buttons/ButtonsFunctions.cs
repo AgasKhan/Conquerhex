@@ -66,7 +66,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void ExitSubMenu(GameObject g)
     {
-        refMenu.modulesMenu.ObtainMenu<SubMenus>(false);
+        refMenu.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose();
     }
 
     protected void CloseWindow(GameObject g)

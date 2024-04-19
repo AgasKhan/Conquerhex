@@ -15,7 +15,7 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        subMenu.AddNavBarButton("Statistics", Create).AddNavBarButton("Inventory", inventorySubMenu.Create);
+        subMenu.AddNavBarButton("Statistics", Create).AddNavBarButton("Inventory", CreateInventory);
 
         subMenu.ClearBody();
 
@@ -27,6 +27,26 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.CreateChildrenSection<ScrollRect>();
 
         CreateWeaponButtons(character);
+
+        subMenu.OnClose += Exit;
+    }
+
+    private void Exit()
+    {
+        subMenu.ExitSubmenu();
+    }
+
+    void CreateInventory()
+    {
+        inventorySubMenu.Create();
+        subMenu.OnClose -= Exit;
+        subMenu.OnClose += SubMenuOnClose;
+    }
+
+    private void SubMenuOnClose()
+    {
+        subMenu.OnClose -= SubMenuOnClose;
+        Create();
     }
 
     void CreateWeaponButtons(Character charac)
@@ -36,7 +56,7 @@ public class StatisticsSubMenu : CreateSubMenu
             CreateGenericButton(charac.caster.weapons[i], "Equip Weapon", 
             (_slotItem, _index) =>
             {
-                _slotItem.indexEquipedItem = _index; Create();
+                _slotItem.indexEquipedItem = _index; subMenu.TriggerOnClose();
             });
         }
 
@@ -54,7 +74,7 @@ public class StatisticsSubMenu : CreateSubMenu
                 abilityCopy.Init(_slotItem.inventoryComponent);
                 _slotItem.inventoryComponent.inventory.Add(abilityCopy);
                 _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
-                Create();
+                subMenu.TriggerOnClose();
             });
         }
     }
@@ -68,7 +88,7 @@ public class StatisticsSubMenu : CreateSubMenu
         UnityEngine.Events.UnityAction action = () =>
         {
             inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, filter, equipAction);
-            inventorySubMenu.Create();
+            CreateInventory();
         };
 
 
@@ -120,25 +140,25 @@ public class StatisticsSubMenu : CreateSubMenu
             kataCopy.Init(_slotItem.inventoryComponent);
             _slotItem.inventoryComponent.inventory.Add(kataCopy);
             _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
-            Create();
+            subMenu.TriggerOnClose();
         };
 
         System.Action<SlotItem, int> equipWeaponAction = (_slotItem, _index) =>
         {
             (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent.inventory[_index]);
-            Create();
+            subMenu.TriggerOnClose();
         };
 
         actionKata = () =>
         {
             inventorySubMenu.SetEquipMenu<WeaponKata>(kata, filterKata, equipKataAction);
-            inventorySubMenu.Create();
+            CreateInventory();
         };
 
         actionWeapon = () =>
         {
             inventorySubMenu.SetEquipMenu<WeaponKata>(kata, filterWeapon, equipWeaponAction);
-            inventorySubMenu.Create();
+            CreateInventory();
         };
 
 

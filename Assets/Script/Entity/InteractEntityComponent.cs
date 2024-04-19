@@ -5,7 +5,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public class InteractEntityComponent : ComponentOfContainer<Entity>
+public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 {
     public bool interactuable = true;
     public Sprite Image;
@@ -16,6 +16,19 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
 
     public GenericSubMenu genericMenu;
 
+    public event Action OnInteract
+    {
+        add
+        {
+            _onInteract += value;
+        }
+        remove
+        {
+            _onInteract -= value;
+        }
+    }
+    private event Action _onInteract;
+
     public virtual void ShowMenu(Character character)
     {
         if (!interactuable)
@@ -23,6 +36,8 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
         genericMenu.Init();
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false);
         genericMenu.Create(character);
+
+        _onInteract?.Invoke();
     }
 
     public virtual T Interact<T>() where T : InteractAction
@@ -30,6 +45,7 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
         if (!interactuable)
             return null;
 
+        _onInteract?.Invoke();
         return (T)_interact[typeof(T)];
     }
 
@@ -65,19 +81,25 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>
         };
 
         genericMenu.SetCreateAct(menuAction);
-
-        //Interact<CraftingAction>().Activate(param.);
-
-        //interact = param.flyweight.GetFlyWeight<InteractBase>().interact;
     }
 
     public override void OnExitState(Entity param)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void OnStayState(Entity param)
     {
-        throw new System.NotImplementedException();
+
+    }
+
+    public string Save()
+    {
+        return JsonUtility.ToJson(interactuable);
+    }
+
+    public void Load(string str)
+    {
+        interactuable = JsonUtility.FromJson<bool>(str);
     }
 }

@@ -215,6 +215,13 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         trigger.Destroy();
     }
 
+    public override void Unequip()
+    {
+        base.Unequip();
+        if(IsCopy)
+            Destroy();
+    }
+
     public List<Entity> Detect(Vector3 dir, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
         affected = trigger.InternalDetect(dir, timePressed, minRange, maxRange, dot);

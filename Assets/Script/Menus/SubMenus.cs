@@ -18,6 +18,8 @@ public class SubMenus : MonoBehaviour
 
     public LayoutGroup lastSectionLayoutGroup;
 
+    public event System.Action OnClose;
+
     [SerializeField]
     CanvasGroup canvasGroup;
 
@@ -79,42 +81,6 @@ public class SubMenus : MonoBehaviour
         }
     }    
 
-    private void Awake()
-    {
-        fadeMenu.alphas += FadeMenu_alphas;
-
-        fadeMenu.Init();
-    }
-
-    private void FadeMenu_alphas(float obj)
-    {
-        canvasGroup.alpha = obj;
-    }
-
-    private void OnEnable()
-    {
-        fadeMenu.FadeOn();
-
-        //que numero multiplicado x mi screen da 1920
-
-        //Screen.width * x = 1920
-
-        //Screen.width = 1920 / x
-
-        //1 / Screen.width =  x / 1920
-
-        //1920/ Screen.width = x
-
-        float relacion = (float)Screen.width / Screen.height;
-
-        fixedWidth = relacion * width / (16 / 9f);
-
-        fixedValue = fixedWidth / Screen.width;
-
-        var aux = fixedWidth - margin * 7;
-
-        subdivisions = aux / 6;
-    }
 
     public SubMenus CreateTitle(string title)
     {
@@ -194,6 +160,65 @@ public class SubMenus : MonoBehaviour
         return AddNavbarButton(text, "", action);
     }
 
+    public void TriggerOnClose()
+    {
+        OnClose?.Invoke();
+    }
+
+    public SubMenus RetardedOn(System.Action<bool> retardedOrder)
+    {
+        StartCoroutine(RetardedOnCoroutine(retardedOrder));
+
+        return this;
+    }
+
+    public void ExitSubmenu()
+    {
+        Debug.Log("Execute ExitSubMenu");
+        GameManager.instance.Menu(false);
+        transform.SetActiveGameObject(false);
+    }
+
+    private void Awake()
+    {
+        fadeMenu.alphas += FadeMenu_alphas;
+
+        fadeMenu.Init();
+    }
+
+    private void FadeMenu_alphas(float obj)
+    {
+        canvasGroup.alpha = obj;
+    }
+
+    private void OnEnable()
+    {
+        fadeMenu.FadeOn();
+
+        //que numero multiplicado x mi screen da 1920
+
+        //Screen.width * x = 1920
+
+        //Screen.width = 1920 / x
+
+        //1 / Screen.width =  x / 1920
+
+        //1920/ Screen.width = x
+
+        float relacion = (float)Screen.width / Screen.height;
+
+        fixedWidth = relacion * width / (16 / 9f);
+
+        fixedValue = fixedWidth / Screen.width;
+
+        var aux = fixedWidth - margin * 7;
+
+        subdivisions = aux / 6;
+
+        Debug.Log("Execute OnEnable");
+        GameManager.instance.Menu(true);
+    }
+
     SubMenus AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {
         UnityEngine.Events.UnityAction aux = action; 
@@ -207,13 +232,6 @@ public class SubMenus : MonoBehaviour
         
         SetText(navbar.eventsCalls[0].textButton.text);
         
-
-        return this;
-    }
-
-    public SubMenus RetardedOn(System.Action<bool> retardedOrder)
-    {
-        StartCoroutine(RetardedOnCoroutine(retardedOrder));
 
         return this;
     }

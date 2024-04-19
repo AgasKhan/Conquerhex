@@ -52,6 +52,11 @@ public class PopUp : MonoBehaviour
         return this;
     }
 
+    private void OnEnable()
+    {
+        GameManager.instance.Menu(true);
+    }
+
     private void OnDisable()
     {
         buttonFactory.DestroyAll();

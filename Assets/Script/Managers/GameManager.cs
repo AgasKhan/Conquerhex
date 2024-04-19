@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 using System.Threading.Tasks;
+using FSMGameManagerLibrary;
 
 public class GameManager : SingletonMono<GameManager>
 {
@@ -103,16 +104,16 @@ public class GameManager : SingletonMono<GameManager>
         fsmGameMaganer.CurrentState = fsmGameMaganer.gamePlay;
     }
 
-    public void TogglePause()
+    public void ToggleMenu()
     {
-        if (fsmGameMaganer.CurrentState == fsmGameMaganer.pause || fsmGameMaganer.gamePlay == fsmGameMaganer.CurrentState)
-            fsmGameMaganer.CurrentState = (fsmGameMaganer.CurrentState == fsmGameMaganer.pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+        if (fsmGameMaganer.CurrentState == fsmGameMaganer.menu || fsmGameMaganer.gamePlay == fsmGameMaganer.CurrentState)
+            fsmGameMaganer.CurrentState = (fsmGameMaganer.CurrentState == fsmGameMaganer.menu) ? fsmGameMaganer.gamePlay : fsmGameMaganer.menu;
     }
 
-    public void Pause(bool pause)
+    public void Menu(bool pause)
     {
         if (fsmGameMaganer.CurrentState != fsmGameMaganer.load)
-            fsmGameMaganer.CurrentState = (!pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.pause;
+            fsmGameMaganer.CurrentState = (!pause) ? fsmGameMaganer.gamePlay : fsmGameMaganer.menu;
     }
 
     public void Defeat(string msj)
@@ -228,113 +229,112 @@ public class GameManager : SingletonMono<GameManager>
     #endregion
 }
 
-[System.Serializable]
-public class FSMGameMaganer : FSMSerialize<FSMGameMaganer, GameManager>
+namespace FSMGameManagerLibrary
 {
-    public Load load = new Load();
-    public Gameplay gamePlay = new Gameplay();
-    public Pause pause = new Pause();
-    public EndGame endGame = new EndGame();
+    [System.Serializable]
+    public class FSMGameMaganer : FSMSerialize<FSMGameMaganer, GameManager>
+    {
+        public Load load = new Load();
+        public Gameplay gamePlay = new Gameplay();
+        public Menu menu = new Menu();
+        public EndGame endGame = new EndGame();
+    }
+
+    [System.Serializable]
+    public class Load : IState<FSMGameMaganer>
+    {
+        public UnityEvent onStartLoad;
+
+        public UnityEvent onFinishLoad;
+
+        public void OnEnterState(FSMGameMaganer param)
+        {
+            onStartLoad.Invoke();
+        }
+
+        public void OnExitState(FSMGameMaganer param)
+        {
+            onFinishLoad.Invoke();
+        }
+
+        public void OnStayState(FSMGameMaganer param)
+        {
+        }
+    }
+
+    [System.Serializable]
+    public class Gameplay : IState<FSMGameMaganer>
+    {
+        public UnityEvent onEnterGamePlayUnityEvent;
+
+        public UnityEvent onExitGamePlayUnityEvent;
+
+        public event UnityAction onEnterGamePlay;
+
+        public event UnityAction onExitGamePlay;
+
+        public void OnEnterState(FSMGameMaganer param)
+        {
+            onEnterGamePlayUnityEvent.Invoke();
+            onEnterGamePlay?.Invoke();
+        }
+
+        public void OnExitState(FSMGameMaganer param)
+        {
+            onExitGamePlayUnityEvent.Invoke();
+            onExitGamePlay?.Invoke();
+        }
+
+        public void OnStayState(FSMGameMaganer param)
+        {
+        }
+    }
+
+    [System.Serializable]
+    public class EndGame : IState<FSMGameMaganer>
+    {
+        public UnityEvent victory;
+
+        public UnityEvent defeat;
+
+        public void OnEnterState(FSMGameMaganer param)
+        {
+            //param.context.eventManager.events.SearchOrCreate<SingleEvent>("close").delegato.Invoke();
+        }
+
+        public void OnExitState(FSMGameMaganer param)
+        {
+        }
+
+        public void OnStayState(FSMGameMaganer param)
+        {
+        }
+    }
+
+    [System.Serializable]
+    public class Menu : IState<FSMGameMaganer>
+    {
+        public UnityEvent onEnterMenuUnityEvent;
+
+        public UnityEvent onExitMenuUnityEvent;
+
+        public void OnEnterState(FSMGameMaganer param)
+        {
+            Time.timeScale = 0;
+            onEnterMenuUnityEvent.Invoke();
+        }
+
+        public void OnExitState(FSMGameMaganer param)
+        {
+            onExitMenuUnityEvent.Invoke();
+            Time.timeScale = 1;
+        }
+
+        public void OnStayState(FSMGameMaganer param)
+        {
+        }
+    }
 }
-
-[System.Serializable]
-public class Load : IState<FSMGameMaganer>
-{
-    public UnityEvent onStartLoad;
-
-    public UnityEvent onFinishLoad;
-
-    public void OnEnterState(FSMGameMaganer param)
-    {
-        onStartLoad.Invoke();
-    }
-
-    public void OnExitState(FSMGameMaganer param)
-    {
-        onFinishLoad.Invoke();
-    }
-
-    public void OnStayState(FSMGameMaganer param)
-    {
-    }
-}
-
-[System.Serializable]
-public class Gameplay : IState<FSMGameMaganer>
-{
-    public UnityEvent onEnterGamePlayUnityEvent;
-
-    public UnityEvent onExitGamePlayUnityEvent;
-
-    public event UnityAction onEnterGamePlay;
-
-    public event UnityAction onExitGamePlay;
-
-    public void OnEnterState(FSMGameMaganer param)
-    {
-        onEnterGamePlayUnityEvent.Invoke();
-        onEnterGamePlay?.Invoke();
-    }
-
-    public void OnExitState(FSMGameMaganer param)
-    {
-        onExitGamePlayUnityEvent.Invoke();
-        onExitGamePlay?.Invoke();
-    }
-
-    public void OnStayState(FSMGameMaganer param)
-    {
-    }
-}
-
-[System.Serializable]
-public class EndGame : IState<FSMGameMaganer>
-{
-    public UnityEvent victory;
-
-    public UnityEvent defeat;
-
-    public void OnEnterState(FSMGameMaganer param)
-    {
-        //param.context.eventManager.events.SearchOrCreate<SingleEvent>("close").delegato.Invoke();
-    }
-
-    public void OnExitState(FSMGameMaganer param)
-    {
-    }
-
-    public void OnStayState(FSMGameMaganer param)
-    {
-    }
-}
-
-[System.Serializable]
-public class Pause : IState<FSMGameMaganer>
-{
-    public UnityEvent onPauseUnityEvent;
-
-    public UnityEvent onDesPauseUnityEvent;
-
-    public void OnEnterState(FSMGameMaganer param)
-    {
-        Time.timeScale = 0;
-        onPauseUnityEvent.Invoke();
-        param.context.enabled = false;
-    }
-
-    public void OnExitState(FSMGameMaganer param)
-    {
-        onDesPauseUnityEvent.Invoke();
-        Time.timeScale = 1;
-        param.context.enabled = true;
-    }
-
-    public void OnStayState(FSMGameMaganer param)
-    {
-    }
-}
-
-
 
 static class DebugPrint
 {

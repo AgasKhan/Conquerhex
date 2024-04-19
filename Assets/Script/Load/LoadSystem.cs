@@ -223,7 +223,8 @@ public class LoadSystem : SingletonMono<LoadSystem>
             {
                 yield return null;
             }
-        }        
+        }
+        GameManager.instance.GamePlay();
 
         loadScreen.Close();
 

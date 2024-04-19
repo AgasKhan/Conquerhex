@@ -50,7 +50,7 @@ public class NexusController : TurretController
 
         TimersManager.Create(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
         {
-            GameManager.instance.Pause(true);
+            GameManager.instance.Menu(true);
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("Derrota", "¿Deseas volver a jugar?").AddButton("Si", () => LoadSystem.instance.Reload()).AddButton("No", () => LoadSystem.instance.Load("MainMenu"));
         }).SetUnscaled(true);
     }

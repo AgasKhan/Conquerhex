@@ -66,10 +66,10 @@ public class InventorySubMenu : CreateSubMenu
         {
             if (filterType != null && !filterType.IsAssignableFrom(character.inventory.inventory[i].GetType()))
                 continue;
-
+            
             if (character.inventory.inventory[i] is Ability && ((Ability)character.inventory.inventory[i]).IsCopy)
                 continue;
-
+            
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
             var item = character.inventory.inventory[i];
@@ -153,7 +153,12 @@ public class InventorySubMenu : CreateSubMenu
 
     void CreateUnequipButton(SlotItem _slotItem)
     {
-        var aux = subMenu.AddComponent<EventsCall>().Set("Unequip", () => { _slotItem.indexEquipedItem = -1; MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>(false); }, "");
+        var aux = subMenu.AddComponent<EventsCall>().Set("Unequip", () => 
+        { 
+            _slotItem.equiped.Unequip();
+            _slotItem.indexEquipedItem = -1;
+            MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose(); 
+        }, "");
         aux.rectTransform.sizeDelta = new Vector2(300, 75);
     }
 

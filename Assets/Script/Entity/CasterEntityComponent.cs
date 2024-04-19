@@ -4,7 +4,7 @@ using UnityEngine;
 using ComponentsAndContainers;
 
 [RequireComponent(typeof(InventoryEntityComponent))]
-public class CasterEntityComponent : ComponentOfContainer<Entity>
+public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 {
     [Tooltip("Armas equipadas y de cambio rapido")]
     public SlotItemList<MeleeWeapon> weapons = new SlotItemList<MeleeWeapon>(5);
@@ -181,6 +181,16 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>
                 katasCombo[i].equiped.Init(inventoryEntity);
             }
         }
+    }
+
+    public string Save()
+    {
+        return JsonUtility.ToJson(this);
+    }
+
+    public void Load(string str)
+    {
+        JsonUtility.FromJsonOverwrite(str, this);
     }
 }
 

@@ -126,6 +126,11 @@ public abstract class Item : IShowDetails
         container = null;
     }
 
+    public virtual void Unequip()
+    {
+
+    }
+
     protected abstract void Init();
 
     public abstract Item SetItemBase(object baseItem);

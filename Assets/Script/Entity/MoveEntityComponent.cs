@@ -5,7 +5,7 @@ using ComponentsAndContainers;
 using System;
 
 [RequireComponent(typeof(MoveAbstract))]
-public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir, IMove
+public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir, IMove, ISaveObject
 {
     [SerializeField]
     MoveAbstract move;
@@ -103,6 +103,14 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
         //_desaceleration.Reset();
     }
 
+    public string Save()
+    {
+        return JsonUtility.ToJson(this);
+    }
 
+    public void Load(string str)
+    {
+        JsonUtility.FromJsonOverwrite(str, this);
+    }
 }
 

@@ -1,7 +1,7 @@
 ﻿using ComponentsAndContainers;
 using System.Collections.Generic;
 using UnityEngine;
-public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
+public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISaveObject
 {
     public const float tickTimeDamage = 1 / 3f;
 
@@ -318,6 +318,21 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity
                 Teleport(hexagone, 0);
             }
         });
+    }
+
+    public string Save()
+    {
+        return "";
+    }
+
+    public void Load(string str)
+    {
+
+    }
+
+    public class EntityData
+    {
+
     }
 }
 

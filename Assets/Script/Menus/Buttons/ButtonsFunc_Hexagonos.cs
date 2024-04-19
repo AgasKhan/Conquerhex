@@ -34,7 +34,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     void PauseMenu(GameObject g)
     {
         refMenu.modulesMenu.ObtainMenu<MenuList>(false).SetActiveGameObject(true).CreateDefault();
-        GameManager.instance.Pause(true);
+        GameManager.instance.Menu(true);
         //Despausar
     }
 
@@ -51,7 +51,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     void Resume(GameObject g)
     {
         refMenu.modulesMenu.ObtainMenu<MenuList>(false);
-        GameManager.instance.Pause(false);
+        GameManager.instance.Menu(false);
     }
 
     void BackMenu(GameObject g)
