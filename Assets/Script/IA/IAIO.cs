@@ -156,7 +156,7 @@ public class IAIO : IAFather
 
         VirtualControllers.interact.eventDown -= Interact_eventDown;
 
-        interactEvent.secondDelegato.Invoke((false, false, null));
+        interactEvent.secondDelegato?.Invoke((false, false, null));
 
         lastInteractuable = null;
         param.gameObject.tag = originalTag;
@@ -174,7 +174,7 @@ public class IAIO : IAFather
 
         if(buildings == null || buildings.Count == 0)
         {
-            interactEvent.secondDelegato.Invoke((false, false, null));
+            interactEvent.secondDelegato?.Invoke((false, false, null));
 
             VirtualControllers.interact.eventDown -= Interact_eventDown;
 
@@ -186,7 +186,7 @@ public class IAIO : IAFather
 
             lastInteractuable = buildings[0];
 
-            interactEvent.secondDelegato.Invoke((true, false, lastInteractuable.Image));
+            interactEvent.secondDelegato?.Invoke((true, false, lastInteractuable.Image));
 
             VirtualControllers.interact.eventDown += Interact_eventDown;
         }
