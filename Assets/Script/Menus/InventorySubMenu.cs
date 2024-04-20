@@ -19,13 +19,6 @@ public class InventorySubMenu : CreateSubMenu
 
     bool isEquipMenu = false;
 
-    public void ExchangeItems(InventoryEntityComponent playerInv, InventoryEntityComponent storageInv, Item itemToMove)
-    {
-        itemToMove.GetAmounts(out int actual, out int max);
-        playerInv.AddOrSubstractItems(itemToMove.nameDisplay, -actual);
-        storageInv.AddOrSubstractItems(itemToMove.nameDisplay, actual);
-    }
-
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
@@ -209,8 +202,8 @@ public class InventorySubMenu : CreateSubMenu
         }
         else
         {
-            item.GetAmounts(out int actual, out int max);
-            details = actual + " / " + max;
+            //item.GetAmounts(out int actual, out int max);
+            //details = actual + " / " + max;
         }
 
         return details;

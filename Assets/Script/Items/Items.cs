@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,12 +54,8 @@ public abstract class ItemBase : ShowDetails
 }
 
 
-
-
-
-
 [System.Serializable]
-public abstract class Item : IShowDetails
+public abstract class Item : IShowDetails, IComparable<Item>
 {
     public event System.Action onDrop;//si ejecuto el ondrop, este desequipa el item
     public event System.Action<InventoryEntityComponent> onChangeContainer;
@@ -98,6 +95,7 @@ public abstract class Item : IShowDetails
             return;
 
         container = inventoryEntityComponent;
+        container.InternalAddItem(this);
         Init();
     }
 
@@ -110,11 +108,11 @@ public abstract class Item : IShowDetails
 
         onChangeContainer?.Invoke(inventoryEntityComponent);
 
-        container.inventory.Remove(this);
+        container.InternalRemoveItem(this);
 
         container = inventoryEntityComponent;
 
-        container.inventory.Add(this);
+        container.InternalAddItem(this);
     }
 
     public virtual void Destroy()
@@ -142,10 +140,15 @@ public abstract class Item : IShowDetails
         return aux;
     }
 
-    public virtual void GetAmounts(out int actual, out int max)
+    public virtual void GetAmounts(int index, out int actual, out int max)
     {
         max = _itemBase.maxAmount;
         actual = 1;
+    }
+
+    public virtual int GetCount()
+    {
+        return 1;
     }
 
     /// <summary>
@@ -153,7 +156,7 @@ public abstract class Item : IShowDetails
     /// </summary>
     /// <param name="amount"></param>
     /// <returns>Cuantos items me sobraron desp de apilarlos</returns>
-    public virtual Item AddAmount(int amount, out int resto)
+    public virtual Item AddAmount(int index, int amount, out int resto)
     {
         resto = amount;
 
@@ -167,7 +170,15 @@ public abstract class Item : IShowDetails
 
     public override string ToString()
     {
-        return nameDisplay + "\n\n" + GetDetails().ToString(": " ,"\n") + "\n";
+        return nameDisplay + "\n\n" + GetDetails().ToString(": ", "\n") + "\n";
+    }
+
+    public int CompareTo(Item obj)
+    {
+        if (obj == null)
+            return 1;
+
+        return string.Compare(nameDisplay, obj.nameDisplay);
     }
 }
 
@@ -182,7 +193,7 @@ public abstract class Item<T> : Item where T : ItemBase
 
     public override Item SetItemBase(object baseItem)
     {
-        if(baseItem is T)
+        if (baseItem is T)
         {
             _itemBase = baseItem as T;
         }
@@ -190,7 +201,7 @@ public abstract class Item<T> : Item where T : ItemBase
         {
             Debug.LogWarning("Type itembase failed");
         }
-        
+
 
         return this;
     }
@@ -200,38 +211,48 @@ public abstract class Item<T> : Item where T : ItemBase
 public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 {
     [SerializeField]
-    int actual = 1;
-
     List<int> stacks = new List<int>();
 
-    public override Item AddAmount(int amount, out int resto)
+    public override Item AddAmount(int index, int amount, out int resto)
     {
-        actual += amount;
+        if (index < 0)
+        {
+            stacks.Add(amount);
+            index = stacks.Count - 1;
+        }
+        else
+            stacks[index] += amount;
+
         resto = 0;
 
-        if (actual > itemBase.maxAmount)
+        if (stacks[index] > itemBase.maxAmount)
         {
-            resto = actual - itemBase.maxAmount;
-            actual = itemBase.maxAmount;
+            resto = stacks[index] - itemBase.maxAmount;
+            stacks[index] = itemBase.maxAmount;
         }
-        else if (actual <= 0)
+        else if (stacks[index] <= 0)
         {
-            resto = actual;
+            resto = stacks[index];
         }
 
         return this;
     }
 
-    public override void GetAmounts(out int actual, out int max)
+    public override void GetAmounts(int index, out int actual, out int max)
     {
         max = itemBase.maxAmount;
-        actual = this.actual;
+        actual = stacks[index];
+    }
+
+    public override int GetCount()
+    {
+        return stacks.Count;
     }
 
     public override Pictionarys<string, string> GetDetails()
     {
         var aux = base.GetDetails();
-        aux.Add("Cantidad", actual + " / "+ itemBase.maxAmount);
+        //aux.Add("Cantidad", actual + " / "+ itemBase.maxAmount);
 
         return aux;
     }

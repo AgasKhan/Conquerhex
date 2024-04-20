@@ -114,15 +114,15 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
         if (katasCombo.Actual(index).equiped != null)
             return;
 
-        inventoryEntity.inventory.Add(flyweight.kataCombos[index].kata.Create());
+        var aux = flyweight.kataCombos[index].kata.Create();
+
+        aux.Init(inventoryEntity);
 
         katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.Count - 1;
 
-        inventoryEntity.inventory[^1].Init(inventoryEntity);
+        var aux2 = flyweight.kataCombos[index].weapon.Create();
 
-        inventoryEntity.inventory.Add(flyweight.kataCombos[index].weapon.Create());
-
-        inventoryEntity.inventory[^1].Init(inventoryEntity);
+        aux2.Init(inventoryEntity);
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 

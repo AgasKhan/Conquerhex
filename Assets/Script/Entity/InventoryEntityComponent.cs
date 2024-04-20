@@ -9,6 +9,15 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
     [SerializeReference]
     public List<Item> inventory = new List<Item>();
 
+    [SerializeReference]
+    public List<(string, int)> visualItems = new List<(string,int)>();
+    
+    [SerializeField]
+    public OrderedList<Item> orderedItems = new OrderedList<Item>();
+
+    [SerializeField]
+    public OrderedList<int> orderedItems2 = new OrderedList<int>();
+
     public virtual float weightCapacity => container.flyweight.GetFlyWeight<BodyBase>().weightCapacity;
 
     public float currentWeight = 0f;
@@ -53,27 +62,6 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
         return items;
     }
 
-    public void AddAndStackItems(Item item)
-    {
-        item.GetAmounts(out int act, out int mx);
-        int amount = act;
-
-        if (amount == 0)
-            return;
-
-        for (int i = inventory.Count - 1; i >= 0; i--)
-        {
-            if (item == inventory[i])
-            {
-                inventory[i].GetAmounts(out int actual, out int max);
-
-                inventory[i].AddAmount(amount, out amount);
-            }
-        }
-
-        AddOrCreate(item.GetItemBase(), amount);
-    }
-
     public int ItemCount(string itemName)
     {
         int amount = 0;
@@ -82,15 +70,112 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
         {
             if (inventory[i].nameDisplay == itemName)
             {
-                inventory[i].GetAmounts(out int actual, out int max);
-                amount += actual;
+                //inventory[i].GetAmounts(out int actual, out int max);
+                //amount += actual;
             }
         }
         return amount;
     }
 
+
+    /// <summary>
+    /// Funcion que sera llamada de forma automatica por el Change Container <br/>
+    /// NO UTILIZAR PARA OTROS FINES
+    /// </summary>
+    /// <param name="item"></param>
+    public void InternalAddItem(Item item)
+    {
+        if (item is Resources_Item)
+        {
+            if (!orderedItems.Contains(item, out int indx))
+            {
+                orderedItems.Add(item);
+
+                int count = item.GetCount();
+
+                for (int i = 0; i < count; i++)
+                {
+                    visualItems.Add((item.nameDisplay, i));
+                }
+            }
+            else
+            {
+                int count = item.GetCount();
+
+                for (int i = 0; i < count; i++)
+                {
+                    item.GetAmounts(i, out int actual, out int max);
+                    orderedItems[indx].AddAmount(-1, actual, out int rst);
+
+                    visualItems.Add((item.nameDisplay, orderedItems[indx].GetCount() - 1));
+                }
+            }
+        }
+        else
+        {
+            inventory.Add(item);
+            if (item.visible)
+                visualItems.Add(("inventory", inventory.Count - 1));
+        }
+    }
+
+    /// <summary>
+    /// Funcion que sera llamada de forma automatica por el Change Container <br/>
+    /// NO UTILIZAR PARA OTROS FINES
+    /// </summary>
+    /// <param name="item"></param>
+    public void InternalRemoveItem(Item item)
+    {
+        if (item is Resources_Item)
+        {
+            if (!orderedItems.Contains(item, out int indx))
+            {
+                Debug.LogError("No contiene el item");
+            }
+            else
+            {
+                orderedItems.Remove(item);
+
+                for (int i = visualItems.Count - 1; i >= 0; i--)
+                {
+                    if (visualItems[i].Item1 == item.nameDisplay)
+                        visualItems.RemoveAt(i);
+                }
+            }
+        }
+        else
+        {
+            var aux = inventory.IndexOf(item);
+            if(aux<0)
+            {
+                Debug.LogError("No contiene el item");
+                return;
+            }
+
+            if (item.visible)
+            {
+                for (int i = visualItems.Count - 1; i >= 0; i--)
+                {
+                    if (visualItems[i].Item1 == item.nameDisplay && visualItems[i].Item2 == aux)
+                    {
+                        visualItems.RemoveAt(i);
+                        inventory.RemoveAt(aux);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    void RefresVisualItems()
+    {
+
+    }
+
+
     public void AddOrSubstractItems(string itemName, int amount)
     {
+        /*
         ItemBase myItemBase = null;
 
         for (int i = inventory.Count - 1; i >= 0; i--)
@@ -129,13 +214,14 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
         }
 
         AddOrCreate(myItemBase, amount);
-
+        */
         //Debug.Log(string.Join("", inventory));
     }
 
 
     void AddOrCreate(ItemBase itemBase, int amount)
     {
+        /*
         if (amount > 0)
         {
             inventory.Add(itemBase.Create());
@@ -146,6 +232,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
 
             AddOrCreate(itemBase, amount);
         }
+        */
     }
 
     public string Save()

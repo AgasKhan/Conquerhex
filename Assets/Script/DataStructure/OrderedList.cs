@@ -10,8 +10,8 @@ using System;
 [System.Serializable]
 public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : IComparable<T>
 {
-    [SerializeField]
-    List<T> ts;
+    [SerializeReference]
+    List<T> ts = new List<T>();
 
     new public void Add(T item)
     {
@@ -50,12 +50,13 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     {
         Clear();
         AddRange(ts);
+        ts.TrimExcess();
         TrimExcess();
-        ts = null;
     }
 
     public void OnBeforeSerialize()
     {
-        ts = new List<T>(this);
+        ts.Clear();
+        ts.AddRange(this);
     }
 }

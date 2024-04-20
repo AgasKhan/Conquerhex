@@ -61,8 +61,8 @@ public class GenericSubMenu : CreateSubMenu
         }
         else
         {
-            item.GetAmounts(out int actual, out int max);
-            details = actual + " / " + max;
+            //item.GetAmounts(out int actual, out int max);
+            //details = actual + " / " + max;
         }
 
         return details;

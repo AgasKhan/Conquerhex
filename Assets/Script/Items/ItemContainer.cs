@@ -8,7 +8,7 @@ public class ItemContainer : MonoBehaviour
     public Character character;
 
     void Awake()
-    { 
+    {
         /*
         if (SaveWithJSON.CheckKeyInBD("Player"))
         {
@@ -22,6 +22,8 @@ public class ItemContainer : MonoBehaviour
 
         LoadSystem.AddPostLoadCorutine(()=> GetComponent<ItemsGiver>()?.Activate(character));
         */
+
+        LoadSystem.AddPostLoadCorutine(() => GetComponent<ItemsGiver>()?.Activate(character));
     }
 
 }
