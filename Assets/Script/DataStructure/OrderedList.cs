@@ -8,7 +8,7 @@ using System;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [System.Serializable]
-public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : IComparable
+public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : IComparable<T>
 {
     [SerializeField]
     List<T> ts;
