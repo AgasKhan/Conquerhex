@@ -6,6 +6,6 @@ public class GoToBase : LogicActive<Building>
 {
     public override void Activate(Building specificParam)
     {
-        LoadSystem.instance.Load("Base");
+        //LoadSystem.instance.Load("Base");
     }
 }

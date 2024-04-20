@@ -38,10 +38,12 @@ public class MenuManager : SingletonMono<MenuManager>
 
     public void StartGame()
     {
+        /*
         if(!SaveWithJSON.BD.ContainsKey("FirstTime") && initTutorial)
             LoadSystem.instance.Load("Tutorial", true);
         else
             LoadSystem.instance.Load(firstLevel, true);
+        */
         
     }
 }

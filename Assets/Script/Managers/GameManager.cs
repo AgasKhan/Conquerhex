@@ -54,6 +54,9 @@ public class GameManager : SingletonMono<GameManager>
     [SerializeField]
     public EventManager eventManager;
 
+    [SerializeField]
+    public LoadSystem loadSystem;
+
     [Header("Executions")]
 
     public UnityEvent awakeUnityEvent;
@@ -87,16 +90,27 @@ public class GameManager : SingletonMono<GameManager>
         retardedOrder?.Invoke(true);
     }
 
-    #region funciones
+    #region carga
+    public void Load(string scn)
+    {
+        StartCoroutine(loadSystem.ExitCoroutine(scn, true));
 
+        fsmGameMaganer.CurrentState = fsmGameMaganer.load;
+    }
+
+    public void Reload()
+    {
+        StartCoroutine(loadSystem.Reload());
+
+        fsmGameMaganer.CurrentState = fsmGameMaganer.load;
+    }
+
+    #endregion
+
+    #region funciones
     public string ActualStringState()
     {
         return fsmGameMaganer?.CurrentState?.GetType().Name ?? "Off";
-    }
-
-    public void Load()
-    {
-        fsmGameMaganer.CurrentState = fsmGameMaganer.load;
     }
 
     public void GamePlay()
@@ -124,7 +138,7 @@ public class GameManager : SingletonMono<GameManager>
 
             fsmGameMaganer.endGame.defeat.Invoke();
 
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow(msj, "").AddButton("Reiniciar", () => LoadSystem.instance.Reload()).AddButton("Volver a la base", () => LoadSystem.instance.Load("Base"));
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow(msj, "").AddButton("Reiniciar", Reload).AddButton("Volver a la base", () => Load("Base"));
 
             eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato.Invoke();
             
@@ -189,10 +203,27 @@ public class GameManager : SingletonMono<GameManager>
         MyUpdate(_fixedUpdate);
     }
 
+    void StartLoadRoutine()
+    {
+        fsmGameMaganer.load.onStartLoad.RemoveListener(StartLoadRoutine);
+        loadSystem.onFinishtLoad += EndLoadGameplay;
+        StartCoroutine(loadSystem.EnterCoroutine());
+    }
+
+    void EndLoadGameplay()
+    {
+        loadSystem.onFinishtLoad -= EndLoadGameplay;
+        GamePlay();
+    }
+
     protected override void Awake()
     {
         base.Awake();
+
+        fsmGameMaganer.load.onStartLoad.AddListener(StartLoadRoutine);
+
         fsmGameMaganer.Init(this);
+
         fsmGameMaganer.EnterState(fsmGameMaganer.load);
 
         updateUnityEvent.AddListener(MyUpdate);
@@ -259,6 +290,7 @@ namespace FSMGameManagerLibrary
 
         public void OnStayState(FSMGameMaganer param)
         {
+            //param.context.loadSystem.
         }
     }
 

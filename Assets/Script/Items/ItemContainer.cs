@@ -9,6 +9,7 @@ public class ItemContainer : MonoBehaviour
 
     void Awake()
     { 
+        /*
         if (SaveWithJSON.CheckKeyInBD("Player"))
         {
             SaveWithJSON.LoadClassFromPictionary("Player", ref character);
@@ -20,6 +21,7 @@ public class ItemContainer : MonoBehaviour
         }
 
         LoadSystem.AddPostLoadCorutine(()=> GetComponent<ItemsGiver>()?.Activate(character));
+        */
     }
 
 }

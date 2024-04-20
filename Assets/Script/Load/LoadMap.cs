@@ -86,7 +86,7 @@ public class LoadMap : SingletonMono<LoadMap>
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 StopAllCoroutines();
-                LoadSystem.instance.Load("MainMenu");
+                //LoadSystem.instance.Load("MainMenu");
             }
 
             //spawn hexagonos
@@ -133,7 +133,7 @@ public class LoadMap : SingletonMono<LoadMap>
             {
                 StopAllCoroutines();
 
-                LoadSystem.instance.Load("MainMenu");
+                //LoadSystem.instance.Load("MainMenu");
             }
             yield return null;
         }

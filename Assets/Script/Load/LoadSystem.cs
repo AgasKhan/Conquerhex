@@ -6,7 +6,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-public class LoadSystem : SingletonMono<LoadSystem>
+[CreateAssetMenu(menuName = "BaseData/LoadSystem", fileName = "LoadSystem")]
+public class LoadSystem : SingletonScript <LoadSystem>
 {
     static List<WaitForCorutinesForLoad.MyCoroutine> preLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
     static List<WaitForCorutinesForLoad.MyCoroutine> postLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
@@ -14,50 +15,21 @@ public class LoadSystem : SingletonMono<LoadSystem>
     static List<System.Action> preLoadEvent = new List<System.Action>();
     static List<System.Action> postLoadEvent = new List<System.Action>();
 
-    //public static Stopwatch stopwatch = new Stopwatch();
+    public event System.Action onStartLoad;
 
-    [SerializeReference]
-    LoadScreen loadScreen;
+    public event System.Action<float, string> onFeedbackLoad;
+
+    public event System.Action onFinishtLoad;
 
     public bool loadPause;
 
-    public string[] noSerailizeProperties;
+    //public string[] noSerailizeProperties;
 
     [SerializeReference]
     SaveWithJSON saveWithJSON;
 
     [SerializeField]
     Lenguages lenguages;
-
-    // Start is called before the first frame update
-    protected override void Awake()
-    {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = this;
-
-        saveWithJSON = new SaveWithJSON();
-
-        saveWithJSON.Init();
-
-        lenguages.Init();
-
-        DontDestroyOnLoad(gameObject);
-
-
-
-        StartCoroutine(PostLoad((b)=>{ }, (s)=> { loadScreen.Progress(s);  }));
-        preLoad.Add(loadScreen.LoadImage);
-    }
-
-    private void OnDestroy()
-    {
-        lenguages.OnDestroy();
-    }
 
     //delegado especifico
 
@@ -101,32 +73,76 @@ public class LoadSystem : SingletonMono<LoadSystem>
         return aux;
     }
 
-    public void Load(string scn, bool pause = false)
-    {
-        Time.timeScale = 1;
-        loadPause = pause;
-
-        StopAllCoroutines();
-
-        loadScreen.Open();
-        StartCoroutine(LoadScene(scn));
-    }
-
-    public void LoadAndSavePlayer(string scn, bool pause = false)
+    public IEnumerator LoadAndSavePlayer(string scn, bool pause = false)
     {
         SaveWithJSON.SaveClassInPictionary("Player", GameManager.instance.playerCharacter);
-        Load(scn, pause);
-        
+        return ExitCoroutine(SceneManager.GetActiveScene().name, loadPause);
     }
 
-    public void Reload()
+    public IEnumerator Reload()
     {
-        Load(SceneManager.GetActiveScene().name, loadPause);
+        return ExitCoroutine(SceneManager.GetActiveScene().name, loadPause);
     }
 
-    IEnumerator LoadScene(string scene)
+    public IEnumerator EnterCoroutine()
     {
-        loadScreen.Progress(0, "Start loading");
+        onFeedbackLoad?.Invoke(-1, "loading script scene");
+
+        onStartLoad?.Invoke();
+
+        Time.timeScale = 0;
+
+        //espera un frame a que se carguen todos los postload
+        yield return null;
+
+        for (int i = 0; i < postLoad.Count; i++)
+        {
+            yield return new WaitForCorutinesForLoad(GameManager.instance, postLoad[i], (s) => onFeedbackLoad?.Invoke((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
+        }
+
+        yield return null;
+
+        for (int i = 0; i < postLoadEvent.Count; i++)
+        {
+            postLoadEvent[i]();
+            onFeedbackLoad?.Invoke((((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6) * 100, $"Load scripts: {i}/{postLoadEvent.Count}");
+
+            if (GameManager.VerySlowFrameRate)
+            {
+                yield return null;
+                //stopwatch.Restart();
+            }
+        }
+
+        onFeedbackLoad?.Invoke(100, "<size=50>Carga finalizada</size>");
+
+        //stopwatch.Stop();
+
+        yield return null;
+
+        if (loadPause)
+        {
+            onFeedbackLoad?.Invoke(-1, "<size=50>Carga finalizada</size>" +
+            "\n<size=20> Presione <color=green>espacio</color> para continuar </size>");
+
+            while (!Input.GetKeyDown(KeyCode.Space) && !(Input.touches.Length > 0))
+            {
+                yield return null;
+            }
+        }
+
+        Time.timeScale = 1;
+
+        onFinishtLoad?.Invoke();
+    }
+
+    public IEnumerator ExitCoroutine(string scene, bool pause = false)
+    {
+        loadPause = pause;
+
+        onStartLoad?.Invoke();
+
+        onFeedbackLoad?.Invoke(0, "Start loading");
 
         yield return null;
 
@@ -135,18 +151,18 @@ public class LoadSystem : SingletonMono<LoadSystem>
         //loadscene = true;
         for (int i = 0; i < preLoad.Count; i++)
         {
-            yield return new WaitForCorutinesForLoad(this, preLoad[i], (s) => loadScreen.Progress((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
+            yield return new WaitForCorutinesForLoad(GameManager.instance, preLoad[i], (s) => onFeedbackLoad?.Invoke((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
             //stopwatch.Restart();
         }
 
-        loadScreen.Progress("Close action scripts");
+        onFeedbackLoad?.Invoke(-1,"Close action scripts");
 
         yield return null;
 
         for (int i = 0; i < preLoadEvent.Count; i++)
         {
             preLoadEvent[i]();
-            loadScreen.Progress((((i + 1f) / (preLoadEvent.Count)) * (1f / 6) + (1f / 6)) * 100);
+            onFeedbackLoad?.Invoke((((i + 1f) / (preLoadEvent.Count)) * (1f / 6) + (1f / 6)) * 100, string.Empty);
             if (GameManager.VerySlowFrameRate)
             {
                 yield return null;
@@ -154,7 +170,7 @@ public class LoadSystem : SingletonMono<LoadSystem>
             }
         }
 
-        loadScreen.Progress("Start scene load");
+        onFeedbackLoad?.Invoke(-1,"Start scene load");
 
         preLoad.Clear();
         preLoadEvent.Clear();
@@ -169,69 +185,28 @@ public class LoadSystem : SingletonMono<LoadSystem>
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         while (!async.isDone)
         {
-            loadScreen.Progress( ((1f / 3) + async.progress *(1f / 3)) * 100, "loading scene");
+            onFeedbackLoad?.Invoke( ((1f / 3) + async.progress *(1f / 3)) * 100, "loading scene");
             yield return null;
         }
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
         //awake ejecutar
-        yield return new WaitForCorutinesForLoad(this, PostLoad, (s) => loadScreen.Progress(s));
+        //yield return new WaitForCorutinesForLoad(GameManager.instance, PostLoad, (s) => loadScreen.Progress(s));
+
+        onFinishtLoad?.Invoke();
     }
 
-    IEnumerator PostLoad(System.Action<bool> end, System.Action<string> msg)
+    public void MyAwake()
     {
-        msg("loading script scene");
+        lenguages.Init();
+        saveWithJSON = new SaveWithJSON();
 
-        Time.timeScale = 0;
+        saveWithJSON.Init();
+    }
 
-        //stopwatch.Restart();
-
-        //espera un frame a que se carguen todos los postload
-        yield return null;
-
-        for (int i = 0; i < postLoad.Count; i++)
-        {
-            yield return new WaitForCorutinesForLoad(this, postLoad[i], (s) => loadScreen.Progress((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
-        }
-
-        yield return null;
-
-        for (int i = 0; i < postLoadEvent.Count; i++)
-        {
-            postLoadEvent[i]();
-            loadScreen.Progress(( ((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6 )*100, $"Load scripts: {i}/{postLoadEvent.Count}");
-
-            if (GameManager.VerySlowFrameRate)
-            {
-                yield return null;
-                //stopwatch.Restart();
-            }
-        }
-
-        loadScreen.Progress(100, "<size=50>Carga finalizada</size>");
-
-        //stopwatch.Stop();
-
-        yield return null;
-
-        if (loadPause)
-        {
-            loadScreen.Progress("<size=50>Carga finalizada</size>" +
-            "\n<size=20> Presione <color=green>espacio</color> para continuar </size>");
-
-            while (!Input.GetKeyDown(KeyCode.Space) && !(Input.touches.Length > 0))
-            {
-                yield return null;
-            }
-        }
-        GameManager.instance.GamePlay();
-
-        loadScreen.Close();
-
-        preLoad.Add(loadScreen.LoadImage);
-
-        Time.timeScale = 1;
-        end(true);
+    public void MyDestroy()
+    {
+        lenguages.OnDestroy();
     }
 }
 
@@ -285,9 +260,9 @@ public class Lenguages : Init
 
     public string lenguage = "español";
 
-    public string rowSeparator="\n";
+    string rowSeparator="\n";
 
-    public string colSeparator="\t";
+    string colSeparator="\t";
 
     string[,] textArray;
 
@@ -380,7 +355,7 @@ public class Lenguages : Init
             }
         }
 
-        lenguage = SaveWithJSON.LoadFromPictionary("Lenguage",lenguage);
+        //lenguage = SaveWithJSON.LoadFromPictionary("Lenguage",lenguage);
 
         RefreshLenguage();
     }

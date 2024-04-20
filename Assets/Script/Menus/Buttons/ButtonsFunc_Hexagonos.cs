@@ -57,8 +57,8 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
     void BackMenu(GameObject g)
     {
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "¿Seguro deseas volver al menu?")
-                .AddButton("Si", () => { LoadSystem.instance.Load("MainMenu");})
-                .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+                /*.AddButton("Si", () => { LoadSystem.instance.Load("MainMenu");})
+                .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false))*/;
     }
 
     void ShowControls(GameObject g)

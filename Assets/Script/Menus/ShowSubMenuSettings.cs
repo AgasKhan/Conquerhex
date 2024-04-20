@@ -58,6 +58,7 @@ public class ShowSubMenuSettings : CreateSubMenu
             FirstStart();
         }
 
+        /*
         if (SaveWithJSON.CheckKeyInBD("MusicVolume"))
             ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("MusicVolume"), "Music");
         else
@@ -67,17 +68,19 @@ public class ShowSubMenuSettings : CreateSubMenu
             ChangeVolume(SaveWithJSON.LoadFromPictionary<float>("EffectsVolume"), "Effects");
         else
             ChangeVolume(1f, "Effects");
-
+        */
     }
 
     void FirstStart()
     {
+        /*
         if (!SaveWithJSON.CheckKeyInBD("ShowTutorial"))
         {
             SaveWithJSON.SaveInPictionary("ShowTutorial", false);
             //subMenus.ShowWindow("ShowControls");
             //aqui se debe abrir el mostrar controles
         }
+        */
     }
 
 

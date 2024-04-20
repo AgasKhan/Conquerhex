@@ -53,9 +53,22 @@ MonoBehaviour:
     m_Bits: 2113
   playerCharacter: {fileID: 0}
   eventManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
+  loadSystem: {fileID: 11400000, guid: 0b3444fac36361c4abb87eaf11d42e63, type: 2}
   awakeUnityEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 0b3444fac36361c4abb87eaf11d42e63, type: 2}
+        m_TargetAssemblyTypeName: LoadSystem, Assembly-CSharp
+        m_MethodName: MyAwake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   updateUnityEvent:
     m_PersistentCalls:
       m_Calls:
@@ -101,6 +114,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 0b3444fac36361c4abb87eaf11d42e63, type: 2}
+        m_TargetAssemblyTypeName: LoadSystem, Assembly-CSharp
+        m_MethodName: MyDestroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   fsmGameMaganer:
     context: {fileID: 0}
     load:
@@ -117,11 +142,11 @@ MonoBehaviour:
       onExitGamePlayUnityEvent:
         m_PersistentCalls:
           m_Calls: []
-    pause:
-      onPauseUnityEvent:
+    menu:
+      onEnterMenuUnityEvent:
         m_PersistentCalls:
           m_Calls: []
-      onDesPauseUnityEvent:
+      onExitMenuUnityEvent:
         m_PersistentCalls:
           m_Calls: []
     endGame:
@@ -293,18 +318,7 @@ MonoBehaviour:
     dot: 1
     _maxDetects: 1
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 1
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
   lastCombo: 

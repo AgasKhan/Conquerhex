@@ -50,7 +50,7 @@ public class TutorialSubMenu : CreateSubMenu
         DestroyLastButton();
         myDetailsW.SetTexts(item.nameDisplay, item.GetDetails().ToString());
         myDetailsW.SetImage(item.image);
-        lastButton = subMenu.AddComponent<EventsCall>().Set("Iniciar", () => { LoadSystem.instance.Load(item.nameDisplay, true); }, "");
+        //lastButton = subMenu.AddComponent<EventsCall>().Set("Iniciar", () => { LoadSystem.instance.Load(item.nameDisplay, true); }, "");
     }
     void DestroyLastButton()
     {

@@ -48,7 +48,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     protected void Restart(GameObject g)
     {
-        LoadSystem.instance.Reload();
+        //LoadSystem.instance.Reload();
         //refMenu.subMenus.CloseLastWindow();
     }
 

@@ -259,7 +259,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 StopAllCoroutines();
-                LoadSystem.instance.Load("Menu");
+                //LoadSystem.instance.Load("Menu");
             }
 
 

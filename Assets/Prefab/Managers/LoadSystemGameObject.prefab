@@ -85,7 +85,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5643858890388896898}
   - component: {fileID: 5643858890388896903}
-  - component: {fileID: 5643858890388896900}
   - component: {fileID: 5643858890388896901}
   m_Layer: 5
   m_Name: LoadSystemGameObject
@@ -129,40 +128,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &5643858890388896900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5643858890388896638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180731ba1f34e7346b47558dd8499040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadScreen: {fileID: 5643858890388896901}
-  loadPause: 0
-  noSerailizeProperties:
-  - move
-  - audioManager
-  - carlitosPrefab
-  - carlitos
-  saveWithJSON:
-    rid: -2
-  lenguages:
-    read: {fileID: 4900000, guid: 447752d3292416742b1de78015354e77, type: 3}
-    write: {fileID: 4900000, guid: 451758640f63ffc49b69a75e6a2926ad, type: 3}
-    lenguage: Espanol
-    rowSeparator: '
-
-'
-    colSeparator: "\t"
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
 --- !u!114 &5643858890388896901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +144,7 @@ MonoBehaviour:
   textoCarga: {fileID: 5643858890632622204}
   canvasGroup: {fileID: 5643858890388896903}
   transition: 5
+  loadSystem: {fileID: 11400000, guid: 0b3444fac36361c4abb87eaf11d42e63, type: 2}
 --- !u!1 &5643858890440686498
 GameObject:
   m_ObjectHideFlags: 0

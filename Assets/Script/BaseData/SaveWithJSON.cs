@@ -85,6 +85,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
         int index;
 
+        /*
         for (int i = 0; i < LoadSystem.instance.noSerailizeProperties.Length; i++)
         {
             if((index = json.IndexOf("\""+LoadSystem.instance.noSerailizeProperties[i])) > -1)
@@ -92,6 +93,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
                 json = json.Substring(0, index) + json.Substring(json.IndexOf("},", index) + 2);
             }
         }
+        */
 
         Debug.Log(json);
 

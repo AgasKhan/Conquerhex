@@ -86,8 +86,8 @@ public class WavesManager : SingletonMono<WavesManager>
         GameManager.instance.Menu(true);
 
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("Victoria", "Has logrado sobrevivir a todas las oleadas \n\n" + "¿Deseas jugar de nuevo?".RichText("color", "#00ffffff"))
-        .AddButton("Si", () => { LoadSystem.instance.Load("Simulation_Final", true); })
-        .AddButton("No", () => { LoadSystem.instance.Load("MainMenu"); });
+        /*.AddButton("Si", () => { LoadSystem.instance.Load("Simulation_Final", true); })
+        .AddButton("No", () => { LoadSystem.instance.Load("MainMenu"); })*/;
     }
 
 }

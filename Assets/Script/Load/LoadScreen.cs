@@ -15,25 +15,18 @@ public class LoadScreen : MonoBehaviour
     [Range(0.1f,10)]
     public float transition=1;
 
+    [SerializeField]
+    LoadSystem loadSystem;
+
     float fade=1;
 
     public void Progress(float percentage, string message)
     {
-        //revisar
-        //if(pantallaCarga != null)
+        if(percentage>=0)
             pantallaCarga.fillAmount = percentage / 100;
 
-        textoCarga.text = message;
-    }
-
-    public void Progress(string message)
-    {
-        textoCarga.text = message;
-    }
-
-    public void Progress(float percentage)
-    {
-        pantallaCarga.fillAmount = percentage / 100;
+        if(message!=string.Empty)
+            textoCarga.text = message;
     }
 
     public void Open()
@@ -47,13 +40,6 @@ public class LoadScreen : MonoBehaviour
         fade = 0;
     }
 
-    /*
-    private void Awake()
-    {
-        var aux = GetComponentsInChildren<Image>();
-        pantallaCarga = aux[aux.Length - 1];
-    }
-    */
     public IEnumerator LoadImage(System.Action<bool> end, System.Action<string> msg)
     {
         msg("LoadLoadSystem...");
@@ -70,6 +56,10 @@ public class LoadScreen : MonoBehaviour
     private void Awake()
     {
         canvasGroup.alpha = fade;
+
+        loadSystem.onStartLoad += Open;
+        loadSystem.onFeedbackLoad += Progress;
+        loadSystem.onFinishtLoad += Close;
     }
 
     private void Update()
@@ -77,5 +67,12 @@ public class LoadScreen : MonoBehaviour
         canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, fade, Time.deltaTime* transition);
         if(fade==0 && canvasGroup.alpha<0.01f)
             gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        loadSystem.onStartLoad -= Open;
+        loadSystem.onFeedbackLoad -= Progress;
+        loadSystem.onFinishtLoad -= Close;
     }
 }
