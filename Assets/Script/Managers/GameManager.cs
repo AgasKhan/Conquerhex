@@ -33,7 +33,9 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
-    public static Queue<System.Action> eventQueue = new Queue<System.Action>(); 
+    public static Queue<System.Action> eventQueueGamePlay = new Queue<System.Action>();
+
+    public static Queue<System.Action> eventQueueLoad = new Queue<System.Action>();
 
     public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
     public static Pictionarys<MyScripts, UnityAction> update => instance._update;
@@ -140,7 +142,7 @@ public class GameManager : SingletonMono<GameManager>
 
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow(msj, "").AddButton("Reiniciar", Reload).AddButton("Volver a la base", () => Load("Base"));
 
-            eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato.Invoke();
+            eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato?.Invoke();
             
         }).SetUnscaled(true);
 
@@ -172,25 +174,6 @@ public class GameManager : SingletonMono<GameManager>
         {
             item.value();
         }
-
-        /*
-        
-        for (int i = 0; i < update.Count; i++)
-        {
-            update[i]();
-        }
-
-        Task[] tasks = new Task[update.Count];
-
-        for (int i = 0; i < update.Count; i++)
-        {
-            update[i]();
-            int index = i; // Captura de la variable en el contexto del bucle
-            tasks[index] = Task.Run(() => update[index]());
-        }
-
-        Task.WaitAll(tasks);
-        */
     }
 
     void MyUpdate()
@@ -237,14 +220,9 @@ public class GameManager : SingletonMono<GameManager>
     {
         stopwatch.Restart();
 
+        fsmGameMaganer.UpdateState();
+
         updateUnityEvent?.Invoke();
-
-        do
-        {
-            if (eventQueue.TryDequeue(out var action))
-                action();
-
-        } while (eventQueue.Count > 0 && !MediumFrameRate);
     }
 
     private void FixedUpdate()
@@ -255,6 +233,8 @@ public class GameManager : SingletonMono<GameManager>
     private void OnDestroy()
     {
         onDestroyUnityEvent?.Invoke();
+        eventQueueGamePlay.Clear();
+        eventQueueLoad.Clear();
     }
 
     #endregion
@@ -319,6 +299,12 @@ namespace FSMGameManagerLibrary
 
         public void OnStayState(FSMGameMaganer param)
         {
+            do
+            {
+                if (GameManager.eventQueueGamePlay.TryDequeue(out var action))
+                    action();
+
+            } while (GameManager.eventQueueGamePlay.Count > 0 && !GameManager.HightFrameRate);
         }
     }
 
@@ -364,6 +350,12 @@ namespace FSMGameManagerLibrary
 
         public void OnStayState(FSMGameMaganer param)
         {
+            do
+            {
+                if (GameManager.eventQueueLoad.TryDequeue(out var action))
+                    action();
+
+            } while (GameManager.eventQueueLoad.Count > 0 && !GameManager.SlowFrameRate);
         }
     }
 }

@@ -6,7 +6,7 @@ public class FadeColorAttack : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    SpriteRenderer sprite;
+    Renderer sprite;
 
     [SerializeField]
     public Color areaColor;
@@ -82,10 +82,10 @@ public class FadeColorAttack : MonoBehaviour
 
     public Color color
     {
-        get => sprite.color;
+        get => text.color;
         set
         {
-            sprite.color = value;
+            sprite.material.SetColor("_Color", value);
             text.color = value;
         }
     } 
@@ -166,7 +166,7 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack Area(float max, float min=0)
     {
-        transform.localScale = Vector3.one * 1.4f * max;
+        transform.localScale = Vector3.one * max;
         area = "MaxRadius: " + max.ToStringFixed();
         InternalArea(min);
 
@@ -191,5 +191,7 @@ public class FadeColorAttack : MonoBehaviour
         color = areaColor.ChangeAlphaCopy(0);
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);
+
+        text.transform.rotation *= Quaternion.Euler(0, 0, Random.Range(0,360));
     }
 }

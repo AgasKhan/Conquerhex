@@ -4,25 +4,18 @@ using UnityEngine;
 using ComponentsAndContainers;
 public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObject //, IItemContainer
 {
-    //public Pictionarys<string,LogicActive> interact; //funciones de un uso para la interaccion
-
     [SerializeReference]
     public List<Item> inventory = new List<Item>();
 
     [SerializeReference]
-    public List<(string, int)> visualItems = new List<(string,int)>();
+    public List<(string name, int index)> visualItems = new List<(string,int)>();
     
     [SerializeField]
     public OrderedList<Item> orderedItems = new OrderedList<Item>();
 
-    [SerializeField]
-    public OrderedList<int> orderedItems2 = new OrderedList<int>();
-
     public virtual float weightCapacity => container.flyweight.GetFlyWeight<BodyBase>().weightCapacity;
 
     public float currentWeight = 0f;
-
-    //Pictionarys<string, LogicActive> actions; //funciones de un uso para cuestiones internas
 
     public override void OnEnterState(Entity param)
     {
@@ -79,7 +72,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
 
 
     /// <summary>
-    /// Funcion que sera llamada de forma automatica por el Change Container <br/>
+    /// Funcion que sera llamada de forma automatica por el Item <br/>
     /// NO UTILIZAR PARA OTROS FINES
     /// </summary>
     /// <param name="item"></param>
@@ -104,7 +97,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
 
                 for (int i = 0; i < count; i++)
                 {
-                    item.GetAmounts(i, out int actual, out int max);
+                    item.GetAmounts(i, out int actual);
                     orderedItems[indx].AddAmount(-1, actual, out int rst);
 
                     visualItems.Add((item.nameDisplay, orderedItems[indx].GetCount() - 1));
@@ -120,7 +113,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
     }
 
     /// <summary>
-    /// Funcion que sera llamada de forma automatica por el Change Container <br/>
+    /// Funcion que sera llamada de forma automatica por el Item <br/>
     /// NO UTILIZAR PARA OTROS FINES
     /// </summary>
     /// <param name="item"></param>
@@ -128,7 +121,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
     {
         if (item is Resources_Item)
         {
-            if (!orderedItems.Contains(item, out int indx))
+            if (!orderedItems.Contains(item))
             {
                 Debug.LogError("No contiene el item");
             }
@@ -138,7 +131,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
 
                 for (int i = visualItems.Count - 1; i >= 0; i--)
                 {
-                    if (visualItems[i].Item1 == item.nameDisplay)
+                    if (visualItems[i].name == item.nameDisplay)
                         visualItems.RemoveAt(i);
                 }
             }
@@ -156,22 +149,22 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
             {
                 for (int i = visualItems.Count - 1; i >= 0; i--)
                 {
-                    if (visualItems[i].Item1 == item.nameDisplay && visualItems[i].Item2 == aux)
+                    if (visualItems[i].name == item.nameDisplay)
                     {
-                        visualItems.RemoveAt(i);
-                        inventory.RemoveAt(aux);
-                        return;
+                        if(visualItems[i].index == aux)
+                        {
+                            visualItems.RemoveAt(i);
+                            inventory.RemoveAt(aux);
+                        }
+                        else if(visualItems[i].Item2>aux)
+                        {
+                            visualItems[i] =(visualItems[i].name, visualItems[i].index-1);
+                        }
                     }
                 }
             }
         }
     }
-
-    void RefresVisualItems()
-    {
-
-    }
-
 
     public void AddOrSubstractItems(string itemName, int amount)
     {

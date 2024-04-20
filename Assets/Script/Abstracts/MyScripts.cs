@@ -22,7 +22,7 @@ public abstract class MyScripts : MonoBehaviour
         {
             _update += value;
             if (gameObject.activeSelf)
-                GameManager.eventQueue.Enqueue(SaveUpdate);
+                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
         }
         remove
         {
@@ -30,11 +30,11 @@ public abstract class MyScripts : MonoBehaviour
 
 
             if (gameObject.activeSelf)
-                GameManager.eventQueue.Enqueue(SaveUpdate);
+                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
 
             if (_update == null)
             {
-                GameManager.eventQueue.Enqueue(RemoveUpdate);
+                GameManager.eventQueueGamePlay.Enqueue(RemoveUpdate);
             }
 
         }
@@ -46,18 +46,18 @@ public abstract class MyScripts : MonoBehaviour
         {
             _fixedUpdate += value;
             if (gameObject.activeSelf)
-                GameManager.eventQueue.Enqueue(SaveFixedUpdate);
+                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
         }
         remove
         {
             _fixedUpdate -= value;
 
             if (gameObject.activeSelf)
-                GameManager.eventQueue.Enqueue(SaveFixedUpdate);
+                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
 
             if (_fixedUpdate == null)
             {
-                GameManager.eventQueue.Enqueue(RemoveFixedUpdate);
+                GameManager.eventQueueGamePlay.Enqueue(RemoveFixedUpdate);
             }
         }
     }
@@ -145,7 +145,7 @@ public abstract class MyScripts : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.eventQueue.Enqueue(()=>
+        GameManager.eventQueueGamePlay.Enqueue(()=>
             {
                 MyOnEnables?.Invoke();
 
@@ -166,7 +166,7 @@ public abstract class MyScripts : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.eventQueue.Enqueue(() =>
+        GameManager.eventQueueGamePlay.Enqueue(() =>
         {
             MyOnDisables?.Invoke();
             RemoveUpdate();

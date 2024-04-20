@@ -270,9 +270,10 @@ public class IAIO : IAFather
     private void Awake()
     {
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
-        LoadSystem.AddPreLoadCorutine(() => {
+        
+        /*LoadSystem.AddPreLoadCorutine(() => {
             OnExitState(character);
-        });
+        });*/
 
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
 

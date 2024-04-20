@@ -74,6 +74,81 @@ public abstract class Item : IShowDetails, IComparable<Item>
 
     public virtual bool visible => _itemBase.visible;
 
+    protected abstract void Init();
+
+    public abstract Item SetItemBase(object baseItem);
+
+    public override string ToString()
+    {
+        return nameDisplay + "\n\n" + GetDetails().ToString(": ", "\n") + "\n";
+    }
+
+    public virtual void Destroy()
+    {
+        onDrop?.Invoke();
+
+        container.inventory.Remove(this);
+
+        container = null;
+    }
+    public virtual Pictionarys<string, string> GetDetails()
+    {
+        return _itemBase.GetDetails();
+    }
+
+    public virtual Item Create()
+    {
+        var aux = _itemBase.Create();
+        aux.Init(container);
+        return aux;
+    }
+
+    public virtual void GetAmounts(int index, out int actual)
+    {
+        actual = 1;
+    }
+
+    public virtual int GetCount()
+    {
+        return 1;
+    }
+
+    public int GetCount(out int maxAmountCount)
+    {
+        maxAmountCount = _itemBase.maxAmount;
+        return GetCount();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <returns>Cuantos items me sobraron desp de apilarlos</returns>
+    public virtual Item AddAmount(int index, int amount, out int resto)
+    {
+        resto = amount;
+
+        return this;
+    }
+
+    public virtual void Unequip()
+    {
+
+    }
+
+    public ItemBase GetItemBase()
+    {
+        return _itemBase;
+    }
+
+    public int CompareTo(Item obj)
+    {
+        if (obj == null)
+            return 1;
+
+        return string.Compare(nameDisplay, obj.nameDisplay);
+    }
+
     public bool HaveSameContainer(InventoryEntityComponent container)
     {
         return container == this.container;
@@ -82,21 +157,6 @@ public abstract class Item : IShowDetails, IComparable<Item>
     public bool HaveSameContainer(Item item)
     {
         return item.container == this.container;
-    }
-
-    public virtual Pictionarys<string, string> GetDetails()
-    {
-        return _itemBase.GetDetails();
-    }
-
-    public void Init(InventoryEntityComponent inventoryEntityComponent)
-    {
-        if (container != null)
-            return;
-
-        container = inventoryEntityComponent;
-        container.InternalAddItem(this);
-        Init();
     }
 
     public void ChangeContainer(InventoryEntityComponent inventoryEntityComponent)
@@ -115,70 +175,14 @@ public abstract class Item : IShowDetails, IComparable<Item>
         container.InternalAddItem(this);
     }
 
-    public virtual void Destroy()
+    public void Init(InventoryEntityComponent inventoryEntityComponent)
     {
-        onDrop?.Invoke();
+        if (container != null)
+            return;
 
-        container.inventory.Remove(this);
-
-        container = null;
-    }
-
-    public virtual void Unequip()
-    {
-
-    }
-
-    protected abstract void Init();
-
-    public abstract Item SetItemBase(object baseItem);
-
-    public virtual Item Create()
-    {
-        var aux = _itemBase.Create();
-        aux.Init(container);
-        return aux;
-    }
-
-    public virtual void GetAmounts(int index, out int actual, out int max)
-    {
-        max = _itemBase.maxAmount;
-        actual = 1;
-    }
-
-    public virtual int GetCount()
-    {
-        return 1;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="amount"></param>
-    /// <returns>Cuantos items me sobraron desp de apilarlos</returns>
-    public virtual Item AddAmount(int index, int amount, out int resto)
-    {
-        resto = amount;
-
-        return this;
-    }
-
-    public ItemBase GetItemBase()
-    {
-        return _itemBase;
-    }
-
-    public override string ToString()
-    {
-        return nameDisplay + "\n\n" + GetDetails().ToString(": ", "\n") + "\n";
-    }
-
-    public int CompareTo(Item obj)
-    {
-        if (obj == null)
-            return 1;
-
-        return string.Compare(nameDisplay, obj.nameDisplay);
+        container = inventoryEntityComponent;
+        container.InternalAddItem(this);
+        Init();
     }
 }
 
@@ -238,9 +242,8 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
         return this;
     }
 
-    public override void GetAmounts(int index, out int actual, out int max)
+    public override void GetAmounts(int index, out int actual)
     {
-        max = itemBase.maxAmount;
         actual = stacks[index];
     }
 

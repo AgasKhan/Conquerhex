@@ -106,6 +106,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             }
         }
 
+        instance.StopAllCoroutines();
+
         instance.StartCoroutine(SetProyectionRoutine(hex, lado, arista));
     }
 
@@ -115,8 +117,14 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         if (index < 0)
             index = 5;
+        else if (index > 5)
+            index = 0;
+
+        hex.ladosArray[index].SetActiveGameObject(true);
 
         //Debug.Log($"Tu lado a cargar es: {index} - {lado} {arista}" );
+
+        /*
 
         for (int i = 0; i < hex.ladosArray.Length; i++)
         {
@@ -127,9 +135,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
             index++;
 
-            if (GameManager.MediumFrameRate)
+            if (GameManager.HightFrameRate)
                 yield return null;
         }
+        */
 
         for (int i = activeHex.Count - 1; i >= 0; i--)
         {
@@ -150,8 +159,12 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 activeHex[i].SetActiveGameObject(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
                 activeHex.RemoveAt(i);
             }
+            else
+            {
+                activeHex[i].SetActiveGameObject(true);
+            }
             
-            if(GameManager.MediumFrameRate)
+            if(GameManager.HightFrameRate)
                 yield return null;
         }
     }

@@ -49,6 +49,9 @@ public class CircularTextMeshPro : MonoBehaviour
     [ContextMenu("Refresh radius")]
     protected void OnCurvePropertyChanged()
     {
+        if(m_TextComponent==null)
+            m_TextComponent = gameObject.GetComponent<TextMeshProUGUI>();
+
         UpdateTextCurve(m_TextComponent.textInfo);
         m_TextComponent.ForceMeshUpdate();
     }
