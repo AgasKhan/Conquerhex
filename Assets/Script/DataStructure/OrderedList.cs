@@ -11,7 +11,7 @@ using System;
 public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : IComparable
 {
     [SerializeField]
-    List<T> ts = new List<T>();
+    List<T> ts;
 
     new public void Add(T item)
     {
@@ -50,13 +50,12 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     {
         Clear();
         AddRange(ts);
-        ts.TrimExcess();
         TrimExcess();
+        ts = null;
     }
 
     public void OnBeforeSerialize()
     {
-        ts.Clear();
-        ts.AddRange(this);
+        ts = new List<T>(this);
     }
 }
