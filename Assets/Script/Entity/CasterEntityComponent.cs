@@ -118,7 +118,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         aux.Init(inventoryEntity);
 
-        katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.Count - 1;
+        katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.IndexOf(aux);
 
         var aux2 = flyweight.kataCombos[index].weapon.Create();
 
@@ -126,7 +126,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 
-        katasCombo.actual.equiped.ChangeWeapon(inventoryEntity.inventory[^1]);
+        katasCombo.actual.equiped.ChangeWeapon(aux2);
 
         //katasCombo.actual.equiped.onCast += AttackEvent;//ver como mejorar
     }
