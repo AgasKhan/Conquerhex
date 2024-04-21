@@ -18,7 +18,7 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     /// es mas lento que una lista a la hora de aniadir
     /// </summary>
     /// <param name="item"></param>
-    new public void Add(T item)
+    new public int Add(T item)
     {
         int index = BinarySearch(item);
 
@@ -30,6 +30,8 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
         }
 
         Insert(index, item);
+
+        return index;
     }
 
     /// <summary>
@@ -108,7 +110,7 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     /// </summary>
     /// <param name="item"></param>
     /// <returns></returns>
-    new public bool Remove(T item)
+    new public int Remove(T item)
     {
         if (Contains(item, out int start, out int end))
         {
@@ -117,12 +119,12 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
                 if(item.Equals(this[i]))
                 {
                     RemoveAt(i);
-                    return true;
+                    return i;
                 }   
             }
         }
 
-        return false;
+        return -1;
     }
 
     public void OnAfterDeserialize()

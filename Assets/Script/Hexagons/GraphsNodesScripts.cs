@@ -13,6 +13,9 @@ namespace GraphNodesLibrary
         [SerializeField]
         int[] entradas;
 
+        [SerializeField, Range(1,Graph.aristasPorConjunto)]
+        int nodosMaximos;
+
         [SerializeReference]
         Graph graph;
 
@@ -20,7 +23,7 @@ namespace GraphNodesLibrary
 
         void Generar()
         {
-            graph = new Graph(cantidad, entradas);
+            graph = new Graph(cantidad, nodosMaximos ,entradas);
             StartCoroutine(graph.Calculate());
         }
 
@@ -67,7 +70,12 @@ namespace GraphNodesLibrary
 
         public const int aristasPorConjunto = 6;
 
-        GraphNode entry = new GraphNode(-1);//auxiliar para setear un nodo salida que luego sera remplazado en cada caso
+        int maxNodesPerConjunto;
+
+        /// <summary>
+        /// auxiliar para setear un nodo salida que luego sera remplazado en cada caso
+        /// </summary>
+        GraphNode entry = new GraphNode(-1);
 
         int LadoOpuesto(int edge)
         {
@@ -154,7 +162,7 @@ namespace GraphNodesLibrary
             {
                 conjuntosNodes[i] = new List<GraphNode>();
 
-                int rng = Random.Range(1, 6);
+                int rng = Random.Range(1, maxNodesPerConjunto+1);
 
                 for (int j = 0; j < rng; j++)
                 {
@@ -278,7 +286,7 @@ namespace GraphNodesLibrary
         }
 
 
-        public Graph(int cantidad, params int[] entradas)
+        public Graph(int cantidad, int nodosMaximosPorConjunto ,params int[] entradas)
         {
             entriesNodes = new GraphNode[entradas.Length];
 
@@ -288,13 +296,12 @@ namespace GraphNodesLibrary
 
             edgesDisponibles = new int[aristasPorConjunto];
 
+            maxNodesPerConjunto = Mathf.Clamp(nodosMaximosPorConjunto,1,aristasPorConjunto);
+
             for (int i = 0; i < entradas.Length; i++)
             {
                 entriesEdges[i] = entradas[i];
             }
-
-           
-
         }
     }
 
