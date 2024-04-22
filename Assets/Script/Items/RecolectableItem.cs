@@ -2,33 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecolectableItem : InventoryEntityComponent
+public class RecolectableItem : MonoBehaviour
 {
     [SerializeField]
     SpriteRenderer mySprite;
 
-    ResourcesBase_ItemBase itemBase;
+    ItemBase myItemBase;
+    Item myItem;
 
-    public float weight => itemBase.weight;
+    public float weight => myItemBase.weight;
 
     Timer recolect;
 
+    public InventoryEntityComponent inventory;
     InventoryEntityComponent referenceToTravel;
 
     Hexagone hex;
 
     void Awake()
     {
-        recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 10, Vector3.Slerp, (pos) => transform.position = pos)
-        .AddToUpdate(() =>
-        {
-            if ((weight + referenceToTravel.WeightCapacity) > referenceToTravel.WeightCapacity)
-                recolect.Stop().SetInitCurrent(0);
-        })
+        recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 0.85f, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToEnd(() =>
         {
-            referenceToTravel.AddAllItems(this);
-            gameObject.SetActive(false);
+            myItem.Init(referenceToTravel);
+            transform.gameObject.SetActive(false);
+            Debug.Log("------------------------------------------\nItem Recogido");
         })
         .Stop().SetInitCurrent(0);
     }
@@ -59,25 +57,25 @@ public class RecolectableItem : InventoryEntityComponent
         //Debug.Log("me quiere recoger: " + entity.name);
 
         referenceToTravel = entity;
+        referenceToTravel.onChangeDisponiblity += ChangeDisponiblity;
         recolect.Reset();
+        myItem = myItemBase.Create();
     }
 
-    public void CopyFrom(RecolectableItem other)
+    private void ChangeDisponiblity(InventoryEntityComponent obj)
     {
-        //AddAllItems(other.inventory);
+        if(referenceToTravel.HasCapacity(myItem))
+        {
+            recolect.Stop().SetInitCurrent(0);
+            referenceToTravel.onChangeDisponiblity -= ChangeDisponiblity;
+        }
     }
 
-
-    public void Init(ResourcesBase_ItemBase item)
+    public void Init(ItemBase item)
     {
-        //health.Init(item.structure.life, item.structure.regen);
-
         mySprite.sprite = item.image;
 
-        AddOrSubstractItems(item.nameDisplay, 1);
-
-        itemBase = item;
-
+        myItemBase = item;
         hex = GetComponentInParent<Hexagone>();
     }
 }

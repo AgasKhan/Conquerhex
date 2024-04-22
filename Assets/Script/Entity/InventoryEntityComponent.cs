@@ -4,22 +4,11 @@ using UnityEngine;
 using ComponentsAndContainers;
 public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable<Item> , ISaveObject //, IItemContainer
 {
-
     public event System.Action<InventoryEntityComponent> onChangeDisponiblity;
 
-    [SerializeReference]
-    public List<(string name, int index)> visualItems = new List<(string,int)>();
-    
-    /*
     [SerializeField]
     public List<Vector2Int> visualItems = new List<Vector2Int>();
-    */
-
-    /*
-    [SerializeReference]
-    public List<(int index, int indexStack)> visualItems = new List<(int, int)>();
-    */
-
+    
     [SerializeField]
     OrderedList<Item> inventory = new OrderedList<Item>();
 
@@ -53,7 +42,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
     public override void OnEnterState(Entity param)
     {
-        flyweight = param.flyweight.GetFlyWeight<BodyBase>();
+        flyweight = param.flyweight?.GetFlyWeight<BodyBase>();
     }
 
     public override void OnStayState(Entity param)
@@ -112,35 +101,40 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     /// NO UTILIZAR PARA OTROS FINES
     /// </summary>
     /// <param name="item"></param>
-    public void InternalAddItem(Item item)
+    public int InternalAddItem(Item item)
     {
-        if (item is Resources_Item)
+        if (!(item is Resources_Item))
         {
-            if (!inventory.Contains(item, out int indx))
-            {
-                inventory.Add(item);
+            var orderedIndex = inventory.Add(item);
+            if (item.visible)
+                visualItems.Add(new Vector2Int(orderedIndex, -1));
 
-                for (int i = 0; i < item.GetStackCount(); i++)
-                {
-                    visualItems.Add((item.nameDisplay, i));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < item.GetStackCount(); i++)
-                {
-                    item.GetAmounts(i, out int actual);
-                    inventory[indx].AddAmount(-1, actual, out int rst);
+            return orderedIndex;     
+        }
 
-                    visualItems.Add((item.nameDisplay, inventory[indx].GetStackCount() - 1));
-                }
+
+        if (!inventory.Contains(item, out int indx))
+        {
+            int orderedIndex = inventory.Add(item);
+
+            for (int i = 0; i < item.GetStackCount(); i++)
+            {
+                visualItems.Add(new Vector2Int(orderedIndex, i));
             }
+
+            return orderedIndex;
         }
         else
         {
-            var aux = inventory.Add(item);
-            if (item.visible)
-                visualItems.Add((item.nameDisplay, aux));
+            for (int i = 0; i < item.GetStackCount(); i++)
+            {
+                item.GetAmounts(i, out int actual);
+                inventory[indx].AddAmount(-1, actual, out int rst);
+
+                visualItems.Add(new Vector2Int(indx, inventory[indx].GetStackCount() - 1));
+            }
+
+            return indx;
         }
     }
 
@@ -149,64 +143,49 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     /// NO UTILIZAR PARA OTROS FINES
     /// </summary>
     /// <param name="item"></param>
-    public void InternalRemoveItem(Item item)
+    public int InternalRemoveItem(Item item)
     {
-        if (item is Resources_Item)
+        int indexOrder = inventory.Remove(item);
+
+        if (indexOrder == -1)
         {
-            if (inventory.Remove(item) == -1)
+            Debug.LogError("No contiene el item");
+            return -1;
+        }
+
+        if (!item.visible)
+        {
+            RefreshOrderedList(indexOrder);
+            return indexOrder;
+        }
+
+        int aux = visualItems.Count - 1;
+        for (; aux >= 0; aux--)
+        {
+            if (visualItems[aux].x == indexOrder)
             {
-                Debug.LogError("No contiene el item");
-            }
-            else
-            {
-                for (int i = visualItems.Count - 1; i >= 0; i--)
-                {
-                    if (visualItems[i].name == item.nameDisplay)
-                        visualItems.RemoveAt(i);
-                }
+                visualItems.RemoveAt(aux);
+                if (!(item is Resources_Item))
+                    break;
             }
         }
-        else
+
+        RefreshOrderedList(indexOrder);
+        return indexOrder;
+    }
+
+    void RefreshOrderedList(int orderIndex)
+    {
+        for (int i = 0; i < visualItems.Count -1; i++)
         {
-            var aux = inventory.Remove(item);
-            if (item.visible && aux == -1)
-            {
-                Debug.LogError("No contiene el item");
-                return;
-            }
-
-            List<int> buffer = new List<int>();
-            for (int i = visualItems.Count - 1; i >= 0; i--)
-            {
-                if (visualItems[i].name == item.nameDisplay)
-                    buffer.Add(i);
-            }
-
-            foreach (var number in buffer)
-            {
-                if (visualItems[number].index == aux)
-                {
-                    visualItems.RemoveAt(number);
-                    buffer.Remove(number);
-                    break;
-                }
-            }
-
-            if (inventory.Contains(item, out int start, out int end))
-            {
-                var indexer = start;
-
-                foreach (var number in buffer)
-                {
-                    visualItems[number] = (item.nameDisplay, inventory.IndexOf(inventory[indexer]));
-                    indexer++;
-                }
-            }
+            if (visualItems[i].x > orderIndex)
+                visualItems[i] = new Vector2Int(visualItems[i].x - 1, visualItems[i].y);
         }
     }
+
     public void AddItem(Item item)
     {
-        if(HasCapacity (container.flyweight.weight, container.flyweight.GetFlyWeight<BodyBase>().weightCapacity, item))
+        if(HasCapacity(item))
         {
             item.ChangeContainer(this);
         }
@@ -218,6 +197,10 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         {
             item.ChangeContainer(inventory);
         }
+    }
+    public bool HasCapacity(params Item[] items)
+    {
+        return HasCapacity(container.flyweight.weight, container.flyweight.GetFlyWeight<BodyBase>().weightCapacity, items);
     }
 
     bool HasCapacity(float actualWeight, float weightCapacity, params Item[] items)

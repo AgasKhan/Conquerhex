@@ -87,7 +87,7 @@ public abstract class Item : IShowDetails, IComparable<Item>
     {
         onDrop?.Invoke();
 
-        //container.inventory.Remove(this);
+        container.InternalRemoveItem(this);
 
         container = null;
     }
@@ -180,14 +180,16 @@ public abstract class Item : IShowDetails, IComparable<Item>
         container.InternalAddItem(this);
     }
 
-    public void Init(InventoryEntityComponent inventoryEntityComponent)
+    public int Init(InventoryEntityComponent inventoryEntityComponent)
     {
         if (container != null)
-            return;
+            return -1;
 
         container = inventoryEntityComponent;
-        container.InternalAddItem(this);
+        var aux = container.InternalAddItem(this);
         Init();
+
+        return aux;
     }
 }
 

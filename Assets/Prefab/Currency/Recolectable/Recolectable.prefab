@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8155588718149302041}
   - component: {fileID: 3849503840052946532}
+  - component: {fileID: 7715330815073680013}
   - component: {fileID: 7952715998685505811}
   m_Layer: 6
   m_Name: Recolectable
@@ -47,12 +48,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b69541b12351444aa9d594b53532e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  currentWeight: 0
-  travelItem: []
   mySprite: {fileID: 5196309304934902380}
-  referenceToTravel: {fileID: 0}
-  hex: {fileID: 0}
+  inventory: {fileID: 7715330815073680013}
+--- !u!114 &7715330815073680013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790657688179249189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualItems: []
+  inventory:
+    ts: []
+  _currentWeight: 0
+  flyweight: {fileID: 0}
   references:
     version: 2
     RefIds: []
