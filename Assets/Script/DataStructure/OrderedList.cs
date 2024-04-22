@@ -52,8 +52,17 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     /// <returns>Retorna verdadero en caso que se encuentre</returns>
     public bool Contains(T item, out int index)
     {
-        index = BinarySearch(item);
-        return index >= 0;
+        if(Contains(item, out index, out var end))
+        {
+            for (; index <= end; index++)
+            {
+                if(item.Equals(this[index]))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /// <summary>
