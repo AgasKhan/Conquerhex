@@ -118,7 +118,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         aux.Init(inventoryEntity);
 
-        katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.IndexOf(aux);
+        //katasCombo.actual.indexEquipedItem = inventoryEntity.inventory.IndexOf(aux);
 
         var aux2 = flyweight.kataCombos[index].weapon.Create();
 

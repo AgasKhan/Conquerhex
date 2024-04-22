@@ -55,17 +55,17 @@ public class InventorySubMenu : CreateSubMenu
             CreateUnequipButton(slotItem);
         }
 
-        for (int i = 0; i < character.inventory.inventory.Count; i++)
+        for (int i = 0; i < character.inventory.Count; i++)
         {
-            if (filterType != null && !filterType.IsAssignableFrom(character.inventory.inventory[i].GetType()))
+            if (filterType != null && !filterType.IsAssignableFrom(character.inventory[i].GetType()))
                 continue;
             
-            if (character.inventory.inventory[i] is Ability && ((Ability)character.inventory.inventory[i]).IsCopy)
+            if (character.inventory[i] is Ability && ((Ability)character.inventory[i]).IsCopy)
                 continue;
             
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
-            var item = character.inventory.inventory[i];
+            var item = character.inventory[i];
 
             var index = i;
 

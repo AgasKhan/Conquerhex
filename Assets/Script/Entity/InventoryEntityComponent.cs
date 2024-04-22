@@ -2,20 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ComponentsAndContainers;
-public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObject //, IItemContainer
+public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable<Item> , ISaveObject //, IItemContainer
 {
+
+    public event System.Action<InventoryEntityComponent> onChangeDisponiblity;
+
     [SerializeReference]
     public List<(string name, int index)> visualItems = new List<(string,int)>();
     
+    /*
     [SerializeField]
-    public OrderedList<Item> inventory = new OrderedList<Item>();
+    public List<Vector2Int> visualItems = new List<Vector2Int>();
+    */
 
-    public virtual float weightCapacity => container.flyweight.GetFlyWeight<BodyBase>().weightCapacity;
+    /*
+    [SerializeReference]
+    public List<(int index, int indexStack)> visualItems = new List<(int, int)>();
+    */
 
-    public float currentWeight = 0f;
+    [SerializeField]
+    OrderedList<Item> inventory = new OrderedList<Item>();
+
+    [SerializeField]
+    float _currentWeight = 0f;
+
+    [SerializeField]
+    BodyBase flyweight;
+
+    public int Count => inventory.Count;
+
+    public virtual float WeightCapacity => flyweight.weightCapacity;
+
+    public float CurrentWeight
+    {
+        get => _currentWeight;
+        set
+        {
+            _currentWeight = value;
+            onChangeDisponiblity?.Invoke(this);
+        }
+    }
+
+    public Item this[int index]
+    {
+        get
+        {
+            return inventory[index];
+        }
+    }
 
     public override void OnEnterState(Entity param)
     {
+        flyweight = param.flyweight.GetFlyWeight<BodyBase>();
     }
 
     public override void OnStayState(Entity param)
@@ -25,6 +63,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
     public override void OnExitState(Entity param)
     {
         container = null;
+        flyweight = null;
     }
 
     public bool Contains(Item item)
@@ -45,7 +84,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
         for (int i = items.Count - 1; i >= 0; i--)
         {
             items[i].ChangeContainer(this);
-            currentWeight += items[i].GetItemBase().weight;
+            CurrentWeight += items[i].GetItemBase().weight * items[i].GetCount();
             items.Remove(items[i]);
         }
 
@@ -81,19 +120,19 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
             {
                 inventory.Add(item);
 
-                for (int i = 0; i < item.GetCount(); i++)
+                for (int i = 0; i < item.GetStackCount(); i++)
                 {
                     visualItems.Add((item.nameDisplay, i));
                 }
             }
             else
             {
-                for (int i = 0; i < item.GetCount(); i++)
+                for (int i = 0; i < item.GetStackCount(); i++)
                 {
                     item.GetAmounts(i, out int actual);
                     inventory[indx].AddAmount(-1, actual, out int rst);
 
-                    visualItems.Add((item.nameDisplay, inventory[indx].GetCount() - 1));
+                    visualItems.Add((item.nameDisplay, inventory[indx].GetStackCount() - 1));
                 }
             }
         }
@@ -189,7 +228,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
             if (item is Resources_Item)
             {
                 var resource = item as Resources_Item;
-                for (int i = 0; i < resource.GetCount(); i++)
+                for (int i = 0; i < resource.GetStackCount(); i++)
                 {
                     resource.GetAmounts(i, out int actual);
                     totalWeight += resource.itemBase.weight * actual;
@@ -266,6 +305,12 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
         */
     }
 
+    public void Clear()
+    {
+        inventory.Clear();
+        visualItems.Clear();
+    }
+
     public string Save()
     {
         return JsonUtility.ToJson(this);
@@ -274,6 +319,16 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>, ISaveObjec
     public void Load(string str)
     {
         JsonUtility.FromJsonOverwrite(str, this);
+    }
+
+    public IEnumerator<Item> GetEnumerator()
+    {
+        return ((IEnumerable<Item>)inventory).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return ((IEnumerable)inventory).GetEnumerator();
     }
 }
 
@@ -306,9 +361,9 @@ public class SlotItem
         {
             _indexEquipedItem = value;
 
-            if (_indexEquipedItem >= 0 && _indexEquipedItem < inventoryComponent.inventory.Count)
+            if (_indexEquipedItem >= 0 && _indexEquipedItem < inventoryComponent.Count)
             {
-                _equiped = inventoryComponent.inventory[_indexEquipedItem];
+                _equiped = inventoryComponent[_indexEquipedItem];
             }
             else
             {

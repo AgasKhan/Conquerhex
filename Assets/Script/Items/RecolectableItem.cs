@@ -22,7 +22,7 @@ public class RecolectableItem : InventoryEntityComponent
         recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 10, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToUpdate(() =>
         {
-            if ((weight + referenceToTravel.weightCapacity) > referenceToTravel.weightCapacity)
+            if ((weight + referenceToTravel.WeightCapacity) > referenceToTravel.WeightCapacity)
                 recolect.Stop().SetInitCurrent(0);
         })
         .AddToEnd(() =>
@@ -64,7 +64,7 @@ public class RecolectableItem : InventoryEntityComponent
 
     public void CopyFrom(RecolectableItem other)
     {
-        AddAllItems(other.inventory);
+        //AddAllItems(other.inventory);
     }
 
 

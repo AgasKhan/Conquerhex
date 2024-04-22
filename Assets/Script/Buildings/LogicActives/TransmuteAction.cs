@@ -31,7 +31,7 @@ public class TransmuteAction : InteractAction<(Character character, MeleeWeaponB
 
             List<MeleeWeapon> crafteableItems = new List<MeleeWeapon>();
 
-            foreach (var item in menu.myCharacter.inventory.inventory)
+            foreach (var item in menu.myCharacter.inventory)
             {
                 if (item is MeleeWeapon)
                     crafteableItems.Add(item as MeleeWeapon);

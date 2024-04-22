@@ -87,7 +87,7 @@ public abstract class Item : IShowDetails, IComparable<Item>
     {
         onDrop?.Invoke();
 
-        container.inventory.Remove(this);
+        //container.inventory.Remove(this);
 
         container = null;
     }
@@ -106,6 +106,11 @@ public abstract class Item : IShowDetails, IComparable<Item>
     public virtual void GetAmounts(int index, out int actual)
     {
         actual = 1;
+    }
+
+    public virtual int GetStackCount()
+    {
+        return 1;
     }
 
     public virtual int GetCount()
@@ -217,6 +222,9 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
     [SerializeField]
     List<int> stacks = new List<int>();
 
+    [SerializeField]
+    int _count;
+
     public override Item AddAmount(int index, int amount, out int resto)
     {
         if (index < 0)
@@ -239,6 +247,9 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
             resto = stacks[index];
         }
 
+        _count += amount-resto;
+
+
         return this;
     }
 
@@ -247,9 +258,14 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
         actual = stacks[index];
     }
 
-    public override int GetCount()
+    public override int GetStackCount()
     {
         return stacks.Count;
+    }
+
+    public override int GetCount()
+    {
+        return _count;
     }
 
     public override Pictionarys<string, string> GetDetails()

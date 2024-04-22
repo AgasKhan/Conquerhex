@@ -70,10 +70,10 @@ public class StatisticsSubMenu : CreateSubMenu
             CreateGenericButton(charac.caster.abilities[i], "Equip Ability",
             (_slotItem, _index) =>
             {
-                var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent.inventory[_index]).CreateCopy();
+                var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy();
                 abilityCopy.Init(_slotItem.inventoryComponent);
-                _slotItem.inventoryComponent.inventory.Add(abilityCopy);
-                _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
+                //_slotItem.inventoryComponent.Add(abilityCopy);
+                _slotItem.indexEquipedItem = _slotItem.inventoryComponent.Count - 1;
                 subMenu.TriggerOnClose();
             });
         }
@@ -112,6 +112,7 @@ public class StatisticsSubMenu : CreateSubMenu
         System.Type filterKata = typeof(WeaponKata);
 
         UnityEngine.Events.UnityAction actionKata;
+        /////////////////////////////////////////////////
         UnityEngine.Events.UnityAction actionWeapon;
 
         string nameWeapon = "Equip Weapon";
@@ -136,16 +137,16 @@ public class StatisticsSubMenu : CreateSubMenu
 
         System.Action<SlotItem, int> equipKataAction = (_slotItem, _index) =>
         {
-            var kataCopy = ((WeaponKata)_slotItem.inventoryComponent.inventory[_index]).CreateCopy();
+            var kataCopy = ((WeaponKata)_slotItem.inventoryComponent[_index]).CreateCopy();
             kataCopy.Init(_slotItem.inventoryComponent);
-            _slotItem.inventoryComponent.inventory.Add(kataCopy);
-            _slotItem.indexEquipedItem = _slotItem.inventoryComponent.inventory.Count - 1;
+            //_slotItem.inventoryComponent.Add(kataCopy);
+            _slotItem.indexEquipedItem = _slotItem.inventoryComponent.Count - 1;
             subMenu.TriggerOnClose();
         };
 
         System.Action<SlotItem, int> equipWeaponAction = (_slotItem, _index) =>
         {
-            (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent.inventory[_index]);
+            (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent[_index]);
             subMenu.TriggerOnClose();
         };
 

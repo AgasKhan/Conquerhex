@@ -33,7 +33,7 @@ public class TurretBuild : BarrierBuild
         attack.katasCombo[2].indexEquipedItem = -1;
 
         transform.GetComponent<Collider2D>().isTrigger = true;
-        invent.inventory.Clear();
+        invent.Clear();
         originalAbility = "";
     }
 
