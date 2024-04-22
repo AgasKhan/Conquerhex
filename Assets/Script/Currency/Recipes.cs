@@ -18,7 +18,7 @@ public class Recipes : ItemBase
     {
         foreach (var ingredient in materials)
         {
-            if (container.ItemCount(ingredient.Item.nameDisplay) < ingredient.Amount)
+            if (container.ItemCount(ingredient.Item) < ingredient.Amount)
             {
                 Debug.Log("No posees los items necesarios para el crafteo");
                 return false;
@@ -50,7 +50,7 @@ public class Recipes : ItemBase
 
         foreach (var ingredient in materials)
         {
-            Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item.nameDisplay).ToString() + " " + ingredient.Item.nameDisplay);
+            Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item).ToString() + " " + ingredient.Item.nameDisplay);
         }
     }
 
@@ -71,7 +71,7 @@ public class Recipes : ItemBase
 
         for (int i = 0; i < materials.Count; i++)
         {
-            aux  += materials[i].Item.nameDisplay + " "+ container.ItemCount(materials[i].Item.nameDisplay) + " / "+ materials[i].Amount + "\n";
+            aux  += materials[i].Item.nameDisplay + " "+ container.ItemCount(materials[i].Item) + " / "+ materials[i].Amount + "\n";
         }
         
         return aux.RichText("color", "#ffa500ff");

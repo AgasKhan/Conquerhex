@@ -13,6 +13,8 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     [SerializeReference, Tooltip("Version de la lista serializada\nSolo existe para la serializacion, no es la lista real")]
     List<T> ts = new List<T>();
 
+    Comparer comparer = new Comparer();
+
     /// <summary>
     /// Aniade a la lista ordenada un elemento respetando el orden <br/>
     /// es mas lento que una lista a la hora de aniadir
@@ -50,13 +52,13 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     /// <param name="item">Elemento a buscar</param>
     /// <param name="index">retorna el indice del elemento</param>
     /// <returns>Retorna verdadero en caso que se encuentre</returns>
-    public bool Contains(T item, out int index)
+    public bool Contains<T2>(T2 item, out int index) where T2 : IComparable<T>
     {
-        if(Contains(item, out index, out var end))
+        if (Contains(item, out index, out var end))
         {
             for (; index <= end; index++)
             {
-                if(item.Equals(this[index]))
+                if (item.Equals(this[index]))
                 {
                     return true;
                 }
@@ -72,7 +74,7 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     /// <param name="start">retorna el comienzo del indice en el rango de los elementos iguales</param>
     /// <param name="end">retorna el fin del rango de los indices de los elementos iguales</param>
     /// <returns>Retorna verdadero en caso que se encuentre</returns>
-    public bool Contains(T item, out int start, out int end)
+    public bool Contains<T2>(T2 item, out int start, out int end) where T2 : IComparable<T>
     {
         int bn = BinarySearch(item);
         start = bn;
@@ -83,7 +85,7 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
 
         for (int i = bn; i >= 0; i--)
         {
-            if (this[i].CompareTo(item) == 0)
+            if (item.CompareTo(this[i]) == 0)
                 start = i;
             else
                 break;
@@ -91,7 +93,7 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
 
         for (int i = bn; i < Count; i++)
         {
-            if (this[i].CompareTo(item) == 0)
+            if (item.CompareTo(this[i]) == 0)
                 end = i;
             else
                 break;
@@ -136,6 +138,41 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
         return -1;
     }
 
+    public int BinarySearch<T2>(T2 item) where T2 : IComparable<T>
+    {
+        comparer.comparable = item;
+
+        int left = 0;
+        int right = Count - 1;
+
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+
+            //No me importa el segundo elemento por que por eso ya trabajo con el comparador
+            int comparisonResult = comparer.Compare(this[mid], default(T));
+
+            if (comparisonResult == 0)
+            {
+                // Se encontró el elemento en la posición 'mid'
+                return mid;
+            }
+            else if (comparisonResult < 0)
+            {
+                // El elemento está en el lado derecho del medio
+                left = mid + 1;
+            }
+            else
+            {
+                // El elemento está en el lado izquierdo del medio
+                right = mid - 1;
+            }
+        }
+
+        // El elemento no se encontró, devuelve el complemento del índice donde se insertaría
+        return ~left;
+    }
+
     public void OnAfterDeserialize()
     {
         Clear();
@@ -148,5 +185,15 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
     {
         ts.Clear();
         ts.AddRange(this);
+    }
+
+    class Comparer : IComparer<T>
+    {
+        public IComparable<T> comparable;
+
+        public int Compare(T x, T y)
+        {
+            return comparable.CompareTo(x);
+        }
     }
 }

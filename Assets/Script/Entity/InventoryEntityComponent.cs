@@ -40,61 +40,158 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         }
     }
 
-    public override void OnEnterState(Entity param)
+    #region No implementadas
+
+    public void AddOrSubstractItems(string str, int index)
     {
-        flyweight = param.flyweight?.GetFlyWeight<BodyBase>();
+        throw new System.NotImplementedException("Tenes que borrar la funcion de add or substract capo, o si no implementarla, digo, deja de perder el tiempo");
     }
 
-    public override void OnStayState(Entity param)
-    {
-    }
+    #endregion
 
-    public override void OnExitState(Entity param)
-    {
-        container = null;
-        flyweight = null;
-    }
 
     public bool Contains(Item item)
     {
         return inventory.Contains(item);
     }
 
+    public void Clear()
+    {
+        inventory.Clear();
+        visualItems.Clear();
+    }
+
+    public int ItemCount<T>(T item) where T : System.IComparable<Item>
+    {
+        if (inventory.Contains(item, out int index))
+        {
+            return inventory[index].GetCount();
+        }
+        else
+            return -1;
+    }
+
+    /// <summary>
+    /// No implementada
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="inventory"></param>
+    public void SubstractItem(Item item, InventoryEntityComponent inventory)
+    {
+        if (HasCapacity(item))
+        {
+            item.ChangeContainer(inventory);
+        }
+    }
+
     public virtual void AddAllItems(InventoryEntityComponent entity)
     {
+        if (entity.CurrentWeight + CurrentWeight > WeightCapacity)
+            return;
+
         AddAllItems(entity.inventory);
         entity.inventory.Clear();
     }
 
-    protected List<Item> AddAllItems(List<Item> items)
+    protected void AddAllItems(OrderedList<Item> items)
     {
         Debug.Log(string.Join("", inventory));
 
         for (int i = items.Count - 1; i >= 0; i--)
         {
-            items[i].ChangeContainer(this);
-            CurrentWeight += items[i].GetItemBase().weight * items[i].GetCount();
-            items.Remove(items[i]);
+            AddItem(items[i]);
         }
-
-        return items;
     }
 
-    public int ItemCount(string itemName)
+    /// <summary>
+    /// Crea un item directamente en el inventario
+    /// </summary>
+    /// <param name="itemBase"></param>
+    /// <param name="count"></param>
+    public void AddItem(ItemBase itemBase, int count)
     {
-        int amount = 0;
+        if (!HasCapacity(count,itemBase))
+            return;
 
-        for (int i = 0; i < inventory.Count; i++)
+        CurrentWeight += itemBase.weight * count;
+
+        Item item;
+
+        var aux = inventory.BinarySearch(itemBase);
+
+        if(aux < 0)
         {
-            if (inventory[i].nameDisplay == itemName)
+           item = itemBase.Create();
+           aux = item.Init(this);
+        }
+        else
+        {
+            item = inventory[aux];
+        }
+
+        //obtengo el indice del stack a agregar
+        int indexStack = item.GetStackCount();
+
+        if (itemBase.maxAmount>1)
+        {
+            //voy creando los stacks necesarios
+            while(count>0)
             {
-                //inventory[i].GetAmounts(out int actual, out int max);
-                //amount += actual;
+                item.AddAmount(-1, count, out count);
+                AddVisualItem(0, aux, indexStack);
+                indexStack++;
+            }
+        }            
+        else
+        {
+            //para el primero creado
+            count--;
+
+            AddVisualItem(0, aux, 0);
+
+            //Si necesito crear mas
+            while (count > 0)
+            {
+                //por cada creado le resto uno a la cantidad faltante
+                count--;
+                AddVisualItem(0, itemBase.Create().Init(this), 0);
             }
         }
-        return amount;
     }
 
+    /// <summary>
+    /// Aniade un item de otro inventario
+    /// </summary>
+    /// <param name="item"></param>
+    public void AddItem(Item item)
+    {
+        if (!HasCapacity(item))
+            return;
+
+        CurrentWeight += item.GetItemBase().weight * item.GetCount();
+
+        int index;
+
+        if (item is ItemStackeable && inventory.Contains(item, out index))
+        {
+            int indexStack = inventory[index].GetStackCount()-1;
+
+            for (int j = 0; j < item.GetStackCount(); j++)
+            {
+                item.GetAmounts(j, out int actual);
+
+                inventory[index].AddAmount(-1, actual, out int resto);
+            }
+
+            AddVisualCompleteItem(item, index, indexStack);
+
+            item.Destroy();
+        }
+        else
+            item.ChangeContainer(this);
+    }
+
+    #region internals
 
     /// <summary>
     /// Funcion que sera llamada de forma automatica por el Item <br/>
@@ -111,7 +208,6 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
             return orderedIndex;     
         }
-
 
         if (!inventory.Contains(item, out int indx))
         {
@@ -155,7 +251,6 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
         if (!item.visible)
         {
-            RefreshOrderedList(indexOrder);
             return indexOrder;
         }
 
@@ -170,40 +265,83 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
             }
         }
 
-        RefreshOrderedList(indexOrder);
+        RefreshOrderedList(indexOrder,-1);
         return indexOrder;
     }
 
-    void RefreshOrderedList(int orderIndex)
+    #endregion
+
+    #region VisualItems
+
+    /// <summary>
+    /// Funcion dedicada a actualizar el indice de la representacion de las casillas
+    /// </summary>
+    /// <param name="orderIndex"></param>
+    /// <param name="operation"></param>
+    void RefreshOrderedList(int orderIndex, int operation)
     {
-        for (int i = 0; i < visualItems.Count -1; i++)
+        for (int i = 0; i < visualItems.Count - 1; i++)
         {
             if (visualItems[i].x > orderIndex)
-                visualItems[i] = new Vector2Int(visualItems[i].x - 1, visualItems[i].y);
+                visualItems[i] = new Vector2Int(visualItems[i].x + operation, visualItems[i].y);
         }
     }
 
-    public void AddItem(Item item)
+    /// <summary>
+    /// Funcion para agregar todas las representaciones en casillas de un item y su contenido
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="index"></param>
+    /// <param name="indexStack"></param>
+    void AddVisualCompleteItem(Item item, int index, int indexStack)
     {
-        if(HasCapacity(item))
+        RefreshOrderedList(index,+1);
+
+        if(item is ItemStackeable)
         {
-            item.ChangeContainer(this);
+            for (int i = indexStack; i < item.GetStackCount(); i++)
+            {
+                AddVisualItem(0, index, i);
+            }
+        }
+        else
+        {
+            AddVisualItem(0, index, -1);
         }
     }
 
-    public void SubstractItem(Item item, InventoryEntityComponent inventory)
+    /// <summary>
+    /// Funcion para agregar una representacion en la casilla
+    /// </summary>
+    /// <param name="indexOrderList"></param>
+    /// <param name="index"></param>
+    /// <param name="indexStack"></param>
+    void AddVisualItem(int indexOrderList, int index, int indexStack)
     {
-        if (HasCapacity(inventory.container.flyweight.weight, inventory.container.flyweight.GetFlyWeight<BodyBase>().weightCapacity, item))
-        {
-            item.ChangeContainer(inventory);
-        }
+        visualItems.Add(new Vector2Int(index, indexStack));
     }
+
+    /// <summary>
+    /// Funcion para remover una representacion en la casilla
+    /// </summary>
+    /// <param name="indexOrderList"></param>
+    /// <param name="index"></param>
+    /// <param name="indexStack"></param>
+    void RemoveVisualItem(int indexOrderList)
+    {
+        visualItems.RemoveAt(indexOrderList);
+    }
+
+    #endregion
+
+    #region chequeo de capacidad
+
+    public bool HasCapacity(int count, ItemBase items)
+    {
+        return items.weight * count + CurrentWeight < WeightCapacity;
+    }
+
     public bool HasCapacity(params Item[] items)
-    {
-        return HasCapacity(container.flyweight.weight, container.flyweight.GetFlyWeight<BodyBase>().weightCapacity, items);
-    }
-
-    bool HasCapacity(float actualWeight, float weightCapacity, params Item[] items)
     {
         float totalWeight = 0;
         foreach (var item in items)
@@ -223,76 +361,12 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
             }
         }
 
-        return (actualWeight+totalWeight) < weightCapacity;
+        return (CurrentWeight + totalWeight) < WeightCapacity;
     }
 
-    public void AddOrSubstractItems(string itemName, int amount)
-    {
-        /*
-        ItemBase myItemBase = null;
+    #endregion
 
-        for (int i = inventory.Count - 1; i >= 0; i--)
-        {
-            if (itemName == inventory[i].nameDisplay)
-            {
-                inventory[i].GetAmounts(out int actual, out int max);
-
-                if((amount + actual)<=0)
-                {
-                    inventory.RemoveAt(i);
-                    amount += actual;
-                }
-                else
-                {
-                    inventory[i].AddAmount(amount, out amount);
-                    myItemBase = inventory[i].GetItemBase();
-                }
-
-                if (amount == 0)
-                    return;
-            }
-        }
-
-        if (myItemBase == null)
-        {
-            if (amount < 0)
-            {
-                Debug.LogWarning("No posees el item: " + itemName);
-                return;
-            }
-            else
-            {
-                myItemBase = Manager<ItemBase>.pic[itemName];
-            }
-        }
-
-        AddOrCreate(myItemBase, amount);
-        */
-        //Debug.Log(string.Join("", inventory));
-    }
-
-
-    void AddOrCreate(ItemBase itemBase, int amount)
-    {
-        /*
-        if (amount > 0)
-        {
-            inventory.Add(itemBase.Create());
-
-            inventory[^1].Init(this);
-            
-            inventory[inventory.Count - 1].AddAmount(amount - 1, out amount);
-
-            AddOrCreate(itemBase, amount);
-        }
-        */
-    }
-
-    public void Clear()
-    {
-        inventory.Clear();
-        visualItems.Clear();
-    }
+    #region interfaces
 
     public string Save()
     {
@@ -313,6 +387,26 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     {
         return ((IEnumerable)inventory).GetEnumerator();
     }
+
+    #endregion
+
+    #region seteo
+
+    public override void OnEnterState(Entity param)
+    {
+        flyweight = param.flyweight?.GetFlyWeight<BodyBase>();
+    }
+
+    public override void OnStayState(Entity param)
+    {
+    }
+
+    public override void OnExitState(Entity param)
+    {
+        container = null;
+        flyweight = null;
+    }
+    #endregion
 }
 
 public class SlotItem

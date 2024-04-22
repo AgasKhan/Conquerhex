@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class ItemBase : ShowDetails
+public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable<Item>
 {
     [Header("Items")]
     [Range(1, 1000)]
@@ -51,11 +51,27 @@ public abstract class ItemBase : ShowDetails
     }
 
     protected abstract System.Type SetItemType();
+
+    public int CompareTo(Item obj)
+    {
+        if (obj == null)
+            return 1;
+
+        return CompareTo(obj.GetItemBase());
+    }
+
+    public int CompareTo(ItemBase other)
+    {
+        if (other == null)
+            return 1;
+
+        return string.Compare(nameDisplay, other.nameDisplay);
+    }
 }
 
 
 [System.Serializable]
-public abstract class Item : IShowDetails, IComparable<Item>
+public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBase>
 {
     public event System.Action onDrop;//si ejecuto el ondrop, este desequipa el item
     public event System.Action<InventoryEntityComponent> onChangeContainer;
@@ -147,11 +163,13 @@ public abstract class Item : IShowDetails, IComparable<Item>
     }
 
     public int CompareTo(Item obj)
-    {
-        if (obj == null)
-            return 1;
+    { 
+        return _itemBase.CompareTo(obj);
+    }
 
-        return string.Compare(nameDisplay, obj.nameDisplay);
+    public int CompareTo(ItemBase other)
+    {
+        return _itemBase.CompareTo(other);
     }
 
     public bool HaveSameContainer(InventoryEntityComponent container)
@@ -191,35 +209,12 @@ public abstract class Item : IShowDetails, IComparable<Item>
 
         return aux;
     }
+
+
 }
 
 [System.Serializable]
-public abstract class Item<T> : Item where T : ItemBase
-{
-    public T itemBase
-    {
-        get => (T)GetItemBase();
-        set => SetItemBase(value);
-    }
-
-    public override Item SetItemBase(object baseItem)
-    {
-        if (baseItem is T)
-        {
-            _itemBase = baseItem as T;
-        }
-        else
-        {
-            Debug.LogWarning("Type itembase failed");
-        }
-
-
-        return this;
-    }
-}
-
-[System.Serializable]
-public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
+public abstract class ItemStackeable : Item
 {
     [SerializeField]
     List<int> stacks = new List<int>();
@@ -239,17 +234,17 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
 
         resto = 0;
 
-        if (stacks[index] > itemBase.maxAmount)
+        if (stacks[index] > _itemBase.maxAmount)
         {
-            resto = stacks[index] - itemBase.maxAmount;
-            stacks[index] = itemBase.maxAmount;
+            resto = stacks[index] - _itemBase.maxAmount;
+            stacks[index] = _itemBase.maxAmount;
         }
         else if (stacks[index] <= 0)
         {
             resto = stacks[index];
         }
 
-        _count += amount-resto;
+        _count += amount - resto;
 
 
         return this;
@@ -278,4 +273,56 @@ public abstract class ItemStackeable<T> : Item<T> where T : ItemBase
         return aux;
     }
 }
+
+[System.Serializable]
+public abstract class Item<T> : Item where T : ItemBase
+{
+    public T itemBase
+    {
+        get => (T)GetItemBase();
+        set => SetItemBase(value);
+    }
+
+    public override Item SetItemBase(object baseItem)
+    {
+        if (baseItem is T)
+        {
+            _itemBase = baseItem as T;
+        }
+        else
+        {
+            Debug.LogWarning("Type itembase failed");
+        }
+
+
+        return this;
+    }
+}
+
+[System.Serializable]
+public abstract class ItemStackeable<T> : ItemStackeable where T : ItemBase
+{
+    public T itemBase
+    {
+        get => (T)GetItemBase();
+        set => SetItemBase(value);
+    }
+
+    public override Item SetItemBase(object baseItem)
+    {
+        if (baseItem is T)
+        {
+            _itemBase = baseItem as T;
+        }
+        else
+        {
+            Debug.LogWarning("Type itembase failed");
+        }
+
+
+        return this;
+    }
+}
+
+
 

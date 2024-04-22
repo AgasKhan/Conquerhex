@@ -269,22 +269,19 @@ public class IAIO : IAFather
 
     private void Awake()
     {
-        interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
-        
-        /*LoadSystem.AddPreLoadCorutine(() => {
-            OnExitState(character);
-        });*/
-
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
-
         characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
-
-        characterEvent.delegato += OnCharacterSelected;
-
-        LoadSystem.AddPostLoadCorutine(()=> VirtualControllers.principal.eventDown += NoCharacterSelected);
+        interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
     }
 
-    
+    private void Start()
+    {
+        LoadSystem.AddPostLoadCorutine(() =>
+        {
+            characterEvent.delegato += OnCharacterSelected;
+            VirtualControllers.principal.eventDown += NoCharacterSelected;
+        });
+    }
 }
 
 public class ControllerIAIO : IControllerDir, Init
