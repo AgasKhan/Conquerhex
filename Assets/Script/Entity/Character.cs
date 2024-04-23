@@ -109,7 +109,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
         else
         {
-            PrivateAbility(i+1);
+            PrivateAbility(i+2);
         }
     }
 

@@ -218,7 +218,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     public override void Unequip()
     {
         base.Unequip();
-        if(IsCopy)
+        End = true;
+        StopCast();
+        if (IsCopy)
             Destroy();
     }
 
