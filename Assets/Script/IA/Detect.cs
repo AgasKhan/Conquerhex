@@ -68,6 +68,8 @@ public abstract class DetectParent<T> where T : class
 
     public abstract List<T> Area(Vector3 position, System.Func<T, bool> chck, int min, int max, float minRadius, float maxRadius);
 
+    public abstract List<T> Square(Vector3 position, Vector3 dir, System.Func<T, bool> chck, int min, int max, float minCubicRadius, float width, float height);
+
     public abstract List<T> Cone(Vector3 pos, Vector3 dir, System.Func<T, bool> chck,int min, int max, float minRadius, float maxRadius, float dot);
 
     public abstract List<T> Ray(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float distance = -1);
@@ -88,6 +90,11 @@ public abstract class DetectParent<T> where T : class
     public List<T> Cone(Vector3 pos, Vector3 dir, System.Func<T, bool> chck)
     {
         return Cone(pos, dir, chck, minDetects, maxDetects, minRadius, maxRadius, dot);
+    }
+
+    public List<T> Square(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, float width)
+    {
+        return Square(pos, dir, chck, minDetects, maxDetects, minRadius, width, maxRadius);
     }
 
     /// <summary>
@@ -114,6 +121,15 @@ public abstract class DetectParent<T> where T : class
         return Ray(pos, dir, ChckEmpety, minDetects, maxDetects,distance);
     }
 
+    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius)
+    {
+        this.chckWithRay = chck;
+        this.caster = caster;
+        this.pos = caster.position;
+
+        return Area(caster.position, WithRay, minDetects, maxDetects, minRadius, maxRadius);
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -131,13 +147,13 @@ public abstract class DetectParent<T> where T : class
         return Cone(caster.position, dir, WithRay, minDetects, maxDetects, minRadius, maxRadius, dot);
     }
 
-    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius)
+    public List<T> SquareWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float width, float height)
     {
         this.chckWithRay = chck;
         this.caster = caster;
         this.pos = caster.position;
 
-        return Area(caster.position, WithRay, minDetects, maxDetects, minRadius, maxRadius);
+        return Square(caster.position, dir,WithRay, minDetects, maxDetects, minRadius, width, height);
     }
 
     public List<T> ConeWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck)
@@ -299,6 +315,43 @@ public class Detect<T> : DetectParent<T> where T : class
         return results;
     }
 
+    public override List<T> Square(Vector3 position, Vector3 dir, System.Func<T, bool> chck, int min, int max, float minCubicRadius, float width, float height)
+    {
+        results.Clear();
+
+        length = Physics.OverlapBoxNonAlloc(position + dir.normalized * height / 2, new Vector3(width, 10, height), buffer, Quaternion.LookRotation(dir,Vector3.up) , layerMask);
+
+        //length = Physics.OverlapSphereNonAlloc(position, maxRadius, buffer, layerMask);
+
+
+        //Debug.DrawLine(position.Vect3Copy_Y(-10), position.Vect3Copy_Y(10), Color.red,5);
+
+        //Debug.DrawLine(position.Vect3Copy_X(position.x - maxRadius), position.Vect3Copy_X(position.x + maxRadius), Color.red, 5);
+
+        //Debug.DrawLine(position.Vect3Copy_Z(position.z - maxRadius), position.Vect3Copy_Z(position.z + maxRadius), Color.red, 5);
+
+        for (int i = 0; i < length; i++)
+        {
+            if (!buffer[i].IsInRadius(position, minRadius) && buffer[i].TryGetComponent(out T obj) && chck(obj))
+            {
+                Add(results, obj, position);
+            }
+
+            if (max > 0 && results.Count >= max)
+            {
+                return results;
+            }
+        }
+
+        if (results.Count < min)
+        {
+            length = 0;
+            results.Clear();
+        }
+
+        return results;
+    }
+
     public override List<T> Cone(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float minRadius, float maxRadius, float dot)
     {
         this.dir = dir.normalized;
@@ -310,6 +363,8 @@ public class Detect<T> : DetectParent<T> where T : class
 
         return results;
     }
+
+ 
 
     /// <summary>
     /// Trabaja con la pos, dir, internalDot, chck<br/>
@@ -392,6 +447,7 @@ public class Detect<T> : DetectParent<T> where T : class
         length = j;
     }
 
+    
 }
 
 #region old
@@ -443,6 +499,46 @@ public class Detect2D<T> : DetectParent<T> where T : class
                 results.RemoveAt(i);
             }
         }
+
+        return results;
+    }
+
+    public override List<T> Square(Vector3 position, Vector3 dir, System.Func<T, bool> chck, int min, int max, float minCubicRadius, float width, float height)
+    {
+        results.Clear();
+
+        //length = Physics2D.OverlapBoxNonAlloc(position + dir.normalized * height / 2, new Vector3(width, 10, height), buffer, Quaternion.LookRotation(dir, Vector3.up), layerMask);
+
+        //length = Physics.OverlapSphereNonAlloc(position, maxRadius, buffer, layerMask);
+
+
+        //Debug.DrawLine(position.Vect3Copy_Y(-10), position.Vect3Copy_Y(10), Color.red,5);
+
+        //Debug.DrawLine(position.Vect3Copy_X(position.x - maxRadius), position.Vect3Copy_X(position.x + maxRadius), Color.red, 5);
+
+        //Debug.DrawLine(position.Vect3Copy_Z(position.z - maxRadius), position.Vect3Copy_Z(position.z + maxRadius), Color.red, 5);
+        /*
+        for (int i = 0; i < length; i++)
+        {
+            if (!buffer[i].IsInRadius(position, minRadius) && buffer[i].TryGetComponent(out T obj) && chck(obj))
+            {
+                Add(results, obj, position);
+            }
+
+            if (max > 0 && results.Count >= max)
+            {
+                return results;
+            }
+        }
+        */
+
+        if (results.Count < min)
+        {
+            length = 0;
+            results.Clear();
+        }
+
+        throw new System.NotImplementedException("yyy no implemente el cuadrado deteccion en 2D, se hizo despues del 3D");
 
         return results;
     }
