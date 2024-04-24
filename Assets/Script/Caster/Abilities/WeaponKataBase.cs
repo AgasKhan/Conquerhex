@@ -31,6 +31,8 @@ public class WeaponKataBase : AbilityBase
 [System.Serializable]
 public class WeaponKata : Ability
 {
+    public bool externalKata = true;
+
     public event System.Action<MeleeWeapon> onEquipedWeapon;
     public event System.Action<MeleeWeapon> onDesEquipedWeapon;
     public event System.Action<MeleeWeapon> onRejectedWeapon;
@@ -46,6 +48,9 @@ public class WeaponKata : Ability
     public override float FinalMaxRange => base.FinalMaxRange * (WeaponEnabled?.itemBase.range ?? 1);
 
     public override bool DontExecuteCast => base.DontExecuteCast || WeaponEnabled == null;
+
+    public override bool visible => externalKata && !IsCopy;
+
 
     /// <summary>
     /// Devuelve el arma si esta esta en condiciones de ser utilizada

@@ -60,14 +60,15 @@ public class InventorySubMenu : CreateSubMenu
             if (filterType != null && !filterType.IsAssignableFrom(character.inventory[i].GetType()))
                 continue;
             
-            if (character.inventory[i] is Ability && ((Ability)character.inventory[i]).IsCopy)
+            if (character.inventory[i] is Ability && !((Ability)character.inventory[i]).visible)
                 continue;
             
             ButtonA button = subMenu.AddComponent<ButtonA>();
 
-            var item = character.inventory[i];
-
             var index = i;
+
+            var item = character.inventory[index];
+
 
             UnityEngine.Events.UnityAction action =
                () =>
@@ -82,6 +83,7 @@ public class InventorySubMenu : CreateSubMenu
                    {
                        WeaponKata auxKata = (WeaponKata)item;
                        
+                       /*
                        string mainText = "------------------------------------------------------------------\n";
 
                        var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
@@ -116,7 +118,7 @@ public class InventorySubMenu : CreateSubMenu
                        mainText += "\n------------------------------------------------------------------";
                        
                        Debug.Log(mainText);
-
+                       */
                    }
                };
 
@@ -202,8 +204,7 @@ public class InventorySubMenu : CreateSubMenu
         }
         else
         {
-            //item.GetAmounts(out int actual, out int max);
-            //details = actual + " / " + max;
+            details = item.GetCount().ToString() /*+ " / " + item.GetItemBase().maxAmount*/;
         }
 
         return details;

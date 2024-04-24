@@ -30,7 +30,7 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
         {
             index++;
         }
-
+        
         Insert(index, item);
 
         return index;
@@ -193,7 +193,7 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
 
         public int Compare(T x, T y)
         {
-            return comparable.CompareTo(x);
+            return comparable.CompareTo(x) * -1;
         }
     }
 }

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TransmuteAction : InteractAction<(Character character, MeleeWeaponBase item)>
+public class TransmuteAction : InteractAction<(Character character, MeleeWeapon item)>
 {
-    public override void Activate((Character character, MeleeWeaponBase item) genericParams)
+    public override void Activate((Character character, MeleeWeapon item) genericParams)
     {
         Character character = genericParams.character;
-        MeleeWeaponBase item = genericParams.item;
+        MeleeWeapon item = genericParams.item;
 
-        character.inventory.AddOrSubstractItems(item.nameDisplay, -1);
+        //character.inventory.InternalRemoveItem(item);
 
-        foreach (var ingredient in item.recipe.materials)
+        foreach (var ingredient in (item.GetItemBase() as MeleeWeaponBase).recipe.materials)
         {
-            character.inventory.AddOrSubstractItems(ingredient.Item.nameDisplay, ingredient.Amount);
+            character.inventory.AddItem(ingredient.Item, ingredient.Amount);
         }
     }
     public override void InteractInit(InteractEntityComponent _interactComp)
@@ -44,7 +44,7 @@ public class TransmuteAction : InteractAction<(Character character, MeleeWeaponB
                     { 
                         menu.DestroyLastButtons();
                         menu.detailsWindow.SetTexts(item.nameDisplay, item.GetDetails().ToString("\n") + (item.GetItemBase() as MeleeWeaponBase).recipe.GetIngredientsStr()).SetImage(item.image);
-                        menu.CreateButton("Transmute", () => { menu.detailsWindow.SetActive(true); Activate((menu.myCharacter, item.GetItemBase() as MeleeWeaponBase)); internalSubMenu.gameObject.SetActive(false); });
+                        menu.CreateButton("Transmute", () => { menu.detailsWindow.SetActive(true); Activate((menu.myCharacter, item)); internalSubMenu.gameObject.SetActive(false); });
 
                     }).rectTransform.sizeDelta = new Vector2(300, 150);
             }

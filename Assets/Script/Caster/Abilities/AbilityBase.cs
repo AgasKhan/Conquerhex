@@ -99,7 +99,7 @@ public abstract class AbilityBase : ItemBase
     }
 }
 
-
+[System.Serializable]
 public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
 {
     public event System.Action onCast;
@@ -108,6 +108,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public CasterEntityComponent caster;
 
+    [SerializeReference]
     public Ability original;
 
     public bool IsCopy => original != null;
@@ -176,12 +177,14 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             _feedBackReference = value;
         }
     }
-    public Ability CreateCopy()
+    public Ability CreateCopy(out int index)
     {
         var aux = Create() as Ability;
         aux.original = this;
 
         onDrop += aux.OnDropOriginal;
+
+        index = aux.Init(container);
 
         return aux;
     }

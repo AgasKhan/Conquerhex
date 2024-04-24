@@ -39,13 +39,13 @@ public class Recipes : ItemBase
     {
         foreach (var ingredient in materials)
         {
-            container.AddOrSubstractItems(ingredient.Item.nameDisplay, -ingredient.Amount);
+            container.SubstractStackItems(ingredient.Item.Create() as ItemStackeable, ingredient.Amount);
         }
 
         if (resultName != "")
         {
             //result.Item.image.color = resultColor;
-            container.AddOrSubstractItems(resultName, resultAmount);
+            container.AddItem(this, resultAmount);
         }
 
         foreach (var ingredient in materials)

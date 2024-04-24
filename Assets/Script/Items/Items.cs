@@ -47,7 +47,7 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
 
     protected virtual void DestroyItem(Character character, Item item)
     {
-        character.inventory.AddOrSubstractItems(nameDisplay, -1);
+        character.inventory.InternalRemoveItem(item);
     }
 
     protected abstract System.Type SetItemType();
@@ -115,7 +115,6 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
     public virtual Item Create()
     {
         var aux = _itemBase.Create();
-        aux.Init(container);
         return aux;
     }
 
@@ -242,6 +241,7 @@ public abstract class ItemStackeable : Item
         else if (stacks[index] <= 0)
         {
             resto = stacks[index];
+            stacks.RemoveAt(index);
         }
 
         _count += amount - resto;

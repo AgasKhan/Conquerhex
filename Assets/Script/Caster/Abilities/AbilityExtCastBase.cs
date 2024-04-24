@@ -19,6 +19,7 @@ public class AbilityExtCastBase : AbilityBase
     }
 }
 
+[System.Serializable]
 public class AbilityExtCast : Ability
 {
     CastingAction castingAction;    

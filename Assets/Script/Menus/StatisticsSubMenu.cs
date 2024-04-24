@@ -28,7 +28,7 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.CreateSection(2, 6);
         subMenu.CreateChildrenSection<ScrollRect>();
 
-        CreateWeaponButtons(character);
+        CreateEquipmentButtons(character);
 
         subMenu.OnClose += Exit;
     }
@@ -51,7 +51,7 @@ public class StatisticsSubMenu : CreateSubMenu
         Create();
     }
 
-    void CreateWeaponButtons(Character charac)
+    void CreateEquipmentButtons(Character charac)
     {
         for (int i = 0; i < charac.caster.weapons.Count; i++)
         {
@@ -72,9 +72,8 @@ public class StatisticsSubMenu : CreateSubMenu
             CreateGenericButton(charac.caster.abilities[i], "Equip Ability",
             (_slotItem, _index) =>
             {
-                var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy();
-                abilityCopy.Init(_slotItem.inventoryComponent);
-                _slotItem.indexEquipedItem = _slotItem.inventoryComponent.Count - 1;
+                var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+                _slotItem.indexEquipedItem = indexCopy;
                 subMenu.TriggerOnClose();
             });
         }
@@ -127,9 +126,8 @@ public class StatisticsSubMenu : CreateSubMenu
 
         System.Action<SlotItem, int> equipKataAction = (_slotItem, _index) =>
         {
-            var kataCopy = ((WeaponKata)_slotItem.inventoryComponent[_index]).CreateCopy();
-            kataCopy.Init(_slotItem.inventoryComponent);
-            _slotItem.indexEquipedItem = _slotItem.inventoryComponent.Count - 1;
+            var kataCopy = ((WeaponKata)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+            _slotItem.indexEquipedItem = indexCopy;
             subMenu.TriggerOnClose();
         };
 

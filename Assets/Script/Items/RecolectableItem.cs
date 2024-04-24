@@ -12,6 +12,7 @@ public class RecolectableItem : MonoBehaviour
     public float weight => myItemBase.weight;
 
     Timer recolect;
+    Timer wait;
 
     public InventoryEntityComponent inventory;
     InventoryEntityComponent referenceToTravel;
@@ -25,14 +26,15 @@ public class RecolectableItem : MonoBehaviour
         {
             referenceToTravel.AddItem(myItemBase,1);
             transform.gameObject.SetActive(false);
-            Debug.Log("------------------------------------------\nItem Recogido");
         })
         .Stop().SetInitCurrent(0);
+
+        wait = TimersManager.Create(0.3f).Stop();
     }
 
     void FixedUpdate()
     {
-        if (hex == null)
+        if (hex == null || !wait.Chck)
             return;
 
         foreach (var entity in hex.childsEntities)
@@ -62,7 +64,7 @@ public class RecolectableItem : MonoBehaviour
 
     private void ChangeDisponiblity(InventoryEntityComponent obj)
     {
-        if(referenceToTravel.HasCapacity(1, myItemBase))
+        if(!referenceToTravel.HasCapacity(1, myItemBase))
         {
             recolect.Stop().SetInitCurrent(0);
             referenceToTravel.onChangeDisponiblity -= ChangeDisponiblity;
@@ -74,6 +76,8 @@ public class RecolectableItem : MonoBehaviour
         mySprite.sprite = item.image;
 
         myItemBase = item;
+
+        wait.Reset();
 
         hex = GetComponentInParent<Hexagone>();
     }

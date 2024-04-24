@@ -30,7 +30,7 @@ public class ChatSystem : MonoBehaviour
 
     private void Start()
     {
-        coinEvent.delegato += () => GameManager.instance.playerCharacter.inventory.AddOrSubstractItems("Coin", 100);
+        //coinEvent.delegato += () => GameManager.instance.playerCharacter.inventory.AddItem("Coin", 100);
         helpEvent.delegato += () =>
         {
             for (int i = 0; i < commandList.Count; i++)
@@ -40,7 +40,7 @@ public class ChatSystem : MonoBehaviour
                 WriteMsg(label);
             }
         };
-        giveEvent.delegato += (tupla)=> GameManager.instance.playerCharacter.inventory.AddOrSubstractItems(tupla.Item1, tupla.Item2);
+        //giveEvent.delegato += (tupla)=> GameManager.instance.playerCharacter.inventory.AddItem(tupla.Item1, tupla.Item2);
         
 
         eventManager.events.AddRange(new Pictionarys<string, Internal.SpecificEventParent>()

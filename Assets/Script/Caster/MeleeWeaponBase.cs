@@ -155,6 +155,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
         {
             defaultKata = itemBase.defaultKata.Create() as WeaponKata;
 
+            defaultKata.externalKata = false;
             defaultKata.Init(container);
             defaultKata.ChangeWeapon(this);
             onChangeContainer += MeleeWeapon_onChangeContainer;
