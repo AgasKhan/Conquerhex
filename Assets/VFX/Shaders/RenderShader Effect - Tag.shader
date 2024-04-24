@@ -14,7 +14,8 @@ Shader "Shader Graphs/RenderShader Effect"
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
     }
-        SubShader
+
+    SubShader
     {
         Tags
         {
@@ -39,7 +40,6 @@ Shader "Shader Graphs/RenderShader Effect"
         Blend One Zero
         ZTest Always
         ZWrite Off
-
         // Debug
         // <None>
 
@@ -254,6 +254,11 @@ Shader "Shader Graphs/RenderShader Effect"
                 Out = A * B;
             }
 
+            void Unity_Add_float(float A, float B, out float Out)
+            {
+                Out = A + B;
+            }
+
             void Unity_Sine_float(float In, out float Out)
             {
                 Out = sin(In);
@@ -332,11 +337,6 @@ Shader "Shader Graphs/RenderShader Effect"
                 Out = abs(ddx(In)) + abs(ddy(In));
             }
 
-            void Unity_Add_float(float A, float B, out float Out)
-            {
-                Out = A + B;
-            }
-
             void Unity_Saturate_float(float In, out float Out)
             {
                 Out = saturate(In);
@@ -393,14 +393,18 @@ Shader "Shader Graphs/RenderShader Effect"
                 float _Split_0a9a61cc6c674fddabda59fd63f4aecd_A_4_Float = _Property_0e43389aaf604c43b3c2d07ee9f1d591_Out_0_Vector4[3];
                 float _Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float;
                 Unity_Multiply_float_float(IN.TimeParameters.x, _Split_0a9a61cc6c674fddabda59fd63f4aecd_A_4_Float, _Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float);
+                float _Add_9c7583068e514c7b8a50e1a7309aab45_Out_2_Float;
+                Unity_Add_float(IN.TimeParameters.z, _Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, _Add_9c7583068e514c7b8a50e1a7309aab45_Out_2_Float);
                 float _Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float;
-                Unity_Sine_float(_Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, _Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float);
+                Unity_Sine_float(_Add_9c7583068e514c7b8a50e1a7309aab45_Out_2_Float, _Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float);
                 float _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float;
                 Unity_Divide_float(_Split_0a9a61cc6c674fddabda59fd63f4aecd_G_2_Float, 100, _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float);
                 float _Multiply_e27f0ebd259a4f7895b924b454d41263_Out_2_Float;
                 Unity_Multiply_float_float(_Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float, _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float, _Multiply_e27f0ebd259a4f7895b924b454d41263_Out_2_Float);
+                float _Add_5ba55c2998454ec9804b692bde1cbadd_Out_2_Float;
+                Unity_Add_float(_Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, IN.TimeParameters.y, _Add_5ba55c2998454ec9804b692bde1cbadd_Out_2_Float);
                 float _Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float;
-                Unity_Cosine_float(_Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, _Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float);
+                Unity_Cosine_float(_Add_5ba55c2998454ec9804b692bde1cbadd_Out_2_Float, _Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float);
                 float _Multiply_786433c5798e4db7ad3ed616da6f2bdf_Out_2_Float;
                 Unity_Multiply_float_float(_Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float, _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float, _Multiply_786433c5798e4db7ad3ed616da6f2bdf_Out_2_Float);
                 float2 _Vector2_340c0dd60c2d4a7c810a45132b04ea0d_Out_0_Vector2 = float2(_Multiply_e27f0ebd259a4f7895b924b454d41263_Out_2_Float, _Multiply_786433c5798e4db7ad3ed616da6f2bdf_Out_2_Float);
@@ -412,9 +416,9 @@ Shader "Shader Graphs/RenderShader Effect"
                 Unity_Divide_float(_Split_0a9a61cc6c674fddabda59fd63f4aecd_B_3_Float, 100, _Divide_4dfa19c93c0d48fc92af818536d953dc_Out_2_Float);
                 float _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float;
                 Unity_Multiply_float_float(_Divide_4dfa19c93c0d48fc92af818536d953dc_Out_2_Float, IN.TimeParameters.x, _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float);
-                float2 _Vector2_71cb3bb71bc34669b954dff336ec48f2_Out_0_Vector2 = float2(0, _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float);
+                float2 _Vector2_8498eb561e89467bb77b3182fb06fdaa_Out_0_Vector2 = float2(0, _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float);
                 float2 _TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2;
-                Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Vector2_71cb3bb71bc34669b954dff336ec48f2_Out_0_Vector2, _TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2);
+                Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Vector2_8498eb561e89467bb77b3182fb06fdaa_Out_0_Vector2, _TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2);
                 float _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Out_3_Float;
                 float _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Cells_4_Float;
                 Unity_Voronoi_LegacySine_float(_TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2, IN.TimeParameters.x, _Split_0a9a61cc6c674fddabda59fd63f4aecd_R_1_Float, _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Out_3_Float, _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Cells_4_Float);
@@ -1060,6 +1064,11 @@ Shader "Shader Graphs/RenderShader Effect"
                                 Out = A * B;
                             }
 
+                            void Unity_Add_float(float A, float B, out float Out)
+                            {
+                                Out = A + B;
+                            }
+
                             void Unity_Sine_float(float In, out float Out)
                             {
                                 Out = sin(In);
@@ -1138,11 +1147,6 @@ Shader "Shader Graphs/RenderShader Effect"
                                 Out = abs(ddx(In)) + abs(ddy(In));
                             }
 
-                            void Unity_Add_float(float A, float B, out float Out)
-                            {
-                                Out = A + B;
-                            }
-
                             void Unity_Saturate_float(float In, out float Out)
                             {
                                 Out = saturate(In);
@@ -1199,14 +1203,18 @@ Shader "Shader Graphs/RenderShader Effect"
                                 float _Split_0a9a61cc6c674fddabda59fd63f4aecd_A_4_Float = _Property_0e43389aaf604c43b3c2d07ee9f1d591_Out_0_Vector4[3];
                                 float _Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float;
                                 Unity_Multiply_float_float(IN.TimeParameters.x, _Split_0a9a61cc6c674fddabda59fd63f4aecd_A_4_Float, _Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float);
+                                float _Add_9c7583068e514c7b8a50e1a7309aab45_Out_2_Float;
+                                Unity_Add_float(IN.TimeParameters.z, _Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, _Add_9c7583068e514c7b8a50e1a7309aab45_Out_2_Float);
                                 float _Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float;
-                                Unity_Sine_float(_Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, _Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float);
+                                Unity_Sine_float(_Add_9c7583068e514c7b8a50e1a7309aab45_Out_2_Float, _Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float);
                                 float _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float;
                                 Unity_Divide_float(_Split_0a9a61cc6c674fddabda59fd63f4aecd_G_2_Float, 100, _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float);
                                 float _Multiply_e27f0ebd259a4f7895b924b454d41263_Out_2_Float;
                                 Unity_Multiply_float_float(_Sine_70b442f3a67d4924a9b5aec4784df971_Out_1_Float, _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float, _Multiply_e27f0ebd259a4f7895b924b454d41263_Out_2_Float);
+                                float _Add_5ba55c2998454ec9804b692bde1cbadd_Out_2_Float;
+                                Unity_Add_float(_Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, IN.TimeParameters.y, _Add_5ba55c2998454ec9804b692bde1cbadd_Out_2_Float);
                                 float _Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float;
-                                Unity_Cosine_float(_Multiply_d4e5cf389c774989b27d43dd941f4ef9_Out_2_Float, _Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float);
+                                Unity_Cosine_float(_Add_5ba55c2998454ec9804b692bde1cbadd_Out_2_Float, _Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float);
                                 float _Multiply_786433c5798e4db7ad3ed616da6f2bdf_Out_2_Float;
                                 Unity_Multiply_float_float(_Cosine_299e4417054e4ea598f46785fce0148f_Out_1_Float, _Divide_9c68520175614df3b11e4b72e27d0488_Out_2_Float, _Multiply_786433c5798e4db7ad3ed616da6f2bdf_Out_2_Float);
                                 float2 _Vector2_340c0dd60c2d4a7c810a45132b04ea0d_Out_0_Vector2 = float2(_Multiply_e27f0ebd259a4f7895b924b454d41263_Out_2_Float, _Multiply_786433c5798e4db7ad3ed616da6f2bdf_Out_2_Float);
@@ -1218,9 +1226,9 @@ Shader "Shader Graphs/RenderShader Effect"
                                 Unity_Divide_float(_Split_0a9a61cc6c674fddabda59fd63f4aecd_B_3_Float, 100, _Divide_4dfa19c93c0d48fc92af818536d953dc_Out_2_Float);
                                 float _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float;
                                 Unity_Multiply_float_float(_Divide_4dfa19c93c0d48fc92af818536d953dc_Out_2_Float, IN.TimeParameters.x, _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float);
-                                float2 _Vector2_71cb3bb71bc34669b954dff336ec48f2_Out_0_Vector2 = float2(0, _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float);
+                                float2 _Vector2_8498eb561e89467bb77b3182fb06fdaa_Out_0_Vector2 = float2(0, _Multiply_db95f8431cff4a03bf03ddea74d2d7d0_Out_2_Float);
                                 float2 _TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2;
-                                Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Vector2_71cb3bb71bc34669b954dff336ec48f2_Out_0_Vector2, _TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2);
+                                Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Vector2_8498eb561e89467bb77b3182fb06fdaa_Out_0_Vector2, _TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2);
                                 float _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Out_3_Float;
                                 float _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Cells_4_Float;
                                 Unity_Voronoi_LegacySine_float(_TilingAndOffset_974e343188494870af4255bb30688d7f_Out_3_Vector2, IN.TimeParameters.x, _Split_0a9a61cc6c674fddabda59fd63f4aecd_R_1_Float, _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Out_3_Float, _Voronoi_ff93b035d5a745f0b2f0f1667671079b_Cells_4_Float);
