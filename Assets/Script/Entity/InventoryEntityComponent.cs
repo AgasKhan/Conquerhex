@@ -478,22 +478,27 @@ public class SlotItem
         //get => _indexEquipedItem;
         set
         {
+            if (equiped != null)
+                equiped.onDrop -= EquipedOnDrop;
+
             _indexEquipedItem = value;
 
             if (_indexEquipedItem >= 0 && _indexEquipedItem < inventoryComponent.Count)
             {
                 _equiped = inventoryComponent[_indexEquipedItem];
+                _equiped.onDrop += EquipedOnDrop;
             }
             else
             {
                 _equiped = null;
             }
-
-            Debug.Log("Equipado : " + _equiped);
-
         }
-    }
+    }   
 
+    private void EquipedOnDrop()
+    {
+        indexEquipedItem = -1;
+    }
 }
 
 [System.Serializable]
@@ -509,24 +514,13 @@ public class SlotItem<T>: SlotItem where T : Item
         }
     }
 
-    public override int indexEquipedItem 
-    { 
+    public override int indexEquipedItem
+    {
         set
         {
-            if (equiped != null)
-                equiped.onDrop -= EquipedOnDrop;
-
             base.indexEquipedItem = value;
             toChange?.Invoke(_indexEquipedItem, equiped);
-
-            if(equiped!=null)
-                equiped.onDrop += EquipedOnDrop;
-        } 
-    }
-
-    private void EquipedOnDrop()
-    {
-        indexEquipedItem = -1;
+        }
     }
 }
 
@@ -558,13 +552,13 @@ public class SlotItemList<T> where T : Item
 
     public SlotItem<T> this[int index]
     {
-        set
-        {
-            list[index] = value;
-        }
         get
         {
             return list[index];
+        }
+        private set
+        {
+            list[index] = value;
         }
     }
 
@@ -577,15 +571,17 @@ public class SlotItemList<T> where T : Item
         {
             return list[indexer];
         }
-        set
-        {
-            list[indexer] = value;
-        }
     }
 
     public SlotItem<T> Actual(int index)
     {
+        if (index == indexer)
+            return actual;
+
+        list[indexer].equiped.Unequip();
         indexer = index;
+        list[indexer].equiped.Equip(indexer);
+        
         return list[indexer];
     }
 

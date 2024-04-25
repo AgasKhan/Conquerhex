@@ -74,7 +74,8 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
 public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBase>
 {
     public event System.Action onDrop;//si ejecuto el ondrop, este desequipa el item
-    public event System.Action<InventoryEntityComponent> onChangeContainer;
+    public event System.Action<InventoryEntityComponent> OnChangeContainer;
+    public event System.Action<int> OnEquipedInSlot;
 
     [SerializeField]
     protected InventoryEntityComponent container;
@@ -151,6 +152,11 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
         return this;
     }
 
+    public void Equip(int slot)
+    {
+        OnEquipedInSlot?.Invoke(slot);
+    }
+
     public virtual void Unequip()
     {
 
@@ -188,7 +194,7 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
 
         onDrop?.Invoke();
 
-        onChangeContainer?.Invoke(inventoryEntityComponent);
+        OnChangeContainer?.Invoke(inventoryEntityComponent);
 
         container.InternalRemoveItem(this);
 
