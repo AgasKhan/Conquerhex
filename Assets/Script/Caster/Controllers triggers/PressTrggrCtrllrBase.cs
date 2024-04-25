@@ -35,19 +35,14 @@ public class PressTrggrCtrllr : TriggerController
         if (!onCooldownTime)
             return;
 
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
+        FeedBackReference?.Area(FinalMaxRange);
 
-        this.FeedBackReference = reference;
-
-        aux.SetParent(caster.transform);
-
-        reference.Area(FinalMaxRange);
-
-        reference.Attack();
+        FeedBackReference?.Attack();
 
         Detect(dir);
 
         Cast();
+        End = false;
         pressCooldown.Reset();
     }
 
@@ -66,6 +61,7 @@ public class PressTrggrCtrllr : TriggerController
         if (pressCooldown.Chck)
         {
             Cast();
+            End = false;
             FeedBackReference?.Attack();
             pressCooldown.Reset();
         }

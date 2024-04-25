@@ -28,12 +28,7 @@ public class UpTrggrCtrllr : TriggerController
             return;
         }
 
-        var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out FadeColorAttack reference, caster.transform.position);
-
-        this.FeedBackReference = reference;
-        aux.SetParent(caster.transform);
-
-        reference.Area(out originalScale);
+        FeedBackReference?.Area(out originalScale);
     }
 
     //Durante, al mantener y moverlo
@@ -48,7 +43,7 @@ public class UpTrggrCtrllr : TriggerController
 
         Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime);
 
-        FeedBackReference.Area(originalScale * FinalMaxRange).Direction(Aiming);
+        FeedBackReference?.Area(originalScale * FinalMaxRange).Direction(Aiming);
 
         Detect(Aiming, button);
     }
@@ -70,8 +65,6 @@ public class UpTrggrCtrllr : TriggerController
         Cast();
 
         FeedBackReference?.Attack();
-
-        End = true;
     }
 }
 

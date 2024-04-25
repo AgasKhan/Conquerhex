@@ -21,8 +21,6 @@ public abstract class MoveAbstract : MyScripts , IMove
     [SerializeField]
     protected Tim _velocity = new Tim();
 
-
-
     [field: SerializeField]
     public float objectiveVelocity { get; set; }
 
@@ -38,7 +36,6 @@ public abstract class MoveAbstract : MyScripts , IMove
         set
         {
             Set(_velocity, value);
-            
         }
     }
 
@@ -48,13 +45,12 @@ public abstract class MoveAbstract : MyScripts , IMove
         set
         {
             Set(_desaceleration, value);
-            
         }
     }
 
     public virtual Vector3 vectorVelocity 
     {
-        get => velocity * direction;
+        get => velocity * direction.normalized;
         set
         {
             Velocity(value);
@@ -71,14 +67,23 @@ public abstract class MoveAbstract : MyScripts , IMove
         if (objectiveVelocity == null)
             objectiveVelocity = this.objectiveVelocity;
 
-        /*
-        if (velocity > objectiveVelocity)
-            return this;
-        */
+        Vector3 vecVelocity = vectorVelocity;
 
-        var vecVelocity = vectorVelocity;
+        Vector3 calc;
 
-        vecVelocity += Vector3.ClampMagnitude((Time.deltaTime * magnitud * dirNormalized) + vecVelocity, (float)objectiveVelocity) - vecVelocity;
+        if (velocity > (float)objectiveVelocity)
+        {
+            calc = Vector3.ClampMagnitude(((float)objectiveVelocity * dirNormalized) - vecVelocity, desaceleration*Time.deltaTime);
+        }
+        else
+        {
+            calc = Vector3.ClampMagnitude(((float)objectiveVelocity * dirNormalized) - vecVelocity, magnitud * Time.deltaTime);
+        }
+        //vecVelocity = Vector3.ClampMagnitude((Time.deltaTime * magnitud * dirNormalized) + vecVelocity, (float)objectiveVelocity);
+
+        //Debug.Log($"{velocity} {direction} {vectorVelocity} - {vecVelocity.magnitude}");
+
+        vecVelocity += calc;
 
         aceleration.current = magnitud;
 
@@ -93,16 +98,7 @@ public abstract class MoveAbstract : MyScripts , IMove
     {
         this.velocity = velocity?? objectiveVelocity;
 
-        this.direction = dir;
-    }
-
-    MoveAbstract Velocity(Vector3 dir)
-    {
-        velocity = dir.magnitude;
-
-        direction = dir.normalized;
-
-        return this;
+        this.direction = Vector3.ClampMagnitude(dir, 1);
     }
 
     public void Teleport(Hexagone hexagone, int lado)
@@ -110,7 +106,6 @@ public abstract class MoveAbstract : MyScripts , IMove
         onTeleport?.Invoke(hexagone, lado);
         transform.SetParent(hexagone.transform);
     }
-
 
     protected void OnIdle()
     {

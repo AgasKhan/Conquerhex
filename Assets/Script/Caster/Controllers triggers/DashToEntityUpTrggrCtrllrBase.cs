@@ -59,7 +59,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         else
         {
             Cast();
-            End = true;
             return;
         }
 
@@ -78,8 +77,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (affected.Count == 0)
             return;
 
-        Cast();
-
         if (caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
             aux.velocity = 0;
@@ -89,6 +86,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         timerToEnd.Stop();
 
-        End = true;
+        Cast();
     }
 }

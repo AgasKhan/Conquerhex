@@ -140,6 +140,8 @@ public class WeaponKata : Ability
 
         WeaponEnabled.Durability(itemBase.damageToWeapon);
 
+        End = true;
+
         return aux;
     }
 

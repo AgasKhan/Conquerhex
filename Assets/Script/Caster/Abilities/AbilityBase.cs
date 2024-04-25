@@ -13,6 +13,8 @@ public abstract class AbilityBase : ItemBase
     [Space]
 
     [Header("FeedBack")]
+    public bool ShowFeedBackArea = true;
+
     public GameObject[] particles;
 
     [SerializeField]
@@ -33,7 +35,6 @@ public abstract class AbilityBase : ItemBase
         "\nSi es negativo sumara energia" +
         "\nEste costo no se quitara de forma automatica")]
     public float costHandle = 0;
-
 
     public Damage[] damagesMultiply = new Damage[0];
 
@@ -168,15 +169,28 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public override bool visible => !IsCopy;
 
+    
     public FadeColorAttack FeedBackReference
     {
-        get => _feedBackReference;
+        get
+        {
+            if(_feedBackReference==null && itemBase.ShowFeedBackArea)
+            {
+                var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out _feedBackReference, caster.transform.position);
+
+                aux.SetParent(caster.transform);
+            }
+
+            return _feedBackReference;
+        }
         set
         {
             _feedBackReference?.Off();
             _feedBackReference = value;
         }
     }
+    
+
     public Ability CreateCopy(out int index)
     {
         var aux = Create() as Ability;

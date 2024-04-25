@@ -22,7 +22,14 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     protected Ability ability;
 
-    public bool End { get => ability.End; set => ability.End = value; }
+    public bool End
+    {
+        get => ability.End;
+        set
+        {
+            ability.End = value;
+        }
+    }
 
     public virtual float FinalVelocity => ability.FinalVelocity;
 
@@ -112,6 +119,12 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
 public interface IAbilityComponent
 {
+    /// <summary>
+    /// Variable dedicada a senializar el fin de la habilidad<br/>
+    /// Criterio de utilizacion:<br/>
+    /// Los TriggerControllers tienen prioridad sobre los casteos, en caso que se desee invalidar el control del casteo<br/>
+    /// Los CastingActions deben de setearlo en true en algun lado de su codigo (las weaponsKata lo hacen de forma automatica al atacar)
+    /// </summary>
     public bool End { get ; set ; }
     public float FinalVelocity { get; }
 
