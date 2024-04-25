@@ -113,29 +113,22 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         if (katasCombo.Actual(index).equiped != null)
             return;
-
         
         var aux = flyweight.kataCombos[index].kata.Create();
 
         aux.Init(inventoryEntity);
 
-
         var aux2 = flyweight.kataCombos[index].weapon.Create();
 
         aux2.Init(inventoryEntity);
 
-
         ((WeaponKata)aux).CreateCopy(out index);
-
-        Debug.Log("Indice Copy: " + index);
 
         katasCombo.actual.indexEquipedItem = index;
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 
         katasCombo.actual.equiped.ChangeWeapon(aux2);
-
-        //katasCombo.actual.equiped.onCast += AttackEvent;//ver como mejorar
     }
 
 
