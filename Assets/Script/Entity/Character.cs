@@ -125,17 +125,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     {
         AbilityExtCast weaponKata;
 
-       /*
-       if (i == 0)
-       {
-           weaponKata = caster.actualAbility;
-       }
-       else
-       {
-           weaponKata = caster.abilitiesCombo.Actual(i - 1).equiped;
-       }
-       */
-
         weaponKata = caster.abilities.Actual(i).equiped;
 
         castingActionCharacter.stateWithEnd = weaponKata;

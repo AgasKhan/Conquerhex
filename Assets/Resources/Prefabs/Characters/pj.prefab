@@ -90,9 +90,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  currentWeight: 0
-  travelItem: []
+  visualItems: []
+  inventory:
+    ts: []
+  _currentWeight: 0
+  flyweight: {fileID: 0}
   references:
     version: 2
     RefIds: []
@@ -111,51 +113,69 @@ MonoBehaviour:
   weapons:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   katasCombo:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   abilities:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
@@ -251,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <direction>k__BackingField: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0, z: 0}
   aceleration:
     _total: 100
     _current: 0

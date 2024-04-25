@@ -76,7 +76,7 @@ public class IAIO : IAFather
         {
             if (combos[i] == lastCombo)
             {
-                character.Ability(i + 2);
+                character.Ability(i + 1);
                 return;
             }
         }
