@@ -33,8 +33,8 @@ public class SlotItem
         {
             if (equiped != null)
             {
-                equiped.Unequip();
                 equiped.onDrop -= EquipedOnDrop;
+                equiped.Unequip();
             }
 
             _indexEquipedItem = value;
