@@ -314,6 +314,8 @@ public class VirtualControllers : MonoBehaviour
 
         public void SuscribeController(IControllerDir controllerDir)
         {
+            if (controllerDir == null)
+                return;
             eventDown += controllerDir.ControllerDown;
             eventUp += controllerDir.ControllerUp;
             eventPress += controllerDir.ControllerPressed;
@@ -321,6 +323,9 @@ public class VirtualControllers : MonoBehaviour
 
         public void DesuscribeController(IControllerDir controllerDir)
         {
+            if (controllerDir == null)
+                return;
+
             eventDown -= controllerDir.ControllerDown;
             eventUp -= controllerDir.ControllerUp;
             eventPress -= controllerDir.ControllerPressed;

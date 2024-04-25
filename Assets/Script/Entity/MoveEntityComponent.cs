@@ -11,12 +11,14 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
     MoveAbstract move;
 
     public float maxSpeed { get => move.maxSpeed; set => move.maxSpeed = value; }
-    public float velocity { get => move.velocity; set => move.velocity = value; }
+
     public float desaceleration { get => move.desaceleration; set => move.desaceleration = value; }
 
-    public Vector3 vectorVelocity { get => ((IMove)move).vectorVelocity; set => ((IMove)move).vectorVelocity = value; }
-    public Vector3 direction { get => ((IMove)move).direction; set => ((IMove)move).direction = value; }
+    public Vector3 VectorVelocity { get => ((IMove)move).VectorVelocity; set => ((IMove)move).VectorVelocity = value; }
+
     public float objectiveVelocity { get => ((IMove)move).objectiveVelocity; set => ((IMove)move).objectiveVelocity = value; }
+    public Vector3 VelocityCalculate { get => ((IMove)move).VelocityCalculate; set => ((IMove)move).VelocityCalculate = value; }
+    public Vector3 direction { get => ((IMove)move).direction; set => ((IMove)move).direction = value; }
 
     public event Action<Vector3> onMove
     {

@@ -65,7 +65,7 @@ public class CastingDash : CastingAction<CastingDashBase>
 
     void Update()
     {
-        moveEntity.Velocity(moveEntity.direction.normalized, castingActionBase.velocityInDash);
+        moveEntity.Velocity(moveEntity.direction, castingActionBase.velocityInDash);
     }
 
     void Finish()

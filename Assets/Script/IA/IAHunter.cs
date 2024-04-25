@@ -177,8 +177,8 @@ public class HunterPatrol : IState<HunterIntern>
             return;
         }
 
-        if (move.vectorVelocity.sqrMagnitude >= 0.01f)
-            conoDir = Vector3.Lerp(conoDir, move.vectorVelocity.normalized, Time.deltaTime);
+        if (move.VectorVelocity.sqrMagnitude >= 0.01f)
+            conoDir = Vector3.Lerp(conoDir, move.VectorVelocity.normalized, Time.deltaTime);
 
         this.move.ControllerPressed(dir, 0);
     }

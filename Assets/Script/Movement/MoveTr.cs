@@ -29,14 +29,14 @@ public class MoveTr : MoveAbstract
 
     protected virtual void MyFixedUpdate()
     {
-        transform.position += (direction * _velocity.current * Time.fixedDeltaTime);
+        transform.position += (VelocityCalculate * Time.fixedDeltaTime);
 
-        _velocity.Substract(_desaceleration.current * Time.fixedDeltaTime);
+        VelocityCalculate -= _desaceleration.current * Time.fixedDeltaTime * VelocityCalculate.normalized;
 
-        if (_velocity.current <= 0)
+        if (VelocityCalculate.sqrMagnitude <= 0)
             OnIdle();
         else
-            OnMove(direction * _velocity.current);
+            OnMove(VelocityCalculate);
     }
 
 

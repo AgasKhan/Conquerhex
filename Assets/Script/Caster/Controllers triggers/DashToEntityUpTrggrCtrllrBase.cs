@@ -79,7 +79,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         if (caster.TryGetComponent<MoveEntityComponent>(out var aux))
         {
-            aux.velocity = 0;
+            aux.VelocityCalculate = Vector3.zero;
         }
 
         FeedBackReference?.Attack();

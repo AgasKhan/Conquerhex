@@ -45,7 +45,7 @@ public class TeleportCollider : MonoBehaviour
 
         Hexagone arrHexTeleport = ladosArray[lado];//accedo al script del array al que me quiero teletransportar
 
-        float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), fisicaOther.vectorVelocity.Vect3To2XZ());
+        float anguloVelocidad = Utilitys.DifAngulosVectores(new Vector2(Mathf.Cos((lado * -60) * Mathf.Deg2Rad), Mathf.Sin((lado * -60) * Mathf.Deg2Rad)), fisicaOther.VectorVelocity.Vect3To2XZ());
 
         //aplico una velocidad al objeto que esta cerca del portal
 

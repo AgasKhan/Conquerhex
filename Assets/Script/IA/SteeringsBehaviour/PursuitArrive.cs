@@ -16,13 +16,13 @@ public class PursuitArrive : SteeringBehaviour
 
         _desiredVelocity = Vector3.ClampMagnitude(desired, me.maxSpeed);
 
-        if (_desiredVelocity.sqrMagnitude < (me.velocity * me.velocity / (me._desaceleration.current * me._desaceleration.current)))
-            _desiredVelocity = -me.vectorVelocity * (me._desaceleration.current - 1);
+        if (_desiredVelocity.sqrMagnitude < (me.VelocityCalculate.sqrMagnitude / (me._desaceleration.current * me._desaceleration.current)))
+            _desiredVelocity = -me.VectorVelocity * (me._desaceleration.current - 1);
 
-        _steering = _desiredVelocity - me.vectorVelocity;
+        _steering = _desiredVelocity - me.VectorVelocity;
 
         //Saco la distancia según dónde estará el enemigo que va a una determinada velocidad
-        Vector3 _directionToTarget = (target.transform.position) + target.vectorVelocity - me.transform.position;
+        Vector3 _directionToTarget = (target.transform.position) + target.VectorVelocity - me.transform.position;
 
         //Realizo una proyección del vector entre el punto donde estará el enemigo y nuestra posición actual
         Vector3 aux = Vector3.Project(_directionToTarget, desired);

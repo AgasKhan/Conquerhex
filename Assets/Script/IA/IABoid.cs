@@ -146,7 +146,7 @@ public class IABoid : IAFather
 
     void Alignment(ref Vector3 desired, IABoid boid, Vector3 dirToBoid)
     {
-        desired += boid.move.vectorVelocity;
+        desired += boid.move.VectorVelocity;
     }
 
     protected Vector3 Cohesion()

@@ -8,6 +8,15 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
     [field: SerializeField]
     public Vector3 direction { get; set; }
 
+    [SerializeField]
+    Vector3 _velocityCalculate;
+
+    [field: SerializeField]
+    public float objectiveVelocity { get; set; } = 7.5f;
+
+    [field: SerializeField]
+    public float maxSpeed { get; set; } = 100;
+
     public Tim aceleration = new Tim();
 
     public Tim _desaceleration = new Tim();
@@ -18,27 +27,6 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
 
     public event Action<Hexagone, int> onTeleport;
 
-    [SerializeField]
-    protected Tim _velocity = new Tim();
-
-    [field: SerializeField]
-    public float objectiveVelocity { get; set; }
-
-    public float maxSpeed
-    {
-        get => _velocity.total;
-        set => _velocity.total = value;
-    }
-
-    public float velocity
-    {
-        get => _velocity.current;
-        set
-        {
-            Set(_velocity, value);
-        }
-    }
-
     public float desaceleration
     {
         get => _desaceleration.current;
@@ -48,12 +36,25 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
         }
     }
 
-    public virtual Vector3 vectorVelocity 
+    public virtual Vector3 VectorVelocity
     {
-        get => velocity * direction.normalized;
+        get => VelocityCalculate;
         set
         {
             Velocity(value);
+        }
+    }
+
+    public Vector3 VelocityCalculate 
+    {
+        get => _velocityCalculate;
+        set
+        {
+            _velocityCalculate = Vector3.ClampMagnitude(value, maxSpeed);
+            if (_velocityCalculate.sqrMagnitude < 0.1f)
+                _velocityCalculate = Vector3.zero;
+            else
+                direction = _velocityCalculate.normalized;
         }
     }
 
@@ -67,11 +68,11 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
         if (objectiveVelocity == null)
             objectiveVelocity = this.objectiveVelocity;
 
-        Vector3 vecVelocity = velocity * direction.normalized;
+        Vector3 vecVelocity = VelocityCalculate;
 
         Vector3 calc;
 
-        if (velocity > (float)objectiveVelocity)
+        if (VelocityCalculate.sqrMagnitude > (float)objectiveVelocity * (float)objectiveVelocity)
         {
             calc = Vector3.ClampMagnitude(((float)objectiveVelocity * dirNormalized) - vecVelocity, desaceleration*Time.deltaTime);
         }
@@ -87,18 +88,14 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
 
         aceleration.current = magnitud;
 
-        velocity = vecVelocity.magnitude;
-
-        direction = vecVelocity.normalized;
+        VelocityCalculate = vecVelocity;
 
         return this;
     }
 
     public void Velocity(Vector3 dir, float? velocity=null)
     {
-        this.velocity = velocity?? objectiveVelocity;
-
-        this.direction = Vector3.ClampMagnitude(dir, 1);
+        VelocityCalculate = Vector3.ClampMagnitude(dir, 1) * (velocity ?? objectiveVelocity);
     }
 
     public void Teleport(Hexagone hexagone, int lado)
@@ -126,11 +123,7 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
 
         //Velocity((transform.position - posDmg).normalized * Mathf.Sign(dmg.knockBack), Mathf.Abs(dmg.knockBack) + velocity);
 
-        var resultado = ((velocity * direction.normalized) + (transform.position - posDmg).normalized * dmg.knockBack);
-
-        velocity = resultado.magnitude;
-
-        direction = resultado.normalized;
+        VelocityCalculate += (transform.position - posDmg).normalized * dmg.knockBack;
     }
 }
 
@@ -145,17 +138,14 @@ public interface IMove
     /// </summary>
     public event System.Action<Hexagone, int> onTeleport;
 
-    public Vector3 direction { get; set; }
+    /// <summary>
+    /// propiedad destinada a guardar de forma manual la velocidad calculada
+    /// </summary>
+    public Vector3 VelocityCalculate { get; set; }
 
     public float objectiveVelocity { get; set; }
 
     public float maxSpeed
-    {
-        get;
-        set;
-    }
-
-    public float velocity
     {
         get;
         set;
@@ -168,12 +158,11 @@ public interface IMove
     }
 
     /// <summary>
-    /// ATENCION: es mas lenta para setear que su contraparte manual Velocity(Vector2 dir, float velocity)<br/>
-    /// Funcion destinada a setear de forma manual la direccion de la velocidad
+    /// Funcion destinada a setear de forma manual la velocidad REAL
     /// </summary>
-    public Vector3 vectorVelocity { get; set; }
+    public Vector3 VectorVelocity { get; set; }
 
-
+    public Vector3 direction { get; set; }
 
     /// <summary>
     /// Funcion destinada a setear de forma manual la direccion de la velocidad y su magnitud

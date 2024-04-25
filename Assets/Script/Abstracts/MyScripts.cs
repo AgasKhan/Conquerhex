@@ -171,7 +171,7 @@ public abstract class MyScripts : MonoBehaviour
             MyOnDisables?.Invoke();
             RemoveUpdate();
             RemoveFixedUpdate();
-            if (!gameObject.activeInHierarchy && onPauseSuscribe)
+            if (gameObject !=null && !gameObject.activeInHierarchy && onPauseSuscribe)
             {
                 GameManager.OnPlay -= GameManager_onPlay;
 

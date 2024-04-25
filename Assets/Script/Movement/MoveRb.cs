@@ -6,7 +6,7 @@ public class MoveRb : MoveTr
 {
     Rigidbody rb;
 
-    public override Vector3 vectorVelocity { get => rb.velocity; set => rb.velocity = value; }
+    public override Vector3 VectorVelocity { get => rb.velocity; set => rb.velocity = value; }
 
     protected override void Config()
     {
@@ -21,12 +21,13 @@ public class MoveRb : MoveTr
 
     protected override void MyFixedUpdate()
     {
-        rb.velocity = (direction * _velocity.current);
-        _velocity.Substract(_desaceleration.current * Time.fixedDeltaTime);
+        rb.velocity = VelocityCalculate;
 
-        if (_velocity.current <= 0)
+        VelocityCalculate -= _desaceleration.current * Time.fixedDeltaTime * VelocityCalculate.normalized;
+
+        if (VelocityCalculate.sqrMagnitude <= 0)
             OnIdle();
         else
-            OnMove(rb.velocity);
+            OnMove(VectorVelocity);
     }
 }
