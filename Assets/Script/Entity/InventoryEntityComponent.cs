@@ -64,7 +64,8 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     /// Si la transferencia fue exitosa devuelve true, sino false
     /// </summary>
     /// <param name="item"></param>
-    public bool TransferItem(Item item)
+    /*
+    public bool TransferItem(Item item, InventoryEntityComponent destinyInventory)
     {
         if (HasCapacity(item))
         {
@@ -74,7 +75,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
         return false;
     }
-
+    */
     /// <summary>
     /// Quita una cantidad determinada de items stackeables
     /// </summary>

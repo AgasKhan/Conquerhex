@@ -33,7 +33,7 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.OnClose += Exit;
     }
 
-    private void Exit()
+    void Exit()
     {
         subMenu.ExitSubmenu();
     }

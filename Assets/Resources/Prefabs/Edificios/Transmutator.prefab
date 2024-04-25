@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3537445705679587742}
-  - component: {fileID: 7947392604354013978}
   - component: {fileID: 8993050259912593966}
   - component: {fileID: 6186355462008911518}
   - component: {fileID: 492755891802680905}
   - component: {fileID: 8426322626824168846}
   - component: {fileID: 7251562728694435930}
+  - component: {fileID: 2421499919806145953}
   m_Layer: 0
   m_Name: Transmutator
   m_TagString: Props
@@ -30,49 +30,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6644827579059899102}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.162, y: -0.086, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.049999993, y: 0.049999993, z: 0.049999993}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5215763367703039472}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &7947392604354013978
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6644827579059899102}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.13110374, y: 1.5725834}
-  m_Size: {x: 3.0077622, y: 2.0636854}
-  m_Direction: 1
 --- !u!114 &8993050259912593966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +89,7 @@ MonoBehaviour:
       _current: 0
     deathBool: 0
     regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 11400000, guid: be33bc105550f754886d95817f28c11c,
     type: 2}
@@ -134,7 +100,7 @@ MonoBehaviour:
   NavBarButtons: 
   controller: {fileID: 8426322626824168846}
   interactComp: {fileID: 7251562728694435930}
-  currentLevel: 0
+  levelComp: {fileID: 0}
 --- !u!114 &8426322626824168846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +132,30 @@ MonoBehaviour:
     detailsWindow: {fileID: 0}
     myCharacter: {fileID: 0}
     interactComponent: {fileID: 0}
+    buttonsList: []
+--- !u!136 &2421499919806145953
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6644827579059899102}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7221396
+  m_Height: 2.9989884
+  m_Direction: 0
+  m_Center: {x: 0, y: 1.2650722, z: 2.6517213e-16}
 --- !u!1 &7238884994290426111
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,8 +330,9 @@ MonoBehaviour:
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   detected: {r: 1, g: 0.5, b: 0.5, a: 1}
-  _shakeIntensity: 0.2
-  _shakeDuration: 0.11
+  shake:
+    _shakeIntensity: 0
+    _shakeDuration: 0
   onDeathParticlePrefab: {fileID: 0}
 --- !u!114 &2406791956217993205
 MonoBehaviour:

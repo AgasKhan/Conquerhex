@@ -69,7 +69,7 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
             foreach (var item in genericMenu.interactComponent.interact)
             {
                 item.value.InteractInit(genericMenu.interactComponent);
-                subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { genericMenu.DestroyLastButtons(); item.value.ShowMenu(genericMenu.myCharacter); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+                subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { genericMenu.DestroyLastButtons(); item.value.ShowMenu(genericMenu.myCharacter); genericMenu.GoToOtherMenu(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
             }
 
             subMenu.CreateSection(2, 6);

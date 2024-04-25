@@ -55,11 +55,13 @@ public class Building : Entity
         
         levelComp= GetInContainer<LevelComponent>();
 
-        levelComp.MaxLevel = () => { return upgradesRequirements.Length; };
+        //levelComp.MaxLevel = () => { return upgradesRequirements.Length; };
 
         controller = GetComponent<BuildingsController>();
 
-        controller.OnEnterState(this);
+        controller?.OnEnterState(this);
+
+        hexagoneParent = transform.parent.GetComponentInParent<Hexagone>();
 
         var aux = flyweight.GetFlyWeight<UpgradeBase>();
         if (aux != null)

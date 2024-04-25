@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemContainer : MonoBehaviour
 {
     [SerializeField]
-    public Character character;
+    public Entity character;
 
     void Awake()
     {

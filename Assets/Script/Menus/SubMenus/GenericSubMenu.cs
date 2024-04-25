@@ -16,6 +16,8 @@ public class GenericSubMenu : CreateSubMenu
 
     public System.Action<SubMenus> createAction;
 
+    public List<ButtonA> buttonsList = new List<ButtonA>();
+
     EventsCall lastButton = null;
 
     public override void Create(Character character)
@@ -31,6 +33,7 @@ public class GenericSubMenu : CreateSubMenu
     protected override void InternalCreate()
     {
         createAction?.Invoke(subMenu);
+        subMenu.OnClose += Exit;
     }
 
     public EventsCall CreateButton(string text, UnityEngine.Events.UnityAction action)
@@ -40,6 +43,30 @@ public class GenericSubMenu : CreateSubMenu
         return lastButton;
     }
 
+    public void ShowItemDetails(string nameDisplay, string details, Sprite Image)
+    {
+        detailsWindow.SetTexts(nameDisplay, details).SetImage(Image);
+        detailsWindow.SetActiveGameObject(true);
+    }
+    /*
+    public void CreateButtonA(string name, Sprite image, string textNum)
+    {
+        buttonsList.Clear();
+
+        foreach (var item in ((CraftingBuild)craftAction.interactComp.container).currentRecipes)
+        {
+            ButtonA button = subMenu.AddComponent<ButtonA>();
+
+            UnityEngine.Events.UnityAction action =
+                () =>
+                {
+                    RefreshDetailW(item);
+                };
+
+            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, "", action).SetType(item.GetType().ToString()));
+        }
+    }
+    */
     public void DestroyLastButtons()
     {
         if (lastButton != null)
@@ -66,6 +93,22 @@ public class GenericSubMenu : CreateSubMenu
         }
 
         return details;
+    }
+
+    void Exit()
+    {
+        subMenu.ExitSubmenu();
+    }
+
+    public void GoToOtherMenu()
+    {
+        subMenu.OnClose -= Exit;
+        subMenu.OnClose += SubMenuOnClose;
+    }
+    void SubMenuOnClose()
+    {
+        subMenu.OnClose -= SubMenuOnClose;
+        Create(myCharacter);
     }
 
     public GenericSubMenu(InteractEntityComponent _entity)
