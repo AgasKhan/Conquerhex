@@ -39,7 +39,7 @@ public class PressTrggrCtrllr : TriggerController
 
         FeedBackReference?.Attack();
 
-        Detect(dir);
+        Detect();
 
         Cast();
         End = false;
@@ -56,7 +56,7 @@ public class PressTrggrCtrllr : TriggerController
             return;
         }
 
-        Detect(dir, tim);
+        Detect(tim);
 
         if (pressCooldown.Chck)
         {

@@ -45,7 +45,7 @@ public class UpTrggrCtrllr : TriggerController
 
         FeedBackReference?.Area(originalScale * FinalMaxRange).Direction(Aiming);
 
-        Detect(Aiming, button);
+        Detect(button);
     }
 
     //Despues, al sotarlo

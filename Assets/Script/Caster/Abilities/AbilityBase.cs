@@ -212,18 +212,20 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         up = MyControllerVOID;
     }
 
-
-    public void Cast()
+    public void Cast(IEnumerable<Entity> entities)
     {
         onCast?.Invoke();
 
-        var damageds = InternalCast(affected);
-
-        if(damageds!=null)
-            foreach (var dmgEntity in damageds)
+        if (entities != null)
+            foreach (var dmgEntity in entities)
             {
                 itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
             }
+    }
+
+    public void Cast()
+    {
+        Cast(InternalCast(affected));
     }
 
     public override void Destroy()
@@ -241,9 +243,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             Destroy();
     }
 
-    public List<Entity> Detect(Vector3 dir, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    public List<Entity> Detect(float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
-        affected = trigger.InternalDetect(dir, timePressed, minRange, maxRange, dot);
+        affected = trigger.InternalDetect(Aiming, timePressed, minRange, maxRange, dot);
 
         if (affected != null)
             foreach (var item in affected)

@@ -70,8 +70,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     public void Cast() 
         => ability.Cast();
 
-    public List<Entity> Detect(Vector3 dir, float timePressed = 0, float? maxRange = null, float? minRange = null,  float? dot = null) 
-        => ability.Detect(dir, timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+    public List<Entity> Detect(float timePressed = 0, float? maxRange = null, float? minRange = null,  float? dot = null) 
+        => ability.Detect(timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
 
     public virtual void Init(Ability ability)
     {

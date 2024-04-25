@@ -9,10 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41e6450905b3edb498325049ff24126e, type: 3}
-  m_Name: new CastingDash
+  m_Script: {fileID: 11500000, guid: bfa6f12cdef18e040826b929f6cb6ce6, type: 3}
+  m_Name: CastingDamageArdiente
   m_EditorClassIdentifier: 
-  _nameDisplay: Cast Dash
-  _image: {fileID: 592779036, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _nameDisplay: asda
+  _image: {fileID: 0}
   _details: 
-  velocityInDash: 20
+  damages:
+  - name: 
+    amount: 50
+    knockBack: 1
+    typeInstance: {fileID: 11400000, guid: 582c5c38f1607604fb78d317332828c6, type: 2}

@@ -52,13 +52,15 @@ public class CastingDash : CastingAction<CastingDashBase>
 
     public override IEnumerable<Entity> Cast(List<Entity> entities)
     {
+        IEnumerable<Entity> affected = null;
+
         if (caster.TryGetInContainer(out moveEntity))
         {
             dashInTime.Reset();
-            startDashCastingAction?.Cast(entities);
+            affected = startDashCastingAction?.Cast(ability.Detect());
         }
 
-        return null;
+        return affected;
     }
 
     void Update()
@@ -69,7 +71,18 @@ public class CastingDash : CastingAction<CastingDashBase>
     void Finish()
     {
         moveEntity.Velocity(moveEntity.direction, moveEntity.objectiveVelocity);
-        endDashCastingAction?.Cast(null);
+
+        ability.Cast(endDashCastingAction?.Cast(ability.Detect()));
+
         End = true;
+    }
+
+    public override void Destroy()
+    {
+        base.Destroy();
+        dashInTime.Stop();
+        dashInTime = null;
+        startDashCastingAction.Destroy();
+        endDashCastingAction.Destroy();
     }
 }
