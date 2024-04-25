@@ -50,16 +50,16 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         onDetected?.Invoke();
     }
 
-    public void TakeDamage(Damage dmg)
+    public void TakeDamage(Damage dmg, Vector3? damageOrigin = null)
     {
-        InternalTakeDamage(ref dmg);
+        InternalTakeDamage(ref dmg, damageOrigin);
 
         UI.Interfaz.instance?.PopTextDamage(this, dmg.ToString());
 
         //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
 
-    public void TakeDamage(IEnumerable<Damage> dmgs)
+    public void TakeDamage(IEnumerable<Damage> dmgs, Vector3? damageOrigin = null)
     {
         if (dmgs == null)
             return;
@@ -68,13 +68,13 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
         foreach (var dmgFor in dmgs)
         {
-            TakeDamage(dmgFor);
+            TakeDamage(dmgFor, damageOrigin);
         }
 
         //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
 
-    public virtual void InternalTakeDamage(ref Damage dmg)
+    public virtual void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
     {
         if (vulnerabilities!=null)
             for (int i = 0; i < vulnerabilities.Length; i++)
@@ -155,11 +155,14 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
                 */
         }
 
+        if (dmg.amount <= 0)
+            return;
+
         dmg.ActionInitialiced(this, dmg.amount);
 
         foreach (var item in damageables)
         {
-            item.InternalTakeDamage(ref dmg);
+            item.InternalTakeDamage(ref dmg, damageOrigin);
         }
 
         health.StartRegenTimer();

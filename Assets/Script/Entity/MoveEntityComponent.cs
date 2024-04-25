@@ -112,5 +112,7 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
     {
         JsonUtility.FromJsonOverwrite(str, this);
     }
+
+    
 }
 

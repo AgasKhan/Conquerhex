@@ -21,7 +21,7 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
         */
     }
 
-    public void InternalTakeDamage(ref Damage dmg)
+    public void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
     {
         if (dmg.amount <= 0)
             return;

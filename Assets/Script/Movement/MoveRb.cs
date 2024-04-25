@@ -6,6 +6,8 @@ public class MoveRb : MoveTr
 {
     Rigidbody rb;
 
+    public override Vector3 vectorVelocity { get => rb.velocity; set => rb.velocity = value; }
+
     protected override void Config()
     {
         base.Config();

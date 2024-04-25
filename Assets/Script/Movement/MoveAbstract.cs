@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MoveAbstract : MyScripts , IMove
+public abstract class MoveAbstract : MyScripts , IMove, IDamageable
 {
     [field: SerializeField]
     public Vector3 direction { get; set; }
@@ -67,7 +67,7 @@ public abstract class MoveAbstract : MyScripts , IMove
         if (objectiveVelocity == null)
             objectiveVelocity = this.objectiveVelocity;
 
-        Vector3 vecVelocity = vectorVelocity;
+        Vector3 vecVelocity = velocity * direction.normalized;
 
         Vector3 calc;
 
@@ -115,6 +115,22 @@ public abstract class MoveAbstract : MyScripts , IMove
     protected void OnMove(Vector3 vec)
     {
         onMove?.Invoke(vec);
+    }
+
+    public void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
+    {
+        if (damageOrigin == null || dmg.amount <= 0 || dmg.knockBack <= 0)
+            return;
+
+        Vector3 posDmg = (Vector3)damageOrigin;
+
+        //Velocity((transform.position - posDmg).normalized * Mathf.Sign(dmg.knockBack), Mathf.Abs(dmg.knockBack) + velocity);
+
+        var resultado = ((velocity * direction.normalized) + (transform.position - posDmg).normalized * dmg.knockBack);
+
+        velocity = resultado.magnitude;
+
+        direction = resultado.normalized;
     }
 }
 

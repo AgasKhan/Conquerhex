@@ -85,7 +85,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
     public virtual IEnumerable<Entity> ApplyDamage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
-        return Damage.ApplyDamage(damages, damageables);
+        return Damage.ApplyDamage(owner, damages, damageables);
     }
 
     public virtual void Durability(float damageToDurability)

@@ -22,6 +22,6 @@ public class CastingDamage : CastingAction<CastingDamageBase>
 
         var multiplative = Damage.Combine(Damage.MultiplicativeFusion, ability.multiplyDamage.content, additiveDamage);
 
-        return Damage.ApplyDamage(multiplative, entities); 
+        return Damage.ApplyDamage(caster.container,multiplative, entities); 
     }
 }
