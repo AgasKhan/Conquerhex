@@ -459,6 +459,9 @@ public class SlotItem
     [SerializeField]
     protected int _indexEquipedItem = -1;
 
+    [SerializeField]
+    protected int _indexSlot = -1;
+
     [SerializeReference]
     Item _equiped;
 
@@ -475,11 +478,13 @@ public class SlotItem
 
     public virtual int indexEquipedItem
     {
-        //get => _indexEquipedItem;
         set
         {
             if (equiped != null)
+            {
+                equiped.Unequip();
                 equiped.onDrop -= EquipedOnDrop;
+            }
 
             _indexEquipedItem = value;
 
@@ -487,6 +492,7 @@ public class SlotItem
             {
                 _equiped = inventoryComponent[_indexEquipedItem];
                 _equiped.onDrop += EquipedOnDrop;
+                _equiped.Equip(_indexSlot);
             }
             else
             {
@@ -521,6 +527,15 @@ public class SlotItem<T>: SlotItem where T : Item
             base.indexEquipedItem = value;
             toChange?.Invoke(_indexEquipedItem, equiped);
         }
+    }
+
+    public SlotItem()
+    {
+    }
+
+    public SlotItem(int indexSlot)
+    {
+        _indexSlot = indexSlot;
     }
 }
 
@@ -578,9 +593,7 @@ public class SlotItemList<T> where T : Item
         if (index == indexer)
             return actual;
 
-        list[indexer].equiped.Unequip();
         indexer = index;
-        list[indexer].equiped.Equip(indexer);
         
         return list[indexer];
     }
@@ -617,7 +630,7 @@ public class SlotItemList<T> where T : Item
     {
         for (int i = 0; i < Count; i++)
         {
-            list[i] = new SlotItem<T>();
+            list[i] = new SlotItem<T>(i);
             list[i].inventoryComponent = inventoryEntityComponent;
         }
     }
