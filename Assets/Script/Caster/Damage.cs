@@ -133,6 +133,25 @@ public struct Damage
         return damagesTypes[typeof(T)];
     }
 
+    public static IEnumerable<Entity> ApplyDamage(IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
+    {
+        foreach (var entity in damageables)
+        {
+            bool auxiliarDamaged = false;
+
+            System.Action<Damage> chckDmg = (dmg) => auxiliarDamaged = true;
+
+            entity.onTakeDamage += chckDmg;
+
+            entity.TakeDamage(damages);
+
+            entity.onTakeDamage -= chckDmg;
+
+            if (auxiliarDamaged)
+                yield return entity;
+        }
+    }
+
     public delegate Damage Fusion(Damage original, Damage toCompare);
 
     static IEnumerable<Damage> InternalCombine(Fusion fusion,IEnumerable<Damage> collection)

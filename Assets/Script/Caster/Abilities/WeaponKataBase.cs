@@ -136,7 +136,7 @@ public class WeaponKata : Ability
 
         totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, multiplyDamage.content);
 
-        var aux = WeaponEnabled.Damage(caster.container, totalDamage, entities);
+        var aux = WeaponEnabled.ApplyDamage(caster.container, totalDamage, entities);
 
         WeaponEnabled.Durability(itemBase.damageToWeapon);
 

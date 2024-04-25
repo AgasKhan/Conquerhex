@@ -1,0 +1,24 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CastingDamageBase : CastingActionBase
+{
+    public Damage[] damages;
+
+    protected override Type SetItemType()
+    {
+        return typeof(CastingDamage);
+    }
+}
+
+public class CastingDamage : CastingAction<CastingDamageBase>
+{
+    public override IEnumerable<Entity> Cast(List<Entity> entities)
+    {
+        var additiveDamage = Damage.Combine(Damage.AdditiveFusion, castingActionBase.damages, caster.additiveDamage.content);
+
+        return Damage.ApplyDamage(additiveDamage, entities); 
+    }
+}

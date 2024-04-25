@@ -83,23 +83,9 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
     public event System.Action off;
 
-    public virtual IEnumerable<Entity> Damage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
+    public virtual IEnumerable<Entity> ApplyDamage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
-        foreach (var entity in damageables)
-        {
-            bool auxiliarDamaged = false;
-
-            System.Action<Damage> chckDmg = (dmg) => auxiliarDamaged = true;
-
-            entity.onTakeDamage += chckDmg;
-
-            entity.TakeDamage(damages);
-
-            entity.onTakeDamage -= chckDmg;
-
-            if (auxiliarDamaged)
-                yield return entity;
-        }
+        return Damage.ApplyDamage(damages, damageables);
     }
 
     public virtual void Durability(float damageToDurability)

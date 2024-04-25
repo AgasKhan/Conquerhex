@@ -46,7 +46,7 @@ public class RangeWeapon : MeleeWeapon
     }
 
 
-    public override IEnumerable<Entity> Damage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
+    public override IEnumerable<Entity> ApplyDamage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
         /*
         if (damageables == null || damageables.Length == 0)
