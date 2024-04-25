@@ -150,7 +150,6 @@ public class InventorySubMenu : CreateSubMenu
     {
         var aux = subMenu.AddComponent<EventsCall>().Set("Unequip", () => 
         { 
-            _slotItem.equiped.Unequip();
             _slotItem.indexEquipedItem = -1;
             MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose(); 
         }, "");
