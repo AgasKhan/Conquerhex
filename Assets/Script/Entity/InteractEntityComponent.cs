@@ -10,6 +10,8 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     public bool interactuable = true;
     public Sprite Image;
 
+    public LogicActive<(InteractEntityComponent, Character)> interactAction;
+
     public Pictionarys<Type, InteractAction> interact => _interact;
 
     Pictionarys <Type, InteractAction> _interact = new Pictionarys<Type, InteractAction>();
@@ -29,13 +31,12 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     }
     private event Action _onInteract;
 
-    public virtual void ShowMenu(Character character)
+    public virtual void Interact(Character character)
     {
         if (!interactuable)
             return;
-        genericMenu.Init();
-        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false);
-        genericMenu.Create(character);
+
+        interactAction.Activate((this, character));
 
         _onInteract?.Invoke();
     }
@@ -60,27 +61,7 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         genericMenu = new GenericSubMenu(this);
 
-        Action<SubMenus> menuAction =
-        (subMenu) =>
-        {
-            subMenu.CreateSection(0, 2);
-            subMenu.CreateChildrenSection<ScrollRect>();
-
-            foreach (var item in genericMenu.interactComponent.interact)
-            {
-                item.value.InteractInit(genericMenu.interactComponent);
-                subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { genericMenu.DestroyLastButtons(); item.value.ShowMenu(genericMenu.myCharacter); genericMenu.GoToOtherMenu(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
-            }
-
-            subMenu.CreateSection(2, 6);
-            subMenu.CreateChildrenSection<ScrollRect>();
-            genericMenu.detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", genericMenu.interactComponent.container.flyweight.GetDetails()["Description"]).SetImage(genericMenu.interactComponent.container.flyweight.image);
-            
-            subMenu.CreateTitle(genericMenu.interactComponent.container.flyweight.nameDisplay);
-
-        };
-
-        genericMenu.SetCreateAct(menuAction);
+        genericMenu.SetCreateAct((menu) =>{genericMenu.InteractAction();});
     }
 
     public override void OnExitState(Entity param)

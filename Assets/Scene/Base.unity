@@ -16333,16 +16333,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <direction>k__BackingField: {x: 0, y: 0, z: 0}
+  _velocityCalculate: {x: 0, y: 0, z: 0}
+  <objectiveVelocity>k__BackingField: 0
+  <maxSpeed>k__BackingField: 100
   aceleration:
     _total: 0
     _current: 0
   _desaceleration:
     _total: 0
     _current: 0
-  _velocity:
-    _total: 0
-    _current: 0
-  <objectiveVelocity>k__BackingField: 0
 --- !u!114 &1088729118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16440,51 +16439,65 @@ MonoBehaviour:
   weapons:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   katasCombo:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   abilities:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
@@ -18707,16 +18720,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <direction>k__BackingField: {x: 0, y: 0, z: 0}
+  _velocityCalculate: {x: 0, y: 0, z: 0}
+  <objectiveVelocity>k__BackingField: 0
+  <maxSpeed>k__BackingField: 100
   aceleration:
     _total: 0
     _current: 0
   _desaceleration:
     _total: 0
     _current: 1
-  _velocity:
-    _total: 0
-    _current: 0
-  <objectiveVelocity>k__BackingField: 0
 --- !u!114 &1443461569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18781,51 +18793,65 @@ MonoBehaviour:
   weapons:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   katasCombo:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   abilities:
     list:
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     - _indexEquipedItem: -1
+      _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
