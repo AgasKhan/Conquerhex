@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 5386253234421490085}
   - component: {fileID: 1527472095336197784}
   - component: {fileID: 3051255187301994570}
+  - component: {fileID: 4756187705344849504}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Props
@@ -280,6 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactuable: 1
   Image: {fileID: 0}
+  interactAction: {fileID: 4756187705344849504}
   genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
@@ -416,3 +418,16 @@ MonoBehaviour:
     Amount: 0
   - Item: {fileID: 11400000, guid: 418c233b04005cb4da05f4b58c0b80d9, type: 2}
     Amount: 0
+--- !u!114 &4756187705344849504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9179396569930443861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c9b83480f7776469b26cfd2eb1e8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactComp: {fileID: 0}

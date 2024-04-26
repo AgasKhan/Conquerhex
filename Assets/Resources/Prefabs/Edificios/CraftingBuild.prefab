@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 781557696634203197}
   - component: {fileID: 7324791073229505215}
   - component: {fileID: 3816929757864241773}
+  - component: {fileID: 2739784722374164991}
   m_Layer: 0
   m_Name: CraftingBuild
   m_TagString: Props
@@ -177,11 +178,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactuable: 1
   Image: {fileID: 0}
+  interactAction: {fileID: 2739784722374164991}
   genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
     myCharacter: {fileID: 0}
     interactComponent: {fileID: 0}
+    buttonsList: []
 --- !u!136 &3816929757864241773
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -205,6 +208,19 @@ CapsuleCollider:
   m_Height: 6.121073
   m_Direction: 0
   m_Center: {x: 0, y: 0.21483094, z: 0}
+--- !u!114 &2739784722374164991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c9b83480f7776469b26cfd2eb1e8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactComp: {fileID: 0}
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0

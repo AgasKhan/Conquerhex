@@ -20,6 +20,25 @@ public class GenericSubMenu : CreateSubMenu
 
     EventsCall lastButton = null;
 
+    public void InteractAction()
+    {
+        subMenu.CreateSection(0, 2);
+        subMenu.CreateChildrenSection<UnityEngine.UI.ScrollRect>();
+
+        foreach (var item in interactComponent.interact)
+        {
+            item.value.InteractInit(interactComponent);
+            subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { DestroyLastButtons(); item.value.ShowMenu(myCharacter); GoToOtherMenu(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+        }
+
+        subMenu.CreateSection(2, 6);
+        subMenu.CreateChildrenSection<UnityEngine.UI.ScrollRect>();
+        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", interactComponent.container.flyweight.GetDetails()["Description"]).SetImage(interactComponent.container.flyweight.image);
+
+        subMenu.CreateTitle(interactComponent.container.flyweight.nameDisplay);
+    }
+
+
     public override void Create(Character character)
     {
         myCharacter = character;
