@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogAction : InteractAction<(InteractEntityComponent interact, Character character)>
+public class DialogAction : LogicActive<(InteractEntityComponent interact, Character character)>
 {
     [SerializeField]
     string dialog = "";
@@ -13,7 +13,7 @@ public class DialogAction : InteractAction<(InteractEntityComponent interact, Ch
     private void Awake()
     {
         LoadSystem.AddPostLoadCorutine(() => {dialogText = UI.Interfaz.SearchTitle("Subtitulo"); });
-        interactTim = TimersManager.Create(3, ()=> { myInteract.interactuable = true; }).Stop();
+        interactTim = TimersManager.Create(5, ()=> { myInteract.interactuable = true; }).Stop();
     }
 
     public override void Activate((InteractEntityComponent interact, Character character) genericParams)
