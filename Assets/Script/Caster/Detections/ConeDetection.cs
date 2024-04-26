@@ -9,8 +9,13 @@ using UnityEngine;
 [System.Serializable]
 public class ConeDetection : Detections
 {
+    [SerializeField]
+    bool withRay = true;
     public override List<IGetEntity> InternalDetect(Entity caster, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
     {
-        return detect.ConeWithRay(caster.transform, direction, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), numObjectives, minRange, maxRange, dot);
+        if (withRay)
+            return detect.ConeWithRay(caster.transform, direction, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), numObjectives, minRange, maxRange, dot);
+        else
+            return detect.Cone(caster.transform.position, direction, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), detect.minDetects,numObjectives, minRange, maxRange, dot);
     }
 }
