@@ -21,22 +21,20 @@ public abstract class MyScripts : MonoBehaviour
         add
         {
             _update += value;
-            if (gameObject.activeSelf)
+            if (gameObject.activeInHierarchy)
                 GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
         }
         remove
         {
             _update -= value;
 
-
-            if (gameObject.activeSelf)
-                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
-
             if (_update == null)
             {
-                GameManager.eventQueueGamePlay.Enqueue(RemoveUpdate);
+                RemoveUpdate();
+                //GameManager.eventQueueGamePlay.Enqueue(RemoveUpdate);
             }
-
+            else if (gameObject.activeInHierarchy)
+                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
         }
     }
 
@@ -45,20 +43,21 @@ public abstract class MyScripts : MonoBehaviour
         add
         {
             _fixedUpdate += value;
-            if (gameObject.activeSelf)
+            if (gameObject.activeInHierarchy)
                 GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
         }
         remove
         {
             _fixedUpdate -= value;
 
-            if (gameObject.activeSelf)
-                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
 
             if (_fixedUpdate == null)
             {
-                GameManager.eventQueueGamePlay.Enqueue(RemoveFixedUpdate);
+                RemoveFixedUpdate();
+                //GameManager.eventQueueGamePlay.Enqueue(RemoveFixedUpdate);
             }
+            else if (gameObject.activeInHierarchy)
+                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
         }
     }
 

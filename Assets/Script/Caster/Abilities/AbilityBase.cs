@@ -212,7 +212,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         up = MyControllerVOID;
     }
 
-    public void Cast(IEnumerable<Entity> entities)
+    public IEnumerable<Entity> Cast(IEnumerable<Entity> entities)
     {
         onCast?.Invoke();
 
@@ -221,11 +221,17 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             {
                 itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
             }
+
+        return entities;
     }
 
-    public void Cast()
+    public IEnumerable<Entity> Cast()
     {
-        Cast(InternalCast(affected));
+        var aux = InternalCast(affected);
+        
+        Cast(aux);
+
+        return aux;
     }
 
     public override void Destroy()

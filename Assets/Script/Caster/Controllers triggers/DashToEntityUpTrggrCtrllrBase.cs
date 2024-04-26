@@ -9,16 +9,21 @@ public class DashToEntityUpTrggrCtrllrBase : TriggerControllerBase
     public float velocityInDash=10;
 
     public float timerDash = 1;
+
+    public int dashCount = 1;
     protected override System.Type SetItemType()
     {
         return typeof(DashToEntityUpTrggrCtrllr);
     }
 }
 
+[System.Serializable]
 public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 {
+    MoveEntityComponent moveEntity;
     Timer timerToEnd;
     bool buttonPress;
+    int dashCount;
 
     new public DashToEntityUpTrggrCtrllrBase triggerBase => (DashToEntityUpTrggrCtrllrBase)base.triggerBase;
 
@@ -38,7 +43,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         buttonPress = true;
         
-        FeedBackReference.DotAngle(Dot);
+        FeedBackReference?.DotAngle(Dot);
     }
 
     public override void ControllerUp(Vector2 dir, float button)
@@ -52,9 +57,9 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         
         cooldown.Reset();
 
-        if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out var aux))
+        if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out moveEntity))
         {
-            aux.Velocity((affected[0].transform.position - caster.transform.position).normalized , triggerBase.velocityInDash);
+            moveEntity.Velocity((affected[0].transform.position - caster.transform.position).normalized , triggerBase.velocityInDash);
         }
         else
         {
@@ -64,6 +69,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         timerToEnd.Reset();
         buttonPress = false;
+        dashCount = triggerBase.dashCount;
     }
 
     public override void OnStayState(CasterEntityComponent param)
@@ -71,21 +77,36 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference.Area(originalScale * FinalMaxRange * 1f / 4, originalScale * FinalMinRange * 1f / 4);
+        FeedBackReference?.Area(originalScale * FinalMaxRange * 1f / 4, originalScale * FinalMinRange * 1f / 4);
+
         Detect(0, FinalMaxRange * 1f / 4);
 
         if (affected.Count == 0)
             return;
-
-        if (caster.TryGetComponent<MoveEntityComponent>(out var aux))
-        {
-            aux.VelocityCalculate = Vector3.zero;
-        }
-
+       
         FeedBackReference?.Attack();
 
-        timerToEnd.Stop();
-
         Cast();
+
+        Detect(0, FinalMaxRange*4);
+
+        dashCount--;
+
+        if (dashCount <= 0 || affected.Count < 2)
+        {
+            timerToEnd.Stop();
+            moveEntity.VelocityCalculate = Vector3.zero;
+            return;
+        }
+
+        timerToEnd.Reset();
+
+        End = false;
+
+        Aiming = (affected[1].transform.position - caster.transform.position).normalized;
+
+        moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
+
+        FeedBackReference?.Area(originalScale * FinalMaxRange, originalScale * FinalMinRange).Direction(Aiming);
     }
 }
