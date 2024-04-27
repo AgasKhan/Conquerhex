@@ -68,27 +68,23 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
         if (objectiveVelocity == null)
             objectiveVelocity = this.objectiveVelocity;
 
-        Vector3 vecVelocity = VelocityCalculate;
-
         Vector3 calc;
 
         if (VelocityCalculate.sqrMagnitude > (float)objectiveVelocity * (float)objectiveVelocity)
         {
-            calc = Vector3.ClampMagnitude(((float)objectiveVelocity * dirNormalized) - vecVelocity, desaceleration*Time.deltaTime);
+            calc = Vector3.ClampMagnitude(((float)objectiveVelocity * dirNormalized) - VelocityCalculate, desaceleration*Time.deltaTime);
         }
         else
         {
-            calc = Vector3.ClampMagnitude(((float)objectiveVelocity * dirNormalized) - vecVelocity, magnitud * Time.deltaTime);
+            calc = Vector3.ClampMagnitude(((float)objectiveVelocity * dirNormalized) - VelocityCalculate, magnitud * Time.deltaTime);
         }
         //vecVelocity = Vector3.ClampMagnitude((Time.deltaTime * magnitud * dirNormalized) + vecVelocity, (float)objectiveVelocity);
 
         //Debug.Log($"{velocity} {direction} {vectorVelocity} - {vecVelocity.magnitude}");
 
-        vecVelocity += calc;
+        VelocityCalculate += calc;
 
         aceleration.current = magnitud;
-
-        VelocityCalculate = vecVelocity;
 
         return this;
     }

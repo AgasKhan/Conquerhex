@@ -12,6 +12,9 @@ public class InitializerScriptObject : MonoBehaviour
 
     void Awake()
     {
+        if (Manager<ItemBase>.pic.Count != 0)
+            return;
+
         string path = "ScriptableObject";
         var aux = LoadSystem.LoadAssets(path);
 
