@@ -111,6 +111,8 @@ public class IAIO : IAFather
 
         param.health.helthUpdate += Health_helthUpdate;
 
+        param.caster.energyUpdate += Caster_energyUpdate;
+
         param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
         param.abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
@@ -136,6 +138,7 @@ public class IAIO : IAFather
         param.health.regenUpdate -= UpdateRegen;
         param.health.regenTimeUpdate -= UpdateRegenTime;
         param.health.helthUpdate -= Health_helthUpdate;
+        param.caster.energyUpdate -= Caster_energyUpdate;
         param.onTakeDamage -= OnTakeDamage;
 
         param.attackEventMediator.eventDown -= AttackEventMediator_eventDown;
@@ -228,6 +231,10 @@ public class IAIO : IAFather
         eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
     }
 
+    private void Caster_energyUpdate(float obj)
+    {
+        eventsManager.events.SearchOrCreate<SingleEvent<float>>("EnergyUpdate").delegato?.Invoke(obj);
+    }
 
     void UpdateLife(IGetPercentage arg1, float arg3)
     {

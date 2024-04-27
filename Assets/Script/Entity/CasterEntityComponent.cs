@@ -24,7 +24,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     public Vector3 aiming;
 
-    public event System.Action onAttack;    
+    public event System.Action onAttack;
+    public event System.Action<float> energyUpdate;
 
     InventoryEntityComponent inventoryEntity;
 
@@ -99,6 +100,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
             PositiveEnergy = EnergyDefault * MaxEnergy;
             enabled = false;
         }
+
+        energyUpdate?.Invoke(_energy / MaxEnergy);
     }
 
     private void Update()

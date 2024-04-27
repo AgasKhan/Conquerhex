@@ -48,7 +48,7 @@ namespace UI
         float   widthDiag;
         float   heightDiag;
 
-        [Header("vida")]
+        [Header("Vida")]
         public ImageWidth vida;
         public TextMeshProUGUI textVida;
         public ImageWidth regen;
@@ -57,6 +57,11 @@ namespace UI
         public TextMeshProUGUI textRegen;
         public ImageWidth regenTimeMax;
         public ImageWidth regenTime;
+
+        [Header("Energia")]
+        public Slider energy;
+        public Slider requirementLeft;
+        public Slider requirementRight;
 
         public TextCompleto this[string name]
         {
@@ -128,12 +133,18 @@ namespace UI
             }
         }
 
+        private void energyBarUpdate(float energyValue)
+        {
+            energy.value = energyValue;
+        }
+
         IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
         {
             msg("Interfaz");
             end(true);
             yield return null;
             eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthBarUpdate;
+            eventsManager.events.SearchOrCreate<SingleEvent<float>>("EnergyUpdate").delegato += energyBarUpdate;
         }
 
         void Update()
