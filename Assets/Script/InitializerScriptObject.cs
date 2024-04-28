@@ -6,13 +6,15 @@ public class InitializerScriptObject : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    static bool seted = false;
+
     public TMPro.TextMeshProUGUI textMesh;
 
     public bool EnabledDebug;
 
     void Awake()
     {
-        if (Manager<ItemBase>.pic.Count != 0)
+        if (seted)
             return;
 
         string path = "ScriptableObject";
@@ -30,6 +32,8 @@ public class InitializerScriptObject : MonoBehaviour
             textMesh.text +="\t"  +item.name +" ";
         }
         textMesh.text += "\n";
+
+        seted = true;
     }
 
     private void Start()

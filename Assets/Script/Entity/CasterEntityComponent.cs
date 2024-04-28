@@ -26,11 +26,22 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     public event System.Action onAttack;
     public event System.Action<float> energyUpdate;
+    public event System.Action<float> leftEnergyUpdate;
+    public event System.Action<float> rightEnergyUpdate;
 
     InventoryEntityComponent inventoryEntity;
 
     [SerializeField]
     float _energy;
+
+    float energy
+    {
+        get => _energy;
+        set
+        {
+            _energy = Mathf.Clamp(value, 0, MaxEnergy);
+        }
+    }
 
     public int MaxEnergy => flyweight?.energy ?? 0;
 
@@ -40,24 +51,25 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     public float EnergyDefault => flyweight?.energyDefault ?? 0;
 
+
     [Tooltip("Representa la parte llena de la barra")]
-    public float PositiveEnergy
+    public float positiveEnergy
     {
-        get => _energy; 
-        set
+        get => energy;
+        private set
         {
-            _energy = Mathf.Clamp(value, 0, MaxEnergy);
+            energy = value;
             enabled = true;
         }
     }
 
     [Tooltip("Representa la parte vacia de la barra")]
-    public float NegativeEnergy
+    public float negativeEnergy
     {
-        get => MaxEnergy - _energy;
-        set
+        get => MaxEnergy - energy;
+        private set
         {
-            _energy = Mathf.Clamp(MaxEnergy - value, 0, MaxEnergy);
+            energy = MaxEnergy - value;
             enabled = true;
         }
     }
@@ -75,10 +87,47 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     {
         onAttack?.Invoke();
     }
+    
+    /// <summary>
+    /// Realiza el consumo de energia
+    /// </summary>
+    /// <param name="energy"></param>
+    /// <returns>Falso en caso de q no se pueda realizar el consumo</returns>
+    public bool PositiveEnergy(float energy)
+    {
+        if (energy > positiveEnergy)
+        {
+            leftEnergyUpdate?.Invoke(energy / MaxEnergy);
+            return false;
+        }   
 
+        positiveEnergy -= energy;
+
+        return true;
+    }
+
+
+    /// <summary>
+    /// Realiza la ganancia de energia
+    /// </summary>
+    /// <param name="energy"></param>
+    /// <returns>Falso en caso de q no se pueda realizar la ganancia</returns>
+    public bool NegativeEnergy(float energy)
+    {   
+        if(energy > negativeEnergy)
+        {
+            rightEnergyUpdate?.Invoke(energy / MaxEnergy);
+            return false;
+        }
+
+        negativeEnergy -= energy;
+
+        return true;
+    }
+    
     void EnergyUpdate()
     {
-        if (EnergyStatic || (EnergyDefault * MaxEnergy) == PositiveEnergy)
+        if (EnergyStatic || (EnergyDefault * MaxEnergy) == positiveEnergy)
         {
             enabled = false;
             return;
@@ -86,22 +135,22 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         float sum = Time.deltaTime * ChargeEnergy;
 
-        if (NegativeEnergy < (1 -EnergyDefault ) * MaxEnergy )
+        if (negativeEnergy < (1 -EnergyDefault ) * MaxEnergy )
         {
-            NegativeEnergy += sum;
+            negativeEnergy += sum;
         }
-        else if (PositiveEnergy < EnergyDefault * MaxEnergy)
+        else if (positiveEnergy < EnergyDefault * MaxEnergy)
         {
-            PositiveEnergy += sum;
+            positiveEnergy += sum;
         }
 
-        if (Mathf.Abs(EnergyDefault * MaxEnergy - PositiveEnergy) <= 0.01f * MaxEnergy)
+        if (Mathf.Abs(EnergyDefault * MaxEnergy - positiveEnergy) <= 0.01f * MaxEnergy)
         {
-            PositiveEnergy = EnergyDefault * MaxEnergy;
+            positiveEnergy = EnergyDefault * MaxEnergy;
             enabled = false;
         }
 
-        energyUpdate?.Invoke(_energy / MaxEnergy);
+        energyUpdate?.Invoke(energy / MaxEnergy);
     }
 
     private void Update()
@@ -167,7 +216,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
                 return;
         }
 
-        PositiveEnergy = EnergyDefault * MaxEnergy;
+        positiveEnergy = EnergyDefault * MaxEnergy;
 
         for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
             SetWeaponKataCombo(i);

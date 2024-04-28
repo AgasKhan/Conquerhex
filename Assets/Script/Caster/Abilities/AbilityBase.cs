@@ -355,13 +355,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void OnEnterState(CasterEntityComponent param)
     {
-        if ((CostExecution < 0 && -CostExecution > param.NegativeEnergy) || (CostExecution > 0 && CostExecution > param.PositiveEnergy))
+        if ((CostExecution < 0 && !param.NegativeEnergy(-CostExecution)) || (CostExecution > 0 && !param.PositiveEnergy(CostExecution)))
         {
             End = true;
             return;
         }
-
-        param.NegativeEnergy += CostExecution;//siempre le quito el costo de la habilidad
 
         trigger.OnEnterState(param);
     }

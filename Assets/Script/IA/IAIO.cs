@@ -111,7 +111,9 @@ public class IAIO : IAFather
 
         param.health.helthUpdate += Health_helthUpdate;
 
-        param.caster.energyUpdate += Caster_energyUpdate;
+        param.caster.energyUpdate += EnergyUpdate;
+        param.caster.leftEnergyUpdate += LeftEnergyUpdate;
+        param.caster.rightEnergyUpdate += RightEnergyUpdate;
 
         param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
@@ -138,7 +140,9 @@ public class IAIO : IAFather
         param.health.regenUpdate -= UpdateRegen;
         param.health.regenTimeUpdate -= UpdateRegenTime;
         param.health.helthUpdate -= Health_helthUpdate;
-        param.caster.energyUpdate -= Caster_energyUpdate;
+        param.caster.energyUpdate -= EnergyUpdate;
+        param.caster.leftEnergyUpdate -= LeftEnergyUpdate;
+        param.caster.rightEnergyUpdate -= RightEnergyUpdate;
         param.onTakeDamage -= OnTakeDamage;
 
         param.attackEventMediator.eventDown -= AttackEventMediator_eventDown;
@@ -231,9 +235,19 @@ public class IAIO : IAFather
         eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
     }
 
-    private void Caster_energyUpdate(float obj)
+    private void EnergyUpdate(float obj)
     {
-        eventsManager.events.SearchOrCreate<SingleEvent<float>>("EnergyUpdate").delegato?.Invoke(obj);
+        eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").delegato?.Invoke(obj);
+    }
+
+    private void LeftEnergyUpdate(float obj)
+    {
+        eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").secondDelegato?.Invoke(obj);
+    }
+
+    private void RightEnergyUpdate(float obj)
+    {
+        eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").thirdDelegato?.Invoke(obj);
     }
 
     void UpdateLife(IGetPercentage arg1, float arg3)

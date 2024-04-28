@@ -60,8 +60,12 @@ namespace UI
 
         [Header("Energia")]
         public Slider energy;
-        public Slider requirementLeft;
-        public Slider requirementRight;
+        public Image requirementLeft;
+        public Image requirementRight;
+
+        [Header("Energy")]
+        Timer leftEnergy;
+        Timer rightEnergy;
 
         public TextCompleto this[string name]
         {
@@ -133,9 +137,19 @@ namespace UI
             }
         }
 
-        private void energyBarUpdate(float energyValue)
+        private void EnergyBarUpdate(float energyValue)
         {
             energy.value = energyValue;
+        }
+        private void EnergyLeft(float energyValue)
+        {
+            requirementLeft.fillAmount = energyValue;
+            leftEnergy.Reset();
+        }
+        private void EnergyRight(float energyValue)
+        {
+            requirementRight.fillAmount= energyValue;
+            rightEnergy.Reset();
         }
 
         IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
@@ -144,7 +158,11 @@ namespace UI
             end(true);
             yield return null;
             eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthBarUpdate;
-            eventsManager.events.SearchOrCreate<SingleEvent<float>>("EnergyUpdate").delegato += energyBarUpdate;
+            eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").delegato += EnergyBarUpdate;
+            eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").secondDelegato += EnergyLeft;
+            eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").thirdDelegato += EnergyRight;
+            leftEnergy = TimersManager.Create(0.3f, () =>requirementLeft.enabled = !requirementLeft.enabled, ()=> requirementLeft.enabled = false);
+            rightEnergy = TimersManager.Create(0.3f, () => requirementRight.enabled = !requirementRight.enabled, () => requirementRight.enabled = false);
         }
 
         void Update()
