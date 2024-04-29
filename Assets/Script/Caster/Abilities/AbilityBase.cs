@@ -252,9 +252,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             
     }
 
-    public List<Entity> Detect(float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    public List<Entity> Detect(Entity caster,float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
-        affected = trigger.InternalDetect(Aiming, timePressed, minRange, maxRange, dot);
+        affected = trigger.InternalDetect(caster, Aiming, timePressed, minRange, maxRange, dot);
 
         if (affected != null)
             foreach (var item in affected)
@@ -263,6 +263,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             }
 
         return affected;
+    }
+
+    public List<Entity> Detect(float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    {
+        return Detect(caster.container, timePressed , minRange,maxRange, dot);
     }
 
     protected void SetCooldown()

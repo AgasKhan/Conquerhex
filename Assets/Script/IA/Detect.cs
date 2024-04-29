@@ -29,6 +29,9 @@ public abstract class DetectParent<T> where T : class
     [SerializeField]
     int _minDetects;
 
+    [SerializeField]
+    protected QueryTriggerInteraction queryTrigger;
+
     protected CompareDist<Component> compareDist = new CompareDist<Component>();
 
     protected Transform[] transformsBuffer = new Transform[cantidad];
@@ -39,8 +42,14 @@ public abstract class DetectParent<T> where T : class
 
     protected System.Func<Transform, bool> chckTR;
 
+    /// <summary>
+    /// Quien ejecuta la accion de deteccion
+    /// </summary>
     protected Transform caster;
 
+    /// <summary>
+    /// Objetivo a procesar la deteccion
+    /// </summary>
     protected T selected;
 
     protected Vector3 pos;
@@ -231,11 +240,16 @@ public abstract class DetectParent<T> where T : class
         if (!chckWithRay(damageables))
             return false;
 
-        var posDamageable = (damageables as Component).transform.position;
+        Vector3 posDamageable = (damageables as Component).transform.position;
 
         selected = damageables;
 
         RayTransform(posDamageable, (pos - posDamageable), InternalWithRay, 0, 0, (pos - posDamageable).magnitude);
+
+        for (int i = 0; i < length; i++)
+        {
+            Debug.Log(transformsBuffer[i]);
+        }
 
         return length <= 0;
     }
@@ -268,7 +282,7 @@ public class Detect<T> : DetectParent<T> where T : class
     {
         results.Clear();
 
-        length = Physics.OverlapCapsuleNonAlloc(position.Vect3Copy_Y(-5), position.Vect3Copy_Y(5), maxRadius, buffer, layerMask);
+        int length = Physics.OverlapCapsuleNonAlloc(position.Vect3Copy_Y(-5), position.Vect3Copy_Y(5), maxRadius, buffer, layerMask, queryTrigger);
 
         //length = Physics.OverlapSphereNonAlloc(position, maxRadius, buffer, layerMask);
 
@@ -294,7 +308,7 @@ public class Detect<T> : DetectParent<T> where T : class
 
         if (results.Count < min)
         {
-            length = 0;
+            this.length = 0;
             results.Clear();
         }
 
@@ -420,7 +434,7 @@ public class Detect<T> : DetectParent<T> where T : class
 
     public override void RayTransform(Vector3 pos, Vector3 dir, System.Func<Transform, bool> chck, int min, int max, float distance = -1)
     {
-        length = Physics.RaycastNonAlloc(pos, dir, auxRaycastHit, distance > 0 ? distance : float.PositiveInfinity, layerMask);
+        length = Physics.RaycastNonAlloc(pos, dir, auxRaycastHit, distance > 0 ? distance : float.PositiveInfinity, layerMask, queryTrigger);
 
         int j = 0;
 

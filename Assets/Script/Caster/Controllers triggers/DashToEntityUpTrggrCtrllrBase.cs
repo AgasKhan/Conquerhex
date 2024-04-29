@@ -11,6 +11,8 @@ public class DashToEntityUpTrggrCtrllrBase : TriggerControllerBase
     public float timerDash = 1;
 
     public int dashCount = 1;
+
+    public float cooldownWaitAttack = 1;
     protected override System.Type SetItemType()
     {
         return typeof(DashToEntityUpTrggrCtrllr);
@@ -24,6 +26,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
     Timer timerToEnd;
     bool buttonPress;
     int dashCount;
+    List<Entity> objectivesAttacked = new List<Entity>();
 
     new public DashToEntityUpTrggrCtrllrBase triggerBase => (DashToEntityUpTrggrCtrllrBase)base.triggerBase;
 
@@ -33,8 +36,15 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         timerToEnd = TimersManager.Create(triggerBase.timerDash, () => End = true).Stop();
     }
 
+    public override void Destroy()
+    {
+        base.Destroy(); 
+        timerToEnd.Stop();
+    }
+
     public override void ControllerDown(Vector2 dir, float button)
     {
+        
         base.ControllerDown(dir, button);
         if (End)
         {
@@ -44,6 +54,8 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         buttonPress = true;
         
         FeedBackReference?.DotAngle(Dot);
+        objectivesAttacked.Clear();
+        dashCount = triggerBase.dashCount;
     }
 
     public override void ControllerUp(Vector2 dir, float button)
@@ -60,6 +72,31 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out moveEntity))
         {
             moveEntity.Velocity((affected[0].transform.position - caster.transform.position).normalized , triggerBase.velocityInDash);
+            
+            dashCount--;
+            objectivesAttacked.Add(caster.container);
+            objectivesAttacked.Add(affected[0]);
+
+            var objective = affected[0];
+
+            while (dashCount > 0)
+            {
+                dashCount--;
+
+                Detect(objective, 0, FinalMaxRange);
+                foreach (var item in affected)
+                {
+                    if(!objectivesAttacked.Contains(item))
+                    {
+                        objectivesAttacked.Add(item);
+                        objective = item;
+                        break;
+                    }
+                }
+            }
+
+            objectivesAttacked.RemoveAt(0);
+            objectivesAttacked.RemoveAt(0);
         }
         else
         {
@@ -69,7 +106,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         timerToEnd.Reset();
         buttonPress = false;
-        dashCount = triggerBase.dashCount;
     }
 
     public override void OnStayState(CasterEntityComponent param)
@@ -77,36 +113,35 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference?.Area(originalScale * FinalMaxRange * 1f / 4, originalScale * FinalMinRange * 1f / 4);
+        FeedBackReference?.Area(originalScale * FinalMaxRange * 1f / 2, originalScale * FinalMinRange * 1f / 2);
 
-        Detect(0, FinalMaxRange * 1f / 4);
+        Detect(0, FinalMaxRange * 1f / 2, originalScale * FinalMinRange * 1f / 2);
 
-        if (affected.Count == 0)
+        if (affected.Count == 0 || (timerToEnd.total - timerToEnd.current) < triggerBase.cooldownWaitAttack)
             return;
        
         FeedBackReference?.Attack();
 
         Cast();
 
-        Detect(0, FinalMaxRange*4);
-
-        dashCount--;
-
-        if (dashCount <= 0 || affected.Count < 2)
+        if(objectivesAttacked.Count<=0)
         {
             timerToEnd.Stop();
-            moveEntity.VelocityCalculate = Vector3.zero;
+            End = true;
             return;
         }
+
 
         timerToEnd.Reset();
 
         End = false;
 
-        Aiming = (affected[1].transform.position - caster.transform.position).normalized;
+        Aiming = (objectivesAttacked[objectivesAttacked.Count-1].transform.position - caster.transform.position).normalized;
 
         moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
 
         FeedBackReference?.Area(originalScale * FinalMaxRange, originalScale * FinalMinRange).Direction(Aiming);
+
+        objectivesAttacked.RemoveAt(objectivesAttacked.Count - 1);
     }
 }

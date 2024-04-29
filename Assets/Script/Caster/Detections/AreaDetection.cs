@@ -15,8 +15,17 @@ public class AreaDetection : Detections
     public override List<IGetEntity> InternalDetect(Entity caster, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
     {
         if(withRay)
-            return detect.AreaWithRay(caster.transform, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), numObjectives, minRange, maxRange);
+            return detect.AreaWithRay(caster.transform, 
+                (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), 
+                numObjectives, 
+                minRange, 
+                maxRange);
         else
-            return detect.Area(caster.transform.position, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), detect.minDetects ,numObjectives, minRange, maxRange);
+            return detect.Area(caster.transform.position, 
+                (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), 
+                detect.minDetects ,
+                numObjectives, 
+                minRange, 
+                maxRange);
     }
 }

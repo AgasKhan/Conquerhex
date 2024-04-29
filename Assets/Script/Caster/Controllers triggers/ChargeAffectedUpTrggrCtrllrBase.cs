@@ -18,7 +18,7 @@ public class ChargeAffectedUpTrggrCtrllr : UpTrggrCtrllr
 {
     new public ChargeAffectedUpTrggrCtrllrBase triggerBase => (ChargeAffectedUpTrggrCtrllrBase)base.triggerBase;
 
-    public override List<Entity> InternalDetect(Vector3 dir, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    public override List<Entity> InternalDetect(Entity caster,Vector3 dir, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
         return ability.itemBase.Detect(ref ability.affected, caster.container, dir, (int)Mathf.Clamp(timePressed * triggerBase.multiplyTime, 1, ability.itemBase.maxDetects), minRange ?? FinalMinRange, maxRange ?? FinalMaxRange, dot ?? ability.itemBase.dot);
     }
