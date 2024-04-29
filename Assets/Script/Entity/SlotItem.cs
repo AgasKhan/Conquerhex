@@ -54,7 +54,9 @@ public class SlotItem
 
     private void EquipedOnDrop()
     {
-        indexEquipedItem = -1;
+        _equiped.onDrop -= EquipedOnDrop;
+        _indexEquipedItem = -1;
+        _equiped = null;
     }
 }
 
