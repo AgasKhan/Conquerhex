@@ -35,9 +35,9 @@ public class AbilityExtCast : Ability
 
     public override void Destroy()
     {
-        base.Destroy();
-
         castingAction.Destroy();
+
+        base.Destroy();
     }
 
     protected override IEnumerable<Entity> InternalCast(List<Entity> entities)

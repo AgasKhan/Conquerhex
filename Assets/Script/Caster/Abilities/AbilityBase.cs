@@ -236,8 +236,10 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public override void Destroy()
     {
-        base.Destroy();
+        if (IsCopy)
+            original.onDrop -= OnDropOriginal;
         trigger.Destroy();
+        base.Destroy();
     }
 
     public override void Unequip()
@@ -247,6 +249,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         StopCast();
         if (IsCopy)
             Destroy();
+            
     }
 
     public List<Entity> Detect(float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
@@ -274,7 +277,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         original.onDrop -= OnDropOriginal;//original
 
-        Destroy();
+        Unequip();
     }
 
 

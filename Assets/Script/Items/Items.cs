@@ -77,8 +77,8 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
     public event System.Action<InventoryEntityComponent> OnChangeContainer;
     public event System.Action<int> OnEquipedInSlot;
 
-    [SerializeField]
-    protected InventoryEntityComponent container;
+    [field: SerializeField]
+    protected InventoryEntityComponent container { get; private set; }
 
     [SerializeField]
     protected ItemBase _itemBase;
