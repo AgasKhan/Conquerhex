@@ -31,6 +31,10 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     InventoryEntityComponent inventoryEntity;
 
+    [SerializeField,Range(-100,100), Tooltip(   "en caso de ser calor (positivo): es el porcentage de cuanta mas energia ganara con frio y cuanta menos energia perdera con calor" +
+                                "\nen caso de ser frio (negativo): es el porcentage de cuanta menos energia ganara con frio y cuanta mas energia perdera con calor")]
+    float _buffEnergy;
+
     [SerializeField]
     float _energy;
 
@@ -40,6 +44,15 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
         set
         {
             _energy = Mathf.Clamp(value, 0, MaxEnergy);
+        }
+    }
+
+    public float buffEnergy
+    {
+        get => _buffEnergy/100;
+        set
+        {
+            _buffEnergy = Mathf.Clamp(value, -100, 100);
         }
     }
 
@@ -89,38 +102,42 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     }
     
     /// <summary>
-    /// Realiza el consumo de energia
+    /// Genera un consumo positivo de energia (pierdo energia)
     /// </summary>
     /// <param name="energy"></param>
     /// <returns>Falso en caso de q no se pueda realizar el consumo</returns>
     public bool PositiveEnergy(float energy)
     {
-        if (energy > positiveEnergy)
+        float calc = energy * (buffEnergy < 0 ? (1 + Mathf.Abs(buffEnergy)) : 1 - Mathf.Abs(buffEnergy));
+
+        if (calc > positiveEnergy)
         {
-            leftEnergyUpdate?.Invoke(energy / MaxEnergy);
+            leftEnergyUpdate?.Invoke(calc / MaxEnergy);
             return false;
         }   
 
-        positiveEnergy -= energy;
+        positiveEnergy -= calc;
 
         return true;
     }
 
 
     /// <summary>
-    /// Realiza la ganancia de energia
+    /// Genero un consumo negativo de energia (gano energia)
     /// </summary>
     /// <param name="energy"></param>
     /// <returns>Falso en caso de q no se pueda realizar la ganancia</returns>
     public bool NegativeEnergy(float energy)
-    {   
-        if(energy > negativeEnergy)
+    {
+        float calc = energy * (buffEnergy > 0 ? (1 + Mathf.Abs(buffEnergy)) : 1 - Mathf.Abs(buffEnergy));
+
+        if (calc > negativeEnergy)
         {
-            rightEnergyUpdate?.Invoke(energy / MaxEnergy);
+            rightEnergyUpdate?.Invoke(calc / MaxEnergy);
             return false;
         }
 
-        negativeEnergy -= energy;
+        negativeEnergy -= calc;
 
         return true;
     }
