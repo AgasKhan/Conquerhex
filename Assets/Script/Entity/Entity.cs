@@ -238,6 +238,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
     public void Teleport(Hexagone hexagone, int lado)
     {
+        Debug.Log("Al hacer tp de: " + name + " el hexagone parent es: " + (hexagoneParent!=null));
         if (hexagone == hexagoneParent)
             return;
 
@@ -314,7 +315,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
         LoadSystem.AddPostLoadCorutine(() => 
         {
-            Hexagone hexagone = GetComponentInParent<Hexagone>();
+            Hexagone hexagone = transform.root.GetComponent<Hexagone>();
 
             if (hexagone != null)
             {

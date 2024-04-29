@@ -23,9 +23,4 @@ public class DestructibleObjects : Entity
     {
         health.death += () => gameObject.SetActive(false);
     }
-
-    private void OnEnable()
-    {
-        hexagoneParent = GetComponentInParent<Hexagone>();
-    }
 }

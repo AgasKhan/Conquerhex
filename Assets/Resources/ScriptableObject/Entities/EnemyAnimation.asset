@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ddfbff58f17f494490ccdeba8dc5167, type: 3}
-  m_Name: Resource
+  m_Name: EnemyAnimation
   m_EditorClassIdentifier: 
-  _nameDisplay: 
+  _nameDisplay: Enemy Animation
   _image: {fileID: 0}
   _details: 
   maxAmount: 1
   weight: 0
   visible: 1
   container:
-  - {fileID: 11400000, guid: 91df6849104b7e74ab5c11e304949ba6, type: 2}
-  - {fileID: 11400000, guid: 50a0c2ff767d7004fa55f8c402f7e952, type: 2}
-  areaFarming: 1
+  - {fileID: 11400000, guid: ac5a2a294b48a3a4092765b98dcb809f, type: 2}
+  - {fileID: 11400000, guid: 7f23a7069d206874faef087b1306a0e7, type: 2}
+  - {fileID: 11400000, guid: ed7f237f2030c034b9587fe05869a81f, type: 2}
+  areaFarming: 0
