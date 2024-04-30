@@ -19,8 +19,8 @@ public class SquareDetection : Detections
     /// <param name="maxRange">ancho</param>
     /// <param name="dot">maxima distancia</param>
     /// <returns></returns>
-    public override List<IGetEntity> InternalDetect(Entity caster, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
+    public override List<IGetEntity> InternalDetect(Entity caster,Vector3 pos , Vector3 direction, System.Func<IGetEntity, bool> chck, int numObjectives, float minRange, float maxRange, float dot)
     {
-        return detect.SquareWithRay(caster.transform, direction,(entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), numObjectives, minRange, maxRange, dot);
+        return detect.SquareWithRay(pos, direction,chck, numObjectives, minRange, maxRange, dot);
     }
 }

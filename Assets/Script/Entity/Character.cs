@@ -90,6 +90,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
             weaponKata = caster.katasCombo.Actual(i - 1).equiped;
         }
 
+        if (castingActionCharacter.stateWithEnd == weaponKata)
+            return;
+
         castingActionCharacter.OnEnter+= () => attackEventMediator += caster.abilityControllerMediator;
         castingActionCharacter.OnExit += () => attackEventMediator -= caster.abilityControllerMediator;
 
@@ -100,32 +103,38 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     public void Ability(int i)
     {
+        if (i != 0)
+        {
+            i += 1;
+        }
+
+        AbilityExtCast weaponKata;
+
+        weaponKata = caster.abilities.Actual(i).equiped;
+
+        if (castingActionCharacter.stateWithEnd == weaponKata)
+            return;
+
         castingActionCharacter.OnEnter += () => abilityEventMediator += caster.abilityControllerMediator;
         castingActionCharacter.OnExit += () => abilityEventMediator -= caster.abilityControllerMediator;
 
-        if (i == 0)
-        {
-            PrivateAbility(0);
-        }
-        else
-        {
-            PrivateAbility(i+1);
-        }
+        castingActionCharacter.stateWithEnd = weaponKata;
+
+        Action = castingActionCharacter;
+
     }
 
     public void AlternateAbility()
     {
-        castingActionCharacter.OnEnter += () => dashEventMediator += caster.abilityControllerMediator;
-        castingActionCharacter.OnExit += () => dashEventMediator -= caster.abilityControllerMediator;
-
-        PrivateAbility(1);
-    }
-
-    void PrivateAbility(int i)
-    {
         AbilityExtCast weaponKata;
 
-        weaponKata = caster.abilities.Actual(i).equiped;
+        weaponKata = caster.abilities.Actual(1).equiped;
+
+        if (castingActionCharacter.stateWithEnd == weaponKata)
+            return;
+
+        castingActionCharacter.OnEnter += () => dashEventMediator += caster.abilityControllerMediator;
+        castingActionCharacter.OnExit += () => dashEventMediator -= caster.abilityControllerMediator;
 
         castingActionCharacter.stateWithEnd = weaponKata;
 
@@ -301,7 +310,7 @@ namespace FSMCharacterAndStates
                 action = () =>
                 {
                     value();
-                    _OnEnter -= value;
+                    //_OnEnter -= value;
                     _OnEnter -= action;
                 };
 
@@ -321,7 +330,7 @@ namespace FSMCharacterAndStates
                 action = () =>
                 {
                     value();
-                    _OnExit -= value;
+                    //_OnExit -= value;
                     _OnExit -= action;
                 };
 

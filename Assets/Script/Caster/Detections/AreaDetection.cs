@@ -12,17 +12,17 @@ public class AreaDetection : Detections
     [SerializeField]
     bool withRay = true;
 
-    public override List<IGetEntity> InternalDetect(Entity caster, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
+    public override List<IGetEntity> InternalDetect(Entity caster ,Vector3 pos , Vector3 direction, System.Func<IGetEntity, bool> chck, int numObjectives, float minRange, float maxRange, float dot)
     {
         if(withRay)
-            return detect.AreaWithRay(caster.transform, 
-                (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), 
+            return detect.AreaWithRay(pos, 
+                chck, 
                 numObjectives, 
                 minRange, 
                 maxRange);
         else
-            return detect.Area(caster.transform.position, 
-                (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team), 
+            return detect.Area(pos, 
+                chck, 
                 detect.minDetects ,
                 numObjectives, 
                 minRange, 

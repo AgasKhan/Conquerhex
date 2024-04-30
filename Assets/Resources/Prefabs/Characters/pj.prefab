@@ -180,6 +180,7 @@ MonoBehaviour:
         rid: -2
     <indexer>k__BackingField: 0
   aiming: {x: 0, y: 0, z: 0}
+  _buffEnergy: 0
   _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
   references:
@@ -272,16 +273,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <direction>k__BackingField: {x: 0, y: 0, z: 0}
+  _velocityCalculate: {x: 0, y: 0, z: 0}
+  <objectiveVelocity>k__BackingField: 7.5
+  <maxSpeed>k__BackingField: 100
   aceleration:
     _total: 100
     _current: 0
   _desaceleration:
     _total: 100
     _current: 10
-  _velocity:
-    _total: 100
-    _current: 0
-  <objectiveVelocity>k__BackingField: 7.5
 --- !u!114 &7607633304618281516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +320,8 @@ MonoBehaviour:
     Amount: 1
   - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
     Amount: 20
+  - Item: {fileID: 11400000, guid: 12ac7611867a0ef42b9ae3400968119f, type: 2}
+    Amount: 1
 --- !u!54 &4660629127224764075
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -369,7 +371,7 @@ CapsuleCollider:
   m_Radius: 0.15
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.41, z: 0}
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0

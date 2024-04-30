@@ -42,7 +42,12 @@ public abstract class CastingAction : IAbilityComponent
 
     public Timer cooldown => (ability).cooldown;
 
-    public abstract IEnumerable<Entity> Cast(List<Entity> entities);
+    /// <summary>
+    /// Ejecuta el casteo personalizado de las AbilityExtCast
+    /// </summary>
+    /// <param name="entities"></param>
+    /// <returns></returns>
+    public abstract IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities);
 
     public virtual void Init(Ability ability)
     {

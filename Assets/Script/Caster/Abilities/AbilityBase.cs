@@ -91,8 +91,8 @@ public abstract class AbilityBase : ItemBase
             PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
     }
 
-    public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
-        => detection?.Detect(ref result, caster, direction, numObjectives, minRange, maxRange, dot);
+    public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector3 pos, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
+        => detection?.Detect(ref result, caster, pos, direction, numObjectives, minRange, maxRange, dot);
 
     public TriggerController CreateTriggerController()
     {
@@ -212,7 +212,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         up = MyControllerVOID;
     }
 
-    public IEnumerable<Entity> Cast(IEnumerable<Entity> entities)
+    public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities)
     {
         onCast?.Invoke();
 
@@ -227,11 +227,12 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public IEnumerable<Entity> Cast()
     {
-        var aux = InternalCast(affected);
-        
-        Cast(aux);
+        return ApplyCast(InternalCast(affected));
+    }
 
-        return aux;
+    public IEnumerable<Entity> Cast(List<Entity> affected)
+    {
+        return ApplyCast(InternalCast(affected));
     }
 
     public override void Destroy()
@@ -252,9 +253,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             
     }
 
-    public List<Entity> Detect(Entity caster,float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    public List<Entity> Detect(Entity caster, Vector3 pos, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
-        affected = trigger.InternalDetect(caster, Aiming, timePressed, minRange, maxRange, dot);
+        affected = trigger.InternalDetect(caster, pos ,Aiming, timePressed, minRange, maxRange, dot);
 
         if (affected != null)
             foreach (var item in affected)
@@ -265,9 +266,14 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         return affected;
     }
 
+    public List<Entity> Detect(Vector3 pos, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    {
+        return Detect(caster.container, pos ,timePressed , minRange,maxRange, dot);
+    }
+
     public List<Entity> Detect(float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
     {
-        return Detect(caster.container, timePressed , minRange,maxRange, dot);
+        return Detect(caster.container, caster.transform.position, timePressed, minRange, maxRange, dot);
     }
 
     protected void SetCooldown()

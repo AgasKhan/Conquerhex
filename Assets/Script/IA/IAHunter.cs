@@ -168,7 +168,7 @@ public class HunterPatrol : IState<HunterIntern>
 
         //var corderos = param.context.detectCordero.ConeWithRay(param.context.transform, conoDir, (target) => { return param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });
         
-        param.context.detectCordero.AreaWithRay(param.context.transform, (target) => { return target.visible && param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });       
+        param.context.detectCordero.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team != target.GetEntity().team && target.GetEntity().team != Team.recursos; });       
 
         if (param.context.detectCordero.results.Count > 0)
         {

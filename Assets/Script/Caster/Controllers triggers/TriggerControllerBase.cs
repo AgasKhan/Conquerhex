@@ -71,8 +71,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         => ability.Cast();
 
 
-    public List<Entity> Detect(Entity caster,float timePressed = 0, float? maxRange = null, float? minRange = null, float? dot = null)
-        => ability.Detect(caster, timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+    public List<Entity> Detect(Entity caster, Vector3 pos ,float timePressed = 0, float? maxRange = null, float? minRange = null, float? dot = null)
+        => ability.Detect(caster, pos, timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
 
     public List<Entity> Detect(float timePressed = 0, float? maxRange = null, float? minRange = null,  float? dot = null) 
         => ability.Detect(timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
@@ -111,9 +111,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         ability.onCast -= param.AttackEvent;
     }
 
-    public virtual List<Entity> InternalDetect(Entity caster ,Vector3 dir, float timePressed = 0, float? minRange=null, float? maxRange=null, float? dot = null)
+    public virtual List<Entity> InternalDetect(Entity caster, Vector3 pos, Vector3 dir, float timePressed = 0, float? minRange=null, float? maxRange=null, float? dot = null)
     {
-        return ability.itemBase.Detect(ref ability.affected, caster.container, dir, ability.itemBase.maxDetects, minRange ?? FinalMinRange, maxRange ?? FinalMaxRange, dot ?? Dot);
+        return ability.itemBase.Detect(ref ability.affected, caster, pos ,dir, ability.itemBase.maxDetects, minRange ?? FinalMinRange, maxRange ?? FinalMaxRange, dot ?? Dot);
     }
 
     public abstract void ControllerDown(Vector2 dir, float tim);

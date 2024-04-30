@@ -43,11 +43,6 @@ public abstract class DetectParent<T> where T : class
     protected System.Func<Transform, bool> chckTR;
 
     /// <summary>
-    /// Quien ejecuta la accion de deteccion
-    /// </summary>
-    protected Transform caster;
-
-    /// <summary>
     /// Objetivo a procesar la deteccion
     /// </summary>
     protected T selected;
@@ -130,13 +125,12 @@ public abstract class DetectParent<T> where T : class
         return Ray(pos, dir, ChckEmpety, minDetects, maxDetects,distance);
     }
 
-    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius)
+    public List<T> AreaWithRay(Vector3 pos, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius)
     {
         this.chckWithRay = chck;
-        this.caster = caster;
-        this.pos = caster.position;
+        this.pos = pos;
 
-        return Area(caster.position, WithRay, minDetects, maxDetects, minRadius, maxRadius);
+        return Area(pos, WithRay, minDetects, maxDetects, minRadius, maxRadius);
     }
 
     /// <summary>
@@ -147,39 +141,30 @@ public abstract class DetectParent<T> where T : class
     /// <param name="chck">Si cumple con el criterio de busqueda</param>
     /// <returns></returns>
 
-    public List<T> ConeWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius, float dot)
+    public List<T> ConeWithRay(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float maxRadius, float dot)
     {
         this.chckWithRay = chck;
-        this.caster = caster;
-        this.pos = caster.position;
+        this.pos = pos;
 
-        return Cone(caster.position, dir, WithRay, minDetects, maxDetects, minRadius, maxRadius, dot);
+        return Cone(pos, dir, WithRay, minDetects, maxDetects, minRadius, maxRadius, dot);
     }
 
-    public List<T> SquareWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float width, float height)
+    public List<T> SquareWithRay(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int maxDetects, float minRadius, float width, float height)
     {
         this.chckWithRay = chck;
-        this.caster = caster;
-        this.pos = caster.position;
+        this.pos = pos;
 
-        return Square(caster.position, dir,WithRay, minDetects, maxDetects, minRadius, width, height);
+        return Square(pos, dir,WithRay, minDetects, maxDetects, minRadius, width, height);
     }
 
-    public List<T> ConeWithRay(Transform caster, Vector3 dir, System.Func<T, bool> chck)
+    public List<T> ConeWithRay(Vector3 pos, Vector3 dir, System.Func<T, bool> chck)
     {
-        return ConeWithRay(caster, dir, chck, maxDetects, minRadius, maxRadius, dot);
+        return ConeWithRay(pos, dir, chck, maxDetects, minRadius, maxRadius, dot);
     }
 
-    public List<T> ConeWithRay(Transform caster, System.Func<T, bool> chck)
+    public List<T> AreaWithRay(Vector3 pos, System.Func<T, bool> chck)
     {
-        return ConeWithRay(caster, caster.right, chck, maxDetects, minRadius, maxRadius, dot);
-    }
-
-
-
-    public List<T> AreaWithRay(Transform caster, System.Func<T, bool> chck)
-    {
-        return AreaWithRay(caster, chck, maxDetects, minRadius, maxRadius);
+        return AreaWithRay(pos, chck, maxDetects, minRadius, maxRadius);
     }
 
     protected virtual void Add(List<T> list, T add, Vector3 pos)
@@ -244,12 +229,7 @@ public abstract class DetectParent<T> where T : class
 
         selected = damageables;
 
-        RayTransform(posDamageable, (pos - posDamageable), InternalWithRay, 0, 0, (pos - posDamageable).magnitude);
-
-        for (int i = 0; i < length; i++)
-        {
-            Debug.Log(transformsBuffer[i]);
-        }
+        RayTransform(pos, (posDamageable - pos), InternalWithRay, 0, 0, (posDamageable - pos).magnitude);
 
         return length <= 0;
     }
@@ -262,7 +242,7 @@ public abstract class DetectParent<T> where T : class
     /// <returns></returns>
     private bool InternalWithRay(Transform tr)
     {
-        return caster != tr && (selected as Component).transform != tr;
+        return (selected as Component).transform != tr;
     }
 }
 
@@ -282,10 +262,9 @@ public class Detect<T> : DetectParent<T> where T : class
     {
         results.Clear();
 
-        int length = Physics.OverlapCapsuleNonAlloc(position.Vect3Copy_Y(-5), position.Vect3Copy_Y(5), maxRadius, buffer, layerMask, queryTrigger);
+        int length = Physics.OverlapCapsuleNonAlloc(position.Vect3Copy_Y(-10), position.Vect3Copy_Y(10), maxRadius, buffer, layerMask, queryTrigger);
 
         //length = Physics.OverlapSphereNonAlloc(position, maxRadius, buffer, layerMask);
-
 
         //Debug.DrawLine(position.Vect3Copy_Y(-10), position.Vect3Copy_Y(10), Color.red,5);
 

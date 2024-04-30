@@ -60,7 +60,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
     public override void ControllerUp(Vector2 dir, float button)
     {
-        if (!cooldown.Chck)
+        if (!onCooldownTime)
         {
             End = true;
             cooldown.Reset();
@@ -83,7 +83,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             {
                 dashCount--;
 
-                Detect(objective, 0, FinalMaxRange);
+                Detect(caster.container, objective.transform.position ,0, FinalMaxRange*1.5f);
                 foreach (var item in affected)
                 {
                     if(!objectivesAttacked.Contains(item))
@@ -95,7 +95,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
                 }
             }
 
-            objectivesAttacked.RemoveAt(0);
             objectivesAttacked.RemoveAt(0);
         }
         else
@@ -119,7 +118,9 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         if (affected.Count == 0 || (timerToEnd.total - timerToEnd.current) < triggerBase.cooldownWaitAttack)
             return;
-       
+
+        objectivesAttacked.RemoveAt(0);
+
         FeedBackReference?.Attack();
 
         Cast();
@@ -141,7 +142,5 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
 
         FeedBackReference?.Area(originalScale * FinalMaxRange, originalScale * FinalMinRange).Direction(Aiming);
-
-        objectivesAttacked.RemoveAt(objectivesAttacked.Count - 1);
     }
 }

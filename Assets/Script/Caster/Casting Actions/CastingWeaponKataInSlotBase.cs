@@ -27,15 +27,15 @@ public class CastingWeaponKataInSlot : CastingAction
         base.Destroy();
     }
 
-    public override IEnumerable<Entity> Cast(List<Entity> entities)
+    public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities)
     {
         End = true;
 
         if(caster.katasCombo[slot]?.equiped != null)
         {
-            caster.katasCombo[slot].equiped.Detect();
+            //caster.katasCombo[slot].equiped.Detect();
 
-            return caster.katasCombo[slot].equiped.Cast();
+            return caster.katasCombo[slot].equiped.Cast(entities);
         }
 
         return entities;

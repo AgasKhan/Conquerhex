@@ -42,6 +42,6 @@ public class AbilityExtCast : Ability
 
     protected override IEnumerable<Entity> InternalCast(List<Entity> entities)
     {
-        return castingAction.Cast(entities);
+        return castingAction.InternalCastOfExternalCasting(entities);
     }
 }
