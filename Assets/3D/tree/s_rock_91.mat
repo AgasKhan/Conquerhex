@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RockEffect:
-        m_Texture: {fileID: 2800000, guid: d9746ca9758470341892c426261cc5e9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5b00cf6ef05371d4ca34e316e87288c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RockNormal:
@@ -71,6 +71,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _DitherThreshold: 2
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RockEffectHeight: 0.32
