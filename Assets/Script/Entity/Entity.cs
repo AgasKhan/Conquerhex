@@ -605,7 +605,8 @@ public enum Team
     enemy,
     hervivoro,
     recursos,
-    carnivoro
+    carnivoro,
+    noTeam
 }
 
 public static class LifeType

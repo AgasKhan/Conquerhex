@@ -9,7 +9,7 @@ public abstract class Detections : ShowDetails
 
     public List<Entity> Detect(ref List<Entity> bufferDetects, Entity caster, Vector3 pos ,Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
     {
-        InternalDetect(caster, pos, direction, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team) , numObjectives, minRange, maxRange, dot).ToEntity(ref bufferDetects);
+        InternalDetect(caster, pos, direction, (entity) => (entity.GetEntity() != null && entity.GetEntity().team != caster.team && entity.GetEntity().team != Team.noTeam) , numObjectives, minRange, maxRange, dot).ToEntity(ref bufferDetects);
 
         return bufferDetects;
     }
