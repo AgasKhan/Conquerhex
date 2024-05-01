@@ -60,7 +60,10 @@ public abstract class CreateSubMenu : Init
     public virtual void Create()
     {
         subMenu.CreateTitle("");
-        subMenu.SetActiveGameObject(true);
+
+        if(!subMenu.gameObject.activeSelf)
+            subMenu.SetActiveGameObject(true);
+
         InternalCreate();
     }
 
