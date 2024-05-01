@@ -30,7 +30,17 @@ public class ReSpawner : Spawner
             }
         }
     }
-
+    public void TryRespawn()
+    {
+        if (spawneado != null)
+        {
+            Respawn();
+        }
+        else
+        {
+            Init();
+        }
+    }
 
     public void Respawn()
     {
