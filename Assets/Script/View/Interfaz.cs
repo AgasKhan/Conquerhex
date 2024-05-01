@@ -62,6 +62,7 @@ namespace UI
         public Slider energy;
         public Image requirementLeft;
         public Image requirementRight;
+        public Transform textPopEnergy;
 
         [Header("Energy")]
         Timer leftEnergy;
@@ -90,7 +91,7 @@ namespace UI
         {
             //instance["Danio"].AddMsg($"{text} ► {entity.name.Replace("(Clone)", "")}");
 
-            PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextDamage textDamage);
+            PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextPop textDamage);
 
             textDamage.SetText(entity.transform, text);
         }
@@ -137,15 +138,37 @@ namespace UI
             }
         }
 
-        private void EnergyBarUpdate(float energyValue)
+        private void EnergyBarUpdate((float energyValue, float diference) str)
         {
-            energy.value = energyValue;
+            energy.value = str.energyValue;
+
+            if (Mathf.Abs(str.diference) < 0.5f)
+                return;
+
+            PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextPop textEnergy);
+
+            str.diference *= -1;
+
+            string diference = str.diference.ToStringFixed();
+
+            if(str.diference<0)
+            {
+                diference = diference.RichTextColor(Color.red);
+            }
+            else
+            {
+                diference = ("+" + diference).RichTextColor(Color.blue);
+            }            
+
+            textEnergy.SetText(textPopEnergy, diference, Vector2.up*0.5f, false);
         }
+
         private void EnergyLeft(float energyValue)
         {
             requirementLeft.fillAmount = energyValue;
             leftEnergy.Reset();
         }
+
         private void EnergyRight(float energyValue)
         {
             requirementRight.fillAmount= energyValue;
@@ -158,9 +181,13 @@ namespace UI
             end(true);
             yield return null;
             eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthBarUpdate;
-            eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").delegato += EnergyBarUpdate;
-            eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").secondDelegato += EnergyLeft;
-            eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").thirdDelegato += EnergyRight;
+
+            var aux = eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate");
+
+            aux.delegato += EnergyBarUpdate;
+            aux.secondDelegato += EnergyLeft;
+            aux.thirdDelegato += EnergyRight;
+
             leftEnergy = TimersManager.Create(0.3f, () =>requirementLeft.enabled = !requirementLeft.enabled, ()=> requirementLeft.enabled = false);
             rightEnergy = TimersManager.Create(0.3f, () => requirementRight.enabled = !requirementRight.enabled, () => requirementRight.enabled = false);
         }

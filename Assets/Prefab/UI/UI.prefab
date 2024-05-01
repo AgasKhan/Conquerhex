@@ -628,6 +628,7 @@ MonoBehaviour:
   energy: {fileID: 5783626459750191534}
   requirementLeft: {fileID: 8365881872857980525}
   requirementRight: {fileID: 9031793039637004594}
+  textPopEnergy: {fileID: 1475134273674195944}
   references:
     version: 2
     RefIds:
@@ -923,7 +924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 426894437546539252}
   m_Layer: 7
-  m_Name: DamageText
+  m_Name: TextPop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1329,6 +1330,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f3202e850942244a9ee8904ecb6b4c2, type: 3}
+--- !u!224 &1475134273674195944 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8668687501602521417, guid: 8f3202e850942244a9ee8904ecb6b4c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7797392956121002657}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5783626459750191534 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4356799481514844943, guid: 8f3202e850942244a9ee8904ecb6b4c2,

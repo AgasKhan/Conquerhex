@@ -235,19 +235,19 @@ public class IAIO : IAFather
         eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
     }
 
-    private void EnergyUpdate(float obj)
+    private void EnergyUpdate((float,float) obj)
     {
-        eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").delegato?.Invoke(obj);
+        eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate").delegato?.Invoke(obj);
     }
 
     private void LeftEnergyUpdate(float obj)
     {
-        eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").secondDelegato?.Invoke(obj);
+        eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate").secondDelegato?.Invoke(obj);
     }
 
     private void RightEnergyUpdate(float obj)
     {
-        eventsManager.events.SearchOrCreate<TripleEvent<float, float, float>>("EnergyUpdate").thirdDelegato?.Invoke(obj);
+        eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate").thirdDelegato?.Invoke(obj);
     }
 
     void UpdateLife(IGetPercentage arg1, float arg3)

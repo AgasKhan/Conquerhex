@@ -25,7 +25,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     public Vector3 aiming;
 
     public event System.Action onAttack;
-    public event System.Action<float> energyUpdate;
+    public event System.Action<(float, float)> energyUpdate;
     public event System.Action<float> leftEnergyUpdate;
     public event System.Action<float> rightEnergyUpdate;
 
@@ -43,7 +43,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
         get => _energy;
         set
         {
-            _energy = Mathf.Clamp(value, 0, MaxEnergy);
+            float f = Mathf.Clamp(value, 0, MaxEnergy);
+            energyUpdate?.Invoke((f / MaxEnergy, _energy - f));
+            _energy = f;
         }
     }
 
@@ -163,11 +165,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         if (Mathf.Abs(EnergyDefault * MaxEnergy - positiveEnergy) <= 0.01f * MaxEnergy)
         {
-            positiveEnergy = EnergyDefault * MaxEnergy;
+            _energy = EnergyDefault * MaxEnergy;
             enabled = false;
         }
-
-        energyUpdate?.Invoke(energy / MaxEnergy);
     }
 
     private void Update()

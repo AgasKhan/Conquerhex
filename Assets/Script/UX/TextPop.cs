@@ -5,7 +5,7 @@ using TMPro;
 
 namespace UI
 {
-    public class TextDamage : MonoBehaviour
+    public class TextPop : MonoBehaviour
     {
         [SerializeField]
         TextMeshProUGUI textMesh;
@@ -30,8 +30,12 @@ namespace UI
 
         Camera main;
 
-        public void SetText(Transform follow ,string text)
+        bool inWorldPosition = true;
+
+        public void SetText(Transform follow ,string text ,Vector2? dir = null, bool inWorldPosition = true)
         {
+            this.inWorldPosition = inWorldPosition;
+
             originalPos = follow.position;
 
             offset = Vector3.zero;
@@ -42,7 +46,7 @@ namespace UI
 
             gameObject.SetActive(true);
 
-            direction = Random.insideUnitCircle.normalized * distance;
+            direction = (dir ?? Random.insideUnitCircle.normalized) * distance;
 
             movement.Reset();
         }        
@@ -54,7 +58,7 @@ namespace UI
 
         private void LateUpdate()
         {
-            transform.position = offset + main.WorldToScreenPoint(originalPos);
+            transform.position = offset + (inWorldPosition ? main.WorldToScreenPoint(originalPos) : originalPos);
             /*        
                 if(movement.InversePercentage() <= 0.01f)
                     textMesh.color = Color.Lerp(Color.white, Color.white.ChangeAlphaCopy(0), movement.InversePercentage() * 100);
