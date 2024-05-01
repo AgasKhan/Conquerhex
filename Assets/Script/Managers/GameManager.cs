@@ -140,7 +140,7 @@ public class GameManager : SingletonMono<GameManager>
 
             fsmGameMaganer.endGame.defeat.Invoke();
 
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow(msj, "").AddButton("Reiniciar", Reload).AddButton("Volver a la base", () => Load("Base"));
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow(msj, "").AddButton("Reiniciar", Reload)/*.AddButton("Volver a la base", () => Load("Base"))*/;
 
             eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato?.Invoke();
             

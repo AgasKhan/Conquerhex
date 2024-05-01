@@ -238,6 +238,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 79d7085e7b1db054d9cefc9718c0011e, type: 2}
+        m_TargetAssemblyTypeName: VirtualControllers, Assembly-CSharp
+        m_MethodName: MyAwake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   updateUnityEvent:
     m_PersistentCalls:
       m_Calls:
@@ -345,6 +357,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 11400000, guid: 0b3444fac36361c4abb87eaf11d42e63, type: 2}
         m_TargetAssemblyTypeName: LoadSystem, Assembly-CSharp
+        m_MethodName: MyDestroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 79d7085e7b1db054d9cefc9718c0011e, type: 2}
+        m_TargetAssemblyTypeName: VirtualControllers, Assembly-CSharp
         m_MethodName: MyDestroy
         m_Mode: 1
         m_Arguments:
