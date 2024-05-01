@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// Version singleton del MonoBehaviour
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public abstract class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
 {
     public static T instance;
@@ -13,6 +17,10 @@ public abstract class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T
     }
 }
 
+/// <summary>
+/// Version singleton del ScriptableObject
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public abstract class SingletonScript<T> : ScriptableObject where T : SingletonScript<T>
 {
     static protected T instance;
@@ -23,6 +31,10 @@ public abstract class SingletonScript<T> : ScriptableObject where T : SingletonS
     }
 }
 
+/// <summary>
+/// Version singleton de una clase custom (las clases base)
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public abstract class SingletonClass<T> where T : SingletonClass<T>
 {
     static protected T instance;

@@ -123,13 +123,13 @@ public class IAIO : IAFather
 
         param.dashEventMediator.eventDown += DashEventMediator_eventDown;
 
-        VirtualControllers.movement.SuscribeController(param.moveEventMediator);
+        VirtualControllers.Movement.SuscribeController(param.moveEventMediator);
 
-        VirtualControllers.principal.SuscribeController(param.attackEventMediator);
+        VirtualControllers.Principal.SuscribeController(param.attackEventMediator);
 
-        VirtualControllers.secondary.SuscribeController(param.abilityEventMediator);
+        VirtualControllers.Secondary.SuscribeController(param.abilityEventMediator);
 
-        VirtualControllers.terciary.SuscribeController(param.dashEventMediator);
+        VirtualControllers.Terciary.SuscribeController(param.dashEventMediator);
     }
 
     public override void OnExitState(Character param)
@@ -153,15 +153,15 @@ public class IAIO : IAFather
 
         param.dashEventMediator.eventDown -= DashEventMediator_eventDown;
 
-        VirtualControllers.movement.DesuscribeController(param.moveEventMediator);
+        VirtualControllers.Movement.DesuscribeController(param.moveEventMediator);
 
-        VirtualControllers.principal.DesuscribeController(param.attackEventMediator);
+        VirtualControllers.Principal.DesuscribeController(param.attackEventMediator);
 
-        VirtualControllers.secondary.DesuscribeController(param.abilityEventMediator);
+        VirtualControllers.Secondary.DesuscribeController(param.abilityEventMediator);
 
-        VirtualControllers.terciary.DesuscribeController(param.dashEventMediator);
+        VirtualControllers.Terciary.DesuscribeController(param.dashEventMediator);
 
-        VirtualControllers.interact.eventDown -= Interact_eventDown;
+        VirtualControllers.Interact.eventDown -= Interact_eventDown;
 
         interactEvent.secondDelegato?.Invoke((false, false, null));
 
@@ -183,19 +183,19 @@ public class IAIO : IAFather
         {
             interactEvent.secondDelegato?.Invoke((false, false, null));
 
-            VirtualControllers.interact.eventDown -= Interact_eventDown;
+            VirtualControllers.Interact.eventDown -= Interact_eventDown;
 
             lastInteractuable = null;
         }
         else if (buildings[0] != lastInteractuable)
         {
-            VirtualControllers.interact.eventDown -= Interact_eventDown;
+            VirtualControllers.Interact.eventDown -= Interact_eventDown;
 
             lastInteractuable = buildings[0];
 
             interactEvent.secondDelegato?.Invoke((true, false, lastInteractuable.Image));
 
-            VirtualControllers.interact.eventDown += Interact_eventDown;
+            VirtualControllers.Interact.eventDown += Interact_eventDown;
         }
     }
 
@@ -276,7 +276,7 @@ public class IAIO : IAFather
     private void NoCharacterSelected(Vector2 arg1, float arg2)
     {
         characterEvent.delegato.Invoke(GameManager.instance.playerCharacter);
-        VirtualControllers.principal.eventDown -= NoCharacterSelected;
+        VirtualControllers.Principal.eventDown -= NoCharacterSelected;
     }
 
     private void Update()
@@ -294,7 +294,7 @@ public class IAIO : IAFather
     {
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
         characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
-        interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(EnumController.interact.ToString());
+        interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
     }
 
     private void Start()
@@ -302,7 +302,8 @@ public class IAIO : IAFather
         LoadSystem.AddPostLoadCorutine(() =>
         {
             characterEvent.delegato += OnCharacterSelected;
-            VirtualControllers.principal.eventDown += NoCharacterSelected;
+            //VirtualControllers.Principal.eventDown += NoCharacterSelected;
+            NoCharacterSelected(Vector2.zero , 0);
         });
     }
 }

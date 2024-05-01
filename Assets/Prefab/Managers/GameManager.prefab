@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7739652029663223115}
   - component: {fileID: 6212339661607910149}
-  - component: {fileID: 2552611046586137618}
   - component: {fileID: 7739652029663223112}
   - component: {fileID: 3934061507348870747}
   - component: {fileID: 3167585331265613088}
@@ -51,18 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMesh: {fileID: 0}
   EnabledDebug: 0
---- !u!114 &2552611046586137618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7739652029663223119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe7d92fcbdf40746bf9331334e5e515, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7739652029663223112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +188,7 @@ MonoBehaviour:
     dot: 1
     _maxDetects: 1
     _minDetects: 0
+    queryTrigger: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 1
@@ -255,6 +243,66 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 9192bfc5fbe4b8946bdece3c22bfe398, type: 2}
         m_TargetAssemblyTypeName: TimersManager, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 0befdb01038e9b24295e38cb8794ae78, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 9b5c4fe3bc135ce4e9571320a98e4a36, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 47d00ba1c0552964aab1db1515dfe432, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: d4a9613dff0467e4ba16311700c25e1d, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 3036fce0a4ba12f489896201794b6fac, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
         m_MethodName: MyUpdate
         m_Mode: 1
         m_Arguments:

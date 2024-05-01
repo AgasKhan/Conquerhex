@@ -44,11 +44,11 @@ public class ControlPJ : MonoBehaviour
 
         health.Init(100f,10f);
 
-        VirtualControllers.movement.eventDown += Movement_eventDown;
+        VirtualControllers.Movement.eventDown += Movement_eventDown;
 
-        VirtualControllers.movement.eventPress += Movement_eventPress;
+        VirtualControllers.Movement.eventPress += Movement_eventPress;
         
-        VirtualControllers.movement.eventUp += Movement_eventUp;
+        VirtualControllers.Movement.eventUp += Movement_eventUp;
     }
 
     private void Movement_eventDown(Vector2 arg1, float arg2)

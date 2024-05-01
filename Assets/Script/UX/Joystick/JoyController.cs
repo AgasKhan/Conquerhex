@@ -12,9 +12,6 @@ public class JoyController : MonoBehaviour
     bool joystick;
 
     [SerializeField]
-    EnumController eventController;
-
-    [SerializeField]
     [Range(0.05f, 1)]
     float deadzone;
 
@@ -46,21 +43,18 @@ public class JoyController : MonoBehaviour
         get => imageToFill.fillAmount;
     }
 
-    public VirtualControllers.Axis axisButton
+    public Controllers.Axis axisButton
     {
         get => stick.AxisButton;
-        private set => stick.AxisButton = value;
     }
 
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
 
-        axisButton = VirtualControllers.Search(eventController);
-
         LoadSystem.AddPostLoadCorutine(SetStick);
 
-        events = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(eventController.ToString());
+        events = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>(axisButton.name);
 
         events.secondDelegato += Set;
 
