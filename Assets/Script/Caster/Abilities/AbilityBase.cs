@@ -176,9 +176,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         {
             if(_feedBackReference==null && itemBase.ShowFeedBackArea)
             {
-                var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out _feedBackReference, caster.transform.position);
+                var aux = PoolManager.SpawnPoolObject(Vector2Int.up, out _feedBackReference, caster.transform.position, null ,caster.transform);
 
-                aux.SetParent(caster.transform);
+                //aux.SetParent(caster.transform);
             }
 
             return _feedBackReference;
