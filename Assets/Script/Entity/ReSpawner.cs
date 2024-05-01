@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ReSpawner : Spawner
 {
+    [SerializeField]
+    bool automaticRespawn = true;
+
     // Start is called before the first frame update
     Timer respawn;
     protected override void Awake()
@@ -19,9 +22,9 @@ public class ReSpawner : Spawner
 
         if (spawneado != null)
         {
-            respawn = TimersManager.Create(10, Respawn).SetLoop(true);
+            respawn = TimersManager.Create(10, Respawn).Stop();
 
-            if (spawneado.TryGetComponent(out Entity entity))
+            if (spawneado.TryGetComponent(out Entity entity) && automaticRespawn)
             {
                 entity.health.death += () => respawn.Reset();
             }
@@ -29,7 +32,7 @@ public class ReSpawner : Spawner
     }
 
 
-    void Respawn()
+    public void Respawn()
     {
         if(!spawneado.activeSelf && isActiveAndEnabled)
         {
