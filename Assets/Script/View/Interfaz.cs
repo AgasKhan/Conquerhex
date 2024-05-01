@@ -223,9 +223,7 @@ namespace UI
     {
         [Header("Seteo")]
 
-        [SerializeField] TextMeshProUGUI texto;
-
-    
+        [SerializeField] TextMeshProUGUI texto;    
         [field: SerializeField] [field: TextArea(3, 6)] public string final { get; private set; }
 
         [SerializeField] float tiempoEntreLetras;
@@ -254,12 +252,20 @@ namespace UI
             texto.color = texto.color.ChangeAlphaCopy(obj);
         }
 
+        /// <summary>
+        /// Borra el texto del cuadro del mensaje
+        /// </summary>
+        /// <param name="msg"></param>
         public void ClearMsg()
         {
             final = "";
             texto.text = "";
         }
 
+        /// <summary>
+        /// Muestra un mensaje directamente en el campo
+        /// </summary>
+        /// <param name="msg"></param>
         public void ShowMsg(string msg)
         {
             final = msg;
@@ -271,6 +277,10 @@ namespace UI
                 timer.Reset();
         }
 
+        /// <summary>
+        /// Aniade un mensaje que se mostrara de forma ordenada y escrito letra por letra
+        /// </summary>
+        /// <param name="msg"></param>
         public void AddMsg(string msg)
         {
             if (final == "")
