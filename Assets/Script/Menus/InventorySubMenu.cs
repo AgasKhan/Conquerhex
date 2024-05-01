@@ -22,11 +22,11 @@ public class InventorySubMenu : CreateSubMenu
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
-
+        /*
         subMenu.AddNavBarButton("All", () => { FilterItems(""); }).AddNavBarButton("Equipment", () => { FilterItems("MeleeWeapon"); })
                     .AddNavBarButton("Resources", () => { FilterItems("Resources_Item"); }).AddNavBarButton("Katas", () => { FilterItems("WeaponKata"); })
                     .AddNavBarButton("Abilities", () => { FilterItems("AbilityExtCast"); });
-
+        */
         subMenu.CreateTitle("Inventory");
 
         CreateBody();
