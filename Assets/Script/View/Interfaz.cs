@@ -188,8 +188,8 @@ namespace UI
             aux.secondDelegato += EnergyLeft;
             aux.thirdDelegato += EnergyRight;
 
-            leftEnergy = TimersManager.Create(0.3f, () =>requirementLeft.enabled = !requirementLeft.enabled, ()=> requirementLeft.enabled = false);
-            rightEnergy = TimersManager.Create(0.3f, () => requirementRight.enabled = !requirementRight.enabled, () => requirementRight.enabled = false);
+            leftEnergy = TimersManager.Create(0.3f, () =>requirementLeft.enabled = !requirementLeft.enabled, ()=> requirementLeft.enabled = false).Stop();
+            rightEnergy = TimersManager.Create(0.3f, () => requirementRight.enabled = !requirementRight.enabled, () => requirementRight.enabled = false).Stop();
         }
 
         void Update()
