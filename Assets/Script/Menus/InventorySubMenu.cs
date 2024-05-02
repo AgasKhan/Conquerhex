@@ -19,6 +19,20 @@ public class InventorySubMenu : CreateSubMenu
 
     bool isEquipMenu = false;
 
+    System.Type filterType;
+
+    SlotItem slotItem = null;
+
+    System.Action<SlotItem, int> action = null;
+
+    public void SetEquipMenu<T>(SlotItem _slotItem, System.Type _type, System.Action<SlotItem, int> _action) where T : Item
+    {
+        action = _action;
+        slotItem = _slotItem;
+        filterType = _type;
+        isEquipMenu = true;
+    }
+
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
@@ -74,52 +88,54 @@ public class InventorySubMenu : CreateSubMenu
                () =>
                {
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
+
                    DestroyButtonsActions();
                    
                    if(slotItem != null && isEquipMenu)
                        CreateButtonEquip(slotItem, index);
+ 
+                    /*
+                    if (item.GetItemBase() is WeaponKataBase)
+                    {
+                        WeaponKata auxKata = (WeaponKata)item;
+                      
+                        string mainText = "------------------------------------------------------------------\n";
 
-                   if (item.GetItemBase() is WeaponKataBase)
-                   {
-                       WeaponKata auxKata = (WeaponKata)item;
+                        var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
+                        var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+                        var weaponDmgs = auxKata.WeaponEnabled.itemBase.damages.ToString(": ", "\n");
+
+                        mainText += "Kata Selected: " + item.nameDisplay + "\n";
+
+                        var titulos = new CustomColumns ("Character damages", "operacion", "Weapon equiped damages", "operacion", "Kata Selected" );
+
+                        var test1 = new CustomColumns(characterDmgs, "+", weaponDmgs, "x", kataDmgs);
+
+                        mainText += (titulos + test1).ToString();
+
+                        var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.WeaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
+                        var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
+
+                        mainText += "\nCharacter and weapon combined damages:\n";
+                        var charAndWeapResult = new CustomColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
+                        mainText += charAndWeapResult.ToString();
+
+                        totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
+
+                        mainText += "\nCharacter/Weapon and Kata combined damages:\n";
+                        var resultAndKata = totalDamage.ToArray().ToString(": ", "\n");
+
+                        mainText += new CustomColumns(resultDmgs, "x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).ToString();
+
+                        mainText += "\nAll damages operations:\n";
+                        mainText += (new CustomColumns("x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).AddLeft(charAndWeapResult)).ToString();
+
+                        mainText += "\n------------------------------------------------------------------";
                        
-                       /*
-                       string mainText = "------------------------------------------------------------------\n";
-
-                       var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
-                       var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
-                       var weaponDmgs = auxKata.WeaponEnabled.itemBase.damages.ToString(": ", "\n");
-
-                       mainText += "Kata Selected: " + item.nameDisplay + "\n";
-
-                       var titulos = new CustomColumns ("Character damages", "operacion", "Weapon equiped damages", "operacion", "Kata Selected" );
-
-                       var test1 = new CustomColumns(characterDmgs, "+", weaponDmgs, "x", kataDmgs);
-
-                       mainText += (titulos + test1).ToString();
-
-                       var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.WeaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
-                       var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
-
-                       mainText += "\nCharacter and weapon combined damages:\n";
-                       var charAndWeapResult = new CustomColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
-                       mainText += charAndWeapResult.ToString();
-
-                       totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
-
-                       mainText += "\nCharacter/Weapon and Kata combined damages:\n";
-                       var resultAndKata = totalDamage.ToArray().ToString(": ", "\n");
-
-                       mainText += new CustomColumns(resultDmgs, "x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).ToString();
-
-                       mainText += "\nAll damages operations:\n";
-                       mainText += (new CustomColumns("x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).AddLeft(charAndWeapResult)).ToString();
-
-                       mainText += "\n------------------------------------------------------------------";
+                        Debug.Log(mainText);
                        
-                       Debug.Log(mainText);
-                       */
-                   }
+                    }
+                    */
                };
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
@@ -192,7 +208,6 @@ public class InventorySubMenu : CreateSubMenu
         DestroyButtonsActions();
     }
 
-
     string SetTextforItem(Item item)
     {
         string details;
@@ -208,17 +223,4 @@ public class InventorySubMenu : CreateSubMenu
 
         return details;
     }
-
-    System.Type filterType;
-    SlotItem slotItem = null;
-    System.Action<SlotItem, int> action = null;
-
-    public void SetEquipMenu<T>(SlotItem _slotItem, System.Type _type, System.Action<SlotItem, int> _action) where T : Item
-    {
-        action = _action;
-        slotItem = _slotItem;
-        filterType = _type;
-        isEquipMenu = true;
-    }
-
 }

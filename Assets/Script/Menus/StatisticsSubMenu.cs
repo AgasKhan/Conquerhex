@@ -48,7 +48,7 @@ public class StatisticsSubMenu : CreateSubMenu
     private void SubMenuOnClose()
     {
         subMenu.OnClose -= SubMenuOnClose;
-        Create();
+        InternalCreate();
     }
 
     void CreateEquipmentButtons(Character charac)
@@ -78,6 +78,20 @@ public class StatisticsSubMenu : CreateSubMenu
             });
         }
     }
+
+    void EquipWeaponAction(SlotItem _slotItem, int _index)
+    {
+        (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent[_index]);
+        subMenu.TriggerOnClose();
+    }
+
+    void EquipKataAction(SlotItem _slotItem, int _index)
+    {
+        ((WeaponKata)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+        _slotItem.indexEquipedItem = indexCopy;
+        subMenu.TriggerOnClose();
+    }
+
     void CreateGenericButton<T>(SlotItem<T> item, string defaultName, System.Action<SlotItem, int> equipAction) where T : Item
     {
         var info = new SlotInfo(defaultName, null, "", typeof(T));
@@ -103,9 +117,11 @@ public class StatisticsSubMenu : CreateSubMenu
     void CreateKataCombosButtons(SlotItem<WeaponKata> kata)
     {
         var infoKata = new SlotInfo("Equip Kata", null, "", typeof(WeaponKata));
+
         UnityEngine.Events.UnityAction actionKata;
 
         var infoWeapon = new SlotInfo("Equip Weapon", null, "", typeof(MeleeWeapon));
+
         UnityEngine.Events.UnityAction actionWeapon;
 
         bool interactiveWeap = false;
@@ -124,28 +140,15 @@ public class StatisticsSubMenu : CreateSubMenu
             }
         }
 
-        System.Action<SlotItem, int> equipKataAction = (_slotItem, _index) =>
-        {
-            var kataCopy = ((WeaponKata)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
-            _slotItem.indexEquipedItem = indexCopy;
-            subMenu.TriggerOnClose();
-        };
-
-        System.Action<SlotItem, int> equipWeaponAction = (_slotItem, _index) =>
-        {
-            (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent[_index]);
-            subMenu.TriggerOnClose();
-        };
-
         actionKata = () =>
         {
-            inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoKata.filter, equipKataAction);
+            inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoKata.filter, EquipKataAction);
             CreateInventory();
         };
 
         actionWeapon = () =>
         {
-            inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoWeapon.filter, equipWeaponAction);
+            inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoWeapon.filter, EquipWeaponAction);
             CreateInventory();
         };
 

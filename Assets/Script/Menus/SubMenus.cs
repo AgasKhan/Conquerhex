@@ -215,7 +215,7 @@ public class SubMenus : MonoBehaviour
 
         subdivisions = aux / 6;
 
-        Debug.Log("Execute OnEnable");
+        //Debug.Log("Execute OnEnable");
         GameManager.instance.Menu(true);
     }
 
