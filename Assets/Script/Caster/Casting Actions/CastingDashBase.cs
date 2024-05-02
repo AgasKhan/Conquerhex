@@ -79,10 +79,11 @@ public class CastingDash : CastingAction<CastingDashBase>
 
     public override void Destroy()
     {
-        base.Destroy();
-        dashInTime.Stop();
+        dashInTime?.Stop();
         dashInTime = null;
-        startDashCastingAction.Destroy();
-        endDashCastingAction.Destroy();
+        startDashCastingAction?.Destroy();
+        endDashCastingAction?.Destroy();
+
+        base.Destroy();
     }
 }
