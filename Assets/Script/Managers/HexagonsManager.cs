@@ -27,6 +27,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public Vector2 anguloDefecto;
 
+    public bool automaticRender = true;
+
     public static int idMaxLevel=> instance._idMaxLevel;
 
     [SerializeField]
@@ -466,6 +468,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         DebugPrint.Log("lado" + lado);
 
         DebugPrint.Log("apotema " + apotema);
+
+        if (!automaticRender)
+            return;
 
         eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato +=
 

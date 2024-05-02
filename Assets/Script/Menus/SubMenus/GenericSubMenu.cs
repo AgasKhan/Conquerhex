@@ -99,7 +99,7 @@ public class GenericSubMenu : CreateSubMenu
 
     public string SetTextforItem(Item item)
     {
-        string details = "";
+        string details;
 
         if (item is MeleeWeapon)
         {
@@ -107,8 +107,7 @@ public class GenericSubMenu : CreateSubMenu
         }
         else
         {
-            //item.GetAmounts(out int actual, out int max);
-            //details = actual + " / " + max;
+            details = item.GetCount().ToString() /*+ " / " + item.GetItemBase().maxAmount*/;
         }
 
         return details;

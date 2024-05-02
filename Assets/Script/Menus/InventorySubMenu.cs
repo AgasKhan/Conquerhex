@@ -195,7 +195,7 @@ public class InventorySubMenu : CreateSubMenu
 
     string SetTextforItem(Item item)
     {
-        string details = "";
+        string details;
 
         if (item is MeleeWeapon)
         {

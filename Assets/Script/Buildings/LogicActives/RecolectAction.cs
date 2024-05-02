@@ -35,7 +35,7 @@ public class RecolectAction : InteractAction<(InventoryEntityComponent inventTo,
 
                 ButtonA button = internalSubMenu.AddComponent<ButtonA>();
 
-                menu.buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, "", () =>
+                menu.buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, menu.SetTextforItem(item), () =>
                 {
                     menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
                     menu.DestroyLastButtons();

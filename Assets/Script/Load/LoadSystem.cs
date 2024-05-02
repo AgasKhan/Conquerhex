@@ -295,7 +295,7 @@ public class Lenguages : Init
                 }
             }
 
-            UnityEngine.Debug.LogWarning("no se encontro el key en lenguage: " + aux);
+            //UnityEngine.Debug.LogWarning("no se encontro el key en lenguage: " + aux);
 
             keysNotFinded.Add(aux);
 

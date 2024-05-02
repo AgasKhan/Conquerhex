@@ -221,8 +221,11 @@ public class IAIO : IAFather
 
         character.CurrentState = null;
 
-        if (chr == GameManager.instance.playerCharacter)
-            GameManager.instance.Defeat("Has muerto");
+        TimersManager.Create(0.5f, ()=>
+        {
+            if (chr == GameManager.instance.playerCharacter)
+                GameManager.instance.Defeat("Has muerto");
+        });
     }
 
     private void OnTakeDamage(Damage obj)
