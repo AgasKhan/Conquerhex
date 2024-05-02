@@ -52,13 +52,13 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         get => _ia;
         set
         {
-            if (_ia == null && value != null)
+            if (value == null)
+            {
+                MyUpdates -= IAUpdate; 
+            }
+            else if (_ia == null && value != null)
             {
                 MyUpdates += IAUpdate;
-            }
-            else if (value == null)
-            {
-                MyUpdates -= IAUpdate;
             }
 
             _ia?.OnExitState(this);
@@ -202,7 +202,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     void IAUpdate()
     {
-        _ia.OnStayState(this);
+        _ia?.OnStayState(this);
     }
 }
 
