@@ -9,7 +9,7 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 {
     #region static classes
 
-    static public List<FatherKey> keys = new List<FatherKey>();
+    static public HashSet<FatherKey> keys = new HashSet<FatherKey>();
 
     static public Axis Movement { get => instance._movement; }
     static public Axis Principal { get => instance._principal; }
@@ -87,7 +87,7 @@ namespace Controllers
     {
         public float timePressed;
 
-        public bool enable;
+        public bool enable = true;
 
         public abstract void Destroy();
 

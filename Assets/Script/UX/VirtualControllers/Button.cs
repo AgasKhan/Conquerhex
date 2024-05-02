@@ -59,10 +59,14 @@ namespace Controllers
 
 
         #region constructor
+        private void OnEnable()
+        {
+            VirtualControllers.keys.Add(this);
+        }
+
         public override void MyAwake()
         {
             enable = true;
-            VirtualControllers.keys.Add(this);
         }
         #endregion
     }
