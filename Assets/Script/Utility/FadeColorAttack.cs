@@ -55,6 +55,9 @@ public class FadeColorAttack : MonoBehaviour
     TMPro.TextMeshProUGUI text;
 
     [SerializeField]
+    CircularTextMeshPro textCircular;
+
+    [SerializeField]
     float velocityRotation = 5;
 
     string _area;
@@ -160,13 +163,16 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack Area(out float number)
     {
-        number = transform.localScale.x;
+        number = areaFeedback.localScale.x;
         return this;
     }
 
     public FadeColorAttack Area(float max, float min=0)
     {
-        transform.localScale = Vector3.one * max;
+        areaFeedback.localScale = Vector3.one * max;
+
+        textCircular.Radius = max ;
+
         area = "MaxRadius: " + max.ToStringFixed();
         InternalArea(min);
 
