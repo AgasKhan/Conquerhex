@@ -112,9 +112,9 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference?.Area(originalScale * FinalMaxRange * 1f / 2, originalScale * FinalMinRange * 1f / 2);
+        FeedBackReference?.Area(FinalMaxRange * 1f / 2, FinalMinRange * 1f / 2);
 
-        Detect(0, FinalMaxRange * 1f / 2, originalScale * FinalMinRange * 1f / 2);
+        Detect(0, FinalMaxRange * 1f / 2,  FinalMinRange * 1f / 2);
 
         if (affected.Count == 0 || (timerToEnd.total - timerToEnd.current) < triggerBase.cooldownWaitAttack)
             return;
@@ -141,6 +141,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
 
-        FeedBackReference?.Area(originalScale * FinalMaxRange, originalScale * FinalMinRange).Direction(Aiming);
+        FeedBackReference?.Area( FinalMaxRange,  FinalMinRange).Direction(Aiming);
     }
 }
