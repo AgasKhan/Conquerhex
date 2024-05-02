@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 1003096293546598046}
   - component: {fileID: 1707552920755828741}
   - component: {fileID: 6689107070570940280}
-  - component: {fileID: 9069037276540682435}
+  - component: {fileID: -825835891279344692}
   m_Layer: 7
   m_Name: Proyectil
   m_TagString: Untagged
@@ -203,17 +203,17 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
     deathBool: 0
-  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 0}
   <healthBase>k__BackingField: {fileID: 11400000, guid: ac5a2a294b48a3a4092765b98dcb809f,
@@ -221,26 +221,16 @@ MonoBehaviour:
   objectSpawner: []
   collision: {fileID: 6640143777753811771}
   detect:
-    radius: 0.02
-    distance: 0
+    maxRadius: 0
+    minRadius: 0
     inverse: 0
     dot: 1
     _maxDetects: 0
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    queryTrigger: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!114 &1707552920755828741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,44 +256,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0, z: 0}
+  _velocityCalculate: {x: 0, y: 0, z: 0}
+  <objectiveVelocity>k__BackingField: 7.5
+  <maxSpeed>k__BackingField: 100
   aceleration:
-    total: 100
+    _total: 0
     _current: 100
   _desaceleration:
-    total: 0
+    _total: 0
     _current: 0
-  _velocity:
-    total: 100
-    _current: 0
-  objectiveVelocity: 10
---- !u!50 &9069037276540682435
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!54 &-825835891279344692
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6636733154270346112}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDrag: 0
+  m_Drag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Constraints: 116
   m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &7188442674348528769
 GameObject:
   m_ObjectHideFlags: 0
