@@ -174,8 +174,7 @@ public class SubMenus : MonoBehaviour
 
     public void ExitSubmenu()
     {
-        Debug.Log("Execute ExitSubMenu");
-        GameManager.instance.Menu(false);
+        //Debug.Log("Execute ExitSubMenu");
         transform.SetActiveGameObject(false);
     }
 
@@ -191,9 +190,14 @@ public class SubMenus : MonoBehaviour
         canvasGroup.alpha = obj;
     }
 
+    private void OnDisable()
+    {
+        GameManager.instance.Menu(false);
+    }
+
     private void OnEnable()
     {
-        fadeMenu.FadeOn();
+        //fadeMenu.FadeOn();
 
         //que numero multiplicado x mi screen da 1920
 
@@ -218,6 +222,8 @@ public class SubMenus : MonoBehaviour
         //Debug.Log("Execute OnEnable");
         GameManager.instance.Menu(true);
     }
+
+    
 
     SubMenus AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {

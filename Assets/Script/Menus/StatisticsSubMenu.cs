@@ -48,7 +48,8 @@ public class StatisticsSubMenu : CreateSubMenu
     private void SubMenuOnClose()
     {
         subMenu.OnClose -= SubMenuOnClose;
-        InternalCreate();
+        Create();
+        //InternalCreate();
     }
 
     void CreateEquipmentButtons(Character charac)
