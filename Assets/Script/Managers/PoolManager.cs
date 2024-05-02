@@ -204,17 +204,30 @@ public class PoolManager : MonoBehaviour
 
     static void SetTransform(Transform transform, Transform original, Vector3? pos = null, Quaternion? angles = null, Transform padre = null, bool active = true)
     {
-        if (padre != null)
-            transform.SetParent(null,true);
+        if(padre != null)
+        {
+            transform.SetParent(null, true);
 
+            transform.localScale = original.localScale;
+        }
+        else
+        {
+            var aux = transform.parent;
+
+            transform.SetParent(null, true);
+
+            transform.localScale = original.localScale;
+
+            transform.SetParent(aux, true);
+        }
+        
+        
         if (pos!=null)
             transform.localPosition = (Vector3)pos;
 
         if (angles != null)
             transform.localRotation = (Quaternion)angles;
 
-        transform.localScale = original.localScale;
-        
         if(padre != null)
         {
             transform.SetParent(padre, true);
