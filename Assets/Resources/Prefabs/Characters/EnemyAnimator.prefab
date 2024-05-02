@@ -151,6 +151,7 @@ MonoBehaviour:
     dot: 1
     _maxDetects: 0
     _minDetects: 0
+    queryTrigger: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 128
@@ -202,7 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <direction>k__BackingField: {x: 0, y: 0, z: 0}
   _velocityCalculate: {x: 0, y: 0, z: 0}
-  <objectiveVelocity>k__BackingField: 0
+  <objectiveVelocity>k__BackingField: 7.5
   <maxSpeed>k__BackingField: 100
   aceleration:
     _total: 30
@@ -418,10 +419,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
-  m_Height: 1
+  m_Radius: 0.33935165
+  m_Height: 1.063118
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: -0.056591034, y: 0.28523636, z: 0}
 --- !u!1 &9039635426545646564
 GameObject:
   m_ObjectHideFlags: 0
