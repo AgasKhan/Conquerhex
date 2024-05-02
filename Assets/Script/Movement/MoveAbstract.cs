@@ -112,7 +112,7 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
 
     public void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
     {
-        if (damageOrigin == null || dmg.amount <= 0 || dmg.knockBack <= 0)
+        if (damageOrigin == null || dmg.amount <= 0 || Mathf.Abs(dmg.knockBack) <= 0)
             return;
 
         Vector3 posDmg = (Vector3)damageOrigin;
