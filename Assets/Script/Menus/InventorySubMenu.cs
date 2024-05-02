@@ -44,6 +44,15 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.CreateTitle("Inventory");
 
         CreateBody();
+
+        subMenu.OnClose += InventoryOnClose;
+    }
+
+    private void InventoryOnClose()
+    {
+        slotItem = null;
+        isEquipMenu = false;
+        subMenu.OnClose -= InventoryOnClose;
     }
 
     void CreateBody()
