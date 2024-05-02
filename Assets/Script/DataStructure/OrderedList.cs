@@ -26,11 +26,12 @@ public class OrderedList<T> : List<T>, ISerializationCallbackReceiver where T : 
 
         if (index < 0)
             index = ~index;
+        /*
         else
         {
             index++;
         }
-        
+        */
         Insert(index, item);
 
         return index;

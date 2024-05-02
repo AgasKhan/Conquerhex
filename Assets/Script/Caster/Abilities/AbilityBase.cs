@@ -200,6 +200,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
         index = aux.Init(container);
 
+        //Debug.Log("Se creo una copia de " + aux.nameDisplay + " en el indice: " + index);
+
         return aux;
     }
 

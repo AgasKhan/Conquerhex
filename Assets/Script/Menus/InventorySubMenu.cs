@@ -17,8 +17,6 @@ public class InventorySubMenu : CreateSubMenu
 
     DetailsWindow myDetailsW;
 
-    bool isEquipMenu = false;
-
     System.Type filterType;
 
     SlotItem slotItem = null;
@@ -30,7 +28,6 @@ public class InventorySubMenu : CreateSubMenu
         action = _action;
         slotItem = _slotItem;
         filterType = _type;
-        isEquipMenu = true;
     }
 
     protected override void InternalCreate()
@@ -51,7 +48,6 @@ public class InventorySubMenu : CreateSubMenu
     private void InventoryOnClose()
     {
         slotItem = null;
-        isEquipMenu = false;
         subMenu.OnClose -= InventoryOnClose;
     }
 
@@ -73,7 +69,7 @@ public class InventorySubMenu : CreateSubMenu
     {
         buttonsList.Clear();
 
-        if (slotItem != null && slotItem.equiped != null && isEquipMenu)
+        if (slotItem != null && slotItem.equiped != null)
         {
             CreateUnequipButton(slotItem);
         }
@@ -96,12 +92,14 @@ public class InventorySubMenu : CreateSubMenu
             UnityEngine.Events.UnityAction action =
                () =>
                {
+                   //Debug.Log("El indice de " + item.nameDisplay + " es: " + index);
+
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
 
                    DestroyButtonsActions();
                    
-                   if(slotItem != null && isEquipMenu)
-                       CreateButtonEquip(slotItem, index);
+                   if(slotItem != null)
+                       CreateEquipButton(slotItem, index);
  
                     /*
                     if (item.GetItemBase() is WeaponKataBase)
@@ -165,7 +163,7 @@ public class InventorySubMenu : CreateSubMenu
         buttonsListActions.Clear();
     }
 
-    void CreateButtonEquip(SlotItem _slotItem, int _index)
+    void CreateEquipButton(SlotItem _slotItem, int _index)
     {
         buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Equip", ()=> {action.Invoke(_slotItem, _index); } , ""));
         buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(300, 75);

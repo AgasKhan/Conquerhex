@@ -59,7 +59,8 @@ public class StatisticsSubMenu : CreateSubMenu
             CreateGenericButton(charac.caster.weapons[i], "Equip Weapon", 
             (_slotItem, _index) =>
             {
-                _slotItem.indexEquipedItem = _index; subMenu.TriggerOnClose();
+                _slotItem.indexEquipedItem = _index;
+                subMenu.TriggerOnClose();
             });
         }
 
