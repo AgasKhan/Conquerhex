@@ -17,7 +17,7 @@ public class UpTrggrCtrllrBase : TriggerControllerBase
 /// </summary>
 public class UpTrggrCtrllr : TriggerController
 {
-    protected float originalScale;
+    //protected float originalScale;
 
     public override void ControllerDown(Vector2 dir, float button)
     {
@@ -28,7 +28,7 @@ public class UpTrggrCtrllr : TriggerController
             return;
         }
 
-        FeedBackReference?.Area(out originalScale);
+        //FeedBackReference?.Area(out originalScale);
     }
 
     //Durante, al mantener y moverlo
@@ -43,7 +43,7 @@ public class UpTrggrCtrllr : TriggerController
 
         Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime);
 
-        FeedBackReference?.Area(originalScale * FinalMaxRange).Direction(Aiming);
+        FeedBackReference?.Area(FinalMaxRange).Direction(Aiming);
 
         Detect(button);
     }
