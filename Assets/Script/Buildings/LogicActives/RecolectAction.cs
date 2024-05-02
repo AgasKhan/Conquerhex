@@ -39,7 +39,7 @@ public class RecolectAction : InteractAction<(InventoryEntityComponent inventTo,
                 {
                     menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
                     menu.DestroyLastButtons();
-                    menu.CreateButton("Change container from " + inventoryFrom.container.name + " to " + inventoryTo.container.name, () => Activate((inventoryTo, item)));
+                    menu.CreateButton("Change container from " + inventoryFrom.container.name + " to " + inventoryTo.container.name, () => Activate((inventoryTo, item))).rectTransform.sizeDelta = new Vector2(400, 85);
                 }
                 ));
             }
