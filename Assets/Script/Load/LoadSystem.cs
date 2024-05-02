@@ -244,15 +244,19 @@ public class Lenguages : Init
 {
     [SerializeField]
     TextAsset read;
-
+    
     [SerializeField]
     TextAsset write;
 
-    string path = "Assets/Lenguages/";
+    #if UNITY_EDITOR
 
-    StreamReader csvArchiveRead;
+    const string path = "Assets/Resources/Lenguages/";
+
+    //StreamReader csvArchiveRead;
 
     StreamWriter csvArchiveWrite;
+
+    #endif
 
     string toWrite;
 
@@ -334,12 +338,16 @@ public class Lenguages : Init
     {
         instance = this;
 
-        csvArchiveRead = new StreamReader(path + read.name + ".txt");
+        #if UNITY_EDITOR
+
+        //csvArchiveRead = new StreamReader(path + read.name + ".txt");
         csvArchiveWrite = new StreamWriter(path + write.name + ".txt", false ,System.Text.Encoding.UTF8);
 
-        toWrite = csvArchiveRead.ReadToEnd();
+        #endif
 
-        csvArchiveRead.Close();
+        toWrite = read.text;
+
+        //csvArchiveRead.Close();
 
         var filas = toWrite.Split(rowSeparator, System.StringSplitOptions.RemoveEmptyEntries);
 
@@ -360,6 +368,7 @@ public class Lenguages : Init
         RefreshLenguage();
     }
 
+    #if UNITY_EDITOR
     public void OnDestroy()
     {
         if (keysNotFinded.Count > 0)
@@ -368,5 +377,5 @@ public class Lenguages : Init
         }
         csvArchiveWrite.Close();
     }
-
+    #endif
 }
