@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6773200482067112401}
   - component: {fileID: 8571435171574743604}
-  - component: {fileID: 1837523997}
   - component: {fileID: 1837523998}
   - component: {fileID: 1837524000}
   m_Layer: 0
@@ -27,6 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6773200482067112399}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
@@ -34,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 7939103049160598146}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &8571435171574743604
 CapsuleCollider2D:
@@ -46,24 +45,31 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.22}
   m_Size: {x: 0.5, y: 0.5}
   m_Direction: 0
---- !u!114 &1837523997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6773200482067112399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e268d94a8d5836041809a78d4e7ce960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1837523998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,46 +85,31 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
-  drops: []
-  audioManager: {fileID: 0}
-  damaged1: {r: 1, g: 1, b: 0, a: 1}
-  damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
-  detected: {r: 1, g: 0.5, b: 0.5, a: 1}
-  interact:
-    pictionaries:
-    - key: "Informaci\xF3n"
-      value: {fileID: 1837523997}
-    - key: Ver Destinos
-      value: {fileID: 1837524000}
-  inventory: []
-  weightCapacity: 0
-  currentWeight: 0
-  travelItem: []
-  character: {fileID: 0}
-  structureBase: {fileID: 11400000, guid: 20d942d4509aeb74894deb6b5bd2e180, type: 2}
+    deathBool: 0
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
+  <carlitos>k__BackingField: []
+  <flyweight>k__BackingField: {fileID: 0}
+  <healthBase>k__BackingField: {fileID: 0}
   upgradesRequirements: []
   NavBarButtons: 
-  currentLevel: 0
-  myBuildSubMenu:
-    subMenu: {fileID: 0}
-    detailsWindow: {fileID: 0}
+  controller: {fileID: 0}
+  interactComp: {fileID: 0}
+  levelComp: {fileID: 0}
   travelRequire:
     pictionaries:
     - key: {fileID: 11400000, guid: fc794f458f072c3439d193c3896f32fa, type: 2}
       value: {fileID: 11400000, guid: 0486e4a4f74134744b18ed8cd65e2ba7, type: 2}
     - key: {fileID: 11400000, guid: 4a8c80784bb745c41a7f58877c993eea, type: 2}
       value: {fileID: 11400000, guid: a000b0c5c2e160b4b8e3d6297ae2222b, type: 2}
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1837524000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,11 +122,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactComp: {fileID: 0}
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 6773200482067112401}
     m_Modifications:
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
@@ -240,6 +233,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 266df4a2dc9c6734f93879a36fcc2020, type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 135a5d7445645394c8a553fdb6e815a0, type: 3}
 --- !u!4 &7939103049160598146 stripped
 Transform:

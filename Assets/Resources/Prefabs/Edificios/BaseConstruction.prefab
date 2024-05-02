@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 4163206447136221966}
   - component: {fileID: 4163206447136222001}
   - component: {fileID: 7258518116199610443}
-  - component: {fileID: 3424080689821815510}
   m_Layer: 0
   m_Name: BaseConstruction
   m_TagString: Props
@@ -30,13 +29,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5834125155675881231}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.1405, y: -0.0524, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &1452579418052781897
 CapsuleCollider2D:
@@ -48,6 +47,25 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -66,6 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactComp: {fileID: 0}
 --- !u!114 &4944509562049766895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,53 +127,33 @@ MonoBehaviour:
   team: 0
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
     deathBool: 0
-  drops: []
-  audioManager: {fileID: 0}
-  carlitosPrefab: {fileID: -8498338668140302489, guid: a6e124b9f5481dd4e93aaa10b9225368,
-    type: 3}
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
-  interact:
-    pictionaries:
-    - key: "Informaci\xF3n"
-      value: {fileID: 3424080689821815510}
-    - key: Construir
-      value: {fileID: 939497608687541955}
-  inventory: []
-  currentWeight: 0
-  travelItem: []
-  _katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
   <flyweight>k__BackingField: {fileID: 11400000, guid: 11a4f92ca56665143aadf73439a49681,
     type: 2}
-  weaponKataIndex: 0
+  <healthBase>k__BackingField: {fileID: 0}
   upgradesRequirements:
   - {fileID: 11400000, guid: 0112a295d1ad7534fb0485807978267c, type: 2}
   NavBarButtons: 
   controller: {fileID: 4163206447136221966}
-  currentLevel: 0
-  myBuildSubMenu:
-    subMenu: {fileID: 0}
-    detailsWindow: {fileID: 0}
-  character: {fileID: 0}
+  interactComp: {fileID: 0}
+  levelComp: {fileID: 0}
   myVisibility: 0
   myInteractuable: 1
+  attack: {fileID: 0}
   originalFlyweight: {fileID: 0}
   constructSprite: {fileID: 0}
   node: {fileID: 0}
-  references:
-    version: 2
-    RefIds: []
 --- !u!212 &7258518116199610443
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -207,15 +206,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3424080689821815510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5834125155675881231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e268d94a8d5836041809a78d4e7ce960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
