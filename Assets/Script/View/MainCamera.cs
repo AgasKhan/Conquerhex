@@ -201,7 +201,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         LoadSystem.AddPostLoadCorutine(() =>
         {
-            if (HexagonsManager.instance != null)
+            if (HexagonsManager.instance != null && HexagonsManager.instance.automaticRender)
                 SetProyections(HexagonsManager.arrHexCreados?[0]);
         });
     }
