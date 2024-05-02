@@ -368,14 +368,15 @@ public class Lenguages : Init
         RefreshLenguage();
     }
 
-    #if UNITY_EDITOR
+ 
     public void OnDestroy()
     {
+        #if UNITY_EDITOR
         if (keysNotFinded.Count > 0)
         {
             csvArchiveWrite.Write(toWrite + csvArchiveWrite.NewLine + string.Join(csvArchiveWrite.NewLine, keysNotFinded.OrderBy(str => str).ToArray()));
         }
         csvArchiveWrite.Close();
+        #endif
     }
-    #endif
 }
