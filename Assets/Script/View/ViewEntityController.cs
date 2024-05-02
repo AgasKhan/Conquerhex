@@ -59,7 +59,11 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         timDetected = TimersManager.Create(detected, Color.white, 0.1f, Color.Lerp, ChangeColor);
 
+        timDetected.Stop();
+
         timDamaged = TimersManager.Create(0.33f, () => ColorBlink(((int)(timDamaged.Percentage() * 10)) % 2 == 0), ColorBlinkEnd);
+
+        timDamaged.Stop();
 
         if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
         {
