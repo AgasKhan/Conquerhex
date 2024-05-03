@@ -20,7 +20,10 @@ namespace Controllers
         {
             //UpdateAxis();
             if (mouseOrMovement)
+            {
                 dir = Input.mousePosition - new Vector3(Screen.width / 2, Screen.height / 2, 0);
+                dir.Normalize();
+            }
             else
                 dir = movementDetect.dir;
 

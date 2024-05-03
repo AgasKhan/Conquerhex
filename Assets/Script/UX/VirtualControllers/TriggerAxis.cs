@@ -33,8 +33,8 @@ namespace Controllers
 
         protected void UpdateAxis(bool b = false)
         {
-            float h = Input.GetAxis(horizontal);
-            float v = Input.GetAxis(vertical);
+            float h = Input.GetAxisRaw(horizontal);
+            float v = Input.GetAxisRaw(vertical);
 
             if (b || (h != 0 && v != 0))
                 dir.Set(h, v);

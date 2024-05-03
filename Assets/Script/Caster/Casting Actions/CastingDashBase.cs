@@ -12,6 +12,9 @@ public class CastingDashBase : CastingActionBase
     [Tooltip("Tiempo en la que se ejercera la velocidad")]
     public float dashInTime = 1f;
 
+    [Tooltip("multiplica la velocidad del dash por el tamanio del area")]
+    public bool multiplyByArea = false;
+
     public CastingActionBase startDashCastingAction;
 
     public CastingActionBase endDashCastingAction;
@@ -65,7 +68,14 @@ public class CastingDash : CastingAction<CastingDashBase>
 
     void Update()
     {
-        moveEntity.Velocity(Aiming, castingActionBase.velocityInDash);
+        if (castingActionBase.multiplyByArea)
+        {
+            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash * ability.AttackArea);
+        }
+        else
+        {
+            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash);
+        }
     }
 
     void Finish()

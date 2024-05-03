@@ -28,7 +28,7 @@ namespace Controllers
         public void OnEnterState(Vector2 param)
         {
             timePressed = 0;
-            dir = param;
+            //dir = param;
             eventDown?.Invoke(param, timePressed);
         }
 
@@ -43,7 +43,7 @@ namespace Controllers
         {
             eventUp?.Invoke(param, timePressed);
             timePressed = 0;
-            dir = Vector2.zero;
+            //dir = Vector2.zero;
         }
 
         public void SuscribeController(IControllerDir controllerDir)
