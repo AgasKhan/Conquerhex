@@ -9,4 +9,10 @@ public class LeverAction : LogicActive<(InteractEntityComponent interact, Charac
     {
         action.Invoke();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
 }
