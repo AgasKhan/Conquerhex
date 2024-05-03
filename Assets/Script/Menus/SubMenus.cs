@@ -246,7 +246,7 @@ public class SubMenus : MonoBehaviour
     {
         var x = comienzo * subdivisions + (comienzo + 1) * margin;
 
-        rect.position = new Vector3(x / fixedValue, rect.position.y, rect.position.z) ;
+        rect.localPosition = new Vector3(x / fixedValue, rect.position.y, rect.position.z) ;
 
         rect.sizeDelta = new Vector2(Width(final- comienzo), rect.sizeDelta.y);
 
