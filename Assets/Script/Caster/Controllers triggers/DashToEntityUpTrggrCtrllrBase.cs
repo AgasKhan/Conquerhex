@@ -105,6 +105,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         timerToEnd.Reset();
         buttonPress = false;
+        caster.abilityControllerMediator -= this;
     }
 
     public override void OnStayState(CasterEntityComponent param)

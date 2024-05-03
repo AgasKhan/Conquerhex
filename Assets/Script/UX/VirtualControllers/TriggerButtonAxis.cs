@@ -10,11 +10,19 @@ namespace Controllers
         [SerializeField]
         string button;
 
+        [SerializeField, Tooltip("en caso de ser falso leera el axis ingresado\nen caso de ser verdadero utilizara la posicion del mouse")]
+        bool mouseOrMovement = true;
+
+        [SerializeField]
+        Axis movementDetect;
+
         public override void MyUpdate()
         {
             //UpdateAxis();
-
-            dir = Input.mousePosition - new Vector3(Screen.width/2,Screen.height/2,0);
+            if (mouseOrMovement)
+                dir = Input.mousePosition - new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            else
+                dir = movementDetect.dir;
 
             if (Input.GetButtonDown(button))
             {

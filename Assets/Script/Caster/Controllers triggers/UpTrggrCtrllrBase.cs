@@ -41,7 +41,7 @@ public class UpTrggrCtrllr : TriggerController
             return;
         }
 
-        Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime);
+        Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime*10);
 
         FeedBackReference?.Area(FinalMaxRange).Direction(Aiming);
 
@@ -65,6 +65,8 @@ public class UpTrggrCtrllr : TriggerController
         Cast();
 
         FeedBackReference?.Attack();
+
+        caster.abilityControllerMediator -= this;
     }
 }
 
