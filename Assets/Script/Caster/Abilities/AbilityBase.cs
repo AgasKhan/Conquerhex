@@ -202,7 +202,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
         index = aux.Init(container);
 
-        //Debug.Log("Se creo una copia de " + aux.nameDisplay + " en el indice: " + index);
+        Debug.Log("Se creo una copia de " + aux.nameDisplay + " en el indice: " + index + "\nCon los casters: " + (aux.caster != null) + " " + (caster != null));
+
+        aux.caster = caster;
+
+        Debug.Log("Se guardo de forma manual el caster, dando como resultado:" + (aux.caster != null) + " " + (caster != null));
 
         return aux;
     }
