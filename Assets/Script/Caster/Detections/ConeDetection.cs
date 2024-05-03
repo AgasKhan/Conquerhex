@@ -9,8 +9,6 @@ using UnityEngine;
 [System.Serializable]
 public class ConeDetection : Detections
 {
-    [SerializeField]
-    bool withRay = true;
     public override List<IGetEntity> InternalDetect(Entity caster, Vector3 pos ,Vector3 direction, System.Func<IGetEntity, bool> chck, int numObjectives, float minRange, float maxRange, float dot)
     {
         if (withRay)
