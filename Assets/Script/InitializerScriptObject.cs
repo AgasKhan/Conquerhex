@@ -14,8 +14,8 @@ public class InitializerScriptObject : MonoBehaviour
 
     void Awake()
     {
-        //if (seted)
-          //  return;
+        if (seted)
+            return;
 
         string path = "ScriptableObject";
         var aux = LoadSystem.LoadAssets(path);
