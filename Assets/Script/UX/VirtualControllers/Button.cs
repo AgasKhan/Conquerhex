@@ -27,11 +27,15 @@ namespace Controllers
 
         public void OnEnterState()
         {
+            if (!enable || !VirtualControllers.eneable)
+                return;
             eventDown?.Invoke(0);
         }
 
         public void OnStayState()
         {
+            if (!enable || !VirtualControllers.eneable)
+                return;
             timePressed += Time.deltaTime;
             eventPress?.Invoke(timePressed);
         }

@@ -27,6 +27,8 @@ namespace Controllers
 
         public void OnEnterState(Vector2 param)
         {
+            if (!enable || !VirtualControllers.eneable)
+                return;
             timePressed = 0;
             //dir = param;
             eventDown?.Invoke(param, timePressed);
@@ -34,6 +36,8 @@ namespace Controllers
 
         public void OnStayState(Vector2 param)
         {
+            if (!enable || !VirtualControllers.eneable)
+                return;
             timePressed += Time.deltaTime;
             dir = param;
             eventPress?.Invoke(param, timePressed);
