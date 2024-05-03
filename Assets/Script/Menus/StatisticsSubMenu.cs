@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +20,7 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.AddNavBarButton("Statistics", Create).AddNavBarButton("Inventory", CreateInventory);
 
         subMenu.ClearBody();
+        /*
 
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
@@ -29,6 +30,31 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.CreateChildrenSection<ScrollRect>();
 
         CreateEquipmentButtons(character);
+        */
+
+        subMenu.CreateSection(0, 2);
+        subMenu.CreateChildrenSection<ScrollRect>();
+        subMenu.AddComponent<DetailsWindow>().SetTexts("Basicos", "Ataque basico: click izq (se apunta con el mouse)\nHabilidad basica: Click der (se apunta con el mouse)\nHabilidad Alternativa: shift izquierdo (se apunta con el movimiento)");
+        //CreateEquipmentWeapons(character);
+        CreateBasicEquipament(character);
+
+        subMenu.CreateSection(3, 5);
+        subMenu.CreateChildrenSection<ScrollRect>();
+        subMenu.AddComponent<DetailsWindow>().SetTexts("¿Combinacion de teclas?", "para ejecutar cualquier habilidad se debera presionar unas teclas de movimiento +  Click..\nTodas se apuntan con el mouse\n" +
+            "primera:   ↑↑ + click\n" +
+            "segunda:   →→ + click\n" +
+            "tercera:   ←← + click\n" +
+            "Cuarta:    ↓↓ + click\n");
+
+        subMenu.CreateSection(5, 8);
+        subMenu.CreateChildrenSection<ScrollRect>();
+        subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinacion de teclas (movimiento) +  Click der");
+        CreateEquipamentAbilities(character);
+
+        subMenu.CreateSection(8, 12);
+        subMenu.CreateChildrenSection<ScrollRect>();
+        subMenu.AddComponent<DetailsWindow>().SetTexts("(Katas) Movimientos ofensivos", "Combinacion de teclas (movimiento) +  Click izq");
+        CreateEquipamentKatas(character);
 
         subMenu.OnClose += Exit;
     }
@@ -52,24 +78,57 @@ public class StatisticsSubMenu : CreateSubMenu
         //InternalCreate();
     }
 
-    void CreateEquipmentButtons(Character charac)
+    void CreateBasicEquipament(Character charac)
+    {
+        CreateGenericButton(charac.caster.weapons[0], "Arma",
+         (_slotItem, _index) =>
+         {
+             _slotItem.indexEquipedItem = _index;
+             subMenu.TriggerOnClose();
+         });
+
+        CreateGenericButton(charac.caster.abilities[0], "Habilidad",
+            (_slotItem, _index) =>
+            {
+                var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+                _slotItem.indexEquipedItem = indexCopy;
+                subMenu.TriggerOnClose();
+            });
+
+        CreateGenericButton(charac.caster.abilities[1], "Habilidad alternativa",
+        (_slotItem, _index) =>
+        {
+            var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+            _slotItem.indexEquipedItem = indexCopy;
+            subMenu.TriggerOnClose();
+        });
+    }
+
+    void CreateEquipmentWeapons(Character charac)
     {
         for (int i = 0; i < charac.caster.weapons.Count; i++)
         {
-            CreateGenericButton(charac.caster.weapons[i], "Equip Weapon", 
+            CreateGenericButton(charac.caster.weapons[i], "Equip Weapon",
             (_slotItem, _index) =>
             {
                 _slotItem.indexEquipedItem = _index;
                 subMenu.TriggerOnClose();
             });
         }
+    }
 
-        for (int i = 0; i < charac.caster.katasCombo.Count ; i++)
+    void CreateEquipamentKatas(Character charac)
+    {
+        for (int i = 0; i < charac.caster.katasCombo.Count; i++)
         {
             CreateKataCombosButtons(charac.caster.katasCombo[i]);
         }
+    }
 
-        for (int i = 0; i < charac.caster.abilities.Count; i++)
+    void CreateEquipamentAbilities(Character charac)
+    {
+        //for (int i = 0; i < charac.caster.abilities.Count; i++)
+        for (int i = 2; i < charac.caster.abilities.Count; i++)
         {
             CreateGenericButton(charac.caster.abilities[i], "Equip Ability",
             (_slotItem, _index) =>
@@ -79,6 +138,13 @@ public class StatisticsSubMenu : CreateSubMenu
                 subMenu.TriggerOnClose();
             });
         }
+    }
+
+    void CreateEquipmentButtons(Character charac)
+    {
+        CreateEquipmentWeapons(charac);
+        CreateEquipamentKatas(charac);
+        CreateEquipamentAbilities(charac);
     }
 
     void EquipWeaponAction(SlotItem _slotItem, int _index)
