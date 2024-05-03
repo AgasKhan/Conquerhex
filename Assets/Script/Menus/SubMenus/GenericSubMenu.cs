@@ -33,7 +33,7 @@ public class GenericSubMenu : CreateSubMenu
 
         subMenu.CreateSection(2, 6);
         subMenu.CreateChildrenSection<UnityEngine.UI.ScrollRect>();
-        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", interactComponent.container.flyweight.GetDetails()["Description"]).SetImage(interactComponent.container.flyweight.image);
+        detailsWindow = subMenu.AddComponent<DetailsWindow>().SetTexts("", interactComponent.container.flyweight.GetDetails()["Descripción"]).SetImage(interactComponent.container.flyweight.image);
 
         subMenu.CreateTitle(interactComponent.container.flyweight.nameDisplay);
     }
@@ -103,7 +103,7 @@ public class GenericSubMenu : CreateSubMenu
 
         if (item is MeleeWeapon)
         {
-            details = "Uses: " + ((MeleeWeapon)item).current;
+            details = "Usos: " + ((MeleeWeapon)item).current;
         }
         else
         {

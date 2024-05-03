@@ -640,16 +640,10 @@ public static class Extensions
         foreach (var item in damages)
         {
             if (item.ToString() != "")
-                aux += item.typeInstance.GetType().Name + glue + item + reglon;
+                aux += item.typeInstance.nameDisplay + glue + item + reglon;
         }
 
         return aux;
     }
 
 }
-
-
-/*
- 
-
-*/

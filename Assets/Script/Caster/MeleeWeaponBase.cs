@@ -26,7 +26,7 @@ public class MeleeWeaponBase : ItemBase
     {
         var list = base.GetDetails();
 
-        list.Add("Damages", damages.ToString(": ", "\n"));
+        list.Add("Daños", damages.ToString(": ", "\n"));
 
         return list;
     }
@@ -100,7 +100,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
         var aux = durability.current + "/" + durability.total;
 
-        list.Add("Durability" , aux);
+        list.Add("Durabilidad" , aux);
 
         return list;
     }

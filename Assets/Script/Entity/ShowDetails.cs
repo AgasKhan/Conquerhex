@@ -28,7 +28,7 @@ public class ShowDetails : ScriptableObject, IShowDetails
 
     public virtual Pictionarys<string, string> GetDetails()
     {
-        return new Pictionarys<string, string>() { { "Description", _details } };
+        return new Pictionarys<string, string>() { { "Descripción", _details } };
     }
 
     private void OnEnable()
