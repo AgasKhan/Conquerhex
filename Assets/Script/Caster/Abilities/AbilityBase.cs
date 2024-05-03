@@ -15,6 +15,8 @@ public abstract class AbilityBase : ItemBase
     [Header("FeedBack")]
     public bool ShowFeedBackArea = true;
 
+    public bool ShowFeedAffectedEntities = true;
+
     public GameObject[] particles;
 
     [SerializeField]
@@ -259,7 +261,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         affected = trigger.InternalDetect(caster, pos ,Aiming, timePressed, minRange, maxRange, dot);
 
-        if (affected != null)
+        if (affected != null && itemBase.ShowFeedAffectedEntities)
             foreach (var item in affected)
             {
                 item.Detect();
