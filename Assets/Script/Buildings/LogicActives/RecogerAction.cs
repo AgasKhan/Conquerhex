@@ -37,7 +37,7 @@ public class RecogerAction : InteractAction<(InventoryEntityComponent inventTo, 
 
                 menu.buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, menu.SetTextforItem(item), () =>
                 {
-                    menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
+                    menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                     menu.DestroyLastButtons();
                     menu.CreateButton("Mover item del " + inventoryFrom.container.flyweight.nameDisplay + " al " + inventoryTo.container.name, () => Activate((inventoryTo, item))).rectTransform.sizeDelta = new Vector2(400, 85);
                 }
