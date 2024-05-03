@@ -192,15 +192,13 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
         if (inventoryEntityComponent == this.container)
             return;
 
-        onDrop?.Invoke();
+        //onDrop?.Invoke();
 
         OnChangeContainer?.Invoke(inventoryEntityComponent);
 
-        container.InternalRemoveItem(this);
+        Destroy();
 
-        container = inventoryEntityComponent;
-
-        container.InternalAddItem(this);
+        Init(inventoryEntityComponent);
     }
 
     public int Init(InventoryEntityComponent inventoryEntityComponent)

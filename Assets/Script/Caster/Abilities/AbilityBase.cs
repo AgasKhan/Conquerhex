@@ -109,7 +109,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public List<Entity> affected = new List<Entity>();
 
-    public CasterEntityComponent caster;
+    public CasterEntityComponent caster { get; private set;}
 
     [SerializeReference]
     public Ability original;
@@ -316,10 +316,13 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         if (itemBase == null)
             return;
 
-        if (!container.TryGetInContainer(out caster))
+        if (!container.TryGetInContainer(out CasterEntityComponent caster))
         {
             return;
         }
+
+        this.caster = caster;
+
 
         if (caster.TryGetInContainer<AudioEntityComponent>(out var audio))
             foreach (var item in itemBase.audios)
