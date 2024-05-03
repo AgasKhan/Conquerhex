@@ -282,24 +282,6 @@ public class IAIO : IAFather
         VirtualControllers.Principal.eventDown -= NoCharacterSelected;
     }
 
-    private void IAIO_OnPause()
-    {
-        if (lastInteractuable != null)
-        {
-            VirtualControllers.Interact.eventDown -= Interact_eventDown;
-            interactEvent.secondDelegato?.Invoke((false, false, null));
-        }
-    }
-
-    private void IAIO_OnPlay()
-    {
-        if (lastInteractuable != null)
-        {
-            VirtualControllers.Interact.eventDown += Interact_eventDown;
-            interactEvent.secondDelegato?.Invoke((true, false, lastInteractuable.Image));
-        }
-    }
-
     private void Update()
     {
         if(character!=null)
@@ -325,8 +307,6 @@ public class IAIO : IAFather
             characterEvent.delegato += OnCharacterSelected;
             //VirtualControllers.Principal.eventDown += NoCharacterSelected;
             NoCharacterSelected(Vector2.zero , 0);
-            GameManager.OnPlay += IAIO_OnPlay;
-            GameManager.OnPause += IAIO_OnPause;
         });
     }
 }
