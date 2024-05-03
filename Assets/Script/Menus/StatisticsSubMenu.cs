@@ -17,7 +17,7 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        subMenu.AddNavBarButton("Statistics", Create).AddNavBarButton("Inventory", CreateInventory);
+        subMenu.AddNavBarButton("Equipamiento", Create).AddNavBarButton("Inventario", CreateInventory);
 
         subMenu.ClearBody();
         /*
@@ -34,21 +34,21 @@ public class StatisticsSubMenu : CreateSubMenu
 
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
-        subMenu.AddComponent<DetailsWindow>().SetTexts("Basicos", "Ataque basico: click izq (se apunta con el mouse)\nHabilidad basica: Click der (se apunta con el mouse)\nHabilidad Alternativa: shift izquierdo (se apunta con el movimiento)");
+        subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq (se apunta con el mouse)\nHabilidad basica: Click der (se apunta con el mouse)\nHabilidad Alternativa: shift izquierdo (se apunta con el movimiento)");
         //CreateEquipmentWeapons(character);
         CreateBasicEquipament(character);
 
         subMenu.CreateSection(3, 5);
         subMenu.CreateChildrenSection<ScrollRect>();
-        subMenu.AddComponent<DetailsWindow>().SetTexts("¿Combinacion de teclas?", "para ejecutar cualquier habilidad se debera presionar unas teclas de movimiento +  Click..\nTodas se apuntan con el mouse\n" +
-            "primera:   ↑↑ + click\n" +
-            "segunda:   →→ + click\n" +
-            "tercera:   ←← + click\n" +
-            "Cuarta:    ↓↓ + click\n");
+        subMenu.AddComponent<DetailsWindow>().SetTexts("¿Combinación de teclas?", "Para ejecutar cualquier habilidad se debera presionar unas teclas de movimiento +  Click..\nTodas se apuntan con el mouse\n" +
+            "Primera:   ↑↑ + Click\n" +
+            "Segunda:   →→ + Click\n" +
+            "Tercera:   ←← + Click\n" +
+            "Cuarta:    ↓↓ + Click\n");
 
         subMenu.CreateSection(5, 8);
         subMenu.CreateChildrenSection<ScrollRect>();
-        subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinacion de teclas (movimiento) +  Click der");
+        subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinación de teclas (movimiento) +  Click der");
         CreateEquipamentAbilities(character);
 
         subMenu.CreateSection(8, 12);
@@ -108,7 +108,7 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         for (int i = 0; i < charac.caster.weapons.Count; i++)
         {
-            CreateGenericButton(charac.caster.weapons[i], "Equip Weapon",
+            CreateGenericButton(charac.caster.weapons[i], "Equipar Arma",
             (_slotItem, _index) =>
             {
                 _slotItem.indexEquipedItem = _index;
@@ -130,7 +130,7 @@ public class StatisticsSubMenu : CreateSubMenu
         //for (int i = 0; i < charac.caster.abilities.Count; i++)
         for (int i = 2; i < charac.caster.abilities.Count; i++)
         {
-            CreateGenericButton(charac.caster.abilities[i], "Equip Ability",
+            CreateGenericButton(charac.caster.abilities[i], "Equipar Habilidad",
             (_slotItem, _index) =>
             {
                 var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
@@ -176,7 +176,7 @@ public class StatisticsSubMenu : CreateSubMenu
             info.sprite = item.equiped.image;
 
             if(item.equiped is MeleeWeapon)
-                info.str = "Uses: " + (item.equiped as MeleeWeapon).current;
+                info.str = "Usos: " + (item.equiped as MeleeWeapon).current;
         }
 
         subMenu.AddComponent<ButtonA>().SetButtonA(info.name, info.sprite, info.str, action);
@@ -184,11 +184,11 @@ public class StatisticsSubMenu : CreateSubMenu
 
     void CreateKataCombosButtons(SlotItem<WeaponKata> kata)
     {
-        var infoKata = new SlotInfo("Equip Kata", null, "", typeof(WeaponKata));
+        var infoKata = new SlotInfo("Equipar Kata", null, "", typeof(WeaponKata));
 
         UnityEngine.Events.UnityAction actionKata;
 
-        var infoWeapon = new SlotInfo("Equip Weapon", null, "", typeof(MeleeWeapon));
+        var infoWeapon = new SlotInfo("Equipar Arma", null, "", typeof(MeleeWeapon));
 
         UnityEngine.Events.UnityAction actionWeapon;
 
@@ -204,7 +204,7 @@ public class StatisticsSubMenu : CreateSubMenu
             {
                 infoWeapon.name = kata.equiped.Weapon.nameDisplay;
                 infoWeapon.sprite = kata.equiped.Weapon.image;
-                infoWeapon.str = "Uses: " + kata.equiped.Weapon.current;
+                infoWeapon.str = "Usos: " + kata.equiped.Weapon.current;
             }
         }
 

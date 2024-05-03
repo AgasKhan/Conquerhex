@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeaveAction : RecolectAction
+public class DejarAction : RecogerAction
 {
     
 }

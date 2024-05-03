@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameDisplay: Dash Concatenado
   _image: {fileID: -361927801, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: 
+  _details: " El jugador embiste hacia el enemigo m\xE1s cercano, castea la habilidad
+    de la casilla a su izquierda de forma instant\xE1nea, apunta al siguiente enemigo
+    m\xE1s cercano y hace lo mismo, un total de 3 veces.\r"
   maxAmount: 1
   weight: 0
   visible: 1
   joystick: 0
   ShowFeedBackArea: 1
+  ShowFeedAffectedEntities: 1
   particles: []
   audios:
     pictionaries: []

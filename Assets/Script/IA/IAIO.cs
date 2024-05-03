@@ -290,7 +290,7 @@ public class IAIO : IAFather
             return;
         }
 
-        UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Press attack for return to your Body");
+        UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Presiona click izquierdo para volver a tu cuerpo");
     }
 
     private void Awake()

@@ -28,7 +28,7 @@ public class GenericSubMenu : CreateSubMenu
         foreach (var item in interactComponent.interact)
         {
             item.value.InteractInit(interactComponent);
-            subMenu.AddComponent<EventsCall>().Set(item.key.Name, () => { DestroyLastButtons(); item.value.ShowMenu(myCharacter); GoToOtherMenu(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+            subMenu.AddComponent<EventsCall>().Set(item.key.Name.Replace("Action", "") , () => { DestroyLastButtons(); item.value.ShowMenu(myCharacter); GoToOtherMenu(); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
 
         subMenu.CreateSection(2, 6);

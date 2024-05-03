@@ -38,7 +38,7 @@ public class InventorySubMenu : CreateSubMenu
                     .AddNavBarButton("Resources", () => { FilterItems("Resources_Item"); }).AddNavBarButton("Katas", () => { FilterItems("WeaponKata"); })
                     .AddNavBarButton("Abilities", () => { FilterItems("AbilityExtCast"); });
         */
-        subMenu.CreateTitle("Inventory");
+        subMenu.CreateTitle("Inventario");
 
         CreateBody();
 
@@ -165,13 +165,13 @@ public class InventorySubMenu : CreateSubMenu
 
     void CreateEquipButton(SlotItem _slotItem, int _index)
     {
-        buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Equip", ()=> {action.Invoke(_slotItem, _index); } , ""));
+        buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Equipar", ()=> {action.Invoke(_slotItem, _index); } , ""));
         buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(300, 75);
     }
 
     void CreateUnequipButton(SlotItem _slotItem)
     {
-        var aux = subMenu.AddComponent<EventsCall>().Set("Unequip", () => 
+        var aux = subMenu.AddComponent<EventsCall>().Set("Desequipar", () => 
         { 
             _slotItem.indexEquipedItem = -1;
             MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose(); 
@@ -221,7 +221,7 @@ public class InventorySubMenu : CreateSubMenu
 
         if (item is MeleeWeapon)
         {
-            details = "Uses: " + ((MeleeWeapon)item).current;
+            details = "Usos: " + ((MeleeWeapon)item).current;
         }
         else
         {

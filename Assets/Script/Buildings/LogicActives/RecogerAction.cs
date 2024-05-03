@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RecolectAction : InteractAction<(InventoryEntityComponent inventTo, Item item)>
+public class RecogerAction : InteractAction<(InventoryEntityComponent inventTo, Item item)>
 {
     public bool toCharacter = true;
     public override void Activate((InventoryEntityComponent inventTo, Item item) genericParam)
@@ -39,7 +39,7 @@ public class RecolectAction : InteractAction<(InventoryEntityComponent inventTo,
                 {
                     menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString(), item.image);
                     menu.DestroyLastButtons();
-                    menu.CreateButton("Change container from " + inventoryFrom.container.name + " to " + inventoryTo.container.name, () => Activate((inventoryTo, item))).rectTransform.sizeDelta = new Vector2(400, 85);
+                    menu.CreateButton("Mover item del " + inventoryFrom.container.flyweight.nameDisplay + " al " + inventoryTo.container.name, () => Activate((inventoryTo, item))).rectTransform.sizeDelta = new Vector2(400, 85);
                 }
                 ));
             }
@@ -50,10 +50,10 @@ public class RecolectAction : InteractAction<(InventoryEntityComponent inventTo,
             menu.detailsWindow = internalSubMenu.AddComponent<DetailsWindow>().SetTexts("", "").SetImage(null);
 
             if (inventoryFrom.Count <= 0)
-                menu.ShowItemDetails(toCharacter? "Empty Chest" : "Empty Inventory", toCharacter ? "Noting to see here": "You do not have items", null);
+                menu.ShowItemDetails(toCharacter? "Cofre vacío" : "Inventario vacío", toCharacter ? "Nada que ver aquí": "No tienes ningun item", null);
             
 
-            internalSubMenu.CreateTitle("Chest");
+            internalSubMenu.CreateTitle("Cofre");
         };
 
         menu.SetCreateAct(menuAction);
