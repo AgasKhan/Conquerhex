@@ -164,7 +164,7 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         var info = new SlotInfo(defaultName, null, "", typeof(T));
 
-        UnityEngine.Events.UnityAction action = () =>
+        UnityAction action = () =>
         {
             inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, info.filter, equipAction);
             CreateInventory();
@@ -186,11 +186,11 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         var infoKata = new SlotInfo("Equipar Kata", null, "", typeof(WeaponKata));
 
-        UnityEngine.Events.UnityAction actionKata;
+        UnityAction actionKata;
 
         var infoWeapon = new SlotInfo("Equipar Arma", null, "", typeof(MeleeWeapon));
 
-        UnityEngine.Events.UnityAction actionWeapon;
+        UnityAction actionWeapon;
 
         bool interactiveWeap = false;
 
@@ -232,7 +232,7 @@ public struct SlotInfo
     public string name;
     public Sprite sprite;
     public string str;
-    public System.Type filter;
+    public Type filter;
 
     public SlotInfo(string name, Sprite sprite, string str, Type filter)
     {

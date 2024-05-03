@@ -63,6 +63,9 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.CreateSection(3, 6);
         //subMenu.CreateChildrenSection<ScrollRect>();
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
+
+        if (buttonsList.Count <= 0)
+            ShowItemDetails("", "No tienes nada que equipar", null);
     }
 
     public void CreateButtons()
@@ -147,7 +150,7 @@ public class InventorySubMenu : CreateSubMenu
 
             buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
-
+        
         filterType = null;
     }
 
