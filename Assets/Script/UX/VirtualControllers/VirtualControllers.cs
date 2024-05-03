@@ -56,7 +56,7 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     public void MyAwake()
     {
-        _eneable = true;
+        //_eneable = true;
 
         foreach (var item in keys)
         {
