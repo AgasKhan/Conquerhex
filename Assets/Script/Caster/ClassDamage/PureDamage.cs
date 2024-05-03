@@ -17,7 +17,7 @@ namespace DamageTypes
 
         public Target target = Target.all;
 
-        public override string nameDisplay => this.GetType().Name;
+        //public override string nameDisplay => this.GetType().Name;
 
         public virtual void IntarnalAction(Entity go, float amount)
         {

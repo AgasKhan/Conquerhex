@@ -633,17 +633,18 @@ public static class Extensions
                 result.Add(getEntity[i].GetEntity());
         }
     }
-
+    
     static public string ToString(this Damage[] damages, string glue, string reglon)
     {
         var aux = "";
         foreach (var item in damages)
         {
-            if (item.ToString() != "")
+            //if (item.ToString() != "")
                 aux += item.typeInstance.nameDisplay + glue + item + reglon;
+
+
         }
 
         return aux;
     }
-
 }
