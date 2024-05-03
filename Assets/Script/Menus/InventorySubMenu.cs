@@ -61,7 +61,7 @@ public class InventorySubMenu : CreateSubMenu
         CreateButtons();
 
         subMenu.CreateSection(3, 6);
-        //subMenu.CreateChildrenSection<ScrollRect>();
+        subMenu.CreateChildrenSection<ScrollRect>();
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
 
         if (buttonsList.Count <= 0)
