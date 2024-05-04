@@ -90,7 +90,7 @@ public abstract class AbilityBase : ItemBase
     public virtual void InternalParticleSpawnToDamaged(Transform dmg)
     {
         if (indexParticles != null && indexParticles.Length > 0)
-            PoolManager.SpawnPoolObject(indexParticles[0], dmg.position);
+            PoolManager.SpawnPoolObject(indexParticles[0], new Vector3(dmg.position.x, dmg.position.y+0.5f, dmg.position.z), Quaternion.identity, dmg);
     }
 
     public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector3 pos, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)

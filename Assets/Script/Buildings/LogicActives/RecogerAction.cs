@@ -53,7 +53,7 @@ public class RecogerAction : InteractAction<(InventoryEntityComponent inventTo, 
             if(allItems.Count > 0)
             {
                 var button = internalSubMenu.AddComponent<ButtonA>();
-                button.SetButtonA("Mover todos los items al " + inventoryTo.container.flyweight.nameDisplay, null,"",()=>
+                button.SetButtonA("Mover todos los items al " + inventoryTo.container.name, null,"",()=>
                 {
                     menu.DestroyLastButtons();
                     foreach (var itemInChest in allItems)

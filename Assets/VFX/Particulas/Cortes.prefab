@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7734626901867861634
+--- !u!1 &8425220168367755407
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7734626901867861633}
-  - component: {fileID: 7734626901867861632}
-  - component: {fileID: 7734626901867861635}
+  - component: {fileID: 8425220168367755404}
+  - component: {fileID: 8425220168367755405}
+  - component: {fileID: 8425220168367755406}
   m_Layer: 0
-  m_Name: Efecto Super Cortante2
+  m_Name: Cortes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7734626901867861633
+--- !u!4 &8425220168367755404
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7734626901867861634}
+  m_GameObject: {fileID: 8425220168367755407}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,16 +33,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &7734626901867861632
+--- !u!198 &8425220168367755405
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7734626901867861634}
+  m_GameObject: {fileID: 8425220168367755407}
   serializedVersion: 8
-  lengthInSec: 0.2
-  simulationSpeed: 0.4
+  lengthInSec: 0.1
+  simulationSpeed: 1
   stopAction: 1
   cullingMode: 0
   ringBufferMode: 0
@@ -285,7 +285,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1436,21 +1436,21 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 0
+          inSlope: 1
           outSlope: 1
-          tangentMode: 0
+          tangentMode: 34
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
           value: 1
           inSlope: 1
-          outSlope: 0
-          tangentMode: 0
+          outSlope: 1
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -1540,18 +1540,10 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 519289572, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: 791094017, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: -1876564704, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: -1399649938, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: 2070137002, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: -1286991556, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: -1209498922, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: 1703084505, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: 1527627604, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: 190983770, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: -1153493284, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
-    - sprite: {fileID: 1288491938, guid: 5e595a583c510bb4aad3ec9a1261cab2, type: 3}
+    - sprite: {fileID: 1218058931, guid: 7a0e4fb2bd4482a4eb0e13bdae9219c2, type: 3}
+    - sprite: {fileID: -1952239596, guid: 7a0e4fb2bd4482a4eb0e13bdae9219c2, type: 3}
+    - sprite: {fileID: 1563618533, guid: 7a0e4fb2bd4482a4eb0e13bdae9219c2, type: 3}
+    - sprite: {fileID: 1362468520, guid: 7a0e4fb2bd4482a4eb0e13bdae9219c2, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4809,14 +4801,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &7734626901867861635
+--- !u!199 &8425220168367755406
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7734626901867861634}
+  m_GameObject: {fileID: 8425220168367755407}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
