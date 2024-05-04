@@ -25,6 +25,56 @@ public class IAIO : IAFather
 
     SingleEvent<Character> characterEvent;
 
+    #region controles numericos
+
+    void AlphaController(Controllers.Axis axis, EventControllerMediator eventControllerMediator, System.Action down)
+    {
+        VirtualControllers.Alpha1.DesuscribeController(eventControllerMediator);
+        VirtualControllers.Alpha2.DesuscribeController(eventControllerMediator);
+        VirtualControllers.Alpha3.DesuscribeController(eventControllerMediator);
+        VirtualControllers.Alpha4.DesuscribeController(eventControllerMediator);
+        character.castingActionCharacter.OnExit += () => axis.DesuscribeController(eventControllerMediator);
+        axis.SuscribeController(eventControllerMediator);
+        down();
+    }
+
+    private void Alpha1_eventDown(Vector2 arg1, float arg2)
+    {
+        lastCombo = "↑↑";
+        if (!Input.GetKey(KeyCode.LeftControl))
+            AlphaController(VirtualControllers.Alpha1, character.attackEventMediator, ()=> AttackEventMediator_eventDown(Vector2.zero, 0));
+        else
+            AlphaController(VirtualControllers.Alpha1, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+    }
+
+    private void Alpha2_eventDown(Vector2 arg1, float arg2)
+    {
+        lastCombo = "→→";
+        if (!Input.GetKey(KeyCode.LeftControl))
+            AlphaController(VirtualControllers.Alpha2, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
+        else
+            AlphaController(VirtualControllers.Alpha2, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+    }
+
+    private void Alpha3_eventDown(Vector2 arg1, float arg2)
+    {
+        lastCombo = "←←";
+        if (!Input.GetKey(KeyCode.LeftControl))
+            AlphaController(VirtualControllers.Alpha3, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
+        else
+            AlphaController(VirtualControllers.Alpha3, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+    }
+
+    private void Alpha4_eventDown(Vector2 arg1, float arg2)
+    {
+        lastCombo = "↓↓";
+        if (!Input.GetKey(KeyCode.LeftControl))
+            AlphaController(VirtualControllers.Alpha4, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
+        else
+            AlphaController(VirtualControllers.Alpha4, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+    }
+
+    #endregion
 
     private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
     {
@@ -123,6 +173,11 @@ public class IAIO : IAFather
 
         param.dashEventMediator.eventDown += DashEventMediator_eventDown;
 
+        VirtualControllers.Alpha1.eventDown += Alpha1_eventDown;
+        VirtualControllers.Alpha2.eventDown += Alpha2_eventDown;
+        VirtualControllers.Alpha3.eventDown += Alpha3_eventDown;
+        VirtualControllers.Alpha4.eventDown += Alpha4_eventDown;
+
         VirtualControllers.Movement.SuscribeController(param.moveEventMediator);
 
         VirtualControllers.Principal.SuscribeController(param.attackEventMediator);
@@ -153,6 +208,11 @@ public class IAIO : IAFather
 
         param.dashEventMediator.eventDown -= DashEventMediator_eventDown;
 
+        VirtualControllers.Alpha1.eventDown -= Alpha1_eventDown;
+        VirtualControllers.Alpha2.eventDown -= Alpha2_eventDown;
+        VirtualControllers.Alpha3.eventDown -= Alpha3_eventDown;
+        VirtualControllers.Alpha4.eventDown -= Alpha4_eventDown;
+
         VirtualControllers.Movement.DesuscribeController(param.moveEventMediator);
 
         VirtualControllers.Principal.DesuscribeController(param.attackEventMediator);
@@ -179,7 +239,7 @@ public class IAIO : IAFather
 
         var buildings = detectInteractuable.Area(character.transform.position, (edificio) => { return edificio.interactuable; });
 
-        if(buildings == null || buildings.Count == 0)
+        if (buildings == null || buildings.Count == 0)
         {
             interactEvent.secondDelegato?.Invoke((false, false, null));
 

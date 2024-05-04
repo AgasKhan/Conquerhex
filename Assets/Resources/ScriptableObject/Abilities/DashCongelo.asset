@@ -23,14 +23,16 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 0
-  particles: []
+  particles:
+  - {fileID: 2735815429252541836, guid: 2312e3c0692bb8e4494b63c7e5466d50, type: 3}
   audios:
     pictionaries: []
   velocity: 0.5
   costExecution: -12.5
   costHandle: 0
   damagesMultiply: []
-  indexParticles: []
+  indexParticles:
+  - {x: 1, y: 12}
   trigger: {fileID: 11400000, guid: 10e031579ca5cc447ac31d598ffa9193, type: 2}
   detection: {fileID: 11400000, guid: 2198b403b0eb77340b3dd273e2cd1911, type: 2}
   castingAction: {fileID: 11400000, guid: cae169ed0f9cfd24fb0439d9ebbec72d, type: 2}

@@ -16,6 +16,11 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
     static public Axis Secondary { get => instance._secondary; }
     static public Axis Terciary { get => instance._terciary; }
     static public Axis Interact { get => instance._interact; }
+    static public Axis Alpha1 { get => instance._alpha1; }
+    static public Axis Alpha2 { get => instance._alpha2; }
+    static public Axis Alpha3 { get => instance._alpha3; }
+    static public Axis Alpha4 { get => instance._alpha4; }
+
 
     [SerializeField]
     Axis _movement;
@@ -31,6 +36,18 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     [SerializeField]
     Axis _interact;
+
+    [SerializeField]
+    Axis _alpha1;
+
+    [SerializeField]
+    Axis _alpha2;
+
+    [SerializeField]
+    Axis _alpha3;
+
+    [SerializeField]
+    Axis _alpha4;
 
     #endregion
 

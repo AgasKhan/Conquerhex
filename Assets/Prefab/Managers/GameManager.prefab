@@ -156,6 +156,13 @@ MonoBehaviour:
       amount: 50
       parent: {fileID: 0}
       pool: []
+    - prefab: {fileID: 2735815429252541836, guid: 089233dd072e77f4d98eb9b75d542638,
+        type: 3}
+      utilityRefence:
+      - {fileID: 2735815429252541938, guid: 089233dd072e77f4d98eb9b75d542638, type: 3}
+      amount: 50
+      parent: {fileID: 0}
+      pool: []
   - name: Bullets
     objectPool:
     - prefab: {fileID: 6636733154270346112, guid: 6187da6f17fa2d247b45239a7266d8fa,
@@ -314,6 +321,54 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 11400000, guid: 3036fce0a4ba12f489896201794b6fac, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 41ce7ab3a99db9e4cbe210bf75f988a4, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: f942dbdd55f8f5d45bd5ed947d754636, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 26afb8ea0a906454d9be839f6b6491ce, type: 2}
+        m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
+        m_MethodName: MyUpdate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 98a2c6cb2dd1c774da0a277ee2f7929a, type: 2}
         m_TargetAssemblyTypeName: Controllers.TriggerButtonAxis, Assembly-CSharp
         m_MethodName: MyUpdate
         m_Mode: 1
