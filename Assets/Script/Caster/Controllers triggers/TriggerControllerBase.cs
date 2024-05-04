@@ -106,7 +106,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     public virtual void OnExitState(CasterEntityComponent param)
     {
         //Debug.Log("sali");
-        ability.StopCast();
+        //ability.StopCast();
         param.abilityControllerMediator -= this;
         ability.onCast -= param.AttackEvent;
     }

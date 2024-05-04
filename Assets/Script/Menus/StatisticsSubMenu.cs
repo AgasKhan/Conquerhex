@@ -34,13 +34,13 @@ public class StatisticsSubMenu : CreateSubMenu
 
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
-        subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq (se apunta con el mouse)\nHabilidad basica: Click der (se apunta con el mouse)\nHabilidad Alternativa: shift izquierdo (se apunta con el movimiento)");
+        subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
         //CreateEquipmentWeapons(character);
         CreateBasicEquipament(character);
 
         subMenu.CreateSection(3, 5);
         subMenu.CreateChildrenSection<ScrollRect>();
-        subMenu.AddComponent<DetailsWindow>().SetTexts("¿Combinación de teclas?", "Para ejecutar cualquier habilidad se debera presionar unas teclas de movimiento +  Click..\nTodas se apuntan con el mouse\n" +
+        subMenu.AddComponent<DetailsWindow>().SetTexts("¿Combinación de teclas?", "Para ejecutar cualquier habilidad se debera presionar unas teclas de movimiento +  Click..\n" +
             "Primera:   ↑↑ + Click\n" +
             "Segunda:   →→ + Click\n" +
             "Tercera:   ←← + Click\n" +

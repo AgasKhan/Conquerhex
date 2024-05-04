@@ -87,10 +87,29 @@ public abstract class AbilityBase : ItemBase
         });
     }
 
+    /// <summary>
+    /// Spawnea una particula en cada afectado
+    /// </summary>
+    /// <param name="dmg"></param>
     public virtual void InternalParticleSpawnToDamaged(Transform dmg)
     {
         if (indexParticles != null && indexParticles.Length > 0)
             PoolManager.SpawnPoolObject(indexParticles[0], new Vector3(dmg.position.x, dmg.position.y+0.5f, dmg.position.z), Quaternion.identity, dmg);
+    }
+
+    /// <summary>
+    /// Spawnea una particula en el lugar de ataque
+    /// </summary>
+    /// <param name="dmg"></param>
+    /// <param name="scale"></param>
+    public virtual void InternalParticleSpawnToPosition(Transform dmg, Vector3 scale)
+    {
+        if (indexParticles != null && indexParticles.Length > 1)
+        {
+            var tr = PoolManager.SpawnPoolObject(indexParticles[1], dmg.position, Quaternion.identity);
+            tr.localScale = scale;
+        }
+            
     }
 
     public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector3 pos, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
@@ -163,7 +182,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         }
     }
 
-    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeSelf;
+    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeSelf || End;
 
     public virtual float CostExecution => itemBase.costExecution;
 
@@ -214,11 +233,15 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         pressed = MyControllerVOID;
 
         up = MyControllerVOID;
+
+        End = true;
     }
 
     public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities)
     {
         onCast?.Invoke();
+
+        itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * AttackArea);
 
         if (entities != null)
             foreach (var dmgEntity in entities)
@@ -336,7 +359,6 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         if (DontExecuteCast)
         {
             Debug.Log("sali comenzando a estar presionado");
-            StopCast();
             End = true;
             return;
         }
@@ -351,7 +373,6 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         if (DontExecuteCast)
         {
             Debug.Log("sali estando presionado");
-            StopCast();
             End = true;
             return;
         }
@@ -361,17 +382,16 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void ControllerUp(Vector2 dir, float tim)
     {
+        caster.abilityControllerMediator -= this;
+
         if (DontExecuteCast)
         {
             Debug.Log("sali finalizando a estar presionado");
-            StopCast();
             End = true;
             return;
         }
 
         up(dir, tim);
-
-        StopCast();
     }
 
     public void OnEnterState(CasterEntityComponent param)
@@ -381,7 +401,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             End = true;
             return;
         }
-
+       //param.abilityControllerMediator += this;
         trigger.OnEnterState(param);
     }
 
@@ -393,6 +413,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     public void OnExitState(CasterEntityComponent param)
     {
         trigger.OnExitState(param);
+        StopCast();
     }
 
     #endregion

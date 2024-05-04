@@ -138,7 +138,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         End = false;
 
-        Aiming = (objectivesAttacked[objectivesAttacked.Count-1].transform.position - caster.transform.position).normalized;
+        Aiming = (objectivesAttacked[0].transform.position - caster.transform.position).normalized;
 
         moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
 

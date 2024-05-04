@@ -16,6 +16,7 @@ namespace Controllers
         public event Action<Vector2, float> eventPress;
         public event Action<Vector2, float> eventUp;
 
+        [field: SerializeField]
         public Vector2 dir { get; private set; }
 
         public override void Destroy()
