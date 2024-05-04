@@ -22,6 +22,8 @@ public class IAIO : IAFather
     InteractEntityComponent lastInteractuable;
 
     DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
+    
+    TripleEvent<(float, float, float), float, float> energyEvent;
 
     SingleEvent<Character> characterEvent;
 
@@ -298,19 +300,19 @@ public class IAIO : IAFather
         eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
     }
 
-    private void EnergyUpdate((float,float) obj)
+    private void EnergyUpdate((float,float,float) obj)
     {
-        eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate").delegato?.Invoke(obj);
+        energyEvent.delegato?.Invoke(obj);
     }
 
     private void LeftEnergyUpdate(float obj)
     {
-        eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate").secondDelegato?.Invoke(obj);
+        energyEvent.secondDelegato?.Invoke(obj);
     }
 
     private void RightEnergyUpdate(float obj)
     {
-        eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate").thirdDelegato?.Invoke(obj);
+        energyEvent.thirdDelegato?.Invoke(obj);
     }
 
     void UpdateLife(IGetPercentage arg1, float arg3)
@@ -358,6 +360,8 @@ public class IAIO : IAFather
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
         characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
+
+        energyEvent = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
     }
 
     private void Start()

@@ -63,6 +63,7 @@ namespace UI
         public Image requirementLeft;
         public Image requirementRight;
         public Transform textPopEnergy;
+        public TextMeshProUGUI actualEnergy;
 
         [Header("Energy")]
         Timer leftEnergy;
@@ -138,29 +139,33 @@ namespace UI
             }
         }
 
-        private void EnergyBarUpdate((float energyValue, float diference) str)
+        private void EnergyBarUpdate((float energyValue, float diference, float energyActual) str)
         {
+            if (Mathf.Abs(str.diference) > 0.5f)
+            {
+                PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextPop textEnergy);
+
+                str.diference *= -1;
+
+                string diference = str.diference.ToStringFixed();
+
+                if (str.diference < 0)
+                {
+                    diference = diference.RichTextColor(Color.red);
+                }
+                else
+                {
+                    diference = ("+" + diference).RichTextColor(Color.blue);
+                }
+
+                diference=diference.RichText("size", actualEnergy.fontSize.ToStringFixedComma(1));
+
+                textEnergy.SetText(textPopEnergy, diference, Vector2.up * 0.5f * Mathf.Sign(-str.diference), false);
+            }
+
             energy.value = str.energyValue;
 
-            if (Mathf.Abs(str.diference) < 0.5f)
-                return;
-
-            PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextPop textEnergy);
-
-            str.diference *= -1;
-
-            string diference = str.diference.ToStringFixed();
-
-            if(str.diference<0)
-            {
-                diference = diference.RichTextColor(Color.red);
-            }
-            else
-            {
-                diference = ("+" + diference).RichTextColor(Color.blue);
-            }            
-
-            textEnergy.SetText(textPopEnergy, diference, Vector2.up*0.5f, false);
+            actualEnergy.text = str.energyActual.ToStringFixedComma(1);
         }
 
         private void EnergyLeft(float energyValue)
@@ -182,7 +187,7 @@ namespace UI
             yield return null;
             eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthBarUpdate;
 
-            var aux = eventsManager.events.SearchOrCreate<TripleEvent<(float, float), float, float>>("EnergyUpdate");
+            var aux = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
 
             aux.delegato += EnergyBarUpdate;
             aux.secondDelegato += EnergyLeft;

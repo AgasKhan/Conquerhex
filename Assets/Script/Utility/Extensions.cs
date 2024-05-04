@@ -14,6 +14,11 @@ public static class Extensions
         return System.Math.Round(number, num).ToString();
     }
 
+    public static string ToStringFixedComma(this float number, int num = 2)
+    {
+        return number.ToString("N"+num);
+    }
+
     #endregion
 
 
