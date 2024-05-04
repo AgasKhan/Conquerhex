@@ -9,9 +9,9 @@ public static class Extensions
 {
     #region numbers
 
-    public static string ToStringFixed(this float number)
+    public static string ToStringFixed(this float number, int num = 2)
     {
-        return System.Math.Round(number, 2).ToString();
+        return System.Math.Round(number, num).ToString();
     }
 
     #endregion

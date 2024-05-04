@@ -60,6 +60,8 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     float velocityRotation = 5;
 
+    float internalDot;
+
     string _area;
 
     string _angle;
@@ -142,8 +144,11 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack DotAngle(float dot)
     {
+        if (internalDot == dot)
+            return this;
+
         sprite.material.SetFloat("_Dot", dot);
-        angle = "Angle: " + dot.ToStringFixed();
+        angle = "Angle: " + (Mathf.Rad2Deg * Mathf.Acos(dot) + (dot > 0?  0 : 180)).ToStringFixed(0) + "º";
         return this;
     }
 
