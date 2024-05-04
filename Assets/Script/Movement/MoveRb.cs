@@ -23,7 +23,12 @@ public class MoveRb : MoveTr
     {
         rb.velocity = VelocityCalculate;
 
-        VelocityCalculate -= _desaceleration.current * Time.fixedDeltaTime * VelocityCalculate.normalized;
+        Vector3 vector3 = _desaceleration.current * Time.fixedDeltaTime * VelocityCalculate.normalized;
+
+        if (vector3.sqrMagnitude < VelocityCalculate.sqrMagnitude)
+            VelocityCalculate -= vector3;
+        else
+            VelocityCalculate = Vector3.zero;
 
         if (VelocityCalculate.sqrMagnitude <= 0)
             OnIdle();
