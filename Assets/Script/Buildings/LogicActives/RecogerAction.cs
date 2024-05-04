@@ -9,8 +9,6 @@ public class RecogerAction : InteractAction<(InventoryEntityComponent inventTo, 
     public override void Activate((InventoryEntityComponent inventTo, Item item) genericParam)
     {
         genericParam.inventTo.AddItem(genericParam.item);
-
-        subMenu.Create((subMenu as GenericSubMenu).myCharacter);
     }
 
     public override void InteractInit(InteractEntityComponent _interactComp)
@@ -27,23 +25,44 @@ public class RecogerAction : InteractAction<(InventoryEntityComponent inventTo, 
 
             InventoryEntityComponent inventoryFrom = toCharacter ? _interactComp.container.GetInContainer<InventoryEntityComponent>() : menu.myCharacter.GetInContainer<InventoryEntityComponent>();
             InventoryEntityComponent inventoryTo = toCharacter ? menu.myCharacter.GetInContainer<InventoryEntityComponent>() : _interactComp.container.GetInContainer<InventoryEntityComponent>();
-            
+
+            List<Item> allItems = new List<Item>();
+
             foreach (var item in inventoryFrom)
             {
                 if (item is Ability && !((Ability)item).visible)
                     continue;
 
+                allItems.Add(item);
                 ButtonA button = internalSubMenu.AddComponent<ButtonA>();
 
                 menu.buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, menu.SetTextforItem(item), () =>
                 {
                     menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
                     menu.DestroyLastButtons();
-                    menu.CreateButton("Mover item del " + inventoryFrom.container.flyweight.nameDisplay + " al " + inventoryTo.container.name, () => Activate((inventoryTo, item))).rectTransform.sizeDelta = new Vector2(400, 85);
+                    menu.CreateButton("Mover item del " + inventoryFrom.container.flyweight.nameDisplay + " al " + inventoryTo.container.flyweight.nameDisplay,
+                        () => 
+                        {
+                            Activate((inventoryTo, item));
+                            subMenu.Create(menu.myCharacter);
+                        }).rectTransform.sizeDelta = new Vector2(400, 85);
                 }
                 ));
             }
-            
+
+            if(allItems.Count > 0)
+            {
+                var button = internalSubMenu.AddComponent<ButtonA>();
+                button.SetButtonA("Mover todos los items al " + inventoryTo.container.flyweight.nameDisplay, null,"",()=>
+                {
+                    menu.DestroyLastButtons();
+                    foreach (var itemInChest in allItems)
+                    {
+                        Activate((inventoryTo, itemInChest));
+                    }
+                    subMenu.Create(menu.myCharacter);
+                }).rectTransform.sizeDelta = new Vector2(800, 200);
+            }
 
             internalSubMenu.CreateSection(3, 6);
             internalSubMenu.CreateChildrenSection<ScrollRect>();
