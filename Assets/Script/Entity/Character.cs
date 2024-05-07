@@ -162,9 +162,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     void SaveUI()
     {
-        caster.weapons[0].toChange += (index, item) => equipedEvents[0].Invoke((item.defaultKata.cooldown, item.itemBase));
-        caster.abilities[0].toChange += (index, item) => equipedEvents[1].Invoke((item.cooldown, item.itemBase));
-        caster.abilities[1].toChange += (index, item) => equipedEvents[2].Invoke((item.cooldown, item.itemBase));
+        caster.weapons[0].toChange += (index, item) => equipedEvents[0].Invoke((item?.defaultKata?.cooldown, item?.itemBase));
+        caster.abilities[0].toChange += (index, item) => equipedEvents[1].Invoke((item?.cooldown, item?.itemBase));
+        caster.abilities[1].toChange += (index, item) => equipedEvents[2].Invoke((item?.cooldown, item?.itemBase));
 
         for (int i = 0; i < 4 && caster.katasCombo.Count < i; i++)
         {

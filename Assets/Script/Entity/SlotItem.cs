@@ -52,7 +52,7 @@ public class SlotItem
         }
     }
 
-    private void EquipedOnDrop()
+    protected virtual void EquipedOnDrop()
     {
         _equiped.onDrop -= EquipedOnDrop;
         _indexEquipedItem = -1;
@@ -80,6 +80,12 @@ public class SlotItem<T> : SlotItem where T : Item
             base.indexEquipedItem = value;
             toChange?.Invoke(_indexEquipedItem, equiped);
         }
+    }
+
+    protected override void EquipedOnDrop()
+    {
+        base.EquipedOnDrop();
+        toChange?.Invoke(-1, null);
     }
 
     public SlotItem()

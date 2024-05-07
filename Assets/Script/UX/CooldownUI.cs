@@ -32,6 +32,7 @@ namespace UI
         public void FillAmount(IGetPercentage getPercentage,float number)
         {
             imageFill.fillAmount = getPercentage.Percentage();
+            complexColor.Add(inComplete);
             if (imageFill.fillAmount == 0)
                 timCompleted.Reset();
         }
