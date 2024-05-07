@@ -11,31 +11,6 @@ namespace UI
         [SerializeField]
         EventManager eventsManager;
 
-        [System.Serializable]
-        public class ImageWidth
-        {
-            public Image image;
-            public float widthMax = 100;
-
-            public float FillAmount
-            {
-                set
-                {
-                    var sizeDelta = image.rectTransform.sizeDelta;
-
-                    _fillAmount = Mathf.Clamp(value, 0, 1);
-
-                    sizeDelta.x = _fillAmount * widthMax;
-
-                    image.rectTransform.sizeDelta = sizeDelta;
-                }
-
-                get => _fillAmount;
-            }
-
-            float _fillAmount;
-        }
-
         static public Interfaz instance;
 
         public List<TextCompleto> textC = new List<TextCompleto>();
@@ -48,31 +23,17 @@ namespace UI
         float   widthDiag;
         float   heightDiag;
 
-        [Header("Vida")]
-        public ImageWidth vida;
-        public TextMeshProUGUI textVida;
-        public ImageWidth regen;
-        public ImageWidth regenMax;
+        [Header("Vida"), SerializeField]
+        HealthUI healthUI;
 
-        public TextMeshProUGUI textRegen;
-        public ImageWidth regenTimeMax;
-        public ImageWidth regenTime;
-
-        [Header("Energia")]
-        public Slider energy;
-        public Image requirementLeft;
-        public Image requirementRight;
-        public Transform textPopEnergy;
-        public TextMeshProUGUI actualEnergy;
+        [Header("Energia"), SerializeField]
+        EnergyUI energyUI;
 
         [Header("Cooldowns")]
-        public Image[] basicsCooldowns;
+        
         public Image[] katasCooldowns;
         public Image[] abilitiesCooldowns;
 
-        [Header("Energy")]
-        Timer leftEnergy;
-        Timer rightEnergy;
 
         public TextCompleto this[string name]
         {
@@ -102,104 +63,18 @@ namespace UI
             textDamage.SetText(entity.transform, text);
         }
 
-        private void healthBarUpdate(Health health)
-        {
-            float nextRegenLifePercentage = health.nextRegenLife / health.maxLife;
-
-            float healthPercentage = health.actualLife / health.maxLife;
-
-            float cooldownRegen = (1 - health.actualCoolDownRegen / health.MaxCoolDownRegen);
-
-            textVida.text = ((int)health.actualLife).ToString();
-
-            regen.FillAmount = health.actualRegen / 100f;
-
-            regenMax.FillAmount = health.maxRegen / 100f;
-
-            textRegen.text = ((int)(health.actualRegen / 100 * health.maxLife)).ToString();
-
-            regenTime.FillAmount = cooldownRegen * nextRegenLifePercentage;
-
-            if (cooldownRegen == 0 || cooldownRegen > 0.05f)
-            {
-                var aux = (Mathf.Clamp((cooldownRegen - (0.05f)) * 10, 0, 1));
-
-                regenTimeMax.FillAmount = Mathf.Clamp((health.nextRegenLife * aux) / health.maxLife, healthPercentage, 1);
-            }
-
-            if(vida.FillAmount > healthPercentage)
-            {
-                if (cooldownRegen < 0.05f)
-                {
-                    vida.FillAmount = Mathf.Lerp(vida.FillAmount, healthPercentage, Time.deltaTime);
-                }
-                else
-                {
-                    vida.FillAmount = Mathf.Lerp(vida.FillAmount, healthPercentage, Time.deltaTime*10);
-                }
-            }
-            else
-            {
-                vida.FillAmount = healthPercentage;
-            }
-        }
-
-        private void EnergyBarUpdate((float energyValue, float diference, float energyActual) str)
-        {
-            if (Mathf.Abs(str.diference) > 0.5f)
-            {
-                PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextPop textEnergy);
-
-                str.diference *= -1;
-
-                string diference = str.diference.ToStringFixed();
-
-                if (str.diference < 0)
-                {
-                    diference = diference.RichTextColor(Color.red);
-                }
-                else
-                {
-                    diference = ("+" + diference).RichTextColor(Color.blue);
-                }
-
-                diference=diference.RichText("size", actualEnergy.fontSize.ToStringFixedComma(1));
-
-                textEnergy.SetText(textPopEnergy, diference, Vector2.up * 0.5f * Mathf.Sign(-str.diference), false);
-            }
-
-            energy.value = str.energyValue;
-
-            actualEnergy.text = str.energyActual.ToStringFixedComma(1);
-        }
-
-        private void EnergyLeft(float energyValue)
-        {
-            requirementLeft.fillAmount = energyValue;
-            leftEnergy.Reset();
-        }
-
-        private void EnergyRight(float energyValue)
-        {
-            requirementRight.fillAmount= energyValue;
-            rightEnergy.Reset();
-        }
-
         IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
         {
             msg("Interfaz");
             end(true);
             yield return null;
-            eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthBarUpdate;
+            eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthUI.healthBarUpdate;
 
             var aux = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
 
-            aux.delegato += EnergyBarUpdate;
-            aux.secondDelegato += EnergyLeft;
-            aux.thirdDelegato += EnergyRight;
-
-            leftEnergy =    TimersManager.Create(0.3f, () => requirementLeft.enabled = leftEnergy.current< leftEnergy.total/3 || leftEnergy.current > 2* (leftEnergy.total / 3), ()=> requirementLeft.enabled = false).Stop();
-            rightEnergy =   TimersManager.Create(0.3f, () => requirementRight.enabled = rightEnergy.current < rightEnergy.total / 3 || rightEnergy.current > 2 * (rightEnergy.total / 3), () => requirementRight.enabled = false).Stop();
+            aux.delegato += energyUI.EnergyBarUpdate;
+            aux.secondDelegato += energyUI.EnergyLeft;
+            aux.thirdDelegato += energyUI.EnergyRight;           
         }
 
         void Update()
@@ -407,6 +282,31 @@ namespace UI
             texto.text = "";
             off?.Invoke();
         }
+    }
+
+    [System.Serializable]
+    public class ImageWidth
+    {
+        public Image image;
+        public float widthMax = 100;
+
+        public float FillAmount
+        {
+            set
+            {
+                var sizeDelta = image.rectTransform.sizeDelta;
+
+                _fillAmount = Mathf.Clamp(value, 0, 1);
+
+                sizeDelta.x = _fillAmount * widthMax;
+
+                image.rectTransform.sizeDelta = sizeDelta;
+            }
+
+            get => _fillAmount;
+        }
+
+        float _fillAmount;
     }
 
 }
