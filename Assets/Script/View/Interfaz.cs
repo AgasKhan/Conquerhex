@@ -65,6 +65,11 @@ namespace UI
         public Transform textPopEnergy;
         public TextMeshProUGUI actualEnergy;
 
+        [Header("Cooldowns")]
+        public Image[] basicsCooldowns;
+        public Image[] katasCooldowns;
+        public Image[] abilitiesCooldowns;
+
         [Header("Energy")]
         Timer leftEnergy;
         Timer rightEnergy;
