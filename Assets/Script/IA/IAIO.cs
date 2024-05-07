@@ -167,6 +167,14 @@ public class IAIO : IAFather
         param.caster.leftEnergyUpdate += LeftEnergyUpdate;
         param.caster.rightEnergyUpdate += RightEnergyUpdate;
 
+        for (int i = 0; i < param.equipedEvents.Length; i++)
+        {
+            var aux = eventsManager.events.SearchOrCreate<SingleEvent<(Timer, ItemBase)>>("abilityUI" + i);
+            param.equipedEvents[i] = (param)=> aux.delegato?.Invoke(param);
+        }
+
+        param.TriggerUI();
+
         param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
         param.abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
@@ -202,6 +210,13 @@ public class IAIO : IAFather
         param.caster.rightEnergyUpdate -= RightEnergyUpdate;
         param.onTakeDamage -= OnTakeDamage;
 
+        for (int i = 0; i < param.equipedEvents.Length; i++)
+        {
+            var aux = eventsManager.events.SearchOrCreate<SingleEvent<(Timer, ItemBase)>>("abilityUI" + i);
+            param.equipedEvents[i] = null;
+            aux.delegato?.Invoke((null, null));
+        }
+
         param.attackEventMediator.eventDown -= AttackEventMediator_eventDown;
 
         param.abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
@@ -226,6 +241,8 @@ public class IAIO : IAFather
         VirtualControllers.Interact.eventDown -= Interact_eventDown;
 
         interactEvent.secondDelegato?.Invoke((false, false, null));
+
+
 
         lastInteractuable = null;
         param.gameObject.tag = originalTag;

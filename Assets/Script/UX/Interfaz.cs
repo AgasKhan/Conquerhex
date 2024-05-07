@@ -29,10 +29,8 @@ namespace UI
         [Header("Energia"), SerializeField]
         EnergyUI energyUI;
 
-        [Header("Cooldowns")]
-        
-        public Image[] katasCooldowns;
-        public Image[] abilitiesCooldowns;
+        [Header("Cooldowns"), SerializeField]
+        CooldownUI[] basicCooldowns,katasCooldowns,abilitiesCooldowns;
 
 
         public TextCompleto this[string name]
@@ -71,6 +69,36 @@ namespace UI
             eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthUI.healthBarUpdate;
 
             var aux = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
+
+            for (int i = 0; i < basicCooldowns.Length + katasCooldowns.Length + abilitiesCooldowns.Length; i++)
+            {
+                SingleEvent<(Timer, ItemBase)> eventCooldown = eventsManager.events.SearchOrCreate<SingleEvent<(Timer, ItemBase)>>("abilityUI" + i);
+
+                if (i< basicCooldowns.Length)
+                {
+                    var index = i;
+                    eventCooldown.delegato += ((Timer, ItemBase)  param) =>
+                    {
+                        basicCooldowns[index].SetCooldown(param.Item1, param.Item2);
+                    };
+                }
+                else if(i < basicCooldowns.Length + katasCooldowns.Length)
+                {
+                    var index = i;
+                    eventCooldown.delegato += ((Timer, ItemBase) param) =>
+                    {
+                        katasCooldowns[index- basicCooldowns.Length].SetCooldown(param.Item1, param.Item2);
+                    };
+                }
+                else
+                {
+                    var index = i;
+                    eventCooldown.delegato += ((Timer, ItemBase) param) =>
+                    {
+                        abilitiesCooldowns[index - basicCooldowns.Length - katasCooldowns.Length].SetCooldown(param.Item1, param.Item2);
+                    };
+                }
+            }
 
             aux.delegato += energyUI.EnergyBarUpdate;
             aux.secondDelegato += energyUI.EnergyLeft;
