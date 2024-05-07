@@ -162,19 +162,22 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     void SaveUI()
     {
-        caster.weapons[0].toChange += (index, item) => equipedEvents[0].Invoke((item?.defaultKata?.cooldown, item?.itemBase));
-        caster.abilities[0].toChange += (index, item) => equipedEvents[1].Invoke((item?.cooldown, item?.itemBase));
-        caster.abilities[1].toChange += (index, item) => equipedEvents[2].Invoke((item?.cooldown, item?.itemBase));
+        caster.weapons[0].toChange += (index, item) => equipedEvents[0]?.Invoke((item?.defaultKata?.cooldown, item?.itemBase));
+        caster.abilities[0].toChange += (index, item) => equipedEvents[1]?.Invoke((item?.cooldown, item?.itemBase));
+        caster.abilities[1].toChange += (index, item) => equipedEvents[2]?.Invoke((item?.cooldown, item?.itemBase));
 
-        for (int i = 0; i < 4 && caster.katasCombo.Count < i; i++)
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
         {
-            caster.katasCombo[i].toChange += (index, item) => equipedEvents[i + 3].Invoke((item.cooldown, item.itemBase));
+            var indexI = i;
+            caster.katasCombo[i].toChange += (index, item) => equipedEvents[indexI + 3]?.Invoke((item?.cooldown, item?.itemBase));
         }
 
-        for (int i = 0; i < 4 && caster.abilities.Count< i + 2; i++)
+        for (int i = 0; i < 4 && (i +2) < caster.abilities.Count; i++)
         {
-            caster.abilities[i + 2].toChange += (index, item) => equipedEvents[i + 7].Invoke((item.cooldown, item.itemBase));
+            var indexI = i;
+            caster.abilities[i + 2].toChange += (index, item) => equipedEvents[indexI + 7]?.Invoke((item?.cooldown, item?.itemBase));
         }
+        
     }
 
 
