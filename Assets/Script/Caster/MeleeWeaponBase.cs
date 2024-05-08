@@ -73,7 +73,7 @@ public class MeleeWeaponBase : ItemBase
 [System.Serializable]
 public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 {
-    [SerializeField]
+    [SerializeReference]
     public WeaponKata defaultKata;
 
     [SerializeField]
@@ -127,6 +127,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
     private void MeleeWeapon_onChangeContainer(InventoryEntityComponent obj)
     {
         defaultKata.ChangeContainer(obj);
+        defaultKata.ChangeWeapon(this);
     }
 
     protected override void Init()
@@ -144,8 +145,7 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
             defaultKata.externalKata = false;
             defaultKata.Init(container);
             defaultKata.ChangeWeapon(this);
-            OnChangeContainer += MeleeWeapon_onChangeContainer;
+            OnAfterChangeContainer += MeleeWeapon_onChangeContainer;
         }
-
     }
 }

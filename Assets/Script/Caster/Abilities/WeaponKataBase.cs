@@ -38,7 +38,7 @@ public class WeaponKata : Ability
     public event System.Action<MeleeWeapon> onRejectedWeapon;
 
 
-    [SerializeField]
+    [SerializeReference]
     protected MeleeWeapon equipedWeapon;
 
     new public WeaponKataBase itemBase => (WeaponKataBase)base.itemBase;
@@ -73,6 +73,9 @@ public class WeaponKata : Ability
         }
 
         MeleeWeapon weapon = (MeleeWeapon)weaponParam;
+
+        if (weapon == this.equipedWeapon)
+            return;
 
         foreach (var ability in itemBase.RequiredDamage)
         {

@@ -74,7 +74,8 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
 public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBase>
 {
     public event System.Action onDrop;//si ejecuto el ondrop, este desequipa el item
-    public event System.Action<InventoryEntityComponent> OnChangeContainer;
+    public event System.Action<InventoryEntityComponent> OnBeforeChangeContainer;
+    public event System.Action<InventoryEntityComponent> OnAfterChangeContainer;
     public event System.Action<int> OnEquipedInSlot;
 
     [field: SerializeField]
@@ -194,11 +195,13 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
 
         //onDrop?.Invoke();
 
-        OnChangeContainer?.Invoke(inventoryEntityComponent);
+        OnBeforeChangeContainer?.Invoke(inventoryEntityComponent);
 
         Destroy();
 
         Init(inventoryEntityComponent);
+
+        OnAfterChangeContainer?.Invoke(inventoryEntityComponent);
     }
 
     public int Init(InventoryEntityComponent inventoryEntityComponent)
