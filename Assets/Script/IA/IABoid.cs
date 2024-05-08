@@ -28,9 +28,10 @@ public class IABoid : IAFather
         BoidsManager.list.Add(this);
 
         //randomizar el movimiento inicial de los boids
-        Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        //Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        Vector3 random = Random.insideUnitCircle.Vect2To3XZ(0);
 
-        move.ControllerPressed(random.normalized,0);
+        move.ControllerPressed(random.normalized.Vect3To2XZ(),0);
     }
 
     public override void OnStayState(Character param)
@@ -46,16 +47,16 @@ public class IABoid : IAFather
         SteeringsMovement();
 
 
-        move.ControllerPressed(dir, 0);
+        move.ControllerPressed(dir.Vect3To2XZ(), 0);
     }
 
     protected virtual void Detection()
     {
         float distance = float.PositiveInfinity;
 
-        dir = Vector2.zero;
+        dir = Vector3.zero;
 
-        var enemigo = detectEnemy.Area(character.transform.position, (algo) => { return character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        var enemigo = detectEnemy.Area(character.transform.position, (algo) => { return character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team && Team.noTeam != algo.GetEntity().team; });
         steerings["enemigos"].targets = enemigo;
 
         //pendiente: necesito el area para que chequee el mas cercano + chequear que no interfiera con el area de detección del arrive
@@ -98,7 +99,7 @@ public class IABoid : IAFather
 
     Vector3 BoidIntern(_FuncBoid func, bool promedio, float radius)
     {
-        Vector3 desired = Vector2.zero;
+        Vector3 desired = Vector3.zero;
         int count = 0;
 
         //Por cada boid

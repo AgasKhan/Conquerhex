@@ -23,6 +23,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1140486446002502534, guid: 8dfd475b212703847a2e5f3525eef81d,
+        type: 3}
+      propertyPath: me
+      value: 
+      objectReference: {fileID: 3372423637999013521}
     - target: {fileID: 6470725003548605303, guid: 8dfd475b212703847a2e5f3525eef81d,
         type: 3}
       propertyPath: move
@@ -122,10 +127,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8691427261028014608, guid: 8dfd475b212703847a2e5f3525eef81d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -7940202309019494345}
-    - targetCorrespondingSourceObject: {fileID: 8691427261028014608, guid: 8dfd475b212703847a2e5f3525eef81d,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 538333034806915777}
     - targetCorrespondingSourceObject: {fileID: 8691427261028014608, guid: 8dfd475b212703847a2e5f3525eef81d,
         type: 3}
@@ -150,33 +151,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4903757455114696824}
   m_PrefabAsset: {fileID: 0}
---- !u!50 &-7940202309019494345
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4364975846712173160}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!114 &538333034806915777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,47 +164,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectEnemy:
-    radius: 4
-    distance: 0
+    maxRadius: 10
+    minRadius: 0
     inverse: 0
     dot: 1
     _maxDetects: 0
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    queryTrigger: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
   detectObjective:
-    radius: 8
-    distance: 0
+    maxRadius: 3
+    minRadius: 0
     inverse: 0
     dot: 1
     _maxDetects: 0
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    queryTrigger: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
   steerings:
     pictionaries:
     - key: enemy
@@ -254,14 +208,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9601edb1112b7a5499bd7cd4250108a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0, z: 0}
+  _velocityCalculate: {x: 0, y: 0, z: 0}
+  <objectiveVelocity>k__BackingField: 7.5
+  <maxSpeed>k__BackingField: 100
   aceleration:
-    total: 50
-    _current: 0
+    _total: 100
+    _current: 10
   _desaceleration:
-    total: 10
-    _current: 1
-  _velocity:
-    total: 5
-    _current: 0
-  objectiveVelocity: 5
+    _total: 100
+    _current: 10

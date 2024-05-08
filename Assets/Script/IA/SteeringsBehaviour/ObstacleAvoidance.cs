@@ -20,7 +20,7 @@ public class ObstacleAvoidance : SteeringBehaviour
 
     public override SteeringBehaviour SwitchSteering<T>()
     {
-        steering.SwitchSteering<T>();
+        steering = steering.SwitchSteering<T>();
 
         return this;
     }

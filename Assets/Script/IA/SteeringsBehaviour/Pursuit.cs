@@ -16,7 +16,7 @@ public class Pursuit : SteeringBehaviour
         Vector3 aux = Vector3.Project(_directionToTarget, ourDir);
 
         //Sumo el vector posición nuestra junto a la posición futura del enemigo y le resto la proyección para interceptarlo en caso de estar cerca o gire bruscamente
-        Vector3 _directionToGo = ourDir + _directionToTarget - aux;
+        Vector3 _directionToGo = ourDir + (_directionToTarget - aux);
 
 
         //Vector2 agentToTarget = _directionToGo - (Vector2)transform.position; 
