@@ -182,7 +182,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         }
     }
 
-    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeSelf;
+    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeInHierarchy;
 
     public virtual float CostExecution => itemBase.costExecution;
 
@@ -407,7 +407,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void OnEnterState(CasterEntityComponent param)
     {
-        if ((CostExecution < 0 && !param.NegativeEnergy(-CostExecution)) || (CostExecution > 0 && !param.PositiveEnergy(CostExecution)))
+        if (DontExecuteCast || (CostExecution < 0 && !param.NegativeEnergy(-CostExecution)) || (CostExecution > 0 && !param.PositiveEnergy(CostExecution)))
         {
             End = true;
             return;
@@ -418,12 +418,21 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void OnStayState(CasterEntityComponent param)
     {
+        if (DontExecuteCast)
+        {
+            End = true;
+            return;
+        }
         trigger.OnStayState(param);
     }
 
     public void OnExitState(CasterEntityComponent param)
     {
-        trigger.OnExitState(param);
+        if (!DontExecuteCast)
+        {
+            trigger.OnExitState(param);       
+        }
+
         StopCast();
     }
 
