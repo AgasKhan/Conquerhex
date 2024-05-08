@@ -25,13 +25,16 @@ MonoBehaviour:
   ShowFeedAffectedEntities: 0
   particles:
   - {fileID: 2735815429252541836, guid: 089233dd072e77f4d98eb9b75d542638, type: 3}
+  - {fileID: 2983765467756224526, guid: 3dd12928ead895a43a20a0c036d17572, type: 3}
   audios:
     pictionaries: []
   velocity: 0.5
   costExecution: 12.5
   costHandle: 0
   damagesMultiply: []
-  indexParticles: []
+  indexParticles:
+  - {x: 1, y: 11}
+  - {x: 1, y: 12}
   trigger: {fileID: 11400000, guid: 10e031579ca5cc447ac31d598ffa9193, type: 2}
   detection: {fileID: 11400000, guid: aa08465df8a4943488a9fa498bbdd0f2, type: 2}
   castingAction: {fileID: 11400000, guid: 83e96d4c768a5a648bedf2e7d15644ea, type: 2}

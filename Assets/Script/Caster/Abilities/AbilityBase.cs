@@ -106,7 +106,7 @@ public abstract class AbilityBase : ItemBase
     {
         if (indexParticles != null && indexParticles.Length > 1)
         {
-            var tr = PoolManager.SpawnPoolObject(indexParticles[1], dmg.position, Quaternion.identity);
+            var tr = PoolManager.SpawnPoolObject(indexParticles[1], new Vector3(dmg.position.x, dmg.position.y + 0.2f, dmg.position.z), Quaternion.identity);
             tr.localScale = scale;
         }
             
