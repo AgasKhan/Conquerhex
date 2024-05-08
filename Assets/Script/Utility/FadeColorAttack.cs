@@ -205,4 +205,12 @@ public class FadeColorAttack : MonoBehaviour
 
         text.transform.rotation *= Quaternion.Euler(0, 0, Random.Range(0,360));
     }
+
+    private void OnDisable()
+    {
+        if(!transform.parent?.gameObject.activeSelf ?? false)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }

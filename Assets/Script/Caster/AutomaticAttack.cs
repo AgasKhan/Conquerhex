@@ -82,6 +82,7 @@ public class AutomaticAttack
     public void StopTimers()
     {
         weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);
+        weaponKata?.StopCast();
         timerChargeAttack.Stop().SetInitCurrent(0);
         timerToAttack.Set(1).Stop();
     }
