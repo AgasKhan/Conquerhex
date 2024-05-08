@@ -38,11 +38,11 @@ public class IASuperBoid : IABoid
     {
         float distance = float.PositiveInfinity;
 
-        dir = Vector2.zero;
+        dir = Vector3.zero;
 
         //enemigo
 
-        steerings["enemy"].targets = detectEnemy.AreaWithRay(character.transform.position, (algo) => { return algo.visible && character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team; });
+        steerings["enemy"].targets = detectEnemy.AreaWithRay(character.transform.position, (algo) => { return algo.visible && character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team && Team.noTeam != algo.GetEntity().team; });
 
 
         //Lider
@@ -74,8 +74,6 @@ public class IASuperBoid : IABoid
     {
         dir += (Separation() * BoidsManager.instance.SeparationWeight +               
               Cohesion() * BoidsManager.instance.CohesionWeight);
-
-
     }
 }
 
@@ -125,7 +123,7 @@ public class BoidAttack : IState<FSMBoid>
         {
             var aux = param.context.transform.position - param.context.lider.transform.position;
 
-            param.context.character.move.ControllerPressed(aux.normalized,0); 
+            param.context.character.move.ControllerPressed(aux.normalized.Vect3To2XZ(),0); 
 
             if (param.context.lider.health.actualLife < param.context.lider.health.maxLife / 2)
             {

@@ -85,9 +85,10 @@ GameObject:
   - component: {fileID: 8691427261028014609}
   - component: {fileID: -2159000952439228977}
   - component: {fileID: 8691427261028014621}
+  - component: {fileID: 3292433605745662044}
+  - component: {fileID: 1974079586755235633}
   - component: {fileID: 1140486446002502534}
   - component: {fileID: 8018831168674537570}
-  - component: {fileID: 8691427261028014622}
   m_Layer: 7
   m_Name: Corderito
   m_TagString: Enemigo
@@ -125,47 +126,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectEnemy:
-    radius: 5
-    distance: 0
+    maxRadius: 0
+    minRadius: 0
     inverse: 0
     dot: 1
     _maxDetects: 0
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    queryTrigger: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
   detectObjective:
-    radius: 0
-    distance: 0
+    maxRadius: 0
+    minRadius: 0
     inverse: 0
     dot: 1
     _maxDetects: 0
     _minDetects: 0
-    contactFilter2D:
-      useTriggers: 0
-      useLayerMask: 0
-      useDepth: 0
-      useOutsideDepth: 0
-      useNormalAngle: 0
-      useOutsideNormalAngle: 0
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 0
-      minDepth: 0
-      maxDepth: 0
-      minNormalAngle: 0
-      maxNormalAngle: 0
+    queryTrigger: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
   steerings:
     pictionaries:
     - key: frutas
@@ -191,22 +172,23 @@ MonoBehaviour:
   team: 2
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
     deathBool: 0
-  carlitosPrefab: {fileID: 0}
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
-  <flyweight>k__BackingField: {fileID: 11400000, guid: 9f1c8bc8aa861ab42b5003fa1aed3f91,
-    type: 2}
-  inventory: {fileID: 0}
-  attack: {fileID: 0}
-  move: {fileID: 0}
+  <flyweight>k__BackingField: {fileID: 0}
+  <healthBase>k__BackingField: {fileID: 0}
+  <inventory>k__BackingField: {fileID: 0}
+  <caster>k__BackingField: {fileID: 0}
+  <move>k__BackingField: {fileID: 0}
 --- !u!114 &8701310812445948786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,9 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  currentWeight: 0
-  travelItem: []
+  visualItems: []
+  inventory:
+    ts: []
+  _currentWeight: 0
+  flyweight: {fileID: 0}
   references:
     version: 2
     RefIds: []
@@ -237,12 +221,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d76d5333d1e7740962892444fa7b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
+  weapons:
+    list:
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  katasCombo:
+    list:
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  abilities:
+    list:
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    - _indexEquipedItem: -1
+      _indexSlot: -1
+      _equiped:
+        rid: -2
+    <indexer>k__BackingField: 0
+  aiming: {x: 0, y: 0, z: 0}
+  _buffEnergy: 0
+  _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
-  weaponKataIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &-5690567857835757096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,17 +354,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ccc4808d7030140b56928e733eb83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
+  <direction>k__BackingField: {x: 0, y: 0, z: 0}
+  _velocityCalculate: {x: 0, y: 0, z: 0}
+  <objectiveVelocity>k__BackingField: 7.5
+  <maxSpeed>k__BackingField: 100
   aceleration:
-    total: 50
+    _total: 0
     _current: 0
   _desaceleration:
-    total: 10
+    _total: 0
     _current: 1
-  _velocity:
-    total: 5
-    _current: 0
-  objectiveVelocity: 10
 --- !u!114 &-2159000952439228977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +399,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+--- !u!54 &3292433605745662044
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691427261028014608}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
+--- !u!136 &1974079586755235633
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691427261028014608}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.49, z: 0}
 --- !u!114 &1140486446002502534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,41 +484,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
---- !u!58 &8691427261028014622
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8691427261028014608}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1001 &269074638775458034
 PrefabInstance:
   m_ObjectHideFlags: 0

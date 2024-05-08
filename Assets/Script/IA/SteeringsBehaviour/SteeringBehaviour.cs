@@ -27,7 +27,7 @@ public abstract class SteeringBehaviour : MonoBehaviour
     protected virtual Vector3 Direction(MoveAbstract target,float multiply = 1)
     {
 
-        _direction = (target.transform.position - me.transform.position).Vect3To2();
+        _direction = (target.transform.position - me.transform.position);
 
         _direction *= multiply;
 
