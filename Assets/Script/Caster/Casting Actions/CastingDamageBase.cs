@@ -16,8 +16,11 @@ public class CastingDamageBase : CastingActionBase
 
 public class CastingDamage : CastingAction<CastingDamageBase>
 {
-    public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities)
+    public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
+        showParticleInPos = true;
+        showParticleDamaged = true;
+
         var additiveDamage = Damage.Combine(Damage.AdditiveFusion, castingActionBase.damages, caster.additiveDamage.content);
 
         var multiplative = Damage.Combine(Damage.MultiplicativeFusion, ability.multiplyDamage.content, additiveDamage);

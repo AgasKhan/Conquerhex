@@ -237,13 +237,14 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         End = true;
     }
 
-    public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities)
+    public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities, bool showParticleInPos = true, bool showParticleDamaged=true)
     {
         onCast?.Invoke();
 
-        itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * AttackArea);
+        if(showParticleInPos)
+            itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * AttackArea);
 
-        if (entities != null)
+        if (entities != null && showParticleDamaged)
             foreach (var dmgEntity in entities)
             {
                 itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
@@ -254,12 +255,22 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public IEnumerable<Entity> Cast()
     {
-        return ApplyCast(InternalCast(affected));
+        return ApplyCast(InternalCast(affected, out bool showParticleInPos, out bool showParticleDamaged),showParticleInPos, showParticleDamaged);
+    }
+
+    public IEnumerable<Entity> Cast(out bool showParticleInPos, out bool showParticleDamaged)
+    {
+        return ApplyCast(InternalCast(affected, out showParticleInPos, out showParticleDamaged), showParticleInPos, showParticleDamaged);
     }
 
     public IEnumerable<Entity> Cast(List<Entity> affected)
     {
-        return ApplyCast(InternalCast(affected));
+        return ApplyCast(InternalCast(affected, out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
+    }
+
+    public IEnumerable<Entity> Cast(List<Entity> affected, out bool showParticleInPos, out bool showParticleDamaged)
+    {
+        return ApplyCast(InternalCast(affected, out showParticleInPos, out showParticleDamaged), showParticleInPos, showParticleDamaged);
     }
 
     public override void Destroy()
@@ -422,7 +433,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     #region internal functions
 
-    protected abstract IEnumerable<Entity> InternalCast(List<Entity> entities);
+    protected abstract IEnumerable<Entity> InternalCast(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged);
 
     
     #endregion

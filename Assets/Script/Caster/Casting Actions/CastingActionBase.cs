@@ -47,7 +47,7 @@ public abstract class CastingAction : IAbilityComponent
     /// </summary>
     /// <param name="entities"></param>
     /// <returns></returns>
-    public abstract IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities);
+    public abstract IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged);
 
     public virtual void Init(Ability ability)
     {

@@ -53,14 +53,17 @@ public class CastingDash : CastingAction<CastingDashBase>
         }        
     }
 
-    public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities)
+    public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
+        showParticleInPos = false;
+        showParticleDamaged = false;
+
         IEnumerable<Entity> affected = null;
 
         if (caster.TryGetInContainer(out moveEntity))
         {
             dashInTime.Reset();
-            affected = startDashCastingAction?.InternalCastOfExternalCasting(ability.Detect());
+            affected = startDashCastingAction?.InternalCastOfExternalCasting(ability.Detect(), out showParticleInPos, out showParticleDamaged);
         }
 
         return affected;
@@ -82,7 +85,8 @@ public class CastingDash : CastingAction<CastingDashBase>
     {
         moveEntity.Velocity(moveEntity.direction, moveEntity.objectiveVelocity);
 
-        ability.ApplyCast(endDashCastingAction?.InternalCastOfExternalCasting(ability.Detect()));
+        if(endDashCastingAction!=null)
+            ability.ApplyCast(endDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
 
         End = true;
     }

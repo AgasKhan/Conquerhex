@@ -40,8 +40,8 @@ public class AbilityExtCast : Ability
         base.Destroy();
     }
 
-    protected override IEnumerable<Entity> InternalCast(List<Entity> entities)
+    protected override IEnumerable<Entity> InternalCast(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
-        return castingAction.InternalCastOfExternalCasting(entities);
+        return castingAction.InternalCastOfExternalCasting(entities, out showParticleInPos, out showParticleDamaged);
     }
 }

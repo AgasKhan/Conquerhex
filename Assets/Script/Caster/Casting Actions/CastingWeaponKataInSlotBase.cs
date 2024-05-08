@@ -27,7 +27,7 @@ public class CastingWeaponKataInSlot : CastingAction
         base.Destroy();
     }
 
-    public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities)
+    public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
         End = true;
 
@@ -35,8 +35,11 @@ public class CastingWeaponKataInSlot : CastingAction
         {
             //caster.katasCombo[slot].equiped.Detect();
 
-            return caster.katasCombo[slot].equiped.Cast(entities);
+            return caster.katasCombo[slot].equiped.Cast(entities, out showParticleInPos, out showParticleDamaged);
         }
+
+        showParticleInPos = false;
+        showParticleDamaged = false;
 
         return entities;
     }

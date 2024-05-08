@@ -127,8 +127,11 @@ public class WeaponKata : Ability
         equipedWeapon = null;
     }
 
-    protected override IEnumerable<Entity> InternalCast(List<Entity> entities)
+    protected override IEnumerable<Entity> InternalCast(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
+        showParticleInPos = true;
+        showParticleDamaged = true;
+
         if (WeaponEnabled == null)
             return new Entity[0];
 
