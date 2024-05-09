@@ -15,6 +15,9 @@ public class CastingWeaponKataInSlotBase : CastingActionBase
 public class CastingWeaponKataInSlot : CastingAction
 {
     int slot;
+
+    public override bool DontExecuteCast => base.DontExecuteCast || caster.katasCombo[slot]?.equiped == null;
+
     public override void Init(Ability ability)
     {
         base.Init(ability);

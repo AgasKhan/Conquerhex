@@ -22,7 +22,9 @@ public class AbilityExtCastBase : AbilityBase
 [System.Serializable]
 public class AbilityExtCast : Ability
 {
-    CastingAction castingAction;    
+    CastingAction castingAction;
+
+    public override bool DontExecuteCast => base.DontExecuteCast || castingAction ==null || castingAction.DontExecuteCast;
 
     protected override void Init()
     {
