@@ -32,7 +32,7 @@ public abstract class CastingAction : IAbilityComponent
 
     public Vector3 Aiming => (ability).Aiming;
 
-    public virtual bool DontExecuteCast => (ability).DontExecuteCast;
+    public virtual bool DontExecuteCast => false;
 
     public bool onCooldownTime => (ability).onCooldownTime;
 
