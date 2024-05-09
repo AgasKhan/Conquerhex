@@ -304,6 +304,11 @@ public class IAIO : IAFather
         {
             if (chr == GameManager.instance.playerCharacter)
                 GameManager.instance.Defeat("Has muerto");
+            else
+            {
+                enabled = true;
+                VirtualControllers.Principal.eventDown += NoCharacterSelected;
+            }
         });
     }
 

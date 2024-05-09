@@ -149,12 +149,12 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         equipedEvents[1].Invoke((caster.abilities[0].equiped?.cooldown, caster.abilities[0].equiped?.itemBase));
         equipedEvents[2].Invoke((caster.abilities[1].equiped?.cooldown, caster.abilities[1].equiped?.itemBase));
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
         {
             equipedEvents[i + 3].Invoke((caster.katasCombo[i].equiped?.cooldown, caster.katasCombo[i].equiped?.itemBase));
         }
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
         {
             equipedEvents[i + 7].Invoke((caster.abilities[i + 2].equiped?.cooldown, caster.abilities[i + 2].equiped?.itemBase));
         }

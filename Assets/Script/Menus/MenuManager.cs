@@ -15,7 +15,6 @@ public class MenuManager : SingletonMono<MenuManager>
     [SerializeField]
     bool initTutorial = true;
 
-
     //para los eventos-------------------------------------------------------
     public Pictionarys<string, Action<GameObject>> eventListVoid = new Pictionarys<string, Action<GameObject>>();
 
@@ -25,6 +24,11 @@ public class MenuManager : SingletonMono<MenuManager>
     [SerializeField]
     public ManagerModulesMenu modulesMenu;
 
+    public EventManager eventsManager;
+
+    [HideInInspector]
+    public Character character;
+
     protected override void Awake()
     {
         base.Awake();
@@ -33,7 +37,15 @@ public class MenuManager : SingletonMono<MenuManager>
 
         showSubMenuSettings.Init(GetComponent<AudioManager>());
 
+        eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += SetCharacter;
+
         LoadSystem.AddPostLoadCorutine(showSubMenuSettings.InitScenes);
+    }
+
+    void SetCharacter(Character _character)
+    {
+        //Debug.Log("SE SETEO EL CHACRATER DE MENU");
+        character = _character;
     }
 
     public void StartGame()

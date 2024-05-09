@@ -8,16 +8,21 @@ using UnityEngine.UI;
 [System.Serializable]
 public class StatisticsSubMenu : CreateSubMenu
 {
-    public Character character;
+    Character character;
 
     [SerializeField]
     InventorySubMenu inventorySubMenu;
+    public override void Create(Character _character)
+    {
+        character = _character;
+        base.Create(_character);
+    }
 
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
 
-        subMenu.AddNavBarButton("Equipamiento", Create).AddNavBarButton("Inventario", CreateInventory);
+        subMenu.AddNavBarButton("Equipamiento", ()=> Create(character)).AddNavBarButton("Inventario", ()=>CreateInventory(character));
 
         subMenu.ClearBody();
         /*
@@ -64,9 +69,9 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.ExitSubmenu();
     }
 
-    void CreateInventory()
+    void CreateInventory(Character _character)
     {
-        inventorySubMenu.Create();
+        inventorySubMenu.Create(_character);
         subMenu.OnClose -= Exit;
         subMenu.OnClose += SubMenuOnClose;
     }
@@ -74,7 +79,7 @@ public class StatisticsSubMenu : CreateSubMenu
     private void SubMenuOnClose()
     {
         subMenu.OnClose -= SubMenuOnClose;
-        Create();
+        Create(character);
         //InternalCreate();
     }
 
@@ -167,7 +172,7 @@ public class StatisticsSubMenu : CreateSubMenu
         UnityAction action = () =>
         {
             inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, info.filter, equipAction);
-            CreateInventory();
+            CreateInventory(character);
         };
 
         if (item.equiped != null)
@@ -211,13 +216,13 @@ public class StatisticsSubMenu : CreateSubMenu
         actionKata = () =>
         {
             inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoKata.filter, EquipKataAction);
-            CreateInventory();
+            CreateInventory(character);
         };
 
         actionWeapon = () =>
         {
             inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoWeapon.filter, EquipWeaponAction);
-            CreateInventory();
+            CreateInventory(character);
         };
 
 

@@ -7,7 +7,7 @@ using System.Linq;
 [System.Serializable]
 public class InventorySubMenu : CreateSubMenu
 {
-    public Character character;
+    Character character;
 
     public ScrollVertComponent itemList;
 
@@ -30,6 +30,11 @@ public class InventorySubMenu : CreateSubMenu
         filterType = _type;
     }
 
+    public override void Create(Character _character)
+    {
+        character = _character;
+        base.Create(_character);
+    }
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();

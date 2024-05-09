@@ -20,8 +20,7 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         {
             //In Game
             {"MenuInGame", PauseMenu},
-            {"Try1", Try1},
-            {"Try2", Try2},
+            {"Statistics", Statistics},
 
             //Menu in game
             {"Resume", Resume},
@@ -38,14 +37,9 @@ public class ButtonsFunc_Hexagonos : ButtonsFunctions
         //Despausar
     }
 
-    void Try1(GameObject g)
+    void Statistics(GameObject g)
     {
-        statisticsSubMenu.Create();
-    }
-
-    void Try2(GameObject g)
-    {
-        //buildingsSubMenu.Create();
+        statisticsSubMenu.Create(MenuManager.instance.character);
     }
 
     void Resume(GameObject g)
