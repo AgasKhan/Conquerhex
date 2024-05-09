@@ -67,9 +67,9 @@ public class RangeWeapon : MeleeWeapon
         if(objective == null)
             return new Entity[] { };
 
-        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position, Quaternion.identity, owner.transform.parent);
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f, Quaternion.identity, owner.transform.parent, false);
 
-        proyectile.Throw(owner, System.Linq.Enumerable.ToArray(damages), objective.transform.position - proyectile.transform.position);
+        proyectile.Throw(owner, System.Linq.Enumerable.ToArray(damages), (objective.transform.position + Vector3.up * 0.5f) - proyectile.transform.position);
 
         return new Entity[] {};
     }

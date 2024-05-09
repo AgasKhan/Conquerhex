@@ -49,7 +49,6 @@ public class Proyectile : Entity
 
     private void Proyectile_MyUpdates()
     {
-        
         var affected = detect.Area(collision.position, (entity) => entity.team != team);
         if(affected.Count>0)
         {
@@ -63,6 +62,7 @@ public class Proyectile : Entity
 
     public virtual void Throw(Entity owner ,Damage[] dmg, Vector3 dir)
     {
+        transform.up = dir;
         gameObject.SetActive(true);
         //team = owner.team;
         damages = dmg;

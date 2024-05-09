@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be7c53cccaa8897418cbc8496304f079, type: 3}
+  m_Name: MultiHit No Area
+  m_EditorClassIdentifier: 
+  _nameDisplay: Golpe Continuo
+  _image: {fileID: 1326865692, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: El jugador golpea de manera contina a  enemigos en un radio alrededor
+    suyo mientras se mantenga presionada la habilidad.
+  maxAmount: 1
+  weight: 0
+  visible: 1
+  joystick: 0
+  ShowFeedBackArea: 0
+  ShowFeedAffectedEntities: 1
+  particles:
+  - {fileID: 8425220168367755407, guid: 1ef40fd2aed29ac4e837a0f225a77587, type: 3}
+  audios:
+    pictionaries: []
+  velocity: 1
+  costExecution: 0
+  costHandle: 0
+  damagesMultiply: []
+  indexParticles:
+  - {x: 1, y: 4}
+  trigger: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91, type: 2}
+  detection: {fileID: 11400000, guid: c30127a39a2867f4792db3f5ffd30d46, type: 2}
+  damageToWeapon: 1
+  RequiredDamage: []

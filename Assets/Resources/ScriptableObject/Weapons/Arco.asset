@@ -17,16 +17,22 @@ MonoBehaviour:
   _details: 
   maxAmount: 1
   weight: 2
+  visible: 1
+  defaultKata: {fileID: 0}
   velocity: 1
   range: 2
-  defaultKata: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91, type: 2}
   damages:
-  - amount: 10
+  - name: 
+    amount: 10
+    knockBack: 0
     typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  - amount: 1
+  - name: 
+    amount: 1
+    knockBack: 0
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
   durability: 150
+  recipe: {fileID: 0}
   magazine: 0
-  prefabBullet: {fileID: 1003096293546598046, guid: 6187da6f17fa2d247b45239a7266d8fa,
+  prefabBullet: {fileID: 5675253352617254463, guid: fac44c52bd67faf4286feb9977565ea4,
     type: 3}
   indexPrefabBullet: {x: 2, y: 0}
