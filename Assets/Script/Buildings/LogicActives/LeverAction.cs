@@ -5,14 +5,9 @@ using UnityEngine;
 public class LeverAction : LogicActive<(InteractEntityComponent interact, Character character)>
 {
     public UnityEngine.Events.UnityEvent action;
+
     public override void Activate((InteractEntityComponent interact, Character character) genericParams)
     {
         action.Invoke();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
     }
 }

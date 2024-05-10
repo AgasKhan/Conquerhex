@@ -78,6 +78,11 @@ public class IAIO : IAFather
 
     #endregion
 
+    public void ChangeCharacter(Character newCharacter)
+    {
+        characterEvent.delegato.Invoke(GameManager.instance.playerCharacter);
+    }
+
     private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
     {
         Vector2 tecla = arg1.AproxDir();
@@ -368,8 +373,9 @@ public class IAIO : IAFather
 
     private void Update()
     {
-        if(character!=null)
+        if (character != null)
         {
+            UI.Interfaz.instance?["Titulo secundario"].ClearMsg();
             enabled = false;
             return;
         }
