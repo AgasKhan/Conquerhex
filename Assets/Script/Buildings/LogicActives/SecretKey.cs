@@ -6,7 +6,9 @@ public class SecretKey : MonoBehaviour
 {
     [SerializeField]
     StatisticsSubMenu statisticsSubMenu;
-    bool showStatistics = false;
+    [SerializeField]
+    GameObject submenuRef;
+    bool isInStatistics = false;
 
     public GameObject[] myObjects;
     void Update()
@@ -29,17 +31,19 @@ public class SecretKey : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (!showStatistics)
+            if (!submenuRef.activeSelf && !isInStatistics)
             {
                 statisticsSubMenu.Create(MenuManager.instance.character);
-                showStatistics = true;
+                isInStatistics = true;
             }
-            else
+            else if(isInStatistics)
             {
                 statisticsSubMenu.Exit();
-                showStatistics = false;
             }
         }
+
+        if(isInStatistics && !submenuRef.activeSelf)
+            isInStatistics = false;
 
         if (Input.GetKeyDown(KeyCode.P))
             GameManager.instance.Reload();
