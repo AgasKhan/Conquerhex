@@ -214,6 +214,16 @@ public class GameManager : SingletonMono<GameManager>
         fixedUpdateUnityEvent.AddListener(MyFixedUpdate);
 
         awakeUnityEvent?.Invoke();
+
+        playerCharacter.health.death += Health_death;
+    }
+
+    protected void Health_death()
+    {
+        TimersManager.Create(0.5f, () =>
+        {
+            Defeat("Has muerto");
+        });
     }
 
     private void Update()

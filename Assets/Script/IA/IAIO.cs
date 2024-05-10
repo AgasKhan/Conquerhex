@@ -305,9 +305,7 @@ public class IAIO : IAFather
 
         TimersManager.Create(0.5f, ()=>
         {
-            if (chr == GameManager.instance.playerCharacter)
-                GameManager.instance.Defeat("Has muerto");
-            else
+            if (chr != GameManager.instance.playerCharacter)
             {
                 enabled = true;
                 chr.SetActiveGameObject(false);

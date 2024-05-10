@@ -11,9 +11,23 @@ public class SecretKey : MonoBehaviour
     bool isInStatistics = false;
 
     public GameObject[] myObjects;
+    public GameObject leverCorderito;
+
+    public Character minion;
+
+    Vector3 originalMinionPos;
+    private void Awake()
+    {
+        originalMinionPos = minion.transform.position;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Comma))
+        {
+            leverCorderito.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             for (int i = 0; i < myObjects.Length; i++)
             {
@@ -36,17 +50,27 @@ public class SecretKey : MonoBehaviour
                 statisticsSubMenu.Create(MenuManager.instance.character);
                 isInStatistics = true;
             }
-            else if(isInStatistics)
+            else if (isInStatistics)
             {
                 statisticsSubMenu.Exit();
             }
         }
 
-        if(isInStatistics && !submenuRef.activeSelf)
+        if (isInStatistics && !submenuRef.activeSelf)
             isInStatistics = false;
 
         if (Input.GetKeyDown(KeyCode.P))
             GameManager.instance.Reload();
 
+    }
+
+    public void ReviveMinion()
+    {
+        if (!minion.gameObject.activeSelf)
+        {
+            minion.health.Revive();
+            minion.transform.position = originalMinionPos;
+            minion.SetActiveGameObject(true);
+        }
     }
 }
