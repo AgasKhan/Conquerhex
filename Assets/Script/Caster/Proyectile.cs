@@ -49,7 +49,7 @@ public class Proyectile : Entity
 
     private void Proyectile_MyUpdates()
     {
-        var affected = detect.Area(collision.position, (entity) => entity.team != team);
+        var affected = detect.Area(collision.position, (entity) => team.TeamAttack(entity.team));
         if(affected.Count>0)
         {
             affected[0].TakeDamage(damages);
@@ -64,7 +64,7 @@ public class Proyectile : Entity
     {
         transform.up = dir;
         gameObject.SetActive(true);
-        //team = owner.team;
+        team = owner.team;
         damages = dmg;
         moveComponent.Velocity(dir.normalized);
         off.Start();

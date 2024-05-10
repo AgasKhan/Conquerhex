@@ -652,4 +652,15 @@ public static class Extensions
 
         return aux;
     }
+
+    static public bool TeamEnemyAttack(this Team team, Team toCheck)
+    {
+        return team != toCheck && toCheck != Team.noTeam && toCheck != Team.recursos;
+    }
+
+    static public bool TeamAttack(this Team team, Team toCheck)
+    {
+        return team != toCheck && toCheck != Team.noTeam;
+    }
+
 }

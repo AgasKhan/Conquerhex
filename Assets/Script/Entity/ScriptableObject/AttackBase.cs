@@ -17,7 +17,7 @@ public class AttackBase : FlyWeight<EntityBase>
     [Range(0,1), Tooltip("A que valor tendera por defecto\n 0.5 para la mitad de la barra")]
     public float energyDefault;
 
-    [Header("Habilidades")]
+    [Header("KataCombos")]
 
     public WeaponKataCombo[] kataCombos;
 

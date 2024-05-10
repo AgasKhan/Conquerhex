@@ -35,6 +35,8 @@ public class ChargeRangeUpTrggrCtrllr : UpTrggrCtrllr
 
     public override void ControllerPressed(Vector2 dir, float button)
     {
+        FeedBackReference?.DotAngle(Dot);
+
         range = button;
         base.ControllerPressed(dir, button);
     }
