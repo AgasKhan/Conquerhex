@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SlotItem
 {
+    [SerializeField]
+    public bool isModifiable = true;
+
     [System.NonSerialized]
     public InventoryEntityComponent inventoryComponent;
 
@@ -31,6 +34,9 @@ public class SlotItem
     {
         set
         {
+            if (!isModifiable)
+                return;
+            
             if (equiped != null)
             {
                 equiped.onDrop -= EquipedOnDrop;
