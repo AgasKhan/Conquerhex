@@ -7,6 +7,8 @@ public class ItemContainer : MonoBehaviour
     [SerializeField]
     public Entity character;
 
+    ItemsGiver myItemsGiver;
+
     void Awake()
     {
         /*
@@ -23,7 +25,16 @@ public class ItemContainer : MonoBehaviour
         LoadSystem.AddPostLoadCorutine(()=> GetComponent<ItemsGiver>()?.Activate(character));
         */
 
-        LoadSystem.AddPostLoadCorutine(() => GetComponent<ItemsGiver>()?.Activate(character));
-    }
+        myItemsGiver = GetComponent<ItemsGiver>();
+        myItemsGiver?.Activate(character);
 
+        /*
+        LoadSystem.AddPostLoadCorutine(() =>
+        {
+            myItemsGiver = GetComponent<ItemsGiver>();
+            myItemsGiver?.Activate(character);
+
+            Debug.Log("POST LOAD");
+        });*/
+    }
 }

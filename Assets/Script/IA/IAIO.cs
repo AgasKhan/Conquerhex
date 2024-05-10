@@ -80,7 +80,7 @@ public class IAIO : IAFather
 
     public void ChangeCharacter(Character newCharacter)
     {
-        characterEvent.delegato.Invoke(GameManager.instance.playerCharacter);
+        characterEvent.delegato.Invoke(newCharacter);
     }
 
     private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
