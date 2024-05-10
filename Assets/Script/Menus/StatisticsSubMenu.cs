@@ -22,7 +22,7 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         subMenu.navbar.DestroyAll();
 
-        subMenu.AddNavBarButton("Equipamiento", ()=> Create(character)).AddNavBarButton("Inventario", ()=>CreateInventory(character));
+        subMenu.AddNavBarButton("Equipamiento", ()=> { Create(character); inventorySubMenu.slotItem = null; }).AddNavBarButton("Inventario", ()=>CreateInventory(character));
 
         subMenu.ClearBody();
         /*
@@ -64,7 +64,7 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.OnClose += Exit;
     }
 
-    void Exit()
+    public void Exit()
     {
         subMenu.ExitSubmenu();
     }
@@ -72,15 +72,14 @@ public class StatisticsSubMenu : CreateSubMenu
     void CreateInventory(Character _character)
     {
         inventorySubMenu.Create(_character);
-        subMenu.OnClose -= Exit;
-        subMenu.OnClose += SubMenuOnClose;
+        //subMenu.OnClose -= Exit;
+        //subMenu.OnClose += SubMenuOnClose;
     }
 
     private void SubMenuOnClose()
     {
         subMenu.OnClose -= SubMenuOnClose;
         Create(character);
-        //InternalCreate();
     }
 
     void CreateBasicEquipament(Character charac)

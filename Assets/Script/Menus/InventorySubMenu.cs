@@ -19,7 +19,7 @@ public class InventorySubMenu : CreateSubMenu
 
     System.Type filterType;
 
-    SlotItem slotItem = null;
+    public SlotItem slotItem = null;
 
     System.Action<SlotItem, int> action = null;
 
@@ -37,7 +37,10 @@ public class InventorySubMenu : CreateSubMenu
     }
     protected override void InternalCreate()
     {
-        subMenu.navbar.DestroyAll();
+        //subMenu.navbar.DestroyAll();
+
+        //subMenu.AddNavBarButton("Inventario", () => Create(character)).AddNavBarButton("Equipamiento", () => CreateStatistics());
+
         /*
         subMenu.AddNavBarButton("All", () => { FilterItems(""); }).AddNavBarButton("Equipment", () => { FilterItems("MeleeWeapon"); })
                     .AddNavBarButton("Resources", () => { FilterItems("Resources_Item"); }).AddNavBarButton("Katas", () => { FilterItems("WeaponKata"); })
@@ -48,6 +51,11 @@ public class InventorySubMenu : CreateSubMenu
         CreateBody();
 
         subMenu.OnClose += InventoryOnClose;
+    }
+
+    void CreateStatistics()
+    {
+        subMenu.TriggerOnClose();
     }
 
     private void InventoryOnClose()
@@ -68,6 +76,9 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.CreateSection(3, 6);
         subMenu.CreateChildrenSection<ScrollRect>();
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
+
+        if(slotItem != null)
+            subMenu.navbar.DestroyAll();
 
         if (buttonsList.Count <= 0)
             ShowItemDetails("", "No tienes nada que equipar", null);
