@@ -40,7 +40,7 @@ public class SecretKey : MonoBehaviour
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
                 .SetWindow("", "¿Seguro que deseas cerrar el juego?")
                 .AddButton("Si", Application.Quit)
-                .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false));
+                .AddButton("No", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -52,7 +52,7 @@ public class SecretKey : MonoBehaviour
             }
             else if (isInStatistics)
             {
-                statisticsSubMenu.Exit();
+                statisticsSubMenu.TriggerMyOnClose();
             }
         }
 

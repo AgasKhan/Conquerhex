@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c099813f932ef264eac0655a77a6ef5b, type: 3}
+  m_Name: ArcoInfinito
+  m_EditorClassIdentifier: 
+  _nameDisplay: Arco Infinito
+  _image: {fileID: -1131641515, guid: 17d90ad2b19afdb409c147bd3ff6fd9b, type: 3}
+  _details: 'Permite lanzar proyectiles a una gran distancia '
+  maxAmount: 1
+  weight: 2
+  visible: 1
+  defaultKata: {fileID: 0}
+  velocity: 1
+  range: 5
+  damages:
+  - name: 
+    amount: 10
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
+  - name: 
+    amount: 1
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  durability: 9999
+  recipe: {fileID: 0}
+  magazine: 0
+  prefabBullet: {fileID: 1003096293546598046, guid: 6187da6f17fa2d247b45239a7266d8fa,
+    type: 3}
+  indexPrefabBullet: {x: 2, y: 0}

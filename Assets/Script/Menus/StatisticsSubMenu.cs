@@ -69,11 +69,23 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.ExitSubmenu();
     }
 
+    public void TriggerMyOnClose()
+    {
+        subMenu.TriggerOnClose();
+    }
+
     void CreateInventory(Character _character)
     {
         inventorySubMenu.Create(_character);
         //subMenu.OnClose -= Exit;
         //subMenu.OnClose += SubMenuOnClose;
+    }
+
+    void CreateEquipInventory(Character _character)
+    {
+        inventorySubMenu.Create(_character);
+        subMenu.OnClose -= Exit;
+        subMenu.OnClose += SubMenuOnClose;
     }
 
     private void SubMenuOnClose()
@@ -171,7 +183,7 @@ public class StatisticsSubMenu : CreateSubMenu
         UnityAction action = () =>
         {
             inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, info.filter, equipAction);
-            CreateInventory(character);
+            CreateEquipInventory(character);
         };
 
         if (item.equiped != null)
@@ -215,13 +227,13 @@ public class StatisticsSubMenu : CreateSubMenu
         actionKata = () =>
         {
             inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoKata.filter, EquipKataAction);
-            CreateInventory(character);
+            CreateEquipInventory(character);
         };
 
         actionWeapon = () =>
         {
             inventorySubMenu.SetEquipMenu<WeaponKata>(kata, infoWeapon.filter, EquipWeaponAction);
-            CreateInventory(character);
+            CreateEquipInventory(character);
         };
 
 
