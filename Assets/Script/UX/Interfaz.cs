@@ -61,11 +61,19 @@ namespace UI
             textDamage.SetText(entity.transform, text);
         }
 
+        void CharacterSelected(Character ch)
+        {
+            energyUI.EnergyBarUpdate((ch.caster.positiveEnergy / ch.caster.MaxEnergy, 0,ch.caster.positiveEnergy));
+            healthUI.healthBarUpdate(ch.health);
+        }
+
         IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)
         {
             msg("Interfaz");
             end(true);
             yield return null;
+            eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += CharacterSelected;
+
             eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato += healthUI.healthBarUpdate;
 
             var aux = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
@@ -102,7 +110,9 @@ namespace UI
 
             aux.delegato += energyUI.EnergyBarUpdate;
             aux.secondDelegato += energyUI.EnergyLeft;
-            aux.thirdDelegato += energyUI.EnergyRight;           
+            aux.thirdDelegato += energyUI.EnergyRight;
+            
+
         }
 
         void Update()

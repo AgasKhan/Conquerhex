@@ -152,8 +152,6 @@ public class IAIO : IAFather
     {
         base.OnEnterState(param);
 
-        GameManager.instance.playerCharacter = param;
-
         originalTag = param.gameObject.tag;
 
         param.gameObject.tag = "Player";
@@ -312,6 +310,7 @@ public class IAIO : IAFather
             else
             {
                 enabled = true;
+                chr.SetActiveGameObject(false);
                 VirtualControllers.Principal.eventDown += NoCharacterSelected;
             }
         });

@@ -50,8 +50,8 @@ public class GameManager : SingletonMono<GameManager>
 
     public LayerMask obstacleAvoidanceLayer;
 
-    [Tooltip("Original player character")]
-    public Character playerCharacter;
+    [field: SerializeField, Tooltip("Original player character")]
+    public Character playerCharacter { get; private set; }
 
     [SerializeField]
     public EventManager eventManager;
