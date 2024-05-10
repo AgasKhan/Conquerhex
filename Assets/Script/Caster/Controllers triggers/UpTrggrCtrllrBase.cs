@@ -24,7 +24,6 @@ public class UpTrggrCtrllr : TriggerController
         if (!onCooldownTime)
         {
             End = true;
-            cooldown.Reset();
             return;
         }
 
@@ -37,7 +36,6 @@ public class UpTrggrCtrllr : TriggerController
         if (!onCooldownTime)
         {
             End = true;
-            cooldown.Reset();
             return;
         }
 
@@ -56,13 +54,10 @@ public class UpTrggrCtrllr : TriggerController
         if (!onCooldownTime)
         {
             End = true;
-            cooldown.Reset();
             return;
         }
 
         //comienza a bajar el cooldown
-
-        cooldown.Reset();
 
         Cast();
 

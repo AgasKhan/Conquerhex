@@ -52,7 +52,6 @@ public class PressTrggrCtrllr : TriggerController
         if (!onCooldownTime)
         {
             End = true;
-            cooldown.Reset();
             return;
         }
 
@@ -72,7 +71,6 @@ public class PressTrggrCtrllr : TriggerController
         if (!onCooldownTime)
             return;
 
-        cooldown.Reset();
         pressCooldown.Reset();
 
         End = true;

@@ -63,11 +63,8 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (!onCooldownTime)
         {
             End = true;
-            cooldown.Reset();
             return;
         }
-        
-        cooldown.Reset();
 
         if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out moveEntity))
         {

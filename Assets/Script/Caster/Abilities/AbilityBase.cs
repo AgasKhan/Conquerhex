@@ -407,7 +407,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
     public void OnEnterState(CasterEntityComponent param)
     {
-        if (DontExecuteCast || (CostExecution < 0 && !param.NegativeEnergy(-CostExecution)) || (CostExecution > 0 && !param.PositiveEnergy(CostExecution)))
+        if (!cooldown.Chck || DontExecuteCast || (CostExecution < 0 && !param.NegativeEnergy(-CostExecution)) || (CostExecution > 0 && !param.PositiveEnergy(CostExecution)))
         {
             End = true;
             return;
@@ -430,9 +430,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         if (!DontExecuteCast)
         {
-            trigger.OnExitState(param);       
+            trigger.OnExitState(param);
         }
 
+        if(cooldown.Chck)
+            cooldown.Reset();
         StopCast();
     }
 
