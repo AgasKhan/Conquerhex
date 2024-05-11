@@ -17,9 +17,14 @@ MonoBehaviour:
   energyStatic: 0
   energyDefault: 0.5
   kataCombos:
-  - kata: {fileID: 11400000, guid: 7fb1b94fb8c1cfa4aabf132841e81b4b, type: 2}
+  - indexToEquip: -1
+    isModifiable: 0
+    kata: {fileID: 11400000, guid: 7fb1b94fb8c1cfa4aabf132841e81b4b, type: 2}
     weapon: {fileID: 11400000, guid: 00c520bc752f70f45b63631e968637ae, type: 2}
-  habilities: []
+  abilities:
+  - indexToEquip: 0
+    isModifiable: 0
+    ability: {fileID: 11400000, guid: 418c233b04005cb4da05f4b58c0b80d9, type: 2}
   additiveDamage:
   - name: Perforation
     amount: 2
