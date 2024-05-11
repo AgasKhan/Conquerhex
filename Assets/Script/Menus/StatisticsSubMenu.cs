@@ -195,7 +195,10 @@ public class StatisticsSubMenu : CreateSubMenu
                 info.str = "Usos: " + (item.equiped as MeleeWeapon).current;
         }
 
-        subMenu.AddComponent<ButtonA>().SetButtonA(info.name, info.sprite, info.str, action);
+        var button = subMenu.AddComponent<ButtonA>().SetButtonA(info.name, info.sprite, info.str, action);
+
+        if (!item.isModifiable)
+            button.button.interactable = false;
     }
 
     void CreateKataCombosButtons(SlotItem<WeaponKata> kata)
@@ -240,6 +243,12 @@ public class StatisticsSubMenu : CreateSubMenu
         var doubleButton = subMenu.AddComponent<DoubleButtonA>();
         doubleButton.left.SetButtonA(infoKata.name, infoKata.sprite, infoKata.str, actionKata);
         doubleButton.right.SetButtonA(infoWeapon.name, infoWeapon.sprite, infoWeapon.str, actionWeapon).button.interactable = interactiveWeap;
+
+        if (!kata.isModifiable)
+        {
+            doubleButton.left.button.interactable = false;
+            doubleButton.right.button.interactable = false;
+        }
     }
 }
 

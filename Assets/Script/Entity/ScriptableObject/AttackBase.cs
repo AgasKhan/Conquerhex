@@ -20,11 +20,12 @@ public class AttackBase : FlyWeight<EntityBase>
     [Header("KataCombos")]
 
     public WeaponKataCombo[] kataCombos;
+    public bool[] kataModifiable;
 
     [Header("Habilidades")]
 
-    public AbilityExtCastBase[] habilities;
-
+    public AbilityExtCastBase[] abilities;
+    public bool[] abilityModifiable;
 
     [Header("Especialization")]
 
@@ -34,7 +35,16 @@ public class AttackBase : FlyWeight<EntityBase>
 [System.Serializable]
 public class WeaponKataCombo
 {
+    public int indexToEquip =- -1;
+
+    public bool isStatic = false;
+
     public WeaponKataBase kata;
 
     public MeleeWeaponBase weapon;
+}
+
+public class AbilityToEquip
+{
+
 }

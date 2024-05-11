@@ -199,6 +199,26 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 
         katasCombo.actual.equiped.ChangeWeapon(aux2);
+
+        if(flyweight.kataModifiable != null)
+            katasCombo.actual.isModifiable = flyweight.kataModifiable[index];
+    }
+
+    void SetAbility(int index)
+    {
+        if (flyweight.abilities[index] == null || abilities.Actual(index).equiped != null)
+            return;
+
+        var aux = flyweight.abilities[index].Create();
+
+        aux.Init(inventoryEntity);
+
+        ((AbilityExtCast)aux).CreateCopy(out index);
+
+        abilities.actual.indexEquipedItem = index;
+
+        if (flyweight.abilityModifiable != null)
+            abilities.actual.isModifiable = flyweight.abilityModifiable[index];
     }
 
 
@@ -238,6 +258,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
             SetWeaponKataCombo(i);
+        for (int i = 0; i < Mathf.Clamp(flyweight.abilities.Length, 0, 3); i++)
+            SetAbility(i);
     }
 
     public void Init()
