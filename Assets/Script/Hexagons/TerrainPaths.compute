@@ -1,0 +1,159 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Alphas
+#pragma kernel Details
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+//RWTexture2D<float4> Result;
+
+RWStructuredBuffer<float3> outputAlphaBuffer;
+
+RWStructuredBuffer<int> outputDetailsBuffer;
+
+float3 toSave;
+
+uint width;
+
+uint height;
+
+uint detailResolution;
+
+float rng;
+
+/////////////////////////////////////////////////////////
+
+float2 unity_gradientNoise_dir(float2 p)
+{
+    p = p % 289;
+    float x = (34 * p.x + 1) * p.x % 289 + p.y;
+    x = (34 * x + 1) * x % 289;
+    x = frac(x / 41) * 2 - 1;
+    return normalize(float2(x - floor(x + 0.5), abs(x) - 0.5));
+}
+
+float unity_gradientNoise(float2 p)
+{
+    float2 ip = floor(p);
+    float2 fp = frac(p);
+    float d00 = dot(unity_gradientNoise_dir(ip), fp);
+    float d01 = dot(unity_gradientNoise_dir(ip + float2(0, 1)), fp - float2(0, 1));
+    float d10 = dot(unity_gradientNoise_dir(ip + float2(1, 0)), fp - float2(1, 0));
+    float d11 = dot(unity_gradientNoise_dir(ip + float2(1, 1)), fp - float2(1, 1));
+    fp = fp * fp * fp * (fp * (fp * 6 - 15) + 10);
+    return lerp(lerp(d00, d01, fp.y), lerp(d10, d11, fp.y), fp.x);
+}
+
+void Unity_GradientNoise_float(float2 UV, float Scale, out float Out)
+{
+    Out = unity_gradientNoise(UV * Scale) + 0.5;
+}
+
+/////////////////////////////////////////////////////////
+
+inline float2 unity_voronoi_noise_randomVector(float2 UV, float offset)
+{
+    float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
+    UV = frac(sin(mul(UV, m)) * 46839.32);
+    return float2(sin(UV.y * +offset) * 0.5 + 0.5, cos(UV.x * offset) * 0.5 + 0.5);
+}
+
+void Unity_Voronoi_float(float2 UV, float AngleOffset, float CellDensity, out float Out, out float Cells)
+{
+    float2 g = floor(UV * CellDensity);
+    float2 f = frac(UV * CellDensity);
+    float t = 8.0;
+    float3 res = float3(8.0, 0.0, 0.0);
+
+    for (int y = -1; y <= 1; y++)
+    {
+        for (int x = -1; x <= 1; x++)
+        {
+            float2 lattice = float2(x, y);
+            float2 offset = unity_voronoi_noise_randomVector(lattice + g, AngleOffset);
+            float d = distance(lattice + offset, f);
+            if (d < res.x)
+            {
+                res = float3(d, offset.x, offset.y);
+                Out = res.x;
+                Cells = res.y;
+            }
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////
+
+int IndexForIdAlpha(uint3 id)
+{
+    return id.x + (id.y * width);
+}
+
+int IndexForIdDetails(uint3 id)
+{
+    return id.x + (id.y * detailResolution);
+}
+
+float2 UVCalc(uint x, uint y)
+{
+    if (x > uint(width - 1))
+    {
+        y++;
+    }
+    
+    if (y > uint(height - 1))
+    {
+        return float2(0, 0);
+    }
+    
+    return float2(float(x) / width, float(y) / height) + rng;
+}
+
+[numthreads(8, 8, 1)]
+void Details(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x > detailResolution - 1 || id.y > detailResolution - 1)
+        return;
+    
+    float aux;
+    float Out;
+    
+    uint2 index = uint2((id.x +1) * width / detailResolution, (id.y + 1) * height / detailResolution);
+    
+    uint2 indexEnd = index + (width / detailResolution);
+    
+    uint2 indexStart = index - (width / detailResolution);
+ 
+    for (index.x = indexStart.x; index.x < indexEnd.x; index.x++)
+    {
+        for (index.y = indexStart.y; index.y < indexEnd.y; index.y++)
+        {       
+            if (index.x >= 0 && index.x < width && index.y >= 0 && index.y < height)
+                if (outputAlphaBuffer[index.x + index.y * width].x <= 0)
+                {
+                    outputDetailsBuffer[IndexForIdDetails(id)] = 0;
+                    return;
+                }
+        }
+    }
+
+    outputDetailsBuffer[IndexForIdDetails(id)] = 1;
+}
+
+[numthreads(8,8,1)]
+void Alphas(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x > width - 1 || id.y > height - 1)
+        return;
+    
+    float aux;
+    float3 color;
+    float Out;
+    
+    
+    Unity_Voronoi_float(UVCalc(id.x, id.y), 10, 10, Out, aux);
+    
+    aux = step(0.6, aux);
+    
+    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(aux, 0, 1 - aux);
+}
+
