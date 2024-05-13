@@ -94,7 +94,7 @@ public abstract class AbilityBase : ItemBase
     public virtual void InternalParticleSpawnToDamaged(Transform dmg)
     {
         if (indexParticles != null && indexParticles.Length > 0)
-            PoolManager.SpawnPoolObject(indexParticles[0], new Vector3(dmg.position.x, dmg.position.y+0.5f, dmg.position.z), Quaternion.identity, dmg);
+            PoolManager.SpawnPoolObject(indexParticles[0], dmg.position + Vector3.up * 0.5f, Quaternion.identity, dmg);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public abstract class AbilityBase : ItemBase
     {
         if (indexParticles != null && indexParticles.Length > 1)
         {
-            var tr = PoolManager.SpawnPoolObject(indexParticles[1], new Vector3(dmg.position.x, dmg.position.y + 0.2f, dmg.position.z), Quaternion.identity);
+            var tr = PoolManager.SpawnPoolObject(indexParticles[1], dmg.position + Vector3.up * 0.5f, Quaternion.identity);
             tr.localScale = scale;
         }
             
