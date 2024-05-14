@@ -108,6 +108,23 @@ float2 UVCalc(uint x, uint y)
     return float2(float(x) / width, float(y) / height) + rng;
 }
 
+
+/*
+//Implementar en un futuro
+void Path_float(float2 In, RWStructuredBuffer<float2> points, int lenght, float diference, out float Out)
+{
+    float resultado;
+    
+    Out = 0;
+    
+    for (int i = 0; i < lenght - 1; i++)
+    {
+        LinealPoint_float(In, points[i], points[i + 1], diference, resultado);
+        Out += resultado;
+    }
+}
+*/
+
 [numthreads(8, 8, 1)]
 void Details(uint3 id : SV_DispatchThreadID)
 {
@@ -128,7 +145,7 @@ void Details(uint3 id : SV_DispatchThreadID)
         for (index.y = indexStart.y; index.y < indexEnd.y; index.y++)
         {       
             if (index.x >= 0 && index.x < width && index.y >= 0 && index.y < height)
-                if (outputAlphaBuffer[index.x + index.y * width].x <= 0)
+                if (outputAlphaBuffer[index.x + index.y * width].z == 1)
                 {
                     outputDetailsBuffer[IndexForIdDetails(id)] = 0;
                     return;
@@ -145,7 +162,7 @@ void Alphas(uint3 id : SV_DispatchThreadID)
     if (id.x > width - 1 || id.y > height - 1)
         return;
     
-    float aux;
+    float aux = 1;
     float3 color;
     float Out;
     
@@ -154,6 +171,7 @@ void Alphas(uint3 id : SV_DispatchThreadID)
     
     aux = step(0.6, aux);
     
-    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(aux, 0, 1 - aux);
-}
+    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(1 - aux, 0, aux );
+    
 
+}
