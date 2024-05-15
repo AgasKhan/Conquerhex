@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class TerrainManager : MonoBehaviour
 {
+    [System.Serializable]
+    public struct Paths
+    {
+        public Vector3[] points;
+        public float width;
+    }
+
     [SerializeField]
     Terrain terrain;
     
     [SerializeField]
     ComputeShader computeShader;
 
+    [SerializeField]
+    Paths[] paths;
+
+    ComputeBuffer inputPathBuffer;
+
     ComputeBuffer outputAlphaBuffer;
 
     ComputeBuffer outputDetailsBuffer;
 
     [SerializeField]
-    Vector3 vector;
+    float diference;
+
+    [SerializeField]
+    int scale;
 
 
     float[,] mapAlphaBuffer;
@@ -51,12 +66,28 @@ public class TerrainManager : MonoBehaviour
         //computeShader.SetVector("toSave", vector);
 
         computeShader.SetFloat("rng", Random.value*1000);
+        computeShader.SetFloat("scale", scale);
         computeShader.SetInt("width", terrainData.alphamapWidth);
         computeShader.SetInt("height", terrainData.alphamapHeight);
         computeShader.SetInt("detailResolution", terrainData.detailResolution);
 
         computeShader.SetBuffer(0, "outputAlphaBuffer", outputAlphaBuffer);
         computeShader.Dispatch(0, Mathf.CeilToInt(terrainData.alphamapWidth / 8f), Mathf.CeilToInt(terrainData.alphamapHeight / 8f), 1);
+
+
+        for (int i = 0; i < paths.Length; i++)
+        {
+            inputPathBuffer = new ComputeBuffer(paths[i].points.Length, sizeof(float) * 3);
+
+            inputPathBuffer.SetData(paths[i].points);
+            computeShader.SetFloat("diference", (paths[i].width / terrainData.size.x)/2);
+            computeShader.SetBuffer(2, "inputPathBuffer", inputPathBuffer);
+            computeShader.SetBuffer(2, "outputAlphaBuffer", outputAlphaBuffer);
+            
+            computeShader.Dispatch(2, Mathf.CeilToInt(terrainData.alphamapWidth / 8f), Mathf.CeilToInt(terrainData.alphamapHeight / 8f), 1);
+
+            inputPathBuffer.Dispose();
+        }
 
 
         computeShader.SetBuffer(1, "outputDetailsBuffer", outputDetailsBuffer);
@@ -79,7 +110,7 @@ public class TerrainManager : MonoBehaviour
 
         outputDetailsBuffer.Dispose();
 
-        Debug.Log($"{terrainData.detailResolution} {terrainData.detailWidth} {terrainData.detailHeight}");
+        Debug.Log($"{terrainData.detailResolution} {terrainData.alphamapResolution} {terrainData.alphamapWidth} {terrainData.size}");
     }
 
     void Convert()
