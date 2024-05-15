@@ -3,7 +3,12 @@ guid: c144ae0da94e1d444ac6cd86e76e4fb6
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: minion_body
+    second: {fileID: 2100000, guid: 4430de846b97fd7469b90fe76844a024, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -17,7 +22,9 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
+      copied configuration does not match position in animation file:\n\t'QuickRigCharacter_LeftForeArm'
+      : position error = 3.713169 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
