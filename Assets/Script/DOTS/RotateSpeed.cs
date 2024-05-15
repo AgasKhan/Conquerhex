@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-public struct DOTS_RotateSpeed : IComponentData
+public struct RotateSpeed : IComponentData
 {
-    public float rotationSpeed;
-
-
+    public float value;
 }
