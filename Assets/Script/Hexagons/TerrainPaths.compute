@@ -1,10 +1,14 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel Alphas
 #pragma kernel Details
+#pragma kernel Paths
 
+#include "Assets/VFX/Shaders/ShaderGraph Funcs.hlsl"
 // Create a RenderTexture with enableRandomWrite flag and set it
 // with cs.SetTexture
 //RWTexture2D<float4> Result;
+
+RWStructuredBuffer<float3> inputPathBuffer;
 
 RWStructuredBuffer<float3> outputAlphaBuffer;
 
@@ -18,7 +22,11 @@ uint height;
 
 uint detailResolution;
 
+float scale;
+
 float rng;
+
+float diference;
 
 /////////////////////////////////////////////////////////
 
@@ -109,21 +117,42 @@ float2 UVCalc(uint x, uint y)
 }
 
 
-/*
-//Implementar en un futuro
-void Path_float(float2 In, RWStructuredBuffer<float2> points, int lenght, float diference, out float Out)
+///////////////////////////////////////////////////////////
+
+[numthreads(8, 8, 1)]
+void Paths(uint3 id : SV_DispatchThreadID)
 {
+    if (id.x > width - 1 || id.y > height - 1)
+        return;
+    
     float resultado;
     
-    Out = 0;
+    float Out = 0;
     
-    for (int i = 0; i < lenght - 1; i++)
+    uint lenght;
+    uint stride;
+    inputPathBuffer.GetDimensions(lenght, stride);
+    
+    for (uint i = 0; i < lenght-1; i++)
     {
-        LinealPoint_float(In, points[i], points[i + 1], diference, resultado);
+        float2 start = float2(inputPathBuffer[i].z, inputPathBuffer[i].x);
+        float2 end = float2(inputPathBuffer[i + 1].z, inputPathBuffer[i + 1].x);
+        
+        LinealPoint_float(id.xy / float(width), start, end, diference, resultado);
         Out += resultado;
     }
+    
+    float3 aux = outputAlphaBuffer[IndexForIdAlpha(id)];
+    
+    Out =  clamp(Out, 0, 1);
+    
+    aux.x = clamp(aux.x-Out, 0, 1);
+    
+    aux.z = clamp((Out + aux.z), 0, 1);
+    
+    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(aux.x, aux.y, aux.z);
 }
-*/
+
 
 [numthreads(8, 8, 1)]
 void Details(uint3 id : SV_DispatchThreadID)
@@ -134,11 +163,11 @@ void Details(uint3 id : SV_DispatchThreadID)
     float aux;
     float Out;
     
-    uint2 index = uint2((id.x +1) * width / detailResolution, (id.y + 1) * height / detailResolution);
+    uint2 index = uint2((id.x+1) * width / detailResolution, (id.y+1) * height / detailResolution);
     
-    uint2 indexEnd = index + (width / detailResolution);
+    uint2 indexEnd = index + (width / detailResolution)*0.75;
     
-    uint2 indexStart = index - (width / detailResolution);
+    uint2 indexStart = index - (width / detailResolution)*0.75;
  
     for (index.x = indexStart.x; index.x < indexEnd.x; index.x++)
     {
@@ -162,16 +191,16 @@ void Alphas(uint3 id : SV_DispatchThreadID)
     if (id.x > width - 1 || id.y > height - 1)
         return;
     
-    float aux = 1;
+    float aux = 0;
     float3 color;
     float Out;
     
     
-    Unity_Voronoi_float(UVCalc(id.x, id.y), 10, 10, Out, aux);
+    Unity_Voronoi_float(UVCalc(id.x, id.y), 10, scale, Out, aux);
     
     aux = step(0.6, aux);
     
-    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(1 - aux, 0, aux );
     
-
+    
+    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(1 - aux, 0, aux );
 }
