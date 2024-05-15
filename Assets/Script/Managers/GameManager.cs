@@ -100,6 +100,18 @@ public class GameManager : SingletonMono<GameManager>
         fsmGameMaganer.CurrentState = fsmGameMaganer.load;
     }
 
+    [CheatCommandsPrompt.Command(name: "Reload", description:"Te Re-Carga")]
+    public static void StaticReload()
+    {
+        instance.Reload();
+    }
+
+    [CheatCommandsPrompt.Command(name:"Load", description: "Solo te carga")]
+    public static void StaticLoad(string scn)
+    {
+        instance.Load(scn);
+    }
+
     public void Reload()
     {
         StartCoroutine(loadSystem.Reload());
