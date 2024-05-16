@@ -142,13 +142,13 @@ public class FadeColorAttack : MonoBehaviour
         return this;
     }
 
-    public FadeColorAttack DotAngle(float dot)
+    public FadeColorAttack Angle(float angle)
     {
-        if (internalDot == dot)
+        if (internalDot == angle)
             return this;
 
-        sprite.material.SetFloat("_Dot", dot);
-        angle = "Angle: " + (Mathf.Rad2Deg * Mathf.Acos(dot) + (dot > 0?  0 : 180)).ToStringFixed(0) + "º";
+        sprite.material.SetFloat("_Angle", angle);
+        this.angle = "Angle: " + angle.ToStringFixed(0) + "º";
         return this;
     }
 
@@ -198,7 +198,7 @@ public class FadeColorAttack : MonoBehaviour
 
     private void OnEnable()
     {
-        DotAngle(-1);
+        Angle(360);
         color = areaColor.ChangeAlphaCopy(0);
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);

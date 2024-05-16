@@ -37,6 +37,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public virtual float FinalMinRange => ability.FinalMinRange;
 
+    public virtual float Angle => ability.Angle;
+
     public virtual float Dot => ability.Dot;
 
     public virtual bool DontExecuteCast => ability.DontExecuteCast;

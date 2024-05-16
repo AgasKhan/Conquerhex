@@ -53,7 +53,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         buttonPress = true;
         
-        FeedBackReference?.DotAngle(Dot);
+        FeedBackReference?.Angle(Angle);
         objectivesAttacked.Clear();
         dashCount = triggerBase.dashCount;
     }
