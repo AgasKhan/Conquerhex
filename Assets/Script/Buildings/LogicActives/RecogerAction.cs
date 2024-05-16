@@ -30,7 +30,7 @@ public class RecogerAction : InteractAction<(InventoryEntityComponent inventTo, 
 
             foreach (var item in inventoryFrom)
             {
-                if (item is Ability && !((Ability)item).visible)
+                if ((item is Ability && !((Ability)item).visible) || (item is ItemEquipable && !((ItemEquipable)item).isRemovable))
                     continue;
 
                 allItems.Add(item);

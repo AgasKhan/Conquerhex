@@ -17,9 +17,9 @@ public class SlotItem
     protected int _indexSlot = -1;
 
     [SerializeReference]
-    Item _equiped;
+    ItemEquipable _equiped;
 
-    public Item equiped
+    public ItemEquipable equiped
     {
         get
         {
@@ -33,13 +33,11 @@ public class SlotItem
     public virtual int indexEquipedItem
     {
         set
-        {
-            if (!isModifiable)
-                return;
-            
+        {  
             if (equiped != null)
             {
                 equiped.onDrop -= EquipedOnDrop;
+                equiped.equipedSlot = null;
                 equiped.Unequip();
             }
 
@@ -47,8 +45,13 @@ public class SlotItem
 
             if (_indexEquipedItem >= 0 && _indexEquipedItem < inventoryComponent.Count)
             {
-                _equiped = inventoryComponent[_indexEquipedItem];
+                _equiped = (ItemEquipable)inventoryComponent[_indexEquipedItem];
+                
+                if (!isModifiable)
+                    ((Ability)_equiped).original.equipedSlot = this;
+                
                 _equiped.onDrop += EquipedOnDrop;
+                _equiped.equipedSlot = this;
                 _equiped.Equip(_indexSlot);
             }
             else
@@ -67,7 +70,7 @@ public class SlotItem
 }
 
 [System.Serializable]
-public class SlotItem<T> : SlotItem where T : Item
+public class SlotItem<T> : SlotItem where T : ItemEquipable
 {
     public event System.Action<int, T> toChange;
 
@@ -106,7 +109,7 @@ public class SlotItem<T> : SlotItem where T : Item
 
 
 [System.Serializable]
-public class SlotItemList<T> where T : Item
+public class SlotItemList<T> where T : ItemEquipable
 {
     [SerializeField]
     SlotItem<T>[] list;

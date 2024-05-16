@@ -17,7 +17,7 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
     System.Type _itemType;
 
     public bool visible = true;
-    
+
     public virtual Item Create()
     {
         var aux = System.Activator.CreateInstance(_itemType) as Item;
@@ -76,8 +76,7 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
     public event System.Action onDrop;//si ejecuto el ondrop, este desequipa el item
     public event System.Action<InventoryEntityComponent> OnBeforeChangeContainer;
     public event System.Action<InventoryEntityComponent> OnAfterChangeContainer;
-    public event System.Action<int> OnEquipedInSlot;
-
+    
     [field: SerializeField]
     protected InventoryEntityComponent container { get; private set; }
 
@@ -151,16 +150,6 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
         resto = amount;
 
         return this;
-    }
-
-    public void Equip(int slot)
-    {
-        OnEquipedInSlot?.Invoke(slot);
-    }
-
-    public virtual void Unequip()
-    {
-
     }
 
     public ItemBase GetItemBase()
@@ -282,7 +271,54 @@ public abstract class ItemStackeable : Item
 }
 
 [System.Serializable]
+public abstract class ItemEquipable : Item
+{
+    public SlotItem equipedSlot = null;
+
+    public bool isEquiped => equipedSlot != null;
+
+    public bool isRemovable => isEquiped? equipedSlot.isModifiable : true;
+
+    public event Action<int> OnEquipedInSlot;
+
+    public void Equip(int slot)
+    {
+        OnEquipedInSlot?.Invoke(slot);
+    }
+
+    public virtual void Unequip()
+    {
+
+    }
+}
+
+[System.Serializable]
 public abstract class Item<T> : Item where T : ItemBase
+{
+    public T itemBase
+    {
+        get => (T)GetItemBase();
+        set => SetItemBase(value);
+    }
+
+    public override Item SetItemBase(object baseItem)
+    {
+        if (baseItem is T)
+        {
+            _itemBase = baseItem as T;
+        }
+        else
+        {
+            Debug.LogWarning("Type itembase failed");
+        }
+
+
+        return this;
+    }
+}
+
+[System.Serializable]
+public abstract class ItemEquipable<T> : ItemEquipable where T : ItemBase
 {
     public T itemBase
     {

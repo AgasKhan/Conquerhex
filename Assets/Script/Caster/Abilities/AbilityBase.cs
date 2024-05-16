@@ -54,6 +54,8 @@ public abstract class AbilityBase : ItemBase
 
     public int maxDetects => detection?.detect?.maxDetects ?? 0;
 
+    public float angle => detection?.detect?.angle ?? 360;
+
     public float dot => detection?.detect?.dot ?? -1;
 
     public override Pictionarys<string, string> GetDetails()
@@ -122,7 +124,7 @@ public abstract class AbilityBase : ItemBase
 }
 
 [System.Serializable]
-public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
+public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
 {
     public event System.Action onCast;
 
@@ -164,6 +166,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     }
 
     public float AttackArea => trigger.FinalMaxRange;
+
+    public virtual float Angle => itemBase.angle;
 
     public virtual float Dot => itemBase.dot;
 
@@ -288,7 +292,6 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         StopCast();
         if (IsCopy)
             Destroy();
-            
     }
 
     public List<Entity> Detect(Entity caster, Vector3 pos, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)

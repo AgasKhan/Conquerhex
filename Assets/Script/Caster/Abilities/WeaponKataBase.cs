@@ -114,6 +114,7 @@ public class WeaponKata : Ability
 
         SetCooldown();
 
+        equipedWeapon.equipedSlot = equipedSlot;
         equipedWeapon.off += WeaponDesequiped;
         equipedWeapon.onDrop += WeaponDesequiped;
         onEquipedWeapon?.Invoke(equipedWeapon);
@@ -124,6 +125,7 @@ public class WeaponKata : Ability
         if (equipedWeapon == null)
             return;
 
+        equipedWeapon.equipedSlot = null;
         equipedWeapon.off -= WeaponDesequiped;
         equipedWeapon.onDrop -= WeaponDesequiped;
         onDesEquipedWeapon?.Invoke(equipedWeapon);
@@ -142,7 +144,7 @@ public class WeaponKata : Ability
 
         totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, multiplyDamage.content);
 
-        var aux = WeaponEnabled.ApplyDamage(caster.container, totalDamage, entities);
+        var aux = WeaponEnabled.ApplyDamage(this, totalDamage, entities);
 
         WeaponEnabled.Durability(itemBase.damageToWeapon);
 

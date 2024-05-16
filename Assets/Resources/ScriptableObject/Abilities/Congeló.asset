@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
+  m_Name: "Congel\xF3"
+  m_EditorClassIdentifier: 
+  _nameDisplay: "Congel\xF3"
+  _image: {fileID: -1503321905, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: "Habilidad mantenida de enfoque individual donde su da\xF1o y ganancia
+    de energ\xEDa crece de forma exponencial con el tiempo.\r"
+  maxAmount: 1
+  weight: 0
+  visible: 1
+  joystick: 0
+  ShowFeedBackArea: 1
+  ShowFeedAffectedEntities: 1
+  particles:
+  - {fileID: 3319386644044119521, guid: db0d74e6d2699d545a73242103e3fa4c, type: 3}
+  audios:
+    pictionaries: []
+  velocity: 0.5
+  costExecution: 12.5
+  costHandle: 0
+  damagesMultiply: []
+  indexParticles:
+  - {x: 1, y: 12}
+  trigger: {fileID: 11400000, guid: c2c5d29945102f54aae4bc5685040b32, type: 2}
+  detection: {fileID: 11400000, guid: 385a025367dde93429751dafebba0d09, type: 2}
+  castingAction: {fileID: 11400000, guid: 85f736e4f4ef37441bbf8928cba819fb, type: 2}
