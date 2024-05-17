@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
+  m_Name: CraterInTheGround
+  m_EditorClassIdentifier: 
+  _nameDisplay: Crater en el suelo
+  _image: {fileID: -1492565138, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: "Da\xF1a a todos los enemigos que est\xE9n en un \xE1rea determinada
+    (mayor a un \xE1rea m\xEDnima, pero menor a una m\xE1xima) alrededor del jugador
+    y los atrae hacia \xE9l."
+  maxAmount: 1
+  weight: 0
+  visible: 1
+  joystick: 0
+  ShowFeedBackArea: 1
+  ShowFeedAffectedEntities: 1
+  particles: []
+  audios:
+    pictionaries: []
+  velocity: 1.5
+  costExecution: 0
+  costHandle: 0
+  damagesMultiply: []
+  indexParticles: []
+  trigger: {fileID: 11400000, guid: 10e031579ca5cc447ac31d598ffa9193, type: 2}
+  detection: {fileID: 11400000, guid: 4ce2f613a2464c64e92ef686606c4160, type: 2}
+  castingAction: {fileID: 11400000, guid: 76c56f646c26b674aa68affe405a4edc, type: 2}
