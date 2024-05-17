@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0362914bd55b247b87f7d9c8a4d0b4, type: 3}
   m_Name: PressToChargeArea
   m_EditorClassIdentifier: 
-  _nameDisplay: Crush
-  _image: {fileID: 1326865692, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: 
-  timeToCompleteRange: 3
+  abilityModifier:
+    <FinalVelocity>k__BackingField: 0
+    <FinalMaxRange>k__BackingField: 4
+    <FinalMinRange>k__BackingField: 0
+    <FinalMaxDetects>k__BackingField: 0
+    <MinDetects>k__BackingField: 0
+    <Angle>k__BackingField: 0
+    <Dot>k__BackingField: 0
+    <Auxiliar>k__BackingField: 0
+    damages: []
+  operationType: 0
   minimalRange: 1

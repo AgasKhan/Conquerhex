@@ -73,7 +73,7 @@ public class CastingDash : CastingAction<CastingDashBase>
     {
         if (castingActionBase.multiplyByArea)
         {
-            moveEntity.Velocity(VirtualControllers.Movement.dir.normalized.Vect2To3XZ(0), castingActionBase.velocityInDash * ability.AttackArea);
+            moveEntity.Velocity(VirtualControllers.Movement.dir.normalized.Vect2To3XZ(0), castingActionBase.velocityInDash * FinalMaxRange);
         }
         else
         {

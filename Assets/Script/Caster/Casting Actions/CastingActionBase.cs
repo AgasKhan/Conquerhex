@@ -42,6 +42,16 @@ public abstract class CastingAction : IAbilityComponent
 
     public Timer cooldown => (ability).cooldown;
 
+    public int FinalMaxDetects => (ability).FinalMaxDetects;
+
+    public int MinDetects => (ability).MinDetects;
+
+    public float Angle => (ability).Angle;
+
+    public float Dot => (ability).Dot;
+
+    public float Auxiliar => ((IAbilityStats)ability).Auxiliar;
+
     /// <summary>
     /// Ejecuta el casteo personalizado de las AbilityExtCast
     /// </summary>

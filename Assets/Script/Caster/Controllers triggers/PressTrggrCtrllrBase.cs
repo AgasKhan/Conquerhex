@@ -55,7 +55,7 @@ public class PressTrggrCtrllr : TriggerController
             return;
         }
 
-        Detect(tim);
+        Detect();
 
         if (pressCooldown.Chck)
         {

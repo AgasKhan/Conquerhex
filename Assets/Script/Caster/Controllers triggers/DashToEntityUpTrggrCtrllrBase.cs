@@ -80,7 +80,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             {
                 dashCount--;
 
-                Detect(caster.container, objective.transform.position ,0, FinalMaxRange*1.5f);
+                Detect(caster.container, objective.transform.position);
                 foreach (var item in affected)
                 {
                     if(!objectivesAttacked.Contains(item))
@@ -110,9 +110,9 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference?.Area(FinalMaxRange * 1f / 2, FinalMinRange * 1f / 2);
+        FeedBackReference?.Area(FinalMaxRange, FinalMinRange);
 
-        Detect(0, FinalMaxRange * 1f / 2,  FinalMinRange * 1f / 2);
+        Detect();
 
         if (affected.Count == 0 || (timerToEnd.total - timerToEnd.current) < triggerBase.cooldownWaitAttack)
             return;

@@ -60,7 +60,8 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     float velocityRotation = 5;
 
-    float internalDot;
+    [SerializeField]
+    float internalAngle;
 
     string _area;
 
@@ -112,7 +113,14 @@ public class FadeColorAttack : MonoBehaviour
 
     private void Update()
     {
-        text.transform.rotation *= Quaternion.Euler(0,0, velocityRotation*Time.deltaTime);
+        if (internalAngle%360 ==0)
+        {
+            text.transform.rotation *= Quaternion.Euler(0, 0, velocityRotation * Time.deltaTime);
+        }
+        else
+        {
+            text.transform.localRotation = areaFeedback.localRotation;
+        }
     }
 
     private void FadeMenu_alphas(float obj)
@@ -144,11 +152,14 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack Angle(float angle)
     {
-        if (internalDot == angle)
+        if (internalAngle == angle)
             return this;
+
+        internalAngle = angle;
 
         sprite.material.SetFloat("_Angle", angle);
         this.angle = "Angle: " + angle.ToStringFixed(0) + "º";
+
         return this;
     }
 
@@ -203,7 +214,7 @@ public class FadeColorAttack : MonoBehaviour
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);
 
-        text.transform.rotation *= Quaternion.Euler(0, 0, Random.Range(0,360));
+        
     }
 
     private void OnDisable()

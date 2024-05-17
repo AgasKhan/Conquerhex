@@ -43,9 +43,9 @@ public class UpTrggrCtrllr : TriggerController
 
         Aiming = dir.Vect2To3XZ(0);
 
-        FeedBackReference?.Area(FinalMaxRange).Direction(Aiming);
+        FeedBackReference?.Area(FinalMaxRange).Direction(Aiming).Angle(Angle);
 
-        Detect(button);
+        Detect();
     }
 
     //Despues, al sotarlo
