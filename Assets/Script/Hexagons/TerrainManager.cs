@@ -11,6 +11,8 @@ public class TerrainManager : MonoBehaviour
         public float width;
     }
 
+    public Terrain copyData;
+
     [SerializeField]
     Terrain terrain;
     
@@ -45,7 +47,7 @@ public class TerrainManager : MonoBehaviour
 
     private void Awake()
     {
-        terrainData = Instantiate(terrain.terrainData);
+        terrainData = Instantiate(copyData.terrainData);
 
         terrain.terrainData = terrainData;
 
@@ -58,7 +60,7 @@ public class TerrainManager : MonoBehaviour
 
     }
 
-    private void OnEnable()
+    public void Generate()
     {
         outputAlphaBuffer = new ComputeBuffer(terrainData.alphamapWidth * terrainData.alphamapHeight, sizeof(float) * 3);
 
