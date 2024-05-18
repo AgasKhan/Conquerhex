@@ -10,31 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: Ardio
+  m_Name: Push
   m_EditorClassIdentifier: 
-  _nameDisplay: "Ardi\xF3"
-  _image: {fileID: 1899061646, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: "Habilidad mantenida de enfoque individual donde su da\xF1o y consumo
-    de energ\xEDa crece de forma exponencial con el tiempo."
+  _nameDisplay: Embestida
+  _image: {fileID: -1548720950, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: "El jugador empuja a los enemigos en frente de \xE9l aplic\xE1ndose el
+    efecto de stun, a mayor velocidad inicial, mayor el stun generado.\r\r"
   maxAmount: 1
   weight: 0
   visible: 1
   joystick: 0
-  ShowFeedBackArea: 1
-  ShowFeedAffectedEntities: 1
-  particles:
-  - {fileID: 2735815429252541836, guid: 089233dd072e77f4d98eb9b75d542638, type: 3}
+  ShowFeedBackArea: 0
+  ShowFeedAffectedEntities: 0
+  particles: []
   audios:
     pictionaries: []
-  velocity: 0.5
+  velocity: 2
   costExecution: 0
   costHandle: 0
   damagesMultiply: []
-  indexParticles:
-  - {x: 1, y: 11}
+  indexParticles: []
   <trigger>k__BackingField: {fileID: 11400000, guid: 10e031579ca5cc447ac31d598ffa9193,
     type: 2}
-  detection: {fileID: 11400000, guid: 27dde88104245274dbe0222e8714b08a, type: 2}
+  detection: {fileID: 11400000, guid: aa08465df8a4943488a9fa498bbdd0f2, type: 2}
   modificators: []
   <Auxiliar>k__BackingField: 0
-  castingAction: {fileID: 11400000, guid: 0a36b8c48c1f47e4cac235a8c7a9c1fd, type: 2}
+  castingAction: {fileID: 11400000, guid: be9782b6706b3d946b9a4ae7957afc23, type: 2}

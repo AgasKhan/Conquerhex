@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfa6f12cdef18e040826b929f6cb6ce6, type: 3}
-  m_Name: CastingCutDamage
+  m_Name: CastingDamageExplosive
   m_EditorClassIdentifier: 
   _nameDisplay: 
   _image: {fileID: 0}
   _details: 
   damages:
   - name: 
-    amount: 10
-    knockBack: 8
-    typeInstance: {fileID: 11400000, guid: 8925906186c8e3349ba5f64117fcf2cc, type: 2}
+    amount: 45
+    knockBack: 25
+    typeInstance: {fileID: 11400000, guid: 582c5c38f1607604fb78d317332828c6, type: 2}

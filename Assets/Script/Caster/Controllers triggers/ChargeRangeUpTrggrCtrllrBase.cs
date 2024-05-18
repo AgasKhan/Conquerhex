@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AbilityModificators;
 
 [CreateAssetMenu(menuName = "Abilities/ChargeRangeUpTriggerControllerBase")]
 public class ChargeRangeUpTrggrCtrllrBase : ModificatorBase

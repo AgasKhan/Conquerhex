@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: "Congel\xF3"
+  m_Name: Cold Aura
   m_EditorClassIdentifier: 
-  _nameDisplay: "Congel\xF3"
-  _image: {fileID: -1503321905, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: "Habilidad mantenida de enfoque individual donde su da\xF1o y ganancia
-    de energ\xEDa crece de forma exponencial con el tiempo.\r"
+  _nameDisplay: Aura Fria
+  _image: {fileID: 1777319276, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: "Habilidad alternada que genera una \xE1rea a tu alrededor que genera
+    da\xF1o de fr\xEDo constantemente cuya ganancia de energ\xEDa se aminora estando
+    quieto.\r"
   maxAmount: 1
   weight: 0
   visible: 1
@@ -26,15 +27,15 @@ MonoBehaviour:
   - {fileID: 3319386644044119521, guid: db0d74e6d2699d545a73242103e3fa4c, type: 3}
   audios:
     pictionaries: []
-  velocity: 0.5
-  costExecution: -12.5
+  velocity: 1.5
+  costExecution: -10
   costHandle: 0
   damagesMultiply: []
   indexParticles:
   - {x: 1, y: 12}
-  <trigger>k__BackingField: {fileID: 11400000, guid: 10e031579ca5cc447ac31d598ffa9193,
+  <trigger>k__BackingField: {fileID: 11400000, guid: 9d7e7fd716f910743979ef6439a3f65e,
     type: 2}
-  detection: {fileID: 11400000, guid: 385a025367dde93429751dafebba0d09, type: 2}
+  detection: {fileID: 11400000, guid: aa08465df8a4943488a9fa498bbdd0f2, type: 2}
   modificators: []
   <Auxiliar>k__BackingField: 0
   castingAction: {fileID: 11400000, guid: 85f736e4f4ef37441bbf8928cba819fb, type: 2}

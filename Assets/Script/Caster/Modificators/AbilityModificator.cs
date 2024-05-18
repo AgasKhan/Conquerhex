@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AbilityModificators;
 
 //Lo tiene la habilidad
 public class AbilityModificator : IAbilityStats
