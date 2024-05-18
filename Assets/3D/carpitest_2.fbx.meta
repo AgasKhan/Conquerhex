@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b495ed40dc940ab419138d3dff3e8d36
+guid: ddc483f45e7b3c046ab5cea27d97733d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -17,23 +17,9 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'QuickRigCharacter_LeftLeg'
-      : position error = 1.859578 mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'QuickRigCharacter_LeftLeg' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_LeftFoot' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_RightLeg' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_RightFoot' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_LeftForeArm' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_LeftHand' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_RightForeArm' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_RightHand' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_Neck' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_Head' has translation
-      animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -47,18 +33,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: anim_dash2
+      name: anim_carpitest
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 107
-      lastFrame: 122
+      firstFrame: 201
+      lastFrame: 220
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
@@ -74,7 +60,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 200.88
     isReadable: 0
   meshes:
     lODScreenPercentages: []
