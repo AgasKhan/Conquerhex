@@ -97,7 +97,7 @@ public class AbilityModificator : IAbilityStats
         if (ability.itemBase.modificators == null || ability.itemBase.modificators.Length <= 0)
             return;
 
-        Debug.Log($"posee modificores: en la habilidad {ability.itemBase.nameDisplay} la cantidad de: {ability.itemBase.modificators.Length}");
+        //Debug.Log($"posee modificores: en la habilidad {ability.itemBase.nameDisplay} la cantidad de: {ability.itemBase.modificators.Length}");
 
         modificators = new Modificator[ability.itemBase.modificators.Length];
 

@@ -8,13 +8,17 @@
 // with cs.SetTexture
 //RWTexture2D<float4> Result;
 
-RWStructuredBuffer<float3> inputPathBuffer;
+RWStructuredBuffer<int> inputPathBuffer;
 
 RWStructuredBuffer<float3> outputAlphaBuffer;
 
 RWStructuredBuffer<int> outputDetailsBuffer;
 
+RWStructuredBuffer<int2> inputVertex;
+
 float3 toSave;
+
+uint pathEntry;
 
 uint width;
 
@@ -27,6 +31,8 @@ float scale;
 float rng;
 
 float diference;
+
+
 
 /////////////////////////////////////////////////////////
 
@@ -101,6 +107,11 @@ int IndexForIdDetails(uint3 id)
     return id.x + (id.y * detailResolution);
 }
 
+uint IndexPath(uint i)
+{
+    return pathEntry + i > 5 ? pathEntry + i - 6 : pathEntry + i;
+}
+
 float2 UVCalc(uint x, uint y)
 {
     if (x > uint(width - 1))
@@ -119,6 +130,53 @@ float2 UVCalc(uint x, uint y)
 
 ///////////////////////////////////////////////////////////
 
+bool IsRayIntersecting(int2 p, int2 edge1, int2 edge2)
+{
+    if (edge1.y > edge2.y)
+    {
+        int2 temp = edge1;
+        edge1 = edge2;
+        edge2 = temp;
+    }
+
+    if (p.y == edge1.y || p.y == edge2.y)
+    {
+        p.y += 1; // Adjust for horizontal ray case
+    }
+
+    if (p.y > edge2.y || p.y < edge1.y || p.x > max(edge1.x, edge2.x))
+    {
+        return false; // No intersection
+    }
+
+    if (p.x < min(edge1.x, edge2.x))
+    {
+        return true; // Ray intersects segment
+    }
+
+    float intersectX = float(p.y - edge1.y) * float(edge2.x - edge1.x) / float(edge2.y - edge1.y) + edge1.x;
+    return p.x < intersectX;
+}
+
+bool IsPointInHexagon(int2 p)
+{
+    uint intersections = 0;
+    const uint vertexCount = 6;
+
+    // Ray-casting algorithm
+    for (uint i = 0; i < vertexCount; i++)
+    {
+        uint j = (i + 1) % vertexCount;
+        if (IsRayIntersecting(p, inputVertex[i], inputVertex[j]))
+        {
+            intersections++;
+        }
+    }
+
+    return (intersections % 2 != 0);
+}
+//////////////////////////////////////////////////////////
+
 [numthreads(8, 8, 1)]
 void Paths(uint3 id : SV_DispatchThreadID)
 {
@@ -133,24 +191,67 @@ void Paths(uint3 id : SV_DispatchThreadID)
     uint stride;
     inputPathBuffer.GetDimensions(lenght, stride);
     
-    for (uint i = 0; i < lenght-1; i++)
+    int localBuffer[6];
+    
+    for (uint i = 0; i < lenght; i++)
     {
-        float2 start = float2(inputPathBuffer[i].z, inputPathBuffer[i].x);
-        float2 end = float2(inputPathBuffer[i + 1].z, inputPathBuffer[i + 1].x);
-        
-        LinealPoint_float(id.xy / float(width), start, end, diference, resultado);
-        Out += resultado;
+        localBuffer[i] = inputPathBuffer[i];
     }
+    
+    float2 start = float2(0,0);
+    float2 end;
+    float2 startEnd;
+    
+    for (i = 0; i < lenght; i++)
+    {
+        if (localBuffer[(i)] == 1)
+        {
+            if (start.x == 0)
+            {
+                start = float2(float(inputVertex[(i)].y) / width, float(inputVertex[(i)].x) / height);
+                startEnd = start;
+            }
+            else
+            {
+                start = float2(float(inputVertex[(i)].y) / width, float(inputVertex[(i)].x) / height);
+            }
+            
+            for (uint j = 0; j < lenght; j++)
+            {
+                if (localBuffer[(j)] == 1)
+                {
+                    
+                    end = float2(float(inputVertex[(j)].y) / width, float(inputVertex[(j)].x) / height);
+                    
+                    Bezier2_float(id.xy / float(width), start,0.1, end, diference, resultado);
+                    
+                    //LinealPoint_float(id.xy / float(width), start, end, diference, resultado);
+                    
+                    Out += resultado;
+                    
+                    localBuffer[(j)] = 0;
+                    
+                    start = end;
+                }
+            }
+        }
+    }
+    
+    Bezier2_float(id.xy / float(width), end, 0.1, startEnd, diference, resultado);
+    //LinealPoint_float(id.xy / float(width), end, startEnd, diference, resultado);
+    Out += resultado;
     
     float3 aux = outputAlphaBuffer[IndexForIdAlpha(id)];
     
     Out =  clamp(Out, 0, 1);
     
-    aux.x = clamp(aux.x-Out, 0, 1);
+    aux.x = clamp(aux.x - Out, 0, 1);
+    
+    aux.y = clamp((aux.y - Out), 0, 1);
     
     aux.z = clamp((Out + aux.z), 0, 1);
     
-    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(aux.x, aux.y, aux.z);
+    outputAlphaBuffer[IndexForIdAlpha(id)] = aux;
 }
 
 
@@ -168,27 +269,72 @@ void Details(uint3 id : SV_DispatchThreadID)
     uint2 indexEnd = index + (width / detailResolution)*0.75;
     
     uint2 indexStart = index - (width / detailResolution)*0.75;
+    
+    uint indexBuffer = index.x + index.y * width;
+    
+                
+    if ((outputAlphaBuffer[indexBuffer].z == 0 && outputAlphaBuffer[indexBuffer].x == 0 && outputAlphaBuffer[indexBuffer].y == 0))
+    {
+        outputDetailsBuffer[IndexForIdDetails(id)] = 0;
+        return;
+    }
+    
+    uint3 punto = outputAlphaBuffer[indexBuffer];    
+    
+    uint3 cercanias = uint3(0, 0, 0);
  
     for (index.x = indexStart.x; index.x < indexEnd.x; index.x++)
     {
         for (index.y = indexStart.y; index.y < indexEnd.y; index.y++)
         {       
             if (index.x >= 0 && index.x < width && index.y >= 0 && index.y < height)
-                if (outputAlphaBuffer[index.x + index.y * width].z == 1)
+            {
+                indexBuffer = index.x + index.y * width;
+                
+                if ((outputAlphaBuffer[indexBuffer].z == 0 && outputAlphaBuffer[indexBuffer].x == 0 && outputAlphaBuffer[indexBuffer].y == 0))
                 {
                     outputDetailsBuffer[IndexForIdDetails(id)] = 0;
                     return;
                 }
+                
+                if (outputAlphaBuffer[indexBuffer].x == 1)
+                {
+                    cercanias.x = 1;
+                }
+
+                if (outputAlphaBuffer[indexBuffer].y == 1)
+                {
+                    cercanias.y = 1;
+                }
+                
+                if (outputAlphaBuffer[indexBuffer].z == 1)
+                {
+                    cercanias.z = 1;
+                }
+            }
         }
     }
-
-    outputDetailsBuffer[IndexForIdDetails(id)] = 1;
+    
+    if (punto.x == 1 && cercanias.y!=1 && cercanias.z!=1)
+        outputDetailsBuffer[IndexForIdDetails(id)] = 1;
+    else if (punto.y == 1 && cercanias.x != 1 && cercanias.z != 1)
+    {
+        outputDetailsBuffer[IndexForIdDetails(id)] = 2;
+    }
+    else if (punto.z == 1 && cercanias.x != 1 && cercanias.y != 1)
+    {
+        outputDetailsBuffer[IndexForIdDetails(id)] = 3;
+    }
+    else
+    {
+        outputDetailsBuffer[IndexForIdDetails(id)] = 0;
+    }
 }
 
 [numthreads(8,8,1)]
 void Alphas(uint3 id : SV_DispatchThreadID)
 {
-    if (id.x > width - 1 || id.y > height - 1)
+    if (id.x > width - 1 || id.y > height - 1 || !IsPointInHexagon(id.xy))
         return;
     
     float aux = 0;
@@ -196,11 +342,11 @@ void Alphas(uint3 id : SV_DispatchThreadID)
     float Out;
     
     
-    Unity_Voronoi_float(UVCalc(id.x, id.y), 10, scale, Out, aux);
+    //Unity_Voronoi_float(UVCalc(id.x, id.y), 10, scale, Out, aux);
+    
+    Unity_GradientNoise_float(UVCalc(id.x, id.y), scale, aux);
     
     aux = step(0.6, aux);
     
-    
-    
-    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(1 - aux, 0, aux );
+    outputAlphaBuffer[IndexForIdAlpha(id)] = float3(1 - aux, aux, 0);
 }

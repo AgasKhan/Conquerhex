@@ -103,7 +103,7 @@ Shader "Custom/MultiRenderTexture"
 
             float depthMax = 0;
 
-
+            [unroll]
             for (int index = 0; index < 7; index++)
             {
                 if (_pos[index] == 1)

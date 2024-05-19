@@ -40,10 +40,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     [SerializeReference]
     int _idMaxLevel;
 
+    float[,] _localApotema;
 
-    float[,] _localApotema = new float[6, 2];
-
-    float[,] _localRadio = new float[6, 2];
+    float[,] _localRadio;
 
     int[][,] _hexagonos;
 
@@ -171,9 +170,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         }
     }
 
-    void LocalApotema(float magnitud = 1f)
+    public static float[,] LocalApotema(float magnitud = 1f)
     {
         DebugPrint.Log("Calculo de posición de lados");
+
+        float[,] localApotema = new float[6, 2];
 
         //calcula las coordenadas relativas de los lados de los hexagonos y lo retorna
         for (int i = 0; i < localApotema.GetLength(0); i++)
@@ -187,28 +188,32 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             localApotema[i, 0] = aux.x * magnitud;
             localApotema[i, 1] = aux.y * magnitud;
 
-
             DebugPrint.Log(localApotema[i, 0] + " " + localApotema[i, 1]);
-
         }
+
+        return localApotema;
     }
 
-    void LocalRadio(float magnitud = 1f)
+    public static float[,] LocalRadio(float magnitud = 1f)
     {
-        DebugPrint.Log("Calculo de posición de aristas");
+        //DebugPrint.Log("Calculo de posición de aristas");
+
+        float[,] localRadio = new float[6, 2];
 
         //calcula las coordenadas relativas de los lados de los hexagonos y lo retorna
         for (int i = 0; i < localRadio.GetLength(0); i++)
         {
 
-            Vector3 aux = (Quaternion.Euler(0, 0, 60 - (60 * i)) * Vector3.right) * radio;
+            Vector3 aux = (Quaternion.Euler(0, 0, 30 - (60 * i)) * Vector3.right) * radio;
 
             //Cuenta que calcula los puntos relativos
             localRadio[i, 0] = aux.x * magnitud;
             localRadio[i, 1] = aux.y * magnitud;
 
-            DebugPrint.Log(localRadio[i, 0] + " " + localRadio[i, 1]);
+            //DebugPrint.Log(localRadio[i, 0] + " " + localRadio[i, 1]);
         }
+
+        return localRadio;
     }
 
     static public Vector3 AbsSidePosHex(Vector3 posicionInicial, int lado, float y, float multiplicador = 1)
@@ -459,9 +464,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         anguloDefecto = new Vector2(Mathf.Cos((2f / 3f) * Mathf.PI), Mathf.Sin((2f / 3f) * Mathf.PI));
 
-        LocalApotema();
+        _localApotema = LocalApotema();
 
-        LocalRadio();
+        _localRadio = LocalRadio();
 
         DebugPrint.Log("Informacion de seteo");
 

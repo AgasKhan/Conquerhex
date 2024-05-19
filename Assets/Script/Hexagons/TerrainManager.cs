@@ -5,9 +5,9 @@ using UnityEngine;
 public class TerrainManager : MonoBehaviour
 {
     [System.Serializable]
-    public struct Paths
+    public class Paths
     {
-        public Vector3[] points;
+        public int[] points= new int[6];
         public float width;
     }
 
@@ -28,6 +28,8 @@ public class TerrainManager : MonoBehaviour
 
     ComputeBuffer outputDetailsBuffer;
 
+    ComputeBuffer inputVertex;
+
     [SerializeField]
     float diference;
 
@@ -40,9 +42,13 @@ public class TerrainManager : MonoBehaviour
 
 
     int[] mapDetailsBuffer;
-    int[,] detailsMap;
+    int[,] grassMap;
 
     TerrainData terrainData;
+
+    static int[,] vertexShader;
+
+    static int[,] apotemaShader;
 
 
     private void Awake()
@@ -56,33 +62,71 @@ public class TerrainManager : MonoBehaviour
 
 
         mapDetailsBuffer = new int[terrainData.detailResolution * terrainData.detailResolution];
-        detailsMap = new int[terrainData.detailResolution, terrainData.detailResolution];
+        grassMap = new int[terrainData.detailResolution, terrainData.detailResolution];
 
     }
 
+    
+    [ContextMenu("Generar")]
     public void Generate()
     {
+        inputVertex = new ComputeBuffer(6, sizeof(int)*2);
+
         outputAlphaBuffer = new ComputeBuffer(terrainData.alphamapWidth * terrainData.alphamapHeight, sizeof(float) * 3);
 
         outputDetailsBuffer = new ComputeBuffer(terrainData.detailResolution * terrainData.detailResolution, sizeof(int));
+
+        //if(vertexShader==null)
+        {
+            var aux = HexagonsManager.LocalRadio();
+            vertexShader = new int[6, 2];
+
+            for (int i = 0; i < aux.GetLength(0); i++)
+            {
+                vertexShader[i, 0] = Mathf.CeilToInt((aux[i, 0] / 100) * terrainData.alphamapWidth + terrainData.alphamapWidth/2);
+                vertexShader[i, 1] = Mathf.CeilToInt((aux[i, 1] / 100) * terrainData.alphamapHeight + terrainData.alphamapHeight/2);
+            }
+        }
+
+        //if (apotemaShader == null)
+        {
+            var aux = HexagonsManager.LocalApotema();
+            apotemaShader = new int[6, 2];
+
+            for (int i = 0; i < aux.GetLength(0); i++)
+            {
+                apotemaShader[i, 0] = Mathf.CeilToInt((aux[i, 0] / 100) * terrainData.alphamapWidth + terrainData.alphamapWidth / 2);
+                apotemaShader[i, 1] = Mathf.CeilToInt((aux[i, 1] / 100) * terrainData.alphamapHeight + terrainData.alphamapHeight / 2);
+
+                Debug.Log($"{apotemaShader[i, 0]} {apotemaShader[i, 1]}");
+            }
+        }
+
         //computeShader.SetVector("toSave", vector);
 
+        inputVertex.SetData(vertexShader);
         computeShader.SetFloat("rng", Random.value*1000);
         computeShader.SetFloat("scale", scale);
+        computeShader.SetInt("pathEntry", Random.Range(0,6));
         computeShader.SetInt("width", terrainData.alphamapWidth);
         computeShader.SetInt("height", terrainData.alphamapHeight);
         computeShader.SetInt("detailResolution", terrainData.detailResolution);
 
+        computeShader.SetBuffer(0, "inputVertex", inputVertex);
         computeShader.SetBuffer(0, "outputAlphaBuffer", outputAlphaBuffer);
         computeShader.Dispatch(0, Mathf.CeilToInt(terrainData.alphamapWidth / 8f), Mathf.CeilToInt(terrainData.alphamapHeight / 8f), 1);
 
 
         for (int i = 0; i < paths.Length; i++)
         {
-            inputPathBuffer = new ComputeBuffer(paths[i].points.Length, sizeof(float) * 3);
+            inputPathBuffer = new ComputeBuffer(paths[i].points.Length, sizeof(int));
 
             inputPathBuffer.SetData(paths[i].points);
+            inputVertex.SetData(apotemaShader);
+
             computeShader.SetFloat("diference", (paths[i].width / terrainData.size.x)/2);
+
+            computeShader.SetBuffer(2, "inputVertex", inputVertex);
             computeShader.SetBuffer(2, "inputPathBuffer", inputPathBuffer);
             computeShader.SetBuffer(2, "outputAlphaBuffer", outputAlphaBuffer);
             
@@ -106,11 +150,13 @@ public class TerrainManager : MonoBehaviour
 
         terrainData.SetAlphamaps(0, 0, mapAlpha);
 
-        terrainData.SetDetailLayer(0, 0, 0, detailsMap);
+        terrainData.SetDetailLayer(0, 0, 0, grassMap);
 
         outputAlphaBuffer.Dispose();
 
         outputDetailsBuffer.Dispose();
+
+        inputVertex.Dispose();
 
         Debug.Log($"{terrainData.detailResolution} {terrainData.alphamapResolution} {terrainData.alphamapWidth} {terrainData.size}");
     }
@@ -129,16 +175,16 @@ public class TerrainManager : MonoBehaviour
 
         for (int i = 0; i < mapDetailsBuffer.Length; i++)
         {
-            int x = i % detailsMap.GetLength(0);
-            int y = i / detailsMap.GetLength(0);
+            int x = i % grassMap.GetLength(0);
+            int y = i / grassMap.GetLength(0);
 
-            if (mapDetailsBuffer[i] == 0)
+            if (mapDetailsBuffer[i] == 1)
             {
-                detailsMap[x, y] = 0;
+                grassMap[x, y] = Random.Range(1, 10);
                 continue;
             }
-            
-            detailsMap[x, y] = Random.Range(1, 10);
+
+            grassMap[x, y] = 0;
         }
     }
 }
