@@ -64,8 +64,7 @@ void Bezier_float(float2 In, float2 start, float2 mid, float2 end, float diferen
     float t = 0.5;
     float minDistance = diference;
 
-    // Evaluamos la distancia en varios valores de t para encontrar el mínimo
-    [unroll] // Desenrollamos el bucle para optimización
+    [unroll] 
     for (int i = 0; i < 100; i++)
     {
         float oneMinusT = 1.0 - t;
@@ -74,42 +73,30 @@ void Bezier_float(float2 In, float2 start, float2 mid, float2 end, float diferen
 
         if (dist < minDistance)
         {
-            minDistance = dist;
             Out = 1.0;
             return;
         }
 
-        // Ajustamos t para mejorar la estimación
-        t += 0.01; // Incremento de t para próximas evaluaciones
+        t += 0.01; 
         if (t > 1.0)
             t -= 1.0; // Reiniciar t si excede 1.0
     }
 }
 
-void Bezier2_float(float2 In, float2 start, float mid, float2 end, float diference, out float Out)
+void Bezier2_float(float2 In, float2 start, float curvatura, float2 end, float diference, out float Out)
 {
-    //Out = 0.0;
-
-    // Cálculo de las coordenadas del punto medio
+    Out = 0.0;
     float2 midpoint = 0.5 * (start + end);
 
-    // Calcula la pendiente de la línea de start a end
-    float m = (end.y - start.y) / (end.x - start.x);
-    float b = start.y - m * start.x;
+    // Vector dirección de la línea de start a end
+    float2 direction = end - start;
+    float2 perpendicularDirection = normalize(float2(-direction.y, direction.x)); // Perpendicular a la línea
+
+    // Punto de control, desplazado desde el punto medio en la dirección perpendicular
+    float2 controlPoint = midpoint + perpendicularDirection * distance(start,end) * curvatura;
     
-    //m = -1 / m;
-
-    // Punto en la perpendicular desde el punto medio
-    float2 perpendicularPoint;
-    PointPerpendicular_float(midpoint, m, (start.y - b) / m - start.x, b, perpendicularPoint);
-
-    // Desplazamiento en la dirección perpendicular
-    float2 direction = normalize(midpoint - perpendicularPoint);
-    float2 controlPoint = midpoint + direction * mid;
-
-    //Correfir midpoint
     
-    Bezier_float(In, start, midpoint, end, diference, Out);
+    Bezier_float(In, start, controlPoint, end, diference, Out);
 }
 
 

@@ -223,7 +223,7 @@ void Paths(uint3 id : SV_DispatchThreadID)
                     
                     end = float2(float(inputVertex[(j)].y) / width, float(inputVertex[(j)].x) / height);
                     
-                    Bezier2_float(id.xy / float(width), start,0.1, end, diference, resultado);
+                    Bezier2_float(id.xy / float(width), start,0.3, end, diference, resultado);
                     
                     //LinealPoint_float(id.xy / float(width), start, end, diference, resultado);
                     
@@ -237,7 +237,7 @@ void Paths(uint3 id : SV_DispatchThreadID)
         }
     }
     
-    Bezier2_float(id.xy / float(width), end, 0.1, startEnd, diference, resultado);
+    Bezier2_float(id.xy / float(width), end, 0.3, startEnd, diference, resultado);
     //LinealPoint_float(id.xy / float(width), end, startEnd, diference, resultado);
     Out += resultado;
     
