@@ -37,15 +37,19 @@ namespace GraphNodesLibrary
 
     public class GraphNode
     {
+        //id del nodo
         public int Id { get; set; }
 
+        //conexiones con otros nodos
         public GraphNode[] AdjacentNodes;
 
         //La cantidad de aristas seteadas
         public int Count;
 
-        public List<GraphNode> conjunto;
+        //conjunto al que pertenece
+        public GraphGroupNode perteneciente;
 
+        //si ya fue inicializado
         public bool init;
 
         public GraphNode(int id)
@@ -55,12 +59,24 @@ namespace GraphNodesLibrary
         }
     }
 
+    public class GraphGroupNode
+    {
+        public List<GraphNode> conjunto = new List<GraphNode>();
+
+        public int[] verticesDivisorios;
+
+        public GraphGroupNode()
+        {
+            verticesDivisorios = new int[Graph.aristasPorConjunto];
+        }
+    }
+
     [System.Serializable]
     public class Graph
     {
         public List<GraphNode> nodes = new List<GraphNode>();
 
-        public List<GraphNode>[] conjuntosNodes;
+        public GraphGroupNode[] conjuntosNodes;
 
         public GraphNode[] entriesNodes;
 
@@ -160,17 +176,17 @@ namespace GraphNodesLibrary
             //lleno el array
             for (int i = 0; i < conjuntosNodes.Length; i++)
             {
-                conjuntosNodes[i] = new List<GraphNode>();
+                conjuntosNodes[i] = new();
 
                 int rng = Random.Range(1, maxNodesPerConjunto+1);
 
                 for (int j = 0; j < rng; j++)
                 {
-                    conjuntosNodes[i].Add(new GraphNode(nodes.Count));
+                    conjuntosNodes[i].conjunto.Add(new GraphNode(nodes.Count));
 
-                    conjuntosNodes[i][j].conjunto = conjuntosNodes[i];
+                    conjuntosNodes[i].conjunto[j].perteneciente = conjuntosNodes[i];
 
-                    nodes.Add(conjuntosNodes[i][j]);
+                    nodes.Add(conjuntosNodes[i].conjunto[j]);
                 }
             }
 
@@ -181,13 +197,13 @@ namespace GraphNodesLibrary
                 do
                 {
                     rng = Random.Range(0, conjuntosNodes.Length);
-                } while(conjuntosNodes[rng][0].init);
+                } while(conjuntosNodes[rng].conjunto[0].init);
 
-                entriesNodes[i] = conjuntosNodes[rng][0];
+                entriesNodes[i] = conjuntosNodes[rng].conjunto[0];
 
-                conjuntosNodes[rng][0].init = true;
+                conjuntosNodes[rng].conjunto[0].init = true;
 
-                AddEdge(conjuntosNodes[rng][0], entriesEdges[i], entry);
+                AddEdge(conjuntosNodes[rng].conjunto[0], entriesEdges[i], entry);
 
             }
 
@@ -210,9 +226,9 @@ namespace GraphNodesLibrary
 
                 foreach (var otherConjunto in nodeOrdered.OrderBy((n) => n.GetHashCode()))
                 {
-                    var randomNode = otherConjunto.conjunto[Random.Range(0, otherConjunto.conjunto.Count)];
+                    var randomNode = otherConjunto.perteneciente.conjunto[Random.Range(0, otherConjunto.perteneciente.conjunto.Count)];
 
-                    if (!CompatiblesConjuntos(currentNode.conjunto, otherConjunto.conjunto, out var disp1))
+                    if (!CompatiblesConjuntos(currentNode.perteneciente.conjunto, otherConjunto.perteneciente.conjunto, out var disp1))
                     {
                         continue;
                     }
@@ -234,9 +250,9 @@ namespace GraphNodesLibrary
 
                 if (item.Count < 2)
                 {
-                    for (int i = 0; i < item.conjunto.Count; i++)
+                    for (int i = 0; i < item.perteneciente.conjunto.Count; i++)
                     {
-                        if (item.conjunto[i] == item)
+                        if (item.perteneciente.conjunto[i] == item)
                         {
                             continue;   
                         }
@@ -244,13 +260,13 @@ namespace GraphNodesLibrary
                         for (int j = 0; j < aristasPorConjunto; j++)
                         {
                             if (item.AdjacentNodes[j] != null)
-                                item.conjunto[i].AdjacentNodes[j] = item.AdjacentNodes[j];
+                                item.perteneciente.conjunto[i].AdjacentNodes[j] = item.AdjacentNodes[j];
 
                             item.AdjacentNodes[j] = null;
                         }
 
                         entriesNodes[k].Count = 0;
-                        entriesNodes[k] = item.conjunto[i];
+                        entriesNodes[k] = item.perteneciente.conjunto[i];
 
                         break;
                     }   
@@ -259,7 +275,7 @@ namespace GraphNodesLibrary
 
             foreach (var nodeList in conjuntosNodes)
             {
-                nodeList.RemoveAll((node)=>node.Count==0 || node.AdjacentNodes.All((a)=>a==null));
+                nodeList.conjunto.RemoveAll((node)=>node.Count==0 || node.AdjacentNodes.All((a)=>a==null));
             }
 
             nodes.RemoveAll((node) => node.Count == 0 || node.AdjacentNodes.All((a) => a == null));
@@ -280,7 +296,12 @@ namespace GraphNodesLibrary
                 yield return Calculate();
                 yield break;
             }
-            
+
+            foreach (var item in conjuntosNodes)
+            {
+                GraphInspector.FindDividingEdges(item);
+                yield return null;
+            }
 
             GraphInspector.PrintGraph(this);
         }
@@ -292,7 +313,7 @@ namespace GraphNodesLibrary
 
             entriesEdges = new int[entradas.Length];
 
-            conjuntosNodes = new List<GraphNode>[cantidad];
+            conjuntosNodes = new GraphGroupNode[cantidad];
 
             edgesDisponibles = new int[aristasPorConjunto];
 
@@ -314,10 +335,15 @@ namespace GraphNodesLibrary
             for (int i = 0; i < graph.conjuntosNodes.Length; i++)
             {
                 pantalla += $"\n\nConjunto {i}:";
-                foreach (var node in graph.conjuntosNodes[i])
+                foreach (var node in graph.conjuntosNodes[i].conjunto)
                 {
                     pantalla+=$"\nNodo\t{node.Id}: \t" + string.Join("\t", GetAdjacentNodesIds(node.AdjacentNodes));
-                } 
+                }
+                pantalla += "\naristas divosrias";
+                foreach (var item in graph.conjuntosNodes[i].verticesDivisorios)
+                {
+                    pantalla += $"\t{item}";
+                }               
             }
 
             Debug.Log(pantalla);
@@ -325,27 +351,6 @@ namespace GraphNodesLibrary
 
         public static bool VerifyGraph(Graph graph)
         {
-            // Verificar cantidad de aristas por conjunto
-            /*
-            foreach (var conjunto in graph.conjuntosNodes)
-            {
-                int count = 0;
-                int id=-1;
-
-                foreach (var node in conjunto)
-                {
-                    count += node.Count;
-                    id = node.Id;
-                }
-
-                if (count != Graph.aristasPorConjunto)
-                {
-                    Debug.LogError($"Error: El conjunto {id} tiene {count} aristas en lugar de {Graph.aristasPorConjunto}");
-                    //                        return false;
-                }
-            }
-            */
-
             HashSet<GraphNode> visited = new HashSet<GraphNode>();
             Queue<GraphNode> queue = new Queue<GraphNode>();
 
@@ -373,6 +378,75 @@ namespace GraphNodesLibrary
             }
 
             return true; // Si todos los nodos fueron visitados, el grafo está conectado correctamente
+        }
+
+        public static void FindDividingEdges(GraphGroupNode group)
+        {
+            int n = Graph.aristasPorConjunto;
+            int numVertices = n;
+
+            bool[,] adjacencyMatrix = new bool[numVertices, numVertices];
+
+            // Inicializar la matriz de adyacencia para los vértices
+            foreach (var node in group.conjunto)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    if (node.AdjacentNodes[i] != null)
+                    {
+                        int vertex1 = i;
+                        int vertex2 = (i + 1) % n;
+                        adjacencyMatrix[vertex1, vertex2] = true;
+                        adjacencyMatrix[vertex2, vertex1] = true;
+                    }
+                }
+            }
+
+            // Identificar componentes conectados
+            bool[] visited = new bool[numVertices];
+            List<List<int>> components = new List<List<int>>();
+
+            for (int i = 0; i < numVertices; i++)
+            {
+                if (!visited[i])
+                {
+                    List<int> component = new List<int>();
+                    DFS(adjacencyMatrix, i, visited, component);
+                    components.Add(component);
+                }
+            }
+
+            // Determinar vértices divisorios
+            int[] dividingVertices = new int[numVertices];
+            for (int i = 0; i < numVertices; i++) dividingVertices[i] = 1; // Inicializar todos los vértices como divisores
+
+            // Si hay más de un componente, los vértices conectados no son divisores
+            if (components.Count > 1)
+            {
+                foreach (var component in components)
+                {
+                    foreach (var vertex in component)
+                    {
+                        dividingVertices[vertex] = 0; // Marcar vértices conectados como no divisores
+                    }
+                }
+            }
+
+            group.verticesDivisorios = dividingVertices;
+        }
+
+        private static void DFS(bool[,] graph, int node, bool[] visited, List<int> component)
+        {
+            visited[node] = true;
+            component.Add(node);
+
+            for (int neighbor = 0; neighbor < graph.GetLength(0); neighbor++)
+            {
+                if (graph[node, neighbor] && !visited[neighbor])
+                {
+                    DFS(graph, neighbor, visited, component);
+                }
+            }
         }
 
         private static string[] GetAdjacentNodesIds(GraphNode[] adjacentNodes)
