@@ -9,10 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 743b14ac58946364ea3848aacc860a89, type: 3}
-  m_Name: ConstantPressController
+  m_Script: {fileID: 11500000, guid: c2d1b6aa0c3904d4ea34f2d2d7a79517, type: 3}
+  m_Name: Area Detection 1 Detect
   m_EditorClassIdentifier: 
   _nameDisplay: 
   _image: {fileID: 0}
   _details: 
-  timeToAttackPress: 1.2
+  type: 0
+  withRay: 0
+  detect:
+    maxRadius: 1.5
+    minRadius: 0
+    inverse: 0
+    angle: 360
+    dot: -1
+    _maxDetects: 1
+    _minDetects: 0
+    queryTrigger: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 4294967295

@@ -29,7 +29,7 @@ public class OperatorTrggrCtrllr : Modificator<OperatorTrggrCtrllrBase>
     public override int FinalMaxDetects => abilityModifier.FinalMaxDetects == 0 || !cntrllBool ? base.FinalMaxDetects 
         : (int)operation(base.FinalMaxDetects, abilityModifier.FinalMaxDetects);
 
-    public override float Auxiliar => abilityModifier.Auxiliar == 0 || !cntrllBool ? base.Auxiliar 
+    public override float Auxiliar => abilityModifier.Auxiliar == 0 || !cntrllBool ? base.Auxiliar
         : operation(base.Auxiliar, abilityModifier.Auxiliar);
 
     bool cntrllBool = false;

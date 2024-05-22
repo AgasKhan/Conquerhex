@@ -419,14 +419,20 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public void OnEnterState(CasterEntityComponent param)
     {
-        if (!cooldown.Chck || DontExecuteCast || (CostExecution < 0 && !param.NegativeEnergy(-CostExecution)) || (CostExecution > 0 && !param.PositiveEnergy(CostExecution)))
+        if (PayExecution(CostExecution))
         {
             End = true;
             return;
         }
+
         //param.abilityControllerMediator += this;
         abilityModificator.OnEnterState(param);
         trigger.OnEnterState(param);
+    }
+
+    public bool PayExecution(float cost)
+    {
+        return !cooldown.Chck || DontExecuteCast || (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost));
     }
 
     public void OnStayState(CasterEntityComponent param)

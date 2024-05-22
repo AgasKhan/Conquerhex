@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(menuName = "Abilities/CastingDash", fileName = "new CastingDash")]
 public class CastingDashBase : CastingActionBase
