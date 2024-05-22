@@ -71,7 +71,7 @@ public class MeleeWeaponBase : ItemBase
 
 
 [System.Serializable]
-public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
+public class MeleeWeapon : ItemEquipable<MeleeWeaponBase>, IGetPercentage
 {
     [SerializeReference]
     public WeaponKata defaultKata;
@@ -83,9 +83,9 @@ public class MeleeWeapon : Item<MeleeWeaponBase>, IGetPercentage
 
     public event System.Action off;
 
-    public virtual IEnumerable<Entity> ApplyDamage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
+    public virtual IEnumerable<Entity> ApplyDamage(Ability ability, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
-        return Damage.ApplyDamage(owner, damages, damageables);
+        return Damage.ApplyDamage(ability.caster.container, damages, damageables);
     }
 
     public virtual void Durability(float damageToDurability)

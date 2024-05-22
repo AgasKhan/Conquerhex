@@ -193,13 +193,13 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         ((WeaponKata)aux).CreateCopy(out int otherindex);
 
+        katasCombo.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
+
         katasCombo.actual.indexEquipedItem = otherindex;
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 
         katasCombo.actual.equiped.ChangeWeapon(aux2);
-
-        katasCombo.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
     }
 
     void SetAbility(int index)
@@ -215,9 +215,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         ((AbilityExtCast)aux).CreateCopy(out int otherindex);
 
-        abilities.actual.indexEquipedItem = otherindex;
-
         abilities.actual.isModifiable = flyweight.abilities[index].isModifiable;
+
+        abilities.actual.indexEquipedItem = otherindex;
     }
 
 

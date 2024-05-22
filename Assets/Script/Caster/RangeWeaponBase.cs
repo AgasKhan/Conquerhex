@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
 [CreateAssetMenu(menuName = "Weapons/Range", fileName = "New weapons")]
 public class RangeWeaponBase : MeleeWeaponBase
 {
@@ -34,7 +31,9 @@ public class RangeWeaponBase : MeleeWeaponBase
 
 public class RangeWeapon : MeleeWeapon
 {
-    public Tim amunation;
+    public Tim amination;
+
+    public Tim dispersion;
 
     public Vector2Int prefabBullet => ((RangeWeaponBase)itemBase).indexPrefabBullet;
 
@@ -42,34 +41,41 @@ public class RangeWeapon : MeleeWeapon
     {
         base.Init();
 
-        amunation = new Tim(((RangeWeaponBase)itemBase).magazine);
+        amination = new Tim(((RangeWeaponBase)itemBase).magazine);
     }
 
 
-    public override IEnumerable<Entity> ApplyDamage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
+    public override IEnumerable<Entity> ApplyDamage(Ability ability, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
         /*
         if (damageables == null || damageables.Length == 0)
             return new Entity[] {};
         */
+        CasterEntityComponent owner = ability.caster;
 
-        if (damageables == null)
-            return new Entity[] { };
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f, Quaternion.identity, owner.transform.parent, false);
+        
+        
+        Vector3 aim = Quaternion.Euler(0, Random.Range(ability.Angle/-2, ability.Angle/2), 0) * (owner.aiming + Vector3.up * 0.5f);
 
         Entity objective = null;
 
-        foreach (var item in damageables)
+        if (damageables != null)
         {
-            objective = item;
-            break;
+            foreach (var item in damageables)
+            {
+                objective = item;
+                break;
+            }
         }
 
-        if(objective == null)
-            return new Entity[] { };
 
-        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f, Quaternion.identity, owner.transform.parent, false);
+        if(objective != null)
+        {
+            aim = (objective.transform.position + Vector3.up * 0.5f) - proyectile.transform.position;
+        }
 
-        proyectile.Throw(owner, System.Linq.Enumerable.ToArray(damages), (objective.transform.position + Vector3.up * 0.5f) - proyectile.transform.position);
+        proyectile.Throw(owner.container, System.Linq.Enumerable.ToArray(damages), aim);
 
         return new Entity[] {};
     }
@@ -77,10 +83,10 @@ public class RangeWeapon : MeleeWeapon
 
     public override void Durability(float damageToDurability)
     {
-        if (amunation.total == 0)
+        if (amination.total == 0)
             return;
 
-        if (amunation.Substract(1) <= 0)
+        if (amination.Substract(1) <= 0)
         {
             TriggerOff();
             return;

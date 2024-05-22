@@ -22,7 +22,11 @@ public class Hexagone : MonoBehaviour
 
     public Biomes biomes;
 
+    public bool tileGeneration;
+
     public Tilemap map;
+
+    public TerrainManager mapCopado;
 
     public bool manualTiles = false;
 
@@ -97,19 +101,28 @@ public class Hexagone : MonoBehaviour
     {
         seedTerrain = Random.state;
 
-        int x = Vector3Int.RoundToInt(transform.position).x - (lenght / 2);
-        int y = Vector3Int.RoundToInt(transform.position).z - (lenght / 2);
-
-        int xFin = x + lenght;
-        int yFin = y + lenght;
-
-        for (int i = x; i < xFin; i++)
+        if (tileGeneration)
         {
-            for (int ii = y; ii < yFin; ii++)
+            mapCopado.SetActiveGameObject(false);
+            int x = Vector3Int.RoundToInt(transform.position).x - (lenght / 2);
+            int y = Vector3Int.RoundToInt(transform.position).z - (lenght / 2);
+
+            int xFin = x + lenght;
+            int yFin = y + lenght;
+
+            for (int i = x; i < xFin; i++)
             {
-                map.SetTile(new Vector3Int(i, ii, 0), biomes.tile[Random.Range(0, biomes.tile.Length)]);
+                for (int ii = y; ii < yFin; ii++)
+                {
+                    map.SetTile(new Vector3Int(i, ii, 0), biomes.tile[Random.Range(0, biomes.tile.Length)]);
+                }
             }
         }
+        else
+        {
+            mapCopado.SetActiveGameObject(true);
+            mapCopado.Generate();
+        }       
 
         return this;
     }

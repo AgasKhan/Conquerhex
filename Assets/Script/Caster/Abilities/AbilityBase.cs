@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AbilityModificators;
 
-public abstract class AbilityBase : ItemBase
+public abstract class AbilityBase : ItemBase, IAbilityStats
 {
     [Space]
 
@@ -42,19 +43,31 @@ public abstract class AbilityBase : ItemBase
 
     public Vector2Int[] indexParticles;
 
-    [SerializeField, Header("Trigger controller")]
-    TriggerControllerBase trigger;
+    [field: SerializeField, Header("Trigger controller")]
+    public TriggerControllerBase trigger { get; private set; }
 
     [SerializeField, Header("Deteccion")]
     Detections detection;
 
-    public float maxRange => detection?.detect?.maxRadius ?? 0;
+    [SerializeField, Header("modificadores que se aplicaran a la habilidad")]
+    public ModificatorBase[] modificators;
 
-    public float minRange => detection?.detect?.minRadius ?? 0;
+    public float FinalMaxRange => detection?.detect?.maxRadius ?? 0;
 
-    public int maxDetects => detection?.detect?.maxDetects ?? 0;
+    public float FinalMinRange => detection?.detect?.minRadius ?? 0;
 
-    public float dot => detection?.detect?.dot ?? -1;
+    public int FinalMaxDetects => detection?.detect?.maxDetects ?? 0;
+
+    public int MinDetects => detection?.detect?.minDetects ?? 0;
+
+    public float Angle => detection?.detect?.angle ?? 360;
+
+    public float Dot => detection?.detect?.dot ?? -1;
+
+    public float FinalVelocity => velocity;
+
+    [field: SerializeField]
+    public float Auxiliar { get; set; }
 
     public override Pictionarys<string, string> GetDetails()
     {
@@ -109,20 +122,14 @@ public abstract class AbilityBase : ItemBase
             var tr = PoolManager.SpawnPoolObject(indexParticles[1], dmg.position + Vector3.up * 0.5f, Quaternion.identity);
             tr.localScale = scale;
         }
-            
     }
 
     public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector3 pos, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
         => detection?.Detect(ref result, caster, pos, direction, numObjectives, minRange, maxRange, dot);
-
-    public TriggerController CreateTriggerController()
-    {
-        return trigger.Create();
-    }
 }
 
 [System.Serializable]
-public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
+public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
 {
     public event System.Action onCast;
 
@@ -133,17 +140,19 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     [SerializeReference]
     public Ability original;
 
-    public bool IsCopy => original != null;
+    protected System.Action<Vector2, float> pressed;
 
-    public Timer cooldown { get; set; }
+    protected System.Action<Vector2, float> up;
 
     protected TriggerController trigger;
 
     FadeColorAttack _feedBackReference;
 
-    protected System.Action<Vector2, float> pressed;
+    AbilityModificator abilityModificator = new AbilityModificator();
 
-    protected System.Action<Vector2, float> up;
+    public bool IsCopy => original != null;
+
+    public Timer cooldown { get; set; }
 
     public DamageContainer multiplyDamage { get; protected set; }
 
@@ -163,15 +172,21 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         }
     }
 
-    public float AttackArea => trigger.FinalMaxRange;
+    public virtual float Angle => abilityModificator.Angle;
 
-    public virtual float Dot => itemBase.dot;
+    public virtual float Dot => abilityModificator.Dot;
 
-    public virtual float FinalVelocity => itemBase.velocity;
+    public virtual float FinalVelocity => abilityModificator.FinalVelocity;
 
-    public virtual float FinalMaxRange => itemBase.maxRange;
+    public virtual float FinalMaxRange => abilityModificator.FinalMaxRange;
 
-    public virtual float FinalMinRange => itemBase.minRange;
+    public virtual float FinalMinRange => abilityModificator.FinalMinRange;
+
+    public int FinalMaxDetects => abilityModificator.FinalMaxDetects;
+
+    public int MinDetects => abilityModificator.MinDetects;
+
+    public float Auxiliar => abilityModificator.Auxiliar;
 
     public virtual Vector3 Aiming
     {
@@ -210,7 +225,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             _feedBackReference = value;
         }
     }
-    
+
+
 
     public Ability CreateCopy(out int index)
     {
@@ -242,7 +258,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         onCast?.Invoke();
 
         if(showParticleInPos)
-            itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * AttackArea);
+            itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * FinalMaxRange);
 
         if (entities != null && showParticleDamaged)
             foreach (var dmgEntity in entities)
@@ -277,7 +293,8 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     {
         if (IsCopy)
             original.onDrop -= OnDropOriginal;
-        trigger.Destroy();
+        abilityModificator.Destroy();
+        trigger?.Destroy();
         base.Destroy();
     }
 
@@ -288,12 +305,11 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         StopCast();
         if (IsCopy)
             Destroy();
-            
     }
 
-    public List<Entity> Detect(Entity caster, Vector3 pos, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    public List<Entity> Detect(Entity caster, Vector3 pos)
     {
-        affected = trigger.InternalDetect(caster, pos ,Aiming, timePressed, minRange, maxRange, dot);
+        affected = itemBase.Detect(ref affected,caster, pos ,Aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);
 
         if (affected != null && itemBase.ShowFeedAffectedEntities)
             foreach (var item in affected)
@@ -304,14 +320,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
         return affected;
     }
 
-    public List<Entity> Detect(Vector3 pos, float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
+    public List<Entity> Detect()
     {
-        return Detect(caster.container, pos ,timePressed , minRange,maxRange, dot);
-    }
-
-    public List<Entity> Detect(float timePressed = 0, float? minRange = null, float? maxRange = null, float? dot = null)
-    {
-        return Detect(caster.container, caster.transform.position, timePressed, minRange, maxRange, dot);
+        return Detect(caster.container, caster.transform.position);
     }
 
     protected void SetCooldown()
@@ -339,12 +350,12 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
         multiplyDamage = new DamageContainer(() => itemBase.damagesMultiply);
 
-        trigger = itemBase.CreateTriggerController();
+        trigger = itemBase.trigger?.Create();
 
-        trigger.Init(this);
+        trigger?.Init(this);
 
-        if (itemBase == null)
-            return;
+        abilityModificator.Init(this);
+
 
         if (!container.TryGetInContainer(out CasterEntityComponent caster))
         {
@@ -362,7 +373,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
 
         SetCooldown();
 
-        trigger.Set();
+        trigger?.Set();
     }
 
     public void ControllerDown(Vector2 dir, float tim)
@@ -374,6 +385,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             return;
         }
 
+        abilityModificator.ControllerDown(dir, tim);
         trigger.ControllerDown(dir, tim);
         pressed = trigger.ControllerPressed;
         up = trigger.ControllerUp;
@@ -387,7 +399,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             End = true;
             return;
         }
-
+        abilityModificator.ControllerPressed(dir, tim);
         pressed(dir, tim);
     }
 
@@ -401,19 +413,26 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             End = true;
             return;
         }
-
+        abilityModificator.ControllerUp(dir, tim);
         up(dir, tim);
     }
 
     public void OnEnterState(CasterEntityComponent param)
     {
-        if (!cooldown.Chck || DontExecuteCast || (CostExecution < 0 && !param.NegativeEnergy(-CostExecution)) || (CostExecution > 0 && !param.PositiveEnergy(CostExecution)))
+        if (PayExecution(CostExecution))
         {
             End = true;
             return;
         }
-       //param.abilityControllerMediator += this;
+
+        //param.abilityControllerMediator += this;
+        abilityModificator.OnEnterState(param);
         trigger.OnEnterState(param);
+    }
+
+    public bool PayExecution(float cost)
+    {
+        return !cooldown.Chck || DontExecuteCast || (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost));
     }
 
     public void OnStayState(CasterEntityComponent param)
@@ -423,6 +442,7 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             End = true;
             return;
         }
+        abilityModificator.OnStayState(param);
         trigger.OnStayState(param);
     }
 
@@ -433,7 +453,9 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
             trigger.OnExitState(param);
         }
 
-        if(cooldown.Chck)
+        abilityModificator.OnExitState(param);
+
+        if (cooldown.Chck)
             cooldown.Reset();
         StopCast();
     }
@@ -452,4 +474,34 @@ public abstract class Ability : Item<AbilityBase>, IControllerDir, ICoolDown, IS
     protected void MyControllerVOID(Vector2 dir, float tim)
     {
     }
+}
+
+[System.Serializable]
+public struct AbilityStats : IAbilityStats
+{
+    [field: SerializeField]
+    public float FinalVelocity { get; set; }
+
+    [field: SerializeField]
+    public float FinalMaxRange { get; set; }
+
+    [field: SerializeField]
+    public float FinalMinRange { get; set; }
+
+    [field: SerializeField]
+    public int FinalMaxDetects { get; set; }
+
+    [field: SerializeField]
+    public int MinDetects { get; set; }
+
+    [field: SerializeField]
+    public float Angle { get; set; }
+
+    [field: SerializeField]
+    public float Dot { get; set; }
+
+    [field: SerializeField]
+    public float Auxiliar { get; set; }
+
+    public Damage[] damages;
 }

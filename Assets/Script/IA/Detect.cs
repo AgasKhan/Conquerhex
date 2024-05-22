@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #region parent
-public abstract class DetectParent<T> where T : class
+public abstract class DetectParent<T> : ISerializationCallbackReceiver where T : class
 {
     public static bool ChckEmpety(T obj) => true;
     public static bool ChckTrEmpety(Transform obj) => true;
@@ -19,6 +19,9 @@ public abstract class DetectParent<T> where T : class
 
     [Tooltip("si arranca por el mas lejano, en vez del mas cercano")]
     public bool inverse;
+
+    [Tooltip("Angulo del cono en si")]
+    public float angle = 360;
 
     [Tooltip("Producto punto utilizado para el calculo del cono")]
     public float dot = 1;
@@ -243,6 +246,16 @@ public abstract class DetectParent<T> where T : class
     private bool InternalWithRay(Transform tr)
     {
         return (selected as Component).transform != tr;
+    }
+
+    public void OnBeforeSerialize()
+    {
+        
+    }
+
+    public void OnAfterDeserialize()
+    {
+        dot = angle == 360 ? -1 : Vector2.Dot(Vector2.right, Quaternion.Euler(0, 0, angle) * Vector2.right);
     }
 }
 

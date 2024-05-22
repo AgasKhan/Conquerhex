@@ -31,15 +31,17 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
-    public virtual float FinalVelocity => ability.FinalVelocity;
+    public float FinalVelocity => ability.FinalVelocity;
 
-    public virtual float FinalMaxRange => ability.FinalMaxRange;
+    public float FinalMaxRange => ability.FinalMaxRange;
 
-    public virtual float FinalMinRange => ability.FinalMinRange;
+    public float FinalMinRange => ability.FinalMinRange;
 
-    public virtual float Dot => ability.Dot;
+    public float Angle => ability.Angle;
 
-    public virtual bool DontExecuteCast => ability.DontExecuteCast;
+    public float Dot => ability.Dot;
+
+    public bool DontExecuteCast => ability.DontExecuteCast;
 
     public bool onCooldownTime => ability.onCooldownTime;
 
@@ -67,15 +69,21 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
+    public int FinalMaxDetects => throw new System.NotImplementedException();
+
+    public int MinDetects => throw new System.NotImplementedException();
+
+    public float Auxiliar => ((IAbilityStats)ability).Auxiliar;
+
     public void Cast() 
         => ability.Cast();
 
 
-    public List<Entity> Detect(Entity caster, Vector3 pos ,float timePressed = 0, float? maxRange = null, float? minRange = null, float? dot = null)
-        => ability.Detect(caster, pos, timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+    public List<Entity> Detect(Entity caster, Vector3 pos)
+        => ability.Detect(caster, pos);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
 
-    public List<Entity> Detect(float timePressed = 0, float? maxRange = null, float? minRange = null,  float? dot = null) 
-        => ability.Detect(timePressed, minRange, maxRange, dot);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+    public List<Entity> Detect() 
+        => ability.Detect(caster.container, caster.transform.position);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
 
     public virtual void Init(Ability ability)
     {
@@ -94,9 +102,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     public virtual void OnEnterState(CasterEntityComponent param)
     {
         ability.End = false;
-        param.abilityControllerMediator += this;
+        param.abilityControllerMediator += ability;
         ability.onCast += param.AttackEvent;
-        ControllerDown(ability.Aiming, 0);
+        ability.ControllerDown(Vector2.zero, 0);
     }
 
     public virtual void OnStayState(CasterEntityComponent param)
@@ -107,21 +115,40 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     {
         //Debug.Log("sali");
         //ability.StopCast();
-        param.abilityControllerMediator -= this;
+        param.abilityControllerMediator -= ability;
         ability.onCast -= param.AttackEvent;
-    }
-
-    public virtual List<Entity> InternalDetect(Entity caster, Vector3 pos, Vector3 dir, float timePressed = 0, float? minRange=null, float? maxRange=null, float? dot = null)
-    {
-        return ability.itemBase.Detect(ref ability.affected, caster, pos ,dir, ability.itemBase.maxDetects, minRange ?? FinalMinRange, maxRange ?? FinalMaxRange, dot ?? Dot);
     }
 
     public abstract void ControllerDown(Vector2 dir, float tim);
     public abstract void ControllerPressed(Vector2 dir, float tim);
     public abstract void ControllerUp(Vector2 dir, float tim);
+
+    public virtual List<Entity> InternalDetect(Entity caster, Vector3 pos, Vector3 dir, float timePressed = 0, float? minRange=null, float? maxRange=null, float? dot = null)
+    {
+        return ability.itemBase.Detect(ref ability.affected, caster, pos ,dir, ability.itemBase.FinalMaxDetects, minRange ?? FinalMinRange, maxRange ?? FinalMaxRange, dot ?? Dot);
+    }
 }
 
-public interface IAbilityComponent
+public interface IAbilityStats
+{
+    public float FinalVelocity { get; }
+
+    public float FinalMaxRange { get; }
+
+    public float FinalMinRange { get; }
+
+    public int FinalMaxDetects { get; }
+
+    public int MinDetects { get; }
+
+    public float Angle { get; }
+
+    public float Dot { get; }
+
+    public float Auxiliar { get; }
+}
+
+public interface IAbilityComponent : IAbilityStats
 {
     /// <summary>
     /// Variable dedicada a senializar el fin de la habilidad<br/>
@@ -130,11 +157,6 @@ public interface IAbilityComponent
     /// Los CastingActions deben de setearlo en true en algun lado de su codigo (las weaponsKata lo hacen de forma automatica al atacar)
     /// </summary>
     public bool End { get ; set ; }
-    public float FinalVelocity { get; }
-
-    public  float FinalMaxRange { get; }
-
-    public float FinalMinRange { get; }
 
     public  Vector3 Aiming { get ; }
 
@@ -146,3 +168,7 @@ public interface IAbilityComponent
 
     public Timer cooldown { get; }
 }
+
+//ModificadorContainer
+//Modificador
+//

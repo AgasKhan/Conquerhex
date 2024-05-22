@@ -176,7 +176,7 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.TriggerOnClose();
     }
 
-    void CreateGenericButton<T>(SlotItem<T> item, string defaultName, System.Action<SlotItem, int> equipAction) where T : Item
+    void CreateGenericButton<T>(SlotItem<T> item, string defaultName, System.Action<SlotItem, int> equipAction) where T : ItemEquipable
     {
         var info = new SlotInfo(defaultName, null, "", typeof(T));
 

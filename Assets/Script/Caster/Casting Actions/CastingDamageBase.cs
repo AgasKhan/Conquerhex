@@ -18,6 +18,8 @@ public class CastingDamage : CastingAction<CastingDamageBase>
 {
     public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
+        End = true;
+
         showParticleInPos = true;
         showParticleDamaged = true;
 

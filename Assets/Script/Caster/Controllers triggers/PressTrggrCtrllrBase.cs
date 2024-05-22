@@ -48,21 +48,25 @@ public class PressTrggrCtrllr : TriggerController
 
     public override void ControllerPressed(Vector2 dir, float tim)
     {
-
         if (!onCooldownTime)
         {
             End = true;
             return;
         }
 
-        Detect(tim);
-
+        Detect();
+        
         if (pressCooldown.Chck)
         {
-            Cast();
             End = false;
+            Cast();
             FeedBackReference?.Attack();
             pressCooldown.Reset();
+
+            if(End == true)
+            {
+                ControllerUp(dir, tim);
+            }
         }
     }
 
@@ -72,7 +76,9 @@ public class PressTrggrCtrllr : TriggerController
             return;
 
         pressCooldown.Reset();
-
         End = true;
+
+        Cast();
+        FeedBackReference?.Attack();
     }
 }

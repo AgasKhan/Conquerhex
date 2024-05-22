@@ -43,8 +43,12 @@ MonoBehaviour:
     knockBack: 0
     typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
   indexParticles:
-  - {x: 1, y: 3}
-  trigger: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771, type: 2}
+  - {x: 1, y: 6}
+  <trigger>k__BackingField: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771,
+    type: 2}
   detection: {fileID: 11400000, guid: 27dde88104245274dbe0222e8714b08a, type: 2}
+  modificators:
+  - {fileID: 11400000, guid: b34a21c37dfc0594387a9bd2fc7e2f16, type: 2}
+  <Auxiliar>k__BackingField: 0
   damageToWeapon: 1
   RequiredDamage: []
