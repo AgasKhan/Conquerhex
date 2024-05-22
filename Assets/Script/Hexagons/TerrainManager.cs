@@ -57,8 +57,8 @@ public class TerrainManager : MonoBehaviour
 
         terrain.terrainData = terrainData;
 
-        mapAlphaBuffer = new float[terrainData.alphamapWidth * terrainData.alphamapHeight,3];
-        mapAlpha = new float[terrainData.alphamapWidth, terrainData.alphamapHeight, 3];
+        mapAlphaBuffer = new float[terrainData.alphamapWidth * terrainData.alphamapHeight, terrainData.alphamapLayers];
+        mapAlpha = new float[terrainData.alphamapWidth, terrainData.alphamapHeight, terrainData.alphamapLayers];
 
 
         mapDetailsBuffer = new int[terrainData.detailResolution * terrainData.detailResolution];
@@ -72,7 +72,7 @@ public class TerrainManager : MonoBehaviour
     {
         inputVertex = new ComputeBuffer(6, sizeof(int)*2);
 
-        outputAlphaBuffer = new ComputeBuffer(terrainData.alphamapWidth * terrainData.alphamapHeight, sizeof(float) * 3);
+        outputAlphaBuffer = new ComputeBuffer(terrainData.alphamapWidth * terrainData.alphamapHeight, sizeof(float) * terrainData.alphamapLayers);
 
         outputDetailsBuffer = new ComputeBuffer(terrainData.detailResolution * terrainData.detailResolution, sizeof(int));
 
@@ -180,7 +180,8 @@ public class TerrainManager : MonoBehaviour
 
             if (mapDetailsBuffer[i] == 1)
             {
-                grassMap[x, y] = Random.Range(1, 10);
+                grassMap[x, y] = 10;
+                //grassMap[x, y] = Random.Range(1, 10);
                 continue;
             }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.7
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3773116, g: 0.42026377, b: 0.48784077, a: 0.7}
+  m_IndirectSpecularColor: {r: 0.37731135, g: 0.42026332, b: 0.48784024, a: 0.7}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -180,6 +180,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3483376571397945273, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -154
+      objectReference: {fileID: 0}
     - target: {fileID: 6598449461192112715, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -238,6 +243,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3149646217498673794, guid: 698c7b71f6da96d4fa36233e3b58d5b9, type: 3}
+    - {fileID: 2911961617211158413, guid: 698c7b71f6da96d4fa36233e3b58d5b9, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 698c7b71f6da96d4fa36233e3b58d5b9, type: 3}
@@ -371,6 +377,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: carpitest
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 275db5feb1eed0448b3fe8f1112e4826,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1409,6 +1420,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: carpitest_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ddc483f45e7b3c046ab5cea27d97733d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
