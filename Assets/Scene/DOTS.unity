@@ -602,6 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1748799ee4184548af81419be9b5712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  copyData: {fileID: 0}
   terrain: {fileID: 205939177}
   computeShader: {fileID: 7200000, guid: bc6f7bf13e8f400489f9a79d969a1375, type: 3}
   paths: []
@@ -2802,6 +2803,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 2911961617211158413, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3452584072118681113, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -2811,6 +2817,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909255704619901034, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5157791376322057580, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
         type: 3}
@@ -5625,7 +5636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1223984361
 MonoBehaviour:
   m_ObjectHideFlags: 0

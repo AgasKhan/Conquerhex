@@ -39,6 +39,11 @@ public class MoveTr : MoveAbstract
             OnMove(VelocityCalculate);
     }
 
+    public static void MyStaticFixedUpdate(ref Unity.Transforms.LocalTransform localTr) //Recibir un aspecto con todas las variables
+    {
+        //localTr.Position += ((float3)(*moveSpeed.speed)) * deltaTime;
+    }
+
 
     void MyUpdateRender()
     {
