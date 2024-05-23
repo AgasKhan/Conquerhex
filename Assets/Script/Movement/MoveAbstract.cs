@@ -45,7 +45,7 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
         }
     }
 
-    public Vector3 VelocityCalculate 
+    public Vector3 VelocityCalculate
     {
         get => _velocityCalculate;
         set

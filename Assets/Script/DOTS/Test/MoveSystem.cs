@@ -6,9 +6,13 @@ using Unity.Jobs;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Burst;
+using System;
 
 public partial class MoveSystem : SystemBase
 {
+    public event EventHandler OnIdle;
+    public event EventHandler OnMove;
+
     [BurstCompile]
     unsafe protected override void OnUpdate()
     {
@@ -19,6 +23,8 @@ public partial class MoveSystem : SystemBase
             {
                 localTransform.Position += ((float3)(moveSpeed.speed)) * deltaTime;
                 //MoveTr.MyStaticFixedUpdate(localTransform);
+
+                OnIdle.Invoke(this, EventArgs.Empty);
 
             }).ScheduleParallel();
     }
