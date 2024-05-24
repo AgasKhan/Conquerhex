@@ -10,8 +10,22 @@ using System;
 
 public partial class MoveSystem : SystemBase
 {
-    public event EventHandler OnIdle;
-    public event EventHandler OnMove;
+    /*
+    public Dictionary<int, DOTS_Test> moveReference = new Dictionary<int, DOTS_Test>();
+
+    unsafe protected override void OnStartRunning()
+    {
+        Entities.ForEach((ref MoveSpeedComponent moveSpeed,in Unity.Entities.Entity entity) =>
+            {
+                fixed (MoveSpeedComponent* pSpeed = &moveSpeed)
+                {
+                    moveReference[entity.Index].componentSpeed = pSpeed;
+
+                    moveReference.Remove(entity.Index);
+                }
+            }).WithoutBurst().Run();
+    }
+    */
 
     [BurstCompile]
     unsafe protected override void OnUpdate()
@@ -21,11 +35,7 @@ public partial class MoveSystem : SystemBase
         Entities
             .ForEach((ref LocalTransform localTransform, in MoveSpeedComponent moveSpeed) =>
             {
-                localTransform.Position += ((float3)(moveSpeed.speed)) * deltaTime;
-                //MoveTr.MyStaticFixedUpdate(localTransform);
-
-                OnIdle.Invoke(this, EventArgs.Empty);
-
+                localTransform.Position += ((float3)(*moveSpeed.speed)) * deltaTime;
             }).ScheduleParallel();
     }
 }

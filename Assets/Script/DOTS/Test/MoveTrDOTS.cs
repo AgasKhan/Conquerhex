@@ -9,11 +9,12 @@ using Unity.Burst;
 
 public class MoveTrDOTS : MoveAbstract
 {
+    
     protected override void Config()
     {
         throw new System.NotImplementedException();
     }
-
+    /*
     void MyStart()
     {
         MoveSystem moveSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<MoveSystem>();
@@ -40,11 +41,14 @@ public class MoveTrDOTS : MoveAbstract
         else
             return false;
     }
+    */
 }
 
+/*
 public readonly partial struct MovementAspect : IAspect
 {
     public readonly RefRW<LocalTransform> localTransform;
     public readonly RefRW<MoveSpeedComponent> moveSpeed;
     public readonly float desaceleration;
 }
+*/
