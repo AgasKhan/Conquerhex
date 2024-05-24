@@ -1,62 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
+using Unity.Jobs;
+using Unity.Transforms;
 using Unity.Mathematics;
+using Unity.Burst;
+using System;
 using CheatCommandsPrompt;
 
-unsafe public class DOTS_Test : MonoBehaviour
+public class DOTS_Test : MonoBehaviour
 {
-    static DOTS_Test instance;
-
     public Vector3 _velocityCalculate;
 
-    public Vector3 VelocityCalculate
+    private Unity.Entities.Entity _entity;
+    private EntityManager _entityManager;
+
+    private void SetEntityVelocity(float3 newVelocity)
     {
-        get
-        {
-            return _velocityCalculate;
-        }
-
-        set
-        {
-            _velocityCalculate = value;
-        }
+        _entityManager.SetComponentData(_entity, new MoveSpeedComponent { Speed = newVelocity });
     }
-
-    [Command]
-    static void Calculate(float x, float y, float z)
-    {
-        instance.VelocityCalculate = new Vector3(x, y, z);
-    }
-
-    private void Awake()
-    {
-        instance = this;
-    }
-
+    
     public class Baker : Baker<DOTS_Test>
     {
-        unsafe public override void Bake(DOTS_Test authoring)
+        public override void Bake(DOTS_Test authoring)
         {
-            var entity = GetEntity(TransformUsageFlags.Dynamic);
-
-            //AddComponent(entity, new MoveSpeedComponent());
-
-            //authoring.componentSpeed = new MoveSpeedComponent()
-            
-            fixed (Vector3* pSpeed = &authoring._velocityCalculate)
-            {
-                AddComponent(entity, new MoveSpeedComponent() { speed = pSpeed });
-            }
-            
+            authoring. _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            authoring._entity = GetEntity(authoring.gameObject, TransformUsageFlags.Dynamic);
+            AddComponent(authoring._entity, new MoveSpeedComponent { Speed = authoring._velocityCalculate });
         }
     }
-
 }
 
-[ChunkSerializable]
-unsafe public struct MoveSpeedComponent : IComponentData
+public struct MoveSpeedComponent : IComponentData
 {
-    public Vector3* speed;
+    public float3 Speed;
+}
+
+public partial class MoveSystem : SystemBase
+{
+    [BurstCompile]
+    unsafe protected override void OnUpdate()
+    {
+        float deltaTime = SystemAPI.Time.DeltaTime;
+
+        Entities
+            .ForEach((ref LocalTransform localTransform, in MoveSpeedComponent moveSpeed) =>
+            {
+                localTransform.Position += (moveSpeed.Speed) * deltaTime;
+            }).ScheduleParallel();
+    }
 }

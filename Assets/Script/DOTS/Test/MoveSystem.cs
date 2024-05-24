@@ -7,10 +7,10 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Burst;
 using System;
-
+/*
 public partial class MoveSystem : SystemBase
 {
-    /*
+
     public Dictionary<int, DOTS_Test> moveReference = new Dictionary<int, DOTS_Test>();
 
     unsafe protected override void OnStartRunning()
@@ -25,7 +25,7 @@ public partial class MoveSystem : SystemBase
                 }
             }).WithoutBurst().Run();
     }
-    */
+
 
     [BurstCompile]
     unsafe protected override void OnUpdate()
@@ -35,7 +35,8 @@ public partial class MoveSystem : SystemBase
         Entities
             .ForEach((ref LocalTransform localTransform, in MoveSpeedComponent moveSpeed) =>
             {
-                localTransform.Position += ((float3)(*moveSpeed.speed)) * deltaTime;
+                localTransform.Position += (moveSpeed.Speed) * deltaTime;
             }).ScheduleParallel();
     }
 }
+*/
