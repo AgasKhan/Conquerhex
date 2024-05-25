@@ -21,6 +21,7 @@ public abstract class SteeringBehaviour : MonoBehaviour
             aux = gameObject.AddComponent<T>();
             aux.me = me;
         }
+
         return aux;
     }
 

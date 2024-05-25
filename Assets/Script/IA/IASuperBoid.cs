@@ -115,7 +115,6 @@ public class BoidAttack : IState<FSMBoid>
 
     public void OnStayState(FSMBoid param)
     {
-
         if (param.context.character.health.actualLife < param.context.character.health.maxLife / 2)
             param.CurrentState = param.BoidDamaged;
 

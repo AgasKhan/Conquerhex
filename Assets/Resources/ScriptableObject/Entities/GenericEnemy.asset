@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ddfbff58f17f494490ccdeba8dc5167, type: 3}
+  m_Name: GenericEnemy
+  m_EditorClassIdentifier: 
+  _nameDisplay: 
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
+  weight: 0
+  visible: 1
+  container:
+  - {fileID: 11400000, guid: bf734316a8a2a7547b6f23e99b6d5e5d, type: 2}
+  - {fileID: 11400000, guid: 0c518eaf0e403ce40972c8232b453289, type: 2}
+  - {fileID: 11400000, guid: 824126fd92f4bf847a13950a5c642317, type: 2}
+  areaFarming: 1
