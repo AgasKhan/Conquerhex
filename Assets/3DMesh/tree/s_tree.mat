@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2328461586907103694
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: s_Carpincho_mandi
-  m_Shader: {fileID: -6465566751694194690, guid: a06b7f3580cd1a240888a6ae379de93c,
+  m_Name: s_tree
+  m_Shader: {fileID: -6465566751694194690, guid: 05a464fb0d8c78b489147d7c980a2be5,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,24 +37,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AO:
+    - _RockAO:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Albedo:
-        m_Texture: {fileID: 2800000, guid: eaa7eb6272ef85642ba413b73f15ad42, type: 3}
+    - _RockEffect:
+        m_Texture: {fileID: 2800000, guid: 5b00cf6ef05371d4ca34e316e87288c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _AlphaOpacityTransparent:
+    - _RockNormal:
+        m_Texture: {fileID: 2800000, guid: 1038fce677e9f844094777745fca975b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockNormal_2:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Metalico:
-        m_Texture: {fileID: 2800000, guid: e1e6b0633ded0f44bbf6c02d84705921, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Normal:
-        m_Texture: {fileID: 2800000, guid: 434dc5dfffc21084d88bcafd396e5e9a, type: 3}
+    - _RockTexture:
+        m_Texture: {fileID: 2800000, guid: a445e63e3cb13394d94e62fcd28f14fb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -58,23 +71,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _DitherThreshold: 2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SeeThroughDistance: 3
-    - _UseAlphaOptacityTransparent: 0
-    - _UseDither: 0
+    - _RockEffectHeight: 0.32
+    - _RockEffectThreshold: 0.45
     m_Colors: []
   m_BuildTextureStacks: []
---- !u!114 &5000538907614471833
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 7
