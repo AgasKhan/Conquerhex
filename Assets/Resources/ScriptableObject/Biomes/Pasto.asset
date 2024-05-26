@@ -35,8 +35,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f7baa5c9347ff4149a044ed014df6224, type: 2}
   terrainBiome: {fileID: 15600000, guid: c963abcfb416c34499418daa1ed0f317, type: 2}
   layersOfProps:
-  - chanceEmptyOrEnemy: 0
-    inversaDensidad: 3
+  - chanceEmptyOrEnemy: 10
+    inversaDensidad: 2
     spawner: {fileID: 0}
     props:
       pictionaries:
@@ -52,7 +52,7 @@ MonoBehaviour:
       - key: {fileID: 203764084244378148, guid: b33ec21b2c41e17468bc6967b37986ff,
           type: 3}
         value: 10
-  - chanceEmptyOrEnemy: 20
+  - chanceEmptyOrEnemy: 80
     inversaDensidad: 3
     spawner: {fileID: -5676458598891892511, guid: ecf5bace16d838041a93341ef03cc01d,
       type: 3}
