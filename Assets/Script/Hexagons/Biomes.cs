@@ -2,26 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "BaseData/Biomes", fileName = "Biomes")]
 public class Biomes : ShowDetails
 {
+    [System.Serializable]
+    public struct LayersOfProps
+    {
+        public int chanceEmptyOrEnemy;
+        [Tooltip("Representa cuantas casillas se salta para colocar objetos, en caso de ser 0 no se saltara ninguna")]
+        public int inversaDensidad;
+        public Spawner spawner;
+        public Pictionarys<GameObject, int> props;
+    }
+
+    public enum LayersNames
+    {
+        Trees,
+        Enemies,
+        Paths
+    }
+
     public Tile[] tile;
-    public int chanceEmptyOrEnemy=10;
-    [Tooltip("Representa cuantas casillas se salta para colocar objetos, en caso de ser 0 no se saltara ninguna")]
-    public int inversaDensidad = 3;
-    public Spawner spawner;
-    public Pictionarys<GameObject, int> props= new Pictionarys<GameObject, int>();
+    public TerrainData terrainBiome;
+    public LayersOfProps[] layersOfProps = new LayersOfProps[3];
+
+    [Tooltip("Quedara obsoleto cuando se traspase de sistema, en su lugar trabajar con LayersOfProps")]
+    public Pictionarys<GameObject, int> props
+    {
+        get
+        {
+            if(_props==null)
+                _props = layersOfProps.SelectMany((lOfProps) => lOfProps.props).ToPictionarys();
+            return layersOfProps.SelectMany((lOfProps) => lOfProps.props).ToPictionarys();
+        }
+    }
+
+    Pictionarys<GameObject, int> _props;
 
     [ContextMenu("Cargar assets de la carpeta")]
     void LoadAssets()
     {
-        string path = BaseData.pathProps + nameDisplay + "/";
+        string path = BaseData.pathProps + "Common" + "/";
 
-        foreach (var item in LoadSystem.LoadAssets<GameObject>(path))
+        for (int i = 0; i < layersOfProps.Length; i++)
         {
-            if (!props.ContainsKey(item))
-                props.Add(item, 10);
+            string pathFolder = path + System.Enum.GetNames(typeof(LayersNames))[i] + "/";
+
+            Debug.Log(pathFolder);
+
+            foreach (var item in LoadSystem.LoadAssets<GameObject>(pathFolder))
+            {
+                if (!layersOfProps[i].props.ContainsKey(item))
+                    layersOfProps[i].props.Add(item, 10);
+            }
+        }
+
+        path = BaseData.pathProps + nameDisplay + "/";
+
+        for (int i = 0; i < layersOfProps.Length; i++)
+        {
+            string pathFolder = path + System.Enum.GetNames(typeof(LayersNames))[i] + "/";
+
+            Debug.Log(pathFolder);
+
+            foreach (var item in LoadSystem.LoadAssets<GameObject>(pathFolder))
+            {
+                if (!layersOfProps[i].props.ContainsKey(item))
+                    layersOfProps[i].props.Add(item, 10);
+            }
         }
     }
+
 }
+

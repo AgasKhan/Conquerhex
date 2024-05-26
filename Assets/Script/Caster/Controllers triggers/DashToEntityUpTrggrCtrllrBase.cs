@@ -66,7 +66,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             return;
         }
 
-        if (affected != null && affected.Count != 0 && caster.TryGetComponent<MoveEntityComponent>(out moveEntity))
+        if (affected != null && affected.Count != 0 && caster.TryGetInContainer<MoveEntityComponent>(out moveEntity))
         {
             moveEntity.Velocity((affected[0].transform.position - caster.transform.position).normalized , triggerBase.velocityInDash);
             

@@ -167,7 +167,12 @@ bool IsPointInHexagon(int2 p)
     for (uint i = 0; i < vertexCount; i++)
     {
         uint j = (i + 1) % vertexCount;
-        if (IsRayIntersecting(p, inputVertex[i], inputVertex[j]))
+        
+        int2 I = (normalize(inputVertex[i] - int2(width / 2, height / 2)) * width/2 + int2(width / 2, height / 2));
+        
+        int2 J = (normalize(inputVertex[j] - int2(width / 2, height / 2)) * width/2 + int2(width / 2, height / 2));
+        
+        if (IsRayIntersecting(p, I, J))
         {
             intersections++;
         }
@@ -323,12 +328,14 @@ void Details(uint3 id : SV_DispatchThreadID)
     }
     
     if (punto.x == 1 && cercanias.y != 1 && cercanias.z != 1 && cercanias.w != 1)
+    {
         outputDetailsBuffer[IndexForIdDetails(id)] = 1;
+    }
     else if (punto.y == 1 && cercanias.x != 1 && cercanias.z != 1 && cercanias.w != 1)
     {
         outputDetailsBuffer[IndexForIdDetails(id)] = 2;
     }
-    else if (punto.z == 1 && cercanias.x != 1 && cercanias.y != 1 && cercanias.w != 1)
+    else if (punto.z == 1 && cercanias.w != 1)
     {
         outputDetailsBuffer[IndexForIdDetails(id)] = 3;
     }

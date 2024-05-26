@@ -6,6 +6,14 @@ using System.Linq;
 
 public class Hexagone : MonoBehaviour
 {
+    [Header("bools para mentir")]
+
+    public bool tileGeneration = true;
+
+    public bool gridGeneration = true;
+
+    [Header("Informacion")]
+
     [SerializeField]
     public Random.State seedTerrain;
 
@@ -18,15 +26,15 @@ public class Hexagone : MonoBehaviour
     //pareja de coordenadas
     public float[,] ladosPuntos = new float[6, 2];//Lo uso para guardar la coordenadas de cada lado
 
-    public float velocityTransfer;
-
     public Biomes biomes;
-
-    public bool tileGeneration;
 
     public Tilemap map;
 
+    [Header("Configuracion")]
+
     public TerrainManager mapCopado;
+
+    public float velocityTransfer;
 
     public bool manualTiles = false;
 
@@ -35,6 +43,8 @@ public class Hexagone : MonoBehaviour
     public bool manualSetEdge = false;
 
     public int lenght = 42;
+
+    int[,] detailsMap => mapCopado.detailsMap;
 
     public HashSet<Entity> childsEntities { get; private set; } = new HashSet<Entity>();
 
@@ -101,6 +111,10 @@ public class Hexagone : MonoBehaviour
     {
         seedTerrain = Random.state;
 
+        mapCopado.copyData = biomes.terrainBiome;
+
+        mapCopado.Generate();
+
         if (tileGeneration)
         {
             mapCopado.SetActiveGameObject(false);
@@ -118,11 +132,6 @@ public class Hexagone : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            mapCopado.SetActiveGameObject(true);
-            mapCopado.Generate();
-        }       
 
         return this;
     }
@@ -136,40 +145,96 @@ public class Hexagone : MonoBehaviour
     public void FillPropsPos(bool spawn, bool centro = false)
     {
         Vector3 center = transform.position;
-        int x = Vector3Int.RoundToInt(center).x - (lenght / 2);
-        int z = Vector3Int.RoundToInt(center).z - (lenght / 2);
+        int x;
+        int z;
 
-        int xFin = x + lenght;
-        int zFin = z + lenght;
+        int xFin;
+        int zFin;
 
-        for (int i = x; i < xFin; i += biomes.inversaDensidad+1)
+        int suma;
+
+        if(tileGeneration)
+        {
+            x = Vector3Int.RoundToInt(center).x - (lenght / 2);
+            z = Vector3Int.RoundToInt(center).z - (lenght / 2);
+
+            xFin = x + lenght;
+            zFin = z + lenght;
+
+            suma = biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad + 1;
+        }
+        else
+        {
+            x = 0;
+            z = 0;
+
+            xFin = detailsMap.GetLength(0);
+            zFin = detailsMap.GetLength(1);
+
+            suma = 1;
+        }
+
+        for (int i = x; i < xFin; i += suma)
         {
 
-            for (int ii = z; ii < zFin; ii += biomes.inversaDensidad+1)
+            for (int ii = z; ii < zFin; ii += suma)
             {
-                
-                var newDistPos=new Vector3(i, center.y, ii) - transform.position;
 
-                //var newDistPos = (new Vector3(i, ii, transform.position.z) - transform.position);
-
-                if (newDistPos.sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && (newDistPos.sqrMagnitude > Mathf.Pow(biomes.inversaDensidad,2) || !centro))
+                if(gridGeneration)
                 {
-                    if (Random.Range(0, 100) > biomes.chanceEmptyOrEnemy)
-                    {
-                        float rng1 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
-                        float rng2 = Random.Range(1, biomes.inversaDensidad * 10 + 1);
+                    var newDistPos = new Vector3(i, center.y, ii) - transform.position;
 
-                        GameObject prop = Instantiate(biomes.props.RandomPic(level), new Vector3((i - biomes.inversaDensidad/2f) + rng1 / 10f, center.y, (ii - biomes.inversaDensidad / 2f) + rng2 / 10f), Quaternion.identity);
+                    //var newDistPos = (new Vector3(i, ii, transform.position.z) - transform.position);
 
-                        prop.transform.SetParent(transform);
-                    }
-                    else if (spawn)
+                    if (newDistPos.sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && (newDistPos.sqrMagnitude > Mathf.Pow(biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad, 2) || !centro))
                     {
-                        //SpawnEnemy(hex.transform, new Vector3(i, ii, center.z));
-                        if(biomes.spawner!=null)
-                            Instantiate(biomes.spawner, new Vector3(i, center.y, ii), Quaternion.identity).transform.SetParent(transform);
+                        if (Random.Range(0, 100) > biomes.layersOfProps[(int)Biomes.LayersNames.Trees].chanceEmptyOrEnemy)
+                        {
+                            if (biomes.props.Count > 0)
+                            {
+                                float rng1 = Random.Range(1, biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad * 10 + 1);
+                                float rng2 = Random.Range(1, biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad * 10 + 1);
+
+                                GameObject prop = Instantiate(biomes.props.RandomPic(level), new Vector3((i - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng1 / 10f, center.y, (ii - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng2 / 10f), Quaternion.identity);
+
+                                prop.transform.SetParent(transform);
+                            }
+                        }
+                        else if (spawn)
+                        {
+                            //SpawnEnemy(hex.transform, new Vector3(i, ii, center.z));
+                            if (biomes.layersOfProps[(int)Biomes.LayersNames.Enemies].spawner != null)
+                                Instantiate(biomes.layersOfProps[(int)Biomes.LayersNames.Enemies].spawner, new Vector3(i, center.y, ii), Quaternion.identity).transform.SetParent(transform);
+                        }
                     }
                 }
+                else
+                {
+                    if (detailsMap[i, ii] == 0)
+                        continue;
+
+                    int indexLayerProp = detailsMap[i, ii] - 1;
+
+                    float posXMultiply = ((float)ii -  (detailsMap.GetLength(0) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(0)/2);
+
+                    float posZMultiply = ((float)i - (detailsMap.GetLength(1) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(1)/2);
+
+                    Vector3 pos = new Vector3(posXMultiply + center.x, center.y, posZMultiply + center.z);
+
+                    if (Random.Range(0, 100) > biomes.layersOfProps[indexLayerProp].chanceEmptyOrEnemy)
+                    {
+                        if(biomes.layersOfProps[indexLayerProp].props.Count > 0)
+                        {
+                            GameObject prop = Instantiate(biomes.layersOfProps[indexLayerProp].props.RandomPic(level), pos, Quaternion.identity);
+
+                            prop.transform.SetParent(transform);
+                        }
+                    }
+                    else if (spawn && biomes.layersOfProps[indexLayerProp].spawner != null)
+                        Instantiate(biomes.layersOfProps[indexLayerProp].spawner, pos, Quaternion.identity).transform.SetParent(transform);
+                }
+                
+               
             }
         }
     }
@@ -219,6 +284,8 @@ public class Hexagone : MonoBehaviour
                 sqrDistance = dist.sqrMagnitude;
             }
         }
+
+        Debug.DrawLine(transform.position, transform.position + new Vector3(HexagonsManager.localRadio[resultado, 0], 0, HexagonsManager.localRadio[resultado, 1]), Color.red, 5);
 
         return resultado;
     }

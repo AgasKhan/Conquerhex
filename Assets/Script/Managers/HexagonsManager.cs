@@ -204,7 +204,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         for (int i = 0; i < localRadio.GetLength(0); i++)
         {
 
-            Vector3 aux = (Quaternion.Euler(0, 0, 30 - (60 * i)) * Vector3.right) * radio;
+            Vector3 aux = (Quaternion.Euler(0, 0, 60 - (60 * i)) * Vector3.right) * radio;
 
             //Cuenta que calcula los puntos relativos
             localRadio[i, 0] = aux.x * magnitud;
@@ -468,11 +468,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         _localRadio = LocalRadio();
 
-        DebugPrint.Log("Informacion de seteo");
+        Debug.Log("Informacion de seteo");
 
-        DebugPrint.Log("lado" + lado);
+        Debug.Log("lado" + lado);
 
-        DebugPrint.Log("apotema " + apotema);
+        Debug.Log("apotema " + apotema);
 
         if (!automaticRender)
             return;

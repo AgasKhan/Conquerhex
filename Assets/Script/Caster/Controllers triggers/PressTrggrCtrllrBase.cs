@@ -63,7 +63,7 @@ public class PressTrggrCtrllr : TriggerController
             FeedBackReference?.Attack();
             pressCooldown.Reset();
 
-            if(End == true)
+            if(End)
             {
                 ControllerUp(dir, tim);
             }

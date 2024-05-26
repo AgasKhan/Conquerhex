@@ -565,7 +565,23 @@ public static class Extensions
         return pic;
     }
 
-    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="K"></typeparam>
+    /// <typeparam name="V"></typeparam>
+    /// <param name="tupla"></param>
+    /// <returns></returns>
+    static public Pictionarys<K, V> ToPictionarys<K, V>(this IEnumerable<Pictionary<K, V>> ps)
+    {
+        Pictionarys<K, V> pic = new Pictionarys<K, V>();
+
+        pic.AddRange(ps);
+
+        return pic;
+    }
+
+
     /// <summary>
     /// 
     /// </summary>

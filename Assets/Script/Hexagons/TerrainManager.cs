@@ -11,7 +11,7 @@ public class TerrainManager : MonoBehaviour
         public float width;
     }
 
-    public Terrain copyData;
+    public TerrainData copyData;
 
     [SerializeField]
     Terrain terrain;
@@ -43,6 +43,7 @@ public class TerrainManager : MonoBehaviour
 
     int[] mapDetailsBuffer;
     int[,] grassMap;
+    public int[,] detailsMap;
 
     TerrainData terrainData;
 
@@ -53,7 +54,9 @@ public class TerrainManager : MonoBehaviour
 
     private void Awake()
     {
-        terrainData = Instantiate(copyData.terrainData);
+        if (copyData == null)
+            return;
+        terrainData = Instantiate(copyData);
 
         terrain.terrainData = terrainData;
 
@@ -63,7 +66,7 @@ public class TerrainManager : MonoBehaviour
 
         mapDetailsBuffer = new int[terrainData.detailResolution * terrainData.detailResolution];
         grassMap = new int[terrainData.detailResolution, terrainData.detailResolution];
-
+        detailsMap = new int[terrainData.detailResolution, terrainData.detailResolution];
     }
 
     
@@ -76,7 +79,7 @@ public class TerrainManager : MonoBehaviour
 
         outputDetailsBuffer = new ComputeBuffer(terrainData.detailResolution * terrainData.detailResolution, sizeof(int));
 
-        //if(vertexShader==null)
+        if(vertexShader==null)
         {
             var aux = HexagonsManager.LocalRadio();
             vertexShader = new int[6, 2];
@@ -88,7 +91,7 @@ public class TerrainManager : MonoBehaviour
             }
         }
 
-        //if (apotemaShader == null)
+        if (apotemaShader == null)
         {
             var aux = HexagonsManager.LocalApotema();
             apotemaShader = new int[6, 2];
@@ -104,7 +107,7 @@ public class TerrainManager : MonoBehaviour
 
         //computeShader.SetVector("toSave", vector);
 
-        inputVertex.SetData(vertexShader);
+        inputVertex.SetData(apotemaShader);
         computeShader.SetFloat("rng", Random.value*1000);
         computeShader.SetFloat("scale", scale);
         computeShader.SetInt("pathEntry", Random.Range(0,6));
@@ -122,7 +125,7 @@ public class TerrainManager : MonoBehaviour
             inputPathBuffer = new ComputeBuffer(paths[i].points.Length, sizeof(int));
 
             inputPathBuffer.SetData(paths[i].points);
-            inputVertex.SetData(apotemaShader);
+            //inputVertex.SetData(apotemaShader);
 
             computeShader.SetFloat("diference", (paths[i].width / terrainData.size.x)/2);
 
@@ -177,6 +180,8 @@ public class TerrainManager : MonoBehaviour
         {
             int x = i % grassMap.GetLength(0);
             int y = i / grassMap.GetLength(0);
+
+            detailsMap[x, y] = mapDetailsBuffer[i];
 
             if (mapDetailsBuffer[i] == 1)
             {
