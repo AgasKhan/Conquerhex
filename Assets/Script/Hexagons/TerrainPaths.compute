@@ -271,7 +271,7 @@ void Details(uint3 id : SV_DispatchThreadID)
     float aux;
     float Out;
     
-    uint2 index = uint2((id.x+1) * width / detailResolution, (id.y+1) * height / detailResolution);
+    uint2 index = uint2((id.x) * width / detailResolution, (id.y) * height / detailResolution);
     
     uint2 indexEnd = index + (width / detailResolution)*0.75;
     
