@@ -180,7 +180,7 @@ public class HunterPatrol : IState<HunterIntern>
         if (move.VectorVelocity.sqrMagnitude >= 0.01f)
             conoDir = Vector3.Lerp(conoDir, move.VectorVelocity.normalized, Time.deltaTime);
 
-        this.move.ControllerPressed(dir, 0);
+        this.move.ControllerPressed(dir.Vect3To2XZ(), 0);
     }
     public void OnExitState(HunterIntern param)
     {
