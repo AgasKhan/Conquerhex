@@ -58,15 +58,18 @@ public class PressTrggrCtrllr : TriggerController
         
         if (pressCooldown.Chck)
         {
-            End = false;
             Cast();
+            End = false;
+
             FeedBackReference?.Attack();
             pressCooldown.Reset();
-
+            
+            /*
             if(End)
             {
                 ControllerUp(dir, tim);
             }
+            */
         }
     }
 
@@ -78,7 +81,9 @@ public class PressTrggrCtrllr : TriggerController
         pressCooldown.Reset();
         End = true;
 
+        /*
         Cast();
         FeedBackReference?.Attack();
+        */
     }
 }
