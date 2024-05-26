@@ -188,7 +188,7 @@ public class Hexagone : MonoBehaviour
 
                     if (newDistPos.sqrMagnitude < Mathf.Pow(HexagonsManager.apotema * 0.85f, 2) && (newDistPos.sqrMagnitude > Mathf.Pow(biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad, 2) || !centro))
                     {
-                        if (Random.Range(0, 100) > biomes.layersOfProps[(int)Biomes.LayersNames.Trees].chanceEmptyOrEnemy)
+                        if (Random.Range(0, 100) > biomes.layersOfProps[(int)Biomes.LayersNames.Enemies].chanceEmptyOrEnemy)
                         {
                             if (biomes.props.Count > 0)
                             {
