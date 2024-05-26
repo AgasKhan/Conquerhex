@@ -26,6 +26,9 @@ public class Biomes : ShowDetails
 
     public Tile[] tile;
     public TerrainData terrainBiome;
+
+    [Header("Orden de las layers:\n\tPrimero: Trees\n\tSegundo: Enemies\n\tTercero: Paths\n\nPara el sistema viejo toma: \n\tchanceEmptyOrEnemy: Enemies\n\tinversaDensidad: trees\n\tspawner: Enemies")]
+    [Space]
     public LayersOfProps[] layersOfProps = new LayersOfProps[3];
 
     [Tooltip("Quedara obsoleto cuando se traspase de sistema, en su lugar trabajar con LayersOfProps")]
