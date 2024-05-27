@@ -30,6 +30,21 @@ public class AutomaticAttack
 
     public WeaponKata weaponKata => kata.equiped;
 
+    FadeColorAttack FeedBackReference
+    {
+        get
+        {
+            if (weaponKata != null && weaponKata.FeedBackReference != null)
+            {
+                var aux = kata.equiped.FeedBackReference;
+                aux.Area(radius);
+                return aux;
+            }
+
+            return null;
+        }
+    }
+
     public float radius
     {
         get
@@ -45,11 +60,9 @@ public class AutomaticAttack
     {
         get
         {
-            if (weaponKata != null && weaponKata.FeedBackReference != null)
+            if (FeedBackReference != null)
             {
-                var aux = kata.equiped.FeedBackReference;
-                aux.Area(radius);
-                return aux.attackColor;
+                return FeedBackReference.attackColor;
             } 
             else
                 return Color.white;
@@ -60,11 +73,9 @@ public class AutomaticAttack
     {
         get
         {
-            if (weaponKata != null && weaponKata.FeedBackReference != null)
+            if (FeedBackReference != null)
             {
-                var aux = kata.equiped.FeedBackReference;
-                aux.Area(radius);
-                return aux.areaColor;
+                return FeedBackReference.areaColor;
             } 
             else
                 return Color.white;
@@ -75,20 +86,17 @@ public class AutomaticAttack
     {
         get
         {
-            if (weaponKata != null && weaponKata.FeedBackReference != null)
+            if (FeedBackReference != null)
             {
-                var aux = kata.equiped.FeedBackReference;
-                aux.Area(radius);
-                return aux.color;
+                return FeedBackReference.color;
             }
-                
             else
                 return Color.white;
         }
         set
         {
-            if (weaponKata != null && weaponKata.FeedBackReference != null)
-                kata.equiped.FeedBackReference.color = value;
+            if (FeedBackReference != null)
+                FeedBackReference.color = value.ChangeAlphaCopy(FeedBackReference.color.a);
         }
     }
 
@@ -106,14 +114,15 @@ public class AutomaticAttack
     {
         if (!timerChargeAttack.Chck || !timerToAttack.Chck)
             return;
-
-        weaponKata.FeedBackReference.On();
         
+        timerChargeAttack.Stop();
+
         timerToAttack.Reset();
     }
 
     public void StopTimers()
     {
+        Debug.Log("se stopeo el timer");
         weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);
         weaponKata?.StopCast();
         timerChargeAttack.Stop().SetInitCurrent(0);
@@ -127,7 +136,6 @@ public class AutomaticAttack
 
         timerToAttack = (TimedAction)TimersManager.Create(1, ()=>
         {
-
             actual = Color.Lerp(areaColor, attackColor, timerToAttack.InversePercentage());
 
         },Attack).Stop().SetInitCurrent(0);
@@ -141,10 +149,9 @@ public class AutomaticAttack
 
         }, () =>
         {
-
             weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);   
 
-            weaponKata.FeedBackReference.Off();
+            weaponKata.FeedBackReference=null;
 
         }).Stop().SetInitCurrent(0);
         

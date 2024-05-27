@@ -17,16 +17,6 @@ public class FadeColorAttack : MonoBehaviour
     [SerializeField]
     public Color lightColor;
 
-
-
-    /*
-    [SerializeReference]
-    TimedAction offTimer;
-
-    [SerializeReference]
-    TimedAction onTimer;
-    */
-
     [SerializeReference]
     TimedAction attackTimer;
 
@@ -137,17 +127,16 @@ public class FadeColorAttack : MonoBehaviour
         return this;
     }
 
-    public FadeColorAttack Attack()
+    public FadeColorAttack Off()
     {
-        attackTimer.Reset();
+        fadeOnOff.end += FadeOffEvent;
+        fadeOnOff.FadeOff().Set(fadeOff);
         return this;
     }
 
-    public FadeColorAttack Off()
+    public FadeColorAttack Attack()
     {
-        fadeOnOff.end += FadeMenu_end;
-        fadeOnOff.FadeOff().Set(fadeOff);
-
+        attackTimer.Reset();
         return this;
     }
 
@@ -202,22 +191,31 @@ public class FadeColorAttack : MonoBehaviour
         noAttackTimer.Reset();
         return this;
     }
-
-    private void FadeMenu_end()
+    /*
+    private void FadeOnEvent()
     {
+        fadeOnOff.end -= FadeOnEvent;
+    }*/
+
+    private void FadeOffEvent()
+    {
+        //fadeOnOff.end -= FadeOffEvent;
+
         gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        Angle(360);
-        color = areaColor.ChangeAlphaCopy(0);
-        fadeOnOff.end -= FadeMenu_end;
-        fadeOnOff.FadeOn().Set(fadeOn);
+        Angle(360);        
+        fadeOnOff.end -= FadeOffEvent;
+        fadeOnOff.SetFade(color.a, 1).Set(fadeOn);
     }
 
     private void OnDisable()
     {
+        fadeOnOff.Stop();
+        color = color.ChangeAlphaCopy(0);
+
         if(!transform.parent?.gameObject.activeSelf ?? false)
         {
             gameObject.SetActive(false);

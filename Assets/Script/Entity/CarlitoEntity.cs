@@ -21,6 +21,7 @@ public class CarlitoEntity : MonoBehaviour, IGetEntity
     void Awake()
     {
         entity = GetComponentInParent<Entity>();
-        tag = transform.parent.tag;
+        tag = entity.gameObject.tag;
+        gameObject.layer = entity.gameObject.layer;
     }
 }
