@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+
 using System;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +7,7 @@ namespace CheatCommandsPrompt
 {
     public partial class CommandPrompt : MonoBehaviour
     {
+        #if UNITY_EDITOR
         private bool PredictionExists => _predictedCommands.Length > 0;
 
         /*////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -109,6 +110,7 @@ namespace CheatCommandsPrompt
             }
             GUILayout.EndVertical();
         }
+        #endif
     }
-#endif
+
 }
