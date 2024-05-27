@@ -18,16 +18,17 @@ public class SecretKey : MonoBehaviour
     Vector3 originalMinionPos;
     private void Awake()
     {
-        originalMinionPos = minion.transform.position;
+        if(minion!=null)
+            originalMinionPos = minion.transform.position;
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Comma))
+        if (Input.GetKeyDown(KeyCode.Comma) && leverCorderito != null)
         {
             leverCorderito.SetActive(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        if (Input.GetKeyDown(KeyCode.Alpha0) && myObjects != null)
         {
             for (int i = 0; i < myObjects.Length; i++)
             {
