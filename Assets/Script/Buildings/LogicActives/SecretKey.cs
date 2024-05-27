@@ -28,7 +28,7 @@ public class SecretKey : MonoBehaviour
         {
             leverCorderito.SetActive(true);
         }
-
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha0) && myObjects != null)
         {
             for (int i = 0; i < myObjects.Length; i++)
@@ -36,7 +36,7 @@ public class SecretKey : MonoBehaviour
                 myObjects[i].SetActive(true);
             }
         }
-
+        */
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
