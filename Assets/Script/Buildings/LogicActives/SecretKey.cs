@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SecretKey : MonoBehaviour
 {
@@ -62,6 +63,18 @@ public class SecretKey : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
             GameManager.instance.Reload();
+
+        if(Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            if (SceneManager.GetActiveScene().name == "Hexagonos test")
+            {
+                GameManager.instance.Load("PruebaTesis");
+            }
+            else
+            {
+                GameManager.instance.Load("Hexagonos test");
+            }
+        }
 
     }
 
