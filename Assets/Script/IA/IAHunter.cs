@@ -246,7 +246,7 @@ public class HunterChase : IState<HunterIntern>
 
         if (distance <= (param.context.attk.radius * param.context.attk.radius) && param.context.attk.cooldown)
         {
-            param.context.attk.Attack();
+            param.context.attk.ResetAttack();
         }
 
         param.context.move.ControllerPressed(steerings[0].Vect3To2XZ(), 0);

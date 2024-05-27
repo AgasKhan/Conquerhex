@@ -14,7 +14,17 @@ public class AutomaticAttack
 
     SlotItem<WeaponKata> kata => owner.katasCombo[indexKata];
 
-    public event System.Action onAttack;
+    public event System.Action onAttack
+    {
+        add
+        {
+            weaponKata.onCast += value;
+        }
+        remove
+        {
+            weaponKata.onCast -= value;
+        }
+    }
 
     public bool cooldown => kata.equiped!=null ? kata.equiped.onCooldownTime && timerChargeAttack.Chck : false;
 
@@ -117,21 +127,22 @@ public class AutomaticAttack
 
         timerToAttack = (TimedAction)TimersManager.Create(1, ()=>
         {
+
             actual = Color.Lerp(areaColor, attackColor, timerToAttack.InversePercentage());
+
         },Attack).Stop().SetInitCurrent(0);
 
         timerChargeAttack = null;
 
         timerChargeAttack = TimersManager.Create(2, () => 
         {
+
             weaponKata?.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>
         {
-            
+
             weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);   
-            
-            onAttack?.Invoke();
 
             weaponKata.FeedBackReference.Off();
 
