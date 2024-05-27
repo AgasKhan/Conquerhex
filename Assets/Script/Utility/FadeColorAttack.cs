@@ -131,7 +131,8 @@ public class FadeColorAttack : MonoBehaviour
 
     public FadeColorAttack On()
     {
-        gameObject.SetActive(true);
+        if(!gameObject.activeSelf)
+            gameObject.SetActive(true);
 
         return this;
     }
@@ -213,8 +214,6 @@ public class FadeColorAttack : MonoBehaviour
         color = areaColor.ChangeAlphaCopy(0);
         fadeOnOff.end -= FadeMenu_end;
         fadeOnOff.FadeOn().Set(fadeOn);
-
-        
     }
 
     private void OnDisable()

@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5223350694060523476}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.66, y: 0.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3688162604852125495
 SpriteRenderer:
@@ -102,9 +102,11 @@ MonoBehaviour:
     pictionaries:
     - key: {fileID: 6504353894888779191, guid: 116c9f01b5b1a0e4fa2b8e617aebd299, type: 3}
       value: 1
-    - key: {fileID: 7826366853568280377, guid: 46f95a2b88150f04896a10c98b733e8c, type: 3}
-      value: 2
+    - key: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd, type: 3}
+      value: 9
+  setTeam: 0
+  team: 0
   patrolParent: {fileID: 0}
   patrolReverse: 0
-  percentageToSpawn: 30
+  percentageToSpawn: 10
   autoDestroy: 1

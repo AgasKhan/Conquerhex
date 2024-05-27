@@ -197,6 +197,8 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         DetectEnemy();
 
+        param.context.attack.onAttack += Attack_onAttack;
+
         evadeTimer = TimersManager.Create(2f, ()=> param.CurrentState = param.idle).Stop().SetInitCurrent(0);
     }
 
@@ -222,12 +224,16 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         if (distance <= (param.context.attack.radius * param.context.attack.radius) && param.context.attack.cooldown && evadeTimer.Chck)
         {
-            param.context.attack.Attack();
-            steerings.SwitchSteering<Evade>();
-            evadeTimer.Reset();
+            param.context.attack.ResetAttack();
         }
 
         param.context.move.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+    }
+
+    private void Attack_onAttack()
+    {
+        steerings.SwitchSteering<Evade>();
+        evadeTimer.Reset();
     }
 
     public void OnExitState(GenericEnemyFSM param)
@@ -236,6 +242,7 @@ public class GenericChase : IState<GenericEnemyFSM>
         steerings.SwitchSteering<Seek>();
         steerings.SwitchSteering<Pursuit>();
         param.context.steerings["corderitos"].targets.Clear();
+        param.context.attack.onAttack -= Attack_onAttack;
     }
 
     void DetectEnemy()

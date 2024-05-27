@@ -36,7 +36,11 @@ public class AutomaticAttack
         get
         {
             if (weaponKata != null && weaponKata.FeedBackReference != null)
-                return kata.equiped.FeedBackReference.attackColor;
+            {
+                var aux = kata.equiped.FeedBackReference;
+                aux.Area(radius);
+                return aux.attackColor;
+            } 
             else
                 return Color.white;
         }
@@ -47,7 +51,11 @@ public class AutomaticAttack
         get
         {
             if (weaponKata != null && weaponKata.FeedBackReference != null)
-                return kata.equiped.FeedBackReference.areaColor;
+            {
+                var aux = kata.equiped.FeedBackReference;
+                aux.Area(radius);
+                return aux.areaColor;
+            } 
             else
                 return Color.white;
         }
@@ -58,7 +66,12 @@ public class AutomaticAttack
         get
         {
             if (weaponKata != null && weaponKata.FeedBackReference != null)
-                return kata.equiped.FeedBackReference.color;
+            {
+                var aux = kata.equiped.FeedBackReference;
+                aux.Area(radius);
+                return aux.color;
+            }
+                
             else
                 return Color.white;
         }
@@ -79,12 +92,22 @@ public class AutomaticAttack
         timerChargeAttack.Reset();
     }
 
+    public void ResetAttack()
+    {
+        if (!timerChargeAttack.Chck || !timerToAttack.Chck)
+            return;
+
+        weaponKata.FeedBackReference.On();
+        
+        timerToAttack.Reset();
+    }
+
     public void StopTimers()
     {
         weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);
         weaponKata?.StopCast();
         timerChargeAttack.Stop().SetInitCurrent(0);
-        timerToAttack.Set(1).Stop();
+        timerToAttack.Set(1).Stop().SetInitCurrent(0);
     }
 
     public AutomaticAttack(CasterEntityComponent entity, int index)
@@ -92,14 +115,15 @@ public class AutomaticAttack
         owner = entity;
         indexKata = index;
 
-        timerToAttack = (TimedAction)TimersManager.Create(1, Attack).Stop().SetLoop(true);
+        timerToAttack = (TimedAction)TimersManager.Create(1, ()=>
+        {
+            actual = Color.Lerp(areaColor, attackColor, timerToAttack.InversePercentage());
+        },Attack).Stop().SetInitCurrent(0);
 
         timerChargeAttack = null;
 
-        timerChargeAttack = TimersManager.Create(2, () => {
-
-            actual = Color.Lerp(areaColor, attackColor, timerChargeAttack.InversePercentage());
-
+        timerChargeAttack = TimersManager.Create(2, () => 
+        {
             weaponKata?.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>
@@ -108,6 +132,8 @@ public class AutomaticAttack
             weaponKata?.ControllerUp(Vector2.zero, timerChargeAttack.total);   
             
             onAttack?.Invoke();
+
+            weaponKata.FeedBackReference.Off();
 
         }).Stop().SetInitCurrent(0);
         

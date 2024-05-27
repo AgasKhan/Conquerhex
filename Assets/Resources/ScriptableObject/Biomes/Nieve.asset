@@ -21,12 +21,33 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2c2fc7a80fe7ee7468ec7384a7364a11, type: 2}
   terrainBiome: {fileID: 15600000, guid: c963abcfb416c34499418daa1ed0f317, type: 2}
   layersOfProps:
-  - chanceEmptyOrEnemy: 0
+  - chanceEmptyOrEnemy: 30
     inversaDensidad: 3
     spawner: {fileID: 0}
     props:
-      pictionaries: []
-  - chanceEmptyOrEnemy: 50
+      pictionaries:
+      - key: {fileID: 2323474988019396462, guid: 9c3d0d9f46b09c34e91fbe949c53c0f0,
+          type: 3}
+        value: 10
+      - key: {fileID: 2323474988019396462, guid: ee008f2f303d5764e82da2dfc6e9da73,
+          type: 3}
+        value: 10
+      - key: {fileID: 2323474988019396462, guid: 7b26e0d8a0574874b986eb5e9c49121f,
+          type: 3}
+        value: 10
+      - key: {fileID: 2100471413994239449, guid: 25678182cf61c3247b663d4259d1004b,
+          type: 3}
+        value: 10
+      - key: {fileID: 5361864553094481682, guid: b5a8e6d7af3d24d478b1550c5bcdcd8d,
+          type: 3}
+        value: 10
+      - key: {fileID: 6564708802730321377, guid: 84946472b38f7fc45be8728c80d177b4,
+          type: 3}
+        value: 10
+      - key: {fileID: 6819937591335974348, guid: 6c04b0c806db669429c99c774da2d274,
+          type: 3}
+        value: 10
+  - chanceEmptyOrEnemy: 80
     inversaDensidad: 3
     spawner: {fileID: -5676458598891892511, guid: ecf5bace16d838041a93341ef03cc01d,
       type: 3}
@@ -35,36 +56,60 @@ MonoBehaviour:
       - key: {fileID: 1830034465871130614, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
           type: 3}
         value: 10
+      - key: {fileID: 7939915129259655713, guid: 347f67755571242449579b7c5be8293c,
+          type: 3}
+        value: 1
+      - key: {fileID: 835279784735313384, guid: 79ab4e3667c15a741a16fa60c4d2b0c6,
+          type: 3}
+        value: 5
+      - key: {fileID: 7535998918166339781, guid: dc5b43883d8c92243bf88a723a7afc8c,
+          type: 3}
+        value: 5
       - key: {fileID: 2521138547346675365, guid: 612b3d827362b4c478776888c96a5287,
           type: 3}
-        value: 10
+        value: 2
       - key: {fileID: 1886755526136346425, guid: 20c7ea5cecdf4264aa7a3c51dd0a71b1,
           type: 3}
-        value: 10
+        value: 2
       - key: {fileID: 6773200482067112399, guid: e356d430a77fd5d47bc26ef58a6825b5,
           type: 3}
-        value: 10
+        value: 1
       - key: {fileID: 6773200482067112399, guid: c64f2797d25ccfe4686657150197d6d4,
           type: 3}
-        value: 10
+        value: 1
       - key: {fileID: 6773200482067112399, guid: 38fff3505ae691f4a869701c9bfb18a2,
           type: 3}
-        value: 10
+        value: 1
       - key: {fileID: 6773200482067112399, guid: 3f1c177dfef2fff40aeda075448f7f4b,
           type: 3}
-        value: 10
-      - key: {fileID: 6773200482067112399, guid: b0462ee6d7921c2438c98bca78149692,
+        value: 1
+      - key: {fileID: 7269326820221536274, guid: 7ece5ba6c7e912843959c69b801f2a0f,
           type: 3}
-        value: 10
-      - key: {fileID: 6773200482067112399, guid: bd3d4c77b006b7941a5c734c65fcbb64,
+        value: 1
+      - key: {fileID: 4988081953249333327, guid: 80e9e078018ffbc4e94c0a2527c7eb7d,
           type: 3}
-        value: 10
-  - chanceEmptyOrEnemy: 0
+        value: 1
+      - key: {fileID: 4036624252346951605, guid: 1240b916b688e1b41aced3a9e56dbede,
+          type: 3}
+        value: 1
+      - key: {fileID: 3199751684146930241, guid: f68360b7258e45949b4032ad153ac043,
+          type: 3}
+        value: 1
+      - key: {fileID: 1685207928341612664, guid: f9a8d8b138baf4449bc6caac73416540,
+          type: 3}
+        value: 1
+      - key: {fileID: 7259868766094253650, guid: 5c27e9ab5fc2e9e4f901b91e6fc6e867,
+          type: 3}
+        value: 5
+  - chanceEmptyOrEnemy: 80
     inversaDensidad: 3
     spawner: {fileID: 0}
     props:
       pictionaries:
-      - key: {fileID: 7269326820221536274, guid: 7ece5ba6c7e912843959c69b801f2a0f,
+      - key: {fileID: 6773200482067112399, guid: b0462ee6d7921c2438c98bca78149692,
+          type: 3}
+        value: 10
+      - key: {fileID: 6773200482067112399, guid: bd3d4c77b006b7941a5c734c65fcbb64,
           type: 3}
         value: 10
       - key: {fileID: 3079128240447882811, guid: 28fb00200f5de014fbe8d031c24d5c96,
@@ -85,9 +130,6 @@ MonoBehaviour:
       - key: {fileID: 7676842598724970085, guid: b66b412fdf49dc4469df9c8d598e244d,
           type: 3}
         value: 10
-      - key: {fileID: 4988081953249333327, guid: 80e9e078018ffbc4e94c0a2527c7eb7d,
-          type: 3}
-        value: 10
       - key: {fileID: 7782921201629863619, guid: 5088b6995863b2146ae696b3ac511baf,
           type: 3}
         value: 10
@@ -101,17 +143,5 @@ MonoBehaviour:
           type: 3}
         value: 10
       - key: {fileID: 3554731038849759299, guid: 4c9fbaa6bf803804192bd33317f2669f,
-          type: 3}
-        value: 10
-      - key: {fileID: 3554731038849759299, guid: 22dbd00ea87aa214c88d8dde10fa3167,
-          type: 3}
-        value: 10
-      - key: {fileID: 4036624252346951605, guid: 1240b916b688e1b41aced3a9e56dbede,
-          type: 3}
-        value: 10
-      - key: {fileID: 3199751684146930241, guid: f68360b7258e45949b4032ad153ac043,
-          type: 3}
-        value: 10
-      - key: {fileID: 6747904112396389293, guid: e1d5bcdc98d6be847a31fb99d002e235,
           type: 3}
         value: 10
