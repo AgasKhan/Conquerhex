@@ -66,7 +66,7 @@ MonoBehaviour:
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 11400000, guid: 0261c8f9edf440e4cbc550f66f345ed1,
     type: 2}
-  <healthBase>k__BackingField: {fileID: 11400000, guid: 91df6849104b7e74ab5c11e304949ba6,
+  <healthBase>k__BackingField: {fileID: 11400000, guid: 824126fd92f4bf847a13950a5c642317,
     type: 2}
   inventory: {fileID: 3540766381373754454}
   drop: {fileID: 7620313239268833535}
@@ -82,9 +82,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  currentWeight: 0
-  travelItem: []
+  visualItems: []
+  inventory:
+    ts: []
+  _currentWeight: 0
+  flyweight: {fileID: 0}
   references:
     version: 2
     RefIds: []

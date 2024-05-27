@@ -232,6 +232,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     private void Attack_onAttack()
     {
+        steerings.SwitchSteering<Seek>();
         steerings.SwitchSteering<Evade>();
         evadeTimer.Reset();
     }
