@@ -81,7 +81,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     void EndDialog()
     {
-        //player.CurrentState = playerIA;
+        if(player.CurrentState==null)
+            player.CurrentState = playerIA;
     }
 
     private void AttackDummyEvent(Damage obj)
@@ -168,6 +169,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         if (!dialogEnable)
             ((Interactuable)npc).interactuable = false;
+
+        playerIA = player.CurrentState;
 
         player.CurrentState = null;
     }
