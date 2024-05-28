@@ -63,11 +63,9 @@ public class Building : Entity
 
         hexagoneParent = transform.root.GetComponent<Hexagone>();
 
-        var aux = flyweight.GetFlyWeight<UpgradeBase>();
+        var aux = flyweight?.GetFlyWeight<UpgradeBase>();
         if (aux != null)
             upgradesRequirements = aux.upgradesRequirements;
-
-        
     }
 
 
