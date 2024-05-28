@@ -170,7 +170,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (!dialogEnable)
             ((Interactuable)npc).interactuable = false;
 
-        playerIA = player.CurrentState;
+        if(playerIA==null && player.CurrentState!=null)
+            playerIA = player.CurrentState;
 
         player.CurrentState = null;
     }
