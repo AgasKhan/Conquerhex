@@ -281,11 +281,20 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         var aux = GetComponentsInChildren<IDamageable>();
 
         if (healthBase == null)
-            healthBase = flyweight.GetFlyWeight<HealthBase>();
+        {
+            if(flyweight!=null)
+            {
+                healthBase = flyweight.GetFlyWeight<HealthBase>();
+                health.Init(healthBase.life, healthBase.regen);
+            }
+            else
+            {
+                health.Init(1000, 100);
+            }
+        }
 
         tickDamage = TimersManager.Create(tickTimeDamage, ()=> updateTickDamage?.Invoke() ).SetLoop(true).Stop() as TimedAction;
 
-        health.Init(healthBase.life, healthBase.regen);
 
         damageables = new IDamageable[aux.Length - 1];
 
