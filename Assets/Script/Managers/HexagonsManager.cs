@@ -17,7 +17,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static int[][,] hexagonos => instance._hexagonos;
 
-    public static float scala;
+    public static float scala => instance.scale;
 
     public static float lado;
 
@@ -36,6 +36,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     [SerializeReference]
     Hexagone _hexagono;
+
+    [Tooltip("En caso de ser menor que 0, se designara de forma automatica en base al prefab del hexagono cargado"),SerializeReference]
+    float scale;
 
     [SerializeReference]
     int _idMaxLevel;
@@ -456,7 +459,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     protected override void Awake()
     {
         base.Awake();
-        scala = hexagono.transform.localScale.x;
+        if(scale <= 0)
+            scale = hexagono.transform.localScale.x;
 
         lado = scala / 2; //+ correccionScala;
 
