@@ -9,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3665323422608231053}
-  - component: {fileID: 3665323422608231055}
+  - component: {fileID: 3724016733197168584}
+  - component: {fileID: 3748661884867687394}
+  - component: {fileID: -7952033586835107782}
   - component: {fileID: 6943815208849389303}
-  m_Layer: 7
+  - component: {fileID: 345524875183934979}
+  m_Layer: 0
   m_Name: npc
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -35,41 +38,78 @@ Transform:
   - {fileID: 3665323422989282679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &3665323422608231055
-CapsuleCollider2D:
+--- !u!114 &3724016733197168584
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3665323422608231057}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.25, y: 0.25}
-  m_Direction: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf47aa6f80466c34482f4f3099a497f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 5
+  health:
+    life:
+      _total: 0
+      _current: 0
+    regen:
+      _total: 0
+      _current: 0
+    timeToRegen:
+      _total: 0
+      _current: 0
+    deathBool: 0
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
+  <carlitos>k__BackingField: []
+  <flyweight>k__BackingField: {fileID: 11400000, guid: fa36d0de7c046bf4694d1fbd3695f87a,
+    type: 2}
+  <healthBase>k__BackingField: {fileID: 11400000, guid: 824126fd92f4bf847a13950a5c642317,
+    type: 2}
+  upgradesRequirements: []
+  NavBarButtons: 
+  controller: {fileID: 0}
+  interactComp: {fileID: 3748661884867687394}
+  levelComp: {fileID: 0}
+--- !u!114 &3748661884867687394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3665323422608231057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660d4632559fa0744a119fc58b33b9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactuable: 1
+  Image: {fileID: 0}
+  interactAction: {fileID: -7952033586835107782}
+  genericMenu:
+    subMenu: {fileID: 0}
+    detailsWindow: {fileID: 0}
+    myCharacter: {fileID: 0}
+    interactComponent: {fileID: 0}
+    buttonsList: []
+--- !u!114 &-7952033586835107782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3665323422608231057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a109b573feaded841bc904c4c0b3e695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6943815208849389303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +124,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myImage: {fileID: 538331138, guid: 614a0b7d6926d2f43989225b7e350e08, type: 3}
   myEnable: 1
+--- !u!136 &345524875183934979
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3665323422608231057}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2597323
+  m_Height: 1.3133545
+  m_Direction: 1
+  m_Center: {x: 0.042470872, y: 0.50335586, z: 0}
 --- !u!1 &3665323422989282676
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3665323422989282679}
   - component: {fileID: 3665323422989282678}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +276,7 @@ PrefabInstance:
     - target: {fileID: 6512603503947103261, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126321, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
@@ -223,7 +286,7 @@ PrefabInstance:
     - target: {fileID: 8515497041664126321, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

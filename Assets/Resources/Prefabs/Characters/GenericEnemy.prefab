@@ -90,7 +90,7 @@ MonoBehaviour:
       rid: -2
   fsm:
     rid: -2
-  minimalDistance: 1
+  minimalDistance: 0.5
   attack:
     timerToAttack:
       _total: 0
@@ -98,6 +98,8 @@ MonoBehaviour:
     timerChargeAttack:
       _total: 0
       _current: 0
+  timeToEvade: 1.8
+  timeToIdle: 3
   references:
     version: 2
     RefIds:

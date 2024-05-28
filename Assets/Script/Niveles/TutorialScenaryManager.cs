@@ -53,7 +53,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         player.move.onTeleport += TeleportEvent;
 
-        playerIA = player.CurrentState;
+        //playerIA = player.CurrentState;
+
         /* -----------------
         if(dummy != null)
             dummy.onTakeDamage += AttackDummyEvent;
@@ -74,13 +75,13 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         {
             titleSec.AddMsg("Simulación corrupta");
         }
-);
+        );
 
     }
 
     void EndDialog()
     {
-        player.CurrentState = playerIA;
+        //player.CurrentState = playerIA;
     }
 
     private void AttackDummyEvent(Damage obj)

@@ -33,6 +33,9 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
         }
     }
 
+    public float timeToEvade = 2.5f;
+    public float timeToIdle = 3f;
+
     public Team team
     {
         get
@@ -91,7 +94,7 @@ public class GenericEnemyFSM : FSM<GenericEnemyFSM, IA_GenericEnemy>
 
     public GenericChase chase = new GenericChase();
 
-    public IState<GenericEnemyFSM> idle = new GenericIdle();
+    public GenericWaiting waiting = new GenericWaiting();
 
     public event System.Action<Vector3> detectEnemy
     {
@@ -121,7 +124,7 @@ public class GenericEnemyFSM : FSM<GenericEnemyFSM, IA_GenericEnemy>
 
     public GenericEnemyFSM(IA_GenericEnemy reference) : base(reference)
     {
-        Init(idle);
+        Init(waiting);
     }
 }
 
@@ -199,7 +202,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         param.context.attack.onAttack += Attack_onAttack;
 
-        evadeTimer = TimersManager.Create(2f, ()=> param.CurrentState = param.idle).Stop().SetInitCurrent(0);
+        evadeTimer = TimersManager.Create(param.context.timeToEvade, ()=> { param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/ }).Stop().SetInitCurrent(0);
     }
 
     public void OnStayState(GenericEnemyFSM param)
@@ -208,21 +211,21 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
-        if (distance > param.context.detection.maxRadius * param.context.detection.maxRadius || !steerings.targets[0].visible)
+        if (evadeTimer.Chck && distance > param.context.detection.maxRadius * param.context.detection.maxRadius || !steerings.targets[0].visible)
         {
-            param.CurrentState = param.patrol;
+            param.CurrentState = param.waiting;
             return;
         }
-        else if (distance >= param.context.detection.maxRadius / 2 && evadeTimer.Chck)
+        else if (evadeTimer.Chck && distance >= param.context.detection.maxRadius / 2)
         {
             steerings.SwitchSteering<Pursuit>();
         }
-        else if (distance < param.context.detection.maxRadius / 3 && evadeTimer.Chck)
+        else if (evadeTimer.Chck && distance < param.context.detection.maxRadius / 3)
         {
             steerings.SwitchSteering<Seek>();
         }
 
-        if (distance <= (param.context.attack.radius * param.context.attack.radius) && param.context.attack.cooldown && evadeTimer.Chck)
+        if (evadeTimer.Chck && distance <= (param.context.attack.radius * param.context.attack.radius) && param.context.attack.cooldown)
         {
             param.context.attack.ResetAttack();
         }
@@ -232,9 +235,13 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     private void Attack_onAttack()
     {
+        if(!evadeTimer.Chck)
+            return;
+
         steerings.SwitchSteering<Seek>();
         steerings.SwitchSteering<Evade>();
         evadeTimer.Reset();
+        //Debug.Log("Timer Evade Starts");
     }
 
     public void OnExitState(GenericEnemyFSM param)
@@ -252,23 +259,33 @@ public class GenericChase : IState<GenericEnemyFSM>
     }
 }
 
-
-public class GenericIdle : IState<GenericEnemyFSM>
+public class GenericWaiting : IState<GenericEnemyFSM>
 {
-    Timer timeToStart = TimersManager.Create(3).Stop();
+    Timer timeToStart;
     public void OnEnterState(GenericEnemyFSM param)
     {
-        timeToStart.Reset();
+        timeToStart = TimersManager.Create(param.context.timeToIdle);
+        //timeToStart.Reset();
     }
 
     public void OnStayState(GenericEnemyFSM param)
     {
-        if (timeToStart.Chck)
-            param.CurrentState = param.patrol;
+        if (!timeToStart.Chck)
+            return;
+
+        param.context.steerings["corderitos"].targets.Clear();
+
+        param.context.detection.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team.TeamEnemyAttack(target.GetEntity().team); });
+
+        if (param.context.detection.results.Count > 0)
+        {
+            param.context.steerings["corderitos"].targets.Add(param.context.detection.results[0]);
+            param.CurrentState = param.chase;
+        }
     }
 
     public void OnExitState(GenericEnemyFSM param)
     {
-        
+
     }
 }
