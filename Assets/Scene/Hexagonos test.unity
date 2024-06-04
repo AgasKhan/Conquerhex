@@ -142,6 +142,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375d866d7de28cf4eb5a1ade68639eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &210257079 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2865451968721428657, guid: 9982472369f0d9b439b39b8f4172c71d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6295448973055230582}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &210257082
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210257079}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1324227885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,6 +1076,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 302175232543044926, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: active
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 953785783523005105, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1738593161606380355, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: animation
+      value: 
+      objectReference: {fileID: 210257082}
+    - target: {fileID: 1738593161606380355, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: idleNameAnim
+      value: 
+      objectReference: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
+        type: 3}
+    - target: {fileID: 1738593161606380355, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: moveNameAnim
+      value: 
+      objectReference: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
+        type: 3}
+    - target: {fileID: 1738593161606380355, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: deathNameAnim
+      value: 
+      objectReference: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
+        type: 3}
+    - target: {fileID: 1738593161606380355, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: attackNameAnim
+      value: 
+      objectReference: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
+        type: 3}
     - target: {fileID: 6053871165468208764, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_Enabled
@@ -1140,6 +1200,21 @@ PrefabInstance:
       propertyPath: managedReferences[-2]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8374503059299788059, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_Height
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374503059299788059, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822513299373957233, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8827870643109227057, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_ScreenMatchMode
@@ -1176,7 +1251,11 @@ PrefabInstance:
     - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2865451968721428657, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 210257082}
   m_SourcePrefab: {fileID: 100100000, guid: 9982472369f0d9b439b39b8f4172c71d, type: 3}
 --- !u!1001 &7739652028843599598
 PrefabInstance:

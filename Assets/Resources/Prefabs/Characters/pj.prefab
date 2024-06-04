@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7012064593822611016}
   - component: {fileID: -3299522973000388994}
   - component: {fileID: 1738593161606380355}
+  - component: {fileID: 5496700682184725288}
   - component: {fileID: 6295448971589143362}
   - component: {fileID: 7607633304618281516}
   - component: {fileID: 6295448971589143363}
@@ -112,69 +113,84 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons:
     list:
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   katasCombo:
     list:
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
     <indexer>k__BackingField: 0
   abilities:
     list:
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
       _indexSlot: -1
       _equiped:
         rid: -2
@@ -254,6 +270,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8822513299373957233}
+  attackNameAnim: Attack
+  moveNameAnim: Move
+  deathNameAnim: Death
+--- !u!114 &5496700682184725288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bec8b38ff5d773478172f691199300b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3132127553594760305}
@@ -448,6 +480,86 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1001 &3097126867711260861
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2409691940225827802}
+    m_Modifications:
+    - target: {fileID: 4512431500234240025, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_Name
+      value: p_Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 305115e05452977469d69e3c3c007f64, type: 3}
+--- !u!4 &4665838058070002644 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7654807117269676905, guid: 305115e05452977469d69e3c3c007f64,
+    type: 3}
+  m_PrefabInstance: {fileID: 3097126867711260861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8822513299373957233 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5806522419009509580, guid: 305115e05452977469d69e3c3c007f64,
+    type: 3}
+  m_PrefabInstance: {fileID: 3097126867711260861}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6295448972258438828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -584,7 +696,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 3d0cc818fbd868148b0756c0632bd11e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 4665838058070002644}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 135a5d7445645394c8a553fdb6e815a0, type: 3}
 --- !u!4 &2409691940225827802 stripped

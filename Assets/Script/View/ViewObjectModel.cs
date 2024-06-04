@@ -29,7 +29,7 @@ public class ViewObjectModel : MonoBehaviour
     {
         //originalRender.material = transparentMaterial;
 
-        originalRender.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
+        //originalRender.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 
         eventGeneric = eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move");
 
@@ -40,7 +40,7 @@ public class ViewObjectModel : MonoBehaviour
             controllers[i].OnEnterState(this);
         }
 
-        if (isTransparent)
+        if (isTransparent && originalRender!=null)
             eventGeneric.delegato += UpdateTransparent;
     }
 

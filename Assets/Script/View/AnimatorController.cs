@@ -38,8 +38,6 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
     public override void OnEnterState(Entity param)
     {
-        animator = param.GetComponentInChildren<Animator>();
-
         container.GetInContainer<CasterEntityComponent>().onAttack += Ia_onAttack;
 
         container.GetInContainer<MoveEntityComponent>().onIdle += Ia_onIdle;

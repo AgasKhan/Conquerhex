@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class ViewPerspectiveController : MonoBehaviour, ViewObjectModel.IViewController
 {
+    [SerializeField]
+    bool active = true;
+
     public void OnEnterState(ViewObjectModel param)
     {
+        if (!active)
+            return;
+
         if (MainCamera.instance.perspective)
             transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
         else
