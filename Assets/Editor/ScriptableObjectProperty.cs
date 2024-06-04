@@ -6,6 +6,8 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(ScriptableObject), true)]
 public class ScriptableObjectProperty : PropertyDrawer
 {
+    const float muliplyHeight = 10;
+
     bool selected;
 
     float height;
@@ -54,7 +56,7 @@ public class ScriptableObjectProperty : PropertyDrawer
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos, style, GUILayout.Height(height * 10));
+        scrollPos = EditorGUILayout.BeginScrollView(scrollPos, style, GUILayout.Height(height * muliplyHeight));
 
         editor = Editor.CreateEditor(property.objectReferenceValue);
 
