@@ -4,12 +4,8 @@ using UnityEngine;
 using System;
 using Internal;
 
-
-/*
- Implementar sort
- */
 [Serializable]
-public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
+public class Pictionarys<K, V> : IList<Pictionary<K, V>>
 {
     [SerializeField]
     List<Pictionary<K, V>> pictionaries;
@@ -49,6 +45,10 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
             return values;
         }
     }
+
+    public bool IsReadOnly => throw new NotImplementedException();
+
+    Pictionary<K, V> IList<Pictionary<K, V>>.this[int index] { get => pictionaries[index]; set => pictionaries[index] = value; }
 
     /// <summary>
     /// busca por el orden de la lista
@@ -233,9 +233,28 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return false;
     }
 
-    public void AddRange(IEnumerable<Pictionary<K, V>> pic)
+    public bool Contains(Pictionary<K, V> item)
     {
-        pictionaries.AddRange(pic);
+        return ContainsKey(item.key);
+    }
+
+    public int IndexOf(Pictionary<K, V> item)
+    {
+        int i = -1;
+
+        ContainsKey(item.key, out i);
+
+        return i;
+    }
+
+    public void Insert(int index, Pictionary<K, V> item)
+    {
+        pictionaries.Insert(index, item);
+    }
+
+    public void Add(Pictionary<K, V> item)
+    {
+        pictionaries.Add(item);
     }
 
     public Pictionary<K, V> Add(K key, V value)
@@ -262,6 +281,11 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         return aux;
     }
 
+    public void AddRange(IEnumerable<Pictionary<K, V>> pic)
+    {
+        pictionaries.AddRange(pic);
+    }
+
     public void Remove(K key)
     {
         for (int i = 0; i < pictionaries.Count; i++)
@@ -284,6 +308,11 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         auxiliarObjects.Push(aux);
     }
 
+    public bool Remove(Pictionary<K, V> item)
+    {
+        return pictionaries.Remove(item);
+    }
+
     public void Clear()
     {
         pictionaries.Clear();
@@ -298,7 +327,6 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
     {
         return pictionaries.GetEnumerator();
     }
-
 
     public T SearchOrCreate<T>(K key) where T : V, new()
     {
@@ -349,6 +377,11 @@ public class Pictionarys<K, V> : IEnumerable<Pictionary<K, V>>
         }
 
         return -1;
+    }
+
+    public void CopyTo(Pictionary<K, V>[] array, int arrayIndex)
+    {
+        pictionaries.CopyTo(array, arrayIndex);
     }
 
     public Pictionarys()

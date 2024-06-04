@@ -51,6 +51,9 @@ namespace ComponentsAndContainers
         protected override void Config()
         {
             MyAwakes += MyAwake;
+
+            MyOnDestroys += MyDestroy;
+
             //MyStarts += MyStart;
         }
 
@@ -70,6 +73,14 @@ namespace ComponentsAndContainers
             foreach (var component in componentsInCointainer)
             {
                 component.OnEnterState(container);
+            }
+        }
+
+        private void MyDestroy()
+        {
+            foreach (var component in componentsInCointainer)
+            {
+                component.OnExitState(container);
             }
         }
 
