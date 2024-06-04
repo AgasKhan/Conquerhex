@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clipAnimation: 0
-  animator: {fileID: 8822513299373957233}
+  controller: {fileID: 8822513299373957233}
   animations:
     pictionaries:
     - key: anim_idle
@@ -305,10 +305,14 @@ MonoBehaviour:
   actionLoop1Name: 
   actionLoop2Name: 
   animation: {fileID: 0}
-  idleNameAnim: {fileID: 0}
-  attackNameAnim: {fileID: 0}
-  moveNameAnim: {fileID: 0}
-  deathNameAnim: {fileID: 0}
+  idleNameAnim: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
+    type: 3}
+  attackNameAnim: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
+    type: 3}
+  moveNameAnim: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
+    type: 3}
+  deathNameAnim: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
+    type: 3}
 --- !u!114 &5496700682184725288
 MonoBehaviour:
   m_ObjectHideFlags: 0

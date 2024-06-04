@@ -153,7 +153,7 @@ public class Hexagone : MonoBehaviour
 
         int suma;
 
-        if(tileGeneration)
+        if(gridGeneration)
         {
             x = Vector3Int.RoundToInt(center).x - (lenght / 2);
             z = Vector3Int.RoundToInt(center).z - (lenght / 2);

@@ -417,17 +417,17 @@ AnimatorStateMachine:
     m_Position: {x: -70, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6726343479722053424}
-    m_Position: {x: -270, y: 280, z: 0}
+    m_Position: {x: -30, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 485121362026763976}
-    m_Position: {x: 510, y: 720, z: 0}
+    m_Position: {x: 470, y: 720, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -3857755147355302314}
-    m_Position: {x: 510, y: 110, z: 0}
+    m_Position: {x: 470, y: 110, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -6035571978931865660}
-    m_Position: {x: 700, y: 400, z: 0}
+    m_Position: {x: 660, y: 400, z: 0}
   m_AnyStateTransitions:
   - {fileID: 2715342684681996032}
   m_EntryTransitions: []
@@ -435,8 +435,8 @@ AnimatorStateMachine:
   - first: {fileID: -3857755147355302314}
     second: []
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -250, y: 190, z: 0}
-  m_EntryPosition: {x: 320, y: -120, z: 0}
+  m_AnyStatePosition: {x: -10, y: -60, z: 0}
+  m_EntryPosition: {x: 170, y: -20, z: 0}
   m_ExitPosition: {x: 1250, y: 80, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -1323169420217551619}
@@ -746,37 +746,37 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: ActionLoop
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: ActionLoop2
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Action1
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Action2
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Death
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1239,7 +1239,7 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
+  - m_ConditionMode: 2
     m_ConditionEvent: ActionLoop2
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}

@@ -6,38 +6,125 @@ using ComponentsAndContainers;
 public class AnimatorController : ComponentOfContainer<Entity>
 {
     [SerializeField]
-    Animator animator;
+    bool active = true;
+
+    [SerializeField,Tooltip("Set true to change to a elder version of animation system")]
+    bool clipAnimation;
+
+    [Header("New version")]
 
     [SerializeField]
-    string attackNameAnim = "Attack";
+    Animator controller;
 
     [SerializeField]
-    string moveNameAnim = "Move";
+    Pictionarys<string, AnimationClip> animations = new Pictionarys<string, AnimationClip>();
+
+    AnimatorOverrideController animatorOverrideController;
 
     [SerializeField]
-    string deathNameAnim = "Death";
+    string action1Name, action2Name, actionLoop1Name, actionLoop2Name;
+
+    bool action = true;
+
+    bool loopAction = true;
+
+    string strAction => action ? "Action1" : "Action2";
+
+    string strLoopAction => loopAction ? "LoopAction1" : "LoopAction2";
+
+    [Header("Old version")]
+
+    [SerializeField]
+    new Animation animation;
+
+    [SerializeField]
+    AnimationClip idleNameAnim;
+
+    [SerializeField]
+    AnimationClip attackNameAnim;
+
+    [SerializeField]
+    AnimationClip moveNameAnim;
+
+    [SerializeField]
+    AnimationClip deathNameAnim;
+
+    [ContextMenu("Test")]
+    void Test()
+    {
+        ChangeActionAnimation(attackNameAnim);
+    }
+
+    public void ChangeActionAnimation(AnimationClip newClip)
+    {
+        if(action)
+        {
+            ChangeAnimation(action2Name, newClip);
+        }
+        else
+        {
+            ChangeAnimation(action1Name, newClip);
+        }
+
+        action = !action;
+    }
+
+    void ChangeAnimation(string name, AnimationClip newClip)
+    {
+        animations.ContainsKey(name, out int index);
+
+        animatorOverrideController[animations.GetPic(index).value] = newClip;
+
+        animations.GetPic(index).value = newClip;
+    }
 
     private void Ia_onMove(Vector3 obj)
     {
-        animator.SetBool(moveNameAnim, true);
+        if (clipAnimation)
+            animation.Play(moveNameAnim.name);
+        else
+            controller.SetBool("Move", true);
+
+        animation.transform.forward = Vector3.Lerp(animation.transform.forward, obj, Time.fixedDeltaTime*10);
     }
 
     private void Ia_onIdle()
     {
-        animator.SetBool(moveNameAnim, false);
+        if (clipAnimation)
+            animation.Play(idleNameAnim.name);
+        else
+            controller.SetBool("Move", false);
     }
 
     private void Ia_onAttack()
     {
-        animator.SetTrigger(attackNameAnim);
+        if (clipAnimation)
+            animation.Play(attackNameAnim.name);
+        else
+            controller.SetTrigger(strAction);
     }
+
     private void Ia_onDeath()
     {
-        animator.SetTrigger(deathNameAnim);
+        if (clipAnimation)
+            animation.Play(deathNameAnim.name);
+        else
+            controller.SetTrigger("Death");
     }
 
     public override void OnEnterState(Entity param)
     {
+        if (animation == null || !active)
+        {
+            controller.SetActiveGameObject(false);
+            return;
+        }
+
+        if (clipAnimation)
+            ClipAnimation();
+        else
+            SuperAnimator();
+
         container.GetInContainer<CasterEntityComponent>().onAttack += Ia_onAttack;
 
         container.GetInContainer<MoveEntityComponent>().onIdle += Ia_onIdle;
@@ -55,5 +142,60 @@ public class AnimatorController : ComponentOfContainer<Entity>
     public override void OnExitState(Entity param)
     {
         //throw new System.NotImplementedException();
+
+        idleNameAnim.legacy = false;
+
+        attackNameAnim.legacy = false;
+
+        moveNameAnim.legacy = false;
+
+        deathNameAnim.legacy = false;
+    }
+
+    void SuperAnimator()
+    {
+        animatorOverrideController = new AnimatorOverrideController(controller.runtimeAnimatorController);
+        controller.runtimeAnimatorController = animatorOverrideController;
+
+        foreach (var clip in animatorOverrideController.animationClips)
+        {
+            animations.ContainsKey(clip.name, out int index);
+
+            animatorOverrideController[animations.GetPic(index).key] = animations.GetPic(index).value;
+        }
+    }
+
+    void ClipAnimation()
+    {
+        idleNameAnim.legacy = true;
+
+        attackNameAnim.legacy = true;
+
+        moveNameAnim.legacy = true;
+
+        deathNameAnim.legacy = true;
+
+        animation.AddClip(idleNameAnim, idleNameAnim.name);
+
+        animation.AddClip(attackNameAnim, attackNameAnim.name);
+
+        animation.AddClip(moveNameAnim, moveNameAnim.name);
+
+        animation.AddClip(deathNameAnim, deathNameAnim.name);
+    }
+
+    private void OnValidate()
+    {
+        if (controller != null)
+        {
+            foreach (var clip in controller.runtimeAnimatorController.animationClips)
+            {
+                if(!animations.ContainsKey(clip.name, out int index))
+                {
+                    animations.Add(clip.name, clip);
+                    //index = animations.Count - 1;
+                }
+            }
+        }  
     }
 }
