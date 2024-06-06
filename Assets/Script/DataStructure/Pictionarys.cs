@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Internal;
+using Unity.Jobs;
+using Unity.Collections;
 
 [Serializable]
 public class Pictionarys<K, V> : IList<Pictionary<K, V>>
@@ -395,7 +397,160 @@ public class Pictionarys<K, V> : IList<Pictionary<K, V>>
 
 
 namespace Internal
-{ 
+{
+    public class RandomDataPic<T>
+    {
+        public struct MyParallelJob : IJobParallelFor
+        {
+
+            [Unity.Collections.LowLevel.Unsafe.NativeDisableContainerSafetyRestriction] 
+
+            public NativeArray<Unity.Mathematics.Random> randomNumberGenerators;
+
+            [Unity.Collections.LowLevel.Unsafe.NativeSetThreadIndex] 
+            int threadId;
+            /*
+            [ReadOnly]
+            public NativeArray<float> randomNumberGenerators;
+            */
+            [ReadOnly]
+            public NativeArray<int> weights;
+
+            [WriteOnly]
+            public NativeArray<int> result;
+
+            public float acumTotal;
+
+            public void Execute(int index)
+            {
+                var random = randomNumberGenerators[threadId];
+
+                float rng = random.NextFloat();
+
+                randomNumberGenerators[threadId] = random;
+
+                float acumPercentage = 0;
+
+                int lastItem = -1;
+
+                for (int i = 0; i < weights.Length; i++)
+                {
+                    var item = weights[i];
+
+                    acumPercentage += item / acumTotal;
+
+                    if (rng <= acumPercentage)
+                    {
+                        result[index] = i;
+                        return;
+                    }
+
+                    lastItem = i;
+                }
+
+                result[index] = lastItem;
+            }
+        }
+
+        NativeArray<Unity.Mathematics.Random> randomNumberGenerators;
+
+        //NativeArray<float> randomNumberGenerators;
+
+        Pictionarys<T, int> pictionary;
+
+        float acumTotal = 0;
+        
+        [BurstCompatible]
+        public T[] ParallelRandom(int lenght)
+        {
+            T[] result = new T[lenght];
+            /*
+
+            randomNumberGenerators = new NativeArray<float>(lenght, Allocator.Persistent);
+
+            for (int i = 0; i < randomNumberGenerators.Length; i++)
+            {
+                randomNumberGenerators[i] = UnityEngine.Random.Range(0f,1f);
+            }
+            */
+            NativeArray<int> weights = new NativeArray<int>(pictionary.values, Allocator.TempJob);
+            NativeArray<int> indexResult = new NativeArray<int>(lenght, Allocator.TempJob);
+
+            MyParallelJob job = new MyParallelJob();
+
+            job.randomNumberGenerators = randomNumberGenerators;
+
+            job.weights = weights;
+
+            job.result = indexResult;
+
+            job.acumTotal = acumTotal;
+
+            JobHandle handle = job.Schedule(indexResult.Length, 32);
+
+            handle.Complete();
+
+            for (int i = 0; i < indexResult.Length; i++)
+            {
+                result[i] = pictionary.GetPic(indexResult[i]).key;
+            }
+
+            weights.Dispose();
+            indexResult.Dispose();
+            randomNumberGenerators.Dispose();
+
+            return result;
+        }
+
+        public T Random()
+        {
+            float acumPercentage = 0;
+
+            float rng = UnityEngine.Random.Range(0, 1f);
+
+            T lastItem = default;
+
+            foreach (var item in pictionary)
+            {
+                acumPercentage += item.value / acumTotal;
+
+                if (rng <= acumPercentage)
+                {
+                    return item.key;
+                }
+
+                lastItem = item.key;
+            }
+
+            return lastItem;
+        }
+
+
+
+        ~RandomDataPic()
+        {
+            randomNumberGenerators.Dispose();
+        }
+
+
+        public RandomDataPic(Pictionarys<T, int> pictionary)
+        {
+      
+            randomNumberGenerators = new NativeArray<Unity.Mathematics.Random>(Unity.Jobs.LowLevel.Unsafe.JobsUtility.MaxJobThreadCount, Allocator.Persistent);
+
+            for (int i = 0; i < randomNumberGenerators.Length; i++)
+            {
+                randomNumberGenerators[i] = new Unity.Mathematics.Random((uint)UnityEngine.Random.Range(1, int.MaxValue));
+            }
+
+            this.pictionary = pictionary;
+
+            foreach (var item in pictionary)
+            {
+                acumTotal += item.value;
+            }
+        }
+    }
 
     [System.Serializable]
     public class Pictionary<K, V> : IComparable<Pictionary<K, V>>
@@ -415,3 +570,141 @@ namespace Internal
         }
     }
 }
+
+
+/*
+ 
+    public class RandomDataPic<T>
+    {
+        public struct MyParallelJob : IJobParallelFor
+        {
+
+
+
+[ReadOnly]
+public NativeArray<float> randomNumberGenerators;
+
+[ReadOnly]
+public NativeArray<int> weights;
+
+[WriteOnly]
+public NativeArray<int> result;
+
+public float acumTotal;
+
+public void Execute(int index)
+{
+    float rng = randomNumberGenerators[index];
+
+    float acumPercentage = 0;
+
+    int lastItem = -1;
+
+    for (int i = 0; i < weights.Length; i++)
+    {
+        var item = weights[i];
+
+        acumPercentage += item / acumTotal;
+
+        if (rng <= acumPercentage)
+        {
+            result[index] = i;
+            return;
+        }
+
+        lastItem = i;
+    }
+
+    result[index] = lastItem;
+}
+        }
+
+        //NativeArray<Unity.Mathematics.Random> randomNumberGenerators;
+
+        NativeArray<float> randomNumberGenerators;
+
+Pictionarys<T, int> pictionary;
+
+float acumTotal = 0;
+
+[BurstCompatible]
+public T[] ParallelRandom(int lenght)
+{
+    T[] result = new T[lenght];
+
+    randomNumberGenerators = new NativeArray<float>(lenght, Allocator.Persistent);
+
+    for (int i = 0; i < randomNumberGenerators.Length; i++)
+    {
+        randomNumberGenerators[i] = UnityEngine.Random.Range(0f, 1f);
+    }
+
+    NativeArray<int> weights = new NativeArray<int>(pictionary.values, Allocator.TempJob);
+    NativeArray<int> indexResult = new NativeArray<int>(lenght, Allocator.TempJob);
+
+    MyParallelJob job = new MyParallelJob();
+
+    job.randomNumberGenerators = randomNumberGenerators;
+
+    job.weights = weights;
+
+    job.result = indexResult;
+
+    job.acumTotal = acumTotal;
+
+    JobHandle handle = job.Schedule(indexResult.Length, 32);
+
+    handle.Complete();
+
+    for (int i = 0; i < indexResult.Length; i++)
+    {
+        result[i] = pictionary.GetPic(indexResult[i]).key;
+    }
+
+    weights.Dispose();
+    indexResult.Dispose();
+    randomNumberGenerators.Dispose();
+
+    return result;
+}
+
+public T Random()
+{
+    float acumPercentage = 0;
+
+    float rng = UnityEngine.Random.Range(0, 1f);
+
+    T lastItem = default;
+
+    foreach (var item in pictionary)
+    {
+        acumPercentage += item.value / acumTotal;
+
+        if (rng <= acumPercentage)
+        {
+            return item.key;
+        }
+
+        lastItem = item.key;
+    }
+
+    return lastItem;
+}
+
+
+
+public RandomDataPic(Pictionarys<T, int> pictionary)
+{
+
+
+
+
+    this.pictionary = pictionary;
+
+    foreach (var item in pictionary)
+    {
+        acumTotal += item.value;
+    }
+}
+    }
+ */

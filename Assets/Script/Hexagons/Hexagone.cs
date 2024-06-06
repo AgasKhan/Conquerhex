@@ -153,7 +153,7 @@ public class Hexagone : MonoBehaviour
 
         int suma;
 
-        if(gridGeneration)
+        if (gridGeneration)
         {
             x = Vector3Int.RoundToInt(center).x - (lenght / 2);
             z = Vector3Int.RoundToInt(center).z - (lenght / 2);
@@ -162,25 +162,10 @@ public class Hexagone : MonoBehaviour
             zFin = z + lenght;
 
             suma = biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad + 1;
-        }
-        else
-        {
-            x = 0;
-            z = 0;
 
-            xFin = detailsMap.GetLength(0);
-            zFin = detailsMap.GetLength(1);
-
-            suma = 1;
-        }
-
-        for (int i = x; i < xFin; i += suma)
-        {
-
-            for (int ii = z; ii < zFin; ii += suma)
+            for (int i = x; i < xFin; i += suma)
             {
-
-                if(gridGeneration)
+                for (int ii = z; ii < zFin; ii += suma)
                 {
                     var newDistPos = new Vector3(i, center.y, ii) - transform.position;
 
@@ -195,7 +180,7 @@ public class Hexagone : MonoBehaviour
                                 float rng1 = Random.Range(1, biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad * 10 + 1);
                                 float rng2 = Random.Range(1, biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad * 10 + 1);
 
-                                GameObject prop = Instantiate(biomes.props.RandomPic(level), new Vector3((i - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng1 / 10f, center.y, (ii - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng2 / 10f), Quaternion.identity);
+                                GameObject prop = Instantiate(biomes.props.RandomPic(), new Vector3((i - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng1 / 10f, center.y, (ii - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng2 / 10f), Quaternion.identity);
 
                                 prop.transform.SetParent(transform);
                             }
@@ -208,33 +193,70 @@ public class Hexagone : MonoBehaviour
                         }
                     }
                 }
-                else
-                {
-                    if (detailsMap[i, ii] == 0)
-                        continue;
-
-                    int indexLayerProp = detailsMap[i, ii] - 1;
-
-                    float posXMultiply = ((float)ii -  (detailsMap.GetLength(0) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(0)/2);
-
-                    float posZMultiply = ((float)i - (detailsMap.GetLength(1) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(1)/2);
-
-                    Vector3 pos = new Vector3(posXMultiply + center.x, center.y, posZMultiply + center.z);
-
-                    if (Random.Range(0, 100) > biomes.layersOfProps[indexLayerProp].chanceEmptyOrEnemy)
-                    {
-                        if(biomes.layersOfProps[indexLayerProp].props.Count > 0)
-                        {
-                            GameObject prop = Instantiate(biomes.layersOfProps[indexLayerProp].props.RandomPic(level), pos, Quaternion.identity);
-
-                            prop.transform.SetParent(transform);
-                        }
-                    }
-                    else if (spawn && biomes.layersOfProps[indexLayerProp].spawner != null)
-                        Instantiate(biomes.layersOfProps[indexLayerProp].spawner, pos, Quaternion.identity).transform.SetParent(transform);
-                }
             }
         }
+        else
+            GameManager.instance.StartCoroutine(PropsFillRoutine(spawn, centro));
+    }
+
+    IEnumerator PropsFillRoutine(bool spawn, bool centro = false)
+    {
+        Vector3 center = transform.position;
+        int x;
+        int z;
+
+        int xFin;
+        int zFin;
+
+        int suma;
+
+        x = 0;
+        z = 0;
+
+        xFin = detailsMap.GetLength(0);
+        zFin = detailsMap.GetLength(1);
+
+        suma = 1;
+
+        GameObject[][] dataRandom = new GameObject[][]
+        {
+            biomes.layersOfProps[0].props.RandomPicData().ParallelRandom(xFin * zFin),
+            biomes.layersOfProps[1].props.RandomPicData().ParallelRandom(xFin * zFin),
+            biomes.layersOfProps[2].props.RandomPicData().ParallelRandom(xFin * zFin),
+        };
+
+        for (int i = x; i < xFin; i += suma)
+        {
+            for (int ii = z; ii < zFin; ii += suma)
+            {
+                if (detailsMap[i, ii] == 0)
+                    continue;
+
+                int indexLayerProp = detailsMap[i, ii] - 1;
+
+                float posXMultiply = ((float)ii - (detailsMap.GetLength(0) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(0) / 2);
+
+                float posZMultiply = ((float)i - (detailsMap.GetLength(1) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(1) / 2);
+
+                Vector3 pos = new Vector3(posXMultiply + center.x, center.y, posZMultiply + center.z);
+
+                if (Random.Range(0, 100) > biomes.layersOfProps[indexLayerProp].chanceEmptyOrEnemy)
+                {
+                    if (biomes.layersOfProps[indexLayerProp].props.Count > 0)
+                    {
+                        GameObject prop = Instantiate(dataRandom[indexLayerProp][i + ii * xFin], pos, Quaternion.identity);
+
+                        prop.transform.SetParent(transform);
+                    }
+                }
+                else if (spawn && biomes.layersOfProps[indexLayerProp].spawner != null)
+                    Instantiate(biomes.layersOfProps[indexLayerProp].spawner, pos, Quaternion.identity).transform.SetParent(transform);
+            }
+
+            if (GameManager.VerySlowFrameRate)
+                yield return null;
+        }
+
     }
 
     public Hexagone SetProyections(Transform original, IEnumerable<Transform> components, bool setParent = false)

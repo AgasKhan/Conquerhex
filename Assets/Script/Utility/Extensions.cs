@@ -480,21 +480,19 @@ public static class Extensions
     }
 
     /// <summary>
-    /// 
+    /// Retorna un aleatorio del pic, haciendo todos los calculos correspondientes
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="pictionaries"></param>
     /// <param name="levelMultiply"></param>
     /// <returns></returns>
-    static public T RandomPic<T>(this Pictionarys<T, int> pictionaries, int levelMultiply = 0)
+    static public T RandomPic<T>(this Pictionarys<T, int> pictionaries)
     {
         float acumTotal = 0;
 
         float acumPercentage = 0;
 
         float rng = Random.Range(0, 1f);
-
-        levelMultiply = Mathf.Clamp(levelMultiply, 0, 1000);
 
         T lastItem = default;
 
@@ -503,22 +501,9 @@ public static class Extensions
             acumTotal += item.value;
         }
 
-        float newAcumTotal = 0;
-
-        if (levelMultiply != 0)
-            foreach (var item in pictionaries)
-            {
-                newAcumTotal += item.value + Mathf.Pow(1.5f, (1 + (1 - (item.value / acumTotal)) * levelMultiply));
-            }
-        else
-            newAcumTotal = acumTotal;
-
         foreach (var item in pictionaries)
         {
-            acumPercentage += item.value / newAcumTotal;
-
-            if (levelMultiply != 0)
-                acumPercentage += (Mathf.Pow(1.5f, (1 + (1 - (item.value / acumTotal)) * levelMultiply))) / newAcumTotal;
+            acumPercentage += item.value / acumTotal;
 
             if (rng <= acumPercentage)
             {
@@ -529,6 +514,17 @@ public static class Extensions
         }
 
         return lastItem;
+    }
+
+    /// <summary>
+    /// Version mas optimizada de como calcular elemento random de un pictionary (a consta de memoria)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="pictionaries"></param>
+    /// <returns></returns>
+    static public RandomDataPic<T> RandomPicData<T>(this Pictionarys<T, int> pictionaries)
+    {
+        return new RandomDataPic<T>(pictionaries);
     }
 
     /// <summary>
