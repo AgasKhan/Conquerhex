@@ -34,7 +34,7 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
     ViewObjectModel viewObjectModel;
 
-    SpriteRenderer originalSpriteRenderer => (SpriteRenderer)viewObjectModel.originalRender;
+    Renderer originalRenderer => viewObjectModel.originalRender;
 
     public void OnEnterState(ViewObjectModel param)
     {
@@ -47,7 +47,7 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         colorSetter.setter += ColorSetter_setter;
 
-        colorSetter.Add(originalSpriteRenderer.color);
+        colorSetter.Add(originalRenderer.material.color);
 
         entity.onTakeDamage += ShakeSprite;
 
@@ -64,11 +64,12 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
         timDamaged = TimersManager.Create(0.33f, () => ColorBlink(((int)(timDamaged.Percentage() * 10)) % 2 == 0), ColorBlinkEnd);
 
         timDamaged.Stop();
-
+        /*
         if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
         {
             move.onMove += Move_onMove;
         }
+        */
 
         if (onDeathParticlePrefab != null)
         {
@@ -92,17 +93,19 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
         throw new System.NotImplementedException();
     }
 
+    /*
     private void Move_onMove(Vector3 obj)
     {
         if (obj.x < 0)
         {
-            originalSpriteRenderer.flipX = viewObjectModel.defaultRight;
+            originalRenderer.flipX = viewObjectModel.defaultRight;
         }
         else if (obj.x > 0)
         {
-            originalSpriteRenderer.flipX = !viewObjectModel.defaultRight;
+            originalRenderer.flipX = !viewObjectModel.defaultRight;
         }
     }
+    */
 
     private void Health_death()
     {
@@ -110,7 +113,7 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         var shape = onDeathParticle.shape;
 
-        shape.sprite = originalSpriteRenderer.sprite;
+        //shape.sprite = originalRenderer.sprite;
 
         var aux = onDeathParticle.GetComponent<ParticleSystemRenderer>();
 
@@ -155,7 +158,7 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
     }
     private void ColorSetter_setter(Color obj)
     {
-        originalSpriteRenderer.material.SetColor("_Color",obj);
+        originalRenderer.material.SetColor("_Color",obj);
     }
 
     void ShakeSprite(Damage dmg)
