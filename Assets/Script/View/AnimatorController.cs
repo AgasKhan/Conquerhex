@@ -57,7 +57,8 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
     private void Ia_onAttack(Ability ability)
     {
-        controller.transform.forward = ability.Aiming;
+        if(ability.Aiming!=Vector3.zero)
+            controller.transform.forward = ability.Aiming;
 
         switch (ability.state)
         {
