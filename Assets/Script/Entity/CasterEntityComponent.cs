@@ -202,6 +202,22 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
         katasCombo.actual.equiped.ChangeWeapon(aux2);
     }
 
+    public void SetAbility(AbilityToEquip abilityToEquip)
+    {
+        if (abilityToEquip == null || abilityToEquip.indexToEquip > abilities.Count || abilities.Actual(abilityToEquip.indexToEquip).equiped != null)
+            return;
+
+        var aux = abilityToEquip.ability.Create();
+
+        aux.Init(inventoryEntity);
+
+        ((AbilityExtCast)aux).CreateCopy(out int otherindex);
+
+        abilities.actual.isModifiable = abilityToEquip.isModifiable;
+
+        abilities.actual.indexEquipedItem = otherindex;
+    }
+
     void SetAbility(int index)
     {
         var indexToEquip = flyweight.abilities[index].indexToEquip == -1 ? index : flyweight.abilities[index].indexToEquip;
