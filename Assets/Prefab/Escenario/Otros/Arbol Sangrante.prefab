@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8138656450231974024}
-  - component: {fileID: 6628937977686481773}
-  - component: {fileID: 3246370858173709636}
-  - component: {fileID: 3246370858173709689}
-  - component: {fileID: 3246370857212787309}
+  - component: {fileID: 7108029140733822530}
+  - component: {fileID: 8736035631374509203}
+  - component: {fileID: 2419512466233226370}
+  - component: {fileID: 3773164830148050586}
   m_Layer: 0
-  m_Name: "\xC1rbol Sangrante"
+  m_Name: Arbol Sangrante
   m_TagString: Props
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,6 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8138656450231974038}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.2263, y: 0.3115, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
@@ -34,25 +35,31 @@ Transform:
   m_Children:
   - {fileID: 4836920085906586587}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &6628937977686481773
-CapsuleCollider2D:
+--- !u!136 &7108029140733822530
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8138656450231974038}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_UsedByEffector: 1
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.17951202, y: 0.33316422}
-  m_Size: {x: 0.6092682, y: 0.929245}
-  m_Direction: 0
---- !u!114 &3246370858173709636
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4682359
+  m_Height: 1.2956059
+  m_Direction: 1
+  m_Center: {x: -0.16587973, y: 0.4089749, z: 0}
+--- !u!114 &8736035631374509203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,81 +68,74 @@ MonoBehaviour:
   m_GameObject: {fileID: 8138656450231974038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e268d94a8d5836041809a78d4e7ce960, type: 3}
+  m_Script: {fileID: 11500000, guid: cf47aa6f80466c34482f4f3099a497f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3246370858173709689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8138656450231974038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7a00f967203afe44aaa79ca95e69533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3246370857212787309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8138656450231974038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e003a561435aec24a956ad0a309f57cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 0
+  team: 5
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
-  drops: []
-  audioManager: {fileID: 0}
-  interact:
-    pictionaries:
-    - key: "Informaci\xF3n"
-      value: {fileID: 3246370858173709636}
-    - key: Posibles Simulaciones
-      value: {fileID: 3246370858173709689}
-  inventory: []
-  weightCapacity: 0
-  currentWeight: 0
-  travelItem: []
-  katas:
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  - _indexEquipedItem: -1
-  <flyweight>k__BackingField: {fileID: 11400000, guid: 34d5123e6f9390c439e990bf90813ffb,
+    deathBool: 0
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
+  <carlitos>k__BackingField: []
+  <flyweight>k__BackingField: {fileID: 11400000, guid: 2bb19fadad79ca540bf9cc174cb20b85,
     type: 2}
-  weaponKataIndex: 0
+  <healthBase>k__BackingField: {fileID: 0}
   upgradesRequirements: []
   NavBarButtons: 
-  currentLevel: 0
-  myBuildSubMenu:
+  controller: {fileID: 0}
+  interactComp: {fileID: 0}
+  levelComp: {fileID: 0}
+--- !u!114 &2419512466233226370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138656450231974038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660d4632559fa0744a119fc58b33b9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactuable: 1
+  Image: {fileID: 0}
+  interactAction: {fileID: 3773164830148050586}
+  genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
-  character: {fileID: 0}
-  allTutorials:
-  - {fileID: 11400000, guid: 647ad654f8ca7e845a31ffee905f3478, type: 2}
-  - {fileID: 11400000, guid: b4e8c5e2f8f01c64dbecfddbabbcb0a0, type: 2}
-  references:
-    version: 2
-    RefIds: []
+    myCharacter: {fileID: 0}
+    interactComponent: {fileID: 0}
+    buttonsList: []
+--- !u!114 &3773164830148050586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138656450231974038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a109b573feaded841bc904c4c0b3e695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &3822762519058863789
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8138656450231974024}
     m_Modifications:
     - target: {fileID: 605654443849558340, guid: 135a5d7445645394c8a553fdb6e815a0,
@@ -265,6 +265,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 78a0fa8c43c313449bf8512831ffc822, type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 135a5d7445645394c8a553fdb6e815a0, type: 3}
 --- !u!4 &4836920085906586587 stripped
 Transform:

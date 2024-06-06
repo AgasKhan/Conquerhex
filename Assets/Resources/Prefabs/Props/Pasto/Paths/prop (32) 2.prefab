@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6773200482067112401}
   - component: {fileID: -5170655199202451839}
-  - component: {fileID: 224429659176216358}
   - component: {fileID: 4047813836803128341}
   - component: {fileID: 3624525268509339184}
+  - component: {fileID: 8505351706683887989}
   m_Layer: 7
   m_Name: prop (32) 2
   m_TagString: Props
@@ -51,57 +51,23 @@ MonoBehaviour:
   team: 3
   health:
     life:
-      total: 0
+      _total: 0
       _current: 0
     regen:
-      total: 0
+      _total: 0
       _current: 0
     timeToRegen:
-      total: 0
+      _total: 0
       _current: 0
     deathBool: 0
-  carlitosPrefab: {fileID: 0}
+    regenCancelStop: 0
+  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 0}
   <healthBase>k__BackingField: {fileID: 11400000, guid: ac5a2a294b48a3a4092765b98dcb809f,
     type: 2}
   inventory: {fileID: 4047813836803128341}
   drop: {fileID: 3624525268509339184}
---- !u!58 &224429659176216358
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6773200482067112399}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.122266024}
-  serializedVersion: 2
-  m_Radius: 0.15480661
 --- !u!114 &4047813836803128341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,9 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  currentWeight: 0
-  travelItem: []
+  visualItems: []
+  inventory:
+    ts: []
+  _currentWeight: 0
+  flyweight: {fileID: 0}
   references:
     version: 2
     RefIds: []
@@ -132,7 +100,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2175171fb572ac44a001ece1601d4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drops: []
+--- !u!135 &8505351706683887989
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.12040208
+  m_Center: {x: -0.0025476664, y: 0.10445459, z: 0}
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0
