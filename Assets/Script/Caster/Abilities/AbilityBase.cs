@@ -18,6 +18,12 @@ public abstract class AbilityBase : ItemBase, IAbilityStats
 
     public bool ShowFeedAffectedEntities = true;
 
+    public AnimationClip animationCastStart;
+
+    public AnimationClip animationCastMiddle;
+
+    public AnimationClip animationCastExit;
+
     public GameObject[] particles;
 
     [SerializeField]
@@ -131,7 +137,19 @@ public abstract class AbilityBase : ItemBase, IAbilityStats
 [System.Serializable]
 public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
 {
-    public event System.Action onCast;
+    public enum State
+    {
+        start,
+        middle,
+        end
+    }
+
+    /// <summary>
+    /// Estado de la habilidad, controlado por el trigger/casteo, para asi saber que sucede por fuera de este, util para feedback
+    /// </summary>
+    public State state = State.start;
+
+    public event System.Action<Ability> onCast;
 
     public List<Entity> affected = new List<Entity>();
 
@@ -157,6 +175,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public DamageContainer multiplyDamage { get; protected set; }
 
     public bool End { get; set; }
+    public AnimationClip animationCastStart => itemBase.animationCastStart;
+
+    public AnimationClip animationCastMiddle => itemBase.animationCastMiddle;
+
+    public AnimationClip animationCastExit => itemBase.animationCastExit;
 
     public bool onCooldownTime => cooldown.Chck;
 
@@ -187,6 +210,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public int MinDetects => abilityModificator.MinDetects;
 
     public float Auxiliar => abilityModificator.Auxiliar;
+
 
     public virtual Vector3 Aiming
     {
@@ -255,15 +279,16 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities, bool showParticleInPos = true, bool showParticleDamaged=true)
     {
-        onCast?.Invoke();
+        onCast?.Invoke(this);
 
         if(showParticleInPos)
             itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * FinalMaxRange);
 
-        if (entities != null && showParticleDamaged)
+        if (entities != null)
             foreach (var dmgEntity in entities)
             {
-                itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
+                if (showParticleDamaged)
+                    itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
             }
 
         return entities;
@@ -448,6 +473,9 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public void OnExitState(CasterEntityComponent param)
     {
+        state = State.end;
+        onCast?.Invoke(this);
+
         if (!DontExecuteCast)
         {
             trigger.OnExitState(param);
@@ -457,6 +485,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
         if (cooldown.Chck)
             cooldown.Reset();
+
         StopCast();
     }
 

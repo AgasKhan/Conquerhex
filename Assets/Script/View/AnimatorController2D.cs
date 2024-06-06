@@ -30,7 +30,7 @@ public class AnimatorController2D : ComponentOfContainer<Entity>
         animator.SetBool(moveNameAnim, false);
     }
 
-    private void Ia_onAttack()
+    private void Ia_onAttack(Ability ability)
     {
         animator.SetTrigger(attackNameAnim);
     }

@@ -24,7 +24,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     public Vector3 aiming;
 
-    public event System.Action onAttack;
+    public event System.Action<Ability> onAttack;
     public event System.Action<(float, float, float)> energyUpdate;
     public event System.Action<float> leftEnergyUpdate;
     public event System.Action<float> rightEnergyUpdate;
@@ -98,9 +98,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     public AbilityExtCast actualAbility => abilities.actual.equiped;
 
-    public void AttackEvent()
+    public void AttackEvent(Ability ability)
     {
-        onAttack?.Invoke();
+        onAttack?.Invoke(ability);
     }
     
     /// <summary>

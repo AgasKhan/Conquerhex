@@ -22,6 +22,10 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
+  animationCastStart: {fileID: 1827226128182048838, guid: 02db2be0a74e43d4ba7ee94a7d6cc3b7,
+    type: 3}
+  animationCastMiddle: {fileID: 0}
+  animationCastExit: {fileID: 0}
   particles:
   - {fileID: 8425220168367755407, guid: 1ef40fd2aed29ac4e837a0f225a77587, type: 3}
   audios:
@@ -30,7 +34,8 @@ MonoBehaviour:
   costExecution: 0
   costHandle: 0
   damagesMultiply: []
-  indexParticles: []
+  indexParticles:
+  - {x: 1, y: 4}
   <trigger>k__BackingField: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91,
     type: 2}
   detection: {fileID: 11400000, guid: 7bfb004428cb3e84e9f26bc5e38c1693, type: 2}

@@ -70,13 +70,16 @@ public class CastingDash : CastingAction<CastingDashBase>
         showParticleInPos = false;
         showParticleDamaged = false;
 
-        IEnumerable<Entity> affected = null;
+        IEnumerable<Entity> affected = Utilitys.VoidEnumerable<Entity>();
 
         if (caster.TryGetInContainer(out moveEntity))
         {
             dashInTime.Reset();
             affected = startDashCastingAction?.InternalCastOfExternalCasting(ability.Detect(), out showParticleInPos, out showParticleDamaged);
         }
+
+        //ability.state = Ability.State.middle;
+        End = false;
 
         if (updateDashCastingAction != null)
         {

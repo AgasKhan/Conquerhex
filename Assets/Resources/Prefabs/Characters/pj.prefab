@@ -272,47 +272,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   clipAnimation: 0
   controller: {fileID: 8822513299373957233}
   animations:
     pictionaries:
     - key: anim_idle
-      value: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
+          type: 3}
     - key: anim_meleeATK
-      value: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
+          type: 3}
     - key: anim_Running
-      value: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
+          type: 3}
     - key: anim_death
-      value: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
+          type: 3}
     - key: anim_meleeATK_2
-      value: {fileID: 1827226128182048838, guid: 79bd63c2c5e56504c9147bfe0a879fe5,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 79bd63c2c5e56504c9147bfe0a879fe5,
+          type: 3}
     - key: anim_dash_start
-      value: {fileID: 1827226128182048838, guid: 2ce829b1d4d99554abef5282049e9437,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 2ce829b1d4d99554abef5282049e9437,
+          type: 3}
     - key: anim_dash_middle
-      value: {fileID: 1827226128182048838, guid: 43d6634ac08e2ac4e80613d1e3fe4934,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 43d6634ac08e2ac4e80613d1e3fe4934,
+          type: 3}
     - key: anim_dash_end
-      value: {fileID: 1827226128182048838, guid: 7425ca468f6ae634d84f9c2871155ef6,
-        type: 3}
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 7425ca468f6ae634d84f9c2871155ef6,
+          type: 3}
+    - key: anim_dash2_start
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: b495ed40dc940ab419138d3dff3e8d36,
+          type: 3}
+    - key: anim_dash2_middle
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 14486a6fa79234b49acfb7194d40fd14,
+          type: 3}
+    - key: anim_dash2_end
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: c62e70d8a15d3d14d88163ef834fa5ce,
+          type: 3}
   action1Name: anim_meleeATK
   action2Name: anim_meleeATK_2
-  actionLoop1Name: 
-  actionLoop2Name: 
-  animation: {fileID: 0}
-  idleNameAnim: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
-    type: 3}
-  attackNameAnim: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
-    type: 3}
-  moveNameAnim: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
-    type: 3}
-  deathNameAnim: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
-    type: 3}
+  actionLoop1NameStart: anim_dash_start
+  actionLoop1NameMiddle: anim_dash_middle
+  actionLoop1NameEnd: anim_dash_end
+  actionLoop2NameStart: anim_dash2_start
+  actionLoop2NameMiddle: anim_dash2_middle
+  actionLoop2NameEnd: anim_dash2_end
 --- !u!114 &5496700682184725288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bec8b38ff5d773478172f691199300b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   animator: {fileID: 3132127553594760305}
   attackNameAnim: Attack
   moveNameAnim: Move

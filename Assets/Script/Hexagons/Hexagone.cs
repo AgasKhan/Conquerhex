@@ -233,8 +233,6 @@ public class Hexagone : MonoBehaviour
                     else if (spawn && biomes.layersOfProps[indexLayerProp].spawner != null)
                         Instantiate(biomes.layersOfProps[indexLayerProp].spawner, pos, Quaternion.identity).transform.SetParent(transform);
                 }
-                
-               
             }
         }
     }

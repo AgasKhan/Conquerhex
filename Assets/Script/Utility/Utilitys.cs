@@ -112,37 +112,9 @@ public static class Utilitys
     }
     #endregion
 
-
-
-    /*
-    /// <summary>
-    /// remueve de una lista de FatherPwDbff y ejecuta el off correspondiente
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="pwDbffs"></param>
-    /// <param name="index">indice a eliminar</param>
-    public static void RemoveOff<T>(this List<T> pwDbffs, int index, Character me) where T : FatherPwDbff
+    public static IEnumerable<T> VoidEnumerable<T>()
     {
-        if (pwDbffs.Count <= index)
-            return;
-
-        var aux = pwDbffs[index];
-
-        pwDbffs.RemoveAt(index);
-
-        aux?.OnExitState(me);
-    }
-    */
-
-    public static void AddSingleAction(ref System.Action thisAction, System.Action action)
-    {
-        foreach (var item in thisAction.GetInvocationList())
-        {
-            if (item.Method.Name == action.Method.Name)
-                return;
-        }
-
-        thisAction += action;
+        return new T[0];
     }
 
     public static void DrawArrowRay(Vector3 position, Vector3 dir)

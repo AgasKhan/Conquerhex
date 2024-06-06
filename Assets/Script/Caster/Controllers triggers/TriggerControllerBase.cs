@@ -102,6 +102,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     public virtual void OnEnterState(CasterEntityComponent param)
     {
         ability.End = false;
+        ability.state = Ability.State.start;
         param.abilityControllerMediator += ability;
         ability.onCast += param.AttackEvent;
         ability.ControllerDown(Vector2.zero, 0);

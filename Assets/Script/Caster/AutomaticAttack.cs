@@ -14,7 +14,7 @@ public class AutomaticAttack
 
     SlotItem<WeaponKata> kata => owner.katasCombo[indexKata];
 
-    public event System.Action onAttack
+    public event System.Action<Ability> onAttack
     {
         add
         {

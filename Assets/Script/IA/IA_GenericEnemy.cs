@@ -233,7 +233,7 @@ public class GenericChase : IState<GenericEnemyFSM>
         param.context.move.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
     }
 
-    private void Attack_onAttack()
+    private void Attack_onAttack(Ability ability)
     {
         if(!evadeTimer.Chck)
             return;

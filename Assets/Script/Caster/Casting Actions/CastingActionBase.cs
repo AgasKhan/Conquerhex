@@ -50,7 +50,7 @@ public abstract class CastingAction : IAbilityComponent
 
     public float Dot => (ability).Dot;
 
-    public float Auxiliar => ((IAbilityStats)ability).Auxiliar;
+    public float Auxiliar => (ability).Auxiliar;
 
     /// <summary>
     /// Ejecuta el casteo personalizado de las AbilityExtCast
