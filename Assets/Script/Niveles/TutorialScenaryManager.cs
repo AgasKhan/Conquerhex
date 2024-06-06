@@ -10,12 +10,23 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     int currentDialog = 0;
     UI.TextCompleto dialogText;
     [HideInInspector]
-    public bool dialogEnable = true;
+    public bool DialogEnable 
+    {
+        get => _dialogEnable;
+        set
+        {
+            npc.interactuable = value;
+            _dialogEnable = value;
+        } 
+    }
+
+    bool _dialogEnable = true;
+
     bool nextDialog = true;
 
     [Header("References")]
     public GameObject goal;
-    public NPCTutorial npc;
+    public InteractEntityComponent npc;
     public Character player;
     IState<Character> playerIA;
 
@@ -29,6 +40,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     [Header("Combat")]
     public DestructibleObjects dummy;
     public int attacksCounter = 0;
+    public ItemBase weaponForPlayer;
+
+    public Pictionarys<string, UnityEngine.Events.UnityEvent> betterEvents;
 
     protected override void Awake()
     {
@@ -55,10 +69,11 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         //playerIA = player.CurrentState;
 
-        /* -----------------
+        /*
         if(dummy != null)
             dummy.onTakeDamage += AttackDummyEvent;
         */
+
         var title = UI.Interfaz.SearchTitle("Titulo");
         var titleSec = UI.Interfaz.SearchTitle("Titulo secundario");
 
@@ -114,6 +129,17 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             }
         }
     }
+    public void SpawnExplotion(Transform lever)
+    {
+        Damage dmg = Damage.Create<DamageTypes.Perforation>(40);
+
+        player.TakeDamage(dmg);
+
+        var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
+        PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity, player.transform);
+
+        EnableButton();
+    }
 
     private void TeleportEvent(Hexagone arg1, int arg2)
     {
@@ -150,11 +176,25 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     void EnableButton()
     {
-        dialogEnable = true;
-        ((Interactuable) npc).interactuable = true;
+        DialogEnable = true;
+        npc.interactuable = true;
     }
 
-   
+    public void GiveToPlayer(ItemBase item, int amount)
+    {
+        player.GetInContainer<InventoryEntityComponent>().AddItem(item, amount);
+    }
+
+    public void SetPlayerAbility(AbilityToEquip abilityTo)
+    {
+        player.caster.SetAbility(abilityTo);
+    }
+
+    public void CallBetterEvent(string key)
+    {
+        betterEvents[key].Invoke();
+    }
+    
     public void NextDialog()
     {
         if (currentDialog >= allDialogs.Length)
@@ -167,8 +207,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (nextDialog)
             currentDialog++;
 
-        if (!dialogEnable)
-            ((Interactuable)npc).interactuable = false;
+        if (!DialogEnable)
+            npc.interactuable = false;
 
         if(playerIA==null && player.CurrentState!=null)
             playerIA = player.CurrentState;

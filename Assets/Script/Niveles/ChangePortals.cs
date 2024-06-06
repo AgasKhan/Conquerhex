@@ -8,6 +8,6 @@ public class ChangePortals : LogicActive<TutorialScenaryManager>
     {
         specificParam.firstHexagon.ladosArray = specificParam.newBorders;
         HexagonsManager.SetRenders(specificParam.firstHexagon);
-        specificParam.dialogEnable = false;
+        specificParam.DialogEnable = false;
     }
 }

@@ -280,18 +280,23 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
     {
         var aux = GetComponentsInChildren<IDamageable>();
 
-        if (healthBase == null)
+        Debug.Log("My Awake de: " + gameObject.name);
+
+        float life = 1000;
+        float regen = 100;
+
+        if (flyweight != null)
         {
-            if(flyweight!=null)
-            {
-                healthBase = flyweight.GetFlyWeight<HealthBase>();
-                health.Init(healthBase.life, healthBase.regen);
-            }
-            else
-            {
-                health.Init(1000, 100);
-            }
+            healthBase = flyweight.GetFlyWeight<HealthBase>();
         }
+
+        if(healthBase != null)
+        {
+            life = healthBase.life;
+            regen = healthBase.regen;
+        }
+
+        health.Init(life, regen);
 
         tickDamage = TimersManager.Create(tickTimeDamage, ()=> updateTickDamage?.Invoke() ).SetLoop(true).Stop() as TimedAction;
 
