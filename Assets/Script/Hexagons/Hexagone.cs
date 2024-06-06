@@ -144,6 +144,14 @@ public class Hexagone : MonoBehaviour
    
     public void FillPropsPos(bool spawn, bool centro = false)
     {
+        LoadSystem.AddPostLoadCorutine((System.Action<bool> end, System.Action<string> msg) => 
+        {
+            return FillPropsPosRoutine((str)=> msg($"Load props in hexagone: {id}\n{str}"), spawn, centro);
+        });
+    }
+
+    public IEnumerator FillPropsPosRoutine(System.Action<string> msg , bool spawn, bool centro = false, int spawnCountLimitPerFrame = 500)
+    {
         Vector3 center = transform.position;
         int x;
         int z;
@@ -194,21 +202,9 @@ public class Hexagone : MonoBehaviour
                     }
                 }
             }
+
+            yield break;
         }
-        else
-            GameManager.instance.StartCoroutine(PropsFillRoutine(spawn, centro));
-    }
-
-    IEnumerator PropsFillRoutine(bool spawn, bool centro = false)
-    {
-        Vector3 center = transform.position;
-        int x;
-        int z;
-
-        int xFin;
-        int zFin;
-
-        int suma;
 
         x = 0;
         z = 0;
@@ -218,6 +214,7 @@ public class Hexagone : MonoBehaviour
 
         suma = 1;
 
+        
         GameObject[][] dataRandom = new GameObject[][]
         {
             biomes.layersOfProps[0].props.RandomPicData().ParallelRandom(xFin * zFin),
@@ -225,12 +222,17 @@ public class Hexagone : MonoBehaviour
             biomes.layersOfProps[2].props.RandomPicData().ParallelRandom(xFin * zFin),
         };
 
+        int spawnCount = 0;
+
+
         for (int i = x; i < xFin; i += suma)
         {
             for (int ii = z; ii < zFin; ii += suma)
             {
                 if (detailsMap[i, ii] == 0)
                     continue;
+
+                int index = ii + i * xFin;
 
                 int indexLayerProp = detailsMap[i, ii] - 1;
 
@@ -244,17 +246,25 @@ public class Hexagone : MonoBehaviour
                 {
                     if (biomes.layersOfProps[indexLayerProp].props.Count > 0)
                     {
-                        GameObject prop = Instantiate(dataRandom[indexLayerProp][i + ii * xFin], pos, Quaternion.identity);
+                        GameObject prop = Instantiate(dataRandom[indexLayerProp][index] /*biomes.layersOfProps[indexLayerProp].props.RandomPic()*/, pos, Quaternion.identity);
 
                         prop.transform.SetParent(transform);
+
+                        spawnCount++;
                     }
                 }
                 else if (spawn && biomes.layersOfProps[indexLayerProp].spawner != null)
+                {
                     Instantiate(biomes.layersOfProps[indexLayerProp].spawner, pos, Quaternion.identity).transform.SetParent(transform);
-            }
+                    spawnCount++;
+                }
 
-            if (GameManager.VerySlowFrameRate)
-                yield return null;
+                if (spawnCount % spawnCountLimitPerFrame == 0)
+                {
+                    msg($"{index}/{xFin * zFin}");
+                    yield return null;
+                }
+            }
         }
 
     }

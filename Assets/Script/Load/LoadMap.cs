@@ -19,6 +19,9 @@ public class LoadMap : SingletonMono<LoadMap>
 
     public Vector3 basePos= new Vector3 {x=2, y=20, z=10 };
 
+    [SerializeField]
+    int spawnCountLimitPerFrame = 500;
+
     float tiempoCarga = 0;
 
     Hexagone[] arrHexCreados => HexagonsManager.arrHexCreados;
@@ -59,8 +62,13 @@ public class LoadMap : SingletonMono<LoadMap>
 
         yield return new WaitForCorutinesForLoad(this, HexagonsManager.instance.VincularHexagonos, (s)=> msg2(s));
 
+        string msg;
+
         for (int i = 0; i < hexagonos.GetLength(0); i++)
         {
+            float persentage = ((i + 1f) / hexagonos.GetLength(0)) * 100;
+            msg = $"<size=50>{Mathf.RoundToInt(persentage)}%\n<size=20> {i} de {hexagonos.GetLength(0)}";
+
             //espera para la carga
             if (GameManager.SlowFrameRate)
             {
@@ -68,18 +76,14 @@ public class LoadMap : SingletonMono<LoadMap>
 
                 tiempoCarga += Time.unscaledDeltaTime;
 
-                float persentage = ((i + 1f) / hexagonos.GetLength(0) )*100;
+                //Se borro el mensaje de escape para cancelar
 
-                string msg = Mathf.RoundToInt(persentage) + "%" +
-                    "\n<size=20>" +
-                    i + " de " + hexagonos.GetLength(0) + "\n" +
-                    "<size=25>Escape para cancelar";
-
-                msg2(msg);
-
+                msg2(msg+ "\n0/4096\n");
+                /*
                 DebugPrint.Log("Carga del nivel: " + persentage + "%");
                 DebugPrint.Log("Tiempo entre frames: " + (Time.unscaledDeltaTime) + " milisegundos");
                 DebugPrint.Log("Tiempo total de carga: " + tiempoCarga);
+                */
                 yield return null;
             }
 
@@ -100,7 +104,13 @@ public class LoadMap : SingletonMono<LoadMap>
             //arrHexCreados[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(Random.Range(1, 11)/10f, Random.Range(1, 11) / 10f, Random.Range(1, 11) / 10f, 1f));
             arrHexTeleport.transform.position = CalculateHexagonoPos(i);
 
-            arrHexTeleport.SetID(i).SetTileMap(map).SetBiome(biomes.RandomPic()).SetTeleportEdge(hexagonos[i]).SetTerrain().FillPropsPos(i != 0, i == 0 || i == HexagonsManager.idMaxLevel);
+            yield return arrHexTeleport
+                .SetID(i)
+                .SetTileMap(map)
+                .SetBiome(biomes.RandomPic())
+                .SetTeleportEdge(hexagonos[i])
+                .SetTerrain()
+                .FillPropsPosRoutine((str)=>msg2($"{msg}\n{str}\n") , i != 0, i == 0 || i == HexagonsManager.idMaxLevel,spawnCountLimitPerFrame);
 
             arrHexTeleport.name = "Hexagono " + i;
         }
