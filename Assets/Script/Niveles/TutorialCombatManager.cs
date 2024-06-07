@@ -59,7 +59,7 @@ public class TutorialCombatManager : SingletonMono<TutorialCombatManager>
 
         dialogText.AddMsg(allDialogs[currentDialog].dialog);
 
-        allDialogs[currentDialog].logicActive?.Activate();
+        //allDialogs[currentDialog].logicActive?.Activate();
 
         if (nextDialog)
             currentDialog++;

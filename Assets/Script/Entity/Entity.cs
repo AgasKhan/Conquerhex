@@ -280,7 +280,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
     {
         var aux = GetComponentsInChildren<IDamageable>();
 
-        Debug.Log("My Awake de: " + gameObject.name);
+        //Debug.Log("My Awake de: " + gameObject.name);
 
         float life = 1000;
         float regen = 100;

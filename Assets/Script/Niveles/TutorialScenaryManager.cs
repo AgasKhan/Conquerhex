@@ -40,7 +40,10 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     [Header("Combat")]
     public DestructibleObjects dummy;
     public int attacksCounter = 0;
-    public ItemBase weaponForPlayer;
+    public Ingredient weaponForPlayer;
+    public List<AbilityToEquip> abilitiesForPlayer = new List<AbilityToEquip>();
+
+    Timer timerToEvents;
 
     public Pictionarys<string, UnityEngine.Events.UnityEvent> betterEvents;
 
@@ -129,6 +132,25 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             }
         }
     }
+
+    public void ChangeDialogueBool()
+    {
+        DialogEnable = false;
+    }
+
+    public void SetHexagons()
+    {
+        firstHexagon.ladosArray = newBorders;
+        HexagonsManager.SetRenders(firstHexagon);
+        DialogEnable = false;
+    }
+
+    public void EnableExit()
+    {
+        goal.SetActive(true);
+        DialogEnable = false;
+    }
+
     public void SpawnExplotion(Transform lever)
     {
         Damage dmg = Damage.Create<DamageTypes.Perforation>(40);
@@ -136,7 +158,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.TakeDamage(dmg);
 
         var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
-        PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity, player.transform);
+        PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity);
 
         EnableButton();
     }
@@ -179,10 +201,23 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         DialogEnable = true;
         npc.interactuable = true;
     }
+    
+    public void GiveToPlayer()
+    {
+        GiveToPlayer(weaponForPlayer.Item, weaponForPlayer.Amount);
+    }
 
     public void GiveToPlayer(ItemBase item, int amount)
     {
         player.GetInContainer<InventoryEntityComponent>().AddItem(item, amount);
+    }
+
+    public void SetPlayerAbility()
+    {
+        for (int i = 0; i < abilitiesForPlayer.Count; i++)
+        {
+            SetPlayerAbility(abilitiesForPlayer[i]);
+        }
     }
 
     public void SetPlayerAbility(AbilityToEquip abilityTo)
@@ -202,7 +237,16 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         dialogText.AddMsg(allDialogs[currentDialog].dialog);
 
-        allDialogs[currentDialog].logicActive?.Activate(this);
+        if(allDialogs[currentDialog].timeToCallEvent != 0)
+        {
+            timerToEvents = TimersManager.Create(allDialogs[currentDialog].timeToCallEvent, () => allDialogs[currentDialog].logicActive?.Invoke());
+            timerToEvents.Reset();
+        }
+        else
+        {
+            allDialogs[currentDialog].logicActive?.Invoke();
+        }
+        
 
         if (nextDialog)
             currentDialog++;
@@ -223,7 +267,8 @@ public struct DialogEvents
 {
     [TextArea(6,12)]
     public string dialog;
-    public LogicActive<TutorialScenaryManager> logicActive;
+    public UnityEngine.Events.UnityEvent logicActive;
+    public float timeToCallEvent;
 }
 
 public interface Tutorial

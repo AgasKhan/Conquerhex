@@ -1275,9 +1275,6 @@ GameObject:
   m_Component:
   - component: {fileID: 100036656}
   - component: {fileID: 100036655}
-  - component: {fileID: 100036657}
-  - component: {fileID: 100036658}
-  - component: {fileID: 100036659}
   m_Layer: 0
   m_Name: TutotialManager
   m_TagString: Untagged
@@ -1301,21 +1298,81 @@ MonoBehaviour:
   - dialog: "Bienvenido a tu nueva <color=green>tierra</color>. Cada parcela est\xE1
       creada a imagen y semejanza de tu mundo.  Por favor, si\xE9ntete libre de recorrer
       y acostumbrarte a tu nuevo espacio."
-    logicActive: {fileID: 100036658}
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: ChangeDialogueBool
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    timeToCallEvent: 0
   - dialog: "Oh, \xBFhas vuelto tan r\xE1pido? Prueba <color=green>teletransportarte</color>
       por otro lado."
-    logicActive: {fileID: 100036658}
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: ChangeDialogueBool
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    timeToCallEvent: 0
   - dialog: "Al parecer hubo un error y <color=green>conect\xE9 todos los lados al
       mismo lugar</color>. En este mundo cada <color=green>lado es un portal</color>
       y est\xE1 conectado a una parcela de tierra. \xA1Puede ser totalmente distinta
       o la misma por la que entraste! Ahora cambiar\xE9 los portales para que vuelas
       a explorarlos. Ven a hablarme cuando hayas descubierto nuevas zonas."
-    logicActive: {fileID: 100036657}
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: SetHexagons
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    timeToCallEvent: 0
   - dialog: "Ya aprendiste lo b\xE1sico de este mundo. Busca el <color=green>\xE1rbol
       sangrante</color> en cuanto te sientas listo de continuar.\n\nEste es el aspecto
       del \xE1rbol sangrante:\n\n<align=\"center\"><size=100><sprite=\"BloodTree\"
       index=0></size></align>"
-    logicActive: {fileID: 100036659}
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: EnableExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    timeToCallEvent: 0
   goal: {fileID: 964256223}
   npc: {fileID: 8611411229211826770}
   player: {fileID: 1410456220}
@@ -1330,7 +1387,10 @@ MonoBehaviour:
   tpsCounter: 0
   dummy: {fileID: 0}
   attacksCounter: 0
-  weaponForPlayer: {fileID: 0}
+  weaponForPlayer:
+    Item: {fileID: 0}
+    Amount: 0
+  abilitiesForPlayer: []
   betterEvents:
     pictionaries: []
 --- !u!4 &100036656
@@ -1348,42 +1408,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &100036657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100036654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 501ef4e0967c7004ebcd1d734ca39fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &100036658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100036654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd990637486ac894aa653524982a72ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &100036659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100036654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1269903d89267554ba04a1d59c169a8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &104700653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28026,7 +28050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &426867205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31442,6 +31466,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3778793013017080466, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 18.800049
       objectReference: {fileID: 0}
     - target: {fileID: 5458618359837411875, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -57033,11 +57062,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.x
       value: 0.6087614
       objectReference: {fileID: 0}
-    - target: {fileID: 216163382166974066, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
-      objectReference: {fileID: 0}
     - target: {fileID: 572665598570858217, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -57057,11 +57081,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.6087614
-      objectReference: {fileID: 0}
-    - target: {fileID: 1125739740253471947, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 1830716969104065746, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
@@ -57092,36 +57111,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.6087614
-      objectReference: {fileID: 0}
-    - target: {fileID: 2386590717115526210, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3263557999981583260, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3830021865431683125, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3989621773366547073, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6406581387784650876, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530128573798706043, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 6592060790990565492, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
@@ -57142,11 +57131,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.6087614
-      objectReference: {fileID: 0}
-    - target: {fileID: 7674655437596361991, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7674655437596361991, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
@@ -57198,6 +57182,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7851727248311984330, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8294817568840734642, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -57207,6 +57196,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.6087614
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510445269832402742, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64119,6 +64113,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 739481515}
     m_Modifications:
+    - target: {fileID: 5496700682184725288, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: active
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: _velocity.total
