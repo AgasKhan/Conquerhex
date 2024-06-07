@@ -104,6 +104,8 @@ public class CastingDash : CastingAction<CastingDashBase>
         if (castingActionBase.multiplyByArea)
         {
             moveEntity.Velocity(VirtualControllers.Movement.dir.normalized.Vect2To3XZ(0), castingActionBase.velocityInDash * FinalMaxRange);
+
+            Debug.Log("Velocity: " + FinalMaxRange);
         }
         else
         {

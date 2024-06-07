@@ -44,6 +44,6 @@ public class ChargeRangeUpTrggrCtrllr : Modificator<ChargeRangeUpTrggrCtrllrBase
 
     public override void ControllerUp(Vector2 dir, float tim)
     {
-        range = 0;
+        //range = 0;
     }
 }

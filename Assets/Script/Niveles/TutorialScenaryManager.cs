@@ -44,8 +44,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public List<AbilityToEquip> abilitiesForPlayer = new List<AbilityToEquip>();
 
     Timer timerToEvents;
-
-    public Pictionarys<string, UnityEngine.Events.UnityEvent> betterEvents;
+    bool isShowingADialogue = false;
+    string messageToShow = "";
 
     protected override void Awake()
     {
@@ -63,9 +63,17 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         dialogText = UI.Interfaz.SearchTitle("Subtitulo");
         dialogText.off += EndDialog;
-
+        dialogueManagment = () => NextDialog();
+        DialogEnable = false;
         //StartCoroutine(PlayTutorial());
     }
+
+    private void Update()
+    {
+        if (isShowingADialogue && Input.GetKeyDown(KeyCode.F))
+            DialogueManagment();
+    }
+
     void AddToEvents()
     {
         player.move.onTeleport += TeleportEvent;
@@ -86,14 +94,13 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         TimersManager.Create(2, () => 
         {
             title.AddMsg("Aviso");
-        }
-        );
+        });
 
         TimersManager.Create(3, () =>
         {
             titleSec.AddMsg("Simulación corrupta");
-        }
-        );
+            DialogEnable = true;
+        });
 
     }
 
@@ -101,6 +108,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         if(player.CurrentState==null)
             player.CurrentState = playerIA;
+
+        dialogueManagment = () => SkipDialogue();
+        isShowingADialogue = false;
     }
 
     private void AttackDummyEvent(Damage obj)
@@ -225,25 +235,42 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.caster.SetAbility(abilityTo);
     }
 
-    public void CallBetterEvent(string key)
-    {
-        betterEvents[key].Invoke();
-    }
-
     public void WaitToEnableDialog(float time)
     {
         DialogEnable = false;
         TimersManager.Create(time, () => DialogEnable = true).Reset();
     }
     
+    public void SkipDialogue()
+    {
+        dialogText.ClearMsg();
+        Debug.Log("SkipDial");
+    }
+
+    public void FinishCurrentDialogue()
+    {
+        dialogueManagment = () => SkipDialogue();
+        dialogText.ShowMsg(messageToShow);
+        Debug.Log("FinishCurrDial");
+    }
+
+    public void DialogueManagment()
+    {
+        dialogueManagment?.Invoke();
+    }
+
+    System.Action dialogueManagment;
+
     public void NextDialog()
     {
         if (currentDialog >= allDialogs.Length)
             return;
+        messageToShow = allDialogs[currentDialog].dialog;
+        dialogText.AddMsg(messageToShow);
+        
+        dialogueManagment = ()=> FinishCurrentDialogue();
 
-        dialogText.AddMsg(allDialogs[currentDialog].dialog);
-
-        if(allDialogs[currentDialog].timeToCallEvent != 0)
+        if (allDialogs[currentDialog].timeToCallEvent != 0)
         {
             int actualDialog = currentDialog;
             timerToEvents = TimersManager.Create(allDialogs[actualDialog].timeToCallEvent, ()=> allDialogs[actualDialog].logicActive?.Invoke());
@@ -265,6 +292,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             playerIA = player.CurrentState;
 
         player.CurrentState = null;
+
+        TimersManager.Create(0.2f, ()=> isShowingADialogue = true);
     }
 
 }
