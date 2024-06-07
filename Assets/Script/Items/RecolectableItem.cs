@@ -39,12 +39,12 @@ public class RecolectableItem : MonoBehaviour
 
         foreach (var entity in hex.childsEntities)
         {
-            if (!(entity.Key is Character))
+            if (!(entity is Character))
                 continue;
 
-            if (transform.IsInRadius(entity.Key, entity.Key.flyweight.areaFarming))
+            if (transform.IsInRadius(entity, entity.flyweight.areaFarming))
             {
-                Recolect(entity.Key.GetInContainer<InventoryEntityComponent>());
+                Recolect(entity.GetInContainer<InventoryEntityComponent>());
                 break;
             }
         }   

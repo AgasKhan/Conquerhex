@@ -46,17 +46,17 @@ public class Hexagone : MonoBehaviour
 
     int[,] detailsMap => mapCopado.detailsMap;
 
-    public Dictionary<Entity ,bool > childsEntities { get; private set; } = new Dictionary<Entity, bool >();
+    public HashSet<Entity> childsEntities { get; private set; } = new HashSet<Entity>();
+
+    public Dictionary<Transform, Entity> childsEntitiesTr { get; private set; } = new Dictionary<Transform, Entity>();
 
     [SerializeField]
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
     bool manualSpawnSpawner = false;
 
-    Entity[] ent;
-
     bool bussy;
 
-    public IEnumerable<Entity> AllChildEntities => childsEntities.Concat(ladosArray.SelectMany((hex)=>hex.childsEntities)).Select((entity) => entity.Key);
+    public IEnumerable<Entity> AllChildEntities => childsEntities.Concat(ladosArray.SelectMany((hex)=>hex.childsEntities));
 
     public void ExitEntity(Entity entity)
     {
@@ -65,7 +65,8 @@ public class Hexagone : MonoBehaviour
         if (bussy)
             GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Remove(entity)));
         else*/
-            childsEntities.Remove(entity);
+        childsEntities.Remove(entity);
+        childsEntitiesTr.Remove(entity.transform);
     }
 
     public void EnterEntity(Entity entity)
@@ -77,7 +78,8 @@ public class Hexagone : MonoBehaviour
         if (bussy)
             GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Add(entity, entity.gameObject.activeSelf)));
         else*/
-            childsEntities.Add(entity, entity.gameObject.activeSelf);
+        childsEntities.Add(entity);
+        childsEntitiesTr.Add(entity.transform, entity);
     }
 
     public IEnumerator On()
@@ -86,18 +88,18 @@ public class Hexagone : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        if(ent!=null)
-            foreach (var item in ent)
-            {
-                if(childsEntities[item])
-                    item.SetActiveGameObject(true);
+        foreach (Transform item in transform)
+        {
+            if (!childsEntitiesTr.TryGetValue(item, out var e))
+                item.SetActiveGameObject(true);
+            else if (!e.health.IsDeath)
+                item.SetActiveGameObject(true);
 
-                if (GameManager.MediumFrameRate)
-                    yield return null;
-            }
+            if (GameManager.MediumFrameRate)
+                yield return null;
+        }
 
         bussy = false;
-        ent = null;
     }
 
     public IEnumerator Off()
@@ -106,9 +108,7 @@ public class Hexagone : MonoBehaviour
 
         StopAllCoroutines();
 
-        UpdateEntityState();
-
-        foreach (var item in ent)
+        foreach (Transform item in transform)
         {
             item.SetActiveGameObject(false);
 
@@ -128,18 +128,6 @@ public class Hexagone : MonoBehaviour
         action();
     }
     */
-
-    void UpdateEntityState()
-    {
-        ent = new Entity[childsEntities.Count];
-
-        childsEntities.Keys.CopyTo(ent,0);
-
-        foreach (var item in ent)
-        {
-            childsEntities[item] = item.gameObject.activeSelf;
-        }
-    }
 
     public Hexagone SetID(int i)
     {

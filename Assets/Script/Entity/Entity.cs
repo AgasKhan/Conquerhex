@@ -244,8 +244,6 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
         hexagone.SetProyections(transform,carlitos);
 
-        hexagoneParent?.ExitEntity(this);
-
         hexagone.EnterEntity(this);
 
         for (int i = 0; i < carlitos.Length; i++)
