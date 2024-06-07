@@ -150,7 +150,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
             {
                 //Debug.Log(renderingData.cameraData.camera.name + " Se ejecuto el blit");
 
-                settings.materialBlitter.SetTexture("_MainTex", renderingData.cameraData.renderer.cameraColorTargetHandle);
+                //settings.materialBlitter.SetTexture("_MainTex", renderingData.cameraData.renderer.cameraColorTargetHandle);
                 settings.materialBlitter.SetTexture("_MainDepth", renderingData.cameraData.renderer.cameraDepthTargetHandle);
                 
                 cmd.Blit(null, data.rtTarget, settings.materialBlitter, settings.pass);

@@ -17,7 +17,7 @@ MonoBehaviour:
     targetLayer:
       serializedVersion: 2
       m_Bits: 8192
-    renderPassEvent: 600
+    renderPassEvent: 1000
     materialBlitter: {fileID: 2100000, guid: cf096d8b32535d346aa55ab3faa52d55, type: 2}
     pass: -1
     materialCombined: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
@@ -147,10 +147,10 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 3233976003540843404}
   - {fileID: -4559962870005143157}
-  - {fileID: -2646888164137629011}
   - {fileID: -3194483877275257867}
+  - {fileID: -2646888164137629011}
   - {fileID: -3850841579667572443}
-  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0ad0a64103d5d44dbf5b34bb6d6e9aad325399c65fc0f8fca
+  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0f5b34bb6d6e9aad3ad0a64103d5d44db25399c65fc0f8fca
   m_UseNativeRenderPass: 1
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: GrabPassRendererFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  _timing: 0
+  _timing: 1
   _grabbedTextureName: _GrabbedTexture
   _shaderLightModes:
   - Universal2DA
