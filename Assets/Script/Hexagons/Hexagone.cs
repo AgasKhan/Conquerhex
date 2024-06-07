@@ -46,25 +46,99 @@ public class Hexagone : MonoBehaviour
 
     int[,] detailsMap => mapCopado.detailsMap;
 
-    public HashSet<Entity> childsEntities { get; private set; } = new HashSet<Entity>();
+    public Dictionary<Entity ,bool > childsEntities { get; private set; } = new Dictionary<Entity, bool >();
 
     [SerializeField]
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
     bool manualSpawnSpawner = false;
 
-    public IEnumerable<Entity> AllChildEntities => childsEntities.Concat(ladosArray.SelectMany((hex)=>hex.childsEntities));
+    Entity[] ent;
+
+    bool bussy;
+
+    public IEnumerable<Entity> AllChildEntities => childsEntities.Concat(ladosArray.SelectMany((hex)=>hex.childsEntities)).Select((entity) => entity.Key);
 
     public void ExitEntity(Entity entity)
     {
         entity.hexagoneParent = null;
-        childsEntities.Remove(entity);
+        /*
+        if (bussy)
+            GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Remove(entity)));
+        else*/
+            childsEntities.Remove(entity);
     }
 
     public void EnterEntity(Entity entity)
     {
         entity.hexagoneParent?.ExitEntity(entity);
         entity.hexagoneParent = this;
-        childsEntities.Add(entity);
+        //entity.transform.parent = null;
+        /*
+        if (bussy)
+            GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Add(entity, entity.gameObject.activeSelf)));
+        else*/
+            childsEntities.Add(entity, entity.gameObject.activeSelf);
+    }
+
+    public IEnumerator On()
+    {
+        bussy = true;
+
+        gameObject.SetActive(true);
+
+        if(ent!=null)
+            foreach (var item in ent)
+            {
+                if(childsEntities[item])
+                    item.SetActiveGameObject(true);
+
+                if (GameManager.MediumFrameRate)
+                    yield return null;
+            }
+
+        bussy = false;
+        ent = null;
+    }
+
+    public IEnumerator Off()
+    {
+        bussy = true;
+
+        StopAllCoroutines();
+
+        UpdateEntityState();
+
+        foreach (var item in ent)
+        {
+            item.SetActiveGameObject(false);
+
+            if (GameManager.MediumFrameRate)
+                yield return null;
+        }
+
+        gameObject.SetActive(false);
+
+        bussy = false;
+    }
+
+    /*
+    IEnumerator Routine(System.Action action)
+    {
+        yield return null;
+        action();
+    }
+    */
+
+    void UpdateEntityState()
+    {
+        ent = new Entity[childsEntities.Count];
+
+        childsEntities.Keys.CopyTo(ent,0);
+
+        foreach (var item in ent)
+        {
+            childsEntities[item] = item.gameObject.activeSelf;
+        }
     }
 
     public Hexagone SetID(int i)
@@ -339,6 +413,4 @@ public class Hexagone : MonoBehaviour
 
         HexagonsManager.arrHexCreados[id] = this;
     }
-
-
 }

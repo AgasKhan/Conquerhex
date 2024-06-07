@@ -158,18 +158,25 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 }
             }
 
+            yield return null;
+
             if (off)
             {
-                activeHex[i].SetActiveGameObject(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+                GameManager.eventQueueRoutine.Enqueue(activeHex[i].Off());//desactivo todo el resto de hexagonos, para que no consuman cpu
+                //activeHex[i].SetActiveGameObject(false);
                 activeHex.RemoveAt(i);
             }
             else
             {
                 activeHex[i].SetActiveGameObject(true);
+                GameManager.eventQueueRoutine.Enqueue(activeHex[i].On());
             }
-            
-            if(GameManager.HightFrameRate)
+
+            yield return new WaitForSecondsRealtime(0.5f);
+            /*
+            if (GameManager.HightFrameRate)
                 yield return null;
+            */
         }
     }
 
