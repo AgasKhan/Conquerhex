@@ -229,6 +229,12 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         betterEvents[key].Invoke();
     }
+
+    public void WaitToEnableDialog(float time)
+    {
+        DialogEnable = false;
+        TimersManager.Create(time, () => DialogEnable = true).Reset();
+    }
     
     public void NextDialog()
     {
@@ -239,7 +245,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         if(allDialogs[currentDialog].timeToCallEvent != 0)
         {
-            timerToEvents = TimersManager.Create(allDialogs[currentDialog].timeToCallEvent, () => allDialogs[currentDialog].logicActive?.Invoke());
+            int actualDialog = currentDialog;
+            timerToEvents = TimersManager.Create(allDialogs[actualDialog].timeToCallEvent, ()=> allDialogs[actualDialog].logicActive?.Invoke());
             timerToEvents.Reset();
         }
         else

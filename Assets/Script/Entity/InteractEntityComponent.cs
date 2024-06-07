@@ -74,6 +74,11 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     }
 
+    public void ChangeInteract(bool newValue)
+    {
+        interactuable = newValue;
+    }
+
     public string Save()
     {
         return JsonUtility.ToJson(interactuable);
