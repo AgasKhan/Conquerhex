@@ -249,6 +249,25 @@ public class Pictionarys<K, V> : IList<Pictionary<K, V>>
         return i;
     }
 
+    public void Insert(int index, K key,V value)
+    {
+        Pictionary<K, V> aux;
+
+        if (auxiliarObjects.Count > 0)
+        {
+            aux = auxiliarObjects.Pop();
+
+            aux.key = key;
+            aux.value = value;
+        }
+        else
+        {
+            aux = new Pictionary<K, V>(key, value);
+        }
+
+        pictionaries.Insert(index, aux);
+    }
+
     public void Insert(int index, Pictionary<K, V> item)
     {
         pictionaries.Insert(index, item);

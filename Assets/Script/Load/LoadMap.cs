@@ -97,7 +97,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
             arrHexTeleport = Instantiate(hexagono);
 
-            arrHexTeleport.gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+            //arrHexTeleport.gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
 
             //textMesh = arrHexCreados[i].GetComponentsInChildren<TextMeshProUGUI>();
 

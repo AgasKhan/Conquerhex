@@ -33,8 +33,6 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
-    public static Queue<IEnumerator> eventQueueRoutine = new Queue<IEnumerator>();
-
     public static Queue<System.Action> eventQueueGamePlay = new Queue<System.Action>();
 
     public static Queue<System.Action> eventQueueLoad = new Queue<System.Action>();
@@ -231,22 +229,6 @@ public class GameManager : SingletonMono<GameManager>
 
         playerCharacter.health.death += Health_death;
 
-        StartCoroutine(EventRoutine());
-    }
-
-    IEnumerator EventRoutine()
-    {
-        while(true)
-        {
-            if(eventQueueRoutine.Count>0)
-            {
-                Debug.Log("Ejecutando en la cola");
-                yield return eventQueueRoutine.Dequeue();
-                Debug.Log("Restantes: " + eventQueueRoutine.Count);
-            }
-                
-            yield return null;
-        }
     }
 
     protected void Health_death()

@@ -54,7 +54,7 @@ public class Hexagone : MonoBehaviour
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
     bool manualSpawnSpawner = false;
 
-    bool bussy;
+    public bool bussy;
 
     public IEnumerable<Entity> AllChildEntities => childsEntities.Concat(ladosArray.SelectMany((hex)=>hex.childsEntities));
 
@@ -88,14 +88,16 @@ public class Hexagone : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        foreach (Transform item in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
+            var item = transform.GetChild(i);
+
             if (!childsEntitiesTr.TryGetValue(item, out var e))
                 item.SetActiveGameObject(true);
             else if (!e.health.IsDeath)
                 item.SetActiveGameObject(true);
 
-            if (GameManager.MediumFrameRate)
+            if ((i % (transform.childCount /100)) == 0 && GameManager.MediumFrameRate)
                 yield return null;
         }
 
@@ -106,13 +108,11 @@ public class Hexagone : MonoBehaviour
     {
         bussy = true;
 
-        StopAllCoroutines();
-
-        foreach (Transform item in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            item.SetActiveGameObject(false);
+            transform.GetChild(i).SetActiveGameObject(false);
 
-            if (GameManager.MediumFrameRate)
+            if ((i % (transform.childCount/100)) == 0 && GameManager.MediumFrameRate)
                 yield return null;
         }
 

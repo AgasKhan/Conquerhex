@@ -9,6 +9,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static Pictionarys<int, Hexagone> activeHex => instance._activeHex;
 
+    static Pictionarys<Hexagone, bool> queueOnOff => instance._queueOnOff;
+
     public static float[,] localApotema => instance._localApotema;
 
     public static float[,] localRadio => instance._localRadio;
@@ -31,6 +33,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static int idMaxLevel=> instance._idMaxLevel;
 
+    static Internal.Pictionary<Hexagone, bool> hexQueueOnOff = null;
+
     [SerializeField]
     EventManager eventManager;
 
@@ -49,12 +53,13 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     int[][,] _hexagonos;
 
-
     [SerializeReference]
     Hexagone[] _arrHexCreados;
 
     [SerializeField]
     Pictionarys<int, Hexagone> _activeHex = new Pictionarys<int, Hexagone>();
+
+    Pictionarys<Hexagone, bool> _queueOnOff = new Pictionarys<Hexagone, bool>();
 
     public static void SetArrayHexagons(int number)
     {
@@ -88,35 +93,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 MainCamera.instance.transform.position.y,
                 hex.ladosPuntos[LadoOpuesto(lado), 1] - (hex.ladosPuntos[lado, 1] - MainCamera.instance.transform.position.z));    
         }
-        
 
-        for (int i = hex.ladosArray.Length-1; i >=0 ; i--)
-        {
-            bool add = true;
-
-            //chequeo la duplicidad
-            for (int j = 0; j < activeHex.Count; j++)
-            {
-                if (hex.ladosArray[i].id == activeHex[j].id)
-                {
-                    add = false;
-                    break;
-                }  
-            }
-
-            if(add)
-            {
-                activeHex.Add(hex.ladosArray[i].id, hex.ladosArray[i]);
-            }
-        }
-
-        instance.StopAllCoroutines();
-
-        instance.StartCoroutine(SetProyectionRoutine(hex, lado, arista));
-    }
-
-    static IEnumerator SetProyectionRoutine(Hexagone hex, int lado = -1, int arista = -1)
-    {
         int index = lado == arista ? lado + 1 : lado - 1;
 
         if (index < 0)
@@ -124,7 +101,42 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         else if (index > 5)
             index = 0;
 
-        hex.ladosArray[index].SetActiveGameObject(true);
+        int indexActive = -1;
+
+        for (int i = hex.ladosArray.Length-1; i >=0 ; i--)
+        {
+            int add = -1;
+
+            //chequeo la duplicidad
+            for (int j = 0; j < activeHex.Count; j++)
+            {
+                if (hex.ladosArray[i].id == activeHex[j].id)
+                {
+                    add = j;
+                    break;
+                }  
+            }
+
+            if(add<0)
+            {
+                activeHex.Add(hex.ladosArray[i].id, hex.ladosArray[i]);
+                add = activeHex.Count - 1;
+            }
+
+            if(index == i)
+            {
+                indexActive = add;
+            }
+        }
+
+
+        var aux = activeHex[activeHex.Count - 1];
+
+        activeHex[activeHex.Count - 1] = activeHex[indexActive];
+
+        activeHex[indexActive] = aux;
+
+        //hex.ladosArray[index].SetActiveGameObject(true);
 
         //Debug.Log($"Tu lado a cargar es: {index} - {lado} {arista}" );
 
@@ -144,6 +156,13 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         }
         */
 
+        var lastQueueOnOff = hexQueueOnOff;
+        if (lastQueueOnOff != null)
+        {
+            instance.StopAllCoroutines();
+            hexQueueOnOff = null;
+        }
+
         for (int i = activeHex.Count - 1; i >= 0; i--)
         {
 
@@ -158,26 +177,82 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 }
             }
 
-            yield return null;
-
             if (off)
             {
-                GameManager.eventQueueRoutine.Enqueue(activeHex[i].Off());//desactivo todo el resto de hexagonos, para que no consuman cpu
+                QueueOnOff(activeHex[i], false);
+
                 //activeHex[i].SetActiveGameObject(false);
                 activeHex.RemoveAt(i);
             }
             else
             {
-                activeHex[i].SetActiveGameObject(true);
-                GameManager.eventQueueRoutine.Enqueue(activeHex[i].On());
+                QueueOnOff(activeHex[i], true);
+            }
+        }
+
+        if (lastQueueOnOff != null)
+            queueOnOff.Add(lastQueueOnOff);
+
+        instance._queueOnOff = queueOnOff.OrderByDescending((q) => q.value).Distinct().ToPictionarys();
+    }
+
+    static void QueueOnOff(Hexagone hexagone, bool on)
+    {
+        if(hexQueueOnOff != null && hexQueueOnOff.key == hexagone)
+        {
+            if (on != hexQueueOnOff.value)
+            {
+                instance.StopAllCoroutines();
+
+                hexQueueOnOff.value = on;
+
+                queueOnOff.Insert(0, hexQueueOnOff);
+
+                instance.StartCoroutine(QueueOnOffRoutine());
             }
 
-            yield return new WaitForSecondsRealtime(0.5f);
-            /*
-            if (GameManager.HightFrameRate)
-                yield return null;
-            */
+            return;
         }
+
+        if (!queueOnOff.ContainsKey(hexagone, out int index))
+        {
+            if(on!= hexagone.gameObject.activeSelf)
+                queueOnOff.Add(hexagone, on);
+        }
+        else if (queueOnOff[index] != on)
+        {
+            if (!hexagone.bussy)
+            {
+                queueOnOff.RemoveAt(index);
+            }
+            else
+            {
+                queueOnOff[index] = on;
+            }
+        }
+
+        if (hexQueueOnOff==null)
+            instance.StartCoroutine(QueueOnOffRoutine());
+    }
+
+    static IEnumerator QueueOnOffRoutine()
+    {
+        while(queueOnOff.Count>0)
+        {
+            hexQueueOnOff = queueOnOff.GetPic(0);
+            queueOnOff.RemoveAt(0);
+
+            if (hexQueueOnOff.value)
+            {
+                yield return hexQueueOnOff.key.On();
+            }
+            else if(!hexQueueOnOff.value)
+            {
+                yield return hexQueueOnOff.key.Off();
+            }
+        }
+
+        hexQueueOnOff = null;
     }
 
     public static float[,] LocalApotema(float magnitud = 1f)
@@ -490,11 +565,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato +=
 
-        (character) => {
-
-            character.hexagoneParent.SetActiveGameObject(true);
-
+        (character) => 
+        {            
             activeHex.Add(character.hexagoneParent.id, character.hexagoneParent);
+
+            //QueueOnOff(character.hexagoneParent, true);
 
             SetRenders(character.hexagoneParent);
         };
