@@ -434,3 +434,63 @@ namespace FSMCharacterAndStates
     
 }
 
+[System.Serializable]
+public class StunBar
+{
+    public float maxStun = 100f;
+    private float currentStun;
+    private bool isStunned = false;
+
+    public float regenDelay = 3f;
+    public float regenSpeed = 5f;
+
+    public event System.Action OnStunned;
+
+    Timer regenDelayTim;
+    Timer regenTim;
+
+    private void Start()
+    {
+        currentStun = maxStun;
+        regenDelayTim = TimersManager.Create(regenDelay, () => regenTim.Reset());
+        regenTim = TimersManager.Create(100, () => currentStun += Time.deltaTime * regenSpeed, null);
+    }
+
+    private void Update()
+    {
+        if (!isStunned && currentStun < maxStun)
+        {
+            currentStun += regenSpeed * Time.deltaTime;
+            currentStun = Mathf.Clamp(currentStun, 0, maxStun);
+        }
+    }
+
+    public void ReceiveStunDamage(float damage)
+    {
+        if (isStunned) return;
+
+        currentStun -= damage;
+        currentStun = Mathf.Clamp(currentStun, 0, maxStun);
+
+        if (currentStun <= 0)
+        {
+            StunCharacter();
+        }
+        else
+        {
+            regenDelayTim.Reset();
+        }
+    }
+
+    private void StunCharacter()
+    {
+        isStunned = true;
+        OnStunned?.Invoke();
+    }
+
+    private IEnumerator StartRegenerationAfterDelay()
+    {
+        yield return new WaitForSeconds(regenDelay);
+        isStunned = false;
+    }
+}
