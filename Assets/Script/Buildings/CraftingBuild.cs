@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CraftingBuild : Building, ISaveObject
 {
-    public Pictionarys<int, List<MeleeWeaponBase>> levelRecipes = new Pictionarys<int, List<MeleeWeaponBase>>();
+    public Pictionarys<int, List<ItemCrafteable>> levelRecipes = new Pictionarys<int, List<ItemCrafteable>>();
 
-    public List<MeleeWeaponBase> currentRecipes => data.currentRecipes;
+    public virtual List<ItemCrafteable> currentRecipes => data.currentRecipes;
 
     SvData data;
 
@@ -26,7 +26,7 @@ public class CraftingBuild : Building, ISaveObject
     {
         controller.UpgradeLevel();
     }
-
+    /*
     public string Save()
     {
         SvData data = new SvData(currentRecipes, currentLevel);
@@ -40,16 +40,16 @@ public class CraftingBuild : Building, ISaveObject
 
         currentLevel = data.currentLevel;
     }
-
+    */
     [System.Serializable]
     public class SvData
     {
-        public List<MeleeWeaponBase> currentRecipes;
+        public List<ItemCrafteable> currentRecipes;
         public int currentLevel;
 
-        public SvData(List<MeleeWeaponBase> list, int level)
+        public SvData(List<ItemCrafteable> list, int level)
         {
-            currentRecipes = new List<MeleeWeaponBase>(list);
+            currentRecipes = new List<ItemCrafteable>(list);
             currentLevel = level;
         }
     }

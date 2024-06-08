@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingAction : InteractAction<(Character customer, MeleeWeaponBase recipeName)>
+public class CraftingAction : InteractAction<(Character customer, ItemCrafteable recipeName)>
 {
-    public override void Activate((Character customer, MeleeWeaponBase recipeName) specificParam)
+    public override void Activate((Character customer, ItemCrafteable recipeName) specificParam)
     {
         var customer = specificParam.customer;
         var itemToCraft = specificParam.recipeName;

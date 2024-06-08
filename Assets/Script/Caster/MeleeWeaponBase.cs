@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
-public class MeleeWeaponBase : ItemBase
+public class MeleeWeaponBase : ItemCrafteable
 {
     [Header("Kata que sera ejecutada cuando se desee atacar con el arma base")]
     public WeaponKataBase defaultKata;
@@ -17,8 +17,6 @@ public class MeleeWeaponBase : ItemBase
     public Damage[] damages = new Damage[1];
 
     public float durability;
-
-    public Recipes recipe;
 
     #region FUNCIONES
 

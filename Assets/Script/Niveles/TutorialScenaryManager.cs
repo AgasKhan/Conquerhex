@@ -244,6 +244,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public void SkipDialogue()
     {
         dialogText.ClearMsg();
+        EndDialog();
         Debug.Log("SkipDial");
     }
 

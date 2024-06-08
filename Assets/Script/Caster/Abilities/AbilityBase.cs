@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using AbilityModificators;
 
-public abstract class AbilityBase : ItemBase, IAbilityStats
+public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 {
     [Space]
 
-    [Header("tipo de boton")]
+    [Header("Tipo de boton")]
     public bool joystick;
 
     [Space]
