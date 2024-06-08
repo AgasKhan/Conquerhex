@@ -367,5 +367,9 @@ public abstract class ItemStackeable<T> : ItemStackeable where T : ItemBase
     }
 }
 
-
+[System.Serializable]
+public abstract class ItemCrafteable : ItemBase
+{
+    public Recipes recipe;
+}
 

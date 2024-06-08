@@ -18,6 +18,8 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     public GenericSubMenu genericMenu;
 
+    public Character lastCharInteract;
+
     public event Action OnInteract
     {
         add
@@ -35,6 +37,8 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     {
         if (!interactuable)
             return;
+
+        lastCharInteract = character;
 
         interactAction.Activate((this, character));
 

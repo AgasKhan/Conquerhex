@@ -306,13 +306,14 @@ namespace UI
 
             letras = TimersManager.Create(tiempoEntreLetras, ChecktOverflowing, Write).SetLoop(true).Stop();
 
-            timer = TimersManager.Create(tiempoParaDesaparecer, () => {
+            timer = TimersManager.Create(tiempoParaDesaparecer, () => 
+            {
 
                 fadeMenu.end += FadeMenu_end;
                 SetFade(0);
                 letras.Stop();
 
-                });
+            });
         }
 
         private void FadeMenu_end()
