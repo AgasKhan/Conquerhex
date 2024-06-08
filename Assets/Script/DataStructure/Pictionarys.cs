@@ -61,29 +61,12 @@ public class Pictionarys<K, V> : IList<Pictionary<K, V>>
     {
         get
         {
-            return pictionaries[k].value;
+            return GetByIndex(k);
         }
 
         set
         {
-            pictionaries[k].value = value;
-        }
-    }
-
-    /// <summary>
-    /// busca por el nombre del enum, si coincide con el nombre del key
-    /// </summary>
-    /// <param name="t"></param>
-    /// <returns></returns>
-    public V this[Enum e]
-    {
-        get
-        {
-            return pictionaries[StringIndex(e)].value;
-        }
-        set
-        {
-            pictionaries[StringIndex(e)].value = value;
+            SetByIndex(k, value);
         }
     }
 
@@ -96,15 +79,36 @@ public class Pictionarys<K, V> : IList<Pictionary<K, V>>
     {
         get
         {
-            var index = SearchIndex(k);
-            if (index < 0)
-                Debug.Log("se busco " + k.ToString() + " y no se encontro");
-            return pictionaries[index].value;
+            return GetByKey(k);
         }
         set
         {
-            pictionaries[SearchIndex(k)].value = value;
+            SetByKey(k, value);
         }
+    }
+
+
+    public V GetByIndex(int index)
+    {
+        return pictionaries[index].value;
+    }
+
+    public void SetByIndex(int index, V value)
+    {
+        pictionaries[index].value = value;
+    }
+
+    public V GetByKey(K k)
+    {
+        var index = SearchIndex(k);
+        if (index < 0)
+            Debug.Log("se busco " + k.ToString() + " y no se encontro");
+        return pictionaries[index].value;
+    }
+
+    public void SetByKey(K k, V value)
+    {
+        pictionaries[SearchIndex(k)].value = value;
     }
 
     public static Pictionarys<K, V> operator +(Pictionarys<K, V> original, Pictionarys<K, V> sumado)
@@ -158,33 +162,6 @@ public class Pictionarys<K, V> : IList<Pictionary<K, V>>
     }
 
 
-    /// <summary>
-    /// devuelve el index en caso de encontrar similitud con el nombre del key
-    /// </summary>
-    /// <param name="s"></param>
-    /// <returns>devuelve la poscion en un entero</returns>
-    public int StringIndex(Enum s)
-    {
-        return StringIndex(s.ToString());
-    }
-
-    /// <summary>
-    /// devuelve el index en caso de encontrar similitud con el nombre del key
-    /// </summary>
-    /// <param name="s"></param>
-    /// <returns>devuelve la poscion en un entero</returns>
-    public int StringIndex(string s)
-    {
-        for (int i = 0; i < pictionaries.Count; i++)
-        {
-            if (pictionaries[i].key.ToString() == s)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public void Sort(IComparer<Pictionary<K, V>> comparer)
     {
         pictionaries.Sort(comparer);
@@ -193,6 +170,11 @@ public class Pictionarys<K, V> : IList<Pictionary<K, V>>
     public Pictionary<K, V> GetPic(int index)
     {
         return pictionaries[index];
+    }
+
+    public void SetPic(int index, Pictionary<K, V> pic)
+    {
+        pictionaries[index] = pic;
     }
 
     public bool TryGetPic(K key, out Pictionary<K,V> pic)

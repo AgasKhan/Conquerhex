@@ -73,6 +73,8 @@ public class Hexagone : MonoBehaviour
 
     public IEnumerable<Entity> AllChildEntities => childsEntities.Concat(ladosArray.SelectMany((hex)=>hex.childsEntities));
 
+    bool on;
+
     public void ExitEntity(Entity entity)
     {
         entity.hexagoneParent = null;
@@ -182,16 +184,25 @@ public class Hexagone : MonoBehaviour
         }
     }
 
+    public void ChangeOnOffRoutine(bool b)
+    {
+        on = b;
+    }
+
     public IEnumerator On()
     {
-
-
         bussy = true;
+        on = true;
 
         gameObject.SetActive(true);
 
         for (int i = 0; i < transform.childCount; i++)
         {
+            if(!on)
+            {
+                yield return Off();
+                yield break;
+            }                
             var item = transform.GetChild(i);
 
             item.SetActiveGameObject(true);
@@ -206,9 +217,15 @@ public class Hexagone : MonoBehaviour
     public IEnumerator Off()
     {
         bussy = true;
+        on = false;
 
         for (int i = 0; i < transform.childCount; i++)
         {
+            if (on)
+            {
+                yield return On();
+                yield break;
+            }
             transform.GetChild(i).SetActiveGameObject(false);
 
             if (GameManager.MediumFrameRate)

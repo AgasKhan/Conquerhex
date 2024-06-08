@@ -101,7 +101,7 @@ public class TerrainManager : MonoBehaviour
                 apotemaShader[i, 0] = Mathf.CeilToInt((aux[i, 0] / 100) * terrainData.alphamapWidth + terrainData.alphamapWidth / 2);
                 apotemaShader[i, 1] = Mathf.CeilToInt((aux[i, 1] / 100) * terrainData.alphamapHeight + terrainData.alphamapHeight / 2);
 
-                Debug.Log($"{apotemaShader[i, 0]} {apotemaShader[i, 1]}");
+                //Debug.Log($"{apotemaShader[i, 0]} {apotemaShader[i, 1]}");
             }
         }
 
@@ -147,7 +147,7 @@ public class TerrainManager : MonoBehaviour
         outputAlphaBuffer.GetData(mapAlphaBuffer);
 
 
-        Debug.Log( $"{mapAlphaBuffer[0, 0]} {mapAlphaBuffer[0, 1]} {mapAlphaBuffer[0, 2]}");
+        //Debug.Log( $"{mapAlphaBuffer[0, 0]} {mapAlphaBuffer[0, 1]} {mapAlphaBuffer[0, 2]}");
 
         Convert();
 
@@ -161,7 +161,7 @@ public class TerrainManager : MonoBehaviour
 
         inputVertex.Dispose();
 
-        Debug.Log($"{terrainData.detailResolution} {terrainData.alphamapResolution} {terrainData.alphamapWidth} {terrainData.size}");
+        //Debug.Log($"{terrainData.detailResolution} {terrainData.alphamapResolution} {terrainData.alphamapWidth} {terrainData.size}");
     }
 
     void Convert()
