@@ -327,7 +327,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
         LoadSystem.AddPostLoadCorutine(() => 
         {
-            Hexagone hexagone = transform.root.GetComponent<Hexagone>();
+            Hexagone hexagone = transform.GetComponentInParent<Hexagone>(true);
 
             if (hexagone != null)
             {

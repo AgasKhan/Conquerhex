@@ -3,9 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using Unity.Jobs;
+using Unity.Collections;
 
 public class Hexagone : MonoBehaviour
 {
+    public struct WeightTransform: System.IComparable<WeightTransform>
+    {
+        public Transform transform;
+
+        public int CompareTo(WeightTransform other)
+        {
+            return transform.childCount.CompareTo(other.transform.childCount);
+        }
+    }
+
     [Header("bools para mentir")]
 
     public bool tileGeneration = true;
@@ -44,11 +56,14 @@ public class Hexagone : MonoBehaviour
 
     public int lenght = 42;
 
+    [SerializeField]
+    int objectsPerChunk => HexagonsManager.instance.objectsPerChunk;
+
     int[,] detailsMap => mapCopado.detailsMap;
 
     public HashSet<Entity> childsEntities { get; private set; } = new HashSet<Entity>();
 
-    public Dictionary<Transform, Entity> childsEntitiesTr { get; private set; } = new Dictionary<Transform, Entity>();
+    PriorityQueue<WeightTransform> chunks = new PriorityQueue<WeightTransform>();
 
     [SerializeField]
     [Tooltip("en caso de tener en true el manual Props, evaluara esta condicion para spawnear entidades")]
@@ -66,7 +81,7 @@ public class Hexagone : MonoBehaviour
             GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Remove(entity)));
         else*/
         childsEntities.Remove(entity);
-        childsEntitiesTr.Remove(entity.transform);
+        ExitChunk(entity.transform);
     }
 
     public void EnterEntity(Entity entity)
@@ -79,11 +94,98 @@ public class Hexagone : MonoBehaviour
             GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Add(entity, entity.gameObject.activeSelf)));
         else*/
         childsEntities.Add(entity);
-        childsEntitiesTr.Add(entity.transform, entity);
+
+        EnterChunk(entity.transform);
+    }
+
+    public void EnterChunk(Transform tr)
+    {
+        if(chunks.IsEmpty)
+        {
+            Transform newParent = new GameObject("chunk " + transform.childCount).transform;
+
+            newParent.transform.position = transform.position;
+            newParent.parent = transform;
+
+            newParent.SetActiveGameObject(gameObject.activeSelf);
+
+            tr.SetParent(newParent);
+
+            chunks.Enqueue(new WeightTransform() { transform = newParent });
+            return;
+        }
+
+        var parent = chunks.Dequeue();
+
+        if (parent.transform.childCount >= objectsPerChunk)
+        {
+            Transform newParent = new GameObject("chunk "+ transform.childCount).transform;
+
+            newParent.transform.position = transform.position;
+            newParent.parent = transform;
+
+            newParent.SetActiveGameObject(gameObject.activeSelf);
+
+            tr.SetParent(newParent);
+
+            chunks.Enqueue(new WeightTransform() { transform = newParent });
+
+            chunks.Enqueue(parent);
+        }
+        else
+        {
+            tr.SetParent(parent.transform);
+
+            chunks.Enqueue(parent);
+        }
+    }
+
+    public void ExitChunk(Transform tr)
+    {
+        foreach (var item in chunks)
+        {
+            if(item.transform == tr.parent)
+            {
+                tr.SetParent(null);
+                chunks.UpdateElement(item);
+                break;
+            }
+        }
+    }
+
+    void OptimiceChunks()
+    {
+        List<Transform> childs = new List<Transform>();
+        while(!chunks.IsEmpty)
+        {
+            var parent =chunks.Dequeue();
+            if (parent.transform.childCount < objectsPerChunk)
+            {
+                for (int i = parent.transform.childCount-1; i >= 0; i--)
+                {
+                    childs.Add(parent.transform.GetChild(i));
+                    parent.transform.GetChild(i).parent = transform;
+                }
+
+                Destroy(parent.transform.gameObject);
+            }
+            else
+            {
+                chunks.Enqueue(parent);
+                break;
+            }
+        }
+
+        for (int i = 0; i < childs.Count; i++)
+        {
+            EnterChunk(childs[i]);
+        }
     }
 
     public IEnumerator On()
     {
+
+
         bussy = true;
 
         gameObject.SetActive(true);
@@ -92,12 +194,9 @@ public class Hexagone : MonoBehaviour
         {
             var item = transform.GetChild(i);
 
-            if (!childsEntitiesTr.TryGetValue(item, out var e))
-                item.SetActiveGameObject(true);
-            else if (!e.health.IsDeath)
-                item.SetActiveGameObject(true);
+            item.SetActiveGameObject(true);
 
-            if ((i % (transform.childCount /100)) == 0 && GameManager.MediumFrameRate)
+            if (GameManager.MediumFrameRate)
                 yield return null;
         }
 
@@ -112,11 +211,15 @@ public class Hexagone : MonoBehaviour
         {
             transform.GetChild(i).SetActiveGameObject(false);
 
-            if ((i % (transform.childCount/100)) == 0 && GameManager.MediumFrameRate)
+            if (GameManager.MediumFrameRate)
                 yield return null;
         }
 
         gameObject.SetActive(false);
+
+        yield return null;
+
+        OptimiceChunks();
 
         bussy = false;
     }
@@ -252,7 +355,9 @@ public class Hexagone : MonoBehaviour
 
                                 GameObject prop = Instantiate(biomes.props.RandomPic(), new Vector3((i - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng1 / 10f, center.y, (ii - biomes.layersOfProps[(int)Biomes.LayersNames.Trees].inversaDensidad / 2f) + rng2 / 10f), Quaternion.identity);
 
-                                prop.transform.SetParent(transform);
+                                EnterChunk(prop.transform);
+
+                                //prop.transform.SetParent(transform);
                             }
                         }
                         else if (spawn)
@@ -310,7 +415,8 @@ public class Hexagone : MonoBehaviour
                     {
                         GameObject prop = Instantiate(dataRandom[indexLayerProp][index] /*biomes.layersOfProps[indexLayerProp].props.RandomPic()*/, pos, Quaternion.identity);
 
-                        prop.transform.SetParent(transform);
+                        EnterChunk(prop.transform);
+                        //prop.transform.SetParent(transform);
 
                         spawnCount++;
                     }

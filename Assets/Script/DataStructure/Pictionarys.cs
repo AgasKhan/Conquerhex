@@ -419,6 +419,7 @@ namespace Internal
 {
     public class RandomDataPic<T>
     {
+        [Unity.Burst.BurstCompile]
         public struct MyParallelJob : IJobParallelFor
         {
 

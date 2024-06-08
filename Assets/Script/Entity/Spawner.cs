@@ -63,19 +63,17 @@ public class Spawner : MonoBehaviour, Init
             if (setTeam)
                 entity.SetTeam(team);
         }
-
-        if (spawneado.TryGetComponent(out MoveAbstract move))
+        else
         {
-            var hex = spawneado.GetComponentInParent<Hexagone>();
-            if (hex != null)
-                move.Teleport(hex, 0);
+            if (spawneado.TryGetComponent(out MoveAbstract move))
+            {
+                var hex = spawneado.GetComponentInParent<Hexagone>(true);
+                if (hex != null)
+                    move.Teleport(hex, 0);
+            }
         }
 
-
         spawneado.GetComponent<Init>()?.Init();
-
-
-
         /*
         var rend = GetComponentInChildren<SpriteRenderer>();
 

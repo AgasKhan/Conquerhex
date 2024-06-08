@@ -26,14 +26,16 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     public static float apotema;
 
     public static float radio => lado;
+    public static int idMaxLevel=> instance._idMaxLevel;
+
+    static Internal.Pictionary<Hexagone, bool> hexQueueOnOff = null;
+
 
     public Vector2 anguloDefecto;
 
     public bool automaticRender = true;
 
-    public static int idMaxLevel=> instance._idMaxLevel;
-
-    static Internal.Pictionary<Hexagone, bool> hexQueueOnOff = null;
+    public int objectsPerChunk = 50;
 
     [SerializeField]
     EventManager eventManager;
@@ -43,6 +45,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     [Tooltip("En caso de ser menor que 0, se designara de forma automatica en base al prefab del hexagono cargado"),SerializeReference]
     float scale;
+
+    
 
     [SerializeReference]
     int _idMaxLevel;
@@ -155,13 +159,14 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 yield return null;
         }
         */
-
+        
         var lastQueueOnOff = hexQueueOnOff;
         if (lastQueueOnOff != null)
         {
             instance.StopAllCoroutines();
             hexQueueOnOff = null;
         }
+        
 
         for (int i = activeHex.Count - 1; i >= 0; i--)
         {
@@ -191,29 +196,37 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         }
 
         if (lastQueueOnOff != null)
-            queueOnOff.Add(lastQueueOnOff);
+            QueueOnOff(lastQueueOnOff.key,lastQueueOnOff.value);
 
-        instance._queueOnOff = queueOnOff.OrderByDescending((q) => q.value).Distinct().ToPictionarys();
+        instance._queueOnOff = IntercalateByBools(instance._queueOnOff).ToPictionarys();
+    }
+
+    static IEnumerable<Internal.Pictionary<Hexagone, bool>> IntercalateByBools(Pictionarys<Hexagone, bool> objects)
+    {
+        var trueObjects = objects.Where(o => o.value).ToList();
+        var falseObjects = objects.Where(o => !o.value).ToList();
+
+        int trueIndex = 0, falseIndex = 0;
+
+        while (trueIndex < trueObjects.Count && falseIndex < falseObjects.Count)
+        {
+            yield return trueObjects[trueIndex++];
+            yield return falseObjects[falseIndex++];
+        }
+
+        while (trueIndex < trueObjects.Count)
+        {
+            yield return trueObjects[trueIndex++];
+        }
+
+        while (falseIndex < falseObjects.Count)
+        {
+            yield return falseObjects[falseIndex++];
+        }
     }
 
     static void QueueOnOff(Hexagone hexagone, bool on)
     {
-        if(hexQueueOnOff != null && hexQueueOnOff.key == hexagone)
-        {
-            if (on != hexQueueOnOff.value)
-            {
-                instance.StopAllCoroutines();
-
-                hexQueueOnOff.value = on;
-
-                queueOnOff.Insert(0, hexQueueOnOff);
-
-                instance.StartCoroutine(QueueOnOffRoutine());
-            }
-
-            return;
-        }
-
         if (!queueOnOff.ContainsKey(hexagone, out int index))
         {
             if(on!= hexagone.gameObject.activeSelf)
