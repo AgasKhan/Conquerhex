@@ -1,4 +1,4 @@
-Shader "Custom/Ground2D"
+Shader "Shader Graphs/Ground2D"
 {
     Properties
     {
@@ -6,14 +6,14 @@ Shader "Custom/Ground2D"
         [NoScaleOffset] _MainTex("MainTex", 2D) = "white" {}
         [NoScaleOffset]_MaskTex("MaskTex", 2D) = "white" {}
         [NoScaleOffset]_NormalMap("NormalMap", 2D) = "white" {}
-        _Color("Color", Color) = (0, 0, 0, 0)
+        _Color("Color", Color) = (1, 1, 1, 1)
         [HideInInspector]_QueueOffset("_QueueOffset", Float) = 0
         [HideInInspector]_QueueControl("_QueueControl", Float) = -1
         [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
     }
-    SubShader
+        SubShader
     {
         Tags
         {
@@ -91,10 +91,12 @@ Shader "Custom/Ground2D"
         #define ATTRIBUTES_NEED_TEXCOORD0
         #define ATTRIBUTES_NEED_TEXCOORD1
         #define ATTRIBUTES_NEED_TEXCOORD2
+        #define ATTRIBUTES_NEED_COLOR
         #define VARYINGS_NEED_POSITION_WS
         #define VARYINGS_NEED_NORMAL_WS
         #define VARYINGS_NEED_TANGENT_WS
         #define VARYINGS_NEED_TEXCOORD0
+        #define VARYINGS_NEED_COLOR
         #define VARYINGS_NEED_FOG_AND_VERTEX_LIGHT
         #define VARYINGS_NEED_SHADOW_COORD
         #define FEATURES_GRAPH_VERTEX
@@ -139,6 +141,7 @@ Shader "Custom/Ground2D"
              float4 uv0 : TEXCOORD0;
              float4 uv1 : TEXCOORD1;
              float4 uv2 : TEXCOORD2;
+             float4 color : COLOR;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : INSTANCEID_SEMANTIC;
             #endif
@@ -150,6 +153,7 @@ Shader "Custom/Ground2D"
              float3 normalWS;
              float4 tangentWS;
              float4 texCoord0;
+             float4 color;
             #if defined(LIGHTMAP_ON)
              float2 staticLightmapUV;
             #endif
@@ -180,6 +184,7 @@ Shader "Custom/Ground2D"
         {
              float3 WorldSpaceNormal;
              float4 uv0;
+             float4 VertexColor;
         };
         struct VertexDescriptionInputs
         {
@@ -204,9 +209,10 @@ Shader "Custom/Ground2D"
             #endif
              float4 tangentWS : INTERP4;
              float4 texCoord0 : INTERP5;
-             float4 fogFactorAndVertexLight : INTERP6;
-             float3 positionWS : INTERP7;
-             float3 normalWS : INTERP8;
+             float4 color : INTERP6;
+             float4 fogFactorAndVertexLight : INTERP7;
+             float3 positionWS : INTERP8;
+             float3 normalWS : INTERP9;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -240,6 +246,7 @@ Shader "Custom/Ground2D"
             #endif
             output.tangentWS.xyzw = input.tangentWS;
             output.texCoord0.xyzw = input.texCoord0;
+            output.color.xyzw = input.color;
             output.fogFactorAndVertexLight.xyzw = input.fogFactorAndVertexLight;
             output.positionWS.xyz = input.positionWS;
             output.normalWS.xyz = input.normalWS;
@@ -276,6 +283,7 @@ Shader "Custom/Ground2D"
             #endif
             output.tangentWS = input.tangentWS.xyzw;
             output.texCoord0 = input.texCoord0.xyzw;
+            output.color = input.color.xyzw;
             output.fogFactorAndVertexLight = input.fogFactorAndVertexLight.xyzw;
             output.positionWS = input.positionWS.xyz;
             output.normalWS = input.normalWS.xyz;
@@ -388,9 +396,8 @@ Shader "Custom/Ground2D"
                 float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_G_5_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.g;
                 float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_B_6_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.b;
                 float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_A_7_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.a;
-                float4 _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4 = _Color;
                 float4 _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4;
-                Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
+                Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, IN.VertexColor, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
                 surface.BaseColor = (_Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4.xyz);
                 surface.NormalWS = IN.WorldSpaceNormal;
                 surface.Emission = float3(0, 0, 0);
@@ -451,6 +458,7 @@ Shader "Custom/Ground2D"
 
 
                 output.uv0 = input.texCoord0;
+                output.VertexColor = input.color;
             #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
             #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
             #else
@@ -533,10 +541,12 @@ Shader "Custom/Ground2D"
                 #define ATTRIBUTES_NEED_TEXCOORD0
                 #define ATTRIBUTES_NEED_TEXCOORD1
                 #define ATTRIBUTES_NEED_TEXCOORD2
+                #define ATTRIBUTES_NEED_COLOR
                 #define VARYINGS_NEED_POSITION_WS
                 #define VARYINGS_NEED_NORMAL_WS
                 #define VARYINGS_NEED_TANGENT_WS
                 #define VARYINGS_NEED_TEXCOORD0
+                #define VARYINGS_NEED_COLOR
                 #define VARYINGS_NEED_FOG_AND_VERTEX_LIGHT
                 #define VARYINGS_NEED_SHADOW_COORD
                 #define FEATURES_GRAPH_VERTEX
@@ -580,6 +590,7 @@ Shader "Custom/Ground2D"
                      float4 uv0 : TEXCOORD0;
                      float4 uv1 : TEXCOORD1;
                      float4 uv2 : TEXCOORD2;
+                     float4 color : COLOR;
                     #if UNITY_ANY_INSTANCING_ENABLED
                      uint instanceID : INSTANCEID_SEMANTIC;
                     #endif
@@ -591,6 +602,7 @@ Shader "Custom/Ground2D"
                      float3 normalWS;
                      float4 tangentWS;
                      float4 texCoord0;
+                     float4 color;
                     #if defined(LIGHTMAP_ON)
                      float2 staticLightmapUV;
                     #endif
@@ -621,6 +633,7 @@ Shader "Custom/Ground2D"
                 {
                      float3 WorldSpaceNormal;
                      float4 uv0;
+                     float4 VertexColor;
                 };
                 struct VertexDescriptionInputs
                 {
@@ -645,9 +658,10 @@ Shader "Custom/Ground2D"
                     #endif
                      float4 tangentWS : INTERP4;
                      float4 texCoord0 : INTERP5;
-                     float4 fogFactorAndVertexLight : INTERP6;
-                     float3 positionWS : INTERP7;
-                     float3 normalWS : INTERP8;
+                     float4 color : INTERP6;
+                     float4 fogFactorAndVertexLight : INTERP7;
+                     float3 positionWS : INTERP8;
+                     float3 normalWS : INTERP9;
                     #if UNITY_ANY_INSTANCING_ENABLED
                      uint instanceID : CUSTOM_INSTANCE_ID;
                     #endif
@@ -681,6 +695,7 @@ Shader "Custom/Ground2D"
                     #endif
                     output.tangentWS.xyzw = input.tangentWS;
                     output.texCoord0.xyzw = input.texCoord0;
+                    output.color.xyzw = input.color;
                     output.fogFactorAndVertexLight.xyzw = input.fogFactorAndVertexLight;
                     output.positionWS.xyz = input.positionWS;
                     output.normalWS.xyz = input.normalWS;
@@ -717,6 +732,7 @@ Shader "Custom/Ground2D"
                     #endif
                     output.tangentWS = input.tangentWS.xyzw;
                     output.texCoord0 = input.texCoord0.xyzw;
+                    output.color = input.color.xyzw;
                     output.fogFactorAndVertexLight = input.fogFactorAndVertexLight.xyzw;
                     output.positionWS = input.positionWS.xyz;
                     output.normalWS = input.normalWS.xyz;
@@ -827,9 +843,8 @@ Shader "Custom/Ground2D"
                         float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_G_5_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.g;
                         float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_B_6_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.b;
                         float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_A_7_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.a;
-                        float4 _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4 = _Color;
                         float4 _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4;
-                        Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
+                        Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, IN.VertexColor, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
                         surface.BaseColor = (_Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4.xyz);
                         surface.NormalWS = IN.WorldSpaceNormal;
                         surface.Emission = float3(0, 0, 0);
@@ -888,6 +903,7 @@ Shader "Custom/Ground2D"
 
 
                         output.uv0 = input.texCoord0;
+                        output.VertexColor = input.color;
                     #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
                     #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
                     #else
@@ -1577,9 +1593,11 @@ Shader "Custom/Ground2D"
                                         #define ATTRIBUTES_NEED_TEXCOORD0
                                         #define ATTRIBUTES_NEED_TEXCOORD1
                                         #define ATTRIBUTES_NEED_TEXCOORD2
+                                        #define ATTRIBUTES_NEED_COLOR
                                         #define VARYINGS_NEED_TEXCOORD0
                                         #define VARYINGS_NEED_TEXCOORD1
                                         #define VARYINGS_NEED_TEXCOORD2
+                                        #define VARYINGS_NEED_COLOR
                                         #define FEATURES_GRAPH_VERTEX
                                         /* WARNING: $splice Could not find named fragment 'PassInstancing' */
                                         #define SHADERPASS SHADERPASS_META
@@ -1616,6 +1634,7 @@ Shader "Custom/Ground2D"
                                              float4 uv0 : TEXCOORD0;
                                              float4 uv1 : TEXCOORD1;
                                              float4 uv2 : TEXCOORD2;
+                                             float4 color : COLOR;
                                             #if UNITY_ANY_INSTANCING_ENABLED
                                              uint instanceID : INSTANCEID_SEMANTIC;
                                             #endif
@@ -1626,6 +1645,7 @@ Shader "Custom/Ground2D"
                                              float4 texCoord0;
                                              float4 texCoord1;
                                              float4 texCoord2;
+                                             float4 color;
                                             #if UNITY_ANY_INSTANCING_ENABLED
                                              uint instanceID : CUSTOM_INSTANCE_ID;
                                             #endif
@@ -1642,6 +1662,7 @@ Shader "Custom/Ground2D"
                                         struct SurfaceDescriptionInputs
                                         {
                                              float4 uv0;
+                                             float4 VertexColor;
                                         };
                                         struct VertexDescriptionInputs
                                         {
@@ -1655,6 +1676,7 @@ Shader "Custom/Ground2D"
                                              float4 texCoord0 : INTERP0;
                                              float4 texCoord1 : INTERP1;
                                              float4 texCoord2 : INTERP2;
+                                             float4 color : INTERP3;
                                             #if UNITY_ANY_INSTANCING_ENABLED
                                              uint instanceID : CUSTOM_INSTANCE_ID;
                                             #endif
@@ -1677,6 +1699,7 @@ Shader "Custom/Ground2D"
                                             output.texCoord0.xyzw = input.texCoord0;
                                             output.texCoord1.xyzw = input.texCoord1;
                                             output.texCoord2.xyzw = input.texCoord2;
+                                            output.color.xyzw = input.color;
                                             #if UNITY_ANY_INSTANCING_ENABLED
                                             output.instanceID = input.instanceID;
                                             #endif
@@ -1699,6 +1722,7 @@ Shader "Custom/Ground2D"
                                             output.texCoord0 = input.texCoord0.xyzw;
                                             output.texCoord1 = input.texCoord1.xyzw;
                                             output.texCoord2 = input.texCoord2.xyzw;
+                                            output.color = input.color.xyzw;
                                             #if UNITY_ANY_INSTANCING_ENABLED
                                             output.instanceID = input.instanceID;
                                             #endif
@@ -1802,9 +1826,8 @@ Shader "Custom/Ground2D"
                                                 float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_G_5_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.g;
                                                 float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_B_6_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.b;
                                                 float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_A_7_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.a;
-                                                float4 _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4 = _Color;
                                                 float4 _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4;
-                                                Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
+                                                Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, IN.VertexColor, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
                                                 surface.BaseColor = (_Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4.xyz);
                                                 surface.Emission = float3(0, 0, 0);
                                                 return surface;
@@ -1855,6 +1878,7 @@ Shader "Custom/Ground2D"
 
 
                                                 output.uv0 = input.texCoord0;
+                                                output.VertexColor = input.color;
                                             #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
                                             #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
                                             #else
@@ -2517,7 +2541,9 @@ Shader "Custom/Ground2D"
                                                                 #define ATTRIBUTES_NEED_NORMAL
                                                                 #define ATTRIBUTES_NEED_TANGENT
                                                                 #define ATTRIBUTES_NEED_TEXCOORD0
+                                                                #define ATTRIBUTES_NEED_COLOR
                                                                 #define VARYINGS_NEED_TEXCOORD0
+                                                                #define VARYINGS_NEED_COLOR
                                                                 #define FEATURES_GRAPH_VERTEX
                                                                 /* WARNING: $splice Could not find named fragment 'PassInstancing' */
                                                                 #define SHADERPASS SHADERPASS_2D
@@ -2550,6 +2576,7 @@ Shader "Custom/Ground2D"
                                                                      float3 normalOS : NORMAL;
                                                                      float4 tangentOS : TANGENT;
                                                                      float4 uv0 : TEXCOORD0;
+                                                                     float4 color : COLOR;
                                                                     #if UNITY_ANY_INSTANCING_ENABLED
                                                                      uint instanceID : INSTANCEID_SEMANTIC;
                                                                     #endif
@@ -2558,6 +2585,7 @@ Shader "Custom/Ground2D"
                                                                 {
                                                                      float4 positionCS : SV_POSITION;
                                                                      float4 texCoord0;
+                                                                     float4 color;
                                                                     #if UNITY_ANY_INSTANCING_ENABLED
                                                                      uint instanceID : CUSTOM_INSTANCE_ID;
                                                                     #endif
@@ -2574,6 +2602,7 @@ Shader "Custom/Ground2D"
                                                                 struct SurfaceDescriptionInputs
                                                                 {
                                                                      float4 uv0;
+                                                                     float4 VertexColor;
                                                                 };
                                                                 struct VertexDescriptionInputs
                                                                 {
@@ -2585,6 +2614,7 @@ Shader "Custom/Ground2D"
                                                                 {
                                                                      float4 positionCS : SV_POSITION;
                                                                      float4 texCoord0 : INTERP0;
+                                                                     float4 color : INTERP1;
                                                                     #if UNITY_ANY_INSTANCING_ENABLED
                                                                      uint instanceID : CUSTOM_INSTANCE_ID;
                                                                     #endif
@@ -2605,6 +2635,7 @@ Shader "Custom/Ground2D"
                                                                     ZERO_INITIALIZE(PackedVaryings, output);
                                                                     output.positionCS = input.positionCS;
                                                                     output.texCoord0.xyzw = input.texCoord0;
+                                                                    output.color.xyzw = input.color;
                                                                     #if UNITY_ANY_INSTANCING_ENABLED
                                                                     output.instanceID = input.instanceID;
                                                                     #endif
@@ -2625,6 +2656,7 @@ Shader "Custom/Ground2D"
                                                                     Varyings output;
                                                                     output.positionCS = input.positionCS;
                                                                     output.texCoord0 = input.texCoord0.xyzw;
+                                                                    output.color = input.color.xyzw;
                                                                     #if UNITY_ANY_INSTANCING_ENABLED
                                                                     output.instanceID = input.instanceID;
                                                                     #endif
@@ -2727,9 +2759,8 @@ Shader "Custom/Ground2D"
                                                                         float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_G_5_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.g;
                                                                         float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_B_6_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.b;
                                                                         float _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_A_7_Float = _SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4.a;
-                                                                        float4 _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4 = _Color;
                                                                         float4 _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4;
-                                                                        Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, _Property_7b5e95a1f5644190824df77368a31bf7_Out_0_Vector4, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
+                                                                        Unity_Multiply_float4_float4(_SampleTexture2D_66d238f033e9430faeb91c8027c85a8c_RGBA_0_Vector4, IN.VertexColor, _Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4);
                                                                         surface.BaseColor = (_Multiply_c2b56a3470b1444e896c79d7587f5525_Out_2_Vector4.xyz);
                                                                         return surface;
                                                                     }
@@ -2779,6 +2810,7 @@ Shader "Custom/Ground2D"
 
 
                                                                         output.uv0 = input.texCoord0;
+                                                                        output.VertexColor = input.color;
                                                                     #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
                                                                     #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
                                                                     #else
