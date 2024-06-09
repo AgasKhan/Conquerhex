@@ -103,13 +103,13 @@ public class CastingDash : CastingAction<CastingDashBase>
     {
         if (castingActionBase.multiplyByArea)
         {
-            moveEntity.Velocity(VirtualControllers.Movement.dir.normalized.Vect2To3XZ(0), castingActionBase.velocityInDash * FinalMaxRange);
+            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash * FinalMaxRange);
 
             Debug.Log("Velocity: " + FinalMaxRange);
         }
         else
         {
-            moveEntity.Velocity(VirtualControllers.Movement.dir.normalized.Vect2To3XZ(0), castingActionBase.velocityInDash);
+            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash);
         }
     }
 

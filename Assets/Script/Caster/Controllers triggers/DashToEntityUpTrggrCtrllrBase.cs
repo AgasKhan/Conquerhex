@@ -93,12 +93,15 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             }
 
             objectivesAttacked.RemoveAt(0);
+            Aiming = (objectivesAttacked[0].transform.position - caster.transform.position).normalized;
         }
         else
         {
             Cast();
             return;
         }
+
+
 
         timerToEnd.Reset();
         buttonPress = false;
@@ -110,7 +113,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference?.Area(FinalMaxRange, FinalMinRange);
+        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Direction(Aiming);
 
         Detect();
 
@@ -139,6 +142,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
 
-        FeedBackReference?.Area( FinalMaxRange,  FinalMinRange).Direction(Aiming);
+        FeedBackReference?.Area( FinalMaxRange,  FinalMinRange);
     }
 }
