@@ -64,12 +64,12 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
         timDamaged = TimersManager.Create(0.33f, () => ColorBlink(((int)(timDamaged.Percentage() * 10)) % 2 == 0), ColorBlinkEnd);
 
         timDamaged.Stop();
-        /*
-        if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
+        
+        if (originalRenderer is SpriteRenderer && entity.TryGetInContainer<MoveEntityComponent>(out var move))
         {
             move.onMove += Move_onMove;
         }
-        */
+        
 
         if (onDeathParticlePrefab != null)
         {
@@ -93,19 +93,19 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
         throw new System.NotImplementedException();
     }
 
-    /*
+    
     private void Move_onMove(Vector3 obj)
     {
         if (obj.x < 0)
         {
-            originalRenderer.flipX = viewObjectModel.defaultRight;
+            ((SpriteRenderer)originalRenderer).flipX = viewObjectModel.defaultRight;
         }
         else if (obj.x > 0)
         {
-            originalRenderer.flipX = !viewObjectModel.defaultRight;
+            ((SpriteRenderer)originalRenderer).flipX = !viewObjectModel.defaultRight;
         }
     }
-    */
+    
 
     private void Health_death()
     {
