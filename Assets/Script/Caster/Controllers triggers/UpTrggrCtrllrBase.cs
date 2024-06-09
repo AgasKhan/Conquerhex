@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/UpTriggerControllerBase")]
 public class UpTrggrCtrllrBase : TriggerControllerBase
 {
+    public bool aimingToMove;
+
     protected override System.Type SetItemType()
     {
         return typeof(UpTrggrCtrllr);
@@ -17,7 +19,7 @@ public class UpTrggrCtrllrBase : TriggerControllerBase
 /// </summary>
 public class UpTrggrCtrllr : TriggerController
 {
-    //protected float originalScale;
+    new UpTrggrCtrllrBase triggerBase=> base.triggerBase as UpTrggrCtrllrBase;
 
     public override void ControllerDown(Vector2 dir, float button)
     {
@@ -40,8 +42,16 @@ public class UpTrggrCtrllr : TriggerController
         }
 
         //Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime*10);
-
-        Aiming = dir.Vect2To3XZ(0);
+        if(!(triggerBase?.aimingToMove ?? false))
+            Aiming = dir.Vect2To3XZ(0);
+        else
+        {
+            if(caster.TryGetInContainer(out MoveEntityComponent move))
+            {
+                Aiming = move.direction;
+            }
+        }
+            
 
         FeedBackReference?.Area(FinalMaxRange).Direction(Aiming).Angle(Angle);
 
