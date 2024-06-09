@@ -316,7 +316,10 @@ public class Hexagone : MonoBehaviour
             {
                 for (int ii = y; ii < yFin; ii++)
                 {
-                    map.SetTile(new Vector3Int(i, ii, 0), biomes.tile[Random.Range(0, biomes.tile.Length)]);
+                    var tile = biomes.tile[Random.Range(0, biomes.tile.Length)];
+                    var index = new Vector3Int(i, ii, 0);
+                    map.SetTile(index, tile);
+                    map.SetColor(index, tile.color);
                 }
             }
         }
