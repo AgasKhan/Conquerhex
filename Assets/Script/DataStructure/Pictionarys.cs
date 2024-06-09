@@ -147,7 +147,7 @@ public class Pictionarys<K, V> : IList<Pictionary<K, V>>
 
         foreach (var item in pictionaries)
         {
-            if (!item.value.Equals(default(V)) && ((item.value as string) != ""))
+            //if (!item.value.Equals(default(V)) && ((item.value as string) != ""))
                 salida += item.key.ToString().RichText("u") + glue + item.value + entreKeys;
         }
 

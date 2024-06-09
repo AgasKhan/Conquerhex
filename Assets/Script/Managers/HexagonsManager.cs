@@ -190,7 +190,17 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         if (lastQueueOnOff != null)
             QueueOnOff(lastQueueOnOff.key,lastQueueOnOff.value);*/
 
+        //Debug.Log("Pre orden:"+instance._queueOnOff);
+
         instance._queueOnOff = IntercalateByBools(instance._queueOnOff).ToPictionarys();
+
+        //Debug.Log("Pos orden:" + instance._queueOnOff);
+
+        if (!queueOnOffFlag)
+        {
+            queueOnOffFlag = true;
+            instance.StartCoroutine(QueueOnOffRoutine());
+        }
     }
 
     static IEnumerable<Internal.Pictionary<Hexagone, bool>> IntercalateByBools(Pictionarys<Hexagone, bool> objects)
@@ -227,16 +237,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         else
         {
             //Debug.Log($"Se modifico la queue {queueOnOff[index]}->{on}: {hexagone.id} - {hexagone.bussy} indice: {index}");
-            if (index==0)
+            if (hexQueueOnOff.key.id == hexagone.id)
                 hexagone.ChangeOnOffRoutine(on);
             else
                 queueOnOff[index] = on;
-        }
-
-        if(!queueOnOffFlag)
-        {
-            queueOnOffFlag = true;
-            instance.StartCoroutine(QueueOnOffRoutine());
         }
     }
 
@@ -253,15 +257,28 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 {
                     yield return hexQueueOnOff.key.On();
                 }
-                else if (!hexQueueOnOff.value)
+                else
                 {
                     yield return hexQueueOnOff.key.Off();
                 }
-
-                //Debug.Log($"Finalizo de {hexQueueOnOff.value}: {hexQueueOnOff.key.id}");
             }
 
+            //Debug.Log($"Finalizo de {hexQueueOnOff.key.gameObject.activeSelf}: {hexQueueOnOff.key.id}");
         }
+
+        //Aca te aviso del error y lo parcheo
+
+        for (int i = activeHex.Count - 1; i >= 0; i--)
+        {
+            if(!activeHex[i].gameObject.activeSelf || activeHex[i].bussy)
+            {
+                //Debug.LogWarning("Faltaba encender el hexagono: " + activeHex[i].id);
+                QueueOnOff(activeHex[i], true);
+            }
+        }
+
+        if (queueOnOff.Count > 0)
+            yield return QueueOnOffRoutine();
 
         hexQueueOnOff = null;
         queueOnOffFlag = false;

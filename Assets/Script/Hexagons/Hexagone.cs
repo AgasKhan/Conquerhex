@@ -198,17 +198,21 @@ public class Hexagone : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            if(!on)
+            if (GameManager.MediumFrameRate)
+                yield return null;
+
+            if (!on)
             {
                 yield return Off();
                 yield break;
-            }                
+            }
+
+            if (i >= transform.childCount)
+                break;
+
             var item = transform.GetChild(i);
 
             item.SetActiveGameObject(true);
-
-            if (GameManager.MediumFrameRate)
-                yield return null;
         }
 
         bussy = false;
@@ -221,20 +225,22 @@ public class Hexagone : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
+            if (GameManager.MediumFrameRate)
+                yield return null;
+
             if (on)
             {
                 yield return On();
                 yield break;
             }
-            transform.GetChild(i).SetActiveGameObject(false);
 
-            if (GameManager.MediumFrameRate)
-                yield return null;
+            if (i >= transform.childCount)
+                break;
+
+            transform.GetChild(i).SetActiveGameObject(false);
         }
 
         gameObject.SetActive(false);
-
-        yield return null;
 
         OptimiceChunks();
 
