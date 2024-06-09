@@ -26,10 +26,14 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     /// Boton movimiento
     /// </summary>
     public EventControllerMediator moveEventMediator = new EventControllerMediator();
+    
+    public StunBar stunBar;
 
     IState<Character> _ia;
 
     FSMCharacter fsmCharacter;
+
+    IState<Character> originalState;
 
     [field: SerializeField]
     public InventoryEntityComponent inventory { get; private set; }
@@ -180,6 +184,33 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         
     }
 
+    public override void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
+    {
+        if(dmg.typeInstance.target == DamageTypes.Target.defense)
+        {
+            Debug.Log("Se daño la defensa de: " + gameObject.name);
+            stunBar.ReceiveStunDamage(dmg.amount);
+        }
+
+        base.InternalTakeDamage(ref dmg, damageOrigin);
+    }
+
+    private void StunBar_OnStunned()
+    {
+        Debug.Log(gameObject.name + " Stunned");
+        CurrentState = null;
+    }
+
+    private void StunBar_OnRecover()
+    {
+        Debug.Log(gameObject.name + " Recovered");
+        CurrentState = originalState;
+    }
+
+    private void Health_reLife()
+    {
+        stunBar.RestartDefense();
+    }
 
     protected override void Config()
     {
@@ -226,6 +257,17 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         moveStateCharacter = new MoveStateCharacter();
 
         fsmCharacter = new FSMCharacter(this);
+
+        stunBar = new StunBar();
+
+        var body = flyweight.GetFlyWeight<BodyBase>();
+        stunBar.Init(body.maxDefense, body.stunTime, body.defenseRegenDelay, body.defenseRegenSpeed, body.defenseRegenAmount);
+        originalState = CurrentState;
+
+        stunBar.OnStunned += StunBar_OnStunned;
+        stunBar.OnRecover += StunBar_OnRecover;
+
+        health.reLife += Health_reLife;
 
         MyUpdates += fsmCharacter.UpdateState;
 
@@ -437,42 +479,33 @@ namespace FSMCharacterAndStates
 [System.Serializable]
 public class StunBar
 {
-    public float maxStun = 100f;
-    private float currentStun;
-    private bool isStunned = false;
-
-    public float regenDelay = 3f;
-    public float regenSpeed = 5f;
+    public float maxDefense = 100f;
+    public bool isStunned = false;
 
     public event System.Action OnStunned;
+    public event System.Action OnRecover;
 
+    public float CurrentDefense 
+    { 
+        get => _currentDefense; 
+        set => _currentDefense = Mathf.Clamp(value, 0, maxDefense); 
+    }
+    float _currentDefense;
+    
     Timer regenDelayTim;
     Timer regenTim;
-
-    private void Start()
-    {
-        currentStun = maxStun;
-        regenDelayTim = TimersManager.Create(regenDelay, () => regenTim.Reset());
-        regenTim = TimersManager.Create(100, () => currentStun += Time.deltaTime * regenSpeed, null);
-    }
-
-    private void Update()
-    {
-        if (!isStunned && currentStun < maxStun)
-        {
-            currentStun += regenSpeed * Time.deltaTime;
-            currentStun = Mathf.Clamp(currentStun, 0, maxStun);
-        }
-    }
+    Timer stunTimer;
 
     public void ReceiveStunDamage(float damage)
     {
-        if (isStunned) return;
+        if (isStunned)
+            return;
 
-        currentStun -= damage;
-        currentStun = Mathf.Clamp(currentStun, 0, maxStun);
+        regenTim.Stop();
+        CurrentDefense -= damage;
+        Debug.Log("Daño: " + damage);
 
-        if (currentStun <= 0)
+        if (CurrentDefense <= 0)
         {
             StunCharacter();
         }
@@ -482,15 +515,45 @@ public class StunBar
         }
     }
 
-    private void StunCharacter()
+    void StunCharacter()
     {
         isStunned = true;
+        stunTimer.Reset();
         OnStunned?.Invoke();
     }
 
-    private IEnumerator StartRegenerationAfterDelay()
+    void RecoverEnemy()
     {
-        yield return new WaitForSeconds(regenDelay);
         isStunned = false;
+        CurrentDefense = maxDefense;
+        OnRecover?.Invoke();
+    }
+
+    public void RestartDefense()
+    {
+        CurrentDefense = maxDefense;
+    }
+
+    public void Init(float _maxDefense, float _stunTime, float _regenDelay, float _regenSpeed, float _regenAmount)
+    {
+        maxDefense = _maxDefense;
+        CurrentDefense = maxDefense;
+
+        regenDelayTim = TimersManager.Create(_regenDelay, () => regenTim.Reset()).Stop();
+        regenTim = TimersManager.Create(_regenSpeed, () => 
+        {
+            if(CurrentDefense < maxDefense)
+            {
+                CurrentDefense += _regenAmount;
+                regenTim.Reset();
+            }
+            /*
+            else
+            {
+                regenTim.SetInitCurrent(_regenSpeed).Stop();
+            }*/
+        }).Stop();
+
+        stunTimer = TimersManager.Create(_stunTime, () => RecoverEnemy()).Stop();
     }
 }

@@ -12,22 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dcd3e1be95f524bb9134a728f11063, type: 3}
   m_Name: Animal
   m_EditorClassIdentifier: 
-  _nameDisplay: 
-  _image: {fileID: 0}
-  _details: 
-  maxAmount: 1
-  weight: 0
-  itemType: 0
-  life: 50
-  regen: 10
-  vulnerabilities:
-  - amount: 0.9
-    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
-  kataCombos:
-  - kata: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771, type: 2}
-    weapon: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
-  additiveDamage: []
   velocity: 5
   weightCapacity: 50
-  stunTime: 0
-  areaFarming: 0.1
+  stunTime: 1
+  maxDefense: 1
+  defenseRegenDelay: 1
+  defenseRegenSpeed: 1
+  defenseRegenAmount: 1

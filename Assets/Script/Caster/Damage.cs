@@ -186,7 +186,7 @@ namespace DamageTypes
 {
     public enum Target
     {
-        all, life, regen, maxLife, maxRegen
+        all, life, regen, maxLife, maxRegen, defense
     }
 }
 

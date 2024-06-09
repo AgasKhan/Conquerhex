@@ -18,6 +18,7 @@ MonoBehaviour:
   maxAmount: 1
   weight: 0
   visible: 1
+  recipe: {fileID: 11400000, guid: ee1ae9ab41fb239459c01fafda656d5f, type: 2}
   defaultKata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
   velocity: 1
   range: 2
@@ -34,5 +35,8 @@ MonoBehaviour:
     amount: 0.5
     knockBack: 0
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  - name: 
+    amount: 50
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 10654c72347acf24a9eef81a50d50b53, type: 2}
   durability: 9999
-  recipe: {fileID: 11400000, guid: ee1ae9ab41fb239459c01fafda656d5f, type: 2}

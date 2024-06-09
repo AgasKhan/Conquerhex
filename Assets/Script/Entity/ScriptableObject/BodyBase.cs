@@ -12,6 +12,14 @@ public class BodyBase : FlyWeight<EntityBase>
     public float weightCapacity;
 
     public float stunTime;
+
+    public float maxDefense;
+
+    public float defenseRegenDelay;
+
+    public float defenseRegenSpeed;
+
+    public float defenseRegenAmount;
 }
 
 
