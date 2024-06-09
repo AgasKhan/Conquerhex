@@ -24,8 +24,9 @@ public class Biomes : ShowDetails
         Paths
     }
 
-    public Tile[] tile;
     public TerrainData terrainBiome;
+    public Tile[] tile;
+    public Color generalColor = new Color(1,1,1,1);
 
     [Header("Orden de las layers:\n\tPrimero: Trees\n\tSegundo: Enemies\n\tTercero: Paths\n\nPara el sistema viejo toma: \n\tchanceEmptyOrEnemy: Enemies\n\tinversaDensidad: trees\n\tspawner: Enemies")]
     [Space]
@@ -43,6 +44,15 @@ public class Biomes : ShowDetails
     }
 
     Pictionarys<GameObject, int> _props;
+
+    [ContextMenu("Reset colors")]
+    void ResetColor()
+    {
+        foreach (var item in tile)
+        {
+            item.color = Color.white;
+        }
+    }
 
     [ContextMenu("Cargar assets de la carpeta")]
     void LoadAssets()
@@ -75,6 +85,17 @@ public class Biomes : ShowDetails
                 if (!layersOfProps[i].props.ContainsKey(item))
                     layersOfProps[i].props.Add(item, 10);
             }
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (generalColor == Color.white)
+            return;
+
+        foreach (var item in tile)
+        {
+            item.color = generalColor;
         }
     }
 

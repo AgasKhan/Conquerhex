@@ -15,12 +15,26 @@ MonoBehaviour:
   _nameDisplay: Lava
   _image: {fileID: 0}
   _details: 
+  terrainBiome: {fileID: 0}
   tile:
   - {fileID: 11400000, guid: e4cafb055c383b042b6afe00913ccc5e, type: 2}
   - {fileID: 11400000, guid: 3a015686a0a0b0846b75deb42491bca3, type: 2}
   - {fileID: 11400000, guid: 3338d7fbb9ea9c64c920a397e2fcff76, type: 2}
   - {fileID: 11400000, guid: 0dd81476af4903646baf948ae71b0577, type: 2}
-  chanceEmptyOrEnemy: 10
-  spawner: {fileID: 0}
-  props:
-    pictionaries: []
+  color: {r: 1, g: 1, b: 1, a: 1}
+  layersOfProps:
+  - chanceEmptyOrEnemy: 0
+    inversaDensidad: 0
+    spawner: {fileID: 0}
+    props:
+      pictionaries: []
+  - chanceEmptyOrEnemy: 0
+    inversaDensidad: 0
+    spawner: {fileID: 0}
+    props:
+      pictionaries: []
+  - chanceEmptyOrEnemy: 0
+    inversaDensidad: 0
+    spawner: {fileID: 0}
+    props:
+      pictionaries: []

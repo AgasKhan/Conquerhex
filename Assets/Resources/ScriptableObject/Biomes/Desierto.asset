@@ -15,18 +15,26 @@ MonoBehaviour:
   _nameDisplay: Desierto
   _image: {fileID: 0}
   _details: 
+  terrainBiome: {fileID: 0}
   tile:
   - {fileID: 11400000, guid: d3e69f79aa0dd3247890dc87a6fa1c1b, type: 2}
   - {fileID: 11400000, guid: 7e40a07d78ea75c46b320691d647ebe1, type: 2}
   - {fileID: 11400000, guid: 241cfc36d16041648b39efcd7a7773d3, type: 2}
   - {fileID: 11400000, guid: 7d586a835f60b2342a55ebac16ed3445, type: 2}
-  chanceEmptyOrEnemy: 70
-  inversaDensidad: 3
-  spawner: {fileID: -5676458598891892511, guid: ecf5bace16d838041a93341ef03cc01d,
-    type: 3}
-  props:
-    pictionaries:
-    - key: {fileID: 3222024885464351305, guid: c7a6580cb12c64d4e8a8434b8f28729f, type: 3}
-      value: 5
-    - key: {fileID: 4144702360238181668, guid: 85cb37936444dc34091e85f50c300a3a, type: 3}
-      value: 1
+  color: {r: 1, g: 1, b: 1, a: 1}
+  layersOfProps:
+  - chanceEmptyOrEnemy: 0
+    inversaDensidad: 0
+    spawner: {fileID: 0}
+    props:
+      pictionaries: []
+  - chanceEmptyOrEnemy: 0
+    inversaDensidad: 0
+    spawner: {fileID: 0}
+    props:
+      pictionaries: []
+  - chanceEmptyOrEnemy: 0
+    inversaDensidad: 0
+    spawner: {fileID: 0}
+    props:
+      pictionaries: []
