@@ -4,9 +4,8 @@ using UnityEngine;
 using System;
 
 [CreateAssetMenu(menuName = "Abilities/CastingExponentialDamageBase", fileName = "newCastingExponentialDamage")]
-public class CastingExponentialDamageBase: CastingActionBase
+public class CastingExponentialDamageBase: CastingDamageBase
 {
-    public Damage[] damagesMultiplier;
     protected override Type SetItemType()
     {
         return typeof(CastingExponentialDamage);
@@ -26,7 +25,7 @@ public class CastingExponentialDamage : CastingAction<CastingExponentialDamageBa
 
         if (ability.PayExecution(energyCost) || End == true)
         {
-            var additiveDamage = Damage.Combine(Damage.AdditiveFusion, castingActionBase.damagesMultiplier, caster.additiveDamage.content);
+            var additiveDamage = Damage.Combine(Damage.AdditiveFusion, castingActionBase.damages, caster.additiveDamage.content);
 
             for (int i = 0; i < castTimes; i++)
             {
@@ -38,7 +37,7 @@ public class CastingExponentialDamage : CastingAction<CastingExponentialDamageBa
             End = true;
             castTimes = 0;
             energyCost = ability.CostExecution;
-            return Damage.ApplyDamage(caster.container, multiplative, entities);
+            return Damage.ApplyDamage(caster.container, castingActionBase.weightActionDamage ,multiplative, entities);
         }
         else
         {
@@ -49,7 +48,7 @@ public class CastingExponentialDamage : CastingAction<CastingExponentialDamageBa
 
         //End = true;
         Debug.Log("NO PASO POR APPLY DAMAGE");
-        return Damage.ApplyDamage(caster.container, default, entities);
+        return Damage.ApplyDamage(caster.container, castingActionBase.weightActionDamage, default, entities);
     }
 
     public override void Init(Ability ability)

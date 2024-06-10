@@ -110,7 +110,7 @@ public abstract class MoveAbstract : MyScripts , IMove, IDamageable
         onMove?.Invoke(vec);
     }
 
-    public void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
+    public void InternalTakeDamage(ref Damage dmg, int weightAction = 0 ,Vector3? damageOrigin = null)
     {
         if (damageOrigin == null || dmg.amount <= 0 || Mathf.Abs(dmg.knockBack) <= 0)
             return;

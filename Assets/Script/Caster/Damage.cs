@@ -11,7 +11,7 @@ public interface IDamageable
     /// </summary>
     /// <param name="dmg"></param>
     /// <param name="damageOrigin"></param>
-    void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null);
+    void InternalTakeDamage(ref Damage dmg, int weightAction = 0, Vector3? damageOrigin = null);
 }
 
 [System.Serializable]
@@ -134,7 +134,7 @@ public struct Damage
         return damagesTypes[typeof(T)];
     }
 
-    public static IEnumerable<Entity> ApplyDamage(Entity owner, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
+    public static IEnumerable<Entity> ApplyDamage(Entity owner, int weightAction ,IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
         foreach (var entity in damageables)
         {
@@ -144,7 +144,7 @@ public struct Damage
 
             entity.onTakeDamage += chckDmg;
 
-            entity.TakeDamage(damages, owner.transform.position);
+            entity.TakeDamage(damages, weightAction, owner.transform.position);
 
             entity.onTakeDamage -= chckDmg;
 

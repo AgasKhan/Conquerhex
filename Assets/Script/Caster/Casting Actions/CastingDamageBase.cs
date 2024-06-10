@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/CastingDamageBase", fileName = "new CastingDamageBase")]
 public class CastingDamageBase : CastingActionBase
 {
+    public int weightActionDamage;
     public Damage[] damages;
 
     protected override Type SetItemType()
@@ -27,6 +28,6 @@ public class CastingDamage : CastingAction<CastingDamageBase>
 
         var multiplative = Damage.Combine(Damage.MultiplicativeFusion, ability.multiplyDamage.content, additiveDamage);
 
-        return Damage.ApplyDamage(caster.container,multiplative, entities); 
+        return Damage.ApplyDamage(caster.container, castingActionBase.weightActionDamage ,multiplative, entities); 
     }
 }

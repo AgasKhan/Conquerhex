@@ -50,31 +50,44 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         onDetected?.Invoke();
     }
 
-    public void TakeDamage(Damage dmg, Vector3? damageOrigin = null)
+    public void TakeDamage(Damage dmg, int weightAction = 0, Vector3? damageOrigin = null)
     {
-        InternalTakeDamage(ref dmg, damageOrigin);
+        float original = dmg.amount;
 
-        UI.Interfaz.instance?.PopText(this, dmg.ToString());
+        InternalTakeDamage(ref dmg, weightAction, damageOrigin);
 
-        //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
+        UI.Interfaz.instance?.PopText(this, dmg.amount.ToStringFixed().RichTextColor(dmg.amount > original ? Color.yellow : (dmg.amount < original ? Color.grey : Color.white)));
     }
 
-    public void TakeDamage(IEnumerable<Damage> dmgs, Vector3? damageOrigin = null)
+    public void TakeDamage(IEnumerable<Damage> dmgs, int weightAction = 0, Vector3? damageOrigin = null)
     {
         if (dmgs == null)
             return;
 
         //string notif = "";
+        float sumStart = 0;
+
+        float sumEnd = 0;
 
         foreach (var dmgFor in dmgs)
         {
-            TakeDamage(dmgFor, damageOrigin);
+            var dmgCopy = dmgFor;
+
+            sumStart += dmgFor.amount;
+
+            InternalTakeDamage(ref dmgCopy, weightAction, damageOrigin);
+
+            sumEnd += dmgCopy.amount;
         }
+
+        string dmgStr = sumEnd.ToStringFixed().RichTextColor(sumEnd> sumStart ? Color.yellow : (sumEnd < sumStart ? Color.grey : Color.white));
+
+        UI.Interfaz.instance?.PopText(this, dmgStr);
 
         //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
 
-    public virtual void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
+    public virtual void InternalTakeDamage(ref Damage dmg, int weightAction = 0 ,Vector3? damageOrigin = null)
     {
         if (vulnerabilities!=null)
             for (int i = 0; i < vulnerabilities.Length; i++)
@@ -152,6 +165,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
             case DamageTypes.Target.defense:
 
                 onTakeDamage?.Invoke(dmg);
+                dmg.amount = 0;
                 return;
 
                 /*
@@ -168,7 +182,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
         foreach (var item in damageables)
         {
-            item.InternalTakeDamage(ref dmg, damageOrigin);
+            item.InternalTakeDamage(ref dmg, weightAction, damageOrigin);
         }
 
         health.StartRegenTimer();
