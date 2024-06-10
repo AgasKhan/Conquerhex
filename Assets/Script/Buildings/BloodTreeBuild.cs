@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class BloodTreeBuild : CraftingBuild
 {
@@ -11,6 +12,7 @@ public class BloodTreeBuild : CraftingBuild
     public Pictionarys<ItemCrafteable, int> gachaRewardsInt = new Pictionarys<ItemCrafteable, int>();
     List<ItemCrafteable> recipes = new List<ItemCrafteable>();
 
+    List<Character> minions = new List<Character>();
     protected override void Config()
     {
         base.Config();
@@ -22,12 +24,28 @@ public class BloodTreeBuild : CraftingBuild
     {
         interactComp.OnInteract += SetRewards;
         health.noLife += Health_noLife;
+
+        LoadSystem.AddPostLoadCorutine(SetMinios);
+    }
+
+    void SetMinios()
+    {
+        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>().ToList();
+        if (minions.Contains(GameManager.instance.playerCharacter))
+            minions.Remove(GameManager.instance.playerCharacter);
+
     }
 
     private void Health_noLife()
     {
         interactComp.ChangeInteract(true);
         team = Team.player;
+
+        for (int i = 0; i < minions.Count; i++)
+        {
+            UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
+            minions[i].IAOnOff(false);
+        }
     }
 
     void SetRewards()

@@ -192,6 +192,29 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         CurrentDefense = maxDefense;
     }
 
+    public void IAOnOff(bool value)
+    {
+        if(value)
+        {
+            CurrentState.OnEnterState(this);
+            IAUpdateEnable(true);
+            isStunned = false;
+            health.death -= Health_death;
+        }
+        else
+        {
+            IAUpdateEnable(false);
+            CurrentState.OnExitState(this);
+            isStunned = true;
+            health.death += Health_death;
+        }
+    }
+
+    private void Health_death()
+    {
+        transform.SetActiveGameObject(false);
+    }
+
     void SaveUI()
     {
         caster.weapons[0].toChange += (index, item) => equipedEvents[0]?.Invoke((item?.defaultKata?.cooldown, item?.itemBase));
@@ -535,15 +558,10 @@ namespace FSMCharacterAndStates
             character = param.context;
 
             UI.Interfaz.instance.PopText(param.context, "Stunned".RichText("size", "45").RichTextColor(Color.black), Vector2.up * 2);
+            param.context.IAOnOff(false);
 
-            param.context.IAUpdateEnable(false);
-            param.context.CurrentState.OnExitState(param.context);
-            
-            character.isStunned = true;
             stunTimer.Reset();
             OnStunned?.Invoke();
-
-            stunTimer.Reset();
 
             //Debug.Log(character.gameObject.name + " Stunned-------------------------------------------------------------------");
         }
@@ -559,8 +577,8 @@ namespace FSMCharacterAndStates
             character.RestartDefense();
             OnRecover?.Invoke();
 
-            param.context.CurrentState.OnEnterState(param.context);
-            param.context.IAUpdateEnable(true);
+            param.context.IAOnOff(true);
+
             //Debug.Log(character.gameObject.name + " Recovered-------------------------------------------------------------------");
         }
 
@@ -570,80 +588,3 @@ namespace FSMCharacterAndStates
         }
     }
 }
-/*
-[System.Serializable]
-public class StunBar
-{
-    public float maxDefense = 100f;
-    public bool isStunned = false;
-
-    public event System.Action OnStunned;
-    public event System.Action OnRecover;
-
-    public float CurrentDefense 
-    { 
-        get => _currentDefense; 
-        set => _currentDefense = Mathf.Clamp(value, 0, maxDefense); 
-    }
-    float _currentDefense;
-    
-    Timer regenDelayTim;
-    Timer regenTim;
-    Timer stunTimer;
-
-    public void ReceiveStunDamage(float damage)
-    {
-        if (isStunned)
-            return;
-
-        regenTim.Stop();
-        CurrentDefense -= damage;
-        Debug.Log("Daño: " + damage);
-
-        if (CurrentDefense <= 0)
-        {
-            StunCharacter();
-        }
-        else
-        {
-            regenDelayTim.Reset();
-        }
-    }
-
-    void StunCharacter()
-    {
-        isStunned = true;
-        stunTimer.Reset();
-        OnStunned?.Invoke();
-    }
-
-    void RecoverEnemy()
-    {
-        isStunned = false;
-        CurrentDefense = maxDefense;
-        OnRecover?.Invoke();
-    }
-
-    public void RestartDefense()
-    {
-        CurrentDefense = maxDefense;
-    }
-
-    public void Init(float _maxDefense, float _stunTime, float _regenDelay, float _regenSpeed, float _regenAmount)
-    {
-        maxDefense = _maxDefense;
-        CurrentDefense = maxDefense;
-
-        regenDelayTim = TimersManager.Create(_regenDelay, () => regenTim.Reset()).Stop();
-        regenTim = TimersManager.Create(_regenSpeed, () => 
-        {
-            if(CurrentDefense < maxDefense)
-            {
-                CurrentDefense += _regenAmount;
-                regenTim.Reset();
-            }
-        }).Stop();
-
-        stunTimer = TimersManager.Create(_stunTime, () => RecoverEnemy()).Stop();
-    }
-}*/
