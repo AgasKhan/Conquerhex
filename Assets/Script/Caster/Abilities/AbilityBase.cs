@@ -45,6 +45,8 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
         "\nEste costo no se quitara de forma automatica")]
     public float costHandle = 0;
 
+    public int weightAction;
+
     public Damage[] damagesMultiply = new Damage[0];
 
     public Vector2Int[] indexParticles;
@@ -180,6 +182,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public AnimationClip animationCastMiddle => itemBase.animationCastMiddle;
 
     public AnimationClip animationCastExit => itemBase.animationCastExit;
+
+    public int weightAction => itemBase.weightAction;
 
     public bool onCooldownTime => cooldown.Chck;
 

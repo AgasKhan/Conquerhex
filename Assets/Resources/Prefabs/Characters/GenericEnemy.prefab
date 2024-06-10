@@ -69,13 +69,25 @@ MonoBehaviour:
       value:
         steering: {fileID: 1553578019271761151}
         weight: 1
-  detection:
-    maxRadius: 4.5
+  alertDetection:
+    maxRadius: 8
     minRadius: 0
     inverse: 0
     angle: 360
     dot: -1
-    _maxDetects: 0
+    _maxDetects: 1
+    _minDetects: 0
+    queryTrigger: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+  attackDetection:
+    maxRadius: 5
+    minRadius: 0
+    inverse: 0
+    angle: 360
+    dot: -1
+    _maxDetects: 1
     _minDetects: 0
     queryTrigger: 0
     layerMask:
@@ -91,6 +103,7 @@ MonoBehaviour:
   fsm:
     rid: -2
   minimalDistance: 0.5
+  alertPoint: {fileID: 0}
   attack:
     timerToAttack:
       _total: 0
@@ -100,6 +113,7 @@ MonoBehaviour:
       _current: 0
   timeToEvade: 1.8
   timeToIdle: 3
+  alertPointRange: 5
   references:
     version: 2
     RefIds:
@@ -138,6 +152,7 @@ MonoBehaviour:
   <inventory>k__BackingField: {fileID: 8529334885070716560}
   <caster>k__BackingField: {fileID: 5476637664899224542}
   <move>k__BackingField: {fileID: 4728687904288008135}
+  isStunned: 0
 --- !u!114 &8529334885070716560
 MonoBehaviour:
   m_ObjectHideFlags: 0

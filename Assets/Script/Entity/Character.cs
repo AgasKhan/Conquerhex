@@ -534,7 +534,7 @@ namespace FSMCharacterAndStates
         {
             character = param.context;
 
-            UI.Interfaz.instance.PopText(param.context, "Stunned".RichText("size", "45"), Vector2.up * 2);
+            UI.Interfaz.instance.PopText(param.context, "Stunned".RichText("size", "45").RichTextColor(Color.black), Vector2.up * 2);
 
             param.context.IAUpdateEnable(false);
             param.context.CurrentState.OnExitState(param.context);

@@ -134,6 +134,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         if (ability.Auxiliar < obj.weightAction)
         {
             ability.StopCast();
+            UI.Interfaz.instance.PopText(ability.caster.container, "Damaged".RichText("size", "25").RichTextColor(Color.gray), Vector2.up * 2);
         }
     }
 
