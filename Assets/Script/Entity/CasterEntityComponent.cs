@@ -4,7 +4,7 @@ using UnityEngine;
 using ComponentsAndContainers;
 
 [RequireComponent(typeof(InventoryEntityComponent))]
-public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
+public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, IDamageable
 {
     [Tooltip("Armas equipadas y de cambio rapido")]
     public SlotItemList<MeleeWeapon> weapons = new SlotItemList<MeleeWeapon>(5);
@@ -25,6 +25,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     public Vector3 aiming;
 
     public event System.Action<Ability> onAttack;
+    public event System.Action<(Damage dmg, int weightAction, Vector3? origin)> onTakeDamage;
+
     public event System.Action<(float, float, float)> energyUpdate;
     public event System.Action<float> leftEnergyUpdate;
     public event System.Action<float> rightEnergyUpdate;
@@ -303,6 +305,11 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     public void Load(string str)
     {
         JsonUtility.FromJsonOverwrite(str, this);
+    }
+
+    public void InternalTakeDamage(ref Damage dmg, int weightAction = 0, Vector3? damageOrigin = null)
+    {
+        onTakeDamage?.Invoke((dmg, weightAction, damageOrigin));
     }
 }
 

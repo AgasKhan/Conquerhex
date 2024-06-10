@@ -102,11 +102,19 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     public virtual void OnEnterState(CasterEntityComponent param)
     {
         ability.End = false;
+
         ability.state = Ability.State.start;
+
         param.abilityControllerMediator += ability;
+
+        caster.onTakeDamage += Caster_onTakeDamage;
+
         ability.onCast += param.AttackEvent;
+
         ability.ControllerDown(Vector2.zero, 0);
     }
+
+
 
     public virtual void OnStayState(CasterEntityComponent param)
     {
@@ -116,8 +124,17 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     {
         //Debug.Log("sali");
         //ability.StopCast();
+        caster.onTakeDamage -= Caster_onTakeDamage;
         param.abilityControllerMediator -= ability;
         ability.onCast -= param.AttackEvent;
+    }
+
+    private void Caster_onTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)
+    {
+        if (ability.Auxiliar < obj.weightAction)
+        {
+            ability.StopCast();
+        }
     }
 
     public abstract void ControllerDown(Vector2 dir, float tim);
