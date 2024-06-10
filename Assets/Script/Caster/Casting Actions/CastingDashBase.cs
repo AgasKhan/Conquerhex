@@ -29,7 +29,9 @@ public class CastingDashBase : CastingActionBase
 
 public class CastingDash : CastingAction<CastingDashBase>
 {
-    Timer dashInTime;
+    TimedCompleteAction dashInTime;
+
+    Timer timerToCastUpdate;
 
     MoveEntityComponent moveEntity;
 
@@ -39,12 +41,11 @@ public class CastingDash : CastingAction<CastingDashBase>
 
     CastingAction endDashCastingAction;
 
-    bool stopUpdateCast = false;
-
     public override void Init(Ability ability)
     {
         base.Init(ability);
-        dashInTime = TimersManager.Create(castingActionBase.dashInTime, Update , Finish).Stop();
+        dashInTime = TimersManager.Create(castingActionBase.dashInTime, Update , Finish);
+        dashInTime.Stop();
 
         if(castingActionBase.startDashCastingAction!=null)
         {
@@ -56,6 +57,7 @@ public class CastingDash : CastingAction<CastingDashBase>
         {
             updateDashCastingAction = castingActionBase.updateDashCastingAction.Create();
             updateDashCastingAction.Init(ability);
+            timerToCastUpdate = TimersManager.Create(0.2f, ApplyCastUpdate).SetLoop(true).Stop();
         }
 
         if(castingActionBase.endDashCastingAction!=null)
@@ -83,20 +85,15 @@ public class CastingDash : CastingAction<CastingDashBase>
 
         if (updateDashCastingAction != null)
         {
-            stopUpdateCast = false;
-            GameManager.instance.StartCoroutine(ApplyCastUpdate());
+            timerToCastUpdate.Reset();
         }
 
         return affected;
     }
 
-    IEnumerator ApplyCastUpdate()
+    void ApplyCastUpdate()
     {
         ability.ApplyCast(updateDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged));
-        yield return new WaitForSeconds(0.2f);
-
-        if(!stopUpdateCast)
-            yield return GameManager.instance.StartCoroutine(ApplyCastUpdate());
     }
 
     void Update()
@@ -115,12 +112,13 @@ public class CastingDash : CastingAction<CastingDashBase>
 
     void Finish()
     {
+        timerToCastUpdate?.Stop();
+
         moveEntity.Velocity(moveEntity.direction, moveEntity.objectiveVelocity);
 
         if(endDashCastingAction!=null)
             ability.ApplyCast(endDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
-        
-        stopUpdateCast = true;
+
         End = true;
     }
 
