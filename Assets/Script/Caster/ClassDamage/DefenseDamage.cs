@@ -12,10 +12,7 @@ namespace DamageTypes
     {
         public override void IntarnalAction(Entity entity, float amount)
         {
-            if (((Character)entity).stunBar.isStunned)
-                return;
-
-            entity.TakeDamage(Damage.Create<PureDamage>(amount));
+            
         }
     }
 }

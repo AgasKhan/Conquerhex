@@ -54,7 +54,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
     {
         InternalTakeDamage(ref dmg, damageOrigin);
 
-        UI.Interfaz.instance?.PopTextDamage(this, dmg.ToString());
+        UI.Interfaz.instance?.PopText(this, dmg.ToString());
 
         //Interfaz.instance?["Danio"].AddMsg($"{notif} ► {name.Replace("(Clone)","")}");
     }
@@ -148,6 +148,12 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
                 else
                     dmg.amount = 0;
             break;
+
+            case DamageTypes.Target.defense:
+
+                onTakeDamage?.Invoke(dmg);
+                return;
+
                 /*
             default:
 

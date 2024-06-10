@@ -52,13 +52,20 @@ namespace UI
             return instance[name];
         }
 
-        public void PopTextDamage(Entity entity, string text)
+        public void PopText(Entity entity, string text, Vector2? dir = null)
         {
             //instance["Danio"].AddMsg($"{text} ► {entity.name.Replace("(Clone)", "")}");
 
             PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextPop textDamage);
 
-            textDamage.SetText(entity.transform, text);
+            if(dir == null)
+            {
+                textDamage.SetText(entity.transform, text);
+            }
+            else
+            {
+                textDamage.SetText(entity.transform, text, dir, true);
+            }
         }
 
         void CharacterSelected(Character ch)

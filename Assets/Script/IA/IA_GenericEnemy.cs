@@ -7,8 +7,12 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
 {
     [SerializeField]
     public Pictionarys<string, SteeringWithTarget> steerings;
+
     [SerializeField]
-    public Detect<IGetEntity> detection;
+    public Detect<IGetEntity> alertDetection;
+
+    [SerializeField]
+    public Detect<IGetEntity> attackDetection;
 
     public Patrol patrol = new Patrol();
 
@@ -22,6 +26,7 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
 
     public Transform actualWaypoint => patrol.currentWaypoint;
 
+    public Transform alertPoint;
 
     public AutomaticAttack attack;
 
@@ -35,6 +40,7 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
 
     public float timeToEvade = 2.5f;
     public float timeToIdle = 3f;
+    public float alertPointRange = 5f;
 
     public Team team
     {
@@ -147,11 +153,11 @@ public class GenericPatrol : IState<GenericEnemyFSM>
     {
         param.context.steerings["corderitos"].targets.Clear();
 
-        param.context.detection.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team.TeamEnemyAttack(target.GetEntity().team); });
+        param.context.attackDetection.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team.TeamEnemyAttack(target.GetEntity().team); });
 
-        if (param.context.detection.results.Count > 0)
+        if (param.context.attackDetection.results.Count > 0)
         {
-            param.context.steerings["corderitos"].targets.Add(param.context.detection.results[0]);
+            param.context.steerings["corderitos"].targets.Add(param.context.attackDetection.results[0]);
             param.CurrentState = param.chase;
             return;
         }
@@ -211,16 +217,16 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
-        if (evadeTimer.Chck && distance > param.context.detection.maxRadius * param.context.detection.maxRadius || !steerings.targets[0].visible)
+        if (evadeTimer.Chck && distance > param.context.attackDetection.maxRadius * param.context.attackDetection.maxRadius || !steerings.targets[0].visible)
         {
             param.CurrentState = param.waiting;
             return;
         }
-        else if (evadeTimer.Chck && distance >= param.context.detection.maxRadius / 2)
+        else if (evadeTimer.Chck && distance >= param.context.attackDetection.maxRadius / 2)
         {
             steerings.SwitchSteering<Pursuit>();
         }
-        else if (evadeTimer.Chck && distance < param.context.detection.maxRadius / 3)
+        else if (evadeTimer.Chck && distance < param.context.attackDetection.maxRadius / 3)
         {
             steerings.SwitchSteering<Seek>();
         }
@@ -275,11 +281,11 @@ public class GenericWaiting : IState<GenericEnemyFSM>
 
         param.context.steerings["corderitos"].targets.Clear();
 
-        param.context.detection.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team.TeamEnemyAttack(target.GetEntity().team); });
+        param.context.attackDetection.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team.TeamEnemyAttack(target.GetEntity().team); });
 
-        if (param.context.detection.results.Count > 0)
+        if (param.context.attackDetection.results.Count > 0)
         {
-            param.context.steerings["corderitos"].targets.Add(param.context.detection.results[0]);
+            param.context.steerings["corderitos"].targets.Add(param.context.attackDetection.results[0]);
             param.CurrentState = param.chase;
         }
     }
@@ -288,4 +294,88 @@ public class GenericWaiting : IState<GenericEnemyFSM>
     {
 
     }
+}
+
+public class GenericAlert : IState<GenericEnemyFSM>
+{
+    Timer timeToGeneratePoint;
+    Vector3 originalPos;
+    float alertPointRange;
+
+    SteeringWithTarget steerings;
+
+    public void OnEnterState(GenericEnemyFSM param)
+    {
+        timeToGeneratePoint = TimersManager.Create(2f, ()=> GeneratePoint()).SetLoop(true);
+        originalPos = param.context.transform.position;
+        alertPointRange = param.context.alertPointRange;
+
+        steerings = param.context.steerings["alert"];
+        param.context.alertPoint.position = GeneratePoint();
+        steerings.GetMove(param.context.alertPoint);
+    }
+
+    public void OnStayState(GenericEnemyFSM param)
+    {
+        param.context.steerings["corderitos"].targets.Clear();
+
+        param.context.attackDetection.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team.TeamEnemyAttack(target.GetEntity().team); });
+
+        if (param.context.attackDetection.results.Count > 0)
+        {
+            param.context.steerings["corderitos"].targets.Add(param.context.attackDetection.results[0]);
+            param.CurrentState = param.chase;
+        }
+    }
+
+    public void OnExitState(GenericEnemyFSM param)
+    {
+        timeToGeneratePoint.Stop();
+    }
+
+    Vector3 GeneratePoint()
+    {
+        return new Vector3(Random.Range(originalPos.x - alertPointRange, originalPos.x + alertPointRange), 0, 
+                           Random.Range(originalPos.z - alertPointRange, originalPos.z + alertPointRange));
+    }
+}
+
+public class GenericStalk : IState<GenericEnemyFSM>
+{
+    Timer timeToGeneratePoint;
+    Vector3 originalPos;
+    float alertPointRange;
+
+    public void OnEnterState(GenericEnemyFSM param)
+    {
+        //timeToGeneratePoint = TimersManager.Create(2f, () => GeneratePoint()).SetLoop(true);
+        originalPos = param.context.transform.position;
+        alertPointRange = param.context.alertPointRange;
+    }
+
+    public void OnStayState(GenericEnemyFSM param)
+    {
+        param.context.steerings["corderitos"].targets.Clear();
+
+        param.context.attackDetection.AreaWithRay(param.context.transform.position, (target) => { return target.visible && param.context.team.TeamEnemyAttack(target.GetEntity().team); });
+
+        if (param.context.attackDetection.results.Count > 0)
+        {
+            param.context.steerings["corderitos"].targets.Add(param.context.attackDetection.results[0]);
+            param.CurrentState = param.chase;
+        }
+    }
+
+    public void OnExitState(GenericEnemyFSM param)
+    {
+        timeToGeneratePoint.Stop();
+    }
+    /*
+    Vector3 GeneratePoint()
+    {
+        var Hector =  new Vector3(Random.Range(originalPos.x - alertPointRange, originalPos.x + alertPointRange), 0,
+                           Random.Range(originalPos.z - alertPointRange, originalPos.z + alertPointRange));
+        float myX = Mathf.Clamp() Random.Range(originalPos.x - alertPointRange, originalPos.x + alertPointRange)
+
+    }*/
 }

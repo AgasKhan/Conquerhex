@@ -27,13 +27,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     /// </summary>
     public EventControllerMediator moveEventMediator = new EventControllerMediator();
     
-    public StunBar stunBar;
-
     IState<Character> _ia;
 
     FSMCharacter fsmCharacter;
-
-    IState<Character> originalState;
 
     [field: SerializeField]
     public InventoryEntityComponent inventory { get; private set; }
@@ -47,8 +43,23 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public ActionStateCharacter actionStateCharacter { get; private set; }
     public CastingActionCharacter castingActionCharacter { get; private set; }
     public MoveStateCharacter moveStateCharacter { get; private set; }
+    public StunActionCharacter stunAction { get; private set; }
 
     public System.Action<(Timer, ItemBase)>[] equipedEvents = new System.Action<(Timer, ItemBase)>[12];
+
+    public bool isStunned = false;
+
+    public float CurrentDefense
+    {
+        get => _currentDefense;
+        set => _currentDefense = Mathf.Clamp(value, 0, maxDefense);
+    }
+
+    float _currentDefense;
+    float maxDefense = 100f;
+
+    Timer regenDelayTim;
+    Timer regenTim;
 
     /// <summary>
     /// estado de la IA actual
@@ -60,16 +71,28 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         {
             if (value == null)
             {
-                MyUpdates -= IAUpdate; 
+                IAUpdateEnable(false);
             }
             else if (_ia == null && value != null)
             {
-                MyUpdates += IAUpdate;
+                IAUpdateEnable(true);
             }
 
             _ia?.OnExitState(this);
             _ia = value;
             _ia?.OnEnterState(this);
+        }
+    }
+
+    public void IAUpdateEnable(bool value)
+    {
+        if (value)
+        {
+            MyUpdates += IAUpdate;
+        }
+        else
+        {
+            MyUpdates -= IAUpdate;
         }
     }
 
@@ -164,6 +187,11 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
+    public void RestartDefense()
+    {
+        CurrentDefense = maxDefense;
+    }
+
     void SaveUI()
     {
         caster.weapons[0].toChange += (index, item) => equipedEvents[0]?.Invoke((item?.defaultKata?.cooldown, item?.itemBase));
@@ -184,32 +212,52 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         
     }
 
-    public override void InternalTakeDamage(ref Damage dmg, Vector3? damageOrigin = null)
+    void ReceiveStunDamage(float damage)
     {
-        if(dmg.typeInstance.target == DamageTypes.Target.defense)
+        if (isStunned)
+            return;
+
+        regenTim.Stop();
+        CurrentDefense -= damage;
+        //Debug.Log("Daño: " + damage);
+
+        if (CurrentDefense <= 0)
         {
-            Debug.Log("Se daño la defensa de: " + gameObject.name);
-            stunBar.ReceiveStunDamage(dmg.amount);
+            Action = stunAction;
         }
-
-        base.InternalTakeDamage(ref dmg, damageOrigin);
+        else
+        {
+            regenDelayTim.Reset();
+        }
     }
 
-    private void StunBar_OnStunned()
+    void InitStunBar(float _maxDefense, float _regenDelay, float _regenSpeed, float _regenAmount)
     {
-        Debug.Log(gameObject.name + " Stunned");
-        CurrentState = null;
-    }
+        maxDefense = _maxDefense;
+        CurrentDefense = maxDefense;
 
-    private void StunBar_OnRecover()
-    {
-        Debug.Log(gameObject.name + " Recovered");
-        CurrentState = originalState;
+        regenDelayTim = TimersManager.Create(_regenDelay, () => regenTim.Reset()).Stop();
+        regenTim = TimersManager.Create(_regenSpeed, () =>
+        {
+            if (CurrentDefense < maxDefense)
+            {
+                CurrentDefense += _regenAmount;
+                regenTim.Reset();
+            }
+        }).Stop();
     }
 
     private void Health_reLife()
     {
-        stunBar.RestartDefense();
+        RestartDefense();
+    }
+    private void Character_onTakeDamage(Damage dmg)
+    {
+        if (dmg.typeInstance.target == DamageTypes.Target.defense)
+        {
+            //Debug.Log("Se daño la defensa de: " + gameObject.name);
+            ReceiveStunDamage(dmg.amount);
+        }
     }
 
     protected override void Config()
@@ -258,14 +306,11 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
         fsmCharacter = new FSMCharacter(this);
 
-        stunBar = new StunBar();
+        onTakeDamage += Character_onTakeDamage;
 
         var body = flyweight.GetFlyWeight<BodyBase>();
-        stunBar.Init(body.maxDefense, body.stunTime, body.defenseRegenDelay, body.defenseRegenSpeed, body.defenseRegenAmount);
-        originalState = CurrentState;
-
-        stunBar.OnStunned += StunBar_OnStunned;
-        stunBar.OnRecover += StunBar_OnRecover;
+        stunAction = new StunActionCharacter(body.stunTime);
+        InitStunBar(body.maxDefense, body.defenseRegenDelay, body.defenseRegenSpeed, body.defenseRegenAmount);
 
         health.reLife += Health_reLife;
 
@@ -286,7 +331,8 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     void IAUpdate()
     {
-        _ia?.OnStayState(this);
+        if(!isStunned)
+            _ia?.OnStayState(this);
     }
 }
 
@@ -473,9 +519,58 @@ namespace FSMCharacterAndStates
         }
     }
 
-    
-}
+    public class StunActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
+    {
+        public bool End => stunTimer.Chck;
 
+        Timer stunTimer;
+
+        public event System.Action OnStunned;
+        public event System.Action OnRecover;
+
+        Character character;
+
+        public void OnEnterState(FSMAutomaticEnd<Character> param)
+        {
+            character = param.context;
+
+            UI.Interfaz.instance.PopText(param.context, "Stunned".RichText("size", "45"), Vector2.up * 2);
+
+            param.context.IAUpdateEnable(false);
+            param.context.CurrentState.OnExitState(param.context);
+            
+            character.isStunned = true;
+            stunTimer.Reset();
+            OnStunned?.Invoke();
+
+            stunTimer.Reset();
+
+            //Debug.Log(character.gameObject.name + " Stunned-------------------------------------------------------------------");
+        }
+
+        public void OnStayState(FSMAutomaticEnd<Character> param)
+        {
+
+        }
+
+        public void OnExitState(FSMAutomaticEnd<Character> param)
+        {
+            character.isStunned = false;
+            character.RestartDefense();
+            OnRecover?.Invoke();
+
+            param.context.CurrentState.OnEnterState(param.context);
+            param.context.IAUpdateEnable(true);
+            //Debug.Log(character.gameObject.name + " Recovered-------------------------------------------------------------------");
+        }
+
+        public StunActionCharacter(float _stunTime)
+        {
+            stunTimer = TimersManager.Create(_stunTime).SetInitCurrent(_stunTime).Stop();
+        }
+    }
+}
+/*
 [System.Serializable]
 public class StunBar
 {
@@ -547,13 +642,8 @@ public class StunBar
                 CurrentDefense += _regenAmount;
                 regenTim.Reset();
             }
-            /*
-            else
-            {
-                regenTim.SetInitCurrent(_regenSpeed).Stop();
-            }*/
         }).Stop();
 
         stunTimer = TimersManager.Create(_stunTime, () => RecoverEnemy()).Stop();
     }
-}
+}*/
