@@ -52,11 +52,14 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
     public void TakeDamage(Damage dmg, int weightAction = 0, Vector3? damageOrigin = null)
     {
-        float original = dmg.amount;
+        float original=0;
+        if (dmg.typeInstance.target != DamageTypes.Target.defense)
+            original = dmg.amount;
 
         InternalTakeDamage(ref dmg, weightAction, damageOrigin);
 
-        UI.Interfaz.instance?.PopText(this, dmg.amount.ToStringFixed().RichTextColor(dmg.amount > original ? Color.yellow : (dmg.amount < original ? Color.grey : Color.white)));
+        if (dmg.typeInstance.target != DamageTypes.Target.defense)
+            UI.Interfaz.instance?.PopText(this, dmg.amount.ToStringFixed().RichTextColor(dmg.amount > original ? Color.yellow : (dmg.amount < original ? Color.grey : Color.white)));
     }
 
     public void TakeDamage(IEnumerable<Damage> dmgs, int weightAction = 0, Vector3? damageOrigin = null)
@@ -73,11 +76,13 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         {
             var dmgCopy = dmgFor;
 
-            sumStart += dmgFor.amount;
+            if(dmgCopy.typeInstance.target != DamageTypes.Target.defense)
+                sumStart += dmgFor.amount;
 
             InternalTakeDamage(ref dmgCopy, weightAction, damageOrigin);
 
-            sumEnd += dmgCopy.amount;
+            if (dmgCopy.typeInstance.target != DamageTypes.Target.defense)
+                sumEnd += dmgCopy.amount;
         }
 
         string dmgStr = sumEnd.ToStringFixed().RichTextColor(sumEnd> sumStart ? Color.yellow : (sumEnd < sumStart ? Color.grey : Color.white));
