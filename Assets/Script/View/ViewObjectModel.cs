@@ -6,16 +6,11 @@ public class ViewObjectModel : MonoBehaviour
 {
     public class OptimizedView : MonoBehaviour
     {
-        public GameObject parent;
+        public ViewObjectModel parent;
 
         private void OnBecameInvisible()
         {
-            parent.SetActive(false);
-        }
-
-        private void OnBecameVisible()
-        {
-            parent.SetActive(true);
+            parent.SetActiveChildren(false);
         }
     }
 
@@ -42,8 +37,57 @@ public class ViewObjectModel : MonoBehaviour
 
     bool _isTransparent;
 
+    Animator[] animators;
 
+    Timer inViewTimer;
 
+    public void SetActiveChildren(bool b)
+    {
+        foreach (var item in originalRenders)
+        {
+            item.enabled = b;
+        }
+        foreach (var item in animators)
+        {
+            item.enabled = b;
+        }
+    }
+
+    bool CheckInView()
+    {
+        foreach (var item in MainCamera.instance.pointsInWorld)
+        {
+            if (this.SqrDistance(item) < 25*25)
+                return true;
+
+            /*
+            Vector3 pos = item.WorldToViewportPoint(transform.position);
+
+            if ((pos.z > 0 && pos.x >= -1f && pos.x <= 2f && pos.y >= -1f && pos.y <= 2f))
+                return true;
+            */
+        }
+
+        return false;
+    }
+
+    void Check()
+    {
+        if (CheckInView())
+            SetActiveChildren(true);
+        else
+            SetActiveChildren(false);
+    }
+
+    private void OnEnable()
+    {
+        inViewTimer?.Reset();
+    }
+
+    private void OnDisable()
+    {
+        inViewTimer?.Stop();
+    }
 
     protected virtual void Start()
     {
@@ -51,7 +95,9 @@ public class ViewObjectModel : MonoBehaviour
 
         //originalRender.sortingOrder = Mathf.RoundToInt(transform.position.y * -100);
 
-        eventGeneric = eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move");
+        //eventGeneric = eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move");
+
+        animators = GetComponentsInChildren<Animator>();
 
         controllers = GetComponents<IViewController>();
 
@@ -60,20 +106,27 @@ public class ViewObjectModel : MonoBehaviour
             controllers[i].OnEnterState(this);
         }
 
+        /*
         for (int i = 0; i < originalRenders.Length; i++)
         {
             var optimized = originalRenders[i].gameObject.AddComponent<OptimizedView>();
 
-            optimized.parent = gameObject;
+            optimized.parent = this;
         }
-
-       
+        */
 
         /*
         if (isTransparent && originalRender!=null)
             eventGeneric.delegato += UpdateTransparent;
         */
+
+        //SetActiveChildren(false);
+
+        inViewTimer = TimersManager.Create(0.5f, Check).SetLoop(true).Stop();
     }
+   
+
+   
 
     /*
     protected virtual void OnEnable()
@@ -88,6 +141,8 @@ public class ViewObjectModel : MonoBehaviour
             eventGeneric.delegato -= UpdateTransparent;
     }
     */
+
+
 
     private void UpdateTransparent(Vector3 posPlayer)
     {

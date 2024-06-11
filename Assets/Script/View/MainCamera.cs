@@ -28,7 +28,7 @@ public class MainCamera : SingletonMono<MainCamera>
         {
             get
             {
-                return cameras[index+2].transform;
+                return cameras[index+ offsetIndex].transform;
             }
         }
     }
@@ -40,6 +40,8 @@ public class MainCamera : SingletonMono<MainCamera>
     public Transform obj;
 
     public bool perspective;
+
+    public Vector3[] pointsInWorld;
 
     [SerializeField]
     Vector3 rotationPerspective;
@@ -199,6 +201,8 @@ public class MainCamera : SingletonMono<MainCamera>
 
         eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += OnCharacterSelected;
 
+        pointsInWorld = new Vector3[rendersOverlay.cameras.Length];
+
         LoadSystem.AddPostLoadCorutine(() =>
         {
             if (HexagonsManager.instance != null && HexagonsManager.instance.automaticRender)
@@ -244,6 +248,17 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         }
 
+        for (int i = 0; i < rendersOverlay.cameras.Length; i++)
+        {
+            pointsInWorld[i] = rendersOverlay.cameras[i].ViewportToWorldPoint(new Vector3(0.5f,0.5f,1));
+
+            Ray ray = new Ray(rendersOverlay.cameras[i].transform.position, pointsInWorld[i] - rendersOverlay.cameras[i].transform.position);
+
+            plane.Raycast(ray, out float distance);
+
+            pointsInWorld[i] = ray.GetPoint(distance);
+        }
+
         RefreshMaterial();
     }
 
@@ -262,6 +277,13 @@ public class MainCamera : SingletonMono<MainCamera>
             Gizmos.color = Color.red;
 
             Gizmos.DrawSphere(points[i], 0.1f);
+        }
+
+        for (int i = 0; i < pointsInWorld.Length; i++)
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawSphere(pointsInWorld[i], 0.1f);
         }
     }
 }
