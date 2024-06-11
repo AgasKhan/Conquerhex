@@ -12,10 +12,15 @@ public class BloodTreeBuild : CraftingBuild
     public Pictionarys<ItemCrafteable, int> gachaRewardsInt = new Pictionarys<ItemCrafteable, int>();
     List<ItemCrafteable> recipes = new List<ItemCrafteable>();
 
-    List<Character> minions = new List<Character>();
+    Character[] minions;
 
     [SerializeField]
     SpriteRenderer sprite;
+
+    Hexagone[] originalTp = new Hexagone[6];
+
+    Hexagone[] encerradoTp = new Hexagone[6];
+
     protected override void Config()
     {
         base.Config();
@@ -28,15 +33,47 @@ public class BloodTreeBuild : CraftingBuild
         interactComp.OnInteract += SetRewards;
         health.noLife += Health_noLife;
 
-        LoadSystem.AddPostLoadCorutine(SetMinios);
+        LoadSystem.AddPostLoadCorutine(PostAwake);
     }
 
-    void SetMinios()
+    void PostAwake()
     {
-        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>().ToList();
-        if (minions.Contains(GameManager.instance.playerCharacter))
-            minions.Remove(GameManager.instance.playerCharacter);
+        for (int i = 0; i < encerradoTp.Length; i++)
+        {
+            encerradoTp[i] = hexagoneParent;
+        }
 
+        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>().Where((m)=>m.team!=Team.player).ToArray();
+
+        hexagoneParent.ladosArray.CopyTo(originalTp, 0);
+    }
+
+    [ContextMenu("Encerrar")]
+    public void Encerrar()
+    {
+        encerradoTp.CopyTo(hexagoneParent.ladosArray, 0);
+
+        hexagoneParent.effect.color = Color.red;
+
+        IAIO.colorSameTp = Color.red;
+
+        GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);
+
+        UI.Interfaz.instance["Titulo"].ShowMsg("Encerrado".RichTextColor(Color.red));
+    }
+
+    [ContextMenu("Liberar")]
+    public void Liberar()
+    {
+        IAIO.colorSameTp = Color.green;
+
+        hexagoneParent.effect.color = Color.green;
+
+        originalTp.CopyTo(hexagoneParent.ladosArray, 0);
+
+        GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);
+
+        UI.Interfaz.instance["Titulo"].ShowMsg("Liberado".RichTextColor(Color.cyan));
     }
 
     private void Health_noLife()
@@ -44,7 +81,7 @@ public class BloodTreeBuild : CraftingBuild
         interactComp.ChangeInteract(true);
         team = Team.player;
 
-        for (int i = 0; i < minions.Count; i++)
+        for (int i = 0; i < minions.Length; i++)
         {
             UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
             minions[i].IAOnOff(false);
@@ -53,6 +90,8 @@ public class BloodTreeBuild : CraftingBuild
         UI.Interfaz.instance.PopText(this, "Conquistado".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);
 
         sprite.color = Color.green;
+
+        Liberar();
     }
 
     void SetRewards()
