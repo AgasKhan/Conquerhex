@@ -299,7 +299,7 @@ public class IAIO : IAFather
 
         if (HexagonsManager.idMaxLevel == obj.id)
         {
-            UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Fortaleza a la vista");
+            UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Árbol dorado a la vista");
         }
         else
         {
@@ -307,7 +307,7 @@ public class IAIO : IAFather
             {
                 if(obj.ladosArray[i].id == HexagonsManager.idMaxLevel)
                 {
-                    UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Fortaleza cercana en los alrededores");
+                    UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Árbol dorado cercano en los alrededores");
                 }
             }
         }
