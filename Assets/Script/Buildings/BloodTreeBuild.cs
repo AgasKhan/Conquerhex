@@ -13,6 +13,9 @@ public class BloodTreeBuild : CraftingBuild
     List<ItemCrafteable> recipes = new List<ItemCrafteable>();
 
     List<Character> minions = new List<Character>();
+
+    [SerializeField]
+    SpriteRenderer sprite;
     protected override void Config()
     {
         base.Config();
@@ -46,6 +49,10 @@ public class BloodTreeBuild : CraftingBuild
             UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
             minions[i].IAOnOff(false);
         }
+
+        UI.Interfaz.instance.PopText(this, "Conquistado".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);
+
+        sprite.color = Color.green;
     }
 
     void SetRewards()
