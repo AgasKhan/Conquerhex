@@ -58,7 +58,7 @@ public class BloodTreeBuild : CraftingBuild
     [ContextMenu("Encerrar")]
     public void Encerrar()
     {
-        if (encerrado)
+        if (encerrado || GameManager.instance.playerCharacter.hexagoneParent != hexagoneParent)
             return;
 
         for (int i = 0; i < minions.Length; i++)
