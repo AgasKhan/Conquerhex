@@ -54,7 +54,7 @@ namespace UI
 
         public void Dialogo(string str)
         {
-            instance["Dialogo"].AddMsg(str);
+            instance["Subtitulo"].AddMsg(str);
         }
 
         public void PopText(Entity entity, string text, Vector2? dir = null)
