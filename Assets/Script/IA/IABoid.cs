@@ -41,13 +41,20 @@ public class IABoid : IAFather
         Detection();
 
 
-        Flocking();
+        //Flocking();
 
 
         SteeringsMovement();
 
 
         move.ControllerPressed(dir.Vect3To2XZ(), 0);
+    }
+
+    public override void OnExitState(Character param)
+    {
+        base.OnExitState(param);
+
+        move = null;
     }
 
     protected virtual void Detection()
