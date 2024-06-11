@@ -38,6 +38,14 @@ MonoBehaviour:
   layersOfProps:
   - chanceEmptyOrEnemy: 30
     inversaDensidad: 2
+    spawners:
+    - spawners:
+        pictionaries: []
+      center:
+        pictionaries:
+        - key: {fileID: 8138656450231974038, guid: 36f9d10df351e4b469034e08b5a7ad56,
+            type: 3}
+          value: 1
     spawner: {fileID: 0}
     props:
       pictionaries:
@@ -73,6 +81,17 @@ MonoBehaviour:
         value: 10
   - chanceEmptyOrEnemy: 65
     inversaDensidad: 3
+    spawners:
+    - spawners:
+        pictionaries:
+        - key: {fileID: 5258972006169634757, guid: 9c53e0bd07b154e4ea5174ce41ae9c08,
+            type: 3}
+          value: 1
+        - key: {fileID: -5676458598891892511, guid: ecf5bace16d838041a93341ef03cc01d,
+            type: 3}
+          value: 1
+      center:
+        pictionaries: []
     spawner: {fileID: -5676458598891892511, guid: ecf5bace16d838041a93341ef03cc01d,
       type: 3}
     props:
@@ -127,6 +146,7 @@ MonoBehaviour:
         value: 10
   - chanceEmptyOrEnemy: 80
     inversaDensidad: 3
+    spawners: []
     spawner: {fileID: 0}
     props:
       pictionaries:
