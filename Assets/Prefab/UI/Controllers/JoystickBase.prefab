@@ -299,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7959073666282391920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -343,7 +343,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventsManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
   joystick: 0
-  eventController: 0
   deadzone: 0.1
   fadeOn:
     durationAnim: 0.3
@@ -467,6 +466,7 @@ MonoBehaviour:
   dir: {x: 0, y: 0, z: 0}
   maxMagnitud: 0
   minMagnitud: 0
+  AxisButton: {fileID: 0}
 --- !u!114 &2689700979568889435
 MonoBehaviour:
   m_ObjectHideFlags: 0
