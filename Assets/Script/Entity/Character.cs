@@ -44,6 +44,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public CastingActionCharacter castingActionCharacter { get; private set; }
     public MoveStateCharacter moveStateCharacter { get; private set; }
     public StunActionCharacter stunAction { get; private set; }
+    public StopActionCharacter stopIA { get; private set; }
 
     public System.Action<(Timer, ItemBase)>[] equipedEvents = new System.Action<(Timer, ItemBase)>[12];
 
@@ -191,6 +192,11 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     {
         CurrentDefense = maxDefense;
     }
+    
+    public void StopIA()
+    {
+        Action = stopIA;
+    }
 
     public void IAOnOff(bool value)
     {
@@ -203,8 +209,8 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
         else
         {
-            IAUpdateEnable(false);
             CurrentState.OnExitState(this);
+            IAUpdateEnable(false);
             isStunned = true;
             health.death += Health_death;
         }
@@ -333,6 +339,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
         var body = flyweight.GetFlyWeight<BodyBase>();
         stunAction = new StunActionCharacter(body.stunTime);
+        stopIA = new StopActionCharacter();
         InitStunBar(body.maxDefense, body.defenseRegenDelay, body.defenseRegenSpeed, body.defenseRegenAmount);
 
         health.reLife += Health_reLife;
@@ -585,6 +592,29 @@ namespace FSMCharacterAndStates
         public StunActionCharacter(float _stunTime)
         {
             stunTimer = TimersManager.Create(_stunTime).SetInitCurrent(_stunTime).Stop();
+        }
+    }
+    public class StopActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
+    {
+        public bool End => false;
+        public event System.Action OnStopIA;
+
+        public void OnEnterState(FSMAutomaticEnd<Character> param)
+        {
+            UI.Interfaz.instance.PopText(param.context, "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
+            param.context.IAOnOff(false);
+
+            OnStopIA?.Invoke();
+        }
+
+        public void OnStayState(FSMAutomaticEnd<Character> param)
+        {
+
+        }
+
+        public void OnExitState(FSMAutomaticEnd<Character> param)
+        {
+            
         }
     }
 }

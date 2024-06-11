@@ -83,8 +83,8 @@ public class BloodTreeBuild : CraftingBuild
 
         for (int i = 0; i < minions.Length; i++)
         {
-            UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
-            minions[i].IAOnOff(false);
+            //UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
+            minions[i].StopIA();
         }
 
         UI.Interfaz.instance.PopText(this, "Conquistado".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);
@@ -105,7 +105,7 @@ public class BloodTreeBuild : CraftingBuild
 
         foreach (var item in interactComp.lastCharInteract.inventory)
         {
-            if(gachaRewardsInt.ContainsKey((ItemCrafteable)item.GetItemBase()))
+            if(item.GetItemBase() is ItemCrafteable && gachaRewardsInt.ContainsKey(item.GetItemBase() as ItemCrafteable))
             {
                 gachaRewardsInt[(ItemCrafteable)item.GetItemBase()] = (int)GachaRarity.S;
             }
