@@ -10,6 +10,13 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     public Character character => _character;
 
+    public event System.Action detect;
+
+    public void Detect()
+    {
+        detect?.Invoke();
+    }
+
 
     void Awake()
     {

@@ -21,6 +21,8 @@ public class BloodTreeBuild : CraftingBuild
 
     Hexagone[] encerradoTp = new Hexagone[6];
 
+    bool encerrado = false;
+
     protected override void Config()
     {
         base.Config();
@@ -45,12 +47,26 @@ public class BloodTreeBuild : CraftingBuild
 
         minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>().Where((m)=>m.team!=Team.player).ToArray();
 
+        for (int i = 0; i < minions.Length; i++)
+        {
+            ((IAFather)minions[i].CurrentState).detect += Encerrar;
+        }
+
         hexagoneParent.ladosArray.CopyTo(originalTp, 0);
     }
 
     [ContextMenu("Encerrar")]
     public void Encerrar()
     {
+        if (encerrado)
+            return;
+
+        for (int i = 0; i < minions.Length; i++)
+        {
+            UI.Interfaz.instance.PopText(minions[i], "!".RichTextColor(Color.red).RichText("size", 50.ToString()), Vector2.up);
+        }
+
+        UI.Interfaz.instance["Titulo"].ShowMsg("Encerrado".RichTextColor(Color.red));
         encerradoTp.CopyTo(hexagoneParent.ladosArray, 0);
 
         hexagoneParent.effect.color = Color.red;
@@ -59,12 +75,18 @@ public class BloodTreeBuild : CraftingBuild
 
         GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);
 
-        UI.Interfaz.instance["Titulo"].ShowMsg("Encerrado".RichTextColor(Color.red));
+
+        encerrado = true;
     }
 
     [ContextMenu("Liberar")]
     public void Liberar()
     {
+        if (!encerrado)
+            return;
+
+        encerrado = false;
+
         IAIO.colorSameTp = Color.green;
 
         hexagoneParent.effect.color = Color.green;

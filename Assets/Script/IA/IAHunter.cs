@@ -213,6 +213,8 @@ public class HunterChase : IState<HunterIntern>
 
     public void OnEnterState(HunterIntern param)
     {
+        param.context.Detect();
+
         param.energy.SetMultiply(1.5f);
 
         steerings = param.context.steerings["corderitos"];

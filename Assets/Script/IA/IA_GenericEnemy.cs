@@ -201,6 +201,8 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     public void OnEnterState(GenericEnemyFSM param)
     {
+        param.context.Detect();
+
         steerings = param.context.steerings["corderitos"];
 
         enemyPos = steerings.targets[0].transform.position;
