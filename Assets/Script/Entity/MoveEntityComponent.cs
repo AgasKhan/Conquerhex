@@ -115,6 +115,11 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
         JsonUtility.FromJsonOverwrite(str, this);
     }
 
+
+    public void Teleport(Hexagone hex, int lado)
+    {
+        move.Teleport(hex, lado);
+    }
     
 }
 
