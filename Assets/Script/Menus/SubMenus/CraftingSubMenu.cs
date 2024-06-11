@@ -20,6 +20,7 @@ public class CraftingSubMenu : CreateSubMenu
 
     public override void Create(Character character)
     {
+        Debug.Log("El character que creo el CraftMenu: " + character.gameObject.name);
         myCharacter = character;
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
         base.Create();

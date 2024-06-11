@@ -53,6 +53,7 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
     protected virtual void Awake()
     {
         fsm = new GenericEnemyFSM(this);
+        //attack = new AutomaticAttack(character.caster, 0);
         Init();
     }
 
@@ -71,14 +72,14 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
 
     public override void OnExitState(Character param)
     {
-        attack.StopTimers();
+        attack?.StopTimers();
         attack = null;
         base.OnExitState(param);
     }
 
     protected override void Health_death()
     {
-        attack.StopTimers();
+        attack?.StopTimers();
         base.Health_death();
     }
 

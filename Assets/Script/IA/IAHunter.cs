@@ -74,14 +74,14 @@ public class IAHunter : IAFather, IGetPatrol, Init
 
     public override void OnExitState(Character param)
     {
-        attk.StopTimers();
+        attk?.StopTimers();
         attk = null;
         base.OnExitState(param);
     }
 
     protected override void Health_death()
     {
-        attk.StopTimers();
+        attk?.StopTimers();
         base.Health_death();
     }
 

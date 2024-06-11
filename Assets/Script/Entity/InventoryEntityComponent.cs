@@ -54,9 +54,21 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     public int ItemCount<T>(T item) where T : System.IComparable<Item>
     {
         if (inventory.Contains(item, out int index))
+        {
             return inventory[index].GetCount();
+        }  
         else
             return -1;
+    }
+
+    public int ItemCount(string item)
+    {
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].nameDisplay == item)
+                return inventory[i].GetCount();
+        }
+        return -1;
     }
 
     /// <summary>
@@ -111,6 +123,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         if (item.GetStackCount() == 0)
             inventory.Remove(item);
     }
+    
 
     public virtual void AddAllItems(InventoryEntityComponent entity)
     {

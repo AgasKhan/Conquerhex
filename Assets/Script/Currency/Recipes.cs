@@ -71,7 +71,8 @@ public class Recipes : ItemBase
 
         for (int i = 0; i < materials.Count; i++)
         {
-            aux  += materials[i].Item.nameDisplay + " "+ (container.ItemCount(materials[i].Item)==-1? 0: container.ItemCount(materials[i].Item)) + " / "+ materials[i].Amount + "\n";
+            var itemCount = container.ItemCount(materials[i].Item.nameDisplay);
+            aux  += materials[i].Item.nameDisplay + " "+ (itemCount <= 0 ? 0 : itemCount) + " / "+ materials[i].Amount + "\n";
         }
         
         return aux.RichText("color", "#ffa500ff");

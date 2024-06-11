@@ -57,7 +57,7 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
         if (obj == null)
             return 1;
 
-        return CompareTo(obj.GetItemBase());
+        return string.Compare(nameDisplay, obj.nameDisplay, StringComparison.Ordinal);
     }
 
     public int CompareTo(ItemBase other)
@@ -65,7 +65,7 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
         if (other == null)
             return 1;
 
-        return string.Compare(nameDisplay, other.nameDisplay);
+        return string.Compare(nameDisplay, other.nameDisplay, StringComparison.Ordinal);
     }
 }
 
@@ -98,6 +98,16 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
     public override string ToString()
     {
         return nameDisplay + "\n\n" + GetDetails().ToString(": ", "\n") + "\n";
+    }
+
+    public override bool Equals(object obj)
+    {
+        Debug.Log("Original: "+nameDisplay + "  Comparador: " +  obj.GetType().Name);
+
+        if (obj is Item)
+            return ((Item)obj).nameDisplay == nameDisplay;
+        else
+            return base.Equals(obj);
     }
 
     public virtual void Destroy()

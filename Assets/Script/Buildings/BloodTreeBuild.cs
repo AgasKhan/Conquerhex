@@ -9,7 +9,7 @@ public class BloodTreeBuild : CraftingBuild
     public int rewardsQuantity = 3;
     public override List<ItemCrafteable> currentRecipes => recipes;
 
-    public Pictionarys<ItemCrafteable, int> gachaRewardsInt = new Pictionarys<ItemCrafteable, int>();
+    Pictionarys<ItemCrafteable, int> gachaRewardsInt = new Pictionarys<ItemCrafteable, int>();
     List<ItemCrafteable> recipes = new List<ItemCrafteable>();
 
     Character[] minions;
@@ -84,7 +84,10 @@ public class BloodTreeBuild : CraftingBuild
         for (int i = 0; i < minions.Length; i++)
         {
             //UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
+            
             minions[i].StopIA();
+
+            //minions[i].CurrentState = null;
         }
 
         UI.Interfaz.instance.PopText(this, "Conquistado".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);

@@ -195,7 +195,8 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     
     public void StopIA()
     {
-        Action = stopIA;
+        UI.Interfaz.instance.PopText(this, "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
+        IAOnOff(false);
     }
 
     public void IAOnOff(bool value)

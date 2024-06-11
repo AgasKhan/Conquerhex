@@ -52,7 +52,7 @@ public class RecolectableItem : MonoBehaviour
 
     public void Recolect(InventoryEntityComponent entity)
     {
-        if (!recolect.Chck /* && (entity.currentWeight + weight) <= entity.weightCapacity*/)
+        if (!recolect.Chck || entity.container.health.IsDeath /* && (entity.currentWeight + weight) <= entity.weightCapacity*/)
             return;
 
         //Debug.Log("me quiere recoger: " + entity.name);
