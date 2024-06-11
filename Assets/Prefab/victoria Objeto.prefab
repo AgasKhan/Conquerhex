@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7684805709822967251}
   - component: {fileID: 6883354502260579405}
   - component: {fileID: 4117765965156086507}
-  - component: {fileID: 3932957716867350949}
+  - component: {fileID: 8078917224220089882}
   m_Layer: 0
   m_Name: victoria Objeto
   m_TagString: Untagged
@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3019227970276860375}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6883354502260579405
 SpriteRenderer:
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4c3ca63f91abefe4880a4cc5af654d0e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: -1189752766, guid: 146229b7bd5b3b34c9e91c754d69989e, type: 3}
+  m_Color: {r: 0.9914521, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,19 +98,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd1bcbaa37264594ca34f7124cd2f90e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!70 &3932957716867350949
-CapsuleCollider2D:
+--- !u!135 &8078917224220089882
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3019227970276860375}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 4.53, y: 2.03}
-  m_Direction: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.9007573
+  m_Center: {x: 0, y: 1.2, z: 0}
