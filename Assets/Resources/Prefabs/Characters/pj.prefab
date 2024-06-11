@@ -283,6 +283,7 @@ MonoBehaviour:
   <inventory>k__BackingField: {fileID: 0}
   <caster>k__BackingField: {fileID: 0}
   <move>k__BackingField: {fileID: 0}
+  isStunned: 0
 --- !u!114 &8270764340118452384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,6 +757,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2409691940225827802}
     m_Modifications:
+    - target: {fileID: 465214041365316278, guid: 305115e05452977469d69e3c3c007f64,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4512431500234240025, guid: 305115e05452977469d69e3c3c007f64,
         type: 3}
       propertyPath: m_Name
