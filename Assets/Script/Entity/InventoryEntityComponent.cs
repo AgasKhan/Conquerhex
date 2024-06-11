@@ -93,7 +93,51 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     /// </summary>
     /// <param name="item"></param>
     /// <param name="count"></param> Debe ser negativo, si se pasa un positivo se transformará
-    public void SubstractStackItems(ItemStackeable item, int count)
+    public void SubstractStackItems(string itemStr, int count)
+    {
+        int orderIndex =-1;
+        Item item = null;
+
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].nameDisplay == itemStr)
+            {
+                orderIndex = i;
+                item = inventory[i];
+            }
+                
+        }
+
+        var aux = orderIndex >= 0;
+
+        if (!aux || item.GetCount() < count)
+        {
+            Debug.Log("Item invalido para ser removido");
+            return;
+        }
+
+        if (count > 0)
+            count = -count;
+
+        int stackIndex = item.GetStackCount() - 1;
+        int resto = count;
+
+        while (resto < 0)
+        {
+            item.AddAmount(stackIndex, count, out resto);
+            CurrentWeight += item.GetItemBase().weight * (count - resto);
+
+            if (stackIndex == item.GetStackCount())
+                RemoveVisualItem(orderIndex, stackIndex);
+
+            stackIndex--;
+        }
+
+        if (item.GetStackCount() == 0)
+            inventory.Remove(item);
+    }
+
+    public void Substracttems(ItemStackeable item, int count)
     {
         var aux = inventory.Contains(item, out int orderIndex);
 
@@ -123,7 +167,6 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         if (item.GetStackCount() == 0)
             inventory.Remove(item);
     }
-    
 
     public virtual void AddAllItems(InventoryEntityComponent entity)
     {

@@ -18,7 +18,7 @@ public class Recipes : ItemBase
     {
         foreach (var ingredient in materials)
         {
-            if (container.ItemCount(ingredient.Item) < ingredient.Amount)
+            if (container.ItemCount(ingredient.Item.nameDisplay) < ingredient.Amount)
             {
                 Debug.Log("No posees los items necesarios para el crafteo");
                 return false;
@@ -39,7 +39,8 @@ public class Recipes : ItemBase
     {
         foreach (var ingredient in materials)
         {
-            container.SubstractStackItems(ingredient.Item.Create() as ItemStackeable, ingredient.Amount);
+            if(ingredient.Item.maxAmount > 1)
+                container.SubstractStackItems(ingredient.Item.nameDisplay, ingredient.Amount);
         }
 
         if (resultName != "")
@@ -48,10 +49,12 @@ public class Recipes : ItemBase
             container.AddItem(this, resultAmount);
         }
 
+        /*
         foreach (var ingredient in materials)
         {
-            Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item).ToString() + " " + ingredient.Item.nameDisplay);
+            Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item.nameDisplay).ToString() + " " + ingredient.Item.nameDisplay);
         }
+        */
     }
 
     public List<string> GetRequiresList()

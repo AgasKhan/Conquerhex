@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6228020001026168602}
   - component: {fileID: 3180629507576034152}
   - component: {fileID: 6702126628719733141}
+  - component: {fileID: 1152098234935940049}
   m_Layer: 0
   m_Name: BloodTreeBuild
   m_TagString: Props
@@ -118,8 +119,6 @@ MonoBehaviour:
     - key: {fileID: 11400000, guid: 00c520bc752f70f45b63631e968637ae, type: 2}
       value: 70
   rewardsQuantity: 3
-  gachaRewardsInt:
-    pictionaries: []
   sprite: {fileID: 7216132303710181597}
 --- !u!114 &6871803492074900730
 MonoBehaviour:
@@ -165,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactuable: 0
   Image: {fileID: 0}
-  interactAction: {fileID: 6702126628719733141}
+  interactAction: {fileID: 1152098234935940049}
   genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
@@ -208,6 +207,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c9b83480f7776469b26cfd2eb1e8d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1152098234935940049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820494545657111320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a109b573feaded841bc904c4c0b3e695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7573100061654163380}
+        m_TargetAssemblyTypeName: BloodTreeBuild, Assembly-CSharp
+        m_MethodName: SetRewards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &7801199483577430425
 PrefabInstance:
   m_ObjectHideFlags: 0
