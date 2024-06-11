@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 788091672763919647, guid: ea48d693586de264c8315dc22f407809,
@@ -13,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ae840dde155833340945d9ccfc1a2183,
         type: 3}
+    - target: {fileID: 788091672763919647, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_RootOrder
@@ -127,6 +133,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
+      propertyPath: <flyweight>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b2ed83cf321e29469bc72682c5837f3,
+        type: 2}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: <healthBase>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
       propertyPath: drops.Array.data[0].maxDrop
       value: 5
       objectReference: {fileID: 0}
@@ -186,4 +203,7 @@ PrefabInstance:
       value: Coal_BruteOre
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea48d693586de264c8315dc22f407809, type: 3}

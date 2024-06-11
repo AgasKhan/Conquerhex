@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b1c2f8970e79348b9011dfead2730a, type: 3}
+  m_Name: DashConcatRecipe
+  m_EditorClassIdentifier: 
+  _nameDisplay: DashConcatRecipe
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
+  weight: 0
+  visible: 1
+  materials:
+  - Item: {fileID: 11400000, guid: 2a878a1b3e9b67a458cd2241becc4dbe, type: 2}
+    Amount: 20
+  - Item: {fileID: 11400000, guid: 3d6b2914d0edcd248843dc4c029089a3, type: 2}
+    Amount: 10
+  - Item: {fileID: 11400000, guid: 4c8be1a9653095041a2472a8d81e30f5, type: 2}
+    Amount: 20
+  - Item: {fileID: 11400000, guid: b8fcf2ebf3055d6448f2e27f48406fc4, type: 2}
+    Amount: 15
+  - Item: {fileID: 11400000, guid: 604b57f7544820c4cae8b795267f8f5e, type: 2}
+    Amount: 15
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 788091672763919647, guid: ea48d693586de264c8315dc22f407809,
@@ -13,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 51cd65f1571908848bec3d0487d375d9,
         type: 3}
+    - target: {fileID: 788091672763919647, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074026, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_RootOrder
@@ -90,6 +96,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
+      propertyPath: <flyweight>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 504815daa47b1534cab0a3e5ea3b3f00,
+        type: 2}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: <healthBase>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
       propertyPath: drops.Array.data[0].maxDrop
       value: 4
       objectReference: {fileID: 0}
@@ -164,4 +181,7 @@ PrefabInstance:
       value: Stone_Common
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea48d693586de264c8315dc22f407809, type: 3}

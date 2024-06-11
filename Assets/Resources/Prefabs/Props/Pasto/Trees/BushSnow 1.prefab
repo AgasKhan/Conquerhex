@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 788091672763919647, guid: ea48d693586de264c8315dc22f407809,
@@ -13,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: af1f99d4e59df954e8cb9f5b5c0b28f2,
         type: 3}
+    - target: {fileID: 788091672763919647, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3004763816333928219, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: transparentMaterial
@@ -132,6 +138,17 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
+      propertyPath: <flyweight>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a878a1b3e9b67a458cd2241becc4dbe,
+        type: 2}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: <healthBase>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737242504853074028, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
       propertyPath: drops.Array.data[0].maxMinDrops.pictionaries.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -166,4 +183,7 @@ PrefabInstance:
       value: BushSnow 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea48d693586de264c8315dc22f407809, type: 3}
