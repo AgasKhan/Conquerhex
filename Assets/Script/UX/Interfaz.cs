@@ -52,6 +52,11 @@ namespace UI
             return instance[name];
         }
 
+        public void Dialogo(string str)
+        {
+            instance["Dialogo"].AddMsg(str);
+        }
+
         public void PopText(Entity entity, string text, Vector2? dir = null)
         {
             //instance["Danio"].AddMsg($"{text} ► {entity.name.Replace("(Clone)", "")}");
