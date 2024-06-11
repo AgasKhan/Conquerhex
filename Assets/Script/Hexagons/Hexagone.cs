@@ -453,8 +453,21 @@ public class Hexagone : MonoBehaviour
                 }
                 else if (spawn && biomes.layersOfProps[indexLayerProp].spawner != null)
                 {
-                    Instantiate(biomes.layersOfProps[indexLayerProp].spawner, pos, Quaternion.identity).transform.SetParent(transform);
-                    spawnCount++;
+                    //Instantiate(biomes.layersOfProps[indexLayerProp].spawner, pos, Quaternion.identity).transform.SetParent(transform);
+
+                    var arr = biomes.layersOfProps[indexLayerProp].spawners;
+
+                    if (arr == null)
+                        continue;
+
+                    var aux = arr[Mathf.Clamp(level-1, 0, biomes.layersOfProps[indexLayerProp].spawners.Length-1)].spawners;
+
+                    if (aux!=null)
+                    {
+                        Instantiate(aux.RandomPic(), pos, Quaternion.identity).transform.SetParent(transform);
+
+                        spawnCount++;
+                    }
                 }
 
                 if (spawnCount % spawnCountLimitPerFrame == 0)
@@ -465,6 +478,8 @@ public class Hexagone : MonoBehaviour
             }
         }
 
+        if(!centro)
+            EnterChunk(Instantiate(biomes.layersOfProps[0].spawners[Mathf.Clamp(level-1, 0, biomes.layersOfProps[0].spawners.Length-1)].center.RandomPic(), center, Quaternion.identity).transform);
     }
 
     public Hexagone SetProyections(Transform original, IEnumerable<Transform> components, bool setParent = false)

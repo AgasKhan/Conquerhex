@@ -299,6 +299,16 @@ public class IAIO : IAFather
         {
             UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Fortaleza a la vista");
         }
+        else
+        {
+            for (int i = 0; i < obj.ladosArray.Length; i++)
+            {
+                if(obj.ladosArray[i].id == HexagonsManager.idMaxLevel)
+                {
+                    UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Fortaleza cercana en los alrededores");
+                }
+            }
+        }
     }
 
     protected override void Health_death()

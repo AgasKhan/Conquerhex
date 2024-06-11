@@ -10,9 +10,21 @@ public class Biomes : ShowDetails
     [System.Serializable]
     public struct LayersOfProps
     {
+        [System.Serializable]
+        public struct SpawnPerLevel
+        {
+            //public int level;
+            public Pictionarys<Spawner, int> spawners;
+
+            public Pictionarys<GameObject, int> center;
+        }
+
         public int chanceEmptyOrEnemy;
         [Tooltip("Representa cuantas casillas se salta para colocar objetos, en caso de ser 0 no se saltara ninguna")]
         public int inversaDensidad;
+
+        public SpawnPerLevel[] spawners;
+
         public Spawner spawner;
         public Pictionarys<GameObject, int> props;
     }
