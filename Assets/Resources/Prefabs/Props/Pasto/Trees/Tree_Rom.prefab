@@ -78,6 +78,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d3dd0a2b8e40fa4f96d44d68fd1e4c6, type: 3}
+--- !u!23 &354761835938451469 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2296257990614849851, guid: 5d3dd0a2b8e40fa4f96d44d68fd1e4c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1959536958937631030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2070271569607225053 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5d3dd0a2b8e40fa4f96d44d68fd1e4c6,
@@ -301,6 +307,21 @@ PrefabInstance:
       propertyPath: originalRender
       value: 
       objectReference: {fileID: 5765788186578469894}
+    - target: {fileID: 7122652259169765323, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: originalRenders.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7122652259169765323, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: originalRenders.Array.data[0]
+      value: 
+      objectReference: {fileID: 5765788186578469894}
+    - target: {fileID: 7122652259169765323, guid: ea48d693586de264c8315dc22f407809,
+        type: 3}
+      propertyPath: originalRenders.Array.data[1]
+      value: 
+      objectReference: {fileID: 354761835938451469}
     - target: {fileID: 7226389105525512022, guid: ea48d693586de264c8315dc22f407809,
         type: 3}
       propertyPath: m_Name
