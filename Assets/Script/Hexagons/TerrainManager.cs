@@ -174,6 +174,7 @@ public class TerrainManager : MonoBehaviour
             mapAlpha[x, y, 0] = mapAlphaBuffer[i, 0];
             mapAlpha[x, y, 1] = mapAlphaBuffer[i, 1];
             mapAlpha[x, y, 2] = mapAlphaBuffer[i, 2];
+            mapAlpha[x, y, 3] = mapAlphaBuffer[i, 3];
         }
 
         for (int i = 0; i < mapDetailsBuffer.Length; i++)
