@@ -39,9 +39,10 @@ public class ViewObjectModel : MonoBehaviour
         {
             controllers[i].OnEnterState(this);
         }
-
+        /*
         if (isTransparent && originalRender!=null)
             eventGeneric.delegato += UpdateTransparent;
+        */
     }
 
     /*

@@ -259,7 +259,7 @@ public class IAIO : IAFather
     {
         base.OnStayState(param);
 
-        eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move").delegato.Invoke(transform.position);
+        //eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move").delegato.Invoke(transform.position);
 
         var buildings = detectInteractuable.Area(character.transform.position, (edificio) => { return edificio.interactuable; });
 
