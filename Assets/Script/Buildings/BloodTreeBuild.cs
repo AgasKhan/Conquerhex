@@ -146,7 +146,7 @@ public class BloodTreeBuild : CraftingBuild
         //-----------------------------------------------
         interactComp.lastCharInteract.inventory.AddItem(recipes[0], 1);
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-                .SetWindow("Felicidades", "Has obtenido un: " + recipes[0].nameDisplay)
+                .SetWindow("Felicidades", "Has obtenido: \n" + recipes[0].nameDisplay)
                 .AddButton("Aceptar", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
 
         interactComp.ChangeInteract(false);

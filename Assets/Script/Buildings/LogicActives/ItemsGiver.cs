@@ -13,4 +13,14 @@ public class ItemsGiver : LogicActive<Entity>
             genericParams.GetInContainer<InventoryEntityComponent>().AddItem(item.Item, item.Amount);
         }
     }
+
+    public void GiveWeapon()
+    {
+        GameManager.instance.playerCharacter.GetInContainer<InventoryEntityComponent>().AddItem(items[0].Item, 1);
+
+        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+                .SetWindow("Felicidades", "Has obtenido: \n" + items[0].Item.nameDisplay)
+                .AddButton("Aceptar", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
+
+    }
 }
