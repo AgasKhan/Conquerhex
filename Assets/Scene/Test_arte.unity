@@ -666,7 +666,7 @@ PrefabInstance:
     - target: {fileID: 2265634167806322425, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.051
       objectReference: {fileID: 0}
     - target: {fileID: 2265634167806322425, guid: 698c7b71f6da96d4fa36233e3b58d5b9,
         type: 3}
@@ -1857,6 +1857,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6045263845284611206, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1938,13 +1943,13 @@ GameObject:
   - component: {fileID: 629400832}
   - component: {fileID: 629400834}
   - component: {fileID: 629400833}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &629400832
 Transform:
   m_ObjectHideFlags: 0
@@ -2298,7 +2303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &892442745
 Transform:
   m_ObjectHideFlags: 0
