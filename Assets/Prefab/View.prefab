@@ -154,7 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventsManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
-  originalRender: {fileID: 605654443849558340}
+  originalRenders:
+  - {fileID: 605654443849558340}
   <isTransparent>k__BackingField: 1
   transparentMaterial: {fileID: 2100000, guid: db72b3bd8fcd88a47a5f817ad289b18e, type: 2}
   <defaultRight>k__BackingField: 1
@@ -190,3 +191,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf79ae3b8e12ea4e9c593cfa56be21e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1

@@ -4,16 +4,33 @@ using UnityEngine;
 
 public class ViewObjectModel : MonoBehaviour
 {
+    public class OptimizedView : MonoBehaviour
+    {
+        public GameObject parent;
+
+        private void OnBecameInvisible()
+        {
+            parent.SetActive(false);
+        }
+
+        private void OnBecameVisible()
+        {
+            parent.SetActive(true);
+        }
+    }
+
     [SerializeField]
     EventManager eventsManager;
 
     public IViewController[] controllers;
 
     [SerializeField]
-    public Renderer originalRender;
+    public Renderer[] originalRenders;
 
     [field: SerializeField]
     public bool isTransparent { get; private set; }
+
+    public Renderer originalRender => originalRenders.Length == 1 ? originalRenders[0] : null;
 
     [SerializeField]
     protected Material transparentMaterial;
@@ -24,6 +41,9 @@ public class ViewObjectModel : MonoBehaviour
     SingleEvent<Vector3> eventGeneric;
 
     bool _isTransparent;
+
+
+
 
     protected virtual void Start()
     {
@@ -39,6 +59,16 @@ public class ViewObjectModel : MonoBehaviour
         {
             controllers[i].OnEnterState(this);
         }
+
+        for (int i = 0; i < originalRenders.Length; i++)
+        {
+            var optimized = originalRenders[i].gameObject.AddComponent<OptimizedView>();
+
+            optimized.parent = gameObject;
+        }
+
+       
+
         /*
         if (isTransparent && originalRender!=null)
             eventGeneric.delegato += UpdateTransparent;
@@ -74,9 +104,15 @@ public class ViewObjectModel : MonoBehaviour
 
         _isTransparent = b;
 
-        originalRender.material.SetInt("_transparent", b? 1:0);
+        //originalRender.material.SetInt("_transparent", b? 1:0);
     }
+
+
+
+    
 
     public interface IViewController : IState<ViewObjectModel> { }
 }
+
+
 

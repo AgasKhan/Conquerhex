@@ -34,6 +34,8 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
     ViewObjectModel viewObjectModel;
 
+    Renderer[] originalRenderers => viewObjectModel.originalRenders;
+
     Renderer originalRenderer => viewObjectModel.originalRender;
 
     public void OnEnterState(ViewObjectModel param)
@@ -47,7 +49,8 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         colorSetter.setter += ColorSetter_setter;
 
-        colorSetter.Add(originalRenderer.material.color);
+        if(originalRenderer!=null)
+            colorSetter.Add(originalRenderer.material.color);
 
         entity.onTakeDamage += ShakeSprite;
 
@@ -158,15 +161,18 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
     }
     private void ColorSetter_setter(Color obj)
     {
-        originalRenderer.material.SetColor("_Color",obj);
+        for (int i = 0; i < originalRenderers.Length; i++)
+        {
+            originalRenderers[i].material.SetColor("_Color", obj);
+        }
+
+        //originalRenderer.material.SetColor("_Color",obj);
     }
 
     void ShakeSprite(Damage dmg)
     {
         shake.Execute();
     }
-
-    
 }
 
 
