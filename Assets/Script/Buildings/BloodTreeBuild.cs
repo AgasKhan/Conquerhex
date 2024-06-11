@@ -34,6 +34,7 @@ public class BloodTreeBuild : CraftingBuild
     {
         //interactComp.OnInteract += SetRewards;
         health.noLife += Health_noLife;
+        health.death += Health_noLife;
 
         LoadSystem.AddPostLoadCorutine(PostAwake);
     }
@@ -82,11 +83,6 @@ public class BloodTreeBuild : CraftingBuild
     [ContextMenu("Liberar")]
     public void Liberar()
     {
-        if (!encerrado)
-            return;
-
-        encerrado = false;
-
         IAIO.colorSameTp = Color.green;
 
         hexagoneParent.effect.color = Color.green;
@@ -118,6 +114,8 @@ public class BloodTreeBuild : CraftingBuild
 
         Liberar();
     }
+
+    
 
     public void SetRewards()
     {
