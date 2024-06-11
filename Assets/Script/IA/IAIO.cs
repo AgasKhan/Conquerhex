@@ -288,12 +288,16 @@ public class IAIO : IAFather
 
     private void TeleportEvent(Hexagone obj, int lado)
     {
+
+        obj.effect.color = Color.green;
+
+
         HexagonsManager.SetRenders(obj, HexagonsManager.LadoOpuesto(lado), obj.AristaMasCercana(character.transform));
 
 
         if (HexagonsManager.idMaxLevel == obj.id)
         {
-            UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Dirigible a la vista");
+            UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Fortaleza a la vista");
         }
     }
 

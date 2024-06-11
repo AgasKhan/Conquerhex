@@ -60,7 +60,10 @@ public class TeleportCollider : MonoBehaviour
                     arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - difEspejada[0],
                     other.transform.position.y,
                     arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1]);
-                
+
+            if(other.CompareTag("Player"))                
+                teleport.effect.color = Color.cyan;
+
             fisicaOther.Teleport(arrHexTeleport, lado);
 
             /*

@@ -14,9 +14,12 @@ namespace DamageTypes
         {
             float multiply = (1- (go.health.actualLife / go.health.maxLife)) * 1f/2;
 
-            float multiply2 =(1- (go.health.actualRegen / go.health.maxRegen)) * 1f / 2;
-
             go.TakeDamage(Damage.Create<DebuffLife>(multiply * go.health.maxLife));
+
+            if (go.health.maxRegen <= 0)
+                return;
+
+            float multiply2 =(1- (go.health.actualRegen / go.health.maxRegen)) * 1f / 2;
 
             go.TakeDamage(Damage.Create<DebuffRegen>(multiply2 * go.health.maxRegen));
         }

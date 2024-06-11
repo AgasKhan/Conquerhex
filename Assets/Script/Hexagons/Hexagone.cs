@@ -46,6 +46,8 @@ public class Hexagone : MonoBehaviour
 
     public TerrainManager mapCopado;
 
+    public SpriteRenderer effect;
+
     public float velocityTransfer;
 
     public bool manualTiles = false;

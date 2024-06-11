@@ -121,7 +121,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 52cf60dbc87692a409ce636e9f99c75a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -229,6 +229,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _LerpColor: 1
     - _METALNESS: 0
     - _Metallic: 1
     - _Mode: 3
@@ -259,8 +260,8 @@ Material:
     - _UseUIAlphaClip: 0
     - _WorkflowMode: 1
     - _ZTest: 8
-    - _ZWrite: 1
-    - _ZWriteControl: 0
+    - _ZWrite: 0
+    - _ZWriteControl: 2
     m_Colors:
     - _BASE_COLOR: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

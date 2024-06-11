@@ -2,20 +2,19 @@ Shader "Shader Graphs/RenderShader Effect"
 {
     Properties
     {
-        _OverrideColor("_OverrideColor", Float) = 0
-        _Color("_Color", Color) = (0, 0, 0, 0)
+        _OverrideColor("_OverrideColor", Float) = 2
+        _Color("_Color", Color) = (0, 0.8865156, 1, 1)
         [ToggleUI]_DeActiveEffect("_DeActiveEffect", Float) = 0
-        _Waves("_Waves", Vector) = (1, 1, 1, 1)
+        _Waves("_Waves", Vector) = (20, 0.4, 3.62, 3.85)
         [MainTexture][NoScaleOffset]_MainTex("MainTex", 2D) = "white" {}
-        _Deph("Deph", Float) = 0.5
+        _LerpColor("LerpColor", Float) = 1
         [HideInInspector]_QueueOffset("_QueueOffset", Float) = 0
         [HideInInspector]_QueueControl("_QueueControl", Float) = -1
         [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
     }
-
-    SubShader
+        SubShader
     {
         Tags
         {
@@ -40,6 +39,7 @@ Shader "Shader Graphs/RenderShader Effect"
         Blend One Zero
         ZTest Always
         ZWrite Off
+
         // Debug
         // <None>
 
@@ -70,9 +70,11 @@ Shader "Shader Graphs/RenderShader Effect"
         #define ATTRIBUTES_NEED_NORMAL
         #define ATTRIBUTES_NEED_TANGENT
         #define ATTRIBUTES_NEED_TEXCOORD0
+        #define ATTRIBUTES_NEED_COLOR
         #define VARYINGS_NEED_POSITION_WS
         #define VARYINGS_NEED_NORMAL_WS
         #define VARYINGS_NEED_TEXCOORD0
+        #define VARYINGS_NEED_COLOR
         #define FEATURES_GRAPH_VERTEX
         /* WARNING: $splice Could not find named fragment 'PassInstancing' */
         #define SHADERPASS SHADERPASS_UNLIT
@@ -109,6 +111,7 @@ Shader "Shader Graphs/RenderShader Effect"
              float3 normalOS : NORMAL;
              float4 tangentOS : TANGENT;
              float4 uv0 : TEXCOORD0;
+             float4 color : COLOR;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : INSTANCEID_SEMANTIC;
             #endif
@@ -119,6 +122,7 @@ Shader "Shader Graphs/RenderShader Effect"
              float3 positionWS;
              float3 normalWS;
              float4 texCoord0;
+             float4 color;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -137,6 +141,7 @@ Shader "Shader Graphs/RenderShader Effect"
              float2 NDCPosition;
              float2 PixelPosition;
              float4 uv0;
+             float4 VertexColor;
              float3 TimeParameters;
         };
         struct VertexDescriptionInputs
@@ -149,8 +154,9 @@ Shader "Shader Graphs/RenderShader Effect"
         {
              float4 positionCS : SV_POSITION;
              float4 texCoord0 : INTERP0;
-             float3 positionWS : INTERP1;
-             float3 normalWS : INTERP2;
+             float4 color : INTERP1;
+             float3 positionWS : INTERP2;
+             float3 normalWS : INTERP3;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -171,6 +177,7 @@ Shader "Shader Graphs/RenderShader Effect"
             ZERO_INITIALIZE(PackedVaryings, output);
             output.positionCS = input.positionCS;
             output.texCoord0.xyzw = input.texCoord0;
+            output.color.xyzw = input.color;
             output.positionWS.xyz = input.positionWS;
             output.normalWS.xyz = input.normalWS;
             #if UNITY_ANY_INSTANCING_ENABLED
@@ -193,6 +200,7 @@ Shader "Shader Graphs/RenderShader Effect"
             Varyings output;
             output.positionCS = input.positionCS;
             output.texCoord0 = input.texCoord0.xyzw;
+            output.color = input.color.xyzw;
             output.positionWS = input.positionWS.xyz;
             output.normalWS = input.normalWS.xyz;
             #if UNITY_ANY_INSTANCING_ENABLED
@@ -221,7 +229,7 @@ Shader "Shader Graphs/RenderShader Effect"
         float4 _Color;
         float _DeActiveEffect;
         float4 _Waves;
-        float _Deph;
+        float _LerpColor;
         CBUFFER_END
 
 
@@ -323,6 +331,11 @@ Shader "Shader Graphs/RenderShader Effect"
                 Out = lerp(A, B, T);
             }
 
+            void Unity_Lerp_float4(float4 A, float4 B, float4 T, out float4 Out)
+            {
+                Out = lerp(A, B, T);
+            }
+
             void Unity_Power_float(float A, float B, out float Out)
             {
                 Out = pow(A, B);
@@ -340,11 +353,6 @@ Shader "Shader Graphs/RenderShader Effect"
             void Unity_Saturate_float(float In, out float Out)
             {
                 Out = saturate(In);
-            }
-
-            void Unity_Lerp_float4(float4 A, float4 B, float4 T, out float4 Out)
-            {
-                Out = lerp(A, B, T);
             }
 
             // Custom interpolators pre vertex
@@ -432,6 +440,9 @@ Shader "Shader Graphs/RenderShader Effect"
                 float _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_B_6_Float = _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4.b;
                 float _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_A_7_Float = _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4.a;
                 float4 _Property_bf2e8901ab444031993ca902415355c2_Out_0_Vector4 = _Color;
+                float _Property_201b7f3de12d4866af33d0e460d5b258_Out_0_Float = _LerpColor;
+                float4 _Lerp_a715175cd4f84509a746af21ef49de6c_Out_3_Vector4;
+                Unity_Lerp_float4(_Property_bf2e8901ab444031993ca902415355c2_Out_0_Vector4, IN.VertexColor, (_Property_201b7f3de12d4866af33d0e460d5b258_Out_0_Float.xxxx), _Lerp_a715175cd4f84509a746af21ef49de6c_Out_3_Vector4);
                 float _Property_3b1e131023804e32ab832254be308715_Out_0_Float = _OverrideColor;
                 float _Power_9300c14b2e354b90ad6468d62f03bfa5_Out_2_Float;
                 Unity_Power_float(_Voronoi_ff93b035d5a745f0b2f0f1667671079b_Out_3_Float, _Property_3b1e131023804e32ab832254be308715_Out_0_Float, _Power_9300c14b2e354b90ad6468d62f03bfa5_Out_2_Float);
@@ -444,7 +455,7 @@ Shader "Shader Graphs/RenderShader Effect"
                 float _Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float;
                 Unity_Branch_float(_Property_f10053e85cc94fefbf8e444b3d6780a1_Out_0_Boolean, 0, _Saturate_fa7adf9f48a149b981a3b7e5506fb910_Out_1_Float, _Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float);
                 float4 _Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4;
-                Unity_Lerp_float4(_SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4, _Property_bf2e8901ab444031993ca902415355c2_Out_0_Vector4, (_Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float.xxxx), _Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4);
+                Unity_Lerp_float4(_SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4, _Lerp_a715175cd4f84509a746af21ef49de6c_Out_3_Vector4, (_Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float.xxxx), _Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4);
                 surface.BaseColor = (_Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4.xyz);
                 return surface;
             }
@@ -498,6 +509,7 @@ Shader "Shader Graphs/RenderShader Effect"
                 output.NDCPosition.y = 1.0f - output.NDCPosition.y;
 
                 output.uv0 = input.texCoord0;
+                output.VertexColor = input.color;
                 output.TimeParameters = _TimeParameters.xyz; // This is mainly for LW as HD overwrite this value
             #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
             #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
@@ -692,7 +704,7 @@ Shader "Shader Graphs/RenderShader Effect"
                 float4 _Color;
                 float _DeActiveEffect;
                 float4 _Waves;
-                float _Deph;
+                float _LerpColor;
                 CBUFFER_END
 
 
@@ -870,9 +882,11 @@ Shader "Shader Graphs/RenderShader Effect"
                         #define ATTRIBUTES_NEED_NORMAL
                         #define ATTRIBUTES_NEED_TANGENT
                         #define ATTRIBUTES_NEED_TEXCOORD0
+                        #define ATTRIBUTES_NEED_COLOR
                         #define VARYINGS_NEED_POSITION_WS
                         #define VARYINGS_NEED_NORMAL_WS
                         #define VARYINGS_NEED_TEXCOORD0
+                        #define VARYINGS_NEED_COLOR
                         #define FEATURES_GRAPH_VERTEX
                         /* WARNING: $splice Could not find named fragment 'PassInstancing' */
                         #define SHADERPASS SHADERPASS_GBUFFER
@@ -907,6 +921,7 @@ Shader "Shader Graphs/RenderShader Effect"
                              float3 normalOS : NORMAL;
                              float4 tangentOS : TANGENT;
                              float4 uv0 : TEXCOORD0;
+                             float4 color : COLOR;
                             #if UNITY_ANY_INSTANCING_ENABLED
                              uint instanceID : INSTANCEID_SEMANTIC;
                             #endif
@@ -917,6 +932,7 @@ Shader "Shader Graphs/RenderShader Effect"
                              float3 positionWS;
                              float3 normalWS;
                              float4 texCoord0;
+                             float4 color;
                             #if !defined(LIGHTMAP_ON)
                              float3 sh;
                             #endif
@@ -938,6 +954,7 @@ Shader "Shader Graphs/RenderShader Effect"
                              float2 NDCPosition;
                              float2 PixelPosition;
                              float4 uv0;
+                             float4 VertexColor;
                              float3 TimeParameters;
                         };
                         struct VertexDescriptionInputs
@@ -953,8 +970,9 @@ Shader "Shader Graphs/RenderShader Effect"
                              float3 sh : INTERP0;
                             #endif
                              float4 texCoord0 : INTERP1;
-                             float3 positionWS : INTERP2;
-                             float3 normalWS : INTERP3;
+                             float4 color : INTERP2;
+                             float3 positionWS : INTERP3;
+                             float3 normalWS : INTERP4;
                             #if UNITY_ANY_INSTANCING_ENABLED
                              uint instanceID : CUSTOM_INSTANCE_ID;
                             #endif
@@ -978,6 +996,7 @@ Shader "Shader Graphs/RenderShader Effect"
                             output.sh = input.sh;
                             #endif
                             output.texCoord0.xyzw = input.texCoord0;
+                            output.color.xyzw = input.color;
                             output.positionWS.xyz = input.positionWS;
                             output.normalWS.xyz = input.normalWS;
                             #if UNITY_ANY_INSTANCING_ENABLED
@@ -1003,6 +1022,7 @@ Shader "Shader Graphs/RenderShader Effect"
                             output.sh = input.sh;
                             #endif
                             output.texCoord0 = input.texCoord0.xyzw;
+                            output.color = input.color.xyzw;
                             output.positionWS = input.positionWS.xyz;
                             output.normalWS = input.normalWS.xyz;
                             #if UNITY_ANY_INSTANCING_ENABLED
@@ -1031,7 +1051,7 @@ Shader "Shader Graphs/RenderShader Effect"
                         float4 _Color;
                         float _DeActiveEffect;
                         float4 _Waves;
-                        float _Deph;
+                        float _LerpColor;
                         CBUFFER_END
 
 
@@ -1133,6 +1153,11 @@ Shader "Shader Graphs/RenderShader Effect"
                                 Out = lerp(A, B, T);
                             }
 
+                            void Unity_Lerp_float4(float4 A, float4 B, float4 T, out float4 Out)
+                            {
+                                Out = lerp(A, B, T);
+                            }
+
                             void Unity_Power_float(float A, float B, out float Out)
                             {
                                 Out = pow(A, B);
@@ -1150,11 +1175,6 @@ Shader "Shader Graphs/RenderShader Effect"
                             void Unity_Saturate_float(float In, out float Out)
                             {
                                 Out = saturate(In);
-                            }
-
-                            void Unity_Lerp_float4(float4 A, float4 B, float4 T, out float4 Out)
-                            {
-                                Out = lerp(A, B, T);
                             }
 
                             // Custom interpolators pre vertex
@@ -1242,6 +1262,9 @@ Shader "Shader Graphs/RenderShader Effect"
                                 float _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_B_6_Float = _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4.b;
                                 float _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_A_7_Float = _SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4.a;
                                 float4 _Property_bf2e8901ab444031993ca902415355c2_Out_0_Vector4 = _Color;
+                                float _Property_201b7f3de12d4866af33d0e460d5b258_Out_0_Float = _LerpColor;
+                                float4 _Lerp_a715175cd4f84509a746af21ef49de6c_Out_3_Vector4;
+                                Unity_Lerp_float4(_Property_bf2e8901ab444031993ca902415355c2_Out_0_Vector4, IN.VertexColor, (_Property_201b7f3de12d4866af33d0e460d5b258_Out_0_Float.xxxx), _Lerp_a715175cd4f84509a746af21ef49de6c_Out_3_Vector4);
                                 float _Property_3b1e131023804e32ab832254be308715_Out_0_Float = _OverrideColor;
                                 float _Power_9300c14b2e354b90ad6468d62f03bfa5_Out_2_Float;
                                 Unity_Power_float(_Voronoi_ff93b035d5a745f0b2f0f1667671079b_Out_3_Float, _Property_3b1e131023804e32ab832254be308715_Out_0_Float, _Power_9300c14b2e354b90ad6468d62f03bfa5_Out_2_Float);
@@ -1254,7 +1277,7 @@ Shader "Shader Graphs/RenderShader Effect"
                                 float _Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float;
                                 Unity_Branch_float(_Property_f10053e85cc94fefbf8e444b3d6780a1_Out_0_Boolean, 0, _Saturate_fa7adf9f48a149b981a3b7e5506fb910_Out_1_Float, _Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float);
                                 float4 _Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4;
-                                Unity_Lerp_float4(_SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4, _Property_bf2e8901ab444031993ca902415355c2_Out_0_Vector4, (_Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float.xxxx), _Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4);
+                                Unity_Lerp_float4(_SampleTexture2D_854e343b48884a6ca8eb8f7e9b24d280_RGBA_0_Vector4, _Lerp_a715175cd4f84509a746af21ef49de6c_Out_3_Vector4, (_Branch_ee1d13b0fbbb4fd28a8c2418c89269e1_Out_3_Float.xxxx), _Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4);
                                 surface.BaseColor = (_Lerp_7a10e1beef344d34a75bae4642cb3ed3_Out_3_Vector4.xyz);
                                 return surface;
                             }
@@ -1308,6 +1331,7 @@ Shader "Shader Graphs/RenderShader Effect"
                                 output.NDCPosition.y = 1.0f - output.NDCPosition.y;
 
                                 output.uv0 = input.texCoord0;
+                                output.VertexColor = input.color;
                                 output.TimeParameters = _TimeParameters.xyz; // This is mainly for LW as HD overwrite this value
                             #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
                             #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
@@ -1495,7 +1519,7 @@ Shader "Shader Graphs/RenderShader Effect"
                                 float4 _Color;
                                 float _DeActiveEffect;
                                 float4 _Waves;
-                                float _Deph;
+                                float _LerpColor;
                                 CBUFFER_END
 
 
@@ -1794,7 +1818,7 @@ Shader "Shader Graphs/RenderShader Effect"
                                         float4 _Color;
                                         float _DeActiveEffect;
                                         float4 _Waves;
-                                        float _Deph;
+                                        float _LerpColor;
                                         CBUFFER_END
 
 
