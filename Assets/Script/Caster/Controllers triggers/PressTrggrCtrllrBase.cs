@@ -42,6 +42,8 @@ public class PressTrggrCtrllr : TriggerController
         Detect();
 
         Cast();
+        if (affected != null && affected.Count > 0)
+            Aiming = (affected[0].transform.position - caster.transform.position).normalized;
         End = false;
         pressCooldown.Reset();
     }
@@ -61,6 +63,9 @@ public class PressTrggrCtrllr : TriggerController
             Cast();
             End = false;
 
+            if (affected != null && affected.Count > 0)
+                Aiming = (affected[0].transform.position - caster.transform.position).normalized;
+
             FeedBackReference?.Attack();
             pressCooldown.Reset();
             
@@ -70,6 +75,10 @@ public class PressTrggrCtrllr : TriggerController
                 ControllerUp(dir, tim);
             }
             */
+        }
+        else
+        {
+            Aiming = dir.Vect2To3XZ(0);
         }
     }
 

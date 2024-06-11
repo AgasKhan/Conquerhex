@@ -92,6 +92,9 @@ public class UpTrggrCtrllr : TriggerController
 
         Cast();
 
+        if(affected!=null && affected.Count>0 && !(triggerBase?.aimingToMove ?? false))
+            Aiming = (affected[0].transform.position - caster.transform.position).normalized;
+
         FeedBackReference?.Attack();
 
         caster.abilityControllerMediator -= this;

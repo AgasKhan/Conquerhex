@@ -402,7 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <direction>k__BackingField: {x: 0, y: 0, z: 0}
   _velocityCalculate: {x: 0, y: 0, z: 0}
-  <objectiveVelocity>k__BackingField: 7.5
+  <objectiveVelocity>k__BackingField: 3
   <maxSpeed>k__BackingField: 100
   aceleration:
     _total: 100
@@ -581,7 +581,7 @@ MonoBehaviour:
     - key: anim_Running
       value:
         canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
+        clip: {fileID: 1827226128182048838, guid: aeb99fb1157947043b42ae7f9868ecf6,
           type: 3}
     - key: anim_death
       value:
@@ -771,6 +771,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 772560837847419480, guid: 0d6430c4e84916649a524db633dfecc0,
         type: 3}
+    - target: {fileID: 6011293649829747602, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: active
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6512603503947103261, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Layer
