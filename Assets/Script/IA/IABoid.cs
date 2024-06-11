@@ -106,7 +106,7 @@ public class IABoid : IAFather
         foreach (var boid in BoidsManager.list)
         {
             //Si soy este boid o es mi enemigo, ignoro y sigo la iteracion
-            if (boid == this || boid.character.team != character.team) continue;
+            if (boid == null || boid == this || boid.character.team != character.team) continue;
 
             //Saco la direccion hacia el boid
             Vector3 dirToBoid = boid.transform.position - transform.position; //seek.Calculate(boid.value.move);

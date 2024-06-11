@@ -256,7 +256,10 @@ public class GenericChase : IState<GenericEnemyFSM>
         steerings.SwitchSteering<Seek>();
         steerings.SwitchSteering<Pursuit>();
         param.context.steerings["corderitos"].targets.Clear();
-        param.context.attack.onAttack -= Attack_onAttack;
+
+        //Debug.Log("FSM: " + (param==null) + "\nCharacter: " + (param.context == null) + "\nAttack: " + (param.context.attack==null));
+        if(param.context.attack != null)
+            param.context.attack.onAttack -= Attack_onAttack;
     }
 
     void DetectEnemy()

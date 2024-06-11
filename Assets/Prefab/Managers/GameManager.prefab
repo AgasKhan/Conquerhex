@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3934061507348870747}
   - component: {fileID: 3167585331265613088}
   - component: {fileID: 7739652029663223114}
+  - component: {fileID: 4723620385367286371}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -225,7 +226,8 @@ MonoBehaviour:
     maxRadius: 2
     minRadius: 0
     inverse: 0
-    dot: 1
+    angle: 360
+    dot: -1
     _maxDetects: 1
     _minDetects: 0
     queryTrigger: 0
@@ -521,3 +523,20 @@ MonoBehaviour:
       defeat:
         m_PersistentCalls:
           m_Calls: []
+--- !u!114 &4723620385367286371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7739652029663223119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f630727d5ea01004ea5cca2e23358372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewRadius: 3
+  _separationRadius: 1
+  <SeparationWeight>k__BackingField: 0.627
+  <AlignmentWeight>k__BackingField: 1.32
+  <CohesionWeight>k__BackingField: 0.749
