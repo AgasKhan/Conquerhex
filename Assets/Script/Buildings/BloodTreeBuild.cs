@@ -32,7 +32,7 @@ public class BloodTreeBuild : CraftingBuild
 
     void MyAwake()
     {
-        //interactComp.OnInteract += SetRewards;
+        interactComp.OnInteract += SetRewards;
         health.noLife += Health_noLife;
         health.death += Health_noLife;
 
@@ -88,7 +88,7 @@ public class BloodTreeBuild : CraftingBuild
     private void Health_noLife()
     {
         interactComp.ChangeInteract(true);
-        team = Team.player;
+        team = Team.noTeam;
 
         for (int i = 0; i < minions.Length; i++)
         {
@@ -108,7 +108,7 @@ public class BloodTreeBuild : CraftingBuild
 
     
 
-    public void SetRewards()
+    void SetRewards()
     {
         gachaRewardsInt.Clear();
 
@@ -134,13 +134,16 @@ public class BloodTreeBuild : CraftingBuild
             recipes.Add(aux);
             gachaRewardsInt.Remove(aux);
         }
-        //-----------------------------------------------
+
+        /*
         interactComp.lastCharInteract.inventory.AddItem(recipes[0], 1);
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
                 .SetWindow("Felicidades", "Has obtenido: \n" + recipes[0].nameDisplay)
                 .AddButton("Aceptar", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
 
         interactComp.ChangeInteract(false);
-        //interactComp.OnInteract -= SetRewards;
+        */
+
+        interactComp.OnInteract -= SetRewards;
     }
 }

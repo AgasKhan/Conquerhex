@@ -18,7 +18,13 @@ MonoBehaviour:
   maxAmount: 1
   weight: 0
   visible: 1
-  recipe: {fileID: 11400000, guid: a50d4a61df751e545b45a27b145861f8, type: 2}
+  ingredients:
+  - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
+    Amount: 5
+  - Item: {fileID: 11400000, guid: fc99028267533e841aef98591c473d27, type: 2}
+    Amount: 3
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
   joystick: 0
   ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 0

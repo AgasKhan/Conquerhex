@@ -138,7 +138,7 @@ public class TurretSubMenu : CreateSubMenu
             else
                 abilityAction = () => TurretMaxLevel();
 
-            subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAction(item.kata, () => { if(AddAbility(index, turretBuilding.upgradesRequirements[turretBuilding.currentLevel])) abilityAction.Invoke(); }); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
+            subMenu.AddComponent<EventsCall>().Set(item.kata.nameDisplay, () => { ButtonAction(item.kata, () => { if (AddAbility(index, turretBuilding.upgradesRequirements[turretBuilding.currentLevel])) abilityAction.Invoke(); }); }, "").rectTransform.sizeDelta = new Vector2(300, 75);
         }
 
         if (turretBuilding.currentLevel > 0)
@@ -178,7 +178,7 @@ public class TurretSubMenu : CreateSubMenu
             Object.Destroy(lastButton.gameObject);
     }
 
-    void ImproveDamage(EntityBase item, Recipes requirement)
+    void ImproveDamage(EntityBase item, ItemCrafteable requirement)
     {
         if (requirement.CanCraft(character.inventory))
         {
@@ -189,9 +189,10 @@ public class TurretSubMenu : CreateSubMenu
         }
         else
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true).SetWindow("", "No tienes los recursos necesarios").AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+        
     }
 
-    bool AddAbility(int index, Recipes requirement)
+    bool AddAbility(int index, ItemCrafteable requirement)
     {
         if (requirement.CanCraft(character.inventory))
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Building : Entity
 {
     // Mover a scrreable
-    public Recipes[] upgradesRequirements;
+    public ItemCrafteable[] upgradesRequirements;
     public ResourceType[] NavBarButtons;
     public BuildingsController controller;
     public InteractEntityComponent interactComp;

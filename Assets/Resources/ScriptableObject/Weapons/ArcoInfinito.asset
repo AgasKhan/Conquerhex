@@ -18,7 +18,17 @@ MonoBehaviour:
   maxAmount: 1
   weight: 2
   visible: 1
-  recipe: {fileID: 11400000, guid: e338ba782362da94f89d5ba038ce1fb1, type: 2}
+  ingredients:
+  - Item: {fileID: 11400000, guid: b8fcf2ebf3055d6448f2e27f48406fc4, type: 2}
+    Amount: 17
+  - Item: {fileID: 11400000, guid: 4c8be1a9653095041a2472a8d81e30f5, type: 2}
+    Amount: 11
+  - Item: {fileID: 11400000, guid: 1cc8a87097780c04589ae4ac54ac62a4, type: 2}
+    Amount: 7
+  - Item: {fileID: 11400000, guid: 66ff0aa558f4bb74abf498da05a0c9fc, type: 2}
+    Amount: 8
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
   defaultKata: {fileID: 0}
   velocity: 1
   range: 5

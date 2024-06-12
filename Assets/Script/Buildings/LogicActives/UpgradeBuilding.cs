@@ -30,8 +30,5 @@ public class UpgradeBuilding : InteractAction<Building>
             interactComp.genericMenu.detailsWindow.SetImage(null);
             interactComp.genericMenu.DestroyLastButtons();
         }
-
-
-        
     }
 }

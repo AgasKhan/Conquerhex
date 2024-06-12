@@ -26,6 +26,7 @@ public class RecolectableItem : MonoBehaviour
         {
             referenceToTravel.AddItem(myItemBase,1);
             transform.gameObject.SetActive(false);
+            UI.Interfaz.instance?["Danio"].AddMsg(myItemBase.nameDisplay + " x " + 1);
         })
         .Stop().SetInitCurrent(0);
 
@@ -39,7 +40,7 @@ public class RecolectableItem : MonoBehaviour
 
         foreach (var entity in hex.childsEntities)
         {
-            if (!(entity is Character))
+            if (!(entity is Character) || entity.health.IsDeath)
                 continue;
 
             if (transform.IsInRadius(entity, entity.flyweight.areaFarming))
@@ -52,7 +53,7 @@ public class RecolectableItem : MonoBehaviour
 
     public void Recolect(InventoryEntityComponent entity)
     {
-        if (!recolect.Chck || entity.container.health.IsDeath /* && (entity.currentWeight + weight) <= entity.weightCapacity*/)
+        if (!recolect.Chck /* && (entity.currentWeight + weight) <= entity.weightCapacity*/)
             return;
 
         //Debug.Log("me quiere recoger: " + entity.name);

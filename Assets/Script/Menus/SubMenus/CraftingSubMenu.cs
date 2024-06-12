@@ -84,7 +84,7 @@ public class CraftingSubMenu : CreateSubMenu
 
     public void RefreshDetailW(ItemCrafteable item)
     {
-        ShowResultDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "Materiales necesarios: \n" + item.recipe.GetRequiresString(myCharacter.inventory), item.image);
+        ShowResultDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "Materiales necesarios: \n" + item.GetRequiresString(myCharacter.inventory), item.image);
 
         lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
         {
@@ -94,7 +94,7 @@ public class CraftingSubMenu : CreateSubMenu
 
         }, "");
 
-        lastButtonCraft.button.interactable = item.recipe.CanCraft(myCharacter.inventory);
+        lastButtonCraft.button.interactable = item.CanCraft(myCharacter.inventory);
     }
 
     void ButtonAction(ItemCrafteable item)

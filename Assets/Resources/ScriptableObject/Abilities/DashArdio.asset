@@ -20,7 +20,15 @@ MonoBehaviour:
   maxAmount: 1
   weight: 0
   visible: 1
-  recipe: {fileID: 11400000, guid: 3d0439d4e779e6d4ea11077c536ee9b1, type: 2}
+  ingredients:
+  - Item: {fileID: 11400000, guid: 1cc8a87097780c04589ae4ac54ac62a4, type: 2}
+    Amount: 12
+  - Item: {fileID: 11400000, guid: b8fcf2ebf3055d6448f2e27f48406fc4, type: 2}
+    Amount: 3
+  - Item: {fileID: 11400000, guid: 4c8be1a9653095041a2472a8d81e30f5, type: 2}
+    Amount: 20
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
   joystick: 0
   ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 0

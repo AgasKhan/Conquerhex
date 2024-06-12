@@ -12,7 +12,7 @@ public class TransmuteAction : InteractAction<(Character character, MeleeWeapon 
 
         //character.inventory.InternalRemoveItem(item);
 
-        foreach (var ingredient in (item.GetItemBase() as MeleeWeaponBase).recipe.materials)
+        foreach (var ingredient in (item.GetItemBase() as MeleeWeaponBase).ingredients)
         {
             character.inventory.AddItem(ingredient.Item, ingredient.Amount);
         }
@@ -43,7 +43,7 @@ public class TransmuteAction : InteractAction<(Character character, MeleeWeapon 
                     () => 
                     { 
                         menu.DestroyLastButtons();
-                        menu.detailsWindow.SetTexts(item.nameDisplay, item.GetDetails().ToString("\n") + (item.GetItemBase() as MeleeWeaponBase).recipe.GetIngredientsStr()).SetImage(item.image);
+                        menu.detailsWindow.SetTexts(item.nameDisplay, item.GetDetails().ToString("\n") + (item.GetItemBase() as MeleeWeaponBase).GetIngredientsStr()).SetImage(item.image);
                         menu.CreateButton("Transmute", () => { menu.detailsWindow.SetActive(true); Activate((menu.myCharacter, item)); internalSubMenu.gameObject.SetActive(false); });
 
                     }).rectTransform.sizeDelta = new Vector2(300, 150);

@@ -6,7 +6,7 @@ using System;
 public class Recipes : ItemBase
 {
     public List<Ingredient> materials;
-
+    /*
     //public Ingredient result;
 
     [Range(1,20)]
@@ -23,14 +23,6 @@ public class Recipes : ItemBase
                 Debug.Log("No posees los items necesarios para el crafteo");
                 return false;
             }
-
-            /*
-            if (container.weightCapacity < result.Item.weight)
-            {
-                Debug.Log("Espacio insuficiente para el crafteo");
-                return false;
-            }
-            */
         }
         return true;
     }
@@ -45,16 +37,8 @@ public class Recipes : ItemBase
 
         if (resultName != "")
         {
-            //result.Item.image.color = resultColor;
             container.AddItem(this, resultAmount);
         }
-
-        /*
-        foreach (var ingredient in materials)
-        {
-            Debug.Log("Despues del crafteo el jugador tiene: " + container.ItemCount(ingredient.Item.nameDisplay).ToString() + " " + ingredient.Item.nameDisplay);
-        }
-        */
     }
 
     public List<string> GetRequiresList()
@@ -135,6 +119,10 @@ public class Recipes : ItemBase
     {
         base.MyEnable();
         Manager<Recipes>.pic.Add(nameDisplay, this);
+    }*/
+    public override System.Type GetItemType()
+    {
+        return null;
     }
 }
 
