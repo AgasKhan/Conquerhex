@@ -385,8 +385,6 @@ public abstract class ItemStackeable<T> : ItemStackeable where T : ItemBase
 [System.Serializable]
 public abstract class ItemCrafteable : ItemBase
 {
-    //public Recipes recipe;
-
     public List<Ingredient> ingredients;
 
     [Range(1, 20)]
@@ -455,14 +453,14 @@ public abstract class ItemCrafteable : ItemBase
         for (int i = 0; i < ingredients.Count; i++)
         {
             var itemCount = container.ItemCount(ingredients[i].Item);
-            var subAux= ingredients[i].Item.nameDisplay + " " + (itemCount <= 0 ? 0 : itemCount) + " / " + ingredients[i].Amount + "\n";
+            var subAux = ingredients[i].Item.nameDisplay + " " + (itemCount <= 0 ? 0 : itemCount) + " / " + ingredients[i].Amount;
             
             if(itemCount >= ingredients[i].Amount)
-                subAux.RichTextColor(Color.green);
+                subAux = subAux.RichTextColor(Color.green);
             else
-                subAux.RichText("color", "#ffa500ff");
+                subAux = subAux.RichText("color", "#ffa500ff");
 
-            aux += subAux;
+            aux += subAux + "\n";
         }
 
         return aux;
@@ -513,12 +511,11 @@ public abstract class ItemCrafteable : ItemBase
         return aux;
     }
 
-    /*
     public override System.Type GetItemType()
     {
-        return null;
+        return typeof(ItemCrafteable);
     }
-    */
+    
     protected override void MyEnable()
     {
         base.MyEnable();
