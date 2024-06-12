@@ -1040,6 +1040,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7674655437596361991}
   - component: {fileID: 6749773658987503344}
+  - component: {fileID: 8852253582668569097}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: Untagged
@@ -1082,6 +1083,7 @@ MonoBehaviour:
     _shakeDuration: 0.1
   obj: {fileID: 0}
   perspective: 1
+  pointsInWorld: []
   rotationPerspective: {x: 45, y: 0, z: 0}
   vectorPerspective: {x: 0, y: 0, z: -7}
   main: {fileID: 8646954649118161720}
@@ -1125,6 +1127,14 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+--- !u!81 &8852253582668569097
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592060790990565492}
+  m_Enabled: 1
 --- !u!1 &7464602640607994675
 GameObject:
   m_ObjectHideFlags: 0
