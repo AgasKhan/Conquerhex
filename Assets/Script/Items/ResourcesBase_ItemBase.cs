@@ -9,7 +9,7 @@ public class ResourcesBase_ItemBase : ItemBase
 
     public ResourceType itemType;
 
-    protected override System.Type SetItemType()
+    public override System.Type GetItemType()
     {
         return typeof(Resources_Item);
     }

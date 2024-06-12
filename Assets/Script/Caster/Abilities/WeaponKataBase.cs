@@ -22,7 +22,7 @@ public class WeaponKataBase : AbilityBase
         return aux;
     }
 
-    protected override Type SetItemType()
+    public override Type GetItemType()
     {
         return typeof(WeaponKata);
     }

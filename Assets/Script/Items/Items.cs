@@ -18,6 +18,8 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
 
     public bool visible = true;
 
+    public abstract System.Type GetItemType();
+
     public virtual Item Create()
     {
         var aux = System.Activator.CreateInstance(_itemType) as Item;
@@ -26,32 +28,7 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
 
         return aux;
     }
-
-    protected override void MyDisable()
-    {
-        Manager<ItemBase>.pic.Remove(nameDisplay);
-    }
-
-    protected override void MyEnable()
-    {
-        _itemType = SetItemType();
-        Manager<ItemBase>.pic.Add(nameDisplay, this);
-        buttonsAcctions.Clear();
-        CreateButtonsAcctions();
-    }
-
-    protected virtual void CreateButtonsAcctions()
-    {
-        buttonsAcctions.Add("Destroy", DestroyItem);
-    }
-
-    protected virtual void DestroyItem(Character character, Item item)
-    {
-        character.inventory.InternalRemoveItem(item);
-    }
-
-    protected abstract System.Type SetItemType();
-
+    
     public int CompareTo(Item obj)
     {
         if (obj == null)
@@ -66,6 +43,29 @@ public abstract class ItemBase : ShowDetails, IComparable<ItemBase>, IComparable
             return 1;
 
         return string.Compare(nameDisplay, other.nameDisplay, StringComparison.Ordinal);
+    }
+
+    protected override void MyDisable()
+    {
+        Manager<ItemBase>.pic.Remove(nameDisplay);
+    }
+
+    protected override void MyEnable()
+    {
+        _itemType = GetItemType();
+        Manager<ItemBase>.pic.Add(nameDisplay, this);
+        buttonsAcctions.Clear();
+        CreateButtonsAcctions();
+    }
+
+    protected virtual void CreateButtonsAcctions()
+    {
+        buttonsAcctions.Add("Destroy", DestroyItem);
+    }
+
+    protected virtual void DestroyItem(Character character, Item item)
+    {
+        character.inventory.InternalRemoveItem(item);
     }
 }
 
@@ -118,6 +118,7 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
 
         container = null;
     }
+
     public virtual Pictionarys<string, string> GetDetails()
     {
         return _itemBase.GetDetails();
@@ -229,13 +230,17 @@ public abstract class ItemStackeable : Item
 
     public override Item AddAmount(int index, int amount, out int resto)
     {
-        if (index < 0)
+        if(index < 0)
         {
-            stacks.Add(amount);
+            if(amount > 0)
+            {
+                stacks.Add(0);
+            }
+
             index = stacks.Count - 1;
         }
-        else
-            stacks[index] += amount;
+
+        stacks[index] += amount;
 
         resto = 0;
 

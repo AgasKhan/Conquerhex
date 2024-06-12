@@ -13,7 +13,7 @@ public class AbilityExtCastBase : AbilityBase
     [SerializeField, Header("Accion a realizar cuando se ejecute el casteo")]
     public CastingActionBase castingAction;
 
-    protected override Type SetItemType()
+    public override Type GetItemType()
     {
         return typeof(AbilityExtCast);
     }

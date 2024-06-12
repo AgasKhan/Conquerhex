@@ -48,7 +48,7 @@ public class MeleeWeaponBase : ItemCrafteable
         return damagesList.Count <= 0;
     }
 
-    protected override System.Type SetItemType()
+    public override System.Type GetItemType()
     {
         return typeof(MeleeWeapon);
     }

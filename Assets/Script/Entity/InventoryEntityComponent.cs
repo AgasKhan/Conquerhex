@@ -4,12 +4,32 @@ using UnityEngine;
 using ComponentsAndContainers;
 public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable<Item> , ISaveObject //, IItemContainer
 {
-    public event System.Action<InventoryEntityComponent> onChangeDisponiblity;
+    #region test
 
     [SerializeField]
-    public List<Vector2Int> visualItems = new List<Vector2Int>();
-    
+    ItemBase itemBase;
+
     [SerializeField]
+    int count=1;
+
+    [ContextMenu("Add")]
+    void Test1()
+    {
+        AddItem(itemBase, count);
+    }
+
+    [ContextMenu("Remove")]
+    void Test2()
+    {
+        SubstracItems(itemBase, count);
+    }
+
+    #endregion
+
+
+    public event System.Action<InventoryEntityComponent> onChangeDisponiblity;
+    
+    
     OrderedList<Item> inventory = new OrderedList<Item>();
 
     [SerializeField]
@@ -48,124 +68,78 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     public void Clear()
     {
         inventory.Clear();
-        visualItems.Clear();
     }
 
     public int ItemCount<T>(T item) where T : System.IComparable<Item>
     {
-        if (inventory.Contains(item, out int index))
+        return ItemCount(item, out int startIndex, out int endIndex);
+    }
+
+    public int ItemCount<T>(T item, out int startIndex, out int endIndex) where T : System.IComparable<Item>
+    {
+        if (inventory.Contains(item, out startIndex, out endIndex))
         {
-            return inventory[index].GetCount();
+            if(startIndex==endIndex)
+                return inventory[startIndex].GetCount();
+            else
+            {
+                int count = 0;
+                for (int i = startIndex; i <= endIndex; i++)
+                {
+                    count += inventory[i].GetCount();
+                }
+                return count;
+            }
+                
         }  
         else
             return -1;
     }
 
-    public int ItemCount(string item)
+    public void SubstracItems(ItemBase itemToCompare, int count)
     {
-        for (int i = 0; i < inventory.Count; i++)
-        {
-            if (inventory[i].nameDisplay == item)
-                return inventory[i].GetCount();
-        }
-        return -1;
-    }
+        int countInInventory = ItemCount(itemToCompare, out int startIndex, out int endIndex);
 
-    /// <summary>
-    /// Transfiere un Item desde otro inventario a este inventario <br/>
-    /// Si la transferencia fue exitosa devuelve true, sino false
-    /// </summary>
-    /// <param name="item"></param>
-    /*
-    public bool TransferItem(Item item, InventoryEntityComponent destinyInventory)
-    {
-        if (HasCapacity(item))
+        if (countInInventory < count)
         {
-            item.ChangeContainer(this);
-            return true;
+            Debug.Log("Item invalido para ser removido");
+            return;
         }
 
-        return false;
-    }
-    */
-    /// <summary>
-    /// Quita una cantidad determinada de items stackeables
-    /// </summary>
-    /// <param name="item"></param>
-    /// <param name="count"></param> Debe ser negativo, si se pasa un positivo se transformará
-    public void SubstractStackItems(string itemStr, int count)
-    {
-        int orderIndex =-1;
-        Item item = null;
+        CurrentWeight -= itemToCompare.weight * count;
 
-        for (int i = 0; i < inventory.Count; i++)
+        if (typeof(ItemStackeable).IsAssignableFrom(itemBase.GetItemType()))//Version de items stackeables
         {
-            if (inventory[i].nameDisplay == itemStr)
+            if (count > 0)
+                count = -count;
+
+            Item item = inventory[startIndex];
+
+            int resto = count;
+
+            while (resto < 0 && item.GetStackCount()!=0)
             {
-                orderIndex = i;
-                item = inventory[i];
+                item.AddAmount(-1, resto, out resto);
             }
-                
+
+            if (item.GetStackCount() == 0)
+                inventory.Remove(item);
         }
-
-        var aux = orderIndex >= 0;
-
-        if (!aux || item.GetCount() < count)
+        else //Version de items no stackeables
         {
-            Debug.Log("Item invalido para ser removido");
-            return;
-        }
+            if (count < 0)
+                count = -count;
 
-        if (count > 0)
-            count = -count;
+            Item[] items = new Item[endIndex - startIndex];
 
-        int stackIndex = item.GetStackCount() - 1;
-        int resto = count;
+            inventory.CopyTo(0,items, startIndex, items.Length);
 
-        while (resto < 0)
-        {
-            item.AddAmount(stackIndex, count, out resto);
-            CurrentWeight += item.GetItemBase().weight * (count - resto);
-
-            if (stackIndex == item.GetStackCount())
-                RemoveVisualItem(orderIndex, stackIndex);
-
-            stackIndex--;
-        }
-
-        if (item.GetStackCount() == 0)
-            inventory.Remove(item);
-    }
-
-    public void Substracttems(ItemStackeable item, int count)
-    {
-        var aux = inventory.Contains(item, out int orderIndex);
-
-        if (!aux || item.GetCount() < count)
-        {
-            Debug.Log("Item invalido para ser removido");
-            return;
-        }
-
-        if (count > 0)
-            count = -count;
-
-        int stackIndex = item.GetStackCount() - 1;
-        int resto = count;
-
-        while (resto < 0)
-        {
-            item.AddAmount(stackIndex, count, out resto);
-            CurrentWeight += item.GetItemBase().weight * (count - resto);
-
-            if (stackIndex == item.GetStackCount())
-                RemoveVisualItem(orderIndex, stackIndex);
-
-            stackIndex--;
-        }
-
-        if (item.GetStackCount() == 0)
-            inventory.Remove(item);
+            for (int i = 0; i < items.Length && count>0; i++)
+            {
+                inventory.Remove(items[i]);
+                count--;
+            }
+        }        
     }
 
     public virtual void AddAllItems(InventoryEntityComponent entity)
@@ -189,7 +163,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     /// <param name="count"></param>
     public void AddItem(ItemBase itemBase, int count)
     {
-        if (!HasCapacity(count,itemBase))
+        if (!HasCapacity(count,itemBase) || count<=0)
             return;
 
         //Debug.Log("ADD\nSE AGREGO EL ITEM: " + itemBase.nameDisplay + "\nCANTIDAD: " + count);
@@ -198,46 +172,36 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
         Item item;
 
-        var aux = inventory.BinarySearch(itemBase);
-
-        if(aux < 0)
+        if (typeof(ItemStackeable).IsAssignableFrom(itemBase.GetItemType()))
         {
-           item = itemBase.Create();
-           aux = item.Init(this);
-        }
-        else
-        {
-            item = inventory[aux];
-        }
+            //obtengo el indice del stack a agregar
+            var aux = inventory.BinarySearch(itemBase);
 
-        //obtengo el indice del stack a agregar
-        int indexStack = item.GetStackCount();
+            if (aux < 0)
+            {
+                //para el primero creado
+                item = itemBase.Create();
+                item.Init(this);
+            }
+            else
+            {
+                item = inventory[aux];
+            }
 
-        if (itemBase.maxAmount > 1)
-        {
             //voy creando los stacks necesarios
-            while(count > 0)
+            while (count > 0)
             {
                 item.AddAmount(-1, count, out count);
-                AddVisualItem(aux, indexStack);
-                indexStack++;
             }
         }            
         else
         {
-            //para el primero creado
-            count--;
-
-            AddVisualItem(aux, 0);
-
             //Si necesito crear mas
             while (count > 0)
             {
                 //por cada creado le resto uno a la cantidad faltante
                 count--;
-
-                var orderedIndex = itemBase.Create().Init(this);
-                AddVisualItem(orderedIndex, 0);
+                itemBase.Create().Init(this);
             }
         }
     }
@@ -253,9 +217,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
         CurrentWeight += item.GetItemBase().weight * item.GetCount();
 
-        int index;
-
-        if (item is ItemStackeable && inventory.Contains(item, out index))
+        if (item is ItemStackeable && inventory.Contains(item, out int index))
         {
             int indexStack = inventory[index].GetStackCount()-1;
 
@@ -265,8 +227,6 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
                 inventory[index].AddAmount(-1, actual, out int resto);
             }
-
-            AddVisualCompleteItem(item, index, indexStack);
 
             item.Destroy();
         }
@@ -283,43 +243,21 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
     /// <param name="item"></param>
     public int InternalAddItem(Item item)
     {
-        //Debug.Log("INTERNAL ADD\nSE AGREGO EL ITEM: " + item.nameDisplay + "\nCANTIDAD: " + item.GetCount() +"\nDESTINATARIO: "+container.transform.gameObject.name);
-        if (!(item is Resources_Item))
+        if(!(item is ItemStackeable) || !inventory.Contains(item, out int indx))
         {
-            var orderedIndex = inventory.Add(item);
-            if (item.visible)
-                AddVisualItem(orderedIndex, 0);
-            else
-            {
-                RefreshVisualList(orderedIndex, +1);
-            }
-            
+            int orderedIndex = inventory.Add(item);
 
             return orderedIndex;
         }
-
-        if (inventory.Contains(item, out int indx))
+        else
         {
             for (int i = 0; i < item.GetStackCount(); i++)
             {
                 item.GetAmounts(i, out int actual);
                 inventory[indx].AddAmount(-1, actual, out int rst);
-
-                AddVisualItem(indx, inventory[indx].GetStackCount() - 1);
             }
 
             return indx;
-        }
-        else
-        {
-            int orderedIndex = inventory.Add(item);
-
-            for (int i = 0; i < item.GetStackCount(); i++)
-            {
-                AddVisualItem(orderedIndex, i);
-            }
-
-            return orderedIndex;
         }
     }
 
@@ -338,99 +276,12 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
             return -1;
         }
 
-        if (!item.visible)
-        {
-            return indexOrder;
-        }
-
-        int aux = visualItems.Count - 1;
-        for (; aux >= 0; aux--)
-        {
-            if (visualItems[aux].x == indexOrder)
-            {
-                visualItems.RemoveAt(aux);
-                if (!(item is Resources_Item))
-                    break;
-            }
-        }
-
-        RefreshVisualList(indexOrder,-1);
         return indexOrder;
     }
 
     #endregion
 
-    #region VisualItems
 
-    /// <summary>
-    /// Funcion dedicada a actualizar el indice de la representacion de las casillas
-    /// </summary>
-    /// <param name="orderIndex"></param>
-    /// <param name="operation"></param>
-    void RefreshVisualList(int orderIndex, int operation)
-    {
-        for (int i = 0; i < visualItems.Count - 1; i++)
-        {
-            if (visualItems[i].x > orderIndex)
-                visualItems[i] = new Vector2Int(visualItems[i].x + operation, visualItems[i].y);
-        }
-    }
-
-    /// <summary>
-    /// Funcion para agregar todas las representaciones en casillas de un item y su contenido
-    /// </summary>
-    /// <param name="item"></param>
-    /// <param name="index"></param>
-    /// <param name="indexStack"></param>
-    void AddVisualCompleteItem(Item item, int index, int indexStack)
-    {
-        if(item is ItemStackeable)
-        {
-            for (int i = indexStack; i < item.GetStackCount(); i++)
-            {
-                AddVisualItem(index, i);
-            }
-        }
-        else
-        {
-            AddVisualItem(index, -1);
-        }
-    }
-
-    /// <summary>
-    /// Funcion para agregar una representacion en la casilla
-    /// </summary>
-    /// <param name="orderedIndex"></param>
-    /// <param name="indexStack"></param>
-    /// <param name="indexBox"></param> Indice de la casilla donde es almacenado el item
-    void AddVisualItem(int orderedIndex, int indexStack, int indexBox = 0)
-    {
-        visualItems.Add(new Vector2Int(orderedIndex, indexStack));
-    }
-
-    /// <summary>
-    /// Funcion para remover una representacion en la casilla
-    /// </summary>
-    /// <param name="indexOrderList"></param>
-    /// <param name="index"></param>
-    /// <param name="indexStack"></param>
-    void RemoveVisualItem(int indexOrderList, int indexStack)
-    {
-        visualItems.RemoveAt(SearchVisualItem(indexOrderList, indexStack));
-    }
-
-    int SearchVisualItem(int indexOrderList, int indexStack)
-    {
-        for (int i = 0; i < visualItems.Count; i++)
-        {
-            if (visualItems[i].x == indexOrderList && visualItems[i].y == indexStack)
-                return i;
-        }
-
-        return -1;
-    }
-
-    #endregion
 
     #region chequeo de capacidad
 

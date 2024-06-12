@@ -22,7 +22,7 @@ public class EntityBase : ItemBase
         return default(T);
     }
 
-    protected override System.Type SetItemType()
+    public override System.Type GetItemType()
     {
         return typeof(EntityDiagram);
     }
