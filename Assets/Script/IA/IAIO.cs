@@ -27,8 +27,6 @@ public class IAIO : IAFather
 
     SingleEvent<Character> characterEvent;
 
-    public static Color colorSameTp;
-
     #region controles numericos
 
     void AlphaController(Controllers.Axis axis, EventControllerMediator eventControllerMediator, System.Action down)
@@ -290,10 +288,6 @@ public class IAIO : IAFather
 
     private void TeleportEvent(Hexagone obj, int lado)
     {
-
-        obj.effect.color = colorSameTp;
-
-
         HexagonsManager.SetRenders(obj, HexagonsManager.LadoOpuesto(lado), obj.AristaMasCercana(character.transform));
 
 
@@ -403,8 +397,6 @@ public class IAIO : IAFather
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
 
         energyEvent = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
-
-        colorSameTp = Color.green;
     }
 
     private void Start()

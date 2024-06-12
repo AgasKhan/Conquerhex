@@ -70,11 +70,6 @@ namespace Controllers
             eventPress -= controllerDir.ControllerPressed;
         }
 
-        private void OnEnable()
-        {
-            VirtualControllers.keys.Add(this);
-        }
-
         public override void MyAwake()
         {
             enable = true;

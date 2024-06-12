@@ -16,7 +16,7 @@ namespace Controllers
         [SerializeField]
         Axis movementDetect;
 
-        public override void MyUpdate()
+        public override void Update()
         {
             //UpdateAxis();
             if (mouseOrMovement)

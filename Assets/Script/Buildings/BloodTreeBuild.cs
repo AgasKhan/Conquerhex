@@ -70,12 +70,7 @@ public class BloodTreeBuild : CraftingBuild
         UI.Interfaz.instance["Titulo"].ShowMsg("Encerrado".RichTextColor(Color.red));
         encerradoTp.CopyTo(hexagoneParent.ladosArray, 0);
 
-        hexagoneParent.effect.color = Color.red;
-
-        IAIO.colorSameTp = Color.red;
-
         GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);
-
 
         encerrado = true;
     }
@@ -83,10 +78,6 @@ public class BloodTreeBuild : CraftingBuild
     [ContextMenu("Liberar")]
     public void Liberar()
     {
-        IAIO.colorSameTp = Color.green;
-
-        hexagoneParent.effect.color = Color.green;
-
         originalTp.CopyTo(hexagoneParent.ladosArray, 0);
 
         GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);

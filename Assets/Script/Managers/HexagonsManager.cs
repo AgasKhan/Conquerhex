@@ -15,7 +15,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static float[,] localRadio => instance._localRadio;
 
-    public static Hexagone hexagono => instance._hexagono;
+    public static Hexagone hexagonoPrefab => instance._hexagonoPrefab;
 
     public static int[][,] hexagonos => instance._hexagonos;
 
@@ -28,31 +28,44 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     public static float radio => lado;
     public static int idMaxLevel=> instance._idMaxLevel;
 
-    public Vector2 anguloDefecto;
+    public static Color ColorEncerrado => instance?._colorEncerrado ?? Color.white;
 
+
+    public static Color ColorSame = instance?._colorDefault ?? Color.white;
+
+
+    public static Color ColorDefault = instance?._colorDefault ?? Color.white;
+
+
+    [Tooltip("En caso de asignarse un jugador, se mostrara el hexagono de forma automatica")]
     public bool automaticRender = true;
 
     public int objectsPerChunk = 50;
+
+    [HideInInspector]
+    public Vector2 anguloDefecto;
 
     [SerializeField]
     EventManager eventManager;
 
     [SerializeReference]
-    Hexagone _hexagono;
+    Hexagone _hexagonoPrefab;
 
-    [Tooltip("En caso de ser menor que 0, se designara de forma automatica en base al prefab del hexagono cargado"),SerializeReference]
+    [SerializeReference]
+    Color _colorEncerrado = Color.red;
+
+    [SerializeReference]
+    Color _colorSame = new Color() { r = 0, g = 1, b = 0.5f, a=1 };
+
+    [SerializeReference]
+    Color _colorDefault = Color.cyan;
+
+
+    [SerializeReference,Tooltip("En caso de ser menor que 0, se designara de forma automatica en base al prefab del hexagono cargado")]
     float scale;
-
-    
 
     [SerializeReference]
     int _idMaxLevel;
-
-    float[,] _localApotema;
-
-    float[,] _localRadio;
-
-    int[][,] _hexagonos;
 
     [SerializeReference]
     Hexagone[] _arrHexCreados;
@@ -61,6 +74,14 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     Pictionarys<int, Hexagone> _activeHex = new Pictionarys<int, Hexagone>();
 
     Pictionarys<Hexagone, bool> _queueOnOff = new Pictionarys<Hexagone, bool>();
+
+    float[,] _localApotema;
+
+    float[,] _localRadio;
+
+    int[][,] _hexagonos;
+
+    Hexagone previusViewActive;
 
     static Internal.Pictionary<Hexagone, bool> hexQueueOnOff;
 
@@ -84,7 +105,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     }
 
     /// <summary>
-    /// setea los renders en base a este hexagono
+    /// setea los visuales en base a este hexagono
     /// </summary>
     /// <param name="lado"></param>
     public static void SetRenders(Hexagone hex, int lado = -1, int arista = -1)
@@ -98,6 +119,33 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 MainCamera.instance.transform.position.y,
                 hex.ladosPuntos[LadoOpuesto(lado), 1] - (hex.ladosPuntos[lado, 1] - MainCamera.instance.transform.position.z));    
         }
+
+
+        //Colors view
+        {
+
+            if(instance?.previusViewActive!=null)
+                instance.previusViewActive.effect.color = ColorDefault;
+
+            bool allSame = true;
+
+            for (int i = 0; i < hex.ladosArray.Length; i++)
+            {
+                if (hex.ladosArray[i] != hex)
+                {
+                    allSame = false;
+                    break;
+                }
+            }
+
+            if (allSame)
+                hex.effect.color = ColorEncerrado;
+            else
+                hex.effect.color = ColorSame;
+
+        }
+        
+
 
         int index = lado == arista ? lado + 1 : lado - 1;
 
@@ -140,26 +188,6 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         activeHex.SetPic(indexActive, aux);
 
-        //hex.ladosArray[index].SetActiveGameObject(true);
-
-        //Debug.Log($"Tu lado a cargar es: {index} - {lado} {arista}" );
-
-        /*
-
-        for (int i = 0; i < hex.ladosArray.Length; i++)
-        {
-            if (index > 5)
-                index = 0;
-
-            hex.ladosArray[index].SetActiveGameObject(true);
-
-            index++;
-
-            if (GameManager.HightFrameRate)
-                yield return null;
-        }
-        */
-
         for (int i = activeHex.Count - 1; i >= 0; i--)
         {
 
@@ -201,6 +229,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             queueOnOffFlag = true;
             instance.StartCoroutine(QueueOnOffRoutine());
         }
+
+        instance.previusViewActive = hex;
     }
 
     static IEnumerable<Internal.Pictionary<Hexagone, bool>> IntercalateByBools(Pictionarys<Hexagone, bool> objects)
@@ -571,7 +601,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     {
         base.Awake();
         if(scale <= 0)
-            scale = hexagono.transform.localScale.x;
+            scale = hexagonoPrefab.transform.localScale.x;
 
         lado = scala / 2; //+ correccionScala;
 

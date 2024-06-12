@@ -11,6 +11,8 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     static public HashSet<FatherKey> keys = new HashSet<FatherKey>();
 
+    static public HashSet<TriggerDetection> triggers = new HashSet<TriggerDetection>();
+
     static public Axis Movement { get => instance._movement; }
     static public Axis Principal { get => instance._principal; }
     static public Axis Secondary { get => instance._secondary; }
@@ -49,6 +51,8 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
     [SerializeField]
     Axis _alpha4;
 
+    TriggerDetection[] triggersArray;
+
     #endregion
 
     static public bool eneable
@@ -64,20 +68,18 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
         }
     }
 
-
-
     bool _eneable;
-
 
     #region unity functions
 
-    public void MyAwake()
+    public void MyUpdate()
     {
-        //_eneable = true;
+        if (!eneable)
+            return;
 
-        foreach (var item in keys)
+        foreach (var item in triggersArray)
         {
-            item.MyAwake();
+            item.Update();
         }
     }
 
@@ -89,6 +91,20 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
         }
     }
 
+    public void MyAwake()
+    {
+        //_eneable = true;
+
+        foreach (var item in keys)
+        {
+            item.MyAwake();
+        }
+
+        if (triggersArray == null || triggersArray.Length < triggers.Count)
+            triggersArray = new TriggerDetection[triggers.Count];
+
+        triggers.CopyTo(triggersArray, 0);
+    }
     #endregion
 }
 
@@ -106,9 +122,29 @@ namespace Controllers
 
         public bool enable = true;
 
+        protected override void MyEnable()
+        {
+            VirtualControllers.keys.Add(this);
+        }
+
         public abstract void Destroy();
 
         public abstract void MyAwake();
+    }
+
+    public abstract class TriggerDetection : ScriptableObject
+    {
+
+        [SerializeField, Tooltip("En caso de estar activo, se agregara a la lista de los triggers a detectar, en caso que no, no se ejecutara de forma automatica")]
+        bool active = true;
+
+        private void OnEnable()
+        {
+            if(active)
+                VirtualControllers.triggers.Add(this);
+        }
+
+        public abstract void Update();
     }
     #endregion
 }

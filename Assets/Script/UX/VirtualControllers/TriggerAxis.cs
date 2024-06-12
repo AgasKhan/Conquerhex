@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Controllers
 {
     [CreateAssetMenu(menuName = "Controllers/TriggerAxis")]
-    public class TriggerAxis : ScriptableObject
+    public class TriggerAxis : TriggerDetection
     {
         [SerializeField]
         protected Axis axis;
@@ -45,7 +45,7 @@ namespace Controllers
 
 
         // Update is called once per frame
-        public virtual void MyUpdate()
+        public override void Update()
         {
             if (vecPressed.sqrMagnitude > 0 && !press)
             {

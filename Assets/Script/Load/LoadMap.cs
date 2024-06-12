@@ -26,7 +26,7 @@ public class LoadMap : SingletonMono<LoadMap>
 
     Hexagone[] arrHexCreados => HexagonsManager.arrHexCreados;
 
-    Hexagone hexagono => HexagonsManager.hexagono;
+    Hexagone hexagono => HexagonsManager.hexagonoPrefab;
 
     int[][,] hexagonos => HexagonsManager.hexagonos;
 

@@ -130,7 +130,7 @@ public class Hexagone : MonoBehaviour
 
             newParent.SetActiveGameObject(gameObject.activeSelf);
 
-            tr.SetParent(newParent);
+            tr.SetParent(newParent,true);
 
             chunks.Enqueue(new WeightTransform() { transform = newParent });
 
@@ -150,7 +150,7 @@ public class Hexagone : MonoBehaviour
         {
             if(item.transform == tr.parent)
             {
-                tr.SetParent(null);
+                tr.SetParent(null, true);
                 chunks.UpdateElement(item);
                 break;
             }
@@ -491,7 +491,10 @@ public class Hexagone : MonoBehaviour
             component.transform.position = HexagonsManager.AbsSidePosHex(ladosArray[i].transform.position, HexagonsManager.LadoOpuesto(i), component.transform.position.y, 2) + (original.position - transform.position).Vect3Copy_Y(0);
 
             if (setParent)
-                component.transform.SetParent(ladosArray[i].transform, true);
+            {
+                EnterChunk(component.transform);
+                //component.transform.SetParent(ladosArray[i].transform, true);
+            }
 
             i++;
         }
