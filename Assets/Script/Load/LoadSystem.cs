@@ -5,15 +5,19 @@ using UnityEngine.SceneManagement;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System;
 
 [CreateAssetMenu(menuName = "BaseData/LoadSystem", fileName = "LoadSystem")]
 public class LoadSystem : SingletonScript <LoadSystem>
 {
-    static List<WaitForCorutinesForLoad.MyCoroutine> preLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
-    static List<WaitForCorutinesForLoad.MyCoroutine> postLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
+    //static List<WaitForCorutinesForLoad.MyCoroutine> preLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
+    //static List<WaitForCorutinesForLoad.MyCoroutine> postLoad = new List<WaitForCorutinesForLoad.MyCoroutine>();
 
-    static List<System.Action> preLoadEvent = new List<System.Action>();
-    static List<System.Action> postLoadEvent = new List<System.Action>();
+    static PriorityQueueWithDick<WaitForCorutinesForLoad.MyCoroutine> preLoad = new PriorityQueueWithDick<WaitForCorutinesForLoad.MyCoroutine>();
+    static PriorityQueueWithDick<WaitForCorutinesForLoad.MyCoroutine> postLoad = new PriorityQueueWithDick<WaitForCorutinesForLoad.MyCoroutine>();
+
+    static PriorityQueueWithDick<System.Action> preLoadEvent = new PriorityQueueWithDick<System.Action>();
+    static PriorityQueueWithDick<System.Action> postLoadEvent = new PriorityQueueWithDick<System.Action>();
 
     public event System.Action onStartLoad;
 
@@ -33,38 +37,38 @@ public class LoadSystem : SingletonScript <LoadSystem>
 
     //delegado especifico
 
-    public static void AddPreLoadCorutine(WaitForCorutinesForLoad.MyCoroutine myCoroutine, int insert=-1)
+    public static void AddPreLoadCorutine(WaitForCorutinesForLoad.MyCoroutine myCoroutine, int priority = 0)
     {
-        preLoad.AddOrInsert(myCoroutine, insert);
+        preLoad.Enqueue(myCoroutine, priority);
     }
 
-    public static void AddPostLoadCorutine(WaitForCorutinesForLoad.MyCoroutine myCoroutine, int insert = -1)
+    public static void AddPostLoadCorutine(WaitForCorutinesForLoad.MyCoroutine myCoroutine, int priority = 0)
     {
-        postLoad.AddOrInsert(myCoroutine, insert);
+        postLoad.Enqueue(myCoroutine, priority);
     }
 
    
     //delegado adaptado
-    public static void AddPreLoadCorutine(System.Action myCoroutine, int insert = -1)
+    public static void AddPreLoadCorutine(System.Action myCoroutine, int priority = 0)
     {
-        preLoadEvent.AddOrInsert(myCoroutine, insert);
+        preLoadEvent.Enqueue(myCoroutine, priority);
     }
 
-    public static void AddPostLoadCorutine(System.Action myCoroutine, int insert = -1)
+    public static void AddPostLoadCorutine(System.Action myCoroutine, int priority = 0)
     {
-        postLoadEvent.AddOrInsert(myCoroutine, insert);
+        postLoadEvent.Enqueue(myCoroutine, priority);
     }
 
-    public static Object[] LoadAssets(string path)
+    public static UnityEngine.Object[] LoadAssets(string path)
     {
-        Object[] aux = Resources.LoadAll(path);
+        UnityEngine.Object[] aux = Resources.LoadAll(path);
 
         //Debug.Log("Cantidad de assets cargados: " + aux.Length.ToString());
 
         return aux;
     }
 
-    public static T[] LoadAssets<T>(string path) where T : Object
+    public static T[] LoadAssets<T>(string path) where T : UnityEngine.Object
     {
         T[] aux = Resources.LoadAll<T>(path);
 
@@ -86,7 +90,7 @@ public class LoadSystem : SingletonScript <LoadSystem>
 
     public IEnumerator EnterCoroutine()
     {
-        onFeedbackLoad?.Invoke(-1, "loading script scene");
+        onFeedbackLoad?.Invoke(-1, "Loading script scene");
 
         onStartLoad?.Invoke();
 
@@ -95,17 +99,22 @@ public class LoadSystem : SingletonScript <LoadSystem>
         //espera un frame a que se carguen todos los postload
         yield return null;
 
+        while(postLoad.Count>0)
+        {
+            yield return new WaitForCorutinesForLoad(GameManager.instance, postLoad.Dequeue(), (s) => onFeedbackLoad?.Invoke((postLoad.Count * (1f / 6) + (2f / 3)) * 100, s));
+        }
+        /*
         for (int i = 0; i < postLoad.Count; i++)
         {
-            yield return new WaitForCorutinesForLoad(GameManager.instance, postLoad[i], (s) => onFeedbackLoad?.Invoke((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
+            yield return new WaitForCorutinesForLoad(GameManager.instance, postLoad.Dequeue(), (s) => onFeedbackLoad?.Invoke((((i + 1f) / (postLoad.Count)) * (1f / 6) + (2f / 3)) * 100, s));
         }
-
+        */
         yield return null;
 
-        for (int i = 0; i < postLoadEvent.Count; i++)
+        while(postLoadEvent.Count > 0)
         {
-            postLoadEvent[i]();
-            onFeedbackLoad?.Invoke((((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6) * 100, $"Load scripts: {i}/{postLoadEvent.Count}");
+            onFeedbackLoad?.Invoke((postLoadEvent.Count * (1f / 6) + 5f / 6) * 100, $"Loading scripts, remaining: {postLoadEvent.Count}");
+            postLoadEvent.Dequeue().Invoke();
 
             if (GameManager.VerySlowFrameRate)
             {
@@ -113,8 +122,20 @@ public class LoadSystem : SingletonScript <LoadSystem>
                 //stopwatch.Restart();
             }
         }
+        /*
+        for (int i = 0; i < postLoadEvent.Count; i++)
+        {
+            onFeedbackLoad?.Invoke((((i + 1f) / (postLoadEvent.Count)) * (1f / 6) + 5f / 6) * 100, $"Load scripts: {i}/{postLoadEvent.Count}");
+            postLoadEvent.Dequeue();
 
-        onFeedbackLoad?.Invoke(100, "<size=50>Carga finalizada</size>");
+            if (GameManager.VerySlowFrameRate)
+            {
+                yield return null;
+                //stopwatch.Restart();
+            }
+        }
+        */
+        onFeedbackLoad?.Invoke(0, "<size=50>Carga finalizada</size>");
 
         //stopwatch.Stop();
 
@@ -149,20 +170,26 @@ public class LoadSystem : SingletonScript <LoadSystem>
         //stopwatch.Start();
 
         //loadscene = true;
+
+        while(preLoad.Count>0)
+        {
+            yield return new WaitForCorutinesForLoad(GameManager.instance, preLoad.Dequeue(), null);
+        }
+        /*
         for (int i = 0; i < preLoad.Count; i++)
         {
-            yield return new WaitForCorutinesForLoad(GameManager.instance, preLoad[i], (s) => onFeedbackLoad?.Invoke((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
+            yield return new WaitForCorutinesForLoad(GameManager.instance, preLoad.Dequeue(), (s) => onFeedbackLoad?.Invoke((((i + 1f) / (preLoad.Count)) * (1f / 6) + 0) * 100, s));
             //stopwatch.Restart();
         }
-
+        */
         onFeedbackLoad?.Invoke(-1,"Close action scripts");
 
         yield return null;
 
-        for (int i = 0; i < preLoadEvent.Count; i++)
+        while(preLoadEvent.Count > 0)
         {
-            preLoadEvent[i]();
-            onFeedbackLoad?.Invoke((((i + 1f) / (preLoadEvent.Count)) * (1f / 6) + (1f / 6)) * 100, string.Empty);
+            preLoadEvent.Dequeue().Invoke();
+            onFeedbackLoad?.Invoke((preLoadEvent.Count * (1f / 6) + (1f / 6)) * 100, string.Empty);
             if (GameManager.VerySlowFrameRate)
             {
                 yield return null;
@@ -170,13 +197,26 @@ public class LoadSystem : SingletonScript <LoadSystem>
             }
         }
 
+        /*
+        for (int i = 0; i < preLoadEvent.Count; i++)
+        {
+            preLoadEvent.Dequeue();
+            onFeedbackLoad?.Invoke((((i + 1f) / (preLoadEvent.Count)) * (1f / 6) + (1f / 6)) * 100, string.Empty);
+            if (GameManager.VerySlowFrameRate)
+            {
+                yield return null;
+                //stopwatch.Restart();
+            }
+        }
+        */
+
         onFeedbackLoad?.Invoke(-1,"Start scene load");
 
-        preLoad.Clear();
-        preLoadEvent.Clear();
+        //preLoad.Clear();
+        //preLoadEvent.Clear();
 
-        postLoad.Clear();
-        postLoadEvent.Clear();
+        //postLoad.Clear();
+        //postLoadEvent.Clear();
 
         yield return null;
 

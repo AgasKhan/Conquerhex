@@ -359,7 +359,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
             {
                 Teleport(hexagone, 0);
             }
-        });
+        },100);
     }
 
     public string Save()

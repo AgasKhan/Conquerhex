@@ -12,6 +12,7 @@ public class BloodTreeBuild : CraftingBuild
     Pictionarys<ItemCrafteable, int> gachaRewardsInt = new Pictionarys<ItemCrafteable, int>();
     List<ItemCrafteable> recipes = new List<ItemCrafteable>();
 
+    [SerializeField]
     Character[] minions;
 
     [SerializeField]
@@ -36,7 +37,7 @@ public class BloodTreeBuild : CraftingBuild
         health.noLife += Health_noLife;
         health.death += Health_noLife;
 
-        LoadSystem.AddPostLoadCorutine(PostAwake);
+        LoadSystem.AddPostLoadCorutine(PostAwake,1000);
     }
 
     void PostAwake()
