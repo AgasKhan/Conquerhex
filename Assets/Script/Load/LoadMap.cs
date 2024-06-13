@@ -38,7 +38,7 @@ public class LoadMap : SingletonMono<LoadMap>
     {
         base.Awake();
         if(execute)
-            LoadSystem.AddPostLoadCorutine(CargaHexagonos);
+            LoadSystem.AddPostLoadCorutine(CargaHexagonos,5);
     }
 
     public Vector3 CalculateHexagonoPos(int index)

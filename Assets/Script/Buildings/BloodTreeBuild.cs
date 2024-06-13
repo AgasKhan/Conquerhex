@@ -37,7 +37,7 @@ public class BloodTreeBuild : CraftingBuild
         health.noLife += Health_noLife;
         health.death += Health_noLife;
 
-        LoadSystem.AddPostLoadCorutine(PostAwake,1000);
+        LoadSystem.AddPostLoadCorutine(PostAwake, 1000);
     }
 
     void PostAwake()
@@ -47,7 +47,7 @@ public class BloodTreeBuild : CraftingBuild
             encerradoTp[i] = hexagoneParent;
         }
 
-        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>().Where((m)=>m.team!=Team.player).ToArray();
+        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>().Where((m) => m.team != Team.player).ToArray();
 
         for (int i = 0; i < minions.Length; i++)
         {

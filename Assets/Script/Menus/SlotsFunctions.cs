@@ -6,7 +6,7 @@ public class SlotsFunctions : MonoBehaviour
 {
     private void Awake()
     {
-        LoadSystem.AddPostLoadCorutine(LoadSlots);
+        //LoadSystem.AddPostLoadCorutine(LoadSlots);
     }
 
 
