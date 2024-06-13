@@ -31,10 +31,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     public static Color ColorEncerrado => instance?._colorEncerrado ?? Color.white;
 
 
-    public static Color ColorSame = instance?._colorDefault ?? Color.white;
+    public static Color ColorSame => instance?._colorSame ?? Color.white;
 
 
-    public static Color ColorDefault = instance?._colorDefault ?? Color.white;
+    public static Color ColorDefault => instance?._colorDefault ?? Color.white;
 
 
     [Tooltip("En caso de asignarse un jugador, se mostrara el hexagono de forma automatica")]
