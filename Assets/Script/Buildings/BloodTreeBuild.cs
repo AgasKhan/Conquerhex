@@ -47,14 +47,14 @@ public class BloodTreeBuild : CraftingBuild
             encerradoTp[i] = hexagoneParent;
         }
 
-        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>().Where((m) => m.team != Team.player).ToArray();
+        hexagoneParent.ladosArray.CopyTo(originalTp, 0);
+
+        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>(true).Where((m) => m.team != Team.player).ToArray();
 
         for (int i = 0; i < minions.Length; i++)
         {
             ((IAFather)minions[i].CurrentState).detect += Encerrar;
         }
-
-        hexagoneParent.ladosArray.CopyTo(originalTp, 0);
     }
 
     [ContextMenu("Encerrar")]
