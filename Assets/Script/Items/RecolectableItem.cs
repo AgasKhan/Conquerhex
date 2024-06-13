@@ -26,7 +26,7 @@ public class RecolectableItem : MonoBehaviour
         {
             referenceToTravel.AddItem(myItemBase,1);
             transform.gameObject.SetActive(false);
-            UI.Interfaz.instance?["Danio"].AddMsg(myItemBase.nameDisplay + " x " + 1);
+            UI.Interfaz.instance?["Danio"].AddMsg((myItemBase.nameDisplay + " x " + 1).RichTextColor(SetColorTxt(((ResourcesBase_ItemBase)myItemBase).rarity)));
         })
         .Stop().SetInitCurrent(0);
 
@@ -69,6 +69,21 @@ public class RecolectableItem : MonoBehaviour
         {
             recolect.Stop().SetInitCurrent(0);
             referenceToTravel.onChangeDisponiblity -= ChangeDisponiblity;
+        }
+    }
+
+    Color SetColorTxt(GachaRarity rarity)
+    {
+        switch(rarity)
+        {
+            case GachaRarity.C:
+                return Color.white;
+            case GachaRarity.B:
+                return Color.green;
+            case GachaRarity.A:
+                return Color.yellow;
+            default:
+                return Color.gray;
         }
     }
 
