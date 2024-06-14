@@ -10,6 +10,8 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     public Character character => _character;
 
+    public CasterEntityComponent caster => _character.caster;
+
     public event System.Action detect;
 
     public void Detect()

@@ -27,6 +27,64 @@ public class IAIO : IAFather
 
     SingleEvent<Character> characterEvent;
 
+    System.Action<(Ability, ItemBase)>[] equipedEvents = new System.Action<(Ability, ItemBase)>[12];
+
+    System.Action<int, MeleeWeapon> meleeWeaponUIMediator;
+    System.Action<int, WeaponKata>[] kataUIMediator = new System.Action<int, WeaponKata>[4];
+    System.Action<int, AbilityExtCast>[] abilityExtUIMediator = new System.Action<int, AbilityExtCast>[6];
+
+
+    void TriggerUI()
+    {
+        equipedEvents[0].Invoke((caster.weapons[0].equiped?.defaultKata, caster.weapons[0].equiped?.itemBase));
+        equipedEvents[1].Invoke((caster.abilities[0].equiped, caster.abilities[0].equiped?.itemBase));
+        equipedEvents[2].Invoke((caster.abilities[1].equiped, caster.abilities[1].equiped?.itemBase));
+
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
+        {
+            equipedEvents[i + 3].Invoke((caster.katasCombo[i].equiped, caster.katasCombo[i].equiped?.itemBase));
+        }
+
+        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
+        {
+            equipedEvents[i + 7].Invoke((caster.abilities[i + 2].equiped, caster.abilities[i + 2].equiped?.itemBase));
+        }
+    }
+
+    void SuscribeUI()
+    {
+        caster.weapons[0].toChange += meleeWeaponUIMediator;
+        caster.abilities[0].toChange += abilityExtUIMediator[0];
+        caster.abilities[1].toChange += abilityExtUIMediator[1];
+
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
+        {
+            caster.katasCombo[i].toChange += kataUIMediator[i];
+        }
+
+        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
+        {
+            caster.abilities[i + 2].toChange += abilityExtUIMediator[i+2];
+        }
+    }
+
+    void DesuscribiUI()
+    {
+        caster.weapons[0].toChange -= meleeWeaponUIMediator;
+        caster.abilities[0].toChange -= abilityExtUIMediator[0];
+        caster.abilities[1].toChange -= abilityExtUIMediator[1];
+
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
+        {
+            caster.katasCombo[i].toChange -= kataUIMediator[i];
+        }
+
+        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
+        {
+            caster.abilities[i + 2].toChange -= abilityExtUIMediator[i + 2];
+        }
+    }
+
     #region controles numericos
 
     void AlphaController(Controllers.Axis axis, EventControllerMediator eventControllerMediator, System.Action down)
@@ -170,13 +228,9 @@ public class IAIO : IAFather
         param.caster.leftEnergyUpdate += LeftEnergyUpdate;
         param.caster.rightEnergyUpdate += RightEnergyUpdate;
 
-        for (int i = 0; i < param.equipedEvents.Length; i++)
-        {
-            var aux = eventsManager.events.SearchOrCreate<SingleEvent<(Timer, ItemBase)>>("abilityUI" + i);
-            param.equipedEvents[i] = (param)=> aux.delegato?.Invoke(param);
-        }
+        SuscribeUI();
 
-        param.TriggerUI();
+        TriggerUI();
 
         param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
@@ -213,13 +267,6 @@ public class IAIO : IAFather
         param.caster.rightEnergyUpdate -= RightEnergyUpdate;
         param.onTakeDamage -= OnTakeDamage;
 
-        for (int i = 0; i < param.equipedEvents.Length; i++)
-        {
-            var aux = eventsManager.events.SearchOrCreate<SingleEvent<(Timer, ItemBase)>>("abilityUI" + i);
-            param.equipedEvents[i] = null;
-            aux.delegato?.Invoke((null, null));
-        }
-
         param.attackEventMediator.eventDown -= AttackEventMediator_eventDown;
 
         param.abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
@@ -227,6 +274,8 @@ public class IAIO : IAFather
         param.moveEventMediator.eventDown -= MoveEventMediator_eventDown;
 
         param.dashEventMediator.eventDown -= DashEventMediator_eventDown;
+
+        DesuscribiUI();
 
         VirtualControllers.Alpha1.eventDown -= Alpha1_eventDown;
         VirtualControllers.Alpha2.eventDown -= Alpha2_eventDown;
@@ -397,6 +446,27 @@ public class IAIO : IAFather
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
 
         energyEvent = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
+
+        for (int i = 0; i < equipedEvents.Length; i++)
+        {
+            var aux = eventsManager.events.SearchOrCreate<SingleEvent<(Ability, ItemBase)>>("abilityUI" + i);
+            equipedEvents[i] = (param) => aux.delegato?.Invoke(param);
+        }
+
+        meleeWeaponUIMediator = (index, item) => equipedEvents[0]?.Invoke((item?.defaultKata, item?.itemBase));
+
+        abilityExtUIMediator[0] = (index, item) => equipedEvents[1]?.Invoke((item, item.itemBase));
+        abilityExtUIMediator[1] = (index, item) => equipedEvents[2]?.Invoke((item, item.itemBase));
+
+        kataUIMediator[0] = (index, item) => equipedEvents[3]?.Invoke((item, item.itemBase));
+        kataUIMediator[1] = (index, item) => equipedEvents[4]?.Invoke((item, item.itemBase));
+        kataUIMediator[2] = (index, item) => equipedEvents[5]?.Invoke((item, item.itemBase));
+        kataUIMediator[3] = (index, item) => equipedEvents[6]?.Invoke((item, item.itemBase));
+
+        abilityExtUIMediator[2] = (index, item) => equipedEvents[7]?.Invoke((item, item.itemBase));
+        abilityExtUIMediator[3] = (index, item) => equipedEvents[8]?.Invoke((item, item.itemBase));
+        abilityExtUIMediator[4] = (index, item) => equipedEvents[9]?.Invoke((item, item.itemBase));
+        abilityExtUIMediator[5] = (index, item) => equipedEvents[10]?.Invoke((item, item.itemBase));
     }
 
     private void Start()
@@ -407,105 +477,5 @@ public class IAIO : IAFather
             //VirtualControllers.Principal.eventDown += NoCharacterSelected;
             NoCharacterSelected(Vector2.zero , 0);
         });
-    }
-}
-
-public class ControllerIAIO : IControllerDir, Init
-{
-    DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> _Event;
-
-    WeaponKata previusControllerDir;
-
-    Character character;
-
-    int index;
-
-    SlotItem<WeaponKata> kata => character.caster.katasCombo[index];
-
-    public void ControllerDown(Vector2 dir, float tim)
-    {
-        character.Attack(index);
-    }
-
-    public void ControllerPressed(Vector2 dir, float tim)
-    {
-
-    }
-
-    public void ControllerUp(Vector2 dir, float tim)
-    {
-
-    }
-
-    public void SetJoystick(int arg1, WeaponKata arg2)
-    {
-        if (previusControllerDir == kata.equiped && kata.equiped!=null)
-            return;
-
-        if (previusControllerDir != null)
-        {
-            previusControllerDir.onCooldownChange -= Ui;
-        }
-
-        if (kata.equiped != null)
-        {
-            kata.equiped.onCooldownChange += Ui;
-        }
-
-        RefreshJoystickUI();
-
-        previusControllerDir = kata.equiped;
-    }
-
-
-    void Ui(IGetPercentage f, float num)
-    {
-        _Event.delegato.Invoke((f, num));
-    }
-
-    void RefreshJoystickUI()
-    {
-        if (character != null && kata.equiped != null)
-        {
-            _Event.secondDelegato.Invoke((true, kata.equiped.itemBase.joystick, kata.equiped.image));
-        }
-        else
-        {
-            _Event.secondDelegato.Invoke((false, false, null));
-        }
-    }
-
-    public void Init()
-    {
-        character = GameManager.instance.playerCharacter;
-
-        kata.toChange += SetJoystick;
-
-        SetJoystick(0, null);
-    }
-
-    public void Exit()
-    {
-        if(character != null)
-        {
-            kata.toChange -= SetJoystick;
-
-            if (kata.equiped != null)
-            {
-                kata.equiped.onCooldownChange -= Ui;
-            }
-        }
-
-        character = null;
-        previusControllerDir = null;
-
-        RefreshJoystickUI();
-    }
-
-    public ControllerIAIO(DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> evento, int index)
-    {
-        _Event = evento;
-
-        this.index = index;
     }
 }

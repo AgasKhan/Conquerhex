@@ -153,6 +153,10 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public event System.Action<Ability> onCast;
 
+    public event System.Action onEnter;
+
+    public event System.Action onExit;
+
     public List<Entity> affected = new List<Entity>();
 
     public CasterEntityComponent caster { get; private set;}
@@ -457,6 +461,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         //param.abilityControllerMediator += this;
         abilityModificator.OnEnterState(param);
         trigger.OnEnterState(param);
+        onEnter?.Invoke();
     }
 
     public bool PayExecution(float cost)
@@ -491,6 +496,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
             cooldown.Reset();
 
         StopCast();
+
+        onExit?.Invoke();
     }
 
     #endregion

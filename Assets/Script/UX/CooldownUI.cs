@@ -14,6 +14,9 @@ namespace UI
         Image imageFill;
 
         [SerializeField]
+        Color inUse;
+
+        [SerializeField]
         Color complete;
 
         [SerializeField]
@@ -24,6 +27,8 @@ namespace UI
         TimedCompleteAction timCompleted = null;
 
         Timer timer;
+
+        Ability ability;
 
         /// <summary>
         /// Numero comprendido entre 0 y 1
@@ -37,19 +42,39 @@ namespace UI
                 timCompleted.Reset();
         }
 
-        public void SetCooldown(Timer myTimer, ItemBase param)
+        public void SetCooldown(Ability param, ItemBase item)
         {
-            if(timer!=null)
+            if(ability!=null)
+            {
+                ability.onExit -= AbilityOnExit;
+                ability.onEnter -= AbilityOnEnter;
                 timer.onChange -= FillAmount;
+            }
+            
+            if(param!=null)
+            {
+                ability = param;
+                ability.onEnter += AbilityOnEnter;
+                ability.onExit += AbilityOnExit;
 
-            imageKata.sprite = param?.image;
-
-            timer = myTimer;
-
-            if(timer != null)
+                timer = param.cooldown;
                 timer.onChange += FillAmount;
+            }
 
-            gameObject.SetActive(timer != null || param != null);
+            imageKata.sprite = item?.image;
+
+
+            gameObject.SetActive(item != null || param != null);
+        }
+
+        private void AbilityOnExit()
+        {
+            complexColor.Remove(inUse);
+        }
+
+        private void AbilityOnEnter()
+        {
+            complexColor.Add(inUse);
         }
 
         private void ChangeColor(Color save)

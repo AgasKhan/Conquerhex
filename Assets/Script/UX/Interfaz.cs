@@ -92,12 +92,12 @@ namespace UI
 
             for (int i = 0; i < basicCooldowns.Length + katasCooldowns.Length + abilitiesCooldowns.Length; i++)
             {
-                SingleEvent<(Timer, ItemBase)> eventCooldown = eventsManager.events.SearchOrCreate<SingleEvent<(Timer, ItemBase)>>("abilityUI" + i);
+                SingleEvent<(Ability, ItemBase)> eventCooldown = eventsManager.events.SearchOrCreate<SingleEvent<(Ability, ItemBase)>>("abilityUI" + i);
 
                 if (i< basicCooldowns.Length)
                 {
                     var index = i;
-                    eventCooldown.delegato += ((Timer, ItemBase)  param) =>
+                    eventCooldown.delegato += ((Ability, ItemBase) param) =>
                     {
                         basicCooldowns[index].SetCooldown(param.Item1, param.Item2);
                     };
@@ -105,7 +105,7 @@ namespace UI
                 else if(i < basicCooldowns.Length + katasCooldowns.Length)
                 {
                     var index = i;
-                    eventCooldown.delegato += ((Timer, ItemBase) param) =>
+                    eventCooldown.delegato += ((Ability, ItemBase) param) =>
                     {
                         katasCooldowns[index- basicCooldowns.Length].SetCooldown(param.Item1, param.Item2);
                     };
@@ -113,7 +113,7 @@ namespace UI
                 else
                 {
                     var index = i;
-                    eventCooldown.delegato += ((Timer, ItemBase) param) =>
+                    eventCooldown.delegato += ((Ability, ItemBase) param) =>
                     {
                         abilitiesCooldowns[index - basicCooldowns.Length - katasCooldowns.Length].SetCooldown(param.Item1, param.Item2);
                     };
@@ -123,8 +123,6 @@ namespace UI
             aux.delegato += energyUI.EnergyBarUpdate;
             aux.secondDelegato += energyUI.EnergyLeft;
             aux.thirdDelegato += energyUI.EnergyRight;
-            
-
         }
 
         void Update()

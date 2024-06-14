@@ -45,7 +45,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public CastingActionCharacter castingActionCharacter { get; private set; }
     public StopActionCharacter stopIA { get; private set; }
 
-    public System.Action<(Timer, ItemBase)>[] equipedEvents = new System.Action<(Timer, ItemBase)>[12];
+
 
     [SerializeReference]
     StunBar stunBar = new StunBar();
@@ -187,42 +187,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         Action = castingActionCharacter;
     }
 
-    public void TriggerUI()
-    {
-        equipedEvents[0].Invoke((caster.weapons[0].equiped?.defaultKata.cooldown, caster.weapons[0].equiped?.itemBase));
-        equipedEvents[1].Invoke((caster.abilities[0].equiped?.cooldown, caster.abilities[0].equiped?.itemBase));
-        equipedEvents[2].Invoke((caster.abilities[1].equiped?.cooldown, caster.abilities[1].equiped?.itemBase));
-
-        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
-        {
-            equipedEvents[i + 3].Invoke((caster.katasCombo[i].equiped?.cooldown, caster.katasCombo[i].equiped?.itemBase));
-        }
-
-        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
-        {
-            equipedEvents[i + 7].Invoke((caster.abilities[i + 2].equiped?.cooldown, caster.abilities[i + 2].equiped?.itemBase));
-        }
-    }
-
-    void SaveUI()
-    {
-        caster.weapons[0].toChange += (index, item) => equipedEvents[0]?.Invoke((item?.defaultKata?.cooldown, item?.itemBase));
-        caster.abilities[0].toChange += (index, item) => equipedEvents[1]?.Invoke((item?.cooldown, item?.itemBase));
-        caster.abilities[1].toChange += (index, item) => equipedEvents[2]?.Invoke((item?.cooldown, item?.itemBase));
-
-        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
-        {
-            var indexI = i;
-            caster.katasCombo[i].toChange += (index, item) => equipedEvents[indexI + 3]?.Invoke((item?.cooldown, item?.itemBase));
-        }
-
-        for (int i = 0; i < 4 && (i +2) < caster.abilities.Count; i++)
-        {
-            var indexI = i;
-            caster.abilities[i + 2].toChange += (index, item) => equipedEvents[indexI + 7]?.Invoke((item?.cooldown, item?.itemBase));
-        }
-        
-    }
+    
 
     private void Health_death()
     {
@@ -307,10 +272,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
         stunBar.InitStunBar(this);
 
-        MyUpdates += fsmCharacter.UpdateState;
-
-        //Transladar luego a IAIO toda la logica de UI
-        SaveUI();
+        MyUpdates += fsmCharacter.UpdateState;       
     }
 }
 
