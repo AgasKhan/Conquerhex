@@ -40,27 +40,19 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     [field: SerializeField]
     public MoveEntityComponent move { get; private set; }
 
+    public MoveStateCharacter moveStateCharacter { get; private set; }
     public ActionStateCharacter actionStateCharacter { get; private set; }
     public CastingActionCharacter castingActionCharacter { get; private set; }
-    public MoveStateCharacter moveStateCharacter { get; private set; }
-    public StunActionCharacter stunAction { get; private set; }
     public StopActionCharacter stopIA { get; private set; }
 
     public System.Action<(Timer, ItemBase)>[] equipedEvents = new System.Action<(Timer, ItemBase)>[12];
 
-    public bool isStunned = false;
+    [SerializeReference]
+    StunBar stunBar = new StunBar();
 
-    public float CurrentDefense
-    {
-        get => _currentDefense;
-        set => _currentDefense = Mathf.Clamp(value, 0, maxDefense);
-    }
-
-    float _currentDefense;
-    float maxDefense = 100f;
-
-    Timer regenDelayTim;
-    Timer regenTim;
+    [SerializeField]
+    bool iaOn = true;
+    
 
     /// <summary>
     /// estado de la IA actual
@@ -70,6 +62,12 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         get => _ia;
         set
         {
+            if (!iaOn)
+            {
+                _ia = value;
+                return;
+            }
+
             if (value == null)
             {
                 IAUpdateEnable(false);
@@ -85,17 +83,35 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
-    public void IAUpdateEnable(bool value)
+    public void IAOnOff(bool value)
     {
+        if (iaOn == value)
+            return;
+
+
         if (value)
         {
-            MyUpdates += IAUpdate;
+            CurrentState.OnEnterState(this);
+            IAUpdateEnable(true);
+
         }
         else
         {
-            MyUpdates -= IAUpdate;
+            CurrentState.OnExitState(this);
+            IAUpdateEnable(false);
+
         }
+
+        iaOn = value;
     }
+
+
+
+    public void StopIA()
+    {
+        Action = stopIA;
+    }
+
 
     public IStateWithEnd<FSMAutomaticEnd<Character>> Action
     {
@@ -188,39 +204,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
-    public void RestartDefense()
-    {
-        CurrentDefense = maxDefense;
-    }
-    
-    public void StopIA()
-    {
-        Action = stopIA;
-    }
-
-    public void IAOnOff(bool value)
-    {
-        if(value)
-        {
-            CurrentState.OnEnterState(this);
-            IAUpdateEnable(true);
-            isStunned = false;
-            health.death -= Health_death;
-        }
-        else
-        {
-            CurrentState.OnExitState(this);
-            IAUpdateEnable(false);
-            isStunned = true;
-            health.death += Health_death;
-        }
-    }
-
-    private void Health_death()
-    {
-        transform.SetActiveGameObject(false);
-    }
-
     void SaveUI()
     {
         caster.weapons[0].toChange += (index, item) => equipedEvents[0]?.Invoke((item?.defaultKata?.cooldown, item?.itemBase));
@@ -241,6 +224,130 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         
     }
 
+    private void Health_death()
+    {
+        transform.SetActiveGameObject(false);
+    }
+
+    protected override void Config()
+    {
+        base.Config();
+        MyAwakes += MyAwake;
+        MyStarts += MyStart;
+        MyOnEnables += MyEnables;
+        MyOnDisables += MyDisables;
+    }
+
+    void IAUpdateEnable(bool value)
+    {
+        if (value)
+        {
+            MyUpdates += IAUpdate;
+        }
+        else
+        {
+            MyUpdates -= IAUpdate;
+        }
+    }
+
+    void MyDisables()
+    {
+        attackEventMediator.Enabled = false;
+
+        abilityEventMediator.Enabled = false;
+
+        dashEventMediator.Enabled = false;
+
+        moveEventMediator.Enabled = false;
+    }
+
+    void IAUpdate()
+    {
+        if (iaOn)
+            _ia?.OnStayState(this);
+    }
+
+    void MyStart()
+    {
+        if (iaOn && _ia != null)
+        {
+            _ia.OnEnterState(this);
+            MyUpdates += IAUpdate;
+        }
+    }
+
+    void MyEnables()
+    {
+        attackEventMediator.Enabled = true;
+
+        abilityEventMediator.Enabled = true;
+
+        dashEventMediator.Enabled = true;
+
+        moveEventMediator.Enabled = true;
+    }
+
+
+
+    void MyAwake()
+    {
+        _ia = GetComponent<IState<Character>>();
+
+        move = GetInContainer<MoveEntityComponent>();
+        caster = GetInContainer<CasterEntityComponent>();
+        inventory = GetInContainer<InventoryEntityComponent>();
+
+        moveStateCharacter = new MoveStateCharacter();
+        actionStateCharacter = new ActionStateCharacter(this);
+
+        castingActionCharacter = new CastingActionCharacter();
+        stopIA = new StopActionCharacter();
+
+        fsmCharacter = new FSMCharacter(this);
+
+        stunBar.InitStunBar(this);
+
+        MyUpdates += fsmCharacter.UpdateState;
+
+        //Transladar luego a IAIO toda la logica de UI
+        SaveUI();
+    }
+}
+
+[System.Serializable]
+public class StunBar
+{
+    public StunActionCharacter stunAction { get; private set; }
+
+
+    public BodyBase body;
+
+    public bool isStunned = false;
+    public float CurrentDefense
+    {
+        get => _currentDefense;
+        set => _currentDefense = Mathf.Clamp(value, 0, maxDefense);
+    }
+
+    float _currentDefense;
+    float maxDefense => body?.maxDefense ?? 100;
+
+    Timer regenDelayTim;
+    Timer regenTim;
+
+    Character character;
+
+    public void RestartDefense()
+    {
+        CurrentDefense = maxDefense;
+    }
+
+    public void Stun(bool value)
+    {
+        character.IAOnOff(!value);
+        isStunned = value;
+    }
+
     void ReceiveStunDamage(float damage)
     {
         if (isStunned)
@@ -252,28 +359,12 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
         if (CurrentDefense <= 0)
         {
-            Action = stunAction;
+            character.Action = stunAction;
         }
         else
         {
             regenDelayTim.Reset();
         }
-    }
-
-    void InitStunBar(float _maxDefense, float _regenDelay, float _regenSpeed, float _regenAmount)
-    {
-        maxDefense = _maxDefense;
-        CurrentDefense = maxDefense;
-
-        regenDelayTim = TimersManager.Create(_regenDelay, () => regenTim.Reset()).Stop();
-        regenTim = TimersManager.Create(_regenSpeed, () =>
-        {
-            if (CurrentDefense < maxDefense)
-            {
-                CurrentDefense += _regenAmount;
-                regenTim.Reset();
-            }
-        }).Stop();
     }
 
     private void Health_reLife()
@@ -289,80 +380,29 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
-    protected override void Config()
+    public void InitStunBar(Character character)
     {
-        base.Config();
-        MyAwakes += MyAwake;
-        MyStarts += MyStart;
-        MyOnEnables += MyEnables;
-        MyOnDisables += MyDisables;
-    }
+        this.character = character;
 
-    void MyEnables()
-    {
-        attackEventMediator.Enabled = true;
+        this.body = character.flyweight.GetFlyWeight<BodyBase>();
 
-        abilityEventMediator.Enabled = true;
+        stunAction = new StunActionCharacter(this);
 
-        dashEventMediator.Enabled = true;
+        character.onTakeDamage += Character_onTakeDamage;
 
-        moveEventMediator.Enabled = true;
-    }
+        character.health.reLife += Health_reLife;
 
-    void MyDisables()
-    {
-        attackEventMediator.Enabled =false;
+        CurrentDefense = maxDefense;
 
-        abilityEventMediator.Enabled = false;
-
-        dashEventMediator.Enabled = false;
-
-        moveEventMediator.Enabled = false;
-    }
-
-    void MyAwake()
-    {
-        _ia = GetComponent<IState<Character>>();
-
-        move = GetInContainer<MoveEntityComponent>();
-        caster = GetInContainer<CasterEntityComponent>();
-        inventory = GetInContainer<InventoryEntityComponent>();
-
-        castingActionCharacter = new CastingActionCharacter();
-
-        actionStateCharacter = new ActionStateCharacter(this);
-        moveStateCharacter = new MoveStateCharacter();
-
-        fsmCharacter = new FSMCharacter(this);
-
-        onTakeDamage += Character_onTakeDamage;
-
-        var body = flyweight.GetFlyWeight<BodyBase>();
-        stunAction = new StunActionCharacter(body.stunTime);
-        stopIA = new StopActionCharacter();
-        InitStunBar(body.maxDefense, body.defenseRegenDelay, body.defenseRegenSpeed, body.defenseRegenAmount);
-
-        health.reLife += Health_reLife;
-
-        MyUpdates += fsmCharacter.UpdateState;
-
-        //Transladar luego a IAIO toda la logica de UI
-        SaveUI();
-    }
-
-    void MyStart()
-    {
-        if (_ia != null)
+        regenDelayTim = TimersManager.Create(body.defenseRegenDelay, () => regenTim.Reset()).SetInitCurrent(body.defenseRegenDelay).Stop();
+        regenTim = TimersManager.Create(body.defenseRegenSpeed, () =>
         {
-            _ia.OnEnterState(this);
-            MyUpdates += IAUpdate;
-        }
-    }
-
-    void IAUpdate()
-    {
-        if(!isStunned)
-            _ia?.OnStayState(this);
+            if (CurrentDefense < maxDefense)
+            {
+                CurrentDefense += body.defenseRegenAmount;
+                regenTim.Reset();
+            }
+        }).Stop();
     }
 }
 
@@ -439,6 +479,30 @@ namespace FSMCharacterAndStates
         public ActionStateCharacter(Character character)
         {
             InternalCharacterAction.Init(character);
+        }
+    }
+
+    public class StopActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
+    {
+        public bool End => false;
+        public event System.Action OnStopIA;
+
+        public void OnEnterState(FSMAutomaticEnd<Character> param)
+        {
+            UI.Interfaz.instance.PopText(param.context, "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
+            param.context.IAOnOff(false);
+
+            OnStopIA?.Invoke();
+        }
+
+        public void OnStayState(FSMAutomaticEnd<Character> param)
+        {
+
+        }
+
+        public void OnExitState(FSMAutomaticEnd<Character> param)
+        {
+            param.context.IAOnOff(true);
         }
     }
 
@@ -558,14 +622,12 @@ namespace FSMCharacterAndStates
         public event System.Action OnStunned;
         public event System.Action OnRecover;
 
-        Character character;
+        StunBar stunBar;
 
         public void OnEnterState(FSMAutomaticEnd<Character> param)
         {
-            character = param.context;
-
             UI.Interfaz.instance.PopText(param.context, "Stunned".RichText("size", "45").RichTextColor(Color.white), Vector2.up * 2);
-            param.context.IAOnOff(false);
+            stunBar.Stun(true);
 
             stunTimer.Reset();
             OnStunned?.Invoke();
@@ -580,41 +642,19 @@ namespace FSMCharacterAndStates
 
         public void OnExitState(FSMAutomaticEnd<Character> param)
         {
-            character.isStunned = false;
-            character.RestartDefense();
+            stunBar.isStunned = false;
+            stunBar.RestartDefense();
             OnRecover?.Invoke();
 
-            param.context.IAOnOff(true);
+            stunBar.Stun(false);
 
             //Debug.Log(character.gameObject.name + " Recovered-------------------------------------------------------------------");
         }
 
-        public StunActionCharacter(float _stunTime)
+        public StunActionCharacter(StunBar stunBar)
         {
-            stunTimer = TimersManager.Create(_stunTime).SetInitCurrent(_stunTime).Stop();
-        }
-    }
-    public class StopActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
-    {
-        public bool End => false;
-        public event System.Action OnStopIA;
-
-        public void OnEnterState(FSMAutomaticEnd<Character> param)
-        {
-            UI.Interfaz.instance.PopText(param.context, "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
-            param.context.IAOnOff(false);
-
-            OnStopIA?.Invoke();
-        }
-
-        public void OnStayState(FSMAutomaticEnd<Character> param)
-        {
-
-        }
-
-        public void OnExitState(FSMAutomaticEnd<Character> param)
-        {
-            
+            this.stunBar = stunBar;
+            stunTimer = TimersManager.Create(stunBar.body.stunTime).Stop();
         }
     }
 }
