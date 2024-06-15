@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SecretKey : MonoBehaviour
 {
@@ -87,4 +88,38 @@ public class SecretKey : MonoBehaviour
             minion.SetActiveGameObject(true);
         }
     }
+
+    GenericSubMenu genMenu;
+    public InteractEntityComponent interComp;
+
+    [ContextMenu("TestMenu")]
+    public void TestMenus()
+    {
+        genMenu = new GenericSubMenu(interComp);
+        genMenu.createAction = (subMenu) =>
+        {
+            subMenu.CreateSection(0, 1);
+            //subMenu.CreateChildrenSection<ScrollRect>();
+            //subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
+
+            subMenu.CreateSection(2, 3);
+            //subMenu.CreateChildrenSection<ScrollRect>();
+            //subMenu.AddComponent<DetailsWindow>();
+
+            subMenu.CreateSection(4, 5);
+            //subMenu.CreateChildrenSection<ScrollRect>();
+            //subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinación de teclas (movimiento) +  Click der");
+            
+
+            subMenu.CreateSection(5, 6);
+            //subMenu.CreateChildrenSection<ScrollRect>();
+            //subMenu.AddComponent<DetailsWindow>().SetTexts("(Katas) Movimientos ofensivos", "Combinacion de teclas (movimiento) +  Click izq");
+            
+
+            //subMenu.OnClose += Exit;
+        };
+
+        genMenu.Create(MenuManager.instance.character);
+    }
+
 }

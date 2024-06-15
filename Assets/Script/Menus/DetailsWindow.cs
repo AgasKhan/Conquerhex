@@ -21,6 +21,9 @@ public class DetailsWindow : MonoBehaviour
     [SerializeField]
     LayoutGroup layoutGroup;
 
+    [SerializeField]
+    GameObject textsBox;
+
     public DetailsWindow SetTexts(DoubleString d)
     {
         SetTexts(d.superior, d.inferior);
@@ -37,6 +40,8 @@ public class DetailsWindow : MonoBehaviour
         myTitle.SetActiveGameObject(title!="");
 
         myDescription.SetActiveGameObject(description != "");
+
+        textsBox.SetActive(title != "" || description != "");
 
         GameManager.RetardedOn((_bool)=> layoutGroup.SetActive(_bool));
 

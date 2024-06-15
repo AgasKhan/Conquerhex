@@ -227,7 +227,7 @@ public class GameManager : SingletonMono<GameManager>
 
         awakeUnityEvent?.Invoke();
 
-        playerCharacter.health.death += Health_death;
+        //playerCharacter.health.death += Health_death;
 
     }
 
