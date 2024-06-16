@@ -17,4 +17,31 @@ public class LisNavBarModule : MonoBehaviour
     [SerializeField]
     GameObject ButtonsContent;
 
+    [SerializeField]
+    ButtonFactory navbar;
+
+
+    public LisNavBarModule AddNavBarButton(string text, string buttonName)
+    {
+        return AddNavbarButton(text, buttonName, null);
+    }
+
+    public LisNavBarModule AddNavBarButton(string text, UnityEngine.Events.UnityAction action)
+    {
+        return AddNavbarButton(text, "", action);
+    }
+
+    LisNavBarModule AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)
+    {
+        UnityEngine.Events.UnityAction aux = action;
+
+        action = () => Title.text = text;
+
+        action += aux;
+
+        navbar.Create(text, buttonName, action);
+
+        return this;
+    }
+
 }
