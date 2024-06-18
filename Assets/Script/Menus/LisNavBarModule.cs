@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LisNavBarModule : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI Title;
-
-    [SerializeField]
-    GameObject NavBarContent;
-
-    [SerializeField]
-    TextMeshProUGUI[] Tags;
-
-    [SerializeField]
-    GameObject ButtonsContent;
+    TextMeshProUGUI title;
 
     [SerializeField]
     ButtonFactory navbar;
 
+    [SerializeField]
+    TextMeshProUGUI[] tags;
+
+    [SerializeField]
+    Transform buttonsContent;
+
+    [SerializeField]
+    ButtonHor buttonHor;
 
     public LisNavBarModule AddNavBarButton(string text, string buttonName)
     {
@@ -35,7 +35,7 @@ public class LisNavBarModule : MonoBehaviour
     {
         UnityEngine.Events.UnityAction aux = action;
 
-        action = () => Title.text = text;
+        action = () => title.text = text;
 
         action += aux;
 
@@ -44,4 +44,25 @@ public class LisNavBarModule : MonoBehaviour
         return this;
     }
 
+    public ButtonHor AddButtonHor(Sprite _image, string _name, string[] _tags, UnityEngine.Events.UnityAction _action)
+    {
+        var aux = Object.Instantiate(buttonHor, buttonsContent);
+
+        return aux.SetButton(_image, _name, _tags, _action);
+    }
+
+    public LisNavBarModule SetTitle(string _title)
+    {
+        title.text = _title;
+        return this;
+    }
+
+    public LisNavBarModule SetTags(string[] _tags)
+    {
+        for (int i = 0; i < tags.Length; i++)
+        {
+            tags[i].text = _tags[i];
+        }
+        return this;
+    }
 }

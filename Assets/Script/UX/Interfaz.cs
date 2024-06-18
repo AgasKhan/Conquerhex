@@ -162,7 +162,7 @@ namespace UI
 
             dialogoImage.rectTransform.sizeDelta = Vector2.zero;
        
-            LoadSystem.AddPostLoadCorutine(MyCoroutine);
+            LoadSystem.AddPostLoadCorutine(MyCoroutine, 10);
         }
 
         private void Awake()

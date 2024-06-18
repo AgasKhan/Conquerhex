@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5389344403866534394}
   - component: {fileID: 6493213257605151197}
   - component: {fileID: 4205916210537912226}
+  - component: {fileID: 74627365567241146}
   m_Layer: 5
   m_Name: ButtonHor
   m_TagString: Untagged
@@ -153,6 +154,26 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &74627365567241146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210667023912735801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5466cbe48cb49ae45a41efbc07e4cfed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previewImage: {fileID: 6057544202290419757}
+  itemName: {fileID: 7627949925219205786}
+  tags:
+  - {fileID: 8769869977732147128}
+  - {fileID: 5054595193651364921}
+  - {fileID: 8472595648189180785}
+  - {fileID: 4801450540481095910}
+  myButton: {fileID: 6493213257605151197}
 --- !u!1 &1219691218360486752
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,7 +772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.15686275}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9411765}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

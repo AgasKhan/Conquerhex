@@ -11,9 +11,11 @@ public class InventorySubMenu : CreateSubMenu
 
     public ScrollVertComponent itemList;
 
-    List<ButtonA> buttonsList = new List<ButtonA>();
+    List<ButtonHor> buttonsList = new List<ButtonHor>();
 
     List<EventsCall> buttonsListActions = new List<EventsCall>();
+
+    LisNavBarModule myListNavBar;
 
     DetailsWindow myDetailsW;
 
@@ -66,6 +68,7 @@ public class InventorySubMenu : CreateSubMenu
 
     void CreateBody()
     {
+        /*
         subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
@@ -78,6 +81,26 @@ public class InventorySubMenu : CreateSubMenu
         myDetailsW = subMenu.AddComponent<DetailsWindow>();
 
         if(slotItem != null)
+            subMenu.navbar.DestroyAll();
+
+        if (buttonsList.Count <= 0)
+            ShowItemDetails("", "No tienes nada que equipar", null);
+        */
+
+        subMenu.ClearBody();
+
+        subMenu.CreateSection(0, 3);
+        subMenu.CreateChildrenSection<ScrollRect>();
+        myListNavBar = subMenu.AddComponent<LisNavBarModule>();
+        myListNavBar.SetTitle("Inventario");
+        //myListNavBar.SetTags(new string[] { "Nombre", "Peso", "Peso Total", "Cantidad" });
+        CreateButtons();
+
+        subMenu.CreateSection(3, 6);
+        subMenu.CreateChildrenSection<ScrollRect>();
+        myDetailsW = subMenu.AddComponent<DetailsWindow>();
+
+        if (slotItem != null)
             subMenu.navbar.DestroyAll();
 
         if (buttonsList.Count <= 0)
@@ -100,13 +123,10 @@ public class InventorySubMenu : CreateSubMenu
             
             if (character.inventory[i] is Ability && !((Ability)character.inventory[i]).visible)
                 continue;
-            
-            ButtonA button = subMenu.AddComponent<ButtonA>();
 
             var index = i;
 
             var item = character.inventory[index];
-
 
             UnityEngine.Events.UnityAction action =
                () =>
@@ -118,53 +138,57 @@ public class InventorySubMenu : CreateSubMenu
                    DestroyButtonsActions();
                    
                    if(slotItem != null)
+                   {
                        CreateEquipButton(slotItem, index);
- 
-                    /*
-                    if (item.GetItemBase() is WeaponKataBase)
-                    {
-                        WeaponKata auxKata = (WeaponKata)item;
-                      
-                        string mainText = "------------------------------------------------------------------\n";
+                   }
 
-                        var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
-                        var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
-                        var weaponDmgs = auxKata.WeaponEnabled.itemBase.damages.ToString(": ", "\n");
+                   /*
+                   if (item.GetItemBase() is WeaponKataBase)
+                   {
+                       WeaponKata auxKata = (WeaponKata)item;
 
-                        mainText += "Kata Selected: " + item.nameDisplay + "\n";
+                       string mainText = "------------------------------------------------------------------\n";
 
-                        var titulos = new CustomColumns ("Character damages", "operacion", "Weapon equiped damages", "operacion", "Kata Selected" );
+                       var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
+                       var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+                       var weaponDmgs = auxKata.WeaponEnabled.itemBase.damages.ToString(": ", "\n");
 
-                        var test1 = new CustomColumns(characterDmgs, "+", weaponDmgs, "x", kataDmgs);
+                       mainText += "Kata Selected: " + item.nameDisplay + "\n";
 
-                        mainText += (titulos + test1).ToString();
+                       var titulos = new CustomColumns ("Character damages", "operacion", "Weapon equiped damages", "operacion", "Kata Selected" );
 
-                        var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.WeaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
-                        var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
+                       var test1 = new CustomColumns(characterDmgs, "+", weaponDmgs, "x", kataDmgs);
 
-                        mainText += "\nCharacter and weapon combined damages:\n";
-                        var charAndWeapResult = new CustomColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
-                        mainText += charAndWeapResult.ToString();
+                       mainText += (titulos + test1).ToString();
 
-                        totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
+                       var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.WeaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
+                       var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
 
-                        mainText += "\nCharacter/Weapon and Kata combined damages:\n";
-                        var resultAndKata = totalDamage.ToArray().ToString(": ", "\n");
+                       mainText += "\nCharacter and weapon combined damages:\n";
+                       var charAndWeapResult = new CustomColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
+                       mainText += charAndWeapResult.ToString();
 
-                        mainText += new CustomColumns(resultDmgs, "x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).ToString();
+                       totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
 
-                        mainText += "\nAll damages operations:\n";
-                        mainText += (new CustomColumns("x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).AddLeft(charAndWeapResult)).ToString();
+                       mainText += "\nCharacter/Weapon and Kata combined damages:\n";
+                       var resultAndKata = totalDamage.ToArray().ToString(": ", "\n");
 
-                        mainText += "\n------------------------------------------------------------------";
-                       
-                        Debug.Log(mainText);
-                       
-                    }
-                    */
+                       mainText += new CustomColumns(resultDmgs, "x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).ToString();
+
+                       mainText += "\nAll damages operations:\n";
+                       mainText += (new CustomColumns("x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).AddLeft(charAndWeapResult)).ToString();
+
+                       mainText += "\n------------------------------------------------------------------";
+
+                       Debug.Log(mainText);
+
+                   }
+                   */
                };
 
-            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
+            var button = myListNavBar.AddButtonHor(item.image, item.nameDisplay, null, action);
+            buttonsList.Add(button);
+            //buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
         
         filterType = null;
@@ -172,7 +196,6 @@ public class InventorySubMenu : CreateSubMenu
 
     void DestroyButtonsActions()
     {
-
         foreach (var item in buttonsListActions)
         {
             if (item != null)
@@ -222,6 +245,7 @@ public class InventorySubMenu : CreateSubMenu
 
     void FilterItems(string type)
     {
+        /*
         foreach (var item in buttonsList)
         {
             if (item.type != type && type != "")
@@ -229,7 +253,7 @@ public class InventorySubMenu : CreateSubMenu
             else
                 item.SetActiveGameObject(true);
         }
-
+        */
         myDetailsW.SetActiveGameObject(false);
         DestroyButtonsActions();
     }

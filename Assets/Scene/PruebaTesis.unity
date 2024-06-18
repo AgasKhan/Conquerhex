@@ -5230,6 +5230,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 975903397}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &978010183 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2002912465790147073, guid: c8b3ca602b1a80d468a765e04372a979,
+    type: 3}
+  m_PrefabInstance: {fileID: 2614761382610423656}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &978882655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15876,6 +15882,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5182128407476133935, guid: c8b3ca602b1a80d468a765e04372a979,
+        type: 3}
+      propertyPath: buttonsContent
+      value: 
+      objectReference: {fileID: 978010183}
     - target: {fileID: 5268637659369762197, guid: c8b3ca602b1a80d468a765e04372a979,
         type: 3}
       propertyPath: m_AnchorMax.y
