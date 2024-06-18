@@ -63,7 +63,8 @@ public class AnimatorController : ComponentOfContainer<Entity>
     {
         controller.SetBool("Move", true);
 
-        controller.transform.forward = Vector3.Lerp(controller.transform.forward, obj, Time.fixedDeltaTime*10);
+        if (obj != Vector3.zero)
+            controller.transform.forward = Vector3.Lerp(controller.transform.forward, obj, Time.fixedDeltaTime*10);
     }
 
     private void Ia_onIdle()
