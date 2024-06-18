@@ -76,6 +76,19 @@ public struct Damage
         return original;
     }
 
+    public static ref Damage Combine(Fusion fusion, IEnumerable<Damage> damages, ref Damage dmg)
+    {
+        foreach (var item in damages)
+        {
+            if(dmg.typeInstance.IsChildOf(item.typeInstance))
+            {
+                dmg = fusion(dmg, item);
+            }
+        }
+
+        return ref dmg;
+    }
+
     public static IEnumerable<Damage> Combine(Fusion fusion,  params IEnumerable<Damage>[] damages)
     {
         return Combine(AdditiveFusion, fusion, fusion, damages);
@@ -109,7 +122,7 @@ public struct Damage
                 {
                     foreach (var modifier in proccesParents)
                     {
-                        if (dmg.GetType().IsAssignableFrom(modifier.GetType()))
+                        if (dmg.typeInstance.IsChildOf(modifier.typeInstance))
                         {
                             dmg = parentFusion(dmg, modifier);
                         }

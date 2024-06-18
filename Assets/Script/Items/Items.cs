@@ -100,6 +100,7 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
         return nameDisplay + "\n\n" + GetDetails().ToString(": ", "\n") + "\n";
     }
 
+    /*
     public override bool Equals(object obj)
     {
         Debug.Log("Original: "+nameDisplay + "  Comparador: " +  obj.GetType().Name);
@@ -109,6 +110,7 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
         else
             return base.Equals(obj);
     }
+    */
 
     public virtual void Destroy()
     {

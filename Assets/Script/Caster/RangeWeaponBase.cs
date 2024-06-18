@@ -56,7 +56,7 @@ public class RangeWeapon : MeleeWeapon
         PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f, Quaternion.identity, owner.transform.parent, false);
         
         
-        Vector3 aim = Quaternion.Euler(0, Random.Range(ability.Angle/-2, ability.Angle/2), 0) * (owner.aiming + Vector3.up * 0.5f);
+        Vector3 aim = Quaternion.Euler(0, Random.Range(ability.Angle/-2, ability.Angle/2), 0) * (owner.Aiming + Vector3.up * 0.5f);
 
         Entity objective = null;
 

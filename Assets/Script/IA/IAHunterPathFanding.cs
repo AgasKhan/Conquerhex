@@ -28,7 +28,7 @@ public class IAHunterPathFanding : IAHunter
 
         patrol.OnPatrolChange += pathFinding.GoTo;
 
-        move.onMove += Move_onMove;
+        param.move.onMove += Move_onMove;
     }
 
     public override void OnExitState(Character param)
@@ -39,7 +39,7 @@ public class IAHunterPathFanding : IAHunter
 
         patrol.OnPatrolChange -= pathFinding.GoTo;
 
-        move.onMove -= Move_onMove;
+        param.move.onMove -= Move_onMove;
     }
 
 

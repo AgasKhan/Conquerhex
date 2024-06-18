@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/DashToEntityUpTriggerControllerBase")]
+[CreateAssetMenu(menuName = "Abilities/Trigger/DashToEntityUpTriggerControllerBase")]
 public class DashToEntityUpTrggrCtrllrBase : TriggerControllerBase
 {
     [Tooltip("Impulso de velocidad que se dara cuando de el dash en direccion del primer enemigo en el area")]
@@ -101,8 +101,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             return;
         }
 
-
-
         timerToEnd.Reset();
         buttonPress = false;
         caster.abilityControllerMediator -= this;
@@ -122,21 +120,16 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         objectivesAttacked.RemoveAt(0);
 
-        FeedBackReference?.Attack();
-
-        Cast();
-
         if(objectivesAttacked.Count<=0)
         {
             timerToEnd.Stop();
-            End = true;
+            Cast(()=>End = true);
             return;
         }
 
+        Cast(() => End = false);
 
         timerToEnd.Reset();
-
-        End = false;
 
         Aiming = (objectivesAttacked[0].transform.position - caster.transform.position).normalized;
 

@@ -22,9 +22,21 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public DamageContainer additiveDamage;
 
-    public Vector3 aiming;
+    public Vector3 Aiming
+    {
+        get => _aiming;
+        set
+        {
+            _aiming = value;
+            onAiming?.Invoke(value);
+        }
+    }
 
-    public event System.Action<Ability> onAttack;
+    Vector3 _aiming;
+
+    public event System.Action<Ability> onCast;
+    public event System.Action<Ability> onPreCast;
+    public event System.Action<Vector3> onAiming;
     public event System.Action<(Damage dmg, int weightAction, Vector3? origin)> onTakeDamage;
 
     public event System.Action<(float, float, float)> energyUpdate;
@@ -73,7 +85,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     public float positiveEnergy
     {
         get => energy;
-        private set
+        set
         {
             energy = value;
             enabled = true;
@@ -84,7 +96,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     public float negativeEnergy
     {
         get => MaxEnergy - energy;
-        private set
+        set
         {
             energy = MaxEnergy - value;
             enabled = true;
@@ -100,9 +112,14 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public AbilityExtCast actualAbility => abilities.actual.equiped;
 
-    public void AttackEvent(Ability ability)
+    public void CastEvent(Ability ability)
     {
-        onAttack?.Invoke(ability);
+        onCast?.Invoke(ability);
+    }
+
+    public void PreCastEvent(Ability ability)
+    {
+        onPreCast?.Invoke(ability);
     }
     
     /// <summary>

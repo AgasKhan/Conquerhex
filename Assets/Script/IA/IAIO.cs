@@ -232,26 +232,26 @@ public class IAIO : IAFather
 
         TriggerUI();
 
-        param.attackEventMediator.eventDown += AttackEventMediator_eventDown;
+        attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
-        param.abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
+        abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
 
-        param.moveEventMediator.eventDown += MoveEventMediator_eventDown;
+        moveEventMediator.eventDown += MoveEventMediator_eventDown;
 
-        param.dashEventMediator.eventDown += DashEventMediator_eventDown;
+        dashEventMediator.eventDown += DashEventMediator_eventDown;
 
         VirtualControllers.Alpha1.eventDown += Alpha1_eventDown;
         VirtualControllers.Alpha2.eventDown += Alpha2_eventDown;
         VirtualControllers.Alpha3.eventDown += Alpha3_eventDown;
         VirtualControllers.Alpha4.eventDown += Alpha4_eventDown;
 
-        VirtualControllers.Movement.SuscribeController(param.moveEventMediator);
+        VirtualControllers.Movement.SuscribeController(moveEventMediator);
 
-        VirtualControllers.Principal.SuscribeController(param.attackEventMediator);
+        VirtualControllers.Principal.SuscribeController(attackEventMediator);
 
-        VirtualControllers.Secondary.SuscribeController(param.abilityEventMediator);
+        VirtualControllers.Secondary.SuscribeController(abilityEventMediator);
 
-        VirtualControllers.Terciary.SuscribeController(param.dashEventMediator);
+        VirtualControllers.Terciary.SuscribeController(dashEventMediator);
     }
 
     public override void OnExitState(Character param)
@@ -267,13 +267,13 @@ public class IAIO : IAFather
         param.caster.rightEnergyUpdate -= RightEnergyUpdate;
         param.onTakeDamage -= OnTakeDamage;
 
-        param.attackEventMediator.eventDown -= AttackEventMediator_eventDown;
+        attackEventMediator.eventDown -= AttackEventMediator_eventDown;
 
-        param.abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
+        abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
 
-        param.moveEventMediator.eventDown -= MoveEventMediator_eventDown;
+        moveEventMediator.eventDown -= MoveEventMediator_eventDown;
 
-        param.dashEventMediator.eventDown -= DashEventMediator_eventDown;
+        dashEventMediator.eventDown -= DashEventMediator_eventDown;
 
         DesuscribiUI();
 
@@ -282,13 +282,13 @@ public class IAIO : IAFather
         VirtualControllers.Alpha3.eventDown -= Alpha3_eventDown;
         VirtualControllers.Alpha4.eventDown -= Alpha4_eventDown;
 
-        VirtualControllers.Movement.DesuscribeController(param.moveEventMediator);
+        VirtualControllers.Movement.DesuscribeController(moveEventMediator);
 
-        VirtualControllers.Principal.DesuscribeController(param.attackEventMediator);
+        VirtualControllers.Principal.DesuscribeController(attackEventMediator);
 
-        VirtualControllers.Secondary.DesuscribeController(param.abilityEventMediator);
+        VirtualControllers.Secondary.DesuscribeController(abilityEventMediator);
 
-        VirtualControllers.Terciary.DesuscribeController(param.dashEventMediator);
+        VirtualControllers.Terciary.DesuscribeController(dashEventMediator);
 
         VirtualControllers.Interact.eventDown -= Interact_eventDown;
 

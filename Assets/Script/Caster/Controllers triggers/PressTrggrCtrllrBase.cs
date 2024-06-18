@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/PressTriggerControllerBase")]
+[CreateAssetMenu(menuName = "Abilities/Trigger/PressTriggerControllerBase")]
 public class PressTrggrCtrllrBase : TriggerControllerBase
 {
     [Tooltip("Multiplicador de espera para el golpe automatico")]
@@ -37,14 +37,13 @@ public class PressTrggrCtrllr : TriggerController
 
         FeedBackReference?.Area(FinalMaxRange);
 
-        FeedBackReference?.Attack();
-
         Detect();
 
-        Cast();
+        Cast(() => End = false);
+
         if (affected != null && affected.Count > 0)
             Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-        End = false;
+       
         pressCooldown.Reset();
     }
 
@@ -60,13 +59,11 @@ public class PressTrggrCtrllr : TriggerController
         
         if (pressCooldown.Chck)
         {
-            Cast();
-            End = false;
+            Cast(() => End = false);
 
             if (affected != null && affected.Count > 0)
                 Aiming = (affected[0].transform.position - caster.transform.position).normalized;
 
-            FeedBackReference?.Attack();
             pressCooldown.Reset();
             
             /*

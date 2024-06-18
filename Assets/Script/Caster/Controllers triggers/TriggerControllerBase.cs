@@ -75,9 +75,13 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public float Auxiliar => ((IAbilityStats)ability).Auxiliar;
 
-    public void Cast() 
-        => ability.Cast();
-
+    public void Cast(System.Action actionOnCast = null)
+    {
+        if (ability.WaitAnimations)
+            ability.PreCast(actionOnCast);
+        else
+            ability.Cast(actionOnCast);
+    }
 
     public List<Entity> Detect(Entity caster, Vector3 pos)
         => ability.Detect(caster, pos);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
@@ -109,7 +113,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
         caster.onTakeDamage += Caster_onTakeDamage;
 
-        ability.onCast += param.AttackEvent;
+        ability.onPreCast += param.PreCastEvent;
 
         ability.ControllerDown(Vector2.zero, 0);
     }
@@ -126,15 +130,15 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         //ability.StopCast();
         caster.onTakeDamage -= Caster_onTakeDamage;
         param.abilityControllerMediator -= ability;
-        ability.onCast -= param.AttackEvent;
+        ability.onPreCast -= param.PreCastEvent;
     }
 
     private void Caster_onTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)
     {
-        if (ability.Auxiliar < obj.weightAction)
+        if (ability.weightAction < obj.weightAction)
         {
             ability.StopCast();
-            UI.Interfaz.instance.PopText(ability.caster.container, "Damaged".RichText("size", "25").RichTextColor(Color.gray), Vector2.up * 2);
+            UI.Interfaz.instance.PopText(ability.caster.container, "Stoped".RichText("size", "25").RichTextColor(Color.gray), Vector2.up * 2);
         }
     }
 

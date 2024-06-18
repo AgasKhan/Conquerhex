@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/UpTriggerControllerBase")]
+[CreateAssetMenu(menuName = "Abilities/Trigger/UpTriggerControllerBase")]
 public class UpTrggrCtrllrBase : TriggerControllerBase
 {
     public bool aimingToMove;
@@ -94,8 +94,6 @@ public class UpTrggrCtrllr : TriggerController
 
         if(affected!=null && affected.Count>0 && !(triggerBase?.aimingToMove ?? false))
             Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-
-        FeedBackReference?.Attack();
 
         caster.abilityControllerMediator -= this;
     }

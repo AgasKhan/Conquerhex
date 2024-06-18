@@ -18,6 +18,12 @@ public class MeleeWeaponBase : ItemCrafteable
 
     public float durability;
 
+    public AnimationClip animationCastStart;
+
+    public AnimationClip animationCastMiddle;
+
+    public AnimationClip animationCastExit;
+
     #region FUNCIONES
 
     public override Pictionarys<string, string> GetDetails()
@@ -80,6 +86,12 @@ public class MeleeWeapon : ItemEquipable<MeleeWeaponBase>, IGetPercentage
     public Damage[] damages => itemBase.damages;
 
     public event System.Action off;
+
+    public AnimationClip animationCastStart => itemBase.animationCastStart;
+
+    public AnimationClip animationCastMiddle => itemBase.animationCastMiddle;
+
+    public AnimationClip animationCastExit => itemBase.animationCastExit;
 
     public virtual IEnumerable<Entity> ApplyDamage(Ability ability, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {

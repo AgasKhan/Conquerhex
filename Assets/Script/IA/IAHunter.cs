@@ -25,15 +25,9 @@ public class IAHunter : IAFather, IGetPatrol, Init
     public Transform actualWaypoint => patrol.currentWaypoint;
 
 
-    public AutomaticAttack attk;
+    public AutomaticCharacterAttack attk;
 
-    public MoveEntityComponent move
-    {
-        get
-        {
-            return character.move;
-        }
-    }
+
 
     public Team team
     {
@@ -62,7 +56,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
-        attk = new AutomaticAttack(param.caster, 0);
+        attk.Init(param, param.caster.katasCombo[0]);
     }
 
     public override void OnStayState(Character param)
@@ -75,7 +69,6 @@ public class IAHunter : IAFather, IGetPatrol, Init
     public override void OnExitState(Character param)
     {
         attk?.StopTimers();
-        attk = null;
         base.OnExitState(param);
     }
 
@@ -157,7 +150,7 @@ public class HunterPatrol : IState<HunterIntern>
     public void OnEnterState(HunterIntern param)
     {
         hunter = param.context;
-        move = hunter.move;
+        move = hunter.character.move;
         param.context.patrol.fsmPatrol.OnMove += Move;
         param.context.patrol.fsmPatrol.OnStartWait += StartWait;
     }
@@ -180,7 +173,7 @@ public class HunterPatrol : IState<HunterIntern>
         if (move.VectorVelocity.sqrMagnitude >= 0.01f)
             conoDir = Vector3.Lerp(conoDir, move.VectorVelocity.normalized, Time.deltaTime);
 
-        this.move.ControllerPressed(dir.Vect3To2XZ(), 0);
+        param.context.moveEventMediator.ControllerPressed(dir.Vect3To2XZ(), 0);
     }
     public void OnExitState(HunterIntern param)
     {
@@ -251,7 +244,7 @@ public class HunterChase : IState<HunterIntern>
             param.context.attk.ResetAttack();
         }
 
-        param.context.move.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+        param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
     }
 
     public void OnExitState(HunterIntern param)

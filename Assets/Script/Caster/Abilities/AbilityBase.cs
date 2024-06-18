@@ -18,6 +18,8 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 
     public bool ShowFeedAffectedEntities = true;
 
+    public bool waitAnimations = false;
+
     public AnimationClip animationCastStart;
 
     public AnimationClip animationCastMiddle;
@@ -151,7 +153,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     /// </summary>
     public State state = State.start;
 
-    public event System.Action<Ability> onCast;
+    public event System.Action onCast;
+
+    System.Action _onInternalCast;
+
+    public event System.Action<Ability> onPreCast;
 
     public event System.Action onEnter;
 
@@ -181,11 +187,14 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public DamageContainer multiplyDamage { get; protected set; }
 
     public bool End { get; set; }
-    public AnimationClip animationCastStart => itemBase.animationCastStart;
 
-    public AnimationClip animationCastMiddle => itemBase.animationCastMiddle;
+    public bool WaitAnimations => itemBase.waitAnimations;
 
-    public AnimationClip animationCastExit => itemBase.animationCastExit;
+    public virtual AnimationClip animationCastStart => itemBase.animationCastStart;
+
+    public virtual AnimationClip animationCastMiddle => itemBase.animationCastMiddle;
+
+    public virtual AnimationClip animationCastExit => itemBase.animationCastExit;
 
     public int weightAction => itemBase.weightAction;
 
@@ -222,10 +231,10 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public virtual Vector3 Aiming
     {
-        get => caster.aiming;
+        get => caster.Aiming;
         set
         {
-            caster.aiming = value;
+            caster.Aiming = value;
         }
     }
 
@@ -258,8 +267,6 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         }
     }
 
-
-
     public Ability CreateCopy(out int index)
     {
         var aux = Create() as Ability;
@@ -287,9 +294,12 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities, bool showParticleInPos = true, bool showParticleDamaged=true)
     {
-        onCast?.Invoke(this);
+        _feedBackReference?.Attack();
 
-        if(showParticleInPos)
+        if (!WaitAnimations)
+            onPreCast?.Invoke(this);
+
+        if (showParticleInPos)
             itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * FinalMaxRange);
 
         if (entities != null)
@@ -299,7 +309,23 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
                     itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
             }
 
+
+        _onInternalCast?.Invoke();
+        onCast?.Invoke();
+
         return entities;
+    }
+
+    public void PreCast(System.Action onCastAction)
+    {
+        onPreCast?.Invoke(this);
+        _onInternalCast = onCastAction;
+    }
+
+    public IEnumerable<Entity> Cast(System.Action onCastAction)
+    {
+        _onInternalCast = onCastAction;
+        return ApplyCast(InternalCast(affected, out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
     }
 
     public IEnumerable<Entity> Cast()
@@ -413,7 +439,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     {
         if (DontExecuteCast)
         {
-            Debug.Log("sali comenzando a estar presionado");
+            //Debug.Log("sali comenzando a estar presionado");
             End = true;
             return;
         }
@@ -428,7 +454,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     {
         if (DontExecuteCast)
         {
-            Debug.Log("sali estando presionado");
+            //Debug.Log("sali estando presionado");
             End = true;
             return;
         }
@@ -442,7 +468,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
         if (DontExecuteCast)
         {
-            Debug.Log("sali finalizando a estar presionado");
+            //Debug.Log("sali finalizando a estar presionado");
             End = true;
             return;
         }
@@ -483,7 +509,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public void OnExitState(CasterEntityComponent param)
     {
         state = State.end;
-        onCast?.Invoke(this);
+        onPreCast?.Invoke(this);
 
         if (!DontExecuteCast)
         {

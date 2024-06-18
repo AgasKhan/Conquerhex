@@ -17,24 +17,9 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'QuickRigCharacter_RightLeg'
-      : position error = 1.555677 mm\n\t'QuickRigCharacter_RightFoot' : position
-      error = 1.133538 mm\n\t'QuickRigCharacter_LeftForeArm' : position error = 1.055548
-      mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'QuickRigCharacter_LeftLeg' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_LeftFoot' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_RightLeg' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_RightFoot' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_LeftForeArm' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_LeftHand' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_RightForeArm' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_Neck' has translation
-      animation that will be discarded.\n\t'QuickRigCharacter_Head' has translation
-      animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -71,7 +56,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.50230414
+        functionName: AnimEvent
+        data: Cast
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

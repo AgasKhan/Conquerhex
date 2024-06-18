@@ -106,7 +106,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     }
 
 
-
     public void StopIA()
     {
         Action = stopIA;
@@ -285,7 +284,8 @@ public class StunBar
     public BodyBase body;
 
     public bool isStunned = false;
-    public float CurrentDefense
+
+    float CurrentDefense
     {
         get => _currentDefense;
         set => _currentDefense = Mathf.Clamp(value, 0, maxDefense);
@@ -315,17 +315,17 @@ public class StunBar
         if (isStunned)
             return;
 
-        regenTim.Stop();
         CurrentDefense -= damage;
-        //Debug.Log("Daño: " + damage);
+
+        //Debug.Log($"Daño: {damage} queda: {CurrentDefense}");
+
+        regenTim.Stop();
+
+        regenDelayTim.Reset();
 
         if (CurrentDefense <= 0)
         {
             character.Action = stunAction;
-        }
-        else
-        {
-            regenDelayTim.Reset();
         }
     }
 
@@ -359,12 +359,13 @@ public class StunBar
         regenDelayTim = TimersManager.Create(body.defenseRegenDelay, () => regenTim.Reset()).SetInitCurrent(body.defenseRegenDelay).Stop();
         regenTim = TimersManager.Create(body.defenseRegenSpeed, () =>
         {
-            if (CurrentDefense < maxDefense)
+            CurrentDefense += body.defenseRegenAmount;
+
+            if (CurrentDefense >= maxDefense)
             {
-                CurrentDefense += body.defenseRegenAmount;
-                regenTim.Reset();
+                regenTim.Stop();
             }
-        }).Stop();
+        }).SetLoop(true).Stop();
     }
 }
 
@@ -416,13 +417,34 @@ namespace FSMCharacterAndStates
     /// </summary>
     public class ActionStateCharacter : IState<FSMCharacter>
     {
-        public IStateWithEnd<FSMAutomaticEnd<Character>> stateWithEnd;
+        public IStateWithEnd<FSMAutomaticEnd<Character>> stateWithEnd
+        {
+            get => _stateWithEnd;
+            set
+            {
+                if (_stateWithEnd!=null)
+                {
+                    //Debug.Log($"ExitAction: {_stateWithEnd.GetType().Name}-------------------------------------------------------------------");
+
+                    InternalCharacterAction.CurrentState = value;
+
+                    _stateWithEnd = value;
+
+                    //Debug.Log($"EnterAction: {_stateWithEnd.GetType().Name}-------------------------------------------------------------------");
+                }
+                else
+                    _stateWithEnd = value;
+            }
+        }
+
+        IStateWithEnd<FSMAutomaticEnd<Character>> _stateWithEnd;
 
         FSMAutomaticEnd<Character> InternalCharacterAction = new FSMAutomaticEnd<Character>();
 
         public void OnEnterState(FSMCharacter param)
         {
             InternalCharacterAction.EnterState(stateWithEnd);
+            //Debug.Log($"{param.context.name} EnterAction: {stateWithEnd.GetType().Name}-------------------------------------------------------------------");
         }
 
         public void OnStayState(FSMCharacter param)
@@ -434,8 +456,11 @@ namespace FSMCharacterAndStates
 
         public void OnExitState(FSMCharacter param)
         {
-            if(!InternalCharacterAction.end)
-                stateWithEnd.OnExitState(InternalCharacterAction);
+            stateWithEnd.OnExitState(InternalCharacterAction);
+
+            //Debug.Log($"{param.context.name} ExitAction: {stateWithEnd.GetType().Name}-------------------------------------------------------------------");
+
+            _stateWithEnd = null;
         }
 
         public ActionStateCharacter(Character character)
@@ -566,8 +591,9 @@ namespace FSMCharacterAndStates
 
         public void OnExitState(FSMAutomaticEnd<Character> param)
         {
-            this.param = null;
             _stateWithEnd?.OnExitState(param.context.caster);
+
+            this.param = null;
 
             _stateWithEnd = null;
 
@@ -594,7 +620,7 @@ namespace FSMCharacterAndStates
             stunTimer.Reset();
             OnStunned?.Invoke();
 
-            //Debug.Log(character.gameObject.name + " Stunned-------------------------------------------------------------------");
+            //Debug.Log(param.context.name + " Stunned-------------------------------------------------------------------");
         }
 
         public void OnStayState(FSMAutomaticEnd<Character> param)
@@ -605,12 +631,12 @@ namespace FSMCharacterAndStates
         public void OnExitState(FSMAutomaticEnd<Character> param)
         {
             stunBar.isStunned = false;
+            stunBar.Stun(false);
+
             stunBar.RestartDefense();
             OnRecover?.Invoke();
 
-            stunBar.Stun(false);
-
-            //Debug.Log(character.gameObject.name + " Recovered-------------------------------------------------------------------");
+            //Debug.Log(param.context.name + " Recovered-------------------------------------------------------------------");
         }
 
         public StunActionCharacter(StunBar stunBar)

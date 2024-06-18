@@ -28,7 +28,7 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
 
     public Transform alertPoint;
 
-    public AutomaticAttack attack;
+    public AutomaticCharacterAttack attack;
 
     public MoveEntityComponent move
     {
@@ -60,7 +60,7 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
-        attack = new AutomaticAttack(param.caster, 0);
+        attack.Init(param, param.caster.katasCombo[0]);
     }
 
     public override void OnStayState(Character param)
@@ -73,7 +73,6 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
     public override void OnExitState(Character param)
     {
         attack?.StopTimers();
-        attack = null;
         base.OnExitState(param);
     }
 
@@ -166,7 +165,7 @@ public class GenericPatrol : IState<GenericEnemyFSM>
         if (move.VectorVelocity.sqrMagnitude >= 0.01f)
             conoDir = Vector3.Lerp(conoDir, move.VectorVelocity.normalized, Time.deltaTime);
 
-        this.move.ControllerPressed(dir, 0);
+        param.context.moveEventMediator.ControllerPressed(dir, 0);
     }
     public void OnExitState(GenericEnemyFSM param)
     {
@@ -239,10 +238,10 @@ public class GenericChase : IState<GenericEnemyFSM>
             param.context.attack.ResetAttack();
         }
 
-        param.context.move.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+        param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
     }
 
-    private void Attack_onAttack(Ability ability)
+    private void Attack_onAttack()
     {
         if(!evadeTimer.Chck)
             return;

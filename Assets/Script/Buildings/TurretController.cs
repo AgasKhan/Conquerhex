@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class TurretController : BuildingsController
 {
     [SerializeReference]
-    AutomaticAttack prin;
+    AutomaticCharacterAttack prin;
 
     [SerializeReference]
-    AutomaticAttack sec;
+    AutomaticCharacterAttack sec;
 
     [SerializeReference]
-    AutomaticAttack ter;
+    AutomaticCharacterAttack ter;
 
     [SerializeField]
     public TurretSubMenu subMenu;
@@ -29,11 +29,11 @@ public class TurretController : BuildingsController
     */
     private void MyAwake()
     {
-        SetAttack(prin = new AutomaticAttack(turret.attack, 0));
+        SetAttack(prin = new AutomaticCharacterAttack());
 
-        SetAttack(sec = new AutomaticAttack(turret.attack, 1));
+        SetAttack(sec = new AutomaticCharacterAttack());
 
-        SetAttack(ter = new AutomaticAttack(turret.attack, 2));
+        SetAttack(ter = new AutomaticCharacterAttack());
 
         turret.health.noLife += DestroyTurret;
     }
@@ -41,12 +41,14 @@ public class TurretController : BuildingsController
     {
         subMenu.Init(turret);
     }
-    void SetAttack(AutomaticAttack automatic)
+    void SetAttack(AutomaticCharacterAttack automatic)
     {
-        automatic.onAttack += (ability) =>
+        automatic.onAttack += () =>
         {
+            /*
             if (automatic.weaponKata != null)
                 automatic.timerToAttack.Set(automatic.weaponKata.FinalVelocity + 0.1f);
+            */
         };
 
         automatic.timerToAttack.Start();

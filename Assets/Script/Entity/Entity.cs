@@ -33,7 +33,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
     [field: SerializeField]
     public HealthBase healthBase { get; protected set; }
 
-    protected Damage[] vulnerabilities => healthBase?.vulnerabilities;
+    public DamageContainer vulnerabilities;
     
     public virtual bool visible { get => isActiveAndEnabled; set => enabled = value; }
 
@@ -94,15 +94,12 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
     public virtual void InternalTakeDamage(ref Damage dmg, int weightAction = 0 ,Vector3? damageOrigin = null)
     {
-        if (vulnerabilities!=null)
-            for (int i = 0; i < vulnerabilities.Length; i++)
-            {
-                if (dmg.typeInstance == vulnerabilities[i].typeInstance)
-                {
-                    dmg.amount *= vulnerabilities[i].amount;
-                    break;
-                }
-            }
+        Damage.Combine(Damage.MultiplicativeFusion, vulnerabilities.content, ref dmg);
+
+        foreach (var item in damageables)
+        {
+            item.InternalTakeDamage(ref dmg, weightAction, damageOrigin);
+        }
 
         if (dmg.amount <= 0)
             return;
@@ -183,12 +180,9 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         if (dmg.amount <= 0)
             return;
 
-        dmg.ActionInitialiced(this, dmg.amount);
 
-        foreach (var item in damageables)
-        {
-            item.InternalTakeDamage(ref dmg, weightAction, damageOrigin);
-        }
+
+        dmg.ActionInitialiced(this, dmg.amount);
 
         health.StartRegenTimer();
     }
@@ -321,6 +315,8 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         }
 
         health.Init(life, regen);
+
+        vulnerabilities = new DamageContainer(() => healthBase?.vulnerabilities);
 
         tickDamage = TimersManager.Create(tickTimeDamage, ()=> updateTickDamage?.Invoke() ).SetLoop(true).Stop() as TimedAction;
 

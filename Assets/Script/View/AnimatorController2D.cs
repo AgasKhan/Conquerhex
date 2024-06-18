@@ -47,7 +47,7 @@ public class AnimatorController2D : ComponentOfContainer<Entity>
             return;
         }
 
-        container.GetInContainer<CasterEntityComponent>().onAttack += Ia_onAttack;
+        container.GetInContainer<CasterEntityComponent>().onPreCast += Ia_onAttack;
 
         container.GetInContainer<MoveEntityComponent>().onIdle += Ia_onIdle;
 

@@ -19,15 +19,23 @@ MonoBehaviour:
   maxAmount: 1
   weight: 0
   visible: 1
+  ingredients: []
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
+  waitAnimations: 1
+  animationCastStart: {fileID: 0}
+  animationCastMiddle: {fileID: 0}
+  animationCastExit: {fileID: 0}
   particles: []
   audios:
     pictionaries: []
   velocity: 4
   costExecution: 0
   costHandle: 0
+  weightAction: 0
   damagesMultiply: []
   indexParticles: []
   <trigger>k__BackingField: {fileID: 11400000, guid: 10e031579ca5cc447ac31d598ffa9193,

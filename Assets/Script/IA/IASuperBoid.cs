@@ -95,11 +95,11 @@ public class FSMBoid : FSM<FSMBoid, IASuperBoid>
 
 public class BoidAttack : IState<FSMBoid>
 {
-    AutomaticAttack automaticAttack;
+    AutomaticCharacterAttack automaticAttack = new AutomaticCharacterAttack();
 
     public BoidAttack(Character character)
     {
-        automaticAttack = new AutomaticAttack(character.caster, 0);
+        automaticAttack.Init(character, character.caster.katasCombo[0]);
     }
 
     //ataque
@@ -122,7 +122,7 @@ public class BoidAttack : IState<FSMBoid>
         {
             var aux = param.context.transform.position - param.context.lider.transform.position;
 
-            param.context.character.move.ControllerPressed(aux.normalized.Vect3To2XZ(),0); 
+            param.context.character.moveEventMediator.ControllerPressed(aux.normalized.Vect3To2XZ(),0); 
 
             if (param.context.lider.health.actualLife < param.context.lider.health.maxLife / 2)
             {

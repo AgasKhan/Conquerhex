@@ -5,12 +5,28 @@ using ComponentsAndContainers;
 
 public class AnimatorController : ComponentOfContainer<Entity>
 {
+    public class AnimationEventMediator : MonoBehaviour
+    {
+        public AnimatorController reference;
+
+        public void AnimEvent(string str)
+        {
+            if (str == string.Empty)
+                return;
+
+            //Debug.Log("AnimEvent: " + str);
+            reference?.animationEventMediator[str]?.Invoke();
+        }
+    }
+
     [System.Serializable]
     public class AnimationData
     {
         public bool canChange = true;
         public AnimationClip clip;
     }
+
+    public Dictionary<string, System.Action> animationEventMediator = new Dictionary<string, System.Action>();
 
     [SerializeField]
     bool active = true;
@@ -20,8 +36,6 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
     [SerializeField]
     Pictionarys<string, AnimationData> animations = new Pictionarys<string, AnimationData>();
-
-    AnimatorOverrideController animatorOverrideController;
 
     [SerializeField]
     string action1Name, 
@@ -34,6 +48,8 @@ public class AnimatorController : ComponentOfContainer<Entity>
         actionLoop2NameStart, 
         actionLoop2NameMiddle, 
         actionLoop2NameEnd;
+
+    AnimatorOverrideController animatorOverrideController;
 
     bool action = true;
 
@@ -55,13 +71,20 @@ public class AnimatorController : ComponentOfContainer<Entity>
         controller.SetBool("Move", false);
     }
 
-    private void Ia_onAttack(Ability ability)
+    private void Ia_onAiming(Vector3 obj)
     {
-        if(ability.Aiming!=Vector3.zero)
-            controller.transform.forward = ability.Aiming;
+        if (obj != Vector3.zero)
+            controller.transform.forward = obj;
+    }
 
+    private void Ia_PreCast(Ability ability)
+    {
         switch (ability.state)
         {
+            case Ability.State.middle:
+
+                break;
+
             case Ability.State.start:
 
                 controller.SetBool(strLoopAction, false);
@@ -69,7 +92,14 @@ public class AnimatorController : ComponentOfContainer<Entity>
                 if (ability.animationCastMiddle == null && ability.animationCastExit == null)
                 {
                     ChangeActionAnimation(ability.animationCastStart);
+
+                    if(ability.WaitAnimations)
+                        animationEventMediator["Cast"] = ()=> ability.Cast();
+                    else
+                        animationEventMediator["Cast"] = null;
+
                     controller.SetTrigger(strAction);
+
                 }
                 else
                 {
@@ -77,12 +107,6 @@ public class AnimatorController : ComponentOfContainer<Entity>
                     controller.SetBool(strLoopAction, true);
                 }
                 break;
-
-
-            case Ability.State.middle:
-
-                break;
-
 
             case Ability.State.end:
 
@@ -188,14 +212,22 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
         SuperAnimator();
 
-        container.GetInContainer<CasterEntityComponent>().onAttack += Ia_onAttack;
+        controller.gameObject.AddComponent<AnimationEventMediator>().reference = this;
+
+        container.GetInContainer<CasterEntityComponent>().onPreCast += Ia_PreCast;
+
+        container.GetInContainer<CasterEntityComponent>().onAiming += Ia_onAiming;
 
         container.GetInContainer<MoveEntityComponent>().onIdle += Ia_onIdle;
 
         container.GetInContainer<MoveEntityComponent>().onMove += Ia_onMove;
 
         container.health.death += Ia_onDeath;
+
+        //animationEventMediator.Add("Cast", )
     }
+
+
 
     public override void OnStayState(Entity param)
     {
@@ -204,5 +236,6 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
     public override void OnExitState(Entity param)
     {
+
     }
 }

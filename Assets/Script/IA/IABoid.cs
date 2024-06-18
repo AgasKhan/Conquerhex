@@ -13,8 +13,6 @@ public class IABoid : IAFather
     [SerializeField]
     public Pictionarys<string, SteeringWithTarget> steerings;
 
-    MoveEntityComponent move;
-
     protected Vector3 dir = Vector3.zero;
 
     delegate void _FuncBoid(ref Vector3 desired, IABoid objective, Vector3 dirToBoid);
@@ -23,15 +21,13 @@ public class IABoid : IAFather
     {
         base.OnEnterState(param);
 
-        move = param.move;
-
         BoidsManager.list.Add(this);
 
         //randomizar el movimiento inicial de los boids
         //Vector2 random = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
         Vector3 random = Random.insideUnitCircle.Vect2To3XZ(0);
 
-        move.ControllerPressed(random.normalized.Vect3To2XZ(),0);
+        param.moveEventMediator.ControllerPressed(random.normalized.Vect3To2XZ(),0);
     }
 
     public override void OnStayState(Character param)
@@ -47,14 +43,12 @@ public class IABoid : IAFather
         SteeringsMovement();
 
 
-        move.ControllerPressed(dir.Vect3To2XZ(), 0);
+        param.moveEventMediator.ControllerPressed(dir.Vect3To2XZ(), 0);
     }
 
     public override void OnExitState(Character param)
     {
         base.OnExitState(param);
-
-        move = null;
     }
 
     protected virtual void Detection()
@@ -154,7 +148,7 @@ public class IABoid : IAFather
 
     void Alignment(ref Vector3 desired, IABoid boid, Vector3 dirToBoid)
     {
-        desired += boid.move.VectorVelocity;
+        desired += boid.character.move.VectorVelocity;
     }
 
     protected Vector3 Cohesion()

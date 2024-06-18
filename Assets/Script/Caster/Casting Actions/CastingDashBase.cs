@@ -102,7 +102,7 @@ public class CastingDash : CastingAction<CastingDashBase>
         {
             moveEntity.Velocity(Aiming, castingActionBase.velocityInDash * FinalMaxRange);
 
-            Debug.Log("Velocity: " + FinalMaxRange);
+            //Debug.Log("Velocity: " + FinalMaxRange);
         }
         else
         {

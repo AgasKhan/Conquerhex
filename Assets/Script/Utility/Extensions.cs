@@ -675,4 +675,13 @@ public static class Extensions
         return team != toCheck && toCheck != Team.noTeam;
     }
 
+    static public bool IsChildOf<T>(this object obj)
+    {
+        return typeof(T).IsAssignableFrom(obj.GetType());
+    }
+
+    static public bool IsChildOf(this object obj, object obj2)
+    {
+        return obj2.GetType().IsAssignableFrom(obj.GetType());
+    }
 }

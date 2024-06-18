@@ -6,7 +6,7 @@ public class IAAnimator : IAFather
 {
     public IGetEntity enemy;
 
-    public AutomaticAttack automatick;
+    public AutomaticCharacterAttack automatick;
 
     public Detect<IGetEntity> detectEntities;
 
@@ -18,7 +18,7 @@ public class IAAnimator : IAFather
 
         //timerStun.Set(((BodyBase)character.flyweight).stunTime);
 
-        automatick = new AutomaticAttack(character.caster, 2);
+        automatick.Init(param, param.caster.katasCombo[1]);
     }
 
     public override void OnStayState(Character param)

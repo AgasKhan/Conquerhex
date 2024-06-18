@@ -94,11 +94,11 @@ public class FSMBrandNew : FSM<FSMBrandNew, IIA_BrandNewEnemy>
 
 public class BrandNewAttack : IState<FSMBrandNew>
 {
-    AutomaticAttack automaticAttack;
+    AutomaticCharacterAttack automaticAttack= new AutomaticCharacterAttack();
 
     public BrandNewAttack(Character character)
     {
-        automaticAttack = new AutomaticAttack(character.caster, 0);
+        automaticAttack.Init(character, character.caster.katasCombo[0]);
     }
 
     //ataque

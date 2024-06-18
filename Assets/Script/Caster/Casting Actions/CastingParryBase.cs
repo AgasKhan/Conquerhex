@@ -15,7 +15,7 @@ public class CastingParryBase : CastingActionBase
 
     protected override Type SetItemType()
     {
-        return typeof(CastingDash);
+        return typeof(CastingParry);
     }
 }
 
@@ -28,10 +28,12 @@ public class CastingParry : CastingAction<CastingParryBase>
 
     CastingAction failureCastingAction;
 
+    bool successParry = false;
+
     public override void Init(Ability ability)
     {
         base.Init(ability);
-        parryTime = TimersManager.Create(castingActionBase.parryTime, Update, Finish).Stop();
+        parryTime = TimersManager.Create(castingActionBase.parryTime, Finish).Stop();
 
         if(castingActionBase.successCastingAction != null)
         {
@@ -43,37 +45,54 @@ public class CastingParry : CastingAction<CastingParryBase>
             failureCastingAction = castingActionBase.failureCastingAction.Create();
             failureCastingAction.Init(ability);
         }
-
-        ability.caster.container.health.lifeUpdate += Parry;
-    }
-
-
-    bool successParry = false;
-    private void Parry(IGetPercentage arg1, float arg2)
-    {
-        successParry = true;
-    }
-
-    void Update()
-    {
-        if(successParry)
-        {
-            ability.ApplyCast(successCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
-        }
-
-        if (End)
-        {
-            ability.ApplyCast(failureCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
-        }
-    }
-
-    void Finish()
-    {
-
     }
 
     public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
-        throw new NotImplementedException();
+        showParticleInPos = false;
+        showParticleDamaged = false;
+
+        caster.container.vulnerabilities.Add(Damage.Create<DamageTypes.PureDamage>(0, 0, "Parry"));
+
+        caster.onTakeDamage += OnTakeDamage;
+
+        parryTime.Reset();
+
+        End = false;
+
+        successParry = false;
+
+        return entities;
+    }
+
+    private void OnTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)
+    {
+        if (obj.dmg.typeInstance.IsParent)
+            return;
+
+        successParry = true;
+        if (successCastingAction != null)
+            ability.ApplyCast(successCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool shPos, out bool shDmg), shPos, shDmg);
+    }
+
+    void Finish()
+    {
+        caster.onTakeDamage -= OnTakeDamage;
+
+        caster.container.vulnerabilities.Remove(Damage.Create<DamageTypes.PureDamage>(0, 0, "Parry"));
+
+        if (!successParry)
+        {
+            if(failureCastingAction!=null)
+                ability.ApplyCast(failureCastingAction.InternalCastOfExternalCasting(null, out bool shPos, out bool shDmg), shPos, shDmg);
+
+            caster.positiveEnergy = 0;
+        }
+        else
+        {
+            caster.positiveEnergy = 75;
+        }
+                       
+        End = true;
     }
 }

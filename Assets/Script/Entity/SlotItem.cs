@@ -13,8 +13,8 @@ public class SlotItem
     [SerializeField]
     protected int _indexEquipedItem = -1;
 
-    [SerializeField]
-    protected int _indexSlot = -1;
+    [field:SerializeField]
+    public int indexSlot { get; protected set; } = -1;
 
     [SerializeReference]
     ItemEquipable _equiped;
@@ -52,7 +52,7 @@ public class SlotItem
                 
                 _equiped.onDrop += EquipedOnDrop;
                 _equiped.equipedSlot = this;
-                _equiped.Equip(_indexSlot);
+                _equiped.Equip(indexSlot);
             }
             else
             {
@@ -103,7 +103,7 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
 
     public SlotItem(int indexSlot)
     {
-        _indexSlot = indexSlot;
+        base.indexSlot = indexSlot;
     }
 }
 

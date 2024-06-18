@@ -13,7 +13,7 @@ public class PreAttackIA : StateMachineBehaviour
         {
             me = animator.GetComponentInParent<IAAnimator>();
            
-            me.automatick.onAttack += (ability) =>
+            me.automatick.onAttack += () =>
             {
                 animator.Play("Attack");
             };

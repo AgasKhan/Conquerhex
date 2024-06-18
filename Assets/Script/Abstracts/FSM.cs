@@ -17,10 +17,12 @@ public class FSMAutomaticEnd<TContext> : FSMParent<FSMAutomaticEnd<TContext>, TC
         if(!CurrentState.End)
             base.UpdateState();
 
+        /*
         if (CurrentState.End)
         {
             ExitState();
-        }                  
+        } 
+        */
     }
 }
 
@@ -49,11 +51,11 @@ public abstract class FSMParent<TChild, TContext, TState> : ISwitchState<TChild,
 
     TState currentState;
 
-    public event System.Action<TState, TState> onChange; //del que vengo al cual voy
+    //public event System.Action<TState, TState> onChange; //del que vengo al cual voy
 
-    public event System.Action<TChild> onEnter;
+    //public event System.Action<TChild> onEnter;
 
-    public event System.Action<TChild> onExit;
+    //public event System.Action<TChild> onExit;
 
     public TState CurrentState
     {
@@ -72,7 +74,7 @@ public abstract class FSMParent<TChild, TContext, TState> : ISwitchState<TChild,
             return;
 
         ExitState();
-        onChange?.Invoke(currentState, state);
+        //onChange?.Invoke(currentState, state);
         Init(state);
     }
 
@@ -88,7 +90,7 @@ public abstract class FSMParent<TChild, TContext, TState> : ISwitchState<TChild,
     protected void Init(TState first)
     {
         currentState = first;
-        onEnter?.Invoke(FSMConvertToChild());
+        //onEnter?.Invoke(FSMConvertToChild());
         currentState.OnEnterState(FSMConvertToChild());
     }
 
@@ -98,7 +100,7 @@ public abstract class FSMParent<TChild, TContext, TState> : ISwitchState<TChild,
     protected void ExitState()
     {
         currentState.OnExitState(FSMConvertToChild());
-        onExit?.Invoke(FSMConvertToChild());
+        //onExit?.Invoke(FSMConvertToChild());
     }
 
     /// <summary>

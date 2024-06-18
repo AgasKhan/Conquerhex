@@ -10,9 +10,11 @@ public class IALastChance : IAFather
 
     Timer timer;
 
-    AutomaticAttack prin;
+    [SerializeField]
+    AutomaticCharacterAttack prin;
 
-    AutomaticAttack sec;
+    [SerializeField]
+    AutomaticCharacterAttack sec;
 
     [SerializeField]
     float distanceAttack;
@@ -78,15 +80,15 @@ public class IALastChance : IAFather
 
         doryEnemy = TimersManager.Create(10, () => enemy = null);
 
-        prin = new AutomaticAttack(character.caster, 0);
+        prin.Init(param, param.caster.katasCombo[0]);
 
-        sec = new AutomaticAttack(character.caster, 1);
+        sec.Init(param, param.caster.katasCombo[1]);
 
         timer = TimersManager.Create(1);
 
-        prin.onAttack += (ability) => timer.Set(prin.timerChargeAttack.total);
+        prin.onAttack += () => timer.Set(prin.timerChargeAttack.total);
 
-        sec.onAttack += (ability) => timer.Set(sec.timerChargeAttack.total);
+        sec.onAttack += () => timer.Set(sec.timerChargeAttack.total);
     }
 
     public override void OnExitState(Character param)

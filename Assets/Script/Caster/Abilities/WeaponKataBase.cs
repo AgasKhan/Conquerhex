@@ -6,9 +6,7 @@ using System;
 [CreateAssetMenu(menuName = "Abilities/WeaponKata", fileName = "new WeaponKata")]
 public class WeaponKataBase : AbilityBase
 {
-
     public int damageToWeapon = 1;
-
 
     public Damage[] RequiredDamage = new Damage[0];
 
@@ -43,6 +41,12 @@ public class WeaponKata : Ability
 
     new public WeaponKataBase itemBase => (WeaponKataBase)base.itemBase;
 
+    public override AnimationClip animationCastStart =>  equipedWeapon.animationCastStart == null ?  base.animationCastStart : equipedWeapon.animationCastStart;
+
+    public override AnimationClip animationCastMiddle => equipedWeapon.animationCastMiddle == null ? base.animationCastMiddle : equipedWeapon.animationCastMiddle;
+
+    public override AnimationClip animationCastExit => equipedWeapon.animationCastExit == null ? base.animationCastExit : equipedWeapon.animationCastExit;
+
     public override float FinalVelocity => base.FinalVelocity * (WeaponEnabled?.itemBase.velocity ?? 1);
 
     public override float FinalMaxRange => base.FinalMaxRange * (WeaponEnabled?.itemBase.range ?? 1);
@@ -50,7 +54,6 @@ public class WeaponKata : Ability
     public override bool DontExecuteCast => base.DontExecuteCast || WeaponEnabled == null;
 
     public override bool visible => externalKata && !IsCopy;
-
 
     /// <summary>
     /// Devuelve el arma si esta esta en condiciones de ser utilizada
@@ -61,8 +64,6 @@ public class WeaponKata : Ability
     /// devuelve el arma vinculada a la habilidad
     /// </summary>
     public MeleeWeapon Weapon => equipedWeapon;
-
-    
 
     public virtual void ChangeWeapon(Item weaponParam)
     {

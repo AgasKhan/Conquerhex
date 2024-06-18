@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/ChargeAffectedUpTriggerControllerBase")]
+[CreateAssetMenu(menuName = "Abilities/Trigger/ChargeAffectedUpTriggerControllerBase")]
 public class ChargeAffectedUpTrggrCtrllrBase : TriggerControllerBase
 {
     [Tooltip("Multiplicador de tiempo el aumento de afectados")]
