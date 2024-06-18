@@ -50,16 +50,11 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
         }
     }
 
-    protected virtual void Awake()
-    {
-        fsm = new GenericEnemyFSM(this);
-        //attack = new AutomaticAttack(character.caster, 0);
-        Init();
-    }
-
     public override void OnEnterState(Character param)
     {
+        Init();
         base.OnEnterState(param);
+        fsm = new GenericEnemyFSM(this);
         attack.Init(param, param.caster.katasCombo[0]);
     }
 
@@ -198,8 +193,17 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     Timer evadeTimer;
 
+    GenericEnemyFSM param;
+
+    public GenericChase()
+    {
+        evadeTimer = TimersManager.Create(2, () => { param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/ }).Stop();
+    }
+
     public void OnEnterState(GenericEnemyFSM param)
     {
+        this.param = param;
+
         param.context.Detect();
 
         steerings = param.context.steerings["corderitos"];
@@ -210,7 +214,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         param.context.attack.onAttack += Attack_onAttack;
 
-        evadeTimer = TimersManager.Create(param.context.timeToEvade, ()=> { param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/ }).Stop().SetInitCurrent(0);
+        evadeTimer.Set(param.context.timeToEvade, false).SetInitCurrent(0);
     }
 
     public void OnStayState(GenericEnemyFSM param)
@@ -219,23 +223,32 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
 
-        if (evadeTimer.Chck && distance > param.context.attackDetection.maxRadius * param.context.attackDetection.maxRadius || !steerings.targets[0].visible)
+        if(!steerings.targets[0].visible)
         {
             param.CurrentState = param.waiting;
             return;
         }
-        else if (evadeTimer.Chck && distance >= param.context.attackDetection.maxRadius / 2)
-        {
-            steerings.SwitchSteering<Pursuit>();
-        }
-        else if (evadeTimer.Chck && distance < param.context.attackDetection.maxRadius / 3)
-        {
-            steerings.SwitchSteering<Seek>();
-        }
 
-        if (evadeTimer.Chck && distance <= (param.context.attack.radius * param.context.attack.radius) && param.context.attack.cooldown)
+        if(evadeTimer.Chck)
         {
-            param.context.attack.ResetAttack();
+            if (distance > param.context.attackDetection.maxRadius * param.context.attackDetection.maxRadius)
+            {
+                param.CurrentState = param.waiting;
+                return;
+            }
+            else if ( distance >= param.context.attackDetection.maxRadius / 2)
+            {
+                steerings.SwitchSteering<Pursuit>();
+            }
+            else if (distance < param.context.attackDetection.maxRadius / 3)
+            {
+                steerings.SwitchSteering<Seek>();
+            }
+
+            if (distance <= (param.context.attack.radius * param.context.attack.radius) && param.context.attack.cooldown)
+            {
+                param.context.attack.ResetAttack();
+            }
         }
 
         param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
@@ -273,9 +286,15 @@ public class GenericChase : IState<GenericEnemyFSM>
 public class GenericWaiting : IState<GenericEnemyFSM>
 {
     Timer timeToStart;
+
+    public GenericWaiting()
+    {
+        timeToStart = TimersManager.Create(2).Stop();
+    }
+
     public void OnEnterState(GenericEnemyFSM param)
     {
-        timeToStart = TimersManager.Create(param.context.timeToIdle);
+        timeToStart.Set(param.context.timeToIdle);
         //timeToStart.Reset();
     }
 
@@ -297,7 +316,6 @@ public class GenericWaiting : IState<GenericEnemyFSM>
 
     public void OnExitState(GenericEnemyFSM param)
     {
-
     }
 }
 
@@ -309,12 +327,16 @@ public class GenericAlert : IState<GenericEnemyFSM>
 
     SteeringWithTarget steerings;
 
+    public GenericAlert()
+    {
+        timeToGeneratePoint = TimersManager.Create(2f, () => GeneratePoint()).SetLoop(true).Stop();
+    }
+
     public void OnEnterState(GenericEnemyFSM param)
     {
-        timeToGeneratePoint = TimersManager.Create(2f, ()=> GeneratePoint()).SetLoop(true);
+        timeToGeneratePoint.Reset();
         originalPos = param.context.transform.position;
         alertPointRange = param.context.alertPointRange;
-
         steerings = param.context.steerings["alert"];
         param.context.alertPoint.position = GeneratePoint();
         steerings.GetMove(param.context.alertPoint);
@@ -344,7 +366,7 @@ public class GenericAlert : IState<GenericEnemyFSM>
                            Random.Range(originalPos.z - alertPointRange, originalPos.z + alertPointRange));
     }
 }
-
+/*
 public class GenericStalk : IState<GenericEnemyFSM>
 {
     Timer timeToGeneratePoint;
@@ -375,12 +397,13 @@ public class GenericStalk : IState<GenericEnemyFSM>
     {
         timeToGeneratePoint.Stop();
     }
-    /*
+
     Vector3 GeneratePoint()
     {
         var Hector =  new Vector3(Random.Range(originalPos.x - alertPointRange, originalPos.x + alertPointRange), 0,
                            Random.Range(originalPos.z - alertPointRange, originalPos.z + alertPointRange));
         float myX = Mathf.Clamp() Random.Range(originalPos.x - alertPointRange, originalPos.x + alertPointRange)
 
-    }*/
+
 }
+*/

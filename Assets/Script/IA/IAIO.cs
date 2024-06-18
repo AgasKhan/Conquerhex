@@ -216,11 +216,11 @@ public class IAIO : IAFather
 
         param.move.onTeleport += TeleportEvent;
 
-        param.health.lifeUpdate += UpdateLife;
-        param.health.regenUpdate += UpdateRegen;
-        param.health.regenTimeUpdate += UpdateRegenTime;
+        //param.health.lifeUpdate += UpdateLife;
+        //param.health.regenUpdate += UpdateRegen;
+        //param.health.regenTimeUpdate += UpdateRegenTime;
 
-        param.onTakeDamage += OnTakeDamage;
+        //param.onTakeDamage += OnTakeDamage;
 
         param.health.helthUpdate += Health_helthUpdate;
 
@@ -258,14 +258,14 @@ public class IAIO : IAFather
     {
         param.move.onTeleport -= TeleportEvent;
 
-        param.health.lifeUpdate -= UpdateLife;
-        param.health.regenUpdate -= UpdateRegen;
-        param.health.regenTimeUpdate -= UpdateRegenTime;
+        //param.health.lifeUpdate -= UpdateLife;
+        //param.health.regenUpdate -= UpdateRegen;
+        //param.health.regenTimeUpdate -= UpdateRegenTime;
         param.health.helthUpdate -= Health_helthUpdate;
         param.caster.energyUpdate -= EnergyUpdate;
         param.caster.leftEnergyUpdate -= LeftEnergyUpdate;
         param.caster.rightEnergyUpdate -= RightEnergyUpdate;
-        param.onTakeDamage -= OnTakeDamage;
+        //param.onTakeDamage -= OnTakeDamage;
 
         attackEventMediator.eventDown -= AttackEventMediator_eventDown;
 
@@ -373,11 +373,6 @@ public class IAIO : IAFather
         });
     }
 
-    private void OnTakeDamage(Damage obj)
-    {
-        eventsManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato?.Invoke(character.health);
-    }
-
     private void Health_helthUpdate(Health obj)
     {
         eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
@@ -396,21 +391,6 @@ public class IAIO : IAFather
     private void RightEnergyUpdate(float obj)
     {
         energyEvent.thirdDelegato?.Invoke(obj);
-    }
-
-    void UpdateLife(IGetPercentage arg1, float arg3)
-    {
-        eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.life).delegato?.Invoke((arg1, arg3));
-    }
-
-    void UpdateRegen(IGetPercentage arg1, float arg3)
-    {
-        eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.regen).delegato?.Invoke((arg1, arg3));
-    }
-
-    private void UpdateRegenTime(IGetPercentage arg1, float arg2)
-    {
-        eventsManager.events.SearchOrCreate<SingleEvent<(IGetPercentage, float)>>(LifeType.time).delegato?.Invoke((arg1, arg2));
     }
 
     private void OnCharacterSelected(Character chara)

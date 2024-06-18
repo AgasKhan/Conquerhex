@@ -8,6 +8,8 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     Character _character;
 
+    Timer deathWait;
+
     public Character character => _character;
 
     public CasterEntityComponent caster => _character.caster;
@@ -27,29 +29,32 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
         detect?.Invoke();
     }
 
-
     void Awake()
     {
-        /*
-        timerStun = TimersManager.Create(0.33f, () =>
-        {
-            enabled = true;
-        }).Stop();
-        */
+        deathWait = TimersManager.Create(1, () => gameObject.SetActive(false)).Stop();
     }
 
     public void InternalTakeDamage(ref Damage dmg, int weightAction = 0 ,Vector3? damageOrigin = null)
     {
         if (dmg.amount <= 0)
             return;
-        //enabled = false;
-        //timerStun.Reset();
     }
 
     public virtual void OnEnterState(Character param)
     {
         _character = param;
+
         param.health.death += Health_death;
+
+        if (param.health.IsDeath)
+        {
+            Health_death();
+            return;
+        }
+    }
+
+    public virtual void OnStayState(Character param)
+    {
     }
 
     public virtual void OnExitState(Character param)
@@ -59,14 +64,9 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
         _character = null;
     }
 
-    public virtual void OnStayState(Character param)
-    {
-        
-    }
-
-
     protected virtual void Health_death()
     {
-        gameObject.SetActive(false);
+        character.CurrentState = null;
+        deathWait?.Reset();
     }
 }
