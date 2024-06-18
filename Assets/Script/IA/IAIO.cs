@@ -370,6 +370,10 @@ public class IAIO : IAFather
                 chr.SetActiveGameObject(false);
                 VirtualControllers.Principal.eventDown += NoCharacterSelected;
             }
+            else
+            {
+                GameManager.instance.Defeat("Has muerto");
+            }
         });
     }
 
