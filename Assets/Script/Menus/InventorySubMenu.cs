@@ -90,7 +90,7 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
-        subMenu.CreateChildrenSection<ScrollRect>();
+        //subMenu.CreateChildrenSection<ScrollRect>();
         myListNavBar = subMenu.AddComponent<LisNavBarModule>();
         myListNavBar.SetTitle("Inventario");
         //myListNavBar.SetTags(new string[] { "Nombre", "Peso", "Peso Total", "Cantidad" });
@@ -213,12 +213,11 @@ public class InventorySubMenu : CreateSubMenu
 
     void CreateUnequipButton(SlotItem _slotItem)
     {
-        var aux = subMenu.AddComponent<EventsCall>().Set("Desequipar", () => 
-        { 
+        myListNavBar.ShowAuxButton("Desequipar", () =>
+        {
             _slotItem.indexEquipedItem = -1;
-            MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose(); 
+            MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose();
         }, "");
-        aux.rectTransform.sizeDelta = new Vector2(300, 75);
     }
 
     void CreateButtonsActions(Item myItem, Dictionary<string, System.Action<Character, Item>> dic)

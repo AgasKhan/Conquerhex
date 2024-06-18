@@ -21,6 +21,21 @@ public class LisNavBarModule : MonoBehaviour
     [SerializeField]
     ButtonHor buttonHor;
 
+    [SerializeField]
+    RectTransform listTransform;
+
+    [SerializeField]
+    GameObject auxiliarButtons;
+
+    [SerializeField]
+    EventsCall buttonLeft;
+
+    [SerializeField]
+    EventsCall buttonRight;
+
+    [SerializeField]
+    Image arrow;
+
     public LisNavBarModule AddNavBarButton(string text, string buttonName)
     {
         return AddNavbarButton(text, buttonName, null);
@@ -64,5 +79,26 @@ public class LisNavBarModule : MonoBehaviour
             tags[i].text = _tags[i];
         }
         return this;
+    }
+
+    public void ShowAuxButton(string text, UnityEngine.Events.UnityAction action, string buttonName)
+    {
+        ShowHideAuxButtons(true);
+        buttonLeft.Set(text, action, buttonName);
+    }
+
+    public void ShowHideAuxButtons(bool value)
+    {
+        auxiliarButtons.transform.SetActiveGameObject(value);
+
+        if(value)
+            listTransform.sizeDelta = new Vector2(840, 670);
+        else
+            listTransform.sizeDelta = new Vector2(840, 880);
+    }
+
+    private void OnDisable()
+    {
+        ShowHideAuxButtons(false);
     }
 }
