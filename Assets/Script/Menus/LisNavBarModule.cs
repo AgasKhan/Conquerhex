@@ -94,7 +94,7 @@ public class LisNavBarModule : MonoBehaviour
         if(value)
             listTransform.sizeDelta = new Vector2(840, 670);
         else
-            listTransform.sizeDelta = new Vector2(840, 880);
+            listTransform.sizeDelta = new Vector2(840, 780);
     }
 
     private void OnDisable()

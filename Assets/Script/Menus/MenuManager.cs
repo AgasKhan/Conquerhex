@@ -56,7 +56,7 @@ public class MenuManager : SingletonMono<MenuManager>
         else
             LoadSystem.instance.Load(firstLevel, true);
         */
-        
+        GameManager.instance.Load(firstLevel);
     }
 }
 
