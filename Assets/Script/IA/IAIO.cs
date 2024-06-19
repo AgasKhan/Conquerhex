@@ -460,6 +460,6 @@ public class IAIO : IAFather
             characterEvent.delegato += OnCharacterSelected;
             //VirtualControllers.Principal.eventDown += NoCharacterSelected;
             NoCharacterSelected(Vector2.zero , 0);
-        });
+        },100);
     }
 }

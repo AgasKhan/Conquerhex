@@ -9,6 +9,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     int currentDialog = 0;
     UI.TextCompleto dialogText;
+
     [HideInInspector]
     public bool DialogEnable 
     {
@@ -47,62 +48,15 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     bool isShowingADialogue = false;
     string messageToShow = "";
 
-    protected override void Awake()
-    {
-        base.Awake();
+    System.Action dialogueManagment;
 
-        currentDialog = 0;
-        tpsCounter = 0;
+   
 
-        attacksCounter = 0;
+   
 
-        LoadSystem.AddPostLoadCorutine(AddToEvents);
-    }
 
-    private void Start()
-    {
-        dialogText = UI.Interfaz.SearchTitle("Subtitulo");
-        dialogText.off += EndDialog;
-        dialogueManagment = () => NextDialog();
-        DialogEnable = false;
-        //StartCoroutine(PlayTutorial());
-    }
 
-    private void Update()
-    {
-        if (isShowingADialogue && Input.GetKeyDown(KeyCode.F))
-            DialogueManagment();
-    }
 
-    void AddToEvents()
-    {
-        player.move.onTeleport += TeleportEvent;
-
-        //playerIA = player.CurrentState;
-
-        /*
-        if(dummy != null)
-            dummy.onTakeDamage += AttackDummyEvent;
-        */
-
-        var title = UI.Interfaz.SearchTitle("Titulo");
-        var titleSec = UI.Interfaz.SearchTitle("Titulo secundario");
-
-        title.ClearMsg();
-        titleSec.ClearMsg();
-
-        TimersManager.Create(2, () => 
-        {
-            title.AddMsg("Aviso");
-        });
-
-        TimersManager.Create(3, () =>
-        {
-            titleSec.AddMsg("Simulación corrupta");
-            DialogEnable = true;
-        });
-
-    }
 
     void EndDialog()
     {
@@ -186,8 +140,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
                 nextDialog = true;
                 EnableButton();
                 currentDialog++;
-            }
-                
+            }  
         }
 
         if (currentDialog > 2)
@@ -203,7 +156,6 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
                 player.move.onTeleport -= TeleportEvent;
             }
         }
-
     }
 
     void EnableButton()
@@ -260,12 +212,11 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         dialogueManagment?.Invoke();
     }
 
-    System.Action dialogueManagment;
-
     public void NextDialog()
     {
         if (currentDialog >= allDialogs.Length)
             return;
+
         messageToShow = allDialogs[currentDialog].dialog;
         dialogText.AddMsg(messageToShow);
         
@@ -281,7 +232,6 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         {
             allDialogs[currentDialog].logicActive?.Invoke();
         }
-        
 
         if (nextDialog)
             currentDialog++;
@@ -297,6 +247,55 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         TimersManager.Create(0.2f, ()=> isShowingADialogue = true);
     }
 
+    void Init()
+    {
+        player.move.onTeleport += TeleportEvent;
+
+        var title = UI.Interfaz.SearchTitle("Titulo");
+        var titleSec = UI.Interfaz.SearchTitle("Titulo secundario");
+
+        title.ClearMsg();
+        titleSec.ClearMsg();
+
+        TimersManager.Create(2, () =>
+        {
+            title.AddMsg("Aviso");
+        });
+
+        TimersManager.Create(3, () =>
+        {
+            titleSec.AddMsg("Simulación corrupta");
+            DialogEnable = true;
+        });
+
+    }
+
+    private void Update()
+    {
+        if (isShowingADialogue && Input.GetKeyDown(KeyCode.F))
+            DialogueManagment();
+    }
+
+    private void Start()
+    {
+        dialogText = UI.Interfaz.SearchTitle("Subtitulo");
+        dialogText.off += EndDialog;
+        dialogueManagment = () => NextDialog();
+        DialogEnable = false;
+        //StartCoroutine(PlayTutorial());
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        currentDialog = 0;
+        tpsCounter = 0;
+
+        attacksCounter = 0;
+
+        LoadSystem.AddPostLoadCorutine(Init);
+    }
 }
 
 [System.Serializable]
