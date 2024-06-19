@@ -100,7 +100,7 @@ public class SecretKey : MonoBehaviour
         {
             subMenu.ClearBody();
             subMenu.CreateSection(0, 20);
-            subMenu.AddComponent<LisNavBarModule>();
+            subMenu.AddComponent<ListNavBarModule>();
             //subMenu.CreateChildrenSection<ScrollRect>();
             //subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
 

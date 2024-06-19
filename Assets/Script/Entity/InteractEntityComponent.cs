@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 {
     public bool interactuable = true;
+    [HideInInspector]
     public Sprite Image;
 
     public LogicActive<(InteractEntityComponent, Character)> interactAction;
@@ -16,8 +17,9 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
     Pictionarys <Type, InteractAction> _interact = new Pictionarys<Type, InteractAction>();
 
+    [HideInInspector]
     public GenericSubMenu genericMenu;
-
+    [HideInInspector]
     public Character lastCharInteract;
 
     public event Action OnInteract
@@ -40,9 +42,9 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 
         lastCharInteract = character;
 
-        interactAction.Activate((this, character));
-
         _onInteract?.Invoke();
+
+        interactAction.Activate((this, character));
     }
 
     public virtual T Interact<T>() where T : InteractAction

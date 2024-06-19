@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4513349479719900207}
   - component: {fileID: 6228020001026168602}
   - component: {fileID: 3180629507576034152}
-  - component: {fileID: 6702126628719733141}
+  - component: {fileID: 417030073544972893}
   m_Layer: 0
   m_Name: BloodTreeBuild
   m_TagString: Props
@@ -118,6 +118,7 @@ MonoBehaviour:
     - key: {fileID: 11400000, guid: 00c520bc752f70f45b63631e968637ae, type: 2}
       value: 70
   rewardsQuantity: 3
+  minions: []
   sprite: {fileID: 7216132303710181597}
 --- !u!114 &6871803492074900730
 MonoBehaviour:
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactuable: 0
   Image: {fileID: 0}
-  interactAction: {fileID: 6702126628719733141}
+  interactAction: {fileID: 417030073544972893}
   genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
@@ -194,7 +195,7 @@ CapsuleCollider:
   m_Height: 1.3239172
   m_Direction: 1
   m_Center: {x: -0.13093248, y: 0.35408998, z: 0.25663316}
---- !u!114 &6702126628719733141
+--- !u!114 &417030073544972893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,9 +204,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1820494545657111320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5c9b83480f7776469b26cfd2eb1e8d9, type: 3}
+  m_Script: {fileID: 11500000, guid: f9e37e29ccaa5524495452fbcb0743ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myIteractSpecific: {fileID: 2686042186290282480}
 --- !u!1001 &7801199483577430425
 PrefabInstance:
   m_ObjectHideFlags: 0

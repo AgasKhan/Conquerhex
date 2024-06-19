@@ -16,7 +16,7 @@ public class GenericSubMenu : CreateSubMenu
 
     public System.Action<SubMenus> createAction;
 
-    public List<ButtonA> buttonsList = new List<ButtonA>();
+    public List<ButtonHor> buttonsList = new List<ButtonHor>();
 
     EventsCall lastButton = null;
 

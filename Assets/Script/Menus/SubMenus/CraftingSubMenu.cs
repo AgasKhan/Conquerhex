@@ -8,7 +8,7 @@ public class CraftingSubMenu : CreateSubMenu
 {
     CraftingAction craftAction;
 
-    List<ButtonA> buttonsList = new List<ButtonA>();
+    List<ButtonHor> buttonsList = new List<ButtonHor>();
 
     EventsCall lastButtonCraft;
 
@@ -18,9 +18,11 @@ public class CraftingSubMenu : CreateSubMenu
 
     Character myCharacter;
 
+    ListNavBarModule myListNavBar;
+
     public override void Create(Character character)
     {
-        Debug.Log("El character que creo el CraftMenu: " + character.gameObject.name);
+        //Debug.Log("El character que creo el CraftMenu: " + character.gameObject.name);
         myCharacter = character;
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
         base.Create();
@@ -50,7 +52,8 @@ public class CraftingSubMenu : CreateSubMenu
         subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
-        subMenu.CreateChildrenSection<ScrollRect>();
+        myListNavBar = subMenu.AddComponent<ListNavBarModule>();
+        //subMenu.CreateChildrenSection<ScrollRect>();
 
         CreateButtons();
 
@@ -73,7 +76,7 @@ public class CraftingSubMenu : CreateSubMenu
                     RefreshDetailW(item);
                 };
 
-            buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image,"", action).SetType(item.GetType().ToString()));
+            buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image,null, action).SetType(item.GetType().ToString()));
         }
     }
     void DestroyButtonCraft()
@@ -123,10 +126,6 @@ public class CraftingSubMenu : CreateSubMenu
         DestroyButtonCraft();
     }
 
-    void ButtonAct()
-    {
-        ButtonAct("");
-    }
 
     public CraftingSubMenu(CraftingAction _craftAction)
     {

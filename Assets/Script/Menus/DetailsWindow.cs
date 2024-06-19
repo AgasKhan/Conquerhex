@@ -74,6 +74,10 @@ public class DetailsWindow : MonoBehaviour
         return this;
     }
 
+    public void Clear()
+    {
+        SetTexts("", "").SetImage(null);
+    }
 
     private void Awake()
     {

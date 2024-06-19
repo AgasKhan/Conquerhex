@@ -16,6 +16,8 @@ public class ButtonHor : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI[] tags;
 
+    public string type;
+
     [SerializeField]
     Button myButton;
 
@@ -34,6 +36,13 @@ public class ButtonHor : MonoBehaviour
 
         myButton.onClick.RemoveAllListeners();
         myButton.onClick.AddListener(_action);
+
+        return this;
+    }
+
+    public ButtonHor SetType(string type)
+    {
+        this.type = type;
 
         return this;
     }
