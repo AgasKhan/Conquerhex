@@ -8,6 +8,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     int currentDialog = 0;
     UI.TextCompleto dialogText;
+    UI.TextCompleto objectiveText;
 
     [Header("References")]
     public GameObject goal;
@@ -94,7 +95,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     void TakeDamageDummy(Damage dmg)
     {
-        currentDialog++;
+        NextDialog();
         dummyTakeDamageEvent = null;
     }
 
@@ -102,14 +103,14 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         if(arg1>=0)
         {
-            currentDialog++;
+            NextDialog();
             weaponEvent = null;
         }
     }
 
     void Teleport1(Hexagone arg1, int arg2)
     {
-        currentDialog++;
+        NextDialog();
         teleportEvent -= Teleport1;
     }
 
@@ -122,7 +123,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         if (nieve && desierto)
         {
-            currentDialog++;
+            NextDialog();
             teleportEvent -= Teleport2;
         }
     }
@@ -172,6 +173,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public void NextDialog()
     {
         currentDialog++;
+        objectiveText.ClearMsg();
     }
 
     void EndDialog()
@@ -196,9 +198,13 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         messageToShow = allDialogs[currentDialog].dialog;
 
+
         dialogText.ClearMsg();
         dialogText.AddMsg(messageToShow);
-        
+
+        objectiveText.ClearMsg();
+        objectiveText.AddMsg(allDialogs[currentDialog].objective);
+
         dialogueManagment = ()=> FinishCurrentDialogue();
 
         if (allDialogs[currentDialog].timeToCallEvent != 0)
@@ -280,6 +286,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void Start()
     {
         dialogText = UI.Interfaz.SearchTitle("Subtitulo");
+        objectiveText = UI.Interfaz.SearchTitle("Objetivos");
         dialogText.off += EndDialog;
     }
 
@@ -301,11 +308,8 @@ public struct DialogEvents
 {
     [TextArea(6,12)]
     public string dialog;
+    [TextArea(6, 12)]
+    public string objective;
     public UnityEngine.Events.UnityEvent logicActive;
     public float timeToCallEvent;
-}
-
-public interface Tutorial
-{
-    //public DialogEvents[];
 }

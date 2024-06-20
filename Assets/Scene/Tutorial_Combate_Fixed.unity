@@ -46376,6 +46376,7 @@ MonoBehaviour:
   - dialog: "Ahora necesitas aprender a defenderte, as\xED que practicar\xE1s con
       un mu\xF1eco de entrenamiento. Ac\xE9rcate a la <color=#F6CB30>palanca y acci\xF3nala</color>
       presionando la <color=lightblue>tecla F</color> para que aparezca el mu\xF1eco."
+    objective: "Objetivos:\n\t-Interacciona con la palanca"
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -46396,18 +46397,19 @@ MonoBehaviour:
       de <color=green>regenerar tu salud si no te encuentras en combate</color>.
       Para que sea efectivo, recuerda cuidar de tu <color=#F6CB30>Integridad</color>\r\nEspera
       unos segundos para regenerarte y vuelve a hablar conmigo.\r"
+    objective: "Objetivos:\n\t-Espera para que la salud se regenere"
     logicActive:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1190209571}
           m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: NextDialog
-          m_Mode: 1
+          m_MethodName: WaitToEnableDialog
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 18
+            m_FloatArgument: 15
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -46415,6 +46417,7 @@ MonoBehaviour:
   - dialog: "Bien, ahora te dar\xE9 un arma, equ\xEDpatela y prep\xE1rate para luchar.
       \r\nPuedes revisar tu equipamiento e inventario presionando la tecla <color=lightblue>Tab</color>.
       \nDespu\xE9s vuelve a hablar conmigo.\r"
+    objective: "Objetivos:\n\t-Equipate el arma"
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -46434,6 +46437,7 @@ MonoBehaviour:
   - dialog: "Ahora si, encend\xED el mu\xF1eco de pruebas, as\xED que intenta atacarlo
       con el <color=lightblue>Click Izquierdo</color> para familiarizarte con tu
       nueva arma. \r"
+    objective: "Objetivos:\n\t-Ataca el objetivo"
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -46468,6 +46472,7 @@ MonoBehaviour:
       equipado un <color=orange>Dash Ardiente</color> que puedes activar con el <color=lightblue>Click
       Derecho</color> para que puedas alejar a los enemigos y escapar f\xE1cilmente.
       \r\nPruebalos con estos enemigos huecos que no se defender\xE1n."
+    objective: "Objetivos:\n\t-Prueba las habilidades"
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -46609,6 +46614,7 @@ MonoBehaviour:
       para que continues tu traves\xEDa.\r\nRecuerda: <color=red> Este ya no es tu
       mundo...</color>, hasta un inocente cordero podr\xEDa ser tu perdici\xF3n.
       \r\n<align=\"center\"><i>Ten cuidado</i></align>\r"
+    objective: "Objetivos:\n\t-Busca el arbol para salir de la simulaci\xF3n"
     logicActive:
       m_PersistentCalls:
         m_Calls:

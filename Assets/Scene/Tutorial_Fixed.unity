@@ -1298,6 +1298,7 @@ MonoBehaviour:
   - dialog: "Bienvenido a tu nueva <color=green>tierra</color>. Cada parcela est\xE1
       creada a imagen y semejanza de tu mundo.  Por favor, si\xE9ntete libre de recorrer
       y acostumbrarte a tu nuevo espacio."
+    objective: "Objetivos:\n\t-Muevete con WASD y muevete a los limetes del mapa."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1316,6 +1317,7 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Oh, \xBFhas vuelto tan r\xE1pido? Prueba <color=green>teletransportarte</color>
       por otro lado."
+    objective: "Objetivos:\n\t-Intenta entender la logica de los lados atravesandoles."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1337,6 +1339,8 @@ MonoBehaviour:
       y est\xE1 conectado a una parcela de tierra. \xA1Puede ser totalmente distinta
       o la misma por la que entraste! Ahora cambiar\xE9 los portales para que vuelas
       a explorarlos. Ven a hablarme cuando hayas descubierto nuevas zonas."
+    objective: "Objetivos:\n\t-Explora los 2 nuevos biomas <color=yellow>desiertico</color>
+      y <color=#00ffffff>nevado</color>."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1368,6 +1372,8 @@ MonoBehaviour:
   - dialog: "Ya aprendiste lo b\xE1sico de este mundo. Busca el <color=green>\xE1rbol
       sangrante</color> en cuanto te sientas listo de continuar.\n\nEste es el aspecto
       del \xE1rbol sangrante:\n\n<align=\"center\"><size=100><sprite=\"BloodTree\"
+      index=0></size></align>"
+    objective: "Objetivos:\n\t-Busca el arbol, para salir de la simulacion.\n<align=\"center\"><size=100><sprite=\"BloodTree\"
       index=0></size></align>"
     logicActive:
       m_PersistentCalls:
@@ -31406,7 +31412,7 @@ PrefabInstance:
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31416,7 +31422,7 @@ PrefabInstance:
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31451,7 +31457,7 @@ PrefabInstance:
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 197.25
       objectReference: {fileID: 0}
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31461,7 +31467,7 @@ PrefabInstance:
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31477,6 +31483,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 18.800049
+      objectReference: {fileID: 0}
+    - target: {fileID: 3850345798533202843, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3850345798533202843, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3850345798533202843, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5458618359837411875, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31496,7 +31517,7 @@ PrefabInstance:
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 144.29
       objectReference: {fileID: 0}
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31506,7 +31527,7 @@ PrefabInstance:
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31631,7 +31652,7 @@ PrefabInstance:
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -31641,7 +31662,7 @@ PrefabInstance:
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}

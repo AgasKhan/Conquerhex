@@ -54,7 +54,7 @@ namespace UI
 
         public void Dialogo(string str)
         {
-            instance["Subtitulo"].AddMsg(str);
+            dialogoText.AddMsg(str);
         }
 
         public void PopText(Entity entity, string text, Vector2? dir = null)
@@ -250,10 +250,10 @@ namespace UI
             final = msg;
             texto.text = msg;
 
-            if (timerToHide.Chck)
+            if (timerToHide?.Chck ?? true)
                 On();
             else
-                timerToHide.Reset();
+                timerToHide?.Reset();
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace UI
         {
             fadeMenu.end -= FadeMenu_end;
             SetFade(1);
-            timerToHide.Reset();
+            timerToHide?.Reset();
             letras.Start();
             on?.Invoke();
         }
@@ -320,7 +320,7 @@ namespace UI
                     {
                         entrePaginas.Reset();
                         letras.Stop();
-                        timerToHide.Stop();
+                        timerToHide?.Stop();
                     }
                     return;
                 }
@@ -357,7 +357,7 @@ namespace UI
                 }
 
                 texto.text += sum;            
-                timerToHide.Reset();
+                timerToHide?.Reset();
             }
 
             ChecktOverflowing();
@@ -371,12 +371,13 @@ namespace UI
 
             letras = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
 
-            timerToHide = TimersManager.Create(tiempoParaDesaparecer, () => 
-            {
-                fadeMenu.end += FadeMenu_end;
-                SetFade(0);
-                letras.Stop();
-            });
+            if(tiempoParaDesaparecer>0)
+                timerToHide = TimersManager.Create(tiempoParaDesaparecer, () => 
+                {
+                    fadeMenu.end += FadeMenu_end;
+                    SetFade(0);
+                    letras.Stop();
+                });
 
             entrePaginas = TimersManager.Create(tiempoEntrePaginas, EntrePaginasFixed, EntrePaginas).Stop().SetInitCurrent(0);
         }
