@@ -181,6 +181,62 @@ namespace UI
     [System.Serializable]
     public class TextCompleto : Init
     {
+        [System.Serializable]
+        public class GradientOverTime
+        {
+            [SerializeField]
+            Gradient grad;
+
+            [SerializeField]
+            float timeIn;
+
+            [SerializeField]
+            float timeGradient;
+
+            [SerializeField]
+            float timeOut;
+
+            [SerializeReference]
+            TimedCompleteAction timerGradient;
+
+            //[SerializeReference]
+            TimedCompleteAction timerIn;
+
+            //[SerializeReference]
+            TimedCompleteAction timerOut;
+
+            Color originalColor;
+
+            public void Execute()
+            {
+                timerIn.Reset();
+            }
+
+            public void Cancel()
+            {
+                timerGradient.Stop();
+                timerIn.Stop();
+                timerOut.Reset();
+            }
+
+            public void Init(System.Func<Color?, Color> actionToApplyGrad)
+            {
+                originalColor = actionToApplyGrad(null);
+
+                timerIn = TimersManager.Create(originalColor, grad.Evaluate(0), timeIn, Color.Lerp, (color)=> actionToApplyGrad(color));
+
+                timerOut = TimersManager.Create(grad.Evaluate(1), originalColor, timeOut, Color.Lerp, (color) => actionToApplyGrad(color));
+
+                timerGradient = TimersManager.Create(timeGradient, () => actionToApplyGrad(grad.Evaluate(timerGradient.InversePercentage())), () => timerOut.Reset());
+
+                timerIn.AddToEnd(() => timerGradient.Reset());
+
+                timerIn.Stop();
+                timerGradient.Stop();
+                timerOut.Stop();
+            }
+        }
+
         [Header("Seteo")]
 
         [SerializeField] TextMeshProUGUI texto;    
@@ -194,6 +250,18 @@ namespace UI
 
         [SerializeField]
         FadeOnOff fadeMenu;
+
+        [SerializeField]
+        bool useAutomaticGradients;
+
+        [SerializeField]
+        GradientOverTime wow;
+
+        [SerializeField]
+        GradientOverTime cancel;
+
+        [SerializeField]
+        GradientOverTime complete;
 
         [Header("Para debug")]
         [SerializeReference]
@@ -211,23 +279,39 @@ namespace UI
 
         public string name => texto.name;
 
-        public string text => texto.text;
+        public float velocityMultiply => letras.Multiply;
 
-        
+        public string text => texto.text;
 
         private void FadeMenu_alphas(float obj)
         {
             texto.color = texto.color.ChangeAlphaCopy(obj);
         }
 
-        public void AddAccelerationMsg(float velocity)
-        {
-            letras.SetMultiply(velocity + letras.Multiply);
-        }
-
         public void AcelerateMsg(float velocity)
         {
             letras.SetMultiply(velocity);
+
+            if(!entrePaginas.Chck)
+                entrePaginas.SetInitCurrent(0);
+            
+            if (final==string.Empty)
+                timerToHide?.SetInitCurrent(0);
+        }
+
+        public void WowEffect()
+        {
+            wow.Execute();
+        }
+
+        public void CancelEffect()
+        {
+            cancel.Execute();
+        }
+
+        public void CompleteEffect()
+        {
+            complete.Execute();
         }
 
         /// <summary>
@@ -380,6 +464,20 @@ namespace UI
                 });
 
             entrePaginas = TimersManager.Create(tiempoEntrePaginas, EntrePaginasFixed, EntrePaginas).Stop().SetInitCurrent(0);
+
+            System.Func<Color?, Color> func = (color) =>
+            {
+                if (color == null)
+                    return texto.color;
+
+                texto.color = texto.color.ChangeColorCopy((Color)color);
+
+                return texto.color;
+            };
+
+            wow.Init(func);
+            cancel.Init(func);
+            complete.Init(func);
         }
 
         private void FadeMenu_end()

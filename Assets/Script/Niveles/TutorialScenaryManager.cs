@@ -33,7 +33,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     Timer timerToEvents;
     Timer timerToNextDialog;
     bool isShowingADialogue = false;
-    string messageToShow = "";
+    string messageToShow = "", objectiveToShow="";
 
     System.Action dialogueManagment;
 
@@ -153,7 +153,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void FinishCurrentDialogue()
     {
-        dialogText.AddAccelerationMsg(4);
+        dialogText.AcelerateMsg(dialogText.velocityMultiply * 2);
         //dialogText.ShowMsg(messageToShow);
         //dialogueManagment = () => SkipDialogue();
     }
@@ -173,7 +173,10 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public void NextDialog()
     {
         currentDialog++;
-        objectiveText.ClearMsg();
+
+        objectiveText.CompleteEffect();
+
+        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow.RichText("s"));
     }
 
     void EndDialog()
@@ -197,13 +200,13 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             return;
 
         messageToShow = allDialogs[currentDialog].dialog;
-
+        objectiveToShow = allDialogs[currentDialog].objective;
 
         dialogText.ClearMsg();
         dialogText.AddMsg(messageToShow);
 
         objectiveText.ClearMsg();
-        objectiveText.AddMsg(allDialogs[currentDialog].objective);
+        objectiveText.AddMsg("Objetivos:\n"+ objectiveToShow);
 
         dialogueManagment = ()=> FinishCurrentDialogue();
 
@@ -234,8 +237,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (isShowingADialogue)
             DialogueManagment();
 
-        VirtualControllers.Interact.eventDown -= InteractDialog;
-        VirtualControllers.Principal.eventDown -= InteractDialog;
+        //VirtualControllers.Interact.eventDown -= InteractDialog;
+        //VirtualControllers.Principal.eventDown -= InteractDialog;
     }
 
     void TeleportEvent(Hexagone arg1, int arg2)

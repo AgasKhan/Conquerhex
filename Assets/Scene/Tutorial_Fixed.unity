@@ -1298,7 +1298,7 @@ MonoBehaviour:
   - dialog: "Bienvenido a tu nueva <color=green>tierra</color>. Cada parcela est\xE1
       creada a imagen y semejanza de tu mundo.  Por favor, si\xE9ntete libre de recorrer
       y acostumbrarte a tu nuevo espacio."
-    objective: "Objetivos:\n\t-Muevete con WASD y muevete a los limetes del mapa."
+    objective: -Muevete con WASD y muevete a los limetes del mapa.
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1317,7 +1317,7 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Oh, \xBFhas vuelto tan r\xE1pido? Prueba <color=green>teletransportarte</color>
       por otro lado."
-    objective: "Objetivos:\n\t-Intenta entender la logica de los lados atravesandoles."
+    objective: -Intenta entender la logica de los lados atravesandoles.
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1339,8 +1339,7 @@ MonoBehaviour:
       y est\xE1 conectado a una parcela de tierra. \xA1Puede ser totalmente distinta
       o la misma por la que entraste! Ahora cambiar\xE9 los portales para que vuelas
       a explorarlos. Ven a hablarme cuando hayas descubierto nuevas zonas."
-    objective: "Objetivos:\n\t-Explora los 2 nuevos biomas <color=yellow>desiertico</color>
-      y <color=#00ffffff>nevado</color>."
+    objective: -Explora los 2 nuevos biomas <color=yellow>desiertico</color> y <color=#00ffffff>nevado</color>.
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1373,8 +1372,10 @@ MonoBehaviour:
       sangrante</color> en cuanto te sientas listo de continuar.\n\nEste es el aspecto
       del \xE1rbol sangrante:\n\n<align=\"center\"><size=100><sprite=\"BloodTree\"
       index=0></size></align>"
-    objective: "Objetivos:\n\t-Busca el arbol, para salir de la simulacion.\n<align=\"center\"><size=100><sprite=\"BloodTree\"
-      index=0></size></align>"
+    objective: '-Busca el arbol, para salir de la simulacion.
+
+      <align="center"><size=100><sprite="BloodTree"
+      index=0></size></align>'
     logicActive:
       m_PersistentCalls:
         m_Calls:
