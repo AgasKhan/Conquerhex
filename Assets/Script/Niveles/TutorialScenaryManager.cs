@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,24 +9,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     int currentDialog = 0;
     UI.TextCompleto dialogText;
 
-    [HideInInspector]
-    public bool DialogEnable 
-    {
-        get => _dialogEnable;
-        set
-        {
-            npc.interactuable = value;
-            _dialogEnable = value;
-        } 
-    }
-
-    bool _dialogEnable = true;
-
-    bool nextDialog = true;
-
     [Header("References")]
     public GameObject goal;
-    public InteractEntityComponent npc;
     public Character player;
     IState<Character> playerIA;
 
@@ -43,76 +26,29 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
     public List<AbilityToEquip> abilitiesForPlayer = new List<AbilityToEquip>();
+    bool weaponGive = false;
+
 
     Timer timerToEvents;
+    Timer timerToNextDialog;
     bool isShowingADialogue = false;
     string messageToShow = "";
 
     System.Action dialogueManagment;
 
-   
-
-   
-
-
-
-
-
-    void EndDialog()
-    {
-        if(player.CurrentState==null)
-            player.CurrentState = playerIA;
-
-        dialogueManagment = () => SkipDialogue();
-        isShowingADialogue = false;
-    }
-
-    private void AttackDummyEvent(Damage obj)
-    {
-        if (currentDialog == 1 && attacksCounter < 1)
-        {
-            TimersManager.Create(1, () => { NextDialog(); });
-            
-            attacksCounter++;
-
-            Damage dmg = Damage.Create<DamageTypes.Perforation>(30);
-
-            player.TakeDamage(dmg);
-
-            var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
-            PoolManager.SpawnPoolObject(index, player.transform.position, Quaternion.identity, player.transform);
-
-            EnableButton();
-        }
-
-        if(currentDialog == 3)
-        {
-            attacksCounter++;
-
-            if(attacksCounter >= 3)
-            {
-                EnableButton();
-                //-----------------dummy.onTakeDamage -= AttackDummyEvent;
-            }
-        }
-    }
-
-    public void ChangeDialogueBool()
-    {
-        DialogEnable = false;
-    }
+    System.Action<Hexagone,int> teleportEvent;
+    System.Action<int, MeleeWeapon> weaponEvent;
+    System.Action<Damage> dummyTakeDamageEvent;
 
     public void SetHexagons()
     {
         firstHexagon.ladosArray = newBorders;
         HexagonsManager.SetRenders(firstHexagon);
-        DialogEnable = false;
     }
 
     public void EnableExit()
     {
         goal.SetActive(true);
-        DialogEnable = false;
     }
 
     public void SpawnExplotion(Transform lever)
@@ -123,45 +59,72 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
         PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity);
-
-        EnableButton();
     }
 
-    private void TeleportEvent(Hexagone arg1, int arg2)
+    public void WaitToEnableDialog(float time)
     {
-        if (currentDialog == 1)
-        {
-            nextDialog = false;
-            tpsCounter++;
-            EnableButton();
+        if(timerToNextDialog.Chck)
+            timerToNextDialog.Set(time);
+    }
 
-            if (tpsCounter >= 3)
-            {
-                nextDialog = true;
-                EnableButton();
-                currentDialog++;
-            }  
+    public void Teleport1Dialog()
+    {
+        teleportEvent = Teleport1;
+    }
+
+    public void Teleport2Dialog()
+    {
+        teleportEvent = Teleport2;
+    }
+
+    public void EquipeWeaponDialog()
+    {
+        weaponEvent = EquipeWeapon;
+
+        if (!weaponGive)
+        {
+            weaponGive = true;
+            GiveToPlayer();
         }
+    }
+    public void TakeDamageDummyDialog()
+    {
+        dummyTakeDamageEvent = TakeDamageDummy;
+    }
 
-        if (currentDialog > 2)
+    void TakeDamageDummy(Damage dmg)
+    {
+        currentDialog++;
+        dummyTakeDamageEvent = null;
+    }
+
+    private void EquipeWeapon(int arg1, MeleeWeapon arg2)
+    {
+        if(arg1>=0)
         {
-            if (arg1.biomes.nameDisplay == "Nieve")
-                nieve = true;
-            if (arg1.biomes.nameDisplay == "Desierto")
-                desierto = true;
-
-            if (nieve && desierto)
-            {
-                EnableButton();
-                player.move.onTeleport -= TeleportEvent;
-            }
+            currentDialog++;
+            weaponEvent = null;
         }
     }
 
-    void EnableButton()
+    void Teleport1(Hexagone arg1, int arg2)
     {
-        DialogEnable = true;
-        npc.interactuable = true;
+        currentDialog++;
+        teleportEvent -= Teleport1;
+    }
+
+    void Teleport2(Hexagone arg1, int arg2)
+    {
+        if (arg1.biomes.nameDisplay == "Nieve")
+            nieve = true;
+        if (arg1.biomes.nameDisplay == "Desierto")
+            desierto = true;
+
+        if (nieve && desierto)
+        {
+            currentDialog++;
+            teleportEvent -= Teleport2;
+        }
     }
     
     public void GiveToPlayer()
@@ -187,24 +150,18 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.caster.SetAbility(abilityTo);
     }
 
-    public void WaitToEnableDialog(float time)
+    public void FinishCurrentDialogue()
     {
-        DialogEnable = false;
-        TimersManager.Create(time, () => DialogEnable = true).Reset();
+        dialogText.AddAccelerationMsg(4);
+        //dialogText.ShowMsg(messageToShow);
+        //dialogueManagment = () => SkipDialogue();
     }
-    
+
     public void SkipDialogue()
     {
         dialogText.ClearMsg();
         EndDialog();
         Debug.Log("SkipDial");
-    }
-
-    public void FinishCurrentDialogue()
-    {
-        dialogueManagment = () => SkipDialogue();
-        dialogText.ShowMsg(messageToShow);
-        Debug.Log("FinishCurrDial");
     }
 
     public void DialogueManagment()
@@ -214,10 +171,32 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void NextDialog()
     {
+        currentDialog++;
+    }
+
+    void EndDialog()
+    {
+        if (player.CurrentState == null)
+            player.CurrentState = playerIA;
+
+        dialogueManagment = null;
+        isShowingADialogue = false;
+
+        VirtualControllers.Interact.eventDown -= InteractDialog;
+        VirtualControllers.Principal.eventDown -= InteractDialog;
+    }
+
+    /// <summary>
+    /// Show Dialog
+    /// </summary>
+    public void ShowDialog()
+    {
         if (currentDialog >= allDialogs.Length)
             return;
 
         messageToShow = allDialogs[currentDialog].dialog;
+
+        dialogText.ClearMsg();
         dialogText.AddMsg(messageToShow);
         
         dialogueManagment = ()=> FinishCurrentDialogue();
@@ -233,29 +212,57 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             allDialogs[currentDialog].logicActive?.Invoke();
         }
 
-        if (nextDialog)
-            currentDialog++;
-
-        if (!DialogEnable)
-            npc.interactuable = false;
-
         if(playerIA==null && player.CurrentState!=null)
             playerIA = player.CurrentState;
 
         player.CurrentState = null;
 
         TimersManager.Create(0.2f, ()=> isShowingADialogue = true);
+
+        VirtualControllers.Interact.eventDown += InteractDialog;
+        VirtualControllers.Principal.eventDown += InteractDialog;
+    }
+
+    void InteractDialog(Vector2 arg1, float arg2)
+    {
+        if (isShowingADialogue)
+            DialogueManagment();
+
+        VirtualControllers.Interact.eventDown -= InteractDialog;
+        VirtualControllers.Principal.eventDown -= InteractDialog;
+    }
+
+    void TeleportEvent(Hexagone arg1, int arg2)
+    {
+        teleportEvent?.Invoke(arg1, arg2);
+    }
+
+    private void WeaponEvent(int arg1, MeleeWeapon arg2)
+    {
+        weaponEvent?.Invoke(arg1, arg2);
+    }
+
+    private void DummyTakeDamage(Damage obj)
+    {
+        dummyTakeDamageEvent?.Invoke(obj);
     }
 
     void Init()
     {
         player.move.onTeleport += TeleportEvent;
 
+        player.caster.weapons[0].toChange += WeaponEvent;
+
+        if(dummy!=null)
+            dummy.onTakeDamage += DummyTakeDamage;
+
         var title = UI.Interfaz.SearchTitle("Titulo");
         var titleSec = UI.Interfaz.SearchTitle("Titulo secundario");
 
         title.ClearMsg();
         titleSec.ClearMsg();
+
+        timerToNextDialog = TimersManager.Create(1, NextDialog).Stop().SetInitCurrent(0);
 
         TimersManager.Create(2, () =>
         {
@@ -265,24 +272,15 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         TimersManager.Create(3, () =>
         {
             titleSec.AddMsg("Simulación corrupta");
-            DialogEnable = true;
         });
-
     }
 
-    private void Update()
-    {
-        if (isShowingADialogue && Input.GetKeyDown(KeyCode.F))
-            DialogueManagment();
-    }
+
 
     private void Start()
     {
         dialogText = UI.Interfaz.SearchTitle("Subtitulo");
         dialogText.off += EndDialog;
-        dialogueManagment = () => NextDialog();
-        DialogEnable = false;
-        //StartCoroutine(PlayTutorial());
     }
 
     protected override void Awake()

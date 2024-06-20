@@ -125,7 +125,7 @@ namespace UI
             aux.thirdDelegato += energyUI.EnergyRight;
         }
 
-        void Update()
+        void LateUpdate()
         {
             if (dialogoText.text != "" || dialogoImage.rectTransform.rect.width > 0)
             {
@@ -188,6 +188,8 @@ namespace UI
 
         [SerializeField] float tiempoEntreLetras;
 
+        [SerializeField] float tiempoEntrePaginas;
+
         [SerializeField] float tiempoParaDesaparecer = 3;
 
         [SerializeField]
@@ -195,9 +197,13 @@ namespace UI
 
         [Header("Para debug")]
         [SerializeReference]
-        Timer timer;
+        Timer timerToHide;
         [SerializeReference]
         Timer letras;
+        [SerializeReference]
+        Timer entrePaginas;
+
+        static char[] saltos = new char[] { '\n', '.' , '!', '?'};
 
         public event System.Action on;
 
@@ -207,9 +213,21 @@ namespace UI
 
         public string text => texto.text;
 
+        
+
         private void FadeMenu_alphas(float obj)
         {
             texto.color = texto.color.ChangeAlphaCopy(obj);
+        }
+
+        public void AddAccelerationMsg(float velocity)
+        {
+            letras.SetMultiply(velocity + letras.Multiply);
+        }
+
+        public void AcelerateMsg(float velocity)
+        {
+            letras.SetMultiply(velocity);
         }
 
         /// <summary>
@@ -218,12 +236,13 @@ namespace UI
         /// <param name="msg"></param>
         public void ClearMsg()
         {
+            letras.Stop();
             final = "";
             texto.text = "";
         }
 
         /// <summary>
-        /// Muestra un mensaje directamente en el campo
+        /// Muestra un mensaje directamente en el campo, no checkea su largo
         /// </summary>
         /// <param name="msg"></param>
         public void ShowMsg(string msg)
@@ -231,10 +250,10 @@ namespace UI
             final = msg;
             texto.text = msg;
 
-            if (timer.Chck)
+            if (timerToHide.Chck)
                 On();
             else
-                timer.Reset();
+                timerToHide.Reset();
         }
 
         /// <summary>
@@ -244,7 +263,10 @@ namespace UI
         public void AddMsg(string msg)
         {
             if (final == "")
+            {
+                letras.SetMultiply(1);
                 msg = texto.text + msg;
+            }
 
             final += msg + "\n";
 
@@ -255,7 +277,7 @@ namespace UI
         {
             fadeMenu.end -= FadeMenu_end;
             SetFade(1);
-            timer.Reset();
+            timerToHide.Reset();
             letras.Start();
             on?.Invoke();
         }
@@ -265,20 +287,51 @@ namespace UI
             fadeMenu.SetFade(texto.color.a, end);
         }
 
+        void EntrePaginasFixed()
+        {
+            if (!texto.isTextOverflowing)
+            {
+                entrePaginas.SetInitCurrent(0);
+            }
+        }
+
+        void EntrePaginas()
+        {
+            var lastIndex = texto.text.LastIndexOfAny(saltos);
+
+            if(lastIndex>=0)
+                final = final.Replace(texto.text.Substring(0,lastIndex+1), "").Trim();
+            //else
+              //  final = final.Replace(texto.text, "");
+
+            texto.text = "";
+            letras.Reset();
+        }
+
         void ChecktOverflowing()
         {
             if (texto.isTextOverflowing && fadeMenu.timerOn.Chck)
             {
+                letras.SetMultiply(1);
 
-                var aux = new char[] { '\n' , '.'};
+                if (tiempoEntrePaginas>0)
+                {
+                    if(entrePaginas.Chck && texto.text != string.Empty)
+                    {
+                        entrePaginas.Reset();
+                        letras.Stop();
+                        timerToHide.Stop();
+                    }
+                    return;
+                }
 
-                var index = texto.text.IndexOfAny(aux) + 1;
+                var index = texto.text.IndexOfAny(saltos) + 1;
 
                 if(index>0)
                 {
                     texto.text = texto.text.Substring(index);
 
-                    final = final.Substring(final.IndexOfAny(aux) + 1);
+                    final = final.Substring(final.IndexOfAny(saltos) + 1);
                 }
                 else if(texto.text.Length > 0)
                 {
@@ -304,8 +357,10 @@ namespace UI
                 }
 
                 texto.text += sum;            
-                timer.Reset();
+                timerToHide.Reset();
             }
+
+            ChecktOverflowing();
         }
 
         public void Init()
@@ -314,16 +369,16 @@ namespace UI
 
             fadeMenu.Init();
 
-            letras = TimersManager.Create(tiempoEntreLetras, ChecktOverflowing, Write).SetLoop(true).Stop();
+            letras = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
 
-            timer = TimersManager.Create(tiempoParaDesaparecer, () => 
+            timerToHide = TimersManager.Create(tiempoParaDesaparecer, () => 
             {
-
                 fadeMenu.end += FadeMenu_end;
                 SetFade(0);
                 letras.Stop();
-
             });
+
+            entrePaginas = TimersManager.Create(tiempoEntrePaginas, EntrePaginasFixed, EntrePaginas).Stop().SetInitCurrent(0);
         }
 
         private void FadeMenu_end()

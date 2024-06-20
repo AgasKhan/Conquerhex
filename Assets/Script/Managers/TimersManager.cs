@@ -320,7 +320,7 @@ public class Timer : Tim, IDoubleZeldaElement<Timer>
 
     protected bool loop;
 
-    protected float _multiply = 1;
+    protected float multiply = 1;
 
     bool _freeze = true; //por defecto no esta agregado
 
@@ -338,6 +338,8 @@ public class Timer : Tim, IDoubleZeldaElement<Timer>
             return _unscaled ? Time.unscaledDeltaTime : Time.deltaTime;
         }
     }
+
+    public float Multiply { get => multiply; protected set => multiply = value; }
 
     /// <summary>
     /// Propiedad que sirve para agregar o quitar de la cola para la resta
@@ -375,17 +377,13 @@ public class Timer : Tim, IDoubleZeldaElement<Timer>
         }
     }
 
-   
-
-
-
     /// <summary>
     /// Modifica el numero que multiplica la constante temporal, y asi acelerar o disminuir el timer
     /// </summary>
     /// <param name="m">Por defecto es 1</param>
     public Timer SetMultiply(float m)
     {
-        _multiply = m;
+        Multiply = m;
 
         return this;
     }
@@ -477,7 +475,7 @@ public class Timer : Tim, IDoubleZeldaElement<Timer>
     /// <returns></returns>
     public virtual float SubsDeltaTime(/*int index*/)
     {
-        var aux = Substract(DeltaTime * _multiply);
+        var aux = Substract(DeltaTime * Multiply);
 
         if (aux <= 0)
         {

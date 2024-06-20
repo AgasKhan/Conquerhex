@@ -543,6 +543,7 @@ MonoBehaviour:
   - texto: {fileID: 3305370476476706224}
     <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoEntrePaginas: 0
     tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
@@ -550,13 +551,16 @@ MonoBehaviour:
       timerOn:
         rid: -2
       unscaled: 0
-    timer:
+    timerToHide:
       rid: -2
     letras:
+      rid: -2
+    entrePaginas:
       rid: -2
   - texto: {fileID: 3305370477708449201}
     <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoEntrePaginas: 0
     tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
@@ -564,13 +568,16 @@ MonoBehaviour:
       timerOn:
         rid: -2
       unscaled: 0
-    timer:
+    timerToHide:
       rid: -2
     letras:
+      rid: -2
+    entrePaginas:
       rid: -2
   - texto: {fileID: 3305370477415806799}
     <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoEntrePaginas: 0
     tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
@@ -578,13 +585,16 @@ MonoBehaviour:
       timerOn:
         rid: -2
       unscaled: 0
-    timer:
+    timerToHide:
       rid: -2
     letras:
+      rid: -2
+    entrePaginas:
       rid: -2
   - texto: {fileID: 3305370478311372539}
     <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoEntrePaginas: 0
     tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
@@ -592,13 +602,16 @@ MonoBehaviour:
       timerOn:
         rid: -2
       unscaled: 0
-    timer:
+    timerToHide:
       rid: -2
     letras:
+      rid: -2
+    entrePaginas:
       rid: -2
   - texto: {fileID: 3305370478208995150}
     <final>k__BackingField: 
     tiempoEntreLetras: 0.025
+    tiempoEntrePaginas: 4
     tiempoParaDesaparecer: 3
     fadeMenu:
       durationAnim: 0.5
@@ -606,9 +619,11 @@ MonoBehaviour:
       timerOn:
         rid: -2
       unscaled: 0
-    timer:
+    timerToHide:
       rid: -2
     letras:
+      rid: -2
+    entrePaginas:
       rid: -2
   dialogoImage: {fileID: 3305370477385952449}
   healthUI: {fileID: 4345930119102162184}

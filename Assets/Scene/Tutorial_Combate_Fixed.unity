@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.7
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.073672034, g: 0.095358975, b: 0.12620234, a: 0.7}
+  m_IndirectSpecularColor: {r: 0.07366944, g: 0.09535653, b: 0.12619951, a: 0.7}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5717,7 +5717,7 @@ PrefabInstance:
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
@@ -5727,6 +5727,11 @@ PrefabInstance:
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
+        type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
@@ -5737,6 +5742,11 @@ PrefabInstance:
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1190209571}
+    - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
+        type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1857622236}
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
@@ -5751,12 +5761,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
+        type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SpawnExplotion
       objectReference: {fileID: 0}
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextDialog
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
+        type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
@@ -5767,6 +5787,11 @@ PrefabInstance:
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TutorialScenaryManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
+        type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
@@ -5787,6 +5812,11 @@ PrefabInstance:
     - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646377805247431748, guid: b2503bf7f270dc34e88bd54a22f9df33,
+        type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3789615295318375270, guid: b2503bf7f270dc34e88bd54a22f9df33,
@@ -37114,6 +37144,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1463733287}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &681219818 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3163192530194375964, guid: 626138fc60cd2014095952742520b9a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 929021569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &684924990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46332,18 +46374,6 @@ MonoBehaviour:
     logicActive:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1190209571}
-          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: ChangeDialogueBool
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
         - m_Target: {fileID: 1857622238}
           m_TargetAssemblyTypeName: InteractEntityComponent, Assembly-CSharp
           m_MethodName: ChangeInteract
@@ -46366,8 +46396,8 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1190209571}
           m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: WaitToEnableDialog
-          m_Mode: 4
+          m_MethodName: NextDialog
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -46376,34 +46406,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    timeToCallEvent: 0
+    timeToCallEvent: 15
   - dialog: "Bien, ahora te dar\xE9 un arma, equ\xEDpatela y prep\xE1rate para luchar.
-      \r\nPuedes revisar tu equipamiento e inventario presionando la tecla <color=lightblue>Tab</color>
-      despu\xE9s vuelve a hablar conmigo.\r"
+      \r\nPuedes revisar tu equipamiento e inventario presionando la tecla <color=lightblue>Tab</color>.
+      \nDespu\xE9s vuelve a hablar conmigo.\r"
     logicActive:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1190209571}
           m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: GiveToPlayer
+          m_MethodName: EquipeWeaponDialog
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1190209571}
-          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: WaitToEnableDialog
-          m_Mode: 4
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 12
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -46428,13 +46446,13 @@ MonoBehaviour:
           m_CallState: 2
         - m_Target: {fileID: 1190209571}
           m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: WaitToEnableDialog
-          m_Mode: 4
+          m_MethodName: TakeDamageDummyDialog
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 12
+            m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
@@ -46625,9 +46643,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 681219818}
+          m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+          m_MethodName: set_text
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Encuentra el arbol sangrante para salir de la simulacion
+            m_BoolArgument: 0
+          m_CallState: 2
     timeToCallEvent: 0
   goal: {fileID: 568904324}
-  npc: {fileID: 1990112583}
   player: {fileID: 523263258}
   newBorders:
   - {fileID: 0}
@@ -46686,6 +46715,7 @@ MonoBehaviour:
   myObjects: []
   leverCorderito: {fileID: 0}
   minion: {fileID: 0}
+  interComp: {fileID: 0}
 --- !u!1 &1191327059
 GameObject:
   m_ObjectHideFlags: 0
@@ -70438,7 +70468,7 @@ PrefabInstance:
     - target: {fileID: -7952033586835107782, guid: e54f3005aa05982409651fc4930cd065,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: NextDialog
+      value: ShowDialog
       objectReference: {fileID: 0}
     - target: {fileID: -7952033586835107782, guid: e54f3005aa05982409651fc4930cd065,
         type: 3}
@@ -97576,18 +97606,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1986935817}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1990112583 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3748661884867687394, guid: e54f3005aa05982409651fc4930cd065,
-    type: 3}
-  m_PrefabInstance: {fileID: 1736813110}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 660d4632559fa0744a119fc58b33b9d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2003129460
 PrefabInstance:
   m_ObjectHideFlags: 0

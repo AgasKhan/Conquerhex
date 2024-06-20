@@ -17,7 +17,7 @@ public class NPCTutorial : MonoBehaviour, Interactuable
     
     public void Interact(Character character)
     {
-        TutorialScenaryManager.instance.NextDialog();
+        TutorialScenaryManager.instance.ShowDialog();
     }
     
 }
