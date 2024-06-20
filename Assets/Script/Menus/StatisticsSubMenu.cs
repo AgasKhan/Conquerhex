@@ -12,12 +12,16 @@ public class StatisticsSubMenu : CreateSubMenu
 
     [SerializeField]
     InventorySubMenu inventorySubMenu;
+
+    BasicsModule myBasicsModule;
+    AbilitiesKatasModule myAbilityKataModule;
+    StatisticsModule myStatisticsModule;
     public override void Create(Character _character)
     {
         character = _character;
         base.Create(_character);
     }
-
+    
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
@@ -25,22 +29,24 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.AddNavBarButton("Equipamiento", ()=> { Create(character); inventorySubMenu.slotItem = null; }).AddNavBarButton("Inventario", ()=>CreateInventory(character));
 
         subMenu.ClearBody();
+        
+        subMenu.CreateSection(0, 4);
+        subMenu.CreateChildrenSection<VerticalLayoutGroup>();
+        myBasicsModule = subMenu.AddComponent<BasicsModule>();
+        CreateBasicEquipament(character);
+        
+        myAbilityKataModule = subMenu.AddComponent<AbilitiesKatasModule>();
+        CreateEquipamentAbilities(character);
+        CreateEquipamentKatas(character);
+
+        subMenu.CreateSection(4, 6);
+        myStatisticsModule = subMenu.AddComponent<StatisticsModule>();
+        //myStatisticsModule.SetText(character.flyweight.nameDisplay, character.flyweight.GetDetails().ToString());
+
         /*
-
-        subMenu.CreateSection(0, 2);
-        subMenu.CreateChildrenSection<ScrollRect>();
-        subMenu.AddComponent<DetailsWindow>().SetImage(character.flyweight.image).SetTexts(character.flyweight.nameDisplay, character.flyweight.GetDetails().ToString("\n"));
-
-        subMenu.CreateSection(2, 6);
-        subMenu.CreateChildrenSection<ScrollRect>();
-
-        CreateEquipmentButtons(character);
-        */
-
         subMenu.CreateSection(0, 2);
         subMenu.CreateChildrenSection<ScrollRect>();
         subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
-        //CreateEquipmentWeapons(character);
         CreateBasicEquipament(character);
 
         subMenu.CreateSection(3, 5);
@@ -60,7 +66,7 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.CreateChildrenSection<ScrollRect>();
         subMenu.AddComponent<DetailsWindow>().SetTexts("(Katas) Movimientos ofensivos", "Combinacion de teclas (movimiento) +  Click izq");
         CreateEquipamentKatas(character);
-
+        */
         subMenu.OnClose += Exit;
     }
 
@@ -94,8 +100,49 @@ public class StatisticsSubMenu : CreateSubMenu
         Create(character);
     }
 
+    UnityAction WeaponAction(SlotItem<MeleeWeapon> item)
+    {
+        Action<SlotItem, int> equipAction = (_slotItem, _index) =>
+        {
+            _slotItem.indexEquipedItem = _index;
+            subMenu.TriggerOnClose();
+        };
+
+        return () =>
+        {
+            inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, typeof(MeleeWeapon), equipAction);
+            CreateEquipInventory(character);
+        };
+    }
+
+    UnityAction AbilityAction<T>(SlotItem<T> item) where T : ItemEquipable
+    {
+        Action<SlotItem, int> equipAction = (_slotItem, _index) =>
+        {
+            var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+            _slotItem.indexEquipedItem = indexCopy;
+            subMenu.TriggerOnClose();
+        };
+
+        return () =>
+        {
+            inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, typeof(T), equipAction);
+            CreateEquipInventory(character);
+        };
+    }
+
     void CreateBasicEquipament(Character charac)
     {
+        myBasicsModule.SetGenericButtonA(0, charac.caster.weapons[0], "Arma",
+        WeaponAction(charac.caster.weapons[0]));
+
+        myBasicsModule.SetGenericButtonA(1, charac.caster.abilities[0], "Habilidad",
+        AbilityAction(charac.caster.abilities[0]));
+
+        myBasicsModule.SetGenericButtonA(2, charac.caster.abilities[1], "Habilidad",
+        AbilityAction(charac.caster.abilities[1]));
+
+        /*
         CreateGenericButton(charac.caster.weapons[0], "Arma",
          (_slotItem, _index) =>
          {
@@ -104,12 +151,12 @@ public class StatisticsSubMenu : CreateSubMenu
          });
 
         CreateGenericButton(charac.caster.abilities[0], "Habilidad",
-            (_slotItem, _index) =>
-            {
-                var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
-                _slotItem.indexEquipedItem = indexCopy;
-                subMenu.TriggerOnClose();
-            });
+        (_slotItem, _index) =>
+        {
+            var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+            _slotItem.indexEquipedItem = indexCopy;
+            subMenu.TriggerOnClose();
+        });
 
         CreateGenericButton(charac.caster.abilities[1], "Habilidad alternativa",
         (_slotItem, _index) =>
@@ -117,7 +164,9 @@ public class StatisticsSubMenu : CreateSubMenu
             var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
             _slotItem.indexEquipedItem = indexCopy;
             subMenu.TriggerOnClose();
+
         });
+        */
     }
 
     void CreateEquipmentWeapons(Character charac)
@@ -137,13 +186,26 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         for (int i = 0; i < charac.caster.katasCombo.Count; i++)
         {
+            myAbilityKataModule.SetKataComboButton(i, charac.caster.katasCombo[i], 
+                WeaponOfKataAction(charac.caster.katasCombo[i]), KataAction(charac.caster.katasCombo[i]));
+        }
+        /*
+        for (int i = 0; i < charac.caster.katasCombo.Count; i++)
+        {
             CreateKataCombosButtons(charac.caster.katasCombo[i]);
         }
+        */
     }
 
     void CreateEquipamentAbilities(Character charac)
     {
-        //for (int i = 0; i < charac.caster.abilities.Count; i++)
+        for (int i = 2; i < charac.caster.abilities.Count; i++)
+        {
+            myAbilityKataModule.SetGenericButtonA(i - 2, charac.caster.abilities[i], "Equipar Habilidad",
+            AbilityAction(charac.caster.abilities[i]));
+        }
+
+        /*
         for (int i = 2; i < charac.caster.abilities.Count; i++)
         {
             CreateGenericButton(charac.caster.abilities[i], "Equipar Habilidad",
@@ -154,6 +216,7 @@ public class StatisticsSubMenu : CreateSubMenu
                 subMenu.TriggerOnClose();
             });
         }
+        */
     }
 
     void CreateEquipmentButtons(Character charac)
@@ -161,6 +224,37 @@ public class StatisticsSubMenu : CreateSubMenu
         CreateEquipmentWeapons(charac);
         CreateEquipamentKatas(charac);
         CreateEquipamentAbilities(charac);
+    }
+
+    UnityAction WeaponOfKataAction(SlotItem<WeaponKata> item)
+    {
+        Action<SlotItem, int> equipAction = (_slotItem, _index) =>
+        {
+            (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent[_index]);
+            subMenu.TriggerOnClose();
+        };
+
+        return () =>
+        {
+            inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, typeof(WeaponKata), equipAction);
+            CreateEquipInventory(character);
+        };
+    }
+
+    UnityAction KataAction(SlotItem<WeaponKata> item)
+    {
+        Action<SlotItem, int> equipAction = (_slotItem, _index) =>
+        {
+            ((WeaponKata)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
+            _slotItem.indexEquipedItem = indexCopy;
+            subMenu.TriggerOnClose();
+        };
+
+        return () =>
+        {
+            inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, typeof(WeaponKata), equipAction);
+            CreateEquipInventory(character);
+        };
     }
 
     void EquipWeaponAction(SlotItem _slotItem, int _index)

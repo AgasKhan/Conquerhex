@@ -14,6 +14,12 @@ public class ButtonA : EventsCall
 
     public string type;
 
+    [SerializeField]
+    public Sprite defaultImage;
+
+    [SerializeField]
+    public string defaultText;
+
     public ButtonA SetItemSprite(Sprite sprite)
     {
         previewImage.sprite = sprite;
@@ -78,4 +84,10 @@ public class ButtonA : EventsCall
         return this;
     }
 
+    public ButtonA ClearButton()
+    {
+        SetItemName(defaultText);
+        SetItemSprite(defaultImage);
+        return this;
+    }
 }
