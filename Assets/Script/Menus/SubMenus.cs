@@ -142,7 +142,7 @@ public class SubMenus : MonoBehaviour
     {
         for (int i = 0; i < body.childCount; i++)
         {
-            Destroy(body.GetChild(i).gameObject);
+            Object.Destroy(body.GetChild(i).gameObject);
         }
 
         maxDivision = 0;

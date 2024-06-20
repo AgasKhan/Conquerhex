@@ -25,11 +25,10 @@ public class StatisticsSubMenu : CreateSubMenu
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
+        subMenu.ClearBody();
 
         subMenu.AddNavBarButton("Equipamiento", ()=> { Create(character); inventorySubMenu.slotItem = null; }).AddNavBarButton("Inventario", ()=>CreateInventory(character));
 
-        subMenu.ClearBody();
-        
         subMenu.CreateSection(0, 4);
         subMenu.CreateChildrenSection<VerticalLayoutGroup>();
         myBasicsModule = subMenu.AddComponent<BasicsModule>();

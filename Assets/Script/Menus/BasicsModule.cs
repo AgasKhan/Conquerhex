@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class BasicsModule : MonoBehaviour
 {
@@ -13,16 +14,10 @@ public class BasicsModule : MonoBehaviour
     private TextMeshProUGUI content;
 
     [SerializeField]
-    private ButtonA weapon;
-
-    [SerializeField]
-    private ButtonA basicAbility;
-
-    [SerializeField]
-    private ButtonA alternativeAbility;
-
-    [SerializeField]
     protected ButtonA[] buttonsA;
+
+    [SerializeField]
+    LayoutGroup layoutGroup;
 
     public BasicsModule SetTexts(string _title, string _content)
     {
@@ -30,28 +25,10 @@ public class BasicsModule : MonoBehaviour
         content.text = _content;
         return this;
     }
-    #region Test
-    public ButtonA SetButtonWeapon(string itemName, Sprite sprite, string textNum, UnityEngine.Events.UnityAction action)
-    {
-        weapon.SetButtonA(itemName, sprite, textNum, action);
-        return weapon;
-    }
-
-    public ButtonA SetButtonAbilityOne(string itemName, Sprite sprite, string textNum, UnityEngine.Events.UnityAction action)
-    {
-        basicAbility.SetButtonA(itemName, sprite, textNum, action);
-        return basicAbility;
-    }
-
-    public ButtonA SetButtonAbilityTwo(string itemName, Sprite sprite, string textNum, UnityEngine.Events.UnityAction action)
-    {
-        alternativeAbility.SetButtonA(itemName, sprite, textNum, action);
-        return alternativeAbility;
-    }
-    #endregion
 
     public void SetGenericButtonA<T>(int index, SlotItem<T> item, string defaultName, UnityAction buttonAction) where T : ItemEquipable
     {
+        GameManager.RetardedOn((_bool) => layoutGroup.SetActive(_bool));
         var info = new SlotInfo(buttonsA[index].defaultText, buttonsA[index].defaultImage, "", typeof(T));
         
         if (item.equiped != null)
@@ -73,5 +50,4 @@ public class BasicsModule : MonoBehaviour
     {
         return buttonsA[index].ClearButton();
     }
-
 }
