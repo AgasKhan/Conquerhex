@@ -244,7 +244,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public virtual float CostHandle => itemBase.costHandle;
 
-    public override bool visible => !IsCopy;
+    public override bool visible => !IsCopy && !isDefault;
 
     
     public FadeColorAttack FeedBackReference

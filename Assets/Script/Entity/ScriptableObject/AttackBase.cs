@@ -37,6 +37,8 @@ public class WeaponKataCombo
 
     public bool isModifiable = true;
 
+    public bool isDefault = false;
+
     public WeaponKataBase kata;
 
     public MeleeWeaponBase weapon;
@@ -48,6 +50,8 @@ public class AbilityToEquip
     public int indexToEquip = -1;
 
     public bool isModifiable = true;
+
+    public bool isDefault = false;
 
     public AbilityExtCastBase ability;
 }

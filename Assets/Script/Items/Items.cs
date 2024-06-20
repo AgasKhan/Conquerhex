@@ -337,6 +337,8 @@ public abstract class Item<T> : Item where T : ItemBase
 [System.Serializable]
 public abstract class ItemEquipable<T> : ItemEquipable where T : ItemBase
 {
+    public bool isDefault = false;
+
     public T itemBase
     {
         get => (T)GetItemBase();

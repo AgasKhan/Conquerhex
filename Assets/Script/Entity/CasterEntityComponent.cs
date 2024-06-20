@@ -210,6 +210,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         aux2.Init(inventoryEntity);
 
+        ((WeaponKata)aux).isDefault = flyweight.kataCombos[index].isDefault;
+        ((MeleeWeapon)aux2).isDefault = flyweight.kataCombos[index].isDefault;
+
         ((WeaponKata)aux).CreateCopy(out int otherindex);
 
         katasCombo.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
@@ -230,6 +233,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         aux.Init(inventoryEntity);
 
+        ((AbilityExtCast)aux).isDefault = abilityToEquip.isDefault;
+
         ((AbilityExtCast)aux).CreateCopy(out int otherindex);
 
         abilities.actual.isModifiable = abilityToEquip.isModifiable;
@@ -247,6 +252,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         var aux = flyweight.abilities[index].ability.Create();
 
         aux.Init(inventoryEntity);
+
+        ((AbilityExtCast)aux).isDefault = flyweight.abilities[index].isDefault;
 
         ((AbilityExtCast)aux).CreateCopy(out int otherindex);
 
