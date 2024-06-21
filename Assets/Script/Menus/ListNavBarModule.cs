@@ -48,7 +48,7 @@ public class ListNavBarModule : MonoBehaviour
         return AddNavbarButton(text, "", action);
     }
 
-    public ButtonHor AddButtonHor(string _name, Sprite _image, string[] _tags, UnityEngine.Events.UnityAction _action)
+    public ButtonHor AddButtonHor(string _name, Sprite _image, ItemTags _tags, UnityEngine.Events.UnityAction _action)
     {
         var aux = Object.Instantiate(buttonHor, buttonsContent);
         buttonsList.Add(aux);
@@ -74,12 +74,13 @@ public class ListNavBarModule : MonoBehaviour
         return this;
     }
 
-    public ListNavBarModule SetTags(string[] _tags)
+    public ListNavBarModule SetTags(ItemTags _tags)
     {
-        for (int i = 0; i < tags.Length; i++)
-        {
-            tags[i].text = _tags[i];
-        }
+        tags[0].text = _tags.tagOne;
+        tags[1].text = _tags.tagTwo;
+        tags[2].text = _tags.tagThree;
+        tags[3].text = _tags.tagFour;
+
         return this;
     }
 
@@ -137,5 +138,21 @@ public class ListNavBarModule : MonoBehaviour
         SetArrow(true);
         arrow.SetActiveGameObject(false);
         ClearButtonsHor();
+    }
+}
+
+public struct ItemTags
+{
+    public string tagOne;
+    public string tagTwo;
+    public string tagThree;
+    public string tagFour;
+
+    public ItemTags(string tagOne, string tagTwo, string tagThree, string tagFour)
+    {
+        this.tagOne = tagOne;
+        this.tagTwo = tagTwo;
+        this.tagThree = tagThree;
+        this.tagFour = tagFour;
     }
 }

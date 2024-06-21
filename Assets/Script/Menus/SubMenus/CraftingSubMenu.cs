@@ -68,15 +68,13 @@ public class CraftingSubMenu : CreateSubMenu
 
         foreach (var item in ((CraftingBuild)craftAction.interactComp.container).currentRecipes)
         {
-            ButtonA button = subMenu.AddComponent<ButtonA>();
-
             UnityEngine.Events.UnityAction action =
                 () =>
                 {
                     RefreshDetailW(item);
                 };
 
-            buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image,null, action).SetType(item.GetType().ToString()));
+            buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image, default, action).SetType(item.GetType().ToString()));
         }
     }
     void DestroyButtonCraft()

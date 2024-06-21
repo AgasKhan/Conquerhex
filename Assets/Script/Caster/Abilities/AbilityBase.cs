@@ -534,8 +534,13 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     protected abstract IEnumerable<Entity> InternalCast(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged);
 
-    
+
     #endregion
+
+    public override ItemTags GetItemTags()
+    {
+        return new ItemTags("", "", "Habilidad".RichTextColor(Color.blue), "");
+    }
 
     protected void MyControllerVOID(Vector2 dir, float tim)
     {

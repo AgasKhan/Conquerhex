@@ -99,22 +99,6 @@ public class GenericSubMenu : CreateSubMenu
         createAction = _createAction;
     }
 
-    public string SetTextforItem(Item item)
-    {
-        string details;
-
-        if (item is MeleeWeapon)
-        {
-            details = "Usos: " + ((MeleeWeapon)item).current;
-        }
-        else
-        {
-            details = item.GetCount().ToString() /*+ " / " + item.GetItemBase().maxAmount*/;
-        }
-
-        return details;
-    }
-
     void Exit()
     {
         subMenu.ExitSubmenu();

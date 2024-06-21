@@ -65,35 +65,15 @@ public class InventorySubMenu : CreateSubMenu
         slotItem = null;
         subMenu.OnClose -= InventoryOnClose;
     }
-
+   
     void CreateBody()
     {
-        /*
         subMenu.ClearBody();
 
         subMenu.CreateSection(0, 3);
-        subMenu.CreateChildrenSection<ScrollRect>();
-
-        CreateButtons();
-
-        subMenu.CreateSection(3, 6);
-        subMenu.CreateChildrenSection<ScrollRect>();
-        myDetailsW = subMenu.AddComponent<DetailsWindow>();
-
-        if(slotItem != null)
-            subMenu.navbar.DestroyAll();
-
-        if (buttonsList.Count <= 0)
-            ShowItemDetails("", "No tienes nada que equipar", null);
-        */
-
-        subMenu.ClearBody();
-
-        subMenu.CreateSection(0, 3);
-        //subMenu.CreateChildrenSection<ScrollRect>();
         myListNavBar = subMenu.AddComponent<ListNavBarModule>();
         myListNavBar.SetTitle("Inventario");
-        //myListNavBar.SetTags(new string[] { "Nombre", "Peso", "Peso Total", "Cantidad" });
+        //myListNavBar.SetTags(new ItemTags("Peso", "Peso Total", "Tipo", "Cantidad"));
         CreateButtons();
 
         subMenu.CreateSection(3, 6);
@@ -103,7 +83,7 @@ public class InventorySubMenu : CreateSubMenu
         if (slotItem != null)
             subMenu.navbar.DestroyAll();
 
-        if (buttonsList.Count <= 0)
+        if (buttonsList.Count <= 0 && slotItem != null)
             ShowItemDetails("", "No tienes nada que equipar", null);
     }
 
@@ -186,7 +166,7 @@ public class InventorySubMenu : CreateSubMenu
                    */
                };
 
-            var button = myListNavBar.AddButtonHor(item.nameDisplay, item.image, null, action);
+            var button = myListNavBar.AddButtonHor(item.nameDisplay, item.image, item.GetItemTags(), action);
             buttonsList.Add(button);
             //buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
@@ -208,7 +188,7 @@ public class InventorySubMenu : CreateSubMenu
     void CreateEquipButton(SlotItem _slotItem, int _index)
     {
         buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Equipar", ()=> {action.Invoke(_slotItem, _index); } , ""));
-        buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(300, 75);
+        buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(180, 65);
     }
 
     void CreateUnequipButton(SlotItem _slotItem)
@@ -255,21 +235,5 @@ public class InventorySubMenu : CreateSubMenu
         */
         myDetailsW.SetActiveGameObject(false);
         DestroyButtonsActions();
-    }
-
-    string SetTextforItem(Item item)
-    {
-        string details;
-
-        if (item is MeleeWeapon)
-        {
-            details = "Usos: " + ((MeleeWeapon)item).current;
-        }
-        else
-        {
-            details = item.GetCount().ToString() /*+ " / " + item.GetItemBase().maxAmount*/;
-        }
-
-        return details;
     }
 }

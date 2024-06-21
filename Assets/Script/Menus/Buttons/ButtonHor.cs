@@ -21,21 +21,25 @@ public class ButtonHor : MonoBehaviour
     [SerializeField]
     Button myButton;
 
-    public ButtonHor SetButton(Sprite _image, string _name, string[] _tags, UnityEngine.Events.UnityAction _action)
+    public ButtonHor SetButton(Sprite _image, string _name, ItemTags _tags, UnityEngine.Events.UnityAction _action)
     {
         previewImage.sprite = _image;
         itemName.text = _name;
 
-        if(_tags!=null)
-        {
-            for (int i = 0; i < tags.Length; i++)
-            {
-                tags[i].text = _tags[i];
-            }
-        }
+        SetTags(_tags);
 
         myButton.onClick.RemoveAllListeners();
         myButton.onClick.AddListener(_action);
+
+        return this;
+    }
+
+    public ButtonHor SetTags(ItemTags _tags)
+    {
+        tags[0].text = _tags.tagOne;
+        tags[1].text = _tags.tagTwo;
+        tags[2].text = _tags.tagThree;
+        tags[3].text = _tags.tagFour;
 
         return this;
     }

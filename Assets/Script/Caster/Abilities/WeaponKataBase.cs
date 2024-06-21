@@ -154,6 +154,11 @@ public class WeaponKata : Ability
         return aux;
     }
 
+    public override ItemTags GetItemTags()
+    {
+        return new ItemTags("", "", "Kata".RichTextColor(Color.magenta), "");
+    }
+
     protected override void Init()
     {
         base.Init();
