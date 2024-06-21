@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: objectiveVelocity
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8125905815628775838, guid: 0caed8012f6007c42a139da69ab99538,
+        type: 3}
+      propertyPath: steering
+      value: 
+      objectReference: {fileID: 6504353894888779073}
     - target: {fileID: 8806285603785703480, guid: 0caed8012f6007c42a139da69ab99538,
         type: 3}
       propertyPath: move
@@ -90,6 +95,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0caed8012f6007c42a139da69ab99538, type: 3}
+--- !u!114 &6504353894888779073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1923887133863855665, guid: 0caed8012f6007c42a139da69ab99538,
+    type: 3}
+  m_PrefabInstance: {fileID: 4681243599371791216}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f2333010bd75e24e861c5a89587049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9148626436591808244 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4467972175993570692, guid: 0caed8012f6007c42a139da69ab99538,
