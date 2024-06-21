@@ -185,8 +185,8 @@ public class StatisticsSubMenu : CreateSubMenu
     {
         for (int i = 0; i < charac.caster.katasCombo.Count; i++)
         {
-            myAbilityKataModule.SetKataComboButton(i, charac.caster.katasCombo[i], 
-                WeaponOfKataAction(charac.caster.katasCombo[i]), KataAction(charac.caster.katasCombo[i]));
+            myAbilityKataModule.SetKataComboButton(i, charac.caster.katasCombo[i],
+                KataAction(charac.caster.katasCombo[i]), WeaponOfKataAction(charac.caster.katasCombo[i]));
         }
         /*
         for (int i = 0; i < charac.caster.katasCombo.Count; i++)
@@ -235,7 +235,7 @@ public class StatisticsSubMenu : CreateSubMenu
 
         return () =>
         {
-            inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, typeof(WeaponKata), equipAction);
+            inventorySubMenu.SetEquipMenu<MeleeWeapon>(item, typeof(MeleeWeapon), equipAction);
             CreateEquipInventory(character);
         };
     }

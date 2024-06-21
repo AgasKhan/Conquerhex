@@ -9,13 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6576931610452621751}
-  - component: {fileID: 2686042186290282480}
   - component: {fileID: 7573100061654163380}
   - component: {fileID: 6871803492074900730}
   - component: {fileID: 4513349479719900207}
   - component: {fileID: 6228020001026168602}
   - component: {fileID: 3180629507576034152}
-  - component: {fileID: 417030073544972893}
+  - component: {fileID: 5159678057931422439}
   m_Layer: 0
   m_Name: BloodTreeBuild
   m_TagString: Props
@@ -39,19 +38,6 @@ Transform:
   - {fileID: 1904586034101902575}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2686042186290282480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820494545657111320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 111b36f4199fab04b9dc0f97dd8df711, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactComp: {fileID: 0}
 --- !u!114 &7573100061654163380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,37 +73,7 @@ MonoBehaviour:
   controller: {fileID: 4513349479719900207}
   interactComp: {fileID: 6228020001026168602}
   levelComp: {fileID: 0}
-  levelRecipes:
-    pictionaries: []
-  possibleRewards:
-    pictionaries:
-    - key: {fileID: 11400000, guid: 418c233b04005cb4da05f4b58c0b80d9, type: 2}
-      value: 500
-    - key: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
-      value: 500
-    - key: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
-      value: 350
-    - key: {fileID: 11400000, guid: 4a082b11a5f80ac42b544893203e8804, type: 2}
-      value: 350
-    - key: {fileID: 11400000, guid: 1bd1f7734d5440242bff7b86fe2af13d, type: 2}
-      value: 350
-    - key: {fileID: 11400000, guid: d1fcc0f8cfbc62d46a1808881896fce3, type: 2}
-      value: 350
-    - key: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
-      value: 350
-    - key: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
-      value: 150
-    - key: {fileID: 11400000, guid: 084a07df5f36dce48bb15e85bebcc780, type: 2}
-      value: 150
-    - key: {fileID: 11400000, guid: 12ac7611867a0ef42b9ae3400968119f, type: 2}
-      value: 150
-    - key: {fileID: 11400000, guid: 7fb1b94fb8c1cfa4aabf132841e81b4b, type: 2}
-      value: 70
-    - key: {fileID: 11400000, guid: 25c32209251f7b84db2f5362d0c971f6, type: 2}
-      value: 70
-    - key: {fileID: 11400000, guid: 00c520bc752f70f45b63631e968637ae, type: 2}
-      value: 70
-  rewardsQuantity: 3
+  rewardsQuantity: 1
   minions: []
   sprite: {fileID: 7216132303710181597}
 --- !u!114 &6871803492074900730
@@ -164,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactuable: 0
   Image: {fileID: 0}
-  interactAction: {fileID: 417030073544972893}
+  interactAction: {fileID: 5159678057931422439}
   genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
@@ -195,7 +151,7 @@ CapsuleCollider:
   m_Height: 1.3239172
   m_Direction: 1
   m_Center: {x: -0.13093248, y: 0.35408998, z: 0.25663316}
---- !u!114 &417030073544972893
+--- !u!114 &5159678057931422439
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,10 +160,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1820494545657111320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9e37e29ccaa5524495452fbcb0743ad, type: 3}
+  m_Script: {fileID: 11500000, guid: a109b573feaded841bc904c4c0b3e695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myIteractSpecific: {fileID: 2686042186290282480}
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7573100061654163380}
+        m_TargetAssemblyTypeName: BloodTreeBuild, Assembly-CSharp
+        m_MethodName: SetRewards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &7801199483577430425
 PrefabInstance:
   m_ObjectHideFlags: 0

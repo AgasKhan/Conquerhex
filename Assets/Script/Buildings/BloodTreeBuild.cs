@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class BloodTreeBuild : CraftingBuild
+public class BloodTreeBuild : Building
 {
-    public Pictionarys<ItemCrafteable, GachaRarity> possibleRewards = new Pictionarys<ItemCrafteable, GachaRarity>();
+    //public Pictionarys<ItemCrafteable, GachaRarity> possibleRewards = new Pictionarys<ItemCrafteable, GachaRarity>();
     public int rewardsQuantity = 3;
-    public override List<ItemCrafteable> currentRecipes => recipes;
+    //public override List<ItemCrafteable> currentRecipes => recipes;
 
+    Pictionarys<ItemCrafteable, GachaRarity> possibleRewards;
     Pictionarys<ItemCrafteable, int> gachaRewardsInt = new Pictionarys<ItemCrafteable, int>();
-    List<ItemCrafteable> recipes = new List<ItemCrafteable>();
+    //List<ItemCrafteable> recipes = new List<ItemCrafteable>();
 
     [SerializeField]
     Character[] minions;
@@ -24,6 +25,8 @@ public class BloodTreeBuild : CraftingBuild
 
     bool encerrado = false;
 
+    CraftingBuild craftReference;
+
     protected override void Config()
     {
         base.Config();
@@ -33,9 +36,10 @@ public class BloodTreeBuild : CraftingBuild
 
     void MyAwake()
     {
-        interactComp.OnInteract += SetRewards;
+        //interactComp.OnInteract += SetRewards;
         health.noLife += Health_noLife;
         health.death += Health_noLife;
+        possibleRewards = flyweight.GetFlyWeight<PoolRewardsBase>().possibleRewards;
 
         LoadSystem.AddPostLoadCorutine(PostAwake, 1000);
     }
@@ -55,6 +59,8 @@ public class BloodTreeBuild : CraftingBuild
         {
             ((IAFather)minions[i].CurrentState).detect += Encerrar;
         }
+
+        craftReference = CraftingBuild.instance; 
     }
 
     [ContextMenu("Encerrar")]
@@ -86,30 +92,8 @@ public class BloodTreeBuild : CraftingBuild
         UI.Interfaz.instance["Titulo"].ShowMsg("Liberado".RichTextColor(Color.cyan));
     }
 
-    private void Health_noLife()
-    {
-        interactComp.ChangeInteract(true);
-        team = Team.noTeam;
 
-        for (int i = 0; i < minions.Length; i++)
-        {
-            //UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
-            
-            minions[i].StopIA();
-
-            //minions[i].CurrentState = null;
-        }
-
-        UI.Interfaz.instance.PopText(this, "Conquistado".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);
-
-        sprite.color = Color.green;
-
-        Liberar();
-    }
-
-    
-
-    void SetRewards()
+    public void SetRewards()
     {
         gachaRewardsInt.Clear();
 
@@ -118,24 +102,53 @@ public class BloodTreeBuild : CraftingBuild
             gachaRewardsInt.Add(item.key, (int)item.value);
         }
 
-        foreach (var item in interactComp.lastCharInteract.inventory)
+        foreach (var item in craftReference.currentRecipes)
         {
-            if(item.GetItemBase() is ItemCrafteable && gachaRewardsInt.ContainsKey(item.GetItemBase() as ItemCrafteable))
+            if(gachaRewardsInt.ContainsKey(item))
             {
-                gachaRewardsInt[(ItemCrafteable)item.GetItemBase()] = (int)GachaRarity.S;
+                //gachaRewardsInt[(ItemCrafteable)item.GetItemBase()] = (int)GachaRarity.S;
+                gachaRewardsInt.Remove(item);
             }
         }
-        
-        for (int i = 0; i < rewardsQuantity; i++)
+
+        if (gachaRewardsInt.Count > 0)
         {
-            if (gachaRewardsInt.Count <= 0)
-                break;
-            
-            var aux = gachaRewardsInt.RandomPic();
-            recipes.Add(aux);
-            gachaRewardsInt.Remove(aux);
+            List<ItemCrafteable> newRecipes = new List<ItemCrafteable>(); 
+            for (int i = 0; i < rewardsQuantity; i++)
+            {
+                if (gachaRewardsInt.Count <= 0)
+                    break;
+
+                var aux = gachaRewardsInt.RandomPic();
+                craftReference.AddRecipe(aux);
+                newRecipes.Add(aux);
+                gachaRewardsInt.Remove(aux);
+            }
+
+            string recipesStr = "";
+            foreach (var item in newRecipes)
+            {
+                recipesStr += item.nameDisplay + " ";
+            }
+
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+                    .SetWindow((newRecipes.Count > 1? "¡Nuevas recetas desbloqueadas!" : "¡Nueva receta desbloqueada!"),
+                    recipesStr.RichTextColor(Color.cyan) 
+                    + (newRecipes.Count > 1 ? "\nVuelve a la mesa de crafteo para ver tus nuevas recetas" : "\nVuelve a la mesa de crafteo para ver tu nueva receta"))
+                    .AddButton("Aceptar", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
+        }
+        else
+        {
+            var aux = possibleRewards.keys[Random.Range(0, possibleRewards.Count)].ingredients;
+            var randomItem = aux[Random.Range(0, aux.Count)].Item;
+            int randomAmount = Random.Range(5, 15);
+            interactComp.lastCharInteract.inventory.AddItem(randomItem, randomAmount);
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+                    .SetWindow("Felicidades", "Ya obtuviste todas las recetas\nHas obtenido: " + randomItem.nameDisplay.RichTextColor(Color.cyan) + " x ".RichTextColor(Color.cyan) + (randomAmount.ToString().RichTextColor(Color.cyan)) + " como compensación")
+                    .AddButton("Aceptar", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
         }
 
+        interactComp.ChangeInteract(false);
         /*
         interactComp.lastCharInteract.inventory.AddItem(recipes[0], 1);
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
@@ -146,5 +159,26 @@ public class BloodTreeBuild : CraftingBuild
         */
 
         interactComp.OnInteract -= SetRewards;
+    }
+
+    private void Health_noLife()
+    {
+        interactComp.ChangeInteract(true);
+        team = Team.noTeam;
+
+        for (int i = 0; i < minions.Length; i++)
+        {
+            //UI.Interfaz.instance.PopText(minions[i], "Apagado".RichText("size", "35").RichTextColor(Color.red), Vector2.up * 2);
+
+            minions[i].StopIA();
+
+            //minions[i].CurrentState = null;
+        }
+
+        UI.Interfaz.instance.PopText(this, "Conquistado".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);
+
+        sprite.color = Color.green;
+
+        Liberar();
     }
 }

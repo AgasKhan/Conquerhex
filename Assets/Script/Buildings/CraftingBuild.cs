@@ -6,9 +6,24 @@ public class CraftingBuild : Building, ISaveObject
 {
     public Pictionarys<int, List<ItemCrafteable>> levelRecipes = new Pictionarys<int, List<ItemCrafteable>>();
 
-    public virtual List<ItemCrafteable> currentRecipes => data.currentRecipes;
+    public List<ItemCrafteable> currentRecipes;
 
     SvData data;
+
+    public static CraftingBuild instance;
+
+    protected override void Config()
+    {
+        base.Config();
+
+        MyAwakes += MyAwake;
+    }
+
+    void MyAwake()
+    {
+        instance = this;
+    }
+
 
     public override string rewardNextLevel
     {
@@ -41,6 +56,13 @@ public class CraftingBuild : Building, ISaveObject
         currentLevel = data.currentLevel;
     }
     */
+
+    public void AddRecipe(ItemCrafteable _item)
+    {
+        if(!currentRecipes.Contains(_item))
+            currentRecipes.Add(_item);
+    }
+
     [System.Serializable]
     public class SvData
     {

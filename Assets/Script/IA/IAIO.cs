@@ -437,20 +437,20 @@ public class IAIO : IAFather
             equipedEvents[i] = (param) => aux.delegato?.Invoke(param);
         }
 
-        meleeWeaponUIMediator = (index, item) => equipedEvents[0]?.Invoke((item?.defaultKata, item?.itemBase));
+        meleeWeaponUIMediator = (index, item) => equipedEvents[0].Invoke((item?.defaultKata, item?.itemBase));
 
-        abilityExtUIMediator[0] = (index, item) => equipedEvents[1]?.Invoke((item, item.itemBase));
-        abilityExtUIMediator[1] = (index, item) => equipedEvents[2]?.Invoke((item, item.itemBase));
+        abilityExtUIMediator[0] = (index, item) => equipedEvents[1].Invoke((item, item?.itemBase));
+        abilityExtUIMediator[1] = (index, item) => equipedEvents[2].Invoke((item, item?.itemBase));
 
-        kataUIMediator[0] = (index, item) => equipedEvents[3]?.Invoke((item, item.itemBase));
-        kataUIMediator[1] = (index, item) => equipedEvents[4]?.Invoke((item, item.itemBase));
-        kataUIMediator[2] = (index, item) => equipedEvents[5]?.Invoke((item, item.itemBase));
-        kataUIMediator[3] = (index, item) => equipedEvents[6]?.Invoke((item, item.itemBase));
+        kataUIMediator[0] = (index, item) => equipedEvents[3].Invoke((item, item?.itemBase));
+        kataUIMediator[1] = (index, item) => equipedEvents[4].Invoke((item, item?.itemBase));
+        kataUIMediator[2] = (index, item) => equipedEvents[5].Invoke((item, item?.itemBase));
+        kataUIMediator[3] = (index, item) => equipedEvents[6].Invoke((item, item?.itemBase));
 
-        abilityExtUIMediator[2] = (index, item) => equipedEvents[7]?.Invoke((item, item.itemBase));
-        abilityExtUIMediator[3] = (index, item) => equipedEvents[8]?.Invoke((item, item.itemBase));
-        abilityExtUIMediator[4] = (index, item) => equipedEvents[9]?.Invoke((item, item.itemBase));
-        abilityExtUIMediator[5] = (index, item) => equipedEvents[10]?.Invoke((item, item.itemBase));
+        abilityExtUIMediator[2] = (index, item) => equipedEvents[7].Invoke((item, item?.itemBase));
+        abilityExtUIMediator[3] = (index, item) => equipedEvents[8].Invoke((item, item?.itemBase));
+        abilityExtUIMediator[4] = (index, item) => equipedEvents[9].Invoke((item, item?.itemBase));
+        abilityExtUIMediator[5] = (index, item) => equipedEvents[10].Invoke((item, item?.itemBase));
     }
 
     private void Start()
