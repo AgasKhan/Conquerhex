@@ -22,6 +22,8 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
 
     Vector3 dirInput;
 
+    bool flagZero;
+
     public event Action<Vector3> onMove
     {
         add
@@ -82,16 +84,22 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
 
     }
 
+    private void LateUpdate()
+    {
+        if(flagZero)
+            dirInput.SetZero();
+
+        flagZero = true;
+    }
 
     private void FixedUpdate()
     {
         move.Acelerator(dirInput, move.aceleration.total);
+        
     }
-
 
     public virtual void ControllerDown(Vector2 dir, float tim)
     {
-        //_desaceleration.current = 0;
     }
 
     public virtual void ControllerPressed(Vector2 dir, float tim)
@@ -102,6 +110,7 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
         if (dir.sqrMagnitude > 0)
         {
             dirInput = dir.Vect2To3XZ(0);
+            flagZero = false;
         }
         else
         {
@@ -113,7 +122,6 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
 
     public virtual void ControllerUp(Vector2 dir, float tim)
     {
-        //_desaceleration.Reset();
     }
 
     public string Save()
