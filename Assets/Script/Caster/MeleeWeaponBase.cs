@@ -140,6 +140,11 @@ public class MeleeWeapon : ItemEquipable<MeleeWeaponBase>, IGetPercentage
         defaultKata.ChangeWeapon(this);
     }
 
+    public override ItemTags GetItemTags()
+    {
+        return new ItemTags("", "", "Arma".RichTextColor(Color.yellow), current.ToString());
+    }
+
     protected override void Init()
     {
         if (itemBase == null)

@@ -206,6 +206,11 @@ public abstract class Item : IShowDetails, IComparable<Item>, IComparable<ItemBa
         OnAfterChangeContainer?.Invoke(inventoryEntityComponent);
     }
 
+    public virtual ItemTags GetItemTags()
+    {
+        return new ItemTags("", "", typeof(Item).ToString(), "");
+    }
+
     public int Init(InventoryEntityComponent inventoryEntityComponent)
     {
         if (container != null)
@@ -276,6 +281,11 @@ public abstract class ItemStackeable : Item
     public override int GetCount()
     {
         return _count;
+    }
+
+    public override ItemTags GetItemTags()
+    {
+        return new ItemTags("","","Resource".RichTextColor(Color.green), GetCount().ToString());
     }
 
     public override Pictionarys<string, string> GetDetails()

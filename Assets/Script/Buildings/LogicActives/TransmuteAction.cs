@@ -39,7 +39,8 @@ public class TransmuteAction : InteractAction<(Character character, MeleeWeapon 
 
             foreach (var item in crafteableItems)
             {
-                internalSubMenu.AddComponent<ButtonA>().SetButtonA(item.nameDisplay, item.image, menu.SetTextforItem(item), 
+                /*
+                internalSubMenu.AddComponent<ButtonA>().SetButtonA(item.nameDisplay, item.image, item.GetItemTags(), 
                     () => 
                     { 
                         menu.DestroyLastButtons();
@@ -47,6 +48,7 @@ public class TransmuteAction : InteractAction<(Character character, MeleeWeapon 
                         menu.CreateButton("Transmute", () => { menu.detailsWindow.SetActive(true); Activate((menu.myCharacter, item)); internalSubMenu.gameObject.SetActive(false); });
 
                     }).rectTransform.sizeDelta = new Vector2(300, 150);
+                */
             }
 
             internalSubMenu.CreateSection(2, 6);
