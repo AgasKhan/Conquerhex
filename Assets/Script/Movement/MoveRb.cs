@@ -30,7 +30,7 @@ public class MoveRb : MoveTr
         else
             VelocityCalculate = Vector3.zero;
 
-        if (VelocityCalculate.sqrMagnitude <= 0)
+        if (VectorVelocity.sqrMagnitude <= 0)
             OnIdle();
         else
             OnMove(VectorVelocity);
