@@ -65,6 +65,11 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         return inventory.Contains(item);
     }
 
+    public bool Contains(Item item, out int index)
+    {
+        return inventory.Contains(item, out index);
+    }
+
     public void Clear()
     {
         inventory.Clear();

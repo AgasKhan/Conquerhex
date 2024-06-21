@@ -19,6 +19,9 @@ public class SlotItem
     [SerializeReference]
     ItemEquipable _equiped;
 
+    [SerializeReference]
+    ItemEquipable defaultItem;
+
     public ItemEquipable equiped
     {
         get
@@ -57,8 +60,19 @@ public class SlotItem
             else
             {
                 _equiped = null;
+
+                if(defaultItem != null)
+                {
+                    inventoryComponent.Contains(defaultItem, out int index);
+                    indexEquipedItem = index;
+                }
             }
         }
+    }
+
+    public void SetDefaultItem(ItemEquipable _item)
+    {
+        defaultItem = _item;
     }
 
     protected virtual void EquipedOnDrop()
