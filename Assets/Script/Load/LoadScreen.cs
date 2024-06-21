@@ -64,7 +64,7 @@ public class LoadScreen : MonoBehaviour
 
     private void Update()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, fade, Time.deltaTime* transition);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, fade, Time.unscaledDeltaTime* transition);
         if(fade==0 && canvasGroup.alpha<0.01f)
             gameObject.SetActive(false);
     }
