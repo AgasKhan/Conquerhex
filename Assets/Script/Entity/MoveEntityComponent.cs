@@ -20,6 +20,8 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
     public Vector3 VelocityCalculate { get => ((IMove)move).VelocityCalculate; set => ((IMove)move).VelocityCalculate = value; }
     public Vector3 direction { get => ((IMove)move).direction; set => ((IMove)move).direction = value; }
 
+    Vector3 dirInput;
+
     public event Action<Vector3> onMove
     {
         add
@@ -80,7 +82,13 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
 
     }
 
-    
+
+    private void FixedUpdate()
+    {
+        if(dirInput!=Vector3.zero)
+            move.Acelerator(dirInput, move.aceleration.total);
+    }
+
 
     public virtual void ControllerDown(Vector2 dir, float tim)
     {
@@ -94,7 +102,11 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
 
         if (dir.sqrMagnitude > 0)
         {
-            move.Acelerator(dir.Vect2To3XZ(0), move.aceleration.total);
+            dirInput = dir.Vect2To3XZ(0);
+        }
+        else
+        {
+            dirInput.SetZero();
         }
 
         //velocity += aceleration.current * Time.deltaTime;
