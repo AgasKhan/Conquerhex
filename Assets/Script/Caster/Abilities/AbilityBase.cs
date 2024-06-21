@@ -539,7 +539,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public override ItemTags GetItemTags()
     {
-        return new ItemTags("", "", "Habilidad".RichTextColor(Color.blue), "");
+        return new ItemTags("", "", "Habilidad".RichText("color", "#e2bca5"), "");
     }
 
     protected void MyControllerVOID(Vector2 dir, float tim)

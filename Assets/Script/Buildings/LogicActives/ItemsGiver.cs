@@ -8,9 +8,9 @@ public class ItemsGiver : LogicActive<Entity>
 
     public override void Activate(Entity genericParams)
     {
-        foreach (var item in items)
+        for (int i = 0; i < items.Count; i++)
         {
-            genericParams.GetInContainer<InventoryEntityComponent>().AddItem(item.Item, item.Amount);
+            genericParams.GetInContainer<InventoryEntityComponent>().AddItem(items[i].Item, items[i].Amount);
         }
     }
 

@@ -142,7 +142,7 @@ public class MeleeWeapon : ItemEquipable<MeleeWeaponBase>, IGetPercentage
 
     public override ItemTags GetItemTags()
     {
-        return new ItemTags("", "", "Arma".RichTextColor(Color.yellow), current.ToString());
+        return new ItemTags("", "", "Arma".RichText("color", "#add8e6ff"), current.ToString());
     }
 
     protected override void Init()
