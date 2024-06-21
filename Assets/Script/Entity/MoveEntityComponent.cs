@@ -85,8 +85,7 @@ public class MoveEntityComponent : ComponentOfContainer<Entity>, IControllerDir,
 
     private void FixedUpdate()
     {
-        if(dirInput!=Vector3.zero)
-            move.Acelerator(dirInput, move.aceleration.total);
+        move.Acelerator(dirInput, move.aceleration.total);
     }
 
 
