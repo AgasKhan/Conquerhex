@@ -36,6 +36,10 @@ public class DestroyObjec : CastingAction<DestroyObjectBase>
 
             GameManager.eventQueueGamePlay.Enqueue(()=>GameObject.Destroy(obj.gameObject));
         }
+        else
+        {
+            caster.positiveEnergy += ability.CostExecution;
+        }
 
         End = true;
 
