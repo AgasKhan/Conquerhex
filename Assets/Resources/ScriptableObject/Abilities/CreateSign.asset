@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
+  m_Name: CreateSign
+  m_EditorClassIdentifier: 
+  _nameDisplay: 
+  _image: {fileID: 0}
+  _details: 
+  maxAmount: 1
+  weight: 0
+  visible: 1
+  ingredients: []
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
+  joystick: 0
+  ShowFeedBackArea: 1
+  ShowFeedAffectedEntities: 1
+  waitAnimations: 1
+  animationCastStart: {fileID: 1827226128182048838, guid: 79bd63c2c5e56504c9147bfe0a879fe5,
+    type: 3}
+  animationCastMiddle: {fileID: 0}
+  animationCastExit: {fileID: 0}
+  particles: []
+  audios:
+    pictionaries: []
+  velocity: 0
+  costExecution: 40
+  costHandle: 0
+  weightAction: 0
+  damagesMultiply: []
+  indexParticles: []
+  <trigger>k__BackingField: {fileID: 11400000, guid: ed2a28801559df24d9935adb16f5fac8,
+    type: 2}
+  detection: {fileID: 0}
+  modificators: []
+  <Auxiliar>k__BackingField: 0
+  castingAction: {fileID: 11400000, guid: 997239fa1d186eb49a527af80f34f918, type: 2}
