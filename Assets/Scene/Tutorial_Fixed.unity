@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.7
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07238533, g: 0.094291665, b: 0.12471054, a: 0.7}
+  m_IndirectSpecularColor: {r: 0.07238383, g: 0.094289534, b: 0.12470909, a: 0.7}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1627,10 +1627,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allDialogs:
-  - dialog: "Bienvenido a tu nueva <color=green>tierra</color>. Cada parcela est\xE1
-      creada a imagen y semejanza de tu mundo.  Por favor, si\xE9ntete libre de recorrer
-      y acostumbrarte a tu nuevo espacio."
-    objective: -Muevete con WASD y muevete a los limetes del mapa.
+  - dialog: "Hola ser humano \xA1Felicidades por completar tu primera mision!\npor
+      si no lo sabias era interactuar conmigo.\n\xA1Bien hecho!\n\n\nSoy un npc,
+      solo existo para esto, te agradezco por darle sentido a mi existencia.\n\n\nNo
+      importa los motivos que te han traido hasta aqui, lo importante es que estas
+      en la simulacion de entrenamiento basico.\n\n\nAcostumbrarte a un cuerpo modificado
+      no debe ser tan facil \xBFVerdad?\n\n\nNo intentes responderme, solo sigo una
+      rutina de comportamiento pre concebida.\n\n\nEspero que me estes prestando
+      atencion y no quieras agilizar mis dialogos utilizando la tecla de <color=green>interaccion</color>,
+      ya que este dialogo no lo repetire."
+    objective: -Darle sentido de existencia al npc interactuando con el para buscar
+      informacion relevante prestando atencion sin agilizar los dialogos con la tecla
+      <color=green>F</color>.
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: NextDialog
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    timeToCallEvent: 0
+  - dialog: "Veo que si te has desplazado hasta mi, es que debes de saber usar tus
+      piernas, tu nuevo cerebelo deberia de facilitarte el movimiento.\n\xA1Descuida!\nTu
+      cerebro esta intacto, aunque no te sea tan util, seria taboo modificar el cerebro
+      humano.\ny como sabras los que lo cometen deben de ser <i>purgados</i>\n\n\xA1Y
+      para eso estas aqui!\nPero primero pongamos a prueba tus capacidades basicas,
+      muevete por el escenario intentando alejarte lo mas posible de mi.\nDado que
+      te has acercado debe de ser dificil alejarte, lo se."
+    objective: -Alejate del npc moviendote con WASD.
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1649,7 +1681,7 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Oh, \xBFhas vuelto tan r\xE1pido? Prueba <color=green>teletransportarte</color>
       por otro lado."
-    objective: -Intenta entender la logica de los lados atravesandoles.
+    objective: -Intenta entender la logica de los portales en los lados.
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1666,11 +1698,13 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     timeToCallEvent: 0
-  - dialog: "Al parecer hubo un error y <color=green>conect\xE9 todos los lados al
-      mismo lugar</color>. En este mundo cada <color=green>lado es un portal</color>
-      y est\xE1 conectado a una parcela de tierra. \xA1Puede ser totalmente distinta
-      o la misma por la que entraste! Ahora cambiar\xE9 los portales para que vuelas
-      a explorarlos. Ven a hablarme cuando hayas descubierto nuevas zonas."
+  - dialog: "Te noto confundido, no es tu culpa que con tu cerebro primitivo y sentimental
+      te cueste entender que sucede \xA1Es la idea!\n\nEn el mundo al que te transladaremos
+      <color=green>cada lado es un portal</color> que se conecta a otro permitiendote
+      acceder a otras parcelas o la \xA1misma!\n\n\xBFNo es guay el laverinto que
+      crearon los angles para que los humanos dejen de intentar extinguirse?\n\nAhora
+      he reconfigurado el mapa.\n\nExplora los otros biomas y ven a hablarme cuando
+      hayas terminado."
     objective: -Explora los 2 nuevos biomas <color=yellow>desiertico</color> y <color=#00ffffff>nevado</color>.
     logicActive:
       m_PersistentCalls:
@@ -1700,11 +1734,14 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     timeToCallEvent: 0
-  - dialog: "Ya aprendiste lo b\xE1sico de este mundo. Busca el <color=green>\xE1rbol
-      sangrante</color> en cuanto te sientas listo de continuar.\n\nEste es el aspecto
-      del \xE1rbol sangrante:\n\n<align=\"center\"><size=100><sprite=\"BloodTree\"
+  - dialog: "Ya aprendiste lo b\xE1sico de esta etapa, busca lo que ustedes humanos
+      conocen como <color=red>\xE1rbol sangrante</color> en cuanto te sientas listo
+      de continuar.\n\nEs importante que lo reconozcas, sera el nexo que deberas
+      abatir en tu mision.\n\n\xBFQue por que sangran?\nNo pienses esas cosas, lo
+      importante es que tu mision ayudara a muucha gente, y \xA1Eso es lo unico que
+      importa!.\n\nEste es el aspecto:\n\n<align=\"center\"><size=100><sprite=\"BloodTree\"
       index=0></size></align>"
-    objective: '-Busca el arbol, para salir de la simulacion.
+    objective: '-Busca el arbol, para continuar.
 
       <align="center"><size=100><sprite="BloodTree"
       index=0></size></align>'
