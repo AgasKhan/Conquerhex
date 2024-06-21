@@ -55,11 +55,6 @@ public class InventorySubMenu : CreateSubMenu
         subMenu.OnClose += InventoryOnClose;
     }
 
-    void CreateStatistics()
-    {
-        subMenu.TriggerOnClose();
-    }
-
     private void InventoryOnClose()
     {
         slotItem = null;

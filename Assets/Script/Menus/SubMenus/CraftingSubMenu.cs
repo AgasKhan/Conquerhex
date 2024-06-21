@@ -53,6 +53,7 @@ public class CraftingSubMenu : CreateSubMenu
 
         subMenu.CreateSection(0, 3);
         myListNavBar = subMenu.AddComponent<ListNavBarModule>();
+        myListNavBar.SetTitle("Crafteo");
         //subMenu.CreateChildrenSection<ScrollRect>();
 
         CreateButtons();

@@ -43,7 +43,7 @@ public class GenericSubMenu : CreateSubMenu
     {
         myCharacter = character;
 
-        Debug.Log("El character que interactuo es: " + myCharacter.gameObject.name);
+        //Debug.Log("El character que interactuo es: " + myCharacter.gameObject.name);
         subMenu = MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>();
 
         subMenu.navbar.DestroyAll();

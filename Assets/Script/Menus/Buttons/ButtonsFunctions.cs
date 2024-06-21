@@ -8,7 +8,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     private void Awake()
     {
-        LoadSystem.AddPostLoadCorutine(LoadButtons);
+        LoadSystem.AddPostLoadCorutine(LoadButtons, 0);
     }
     private void Start()
     {
@@ -66,6 +66,7 @@ public class ButtonsFunctions : MonoBehaviour
 
     void ExitSubMenu(GameObject g)
     {
+        //g.GetComponent<UnityEngine.UI.Button>().transition = UnityEngine.UI.Selectable.Transition.ColorTint
         refMenu.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose();
     }
 

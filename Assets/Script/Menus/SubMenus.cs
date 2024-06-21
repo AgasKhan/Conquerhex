@@ -183,6 +183,8 @@ public class SubMenus : MonoBehaviour
         fadeMenu.alphas += FadeMenu_alphas;
 
         fadeMenu.Init();
+
+        OnClose += ExitSubmenu;
     }
 
     private void FadeMenu_alphas(float obj)

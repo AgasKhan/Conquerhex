@@ -25,21 +25,11 @@ public class StatisticsSubMenu : CreateSubMenu
     protected override void InternalCreate()
     {
         subMenu.navbar.DestroyAll();
-        subMenu.ClearBody();
 
-        subMenu.AddNavBarButton("Equipamiento", ()=> { Create(character); inventorySubMenu.slotItem = null; }).AddNavBarButton("Inventario", ()=>CreateInventory(character));
+        subMenu.AddNavBarButton("Equipamiento", ()=> { CreateStatsBody() ; inventorySubMenu.slotItem = null; }).AddNavBarButton("Inventario", ()=>CreateInventory(character));
 
-        subMenu.CreateSection(0, 4);
-        subMenu.CreateChildrenSection<VerticalLayoutGroup>();
-        myBasicsModule = subMenu.AddComponent<BasicsModule>();
-        CreateBasicEquipament(character);
-        
-        myAbilityKataModule = subMenu.AddComponent<AbilitiesKatasModule>();
-        CreateEquipamentAbilities(character);
-        CreateEquipamentKatas(character);
+        CreateStatsBody();
 
-        subMenu.CreateSection(4, 6);
-        myStatisticsModule = subMenu.AddComponent<StatisticsModule>();
         //myStatisticsModule.SetText(character.flyweight.nameDisplay, character.flyweight.GetDetails().ToString());
 
         /*
@@ -66,12 +56,23 @@ public class StatisticsSubMenu : CreateSubMenu
         subMenu.AddComponent<DetailsWindow>().SetTexts("(Katas) Movimientos ofensivos", "Combinacion de teclas (movimiento) +  Click izq");
         CreateEquipamentKatas(character);
         */
-        subMenu.OnClose += Exit;
     }
 
-    public void Exit()
+    void CreateStatsBody()
     {
-        subMenu.ExitSubmenu();
+        subMenu.ClearBody();
+
+        subMenu.CreateSection(0, 4);
+        subMenu.CreateChildrenSection<VerticalLayoutGroup>();
+        myBasicsModule = subMenu.AddComponent<BasicsModule>();
+        CreateBasicEquipament(character);
+
+        myAbilityKataModule = subMenu.AddComponent<AbilitiesKatasModule>();
+        CreateEquipamentAbilities(character);
+        CreateEquipamentKatas(character);
+
+        subMenu.CreateSection(4, 6);
+        myStatisticsModule = subMenu.AddComponent<StatisticsModule>();
     }
 
     public void TriggerMyOnClose()
@@ -89,7 +90,7 @@ public class StatisticsSubMenu : CreateSubMenu
     void CreateEquipInventory(Character _character)
     {
         inventorySubMenu.Create(_character);
-        subMenu.OnClose -= Exit;
+        subMenu.OnClose -= subMenu.ExitSubmenu;
         subMenu.OnClose += SubMenuOnClose;
     }
 
