@@ -13,29 +13,53 @@ public class CastingObjectBase : CastingActionBase
         return typeof(CastingObject);
     }
 }
-
-
 public class CastingObject : CastingAction<CastingObjectBase>
 {
     int index;
+
+    HashSet<EntityBase> objectCasted = new HashSet<EntityBase>();
+
+    public override void Init(Ability ability)
+    {
+        base.Init(ability);
+
+        foreach (var item in castingActionBase.objectToCast)
+        {
+            objectCasted.Add(item.flyweight);
+        }
+    }
 
     public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
         showParticleInPos = false;
         showParticleDamaged = false;
 
-        var obj = GameObject.Instantiate(castingActionBase.objectToCast[index], caster.transform.position, Quaternion.identity);
+        DestructibleObjects obj = null;
 
-        obj.team = caster.container.team;
+        foreach (var item in entities)
+        {
+            if(item is DestructibleObjects && objectCasted.Contains(item.flyweight))
+            {
+                obj = (DestructibleObjects)item;
+                obj.transform.position = caster.transform.position;
+                break;
+            }
+        }
+
+        if(obj == null)
+        {
+            obj = GameObject.Instantiate(castingActionBase.objectToCast[index], caster.transform.position, Quaternion.identity);
+            obj.team = caster.container.team;
+
+            index++;
+            if (castingActionBase.objectToCast.Length <= index)
+                index = 0;
+        }
 
         obj.Teleport(caster.container.hexagoneParent,0);
 
-        index++;
-        if (castingActionBase.objectToCast.Length <= index)
-            index = 0;
-
         End = true;
 
-        return null;
+        return new DestructibleObjects[] { obj };
     }
 }

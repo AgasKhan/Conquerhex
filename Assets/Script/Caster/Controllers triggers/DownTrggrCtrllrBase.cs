@@ -24,6 +24,8 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
             return;
         }
 
+        Detect();
+
         Cast();
 
         if (affected != null && affected.Count > 0 && !(triggerBase?.aimingToMove ?? false))

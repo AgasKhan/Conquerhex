@@ -6,11 +6,11 @@ public abstract class Detections : ShowDetails
 {
     public enum DetectionType
     {
-        Area, Cone, Square
+        Same, ToAttack
     }
 
-    [SerializeField, Tooltip("Sin uso")]
-    DetectionType type = DetectionType.Area;
+    [SerializeField]
+    DetectionType type = DetectionType.ToAttack;
 
     [SerializeField]
     protected bool withRay = true;
@@ -20,7 +20,22 @@ public abstract class Detections : ShowDetails
 
     public List<Entity> Detect(ref List<Entity> bufferDetects, Entity caster, Vector3 pos ,Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
     {
-        System.Func<IGetEntity, bool> chck = (entity) => (entity.GetEntity() != null && caster.team.TeamAttack(entity.GetEntity().team));
+        System.Func<IGetEntity, bool> chck;
+
+        switch (type)
+        {
+            case DetectionType.Same:
+                chck = (entity) => (entity.GetEntity() != null && caster.team == entity.GetEntity().team);
+                break;
+            case DetectionType.ToAttack:
+                chck = (entity) => (entity.GetEntity() != null && caster.team.TeamAttack(entity.GetEntity().team));
+                break;
+
+            default:
+                chck = null;
+                break;
+        }
+
         /*
         List<IGetEntity> result = null;
 

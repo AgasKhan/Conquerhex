@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: CreateSign
+  m_Name: DestroySign
   m_EditorClassIdentifier: 
   _nameDisplay: 
-  _image: {fileID: 1625422272, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 785699215, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
   _details: 
   maxAmount: 1
   weight: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
   audios:
     pictionaries: []
   velocity: 0
-  costExecution: 40
+  costExecution: -40
   costHandle: 0
   weightAction: 0
   damagesMultiply: []
@@ -43,4 +43,4 @@ MonoBehaviour:
   detection: {fileID: 11400000, guid: 1c9437335fb88194fbf65036dc0726eb, type: 2}
   modificators: []
   <Auxiliar>k__BackingField: 0
-  castingAction: {fileID: 11400000, guid: 997239fa1d186eb49a527af80f34f918, type: 2}
+  castingAction: {fileID: 11400000, guid: 031fdf0c7eea137439a9051c37e4c81a, type: 2}

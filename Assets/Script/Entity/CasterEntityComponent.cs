@@ -302,12 +302,12 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         positiveEnergy = EnergyDefault * MaxEnergy;
 
-        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, 3); i++)
+        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, katasCombo.Count); i++)
         {
             SetWeaponKataCombo(i);
         }
-            
-        for (int i = 0; i < Mathf.Clamp(flyweight.abilities.Length, 0, 3); i++)
+
+        for (int i = 0; i < Mathf.Clamp(flyweight.abilities.Length, 0, abilities.Count); i++)
         {
             SetAbility(i);
         }
