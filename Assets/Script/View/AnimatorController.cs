@@ -64,7 +64,7 @@ public class AnimatorController : ComponentOfContainer<Entity>
         controller.SetBool("Move", true);
 
         if (obj != Vector3.zero)
-            controller.transform.forward = Vector3.Lerp(controller.transform.forward, obj, Time.fixedDeltaTime*10);
+            controller.transform.forward = Vector3.Slerp(controller.transform.forward, obj, Time.fixedDeltaTime*10);
     }
 
     private void Ia_onIdle()
@@ -75,7 +75,7 @@ public class AnimatorController : ComponentOfContainer<Entity>
     private void Ia_onAiming(Vector3 obj)
     {
         if (obj != Vector3.zero)
-            controller.transform.forward = obj;
+            controller.transform.forward = Vector3.Slerp(controller.transform.forward, obj, Time.deltaTime * 10);
     }
 
     private void Ia_PreCast(Ability ability)
