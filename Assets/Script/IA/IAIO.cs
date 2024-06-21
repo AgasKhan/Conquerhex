@@ -316,6 +316,11 @@ public class IAIO : IAFather
 
             VirtualControllers.Interact.eventDown -= Interact_eventDown;
 
+            if (lastInteractuable != null)
+            {
+                UI.Interfaz.instance.interactButton.Play("InteractClose");
+            }
+
             lastInteractuable = null;
         }
         else if (buildings[0] != lastInteractuable)
@@ -327,12 +332,21 @@ public class IAIO : IAFather
             interactEvent.secondDelegato?.Invoke((true, false, lastInteractuable.Image));
 
             VirtualControllers.Interact.eventDown += Interact_eventDown;
+
+            if(lastInteractuable!=null)
+            {
+                UI.Interfaz.instance.interactButton.Play("InteractOpen");
+            }
         }
+
+        if (lastInteractuable != null)
+            UI.Interfaz.instance.interactButton.transform.position = Camera.main.WorldToScreenPoint(lastInteractuable.offsetInteractView);
     }
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
         lastInteractuable.Interact(character);
+        UI.Interfaz.instance.interactButton.Play("InteractAccept");
     }
 
     private void TeleportEvent(Hexagone obj, int lado)

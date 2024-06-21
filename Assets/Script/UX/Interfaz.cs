@@ -15,6 +15,8 @@ namespace UI
 
         public List<TextCompleto> textC = new List<TextCompleto>();
 
+        public Animation interactButton;
+
         [Header("Dialogo")]
 
         [SerializeField] Image dialogoImage;

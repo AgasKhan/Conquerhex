@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactuable: 1
+  _offsetInteractView: {x: 0, y: 1.5, z: 0.3}
   Image: {fileID: 0}
   interactAction: {fileID: -7952033586835107782}
   genericMenu:
@@ -95,6 +96,7 @@ MonoBehaviour:
     myCharacter: {fileID: 0}
     interactComponent: {fileID: 0}
     buttonsList: []
+  lastCharInteract: {fileID: 0}
 --- !u!114 &-7952033586835107782
 MonoBehaviour:
   m_ObjectHideFlags: 0

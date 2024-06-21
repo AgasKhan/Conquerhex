@@ -8,12 +8,18 @@ using UnityEngine.UI;
 public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
 {
     public bool interactuable = true;
+
+    [SerializeField]
+    Vector3 _offsetInteractView = Vector3.zero;
+
     [HideInInspector]
     public Sprite Image;
 
     public LogicActive<(InteractEntityComponent, Character)> interactAction;
 
     public Pictionarys<Type, InteractAction> interact => _interact;
+
+    public Vector3 offsetInteractView => _offsetInteractView + transform.position;
 
     Pictionarys <Type, InteractAction> _interact = new Pictionarys<Type, InteractAction>();
 
@@ -93,5 +99,12 @@ public class InteractEntityComponent : ComponentOfContainer<Entity>, ISaveObject
     public void Load(string str)
     {
         interactuable = JsonUtility.FromJson<bool>(str);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(offsetInteractView, 0.1f);
     }
 }
