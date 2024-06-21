@@ -11,7 +11,7 @@ public class Arrive : SteeringBehaviour
 
         _desiredVelocity = Vector3.ClampMagnitude(desired, me.maxSpeed);
 
-        if (_desiredVelocity.sqrMagnitude < (me.VelocityCalculate.sqrMagnitude / (me._desaceleration.current * me._desaceleration.current)))
+        if (_desiredVelocity.sqrMagnitude < (me.VectorVelocity.sqrMagnitude / (me._desaceleration.current * me._desaceleration.current)))
             _desiredVelocity = -me.VectorVelocity * (me._desaceleration.current - 1);
 
         _steering = _desiredVelocity - me.VectorVelocity;
