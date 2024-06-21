@@ -26,7 +26,8 @@ public class ItemContainer : MonoBehaviour
         */
 
         myItemsGiver = GetComponent<ItemsGiver>();
-        myItemsGiver?.Activate(character);
+        //myItemsGiver?.Activate(character);
+        LoadSystem.AddPostLoadCorutine(() => myItemsGiver?.Activate(character), 10);
 
         /*
         LoadSystem.AddPostLoadCorutine(() =>

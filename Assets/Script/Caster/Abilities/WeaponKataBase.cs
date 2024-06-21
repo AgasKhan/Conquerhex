@@ -156,7 +156,7 @@ public class WeaponKata : Ability
 
     public override ItemTags GetItemTags()
     {
-        return new ItemTags("", "", "Kata".RichTextColor(Color.magenta), "");
+        return new ItemTags("", "", "Kata".RichText("color", "#d6b6e5"), "");
     }
 
     protected override void Init()

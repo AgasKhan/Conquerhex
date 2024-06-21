@@ -285,7 +285,7 @@ public abstract class ItemStackeable : Item
 
     public override ItemTags GetItemTags()
     {
-        return new ItemTags("","","Resource".RichTextColor(Color.green), GetCount().ToString());
+        return new ItemTags("","","Resource".RichText("color", "#bde3b5"), GetCount().ToString());
     }
 
     public override Pictionarys<string, string> GetDetails()
