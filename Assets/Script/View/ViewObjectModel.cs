@@ -89,7 +89,7 @@ public class ViewObjectModel : MonoBehaviour
         inViewTimer?.Stop();
     }
 
-    protected virtual void Start()
+    private void Awake()
     {
         //originalRender.material = transparentMaterial;
 
@@ -124,8 +124,6 @@ public class ViewObjectModel : MonoBehaviour
 
         inViewTimer = TimersManager.Create(0.5f, Check).SetLoop(true).Stop();
     }
-   
-
    
 
     /*

@@ -197,18 +197,10 @@ public class SubMenus : MonoBehaviour
 
     private void OnEnable()
     {
-        //fadeMenu.FadeOn();
+        //Parche historico de versiones antiguas donde unity no calculaba bien las resoluciones:
 
-        //que numero multiplicado x mi screen da 1920
-
-        //Screen.width * x = 1920
-
-        //Screen.width = 1920 / x
-
-        //1 / Screen.width =  x / 1920
-
-        //1920/ Screen.width = x
-
+        /*         
+        //Concepto: que numero multiplicado x mi screen da 1920
         float relacion = (float)Screen.width / Screen.height;
 
         fixedWidth = relacion * width / (16 / 9f);
@@ -218,8 +210,16 @@ public class SubMenus : MonoBehaviour
         var aux = fixedWidth - margin * 7;
 
         subdivisions = aux / 6;
+        */
 
-        //Debug.Log("Execute OnEnable");
+
+        //version sin parche
+        fixedValue = 1;
+
+        var aux = width - margin * 7;
+
+        subdivisions = aux / 6;
+
         GameManager.instance.Menu(true);
     }
 
@@ -246,7 +246,7 @@ public class SubMenus : MonoBehaviour
     {
         var x = comienzo * subdivisions + (comienzo + 1) * margin;
 
-        rect.localPosition = new Vector3(x / fixedValue, rect.position.y, rect.position.z) ;
+        rect.localPosition = new Vector3(x / fixedValue, rect.localPosition.y, rect.localPosition.z);
 
         rect.sizeDelta = new Vector2(Width(final- comienzo), rect.sizeDelta.y);
 
