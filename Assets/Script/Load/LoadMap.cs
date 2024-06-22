@@ -169,11 +169,13 @@ public class LoadMap : SingletonMono<LoadMap>
         
         yield return new WaitForCorutinesForLoad(this, LoadHex, (s) => msg(s));    
 
+        /*
         if (arrHexCreados.GetLength(0) > 1 && victoria!=null)
         {
             victoria = Instantiate(victoria);
             victoria.transform.position = arrHexCreados[HexagonsManager.idMaxLevel].transform.position;
-        }        
+        } 
+        */
 
         tiempoCarga += Time.unscaledDeltaTime;
         DebugPrint.Log("Tiempo entre frames: " + (Time.unscaledDeltaTime) + " milisegundos");
