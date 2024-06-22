@@ -180,7 +180,7 @@ public class CustomColumns
         int largo = texto.FixedLength();
 
         if (largo <= longitudMaxima)
-            return texto + new string(' ', (longitudMaxima - largo));
+            return texto + new string('_', (longitudMaxima - largo));
         return texto.Substring(0, longitudMaxima - 3) + "...";
     }
 
