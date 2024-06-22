@@ -192,11 +192,14 @@ public class AutomaticCharacterAttack
 
         Set(slotItem);
 
-        timerToAttack = (TimedAction)TimersManager.Create(timeToAttack, /*() =>
+        timerToAttack = (TimedAction)TimersManager.Create(timeToAttack, () =>
         {
-            actual = Color.Lerp(areaColor, attackColor, timerToAttack.InversePercentage());
+            if(timerToAttack.current<0.5f)
+            {
+                FeedBackReference.Area(radius);
+            }
 
-        },*/ Attack).Stop().SetInitCurrent(0);
+        }, Attack).Stop().SetInitCurrent(0);
 
         //timerChargeAttack = null;
 
