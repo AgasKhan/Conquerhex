@@ -97,6 +97,7 @@ public class StatisticsSubMenu : CreateSubMenu
     private void SubMenuOnClose()
     {
         subMenu.OnClose -= SubMenuOnClose;
+        subMenu.OnClose += subMenu.ExitSubmenu;
         Create(character);
     }
 

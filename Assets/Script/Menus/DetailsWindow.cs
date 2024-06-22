@@ -24,6 +24,9 @@ public class DetailsWindow : MonoBehaviour
     [SerializeField]
     GameObject textsBox;
 
+    [SerializeField]
+    GameObject objRetardedOn;
+
     public DetailsWindow SetTexts(DoubleString d)
     {
         SetTexts(d.superior, d.inferior);
