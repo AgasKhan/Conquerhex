@@ -21,6 +21,18 @@ public class ButtonHor : MonoBehaviour
     [SerializeField]
     Button myButton;
 
+    [SerializeField]
+    EventsCall myAuxButton;
+
+    public ButtonHor SetAuxButton(string text, UnityEngine.Events.UnityAction action, string buttonName)
+    {
+        tags[0].SetActiveGameObject(false);
+        myAuxButton.SetActiveGameObject(true);
+        myAuxButton.Set(text, action, buttonName);
+
+        return this;
+    }
+
     public ButtonHor SetButton(Sprite _image, string _name, ItemTags _tags, UnityEngine.Events.UnityAction _action)
     {
         previewImage.sprite = _image;

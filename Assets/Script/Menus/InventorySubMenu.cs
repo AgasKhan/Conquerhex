@@ -23,11 +23,11 @@ public class InventorySubMenu : CreateSubMenu
 
     public SlotItem slotItem = null;
 
-    System.Action<SlotItem, int> action = null;
+    System.Action<SlotItem, int> auxAction = null;
 
     public void SetEquipMenu<T>(SlotItem _slotItem, System.Type _type, System.Action<SlotItem, int> _action) where T : Item
     {
-        action = _action;
+        auxAction = _action;
         slotItem = _slotItem;
         filterType = _type;
     }
@@ -85,12 +85,12 @@ public class InventorySubMenu : CreateSubMenu
     public void CreateButtons()
     {
         buttonsList.Clear();
-
+        /*
         if (slotItem != null && slotItem.equiped != null)
         {
             CreateUnequipButton(slotItem);
         }
-
+        */
         for (int i = 0; i < character.inventory.Count; i++)
         {
             if (filterType != null && !filterType.IsAssignableFrom(character.inventory[i].GetType()))
@@ -112,11 +112,6 @@ public class InventorySubMenu : CreateSubMenu
 
                    DestroyButtonsActions();
                    
-                   if(slotItem != null)
-                   {
-                       CreateEquipButton(slotItem, index);
-                   }
-
                    /*
                    if (item.GetItemBase() is WeaponKataBase)
                    {
@@ -163,6 +158,21 @@ public class InventorySubMenu : CreateSubMenu
 
             var button = myListNavBar.AddButtonHor(item.nameDisplay, item.image, item.GetItemTags(), action);
             buttonsList.Add(button);
+
+            if (slotItem != null)
+            {
+                if (item == slotItem.equiped)
+                {
+                    button.SetAuxButton("Desequipar", () =>
+                    {
+                        slotItem.indexEquipedItem = -1;
+                        MenuManager.instance.modulesMenu.ObtainMenu<SubMenus>().TriggerOnClose();
+                    }, "");
+                }
+                else
+                    button.SetAuxButton("Equipar", () => { auxAction.Invoke(slotItem, index); }, "");
+            }
+
             //buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
         
@@ -182,7 +192,7 @@ public class InventorySubMenu : CreateSubMenu
 
     void CreateEquipButton(SlotItem _slotItem, int _index)
     {
-        buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Equipar", ()=> {action.Invoke(_slotItem, _index); } , ""));
+        buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Equipar", ()=> {auxAction.Invoke(_slotItem, _index); } , ""));
         buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(180, 65);
     }
 

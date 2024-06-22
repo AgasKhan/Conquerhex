@@ -8,6 +8,12 @@ public class ButtonsFunc_Menu : ButtonsFunctions
     [SerializeField]
     ShowSubMenuSettings ShowSubMenuSettings;
 
+    [SerializeField]
+    GameObject[] buttonsAfterTutorial;
+
+    [SerializeField]
+    GameObject buttonBeforeTutorial;
+
     protected override void LoadButtons()
     {
         base.LoadButtons();
@@ -16,6 +22,7 @@ public class ButtonsFunc_Menu : ButtonsFunctions
         {
             //Opciones principales
             {"StartGame", StartGame},
+            {"StartFake", StartFake},
             {"Tutorial", Tutorial},
             {"Dungeons", Dungeons},
             {"LoadGame", LoadGame},
@@ -26,11 +33,31 @@ public class ButtonsFunc_Menu : ButtonsFunctions
             {"ShowSettings", ShowSettings}
             //{"Quit", DisplayWindow},
         });
+
+        if(PlayerPrefs.HasKey("FirstTimeEverTutorial"))
+        {
+            if(PlayerPrefs.GetInt("FirstTimeEverTutorial") == 1)
+            {
+                buttonBeforeTutorial.SetActive(false);
+
+                for (int i = 0; i < buttonsAfterTutorial.Length; i++)
+                {
+                    buttonsAfterTutorial[i].SetActive(true);
+                }
+            }
+        }
+
     }
 
     void StartGame(GameObject g)
     {
         refMenu.StartGame();
+    }
+
+    void StartFake(GameObject g)
+    {
+        GameManager.instance.Load("Tutorial_Fixed");
+        PlayerPrefs.SetInt("FirstTimeEverTutorial", 1);
     }
 
     void Tutorial(GameObject g)

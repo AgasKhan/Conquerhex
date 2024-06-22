@@ -113,9 +113,9 @@ public class ListNavBarModule : MonoBehaviour
         auxiliarButtons.transform.SetActiveGameObject(value);
 
         if(value)
-            listTransform.sizeDelta = new Vector2(840, 670);
+            listTransform.sizeDelta = new Vector2(840, 620);
         else
-            listTransform.sizeDelta = new Vector2(840, 780);
+            listTransform.sizeDelta = new Vector2(840, 730);
     }
 
     ListNavBarModule AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)

@@ -65,10 +65,13 @@ public class ButtonA : EventsCall
     {
         textButton.text = itemName;
 
+        if (itemName == "" || itemName == null)
+            textButton.text = defaultText;
+            
         previewImage.sprite = sprite;
 
         if (sprite == null)
-            previewImage.SetActiveGameObject(false);
+            previewImage.sprite = defaultImage;
 
         if (textNum != "")
             myNum.text = textNum;
