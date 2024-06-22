@@ -40615,7 +40615,7 @@ PrefabInstance:
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -40625,7 +40625,7 @@ PrefabInstance:
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408607610841362497, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -40660,7 +40660,7 @@ PrefabInstance:
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 197.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -40670,7 +40670,7 @@ PrefabInstance:
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -40705,7 +40705,7 @@ PrefabInstance:
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 144.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -40715,7 +40715,7 @@ PrefabInstance:
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -40840,7 +40840,7 @@ PrefabInstance:
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -40850,7 +40850,7 @@ PrefabInstance:
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -46398,9 +46398,10 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
     timeToCallEvent: 0
-  - dialog: "Oops, era otra palanca. Ten presente que aqu\xED tendr\xE1s la oportunidad
-      de <color=green>regenerar tu salud si no te encuentras en combate</color>.
-      Para que sea efectivo, recuerda cuidar de tu <color=#F6CB30>Integridad</color>\r\nEspera
+  - dialog: "Oops, era otra palanca. \nTen presente que gracias a las modificaciones
+      que te sometiste, tendr\xE1s la oportunidad de <color=green>regenerar tu salud</color>.\n\nPara
+      que puedas entenderlo hemos dise\xF1ado una UI que facilitara tu compresion,
+      puede parecerte extra\xF1a pero si prestas atencion te acostumbraras. \n\r\nEspera
       unos segundos para regenerarte y vuelve a hablar conmigo.\r"
     objective: -Espera para que la salud se regenere
     logicActive:
@@ -46408,8 +46409,8 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1190209571}
           m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: WaitToEnableDialog
-          m_Mode: 4
+          m_MethodName: NextDialog
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -46418,10 +46419,32 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    timeToCallEvent: 15
-  - dialog: "Bien, ahora te dar\xE9 un arma, equ\xEDpatela y prep\xE1rate para luchar.
-      \r\nPuedes revisar tu equipamiento e inventario presionando la tecla <color=lightblue>Tab</color>.
-      \nDespu\xE9s vuelve a hablar conmigo.\r"
+    timeToCallEvent: 30
+  - dialog: "\xBFTienes dudas?\nBueno, como has visto hemos dividido la salud en
+      2 componentes, tu <color=#F6CB30>Integridad</color> y tu capacidad regenerativa
+      o <color=#F6CB30>regeneracion</color>\n\n\n\xBFQue sigues con dudas?\n\nSi
+      se vacian ambas mueres.\nFacil \xBFNo?"
+    objective: -Tomate un respiro de tanta informacion
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1190209571}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: NextDialog
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 20
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    timeToCallEvent: 20
+  - dialog: "Bien, ahora te dar\xE9 un arma, equ\xEDpatela para poder practicar la
+      mejor densa que existe, un ataque frontal.\r\nPuedes revisar tu equipamiento
+      e inventario presionando la tecla <color=lightblue>Tab</color>. \nDespu\xE9s
+      vuelve a hablar conmigo.\r"
     objective: -Equipate el arma
     logicActive:
       m_PersistentCalls:
@@ -46471,13 +46494,17 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
     timeToCallEvent: 1.2
-  - dialog: "Ahora est\xE1s listo para usar tus habilidades. Te he equipado un <color=blue>Dash
-      Simple</color> que puedes usar con la tecla <color=lightblue>Shift</color>
-      para que puedas moverte m\xE1s r\xE1pido por el mundo. \r\nTambi\xE9n te he
-      equipado un <color=orange>Dash Ardiente</color> que puedes activar con el <color=lightblue>Click
-      Derecho</color> para que puedas alejar a los enemigos y escapar f\xE1cilmente.\n\r\nPruebalos
-      con estos enemigos huecos que no se defender\xE1n."
-    objective: -Prueba las habilidades
+  - dialog: "Est\xE1s listo para usar tus brazal anti-entropico, cortesia de los
+      Angeles.\n\xA1El cual te permitira hacer cosas realmente increibles!\n\nLe
+      hemos equipado de serie con las siguientes habilidades: \n<color=blue>Dash
+      Simple</color>\t<color=blue>Parry basico</color>\n<color=blue>Casteo de se\xF1ales</color>\t<color=blue>Destruccion
+      de se\xF1ales</color>\n\n\nDepende de donde esten equipadas, podras usar distintas
+      teclas para ejecutarlas.\n\n\nRecuerda que podras conseguir mas a lo largo
+      de tu mision.\n\n\nPruebalos en combinacion con tu arma sobre estos enemigos."
+    objective: "-Ejecuta <color=blue>Dash Simple</color> con LeftShift\n-Ejecuta
+      <color=blue>Parry basico</color> con ClickDer\n-Ejecuta <color=blue>Casteo
+      de se\xF1ales</color> con \u2192\u2192 + ClickDer\n-Ejecuta <color=blue>Destruccion
+      de se\xF1ales</color> con \u2190\u2190 + ClickDer\n"
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -46692,11 +46719,19 @@ MonoBehaviour:
   - indexToEquip: 0
     isModifiable: 1
     isDefault: 0
-    ability: {fileID: 11400000, guid: 1bd1f7734d5440242bff7b86fe2af13d, type: 2}
+    ability: {fileID: 11400000, guid: 8f2b042ee940f5441b223337f49827d1, type: 2}
   - indexToEquip: 1
     isModifiable: 1
     isDefault: 0
     ability: {fileID: 11400000, guid: 418c233b04005cb4da05f4b58c0b80d9, type: 2}
+  - indexToEquip: 3
+    isModifiable: 1
+    isDefault: 0
+    ability: {fileID: 11400000, guid: d82108ebdd8a26d478f47d2dcfb78c11, type: 2}
+  - indexToEquip: 4
+    isModifiable: 1
+    isDefault: 0
+    ability: {fileID: 11400000, guid: e8c04fae3cd8b9f439f5bb3f2769350f, type: 2}
 --- !u!4 &1190209572
 Transform:
   m_ObjectHideFlags: 0

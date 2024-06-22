@@ -328,25 +328,35 @@ MonoBehaviour:
       <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - isModifiable: 1
-      _indexEquipedItem: -1
-      <indexSlot>k__BackingField: -1
-      _equiped:
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - isModifiable: 1
-      _indexEquipedItem: -1
-      <indexSlot>k__BackingField: -1
-      _equiped:
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
   katasCombo:
@@ -356,20 +366,28 @@ MonoBehaviour:
       <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - isModifiable: 1
-      _indexEquipedItem: -1
-      <indexSlot>k__BackingField: -1
-      _equiped:
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
+      defaultItem:
+        rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
   abilities:
@@ -379,30 +397,42 @@ MonoBehaviour:
       <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - isModifiable: 1
-      _indexEquipedItem: -1
-      <indexSlot>k__BackingField: -1
-      _equiped:
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - isModifiable: 1
-      _indexEquipedItem: -1
-      <indexSlot>k__BackingField: -1
-      _equiped:
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
+      defaultItem:
+        rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
   _buffEnergy: 0
@@ -639,7 +669,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!136 &8374503059299788059
 CapsuleCollider:
   m_ObjectHideFlags: 0

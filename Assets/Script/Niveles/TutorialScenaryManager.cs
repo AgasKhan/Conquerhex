@@ -29,11 +29,20 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public List<AbilityToEquip> abilitiesForPlayer = new List<AbilityToEquip>();
     bool weaponGive = false;
 
+    bool ability0 = false;
+    bool ability1 = false;
+    bool ability3 = false;
+    bool ability4 = false;
+
 
     Timer timerToEvents;
     Timer timerToNextDialog;
     bool isShowingADialogue = false;
-    string messageToShow = "", objectiveToShow="";
+    string messageToShow = "";
+
+    string objectiveToShow => string.Join('\n', _objectivesToShow);
+
+    List<string> _objectivesToShow = new List<string>();
 
     System.Action dialogueManagment;
 
@@ -138,18 +147,77 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.GetInContainer<InventoryEntityComponent>().AddItem(item, amount);
     }
 
+    #region abilities
+
+    public void SetPlayerAbility(AbilityToEquip abilityTo)
+    {
+        player.caster.SetAbility(abilityTo);
+    }
+
     public void SetPlayerAbility()
     {
         for (int i = 0; i < abilitiesForPlayer.Count; i++)
         {
             SetPlayerAbility(abilitiesForPlayer[i]);
         }
+
+        player.caster.abilities[0].equiped.onCast += EquipedOnCast0;
+        player.caster.abilities[1].equiped.onCast += EquipedOnCast1;
+        player.caster.abilities[3].equiped.onCast += EquipedOnCast3;
+        player.caster.abilities[4].equiped.onCast += EquipedOnCast4;
     }
 
-    public void SetPlayerAbility(AbilityToEquip abilityTo)
+    private void EquipedOnCast0()
     {
-        player.caster.SetAbility(abilityTo);
+        ability0 = true;
+        player.caster.abilities[0].equiped.onCast -= EquipedOnCast0;
+
+        _objectivesToShow[0] = _objectivesToShow[0].RichText("s");
+
+        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+
+        if (ability0 && ability1 && ability3 && ability4)
+            NextDialog();
     }
+    private void EquipedOnCast1()
+    {
+        ability1 = true;
+        player.caster.abilities[1].equiped.onCast -= EquipedOnCast1;
+
+        _objectivesToShow[1] = _objectivesToShow[1].RichText("s");
+
+        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+
+        if (ability0 && ability1 && ability3 && ability4)
+            NextDialog();
+    }
+    private void EquipedOnCast3()
+    {
+        ability3 = true;
+        player.caster.abilities[3].equiped.onCast -= EquipedOnCast3;
+
+        _objectivesToShow[2] = _objectivesToShow[2].RichText("s");
+
+        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+
+        if (ability0 && ability1 && ability3 && ability4)
+            NextDialog();
+    }
+    private void EquipedOnCast4()
+    {
+        ability4 = true;
+        player.caster.abilities[4].equiped.onCast -= EquipedOnCast4;
+
+        _objectivesToShow[3] = _objectivesToShow[3].RichText("s");
+
+        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+
+        if (ability0 && ability1 && ability3 && ability4)
+            NextDialog();
+    }
+
+    #endregion
+
 
     public void FinishCurrentDialogue()
     {
@@ -200,7 +268,10 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             return;
 
         messageToShow = allDialogs[currentDialog].dialog;
-        objectiveToShow = allDialogs[currentDialog].objective;
+
+        _objectivesToShow.Clear();
+
+        _objectivesToShow.AddRange(allDialogs[currentDialog].objective.Split('\n'));
 
         dialogText.ClearMsg();
         dialogText.AddMsg(messageToShow);
@@ -212,9 +283,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         if (allDialogs[currentDialog].timeToCallEvent != 0)
         {
-            int actualDialog = currentDialog;
-            timerToEvents = TimersManager.Create(allDialogs[actualDialog].timeToCallEvent, ()=> allDialogs[actualDialog].logicActive?.Invoke());
-            timerToEvents.Reset();
+            timerToEvents.Set(allDialogs[currentDialog].timeToCallEvent);
         }
         else
         {
@@ -272,6 +341,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         titleSec.ClearMsg();
 
         timerToNextDialog = TimersManager.Create(1, NextDialog).Stop().SetInitCurrent(0);
+
+        timerToEvents = TimersManager.Create(2, () => allDialogs[currentDialog].logicActive?.Invoke()).Stop();
 
         TimersManager.Create(2, () =>
         {
