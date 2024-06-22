@@ -49,6 +49,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     System.Action<Hexagone,int> teleportEvent;
     System.Action<int, MeleeWeapon> weaponEvent;
     System.Action<Damage> dummyTakeDamageEvent;
+    System.Action<Health> healthEvent;
 
     public void SetHexagons()
     {
@@ -97,6 +98,22 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             GiveToPlayer();
         }
     }
+
+    public void HealthDialog()
+    {
+        healthEvent = HealthEvent2;
+    }
+
+    void HealthEvent2(Health obj)
+    {
+        if(obj.actualLife==obj.maxLife && obj.actualRegen == obj.maxRegen)
+        {
+            healthEvent = null;
+            NextDialog();
+        }
+    }
+
+
     public void TakeDamageDummyDialog()
     {
         dummyTakeDamageEvent = TakeDamageDummy;
@@ -325,13 +342,21 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         dummyTakeDamageEvent?.Invoke(obj);
     }
 
+    private void HealthEvent(Health obj)
+    {
+        healthEvent?.Invoke(obj);
+    }
+
+
     void Init()
     {
         player.move.onTeleport += TeleportEvent;
 
         player.caster.weapons[0].toChange += WeaponEvent;
 
-        if(dummy!=null)
+        player.health.helthUpdate += HealthEvent;
+
+        if (dummy!=null)
             dummy.onTakeDamage += DummyTakeDamage;
 
         var title = UI.Interfaz.SearchTitle("Titulo");
@@ -354,7 +379,6 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             titleSec.AddMsg("Simulación corrupta");
         });
     }
-
 
 
     private void Start()

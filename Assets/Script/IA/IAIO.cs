@@ -224,6 +224,8 @@ public class IAIO : IAFather
 
         param.health.helthUpdate += Health_helthUpdate;
 
+        Health_helthUpdate(param.health);
+
         param.caster.energyUpdate += EnergyUpdate;
         param.caster.leftEnergyUpdate += LeftEnergyUpdate;
         param.caster.rightEnergyUpdate += RightEnergyUpdate;
