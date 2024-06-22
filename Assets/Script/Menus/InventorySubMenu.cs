@@ -111,7 +111,9 @@ public class InventorySubMenu : CreateSubMenu
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
 
                    DestroyButtonsActions();
-                   
+
+                   CreateDetailsButton(item);
+
                    /*
                    if (item.GetItemBase() is WeaponKataBase)
                    {
@@ -172,7 +174,6 @@ public class InventorySubMenu : CreateSubMenu
                 else
                     button.SetAuxButton("Equipar", () => { auxAction.Invoke(slotItem, index); }, "");
             }
-
             //buttonsList.Add(button.SetButtonA(item.nameDisplay, item.image, SetTextforItem(item), action).SetType(item.itemType.ToString()));
         }
         
@@ -189,6 +190,118 @@ public class InventorySubMenu : CreateSubMenu
 
         buttonsListActions.Clear();
     }
+
+    void CreateDetailsButton(Item item)
+    {
+        buttonsListActions.Add(subMenu.AddComponent<EventsCall>().Set("Más detalles", () => 
+        {
+            string mainText = "";
+            if (item.GetItemBase() is WeaponKataBase)
+            {
+                WeaponKata auxKata = (WeaponKata)item;
+
+                mainText = "------------------------------------------------------------------\n";
+
+                var kataDmgs = auxKata.multiplyDamage.content.ToArray().ToString(": x", "\n");
+                var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+
+                Debug.Log("auxKata " + (auxKata != null) + "Weapon "+(auxKata.Weapon != null));
+                var weaponDmgs = auxKata.Weapon.itemBase.damages.ToString(": ", "\n");
+
+                mainText += "Kata Selected: " + item.nameDisplay + "\n";
+
+                var titulos = new CustomColumns("Character damages", "operacion", "Weapon equiped damages", "operacion", "Kata Selected");
+
+                var test1 = new CustomColumns(characterDmgs, "+", weaponDmgs, "x", kataDmgs);
+
+                mainText += (titulos + test1).ToString();
+
+                var totalDamage = Damage.Combine(Damage.AdditiveFusion, auxKata.WeaponEnabled.itemBase.damages, character.caster.additiveDamage.content);
+                var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
+
+                mainText += "\nCharacter and weapon combined damages:\n";
+                var charAndWeapResult = new CustomColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
+                mainText += charAndWeapResult.ToString();
+
+                totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, auxKata.multiplyDamage.content);
+
+                mainText += "\nCharacter/Weapon and Kata combined damages:\n";
+                var resultAndKata = totalDamage.ToArray().ToString(": ", "\n");
+
+                mainText += new CustomColumns(resultDmgs, "x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).ToString();
+
+                mainText += "\nAll damages operations:\n";
+                mainText += (new CustomColumns("x\nx\nx", kataDmgs, "=\n=\n=", resultAndKata).AddLeft(charAndWeapResult)).ToString();
+
+                mainText += "\n------------------------------------------------------------------";
+
+                //Debug.Log(mainText);
+
+            }
+
+            myDetailsW.SetTexts(item.nameDisplay, GetDamageDetails(item, slotItem));
+        }, ""));
+        buttonsListActions[buttonsListActions.Count - 1].rectTransform.sizeDelta = new Vector2(200, 65);
+    }
+
+
+    string GetDamageDetails(Item item, SlotItem slotItem)
+    {
+        string damages = "";
+        
+        if (item is MeleeWeapon)
+        {
+            if(slotItem is SlotItem<MeleeWeapon>)
+                damages = BaseWeaponDamages((MeleeWeapon)item);
+            else
+                damages = KataWeaponDamages((MeleeWeapon)item);
+        } 
+        else if (item is WeaponKata)
+            damages = KataDamages((WeaponKata)item);
+        else if (item is AbilityExtCast)
+            damages = AbilityDamages((AbilityExtCast)item);
+        
+        return damages;
+    }
+
+    string BaseWeaponDamages(MeleeWeapon _weapon)
+    {
+        string mainText = "Daños detallados\n".RichText("color", "#832b28");
+        
+        var characterDmgs = character.caster.additiveDamage.content.ToArray().ToString(": ", "\n");
+
+        var weaponDmgs = _weapon.damages.ToString(": ", "\n");
+        
+        var titulos = new CustomColumns("Daño jugador", "op", "Weapon equiped damages");
+        /*
+        var test1 = new CustomColumns(characterDmgs, "+", weaponDmgs);
+
+        mainText += (titulos + test1).ToString();
+        */
+        var totalDamage = Damage.Combine(Damage.AdditiveFusion, _weapon.itemBase.damages, character.caster.additiveDamage.content);
+        var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
+
+        //mainText += "\nCharacter and weapon combined damages:\n";
+        var charAndWeapResult = new CustomColumns(characterDmgs, "+\n+\n+", weaponDmgs, "=\n=\n=", resultDmgs);
+        mainText += charAndWeapResult.ToString();
+
+        return mainText;
+    }
+    string AbilityDamages(AbilityExtCast _ability)
+    {
+
+
+        return "";
+    }
+    string KataDamages(WeaponKata _kata)
+    {
+        return "";
+    }
+    string KataWeaponDamages(MeleeWeapon _weaponKata)
+    {
+        return "";
+    }
+    
 
     void CreateEquipButton(SlotItem _slotItem, int _index)
     {
