@@ -196,7 +196,7 @@ public class AutomaticCharacterAttack
         {
             if(timerToAttack.current<0.5f)
             {
-                FeedBackReference.Area(radius);
+                FeedBackReference?.Area(radius);
             }
 
         }, Attack).Stop().SetInitCurrent(0);
