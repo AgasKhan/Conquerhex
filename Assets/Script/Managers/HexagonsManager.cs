@@ -17,6 +17,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static Hexagone hexagonoPrefab => instance._hexagonoPrefab;
 
+    public static Hexagone hexagonoPrefabFinal => instance._hexagonoPrefabFinal;
+
     public static int[][,] hexagonos => instance._hexagonos;
 
     public static float scala => instance.scale;
@@ -50,6 +52,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     [SerializeReference]
     Hexagone _hexagonoPrefab;
+
+    [SerializeReference]
+    Hexagone _hexagonoPrefabFinal;
 
     [SerializeReference]
     Color _colorEncerrado = Color.red;

@@ -28,6 +28,8 @@ public class LoadMap : SingletonMono<LoadMap>
 
     Hexagone hexagono => HexagonsManager.hexagonoPrefab;
 
+    Hexagone hexagonoFinal => HexagonsManager.hexagonoPrefabFinal;
+
     int[][,] hexagonos => HexagonsManager.hexagonos;
 
     // Start is called before the first frame update
@@ -95,26 +97,41 @@ public class LoadMap : SingletonMono<LoadMap>
 
             //spawn hexagonos
 
-            arrHexTeleport = Instantiate(hexagono);
+            if(i!=HexagonsManager.idMaxLevel)
+            {
+                arrHexTeleport = Instantiate(hexagono);
 
-            //arrHexTeleport.gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
+                //arrHexTeleport.gameObject.SetActive(false);//desactivo todo el resto de hexagonos, para que no consuman cpu
 
-            //textMesh = arrHexCreados[i].GetComponentsInChildren<TextMeshProUGUI>();
+                //textMesh = arrHexCreados[i].GetComponentsInChildren<TextMeshProUGUI>();
 
-            //arrHexCreados[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(Random.Range(1, 11)/10f, Random.Range(1, 11) / 10f, Random.Range(1, 11) / 10f, 1f));
-            arrHexTeleport.transform.position = CalculateHexagonoPos(i);
+                //arrHexCreados[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(Random.Range(1, 11)/10f, Random.Range(1, 11) / 10f, Random.Range(1, 11) / 10f, 1f));
+                arrHexTeleport.transform.position = CalculateHexagonoPos(i);
 
-            yield return arrHexTeleport
-                .SetID(i)
-                .SetTileMap(map)
-                .SetBiome(biomes.RandomPic())
-                .SetTeleportEdge(hexagonos[i])
-                .SetTerrain()
-                .FillPropsPosRoutine((str)=>msg2($"{msg}\n{str}\n") , i != 0, i == 0 || i == HexagonsManager.idMaxLevel,spawnCountLimitPerFrame);
+                yield return arrHexTeleport
+                    .SetID(i)
+                    .SetTileMap(map)
+                    .SetBiome(biomes.RandomPic())
+                    .SetTeleportEdge(hexagonos[i])
+                    .SetTerrain()
+                    .FillPropsPosRoutine((str) => msg2($"{msg}\n{str}\n"), i != 0, i == 0 || i == HexagonsManager.idMaxLevel, spawnCountLimitPerFrame);
 
-            yield return arrHexTeleport.Off();
+                yield return arrHexTeleport.Off();
 
-            arrHexTeleport.name = "Hexagono " + i;
+                arrHexTeleport.name = "Hexagono " + i;
+            }
+            else
+            {
+                arrHexTeleport = Instantiate(hexagonoFinal).SetID(i).SetTileMap(map).SetTeleportEdge(hexagonos[i]);
+
+                arrHexTeleport.transform.position = CalculateHexagonoPos(i);
+
+                arrHexTeleport.name = "Hexagono Fortaleza " + i;
+
+                yield return arrHexTeleport.Off();
+            }
+
+            
         }
         //end(true);
     }

@@ -91,13 +91,13 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
         if (value)
         {
-            CurrentState.OnEnterState(this);
+            CurrentState?.OnEnterState(this);
             IAUpdateEnable(true);
 
         }
         else
         {
-            CurrentState.OnExitState(this);
+            CurrentState?.OnExitState(this);
             IAUpdateEnable(false);
 
         }
