@@ -1627,18 +1627,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allDialogs:
-  - dialog: "Hola ser humano \xA1Felicidades por completar tu primera mision!\npor
-      si no lo sabias era interactuar conmigo.\n\xA1Bien hecho!\n\n\nSoy un npc,
+  - dialog: "Hola ser humano \xA1Felicidades por completar tu primera misi\xF3n!\nPor
+      si no lo sab\xEDas era interactuar conmigo.\n\xA1Bien hecho!\n\n\nSoy un npc,
       solo existo para esto, te agradezco por darle sentido a mi existencia.\n\n\nNo
-      importa los motivos que te han traido hasta aqui, lo importante es que estas
-      en la simulacion de entrenamiento basico.\n\n\nAcostumbrarte a un cuerpo modificado
-      no debe ser tan facil \xBFVerdad?\n\n\nNo intentes responderme, solo sigo una
-      rutina de comportamiento pre concebida.\n\n\nEspero que me estes prestando
-      atencion y no quieras agilizar mis dialogos utilizando la tecla de <color=green>interaccion</color>,
-      ya que este dialogo no lo repetire."
-    objective: -Darle sentido de existencia al npc interactuando con el para buscar
-      informacion relevante prestando atencion sin agilizar los dialogos con la tecla
-      <color=green>F</color>.
+      importa los motivos que te han tra\xEDdo hasta aqu\xED, lo importante es que
+      est\xE1s en la simulaci\xF3n de entrenamiento b\xE1sico.\n\n\nAcostumbrarte
+      a un cuerpo modificado no debe ser tan f\xE1cil \xBFVerdad?\n\n\nNo intentes
+      responderme, solo sigo una rutina de comportamiento pre concebida.\n\n\nEspero
+      que me estes prestando atenci\xF3n y no quieras agilizar mis di\xE1logos utilizando
+      la tecla de <color=green>interacci\xF3n</color>, ya que este dialogo no lo
+      repetir\xE9."
+    objective: "-Darle sentido de existencia al npc interactuando con el para buscar
+      informaci\xF3n relevante prestando atenci\xF3n sin agilizar los di\xE1logos
+      con la tecla <color=green>F</color>."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1657,12 +1658,13 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Veo que si te has desplazado hasta mi, es que debes de saber usar tus
       piernas, tu nuevo cerebelo deberia de facilitarte el movimiento.\n\xA1Descuida!\nTu
-      cerebro esta intacto, aunque no te sea tan util, seria tab\xFA modificar el
-      cerebro de un ser vivo.\ny como sabras los que lo cometen deben de ser <i>purgados</i>\n\n\xA1Y
-      para eso estas aqui!\nPero primero pongamos a prueba tus capacidades basicas,
-      muevete por el escenario intentando alejarte lo mas posible de mi.\nDado que
-      te has acercado debe de ser dificil alejarte, tranquilo estare aqui esperandote."
-    objective: -Alejate del npc moviendote con WASD.
+      cerebro esta intacto, aunque no te sea tan \xFAtil, ser\xEDa tab\xFA modificar
+      el cerebro de un ser vivo.\ny como sabr\xE1s los que lo cometen deben de ser
+      <i>purgados</i>\n\n\xA1Y para eso est\xE1s aqu\xED!\nPero primero pongamos
+      a prueba tus capacidades b\xE1sicas, mu\xE9vete por el escenario intentando
+      alejarte lo mas posible de mi.\nDado que te has acercado debe de ser dif\xEDcil
+      alejarte, tranquilo estar\xE9 aqu\xED esper\xE1ndote."
+    objective: "-Al\xE9jate del npc moviendote con WASD."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1681,7 +1683,7 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Oh, \xBFhas vuelto tan r\xE1pido? Prueba <color=green>teletransportarte</color>
       por otro lado."
-    objective: -Intenta entender la logica de los portales en los lados.
+    objective: "-Intenta entender la l\xF3gica de los portales en los lados."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1700,12 +1702,13 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Te noto confundido, no es tu culpa que con tu cerebro primitivo y sentimental
       te cueste entender que sucede \xA1Es la idea!\n\nEn el mundo al que te transladaremos
-      <color=green>cada lado es un portal</color> que se conecta a otro permitiendote
+      <color=green>cada lado es un portal</color> que se conecta a otro permiti\xE9ndote
       acceder a otras parcelas o la \xA1misma!\n\n\xBFNo es guay el laberinto que
-      crearon los angeles para que los humanos dejen de intentar extinguirse?\n\nYa
+      crearon los \xE1ngeles para que los humanos dejen de intentar extinguirse?\n\nYa
       he reconfigurado el mapa.\n\nExplora los otros biomas y ven a hablarme cuando
       hayas terminado."
-    objective: -Explora los 2 nuevos biomas <color=yellow>desiertico</color> y <color=#00ffffff>nevado</color>.
+    objective: "-Explora los 2 nuevos biomas <color=yellow>des\xE9rtico</color> y
+      <color=#00ffffff>nevado</color>."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1736,15 +1739,13 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Ya aprendiste lo b\xE1sico de esta etapa, busca lo que ustedes los humanos
       conocen como <color=red>\xE1rbol sangrante</color> en cuanto te sientas listo
-      de continuar.\n\nEs importante que lo reconozcas, sera el nexo que deberas
-      abatir en tu mision.\n\n\xBFQue por que sangran?\nNo pienses esas cosas, lo
-      importante es que tu mision ayudara a muucha gente, y \xA1Eso es lo unico que
-      importa!.\n\nEste es el aspecto:\n\n<align=\"center\"><size=100><sprite=\"BloodTree\"
+      de continuar.\n\nEs importante que lo reconozcas, ser\xE1 el nexo que deber\xE1s
+      abatir en tu misi\xF3n.\n\n\xBFQue por qu\xE9 sangran?\nNo pienses esas cosas,
+      lo importante es que tu misi\xF3n ayudar\xE1 a mucha gente, y \xA1Eso es lo
+      \xFAnico que importa!.\n\n\xC9ste es el aspecto:\n\n<align=\"center\"><size=100><sprite=\"BloodTree\"
       index=0></size></align>"
-    objective: '-Busca el arbol, para continuar.
-
-      <align="center"><size=100><sprite="BloodTree"
-      index=0></size></align>'
+    objective: "-Busca el \xE1rbol, para continuar.\n<align=\"center\"><size=100><sprite=\"BloodTree\"
+      index=0></size></align>"
     logicActive:
       m_PersistentCalls:
         m_Calls:
