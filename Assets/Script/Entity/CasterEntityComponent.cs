@@ -39,6 +39,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     public event System.Action<Vector3> onAiming;
     public event System.Action<(Damage dmg, int weightAction, Vector3? origin)> onTakeDamage;
 
+    /// <summary>
+    /// percentage, diference, energy
+    /// </summary>
     public event System.Action<(float, float, float)> energyUpdate;
     public event System.Action<float> leftEnergyUpdate;
     public event System.Action<float> rightEnergyUpdate;
@@ -121,6 +124,36 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     {
         onPreCast?.Invoke(ability);
     }
+
+    /// <summary>
+    /// Compruebo si se puede realizar un consumo de cualquier tipo
+    /// </summary>
+    /// <param name="energy">la energia que se desea testear, puede ser negativa o positiva</param>
+    /// <param name="energyBuff">la energia despues de aplicarle los buffos</param>
+    /// <param name="percentageRequire">el porcentage representativo de cuanta energia seria en base a la barra</param>
+    /// <returns>Verdadero en caso que se pueda realizar la operacion</returns>
+    public bool EnergyComprobation(float energy, out float energyBuff, out float percentageRequire)
+    {
+        if(energy>0)
+        {
+            energyBuff = energy * (buffEnergy < 0 ? (1 + Mathf.Abs(buffEnergy)) : 1 - Mathf.Abs(buffEnergy));
+
+            percentageRequire = energyBuff / MaxEnergy;
+
+            return energyBuff <= positiveEnergy;
+        }
+        else
+        {
+            energy = -energy;
+
+            energyBuff = energy * (buffEnergy > 0 ? (1 + Mathf.Abs(buffEnergy)) : 1 - Mathf.Abs(buffEnergy));
+
+            percentageRequire = energyBuff / MaxEnergy;
+
+            return energyBuff <= negativeEnergy;
+        }
+    }
+
     
     /// <summary>
     /// Genera un consumo positivo de energia (pierdo energia)
@@ -129,11 +162,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     /// <returns>Falso en caso de q no se pueda realizar el consumo</returns>
     public bool PositiveEnergy(float energy)
     {
-        float calc = energy * (buffEnergy < 0 ? (1 + Mathf.Abs(buffEnergy)) : 1 - Mathf.Abs(buffEnergy));
-
-        if (calc > positiveEnergy)
+        if (!EnergyComprobation(energy,out float calc, out float percentage))
         {
-            leftEnergyUpdate?.Invoke(calc / MaxEnergy);
+            leftEnergyUpdate?.Invoke(percentage);
             return false;
         }   
 
@@ -150,11 +181,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     /// <returns>Falso en caso de q no se pueda realizar la ganancia</returns>
     public bool NegativeEnergy(float energy)
     {
-        float calc = energy * (buffEnergy > 0 ? (1 + Mathf.Abs(buffEnergy)) : 1 - Mathf.Abs(buffEnergy));
-
-        if (calc > negativeEnergy)
+        if (!EnergyComprobation(-energy, out float calc, out float percentage))
         {
-            rightEnergyUpdate?.Invoke(calc / MaxEnergy);
+            rightEnergyUpdate?.Invoke(percentage);
             return false;
         }
 
