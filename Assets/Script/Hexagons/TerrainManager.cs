@@ -36,10 +36,8 @@ public class TerrainManager : MonoBehaviour
     [SerializeField]
     int scale;
 
-
     float[,] mapAlphaBuffer;
     float[,,] mapAlpha;
-
 
     int[] mapDetailsBuffer;
     int[,] grassMap;
@@ -47,10 +45,9 @@ public class TerrainManager : MonoBehaviour
 
     TerrainData terrainData;
 
-    static int[,] vertexShader;
+    int[,] vertexShader { get => HexagonsManager.vertexShader; set => HexagonsManager.vertexShader = value; }
 
-    static int[,] apotemaShader;
-
+    int[,] apotemaShader { get => HexagonsManager.apotemaShader; set => HexagonsManager.apotemaShader = value; }
 
     private void Awake()
     {
@@ -100,8 +97,6 @@ public class TerrainManager : MonoBehaviour
             {
                 apotemaShader[i, 0] = Mathf.CeilToInt((aux[i, 0] / 100) * terrainData.alphamapWidth + terrainData.alphamapWidth / 2);
                 apotemaShader[i, 1] = Mathf.CeilToInt((aux[i, 1] / 100) * terrainData.alphamapHeight + terrainData.alphamapHeight / 2);
-
-                //Debug.Log($"{apotemaShader[i, 0]} {apotemaShader[i, 1]}");
             }
         }
 

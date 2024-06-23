@@ -21,14 +21,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static int[][,] hexagonos => instance._hexagonos;
 
-    public static float scala => instance.scale;
-
-    public static float lado;
-
-    public static float apotema;
-
     public static float radio => lado;
-    public static int idMaxLevel=> instance._idMaxLevel;
+
+    public static int idMaxLevel => instance._idMaxLevel;
 
     public static Color ColorEncerrado => instance?._colorEncerrado ?? Color.white;
 
@@ -37,6 +32,16 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
 
     public static Color ColorDefault => instance?._colorDefault ?? Color.white;
+
+    public static float scala => instance.scale;
+
+    public static float lado;
+
+    public static float apotema;
+
+    public static int[,] vertexShader;
+
+    public static int[,] apotemaShader;
 
 
     [Tooltip("En caso de asignarse un jugador, se mostrara el hexagono de forma automatica")]
@@ -639,5 +644,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
             SetRenders(character.hexagoneParent);
         };
+    }
+
+    private void OnDestroy()
+    {
+        apotemaShader = null;
+        vertexShader = null;
     }
 }
