@@ -43,7 +43,10 @@ public class HybridArray<V>
     {
         get
         {
-            return dynamicArray.Where(wrapper => wrapper.set).Select(wrapper => wrapper.value).Concat(staticArray());
+            if(staticArray()!=null)
+                return dynamicArray.Where(wrapper => wrapper.set).Select(wrapper => wrapper.value).Concat(staticArray());
+            else
+                return dynamicArray.Where(wrapper => wrapper.set).Select(wrapper => wrapper.value);
         }
     }
     
