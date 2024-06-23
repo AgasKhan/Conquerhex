@@ -17,30 +17,17 @@ public class OperatorTrggrCtrllrBase : ModificatorBase
 
 public class OperatorTrggrCtrllr : Modificator<OperatorTrggrCtrllrBase>
 {
-    public override float Angle => abilityModifier.Angle == 0 || !cntrllBool ? base.Angle 
-        : operation(base.Angle, abilityModifier.Angle);
-
-    public override float FinalMinRange => abilityModifier.FinalMinRange == 0 || !cntrllBool ? base.FinalMinRange 
-        : operation(base.FinalMinRange, abilityModifier.FinalMinRange);
-
-    public override float FinalMaxRange => abilityModifier.FinalMaxRange == 0 || !cntrllBool ? base.FinalMaxRange 
-        : operation(base.FinalMaxRange, abilityModifier.FinalMaxRange);
-
-    public override int FinalMaxDetects => abilityModifier.FinalMaxDetects == 0 || !cntrllBool ? base.FinalMaxDetects 
-        : (int)operation(base.FinalMaxDetects, abilityModifier.FinalMaxDetects);
-
-    public override float Auxiliar => abilityModifier.Auxiliar == 0 || !cntrllBool ? base.Auxiliar
-        : operation(base.Auxiliar, abilityModifier.Auxiliar);
-
     bool cntrllBool = false;
 
-    //Extension de OperationType?
-    float operation(float num, float otherNum)
+    protected override float Operation(float previusValue, float flyweightValue)
     {
+        if (!cntrllBool)
+            return previusValue;
+
         if (modificatorBase.operationType == OperationType.add)
-            return num + otherNum;
+            return previusValue + flyweightValue;
         else
-            return num * otherNum;
+            return previusValue * flyweightValue;
     }
 
     public override void ControllerDown(Vector2 dir, float button)
@@ -57,4 +44,6 @@ public class OperatorTrggrCtrllr : Modificator<OperatorTrggrCtrllrBase>
     {
         cntrllBool = !(modificatorBase.timeController == TimeController.Down);
     }
+
+
 }

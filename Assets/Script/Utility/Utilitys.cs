@@ -93,7 +93,10 @@ public static class Utilitys
         return new Vector2(Mathf.Cos(x),Mathf.Sin(x))*m;
     }
 
-
+    public static float DotCalculate(float angle)
+    {
+        return angle == 360 ? -1 : Vector2.Dot(Vector2.right, Quaternion.Euler(0, 0, angle) * Vector2.right);
+    }
 
     #region interfaz
 

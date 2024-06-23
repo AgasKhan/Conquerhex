@@ -255,7 +255,7 @@ public abstract class DetectParent<T> : ISerializationCallbackReceiver where T :
 
     public void OnAfterDeserialize()
     {
-        dot = angle == 360 ? -1 : Vector2.Dot(Vector2.right, Quaternion.Euler(0, 0, angle) * Vector2.right);
+        dot = Utilitys.DotCalculate(angle);
     }
 }
 

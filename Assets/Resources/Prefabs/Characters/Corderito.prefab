@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 1974079586755235633}
   - component: {fileID: 1140486446002502534}
   - component: {fileID: 8018831168674537570}
+  - component: {fileID: 1360126211719277060}
   m_Layer: 7
   m_Name: Corderito
   m_TagString: Enemigo
@@ -105,7 +106,7 @@ Transform:
   m_GameObject: {fileID: 8691427261028014608}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 85.41, y: 24.57, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -129,7 +130,8 @@ MonoBehaviour:
     maxRadius: 0
     minRadius: 0
     inverse: 0
-    dot: 1
+    angle: 360
+    dot: -1
     _maxDetects: 0
     _minDetects: 0
     queryTrigger: 0
@@ -140,7 +142,8 @@ MonoBehaviour:
     maxRadius: 0
     minRadius: 0
     inverse: 0
-    dot: 1
+    angle: 360
+    dot: -1
     _maxDetects: 0
     _minDetects: 0
     queryTrigger: 0
@@ -189,6 +192,17 @@ MonoBehaviour:
   <inventory>k__BackingField: {fileID: 0}
   <caster>k__BackingField: {fileID: 0}
   <move>k__BackingField: {fileID: 0}
+  stunBar:
+    rid: 6367994743027663006
+  iaOn: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 6367994743027663006
+      type: {class: StunBar, ns: , asm: Assembly-CSharp}
+      data:
+        body: {fileID: 0}
+        isStunned: 0
 --- !u!114 &8701310812445948786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,14 +215,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualItems: []
-  inventory:
-    ts: []
+  itemBase: {fileID: 0}
+  count: 1
   _currentWeight: 0
   flyweight: {fileID: 0}
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &8140012809130603257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,74 +233,118 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons:
     list:
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
   katasCombo:
     list:
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
   abilities:
     list:
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
         rid: -2
-    - _indexEquipedItem: -1
-      _indexSlot: -1
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
-  aiming: {x: 0, y: 0, z: 0}
   _buffEnergy: 0
   _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
@@ -484,6 +538,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   me: {fileID: 0}
+--- !u!114 &1360126211719277060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691427261028014608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  controller: {fileID: 7921835700496903584}
+  animations:
+    pictionaries:
+    - key: anim_idle
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
+          type: 3}
+    - key: anim_Running
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
+          type: 3}
+    - key: anim_death
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
+          type: 3}
+    - key: anim_meleeATK
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
+          type: 3}
+    - key: anim_meleeATK_2
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 79bd63c2c5e56504c9147bfe0a879fe5,
+          type: 3}
+    - key: anim_dash_start
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 2ce829b1d4d99554abef5282049e9437,
+          type: 3}
+    - key: anim_dash_middle
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 43d6634ac08e2ac4e80613d1e3fe4934,
+          type: 3}
+    - key: anim_dash_end
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 7425ca468f6ae634d84f9c2871155ef6,
+          type: 3}
+    - key: anim_dash2_start
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: b495ed40dc940ab419138d3dff3e8d36,
+          type: 3}
+    - key: anim_dash2_middle
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 14486a6fa79234b49acfb7194d40fd14,
+          type: 3}
+    - key: anim_dash2_end
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: c62e70d8a15d3d14d88163ef834fa5ce,
+          type: 3}
+  action1Name: anim_meleeATK
+  action2Name: anim_meleeATK_2
+  actionLoop1NameStart: anim_dash_start
+  actionLoop1NameMiddle: anim_dash_middle
+  actionLoop1NameEnd: anim_dash_end
+  actionLoop2NameStart: anim_dash2_start
+  actionLoop2NameMiddle: anim_dash2_middle
+  actionLoop2NameEnd: anim_dash2_end
 --- !u!1001 &269074638775458034
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -513,6 +646,26 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6011293649829747602, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: active
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6512603503947103261, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6940281000927806352, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: originalRenders.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6940281000927806352, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      propertyPath: originalRenders.Array.data[0]
+      value: 
+      objectReference: {fileID: 3142150303121923091}
     - target: {fileID: 8515497041664126321, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_Name
@@ -575,7 +728,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1918991520763305005}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 135a5d7445645394c8a553fdb6e815a0, type: 3}
 --- !u!4 &8473222001392137604 stripped
@@ -583,4 +740,90 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
     type: 3}
   m_PrefabInstance: {fileID: 269074638775458034}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2233063996798571756
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8473222001392137604}
+    m_Modifications:
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834687438440811441, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+        type: 3}
+      propertyPath: m_Name
+      value: p_Minion2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0ef9d6782694d024d860a0d77b6c39bb, type: 3}
+--- !u!4 &1918991520763305005 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 314353953228835009, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2233063996798571756}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3142150303121923091 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3847840800357697791, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2233063996798571756}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7921835700496903584 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8290401539659708748, guid: 0ef9d6782694d024d860a0d77b6c39bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2233063996798571756}
   m_PrefabAsset: {fileID: 0}

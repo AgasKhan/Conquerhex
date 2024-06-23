@@ -31,25 +31,35 @@ namespace AbilityModificators
 
         public IAbilityStats original;
 
-        public virtual float FinalVelocity => original.FinalVelocity;
+        public virtual float FinalVelocity => abilityModifier.FinalVelocity == 0 ? original.FinalVelocity
+        : Operation(original.FinalVelocity, abilityModifier.FinalVelocity);
 
-        public virtual float FinalMaxRange => original.FinalMaxRange;
+        public virtual float FinalMaxRange => abilityModifier.FinalMaxRange == 0 ? original.FinalMaxRange
+        : Operation(original.FinalMaxRange, abilityModifier.FinalMaxRange);
 
-        public virtual float FinalMinRange => original.FinalMinRange;
+        public virtual float FinalMinRange => abilityModifier.FinalMinRange == 0 ? original.FinalMinRange
+        : Operation(original.FinalMinRange, abilityModifier.FinalMinRange);
 
-        public virtual int FinalMaxDetects => original.FinalMaxDetects;
+        public virtual int FinalMaxDetects => abilityModifier.FinalMaxDetects == 0 ? original.FinalMaxDetects
+        : (int)Operation(original.FinalMaxDetects, abilityModifier.FinalMaxDetects);
 
-        public virtual int MinDetects => original.MinDetects;
+        public virtual int MinDetects => abilityModifier.MinDetects == 0 ? original.MinDetects
+        : (int) Operation(original.MinDetects, abilityModifier.MinDetects);
 
-        public virtual float Angle => original.Angle;
+        public virtual float Angle => abilityModifier.Angle == 0 ? original.Angle
+        : Mathf.Clamp(Operation(original.Angle, abilityModifier.Angle), 0, 360);
 
-        public virtual float Dot => original.Dot;
-        public virtual float Auxiliar => original.Auxiliar;
+        public virtual float Dot => Utilitys.DotCalculate(Angle);
+
+        public virtual float Auxiliar => abilityModifier.Auxiliar == 0 ? original.Auxiliar
+        : Operation(original.Auxiliar, abilityModifier.Auxiliar);
 
         protected AbilityStats abilityModifier => modificatorBase.abilityModifier;
 
         protected OperationType operationType => modificatorBase.operationType;
 
+
+        protected abstract float Operation(float previusValue, float flyweightValue);
 
         public virtual void OnEnterState(CasterEntityComponent param)
         {
@@ -80,6 +90,8 @@ namespace AbilityModificators
     public abstract class Modificator<T> : Modificator where T : ModificatorBase
     {
         new public T modificatorBase => (T)base.modificatorBase;
+
+        
     }
 
     public enum OperationType

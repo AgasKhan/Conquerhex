@@ -35,15 +35,17 @@ public class PressTrggrCtrllr : TriggerController
         if (!onCooldownTime)
             return;
 
-        FeedBackReference?.Area(FinalMaxRange);
+        Aiming = dir.Vect2To3XZ(0);
+
+        ability.FeedbackDetect();
 
         Detect();
 
         Cast(() => End = false);
-
+        /*
         if (affected != null && affected.Count > 0)
             Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-       
+        */
         pressCooldown.Reset();
     }
 
@@ -55,15 +57,19 @@ public class PressTrggrCtrllr : TriggerController
             return;
         }
 
+        Aiming = dir.Vect2To3XZ(0);
+
+        ability.FeedbackDetect();
+
         Detect();
         
         if (pressCooldown.Chck)
         {
             Cast(() => End = false);
-
+            /*
             if (affected != null && affected.Count > 0)
                 Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-
+            */
             pressCooldown.Reset();
             
             /*
@@ -72,10 +78,6 @@ public class PressTrggrCtrllr : TriggerController
                 ControllerUp(dir, tim);
             }
             */
-        }
-        else
-        {
-            Aiming = dir.Vect2To3XZ(0);
         }
     }
 

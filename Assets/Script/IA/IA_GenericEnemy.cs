@@ -221,9 +221,13 @@ public class GenericChase : IState<GenericEnemyFSM>
     {
         enemyPos = steerings.targets[0].transform.position;
 
-        var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
+        Vector3 dirToEnemy = (enemyPos - param.context.transform.position);
 
-        if(!steerings.targets[0].visible)
+        param.context.attack.Aiming = dirToEnemy.normalized;
+
+        var distance = dirToEnemy.sqrMagnitude;
+
+        if (!steerings.targets[0].visible)
         {
             param.CurrentState = param.waiting;
             return;

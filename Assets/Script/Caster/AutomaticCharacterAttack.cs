@@ -8,11 +8,27 @@ public class AutomaticCharacterAttack
     public TimedAction timerToAttack;
     public Timer timerChargeAttack;
 
+    public Vector3 Aiming
+    {
+        get => _aiming.Vect2To3XZ(0);
+        set
+        {
+            if(value!=Vector3.zero)
+                _aiming =  Vector2.Lerp(_aiming, value.Vect3To2XZ(), Time.deltaTime* precisionTime);
+        }
+    }
+
+    Vector2 _aiming;
+
     [SerializeField]
     int timeToAttack = 2;
 
     [SerializeField]
     int timeToChargeAttack = 1;
+
+    [SerializeField, Tooltip("more is best")]
+    float precisionTime = 5;
+
 
     Character owner;
 
@@ -48,9 +64,9 @@ public class AutomaticCharacterAttack
         {
             if (ability != null && ability.FeedBackReference != null)
             {
-                var aux = _ability.FeedBackReference;
-                aux.Area(radius);
-                return aux;
+                _ability.FeedbackDetect();
+
+                return _ability.FeedBackReference;
             }
 
             return null;
@@ -135,7 +151,7 @@ public class AutomaticCharacterAttack
     public void StopTimers()
     {
         ability.StopCast();
-        eventControllerMediator.ControllerUp(Vector2.zero, timerChargeAttack.total);
+        eventControllerMediator.ControllerUp(_aiming, timerChargeAttack.total);
         timerChargeAttack.Stop().SetInitCurrent(0);
         timerToAttack.Set(1).Stop().SetInitCurrent(0);
     }
@@ -196,7 +212,9 @@ public class AutomaticCharacterAttack
         {
             if(timerToAttack.current<0.5f)
             {
-                FeedBackReference?.Area(radius);
+                float percentage = (1 - timerToAttack.current / 0.5f);
+
+                FeedBackReference?.Area(radius* percentage).Angle(Mathf.Lerp(360, ability.Angle, percentage));
             }
 
         }, Attack).Stop().SetInitCurrent(0);
@@ -206,11 +224,11 @@ public class AutomaticCharacterAttack
         timerChargeAttack = TimersManager.Create(timeToChargeAttack, () =>
         {
 
-            eventControllerMediator.ControllerPressed(Vector2.zero, timerChargeAttack.total - timerChargeAttack.current);
+            eventControllerMediator.ControllerPressed(_aiming, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>
         {
-            eventControllerMediator.ControllerUp(Vector2.zero, timerChargeAttack.total);
+            eventControllerMediator.ControllerUp(_aiming, timerChargeAttack.total);
 
             //weaponKata.FeedBackReference=null;
 

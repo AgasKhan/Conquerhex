@@ -366,6 +366,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
             Destroy();
     }
 
+    public void FeedbackDetect()
+    {
+        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Angle(Angle).Direction(Aiming);
+    }
+
     public List<Entity> Detect(Entity caster, Vector3 pos)
     {
         affected = itemBase.Detect(ref affected,caster, pos ,Aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);

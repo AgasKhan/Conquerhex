@@ -223,7 +223,11 @@ public class HunterChase : IState<HunterIntern>
     {
         enemyPos = steerings.targets[0].transform.position;
 
-        var distance = (enemyPos - param.context.transform.position).sqrMagnitude;
+        Vector3 dirToEnemy = (enemyPos - param.context.transform.position);
+
+        param.context.attk.Aiming = dirToEnemy.normalized;
+
+        var distance = dirToEnemy.sqrMagnitude;
 
         if (distance > param.context.detectCordero.maxRadius * param.context.detectCordero.maxRadius || !steerings.targets[0].visible)
         {
