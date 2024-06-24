@@ -22,7 +22,7 @@ public class ButtonHor : MonoBehaviour
     Button myButton;
 
     [SerializeField]
-    EventsCall myAuxButton;
+    public EventsCall myAuxButton;
 
     public ButtonHor SetAuxButton(string text, UnityEngine.Events.UnityAction action, string buttonName)
     {
@@ -60,6 +60,12 @@ public class ButtonHor : MonoBehaviour
     {
         this.type = type;
 
+        return this;
+    }
+
+    public ButtonHor SetButtonInteract(bool _value)
+    {
+        myAuxButton.button.interactable = _value;
         return this;
     }
 }

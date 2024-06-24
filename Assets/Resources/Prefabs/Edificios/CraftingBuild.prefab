@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0406cf445e989b44bb2868fb170d2cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 0
+  team: 5
   health:
     life:
       _total: 0
@@ -97,10 +97,7 @@ MonoBehaviour:
     type: 2}
   <healthBase>k__BackingField: {fileID: 11400000, guid: 824126fd92f4bf847a13950a5c642317,
     type: 2}
-  upgradesRequirements:
-  - {fileID: 11400000, guid: 64e8de9bb7da7de41ad0d0ce4160bab1, type: 2}
-  - {fileID: 11400000, guid: 05eab44e900422b43ade91c1d3c8b2a9, type: 2}
-  - {fileID: 11400000, guid: 9fb0577e5b0e9394f82dd70a214aacab, type: 2}
+  upgradesRequirements: []
   NavBarButtons: 0400000000000000
   controller: {fileID: 781557696634203197}
   interactComp: {fileID: 7324791073229505215}
@@ -178,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactuable: 1
+  _offsetInteractView: {x: 0, y: 0, z: 0}
   Image: {fileID: 0}
   interactAction: {fileID: 1407724302080057166}
   genericMenu:

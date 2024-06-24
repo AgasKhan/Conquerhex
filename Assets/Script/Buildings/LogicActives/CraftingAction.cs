@@ -15,7 +15,16 @@ public class CraftingAction : InteractAction<(Character customer, ItemCrafteable
         if (itemToCraft.CanCraft(customer.inventory))
         {
             itemToCraft.Craft(customer.inventory, itemToCraft.nameDisplay);
-            ((CraftingSubMenu)subMenu).RefreshDetailW(itemToCraft);
+
+            if(itemToCraft is MeleeWeaponBase)
+            {
+                ((CraftingSubMenu)subMenu).RefreshDetailW(itemToCraft);
+            }
+            else
+            {
+                ((CraftingBuild)interactComp.container).currentRecipes.Remove(itemToCraft);
+                ((CraftingSubMenu)subMenu).Create(customer);
+            }
             return;
         }
     }

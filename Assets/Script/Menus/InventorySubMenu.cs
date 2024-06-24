@@ -275,7 +275,11 @@ public class InventorySubMenu : CreateSubMenu
 
         if (slotItem.equiped != null)
         {
-            var totalequipedDamage = Damage.Combine(Damage.AdditiveFusion, ((CastingDamageBase)((AbilityExtCast)slotItem.equiped).castingAction.GetCastActionBase()).damages, character.caster.additiveDamage.content);
+            var aux = ((AbilityExtCast)slotItem.equiped).castingAction.GetCastActionBase();
+            if (!(aux is CastingDamageBase))
+                return "La habilidad equipada no produce daño";
+
+            var totalequipedDamage = Damage.Combine(Damage.AdditiveFusion, ((CastingDamageBase)aux).damages, character.caster.additiveDamage.content);
             totalequipedDamage = Damage.Combine(Damage.MultiplicativeFusion, totalequipedDamage, ((AbilityExtCast)slotItem.equiped).multiplyDamage.content);
             var resultequipedDmgs = totalequipedDamage.ToArray().ToString(": ", "\n");
 

@@ -33,11 +33,11 @@ public class MeleeWeaponBase : ItemCrafteable
 
         var totalDamage = Damage.Combine(Damage.MultiplicativeFusion, damages, defaultKata.damagesMultiply);
 
-        list.Add("Daño total", totalDamage.ToArray().ToString(": ", "\n"));
+        list.Add("Daño total".RichText("color", "#f6f1c2"), totalDamage.ToArray().ToString(": ", "\n"));
 
-        list.Add("Rango de detección", range.ToString());
+        list.Add("Rango de detección".RichText("color", "#f6f1c2"), range.ToString() + " unidades" );
 
-        list.Add("Cooldown", defaultKata.velocity.ToString());
+        list.Add("Cooldown".RichText("color", "#f6f1c2"), defaultKata.velocity.ToString() + " segundos");
 
         return list;
     }
@@ -117,7 +117,7 @@ public class MeleeWeapon : ItemEquipable<MeleeWeaponBase>, IGetPercentage
 
         var aux = durability.current + "/" + durability.total;
 
-        list.Add("Durabilidad" , aux);
+        list.Add("Durabilidad".RichText("color", "#f6f1c2"), aux);
 
         return list;
     }

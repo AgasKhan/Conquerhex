@@ -470,9 +470,9 @@ public abstract class ItemCrafteable : ItemBase
             var subAux = ingredients[i].Item.nameDisplay + " " + (itemCount <= 0 ? 0 : itemCount) + " / " + ingredients[i].Amount;
             
             if(itemCount >= ingredients[i].Amount)
-                subAux = subAux.RichTextColor(Color.green);
+                subAux = subAux.RichText("color", "#6ae26a");
             else
-                subAux = subAux.RichText("color", "#ffa500ff");
+                subAux = subAux.RichText("color", "#d62b2b");
 
             aux += subAux + "\n";
         }

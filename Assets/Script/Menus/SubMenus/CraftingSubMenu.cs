@@ -75,7 +75,15 @@ public class CraftingSubMenu : CreateSubMenu
                     RefreshDetailW(item);
                 };
 
-            buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image, default, action).SetType(item.GetType().ToString()));
+            buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image, default, action)
+                .SetAuxButton("Crear", () =>
+                {
+                    MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "¿Seguro deseas crear este item?")
+                        .AddButton("Si", () => { ButtonAction(item); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false); })
+                        .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+
+                }, "")
+                .SetType(item.GetType().ToString()).SetButtonInteract(item.CanCraft(myCharacter.inventory)));
         }
     }
     void DestroyButtonCraft()
@@ -87,7 +95,7 @@ public class CraftingSubMenu : CreateSubMenu
     public void RefreshDetailW(ItemCrafteable item)
     {
         ShowResultDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "Materiales necesarios: \n" + item.GetRequiresString(myCharacter.inventory), item.image);
-
+        /*
         lastButtonCraft = subMenu.AddComponent<EventsCall>().Set("Crear", () => 
         {
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "¿Seguro deseas crear este item?")
@@ -95,8 +103,9 @@ public class CraftingSubMenu : CreateSubMenu
                 .AddButton("No", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
 
         }, "");
-
+        
         lastButtonCraft.button.interactable = item.CanCraft(myCharacter.inventory);
+        */
     }
 
     void ButtonAction(ItemCrafteable item)
@@ -107,7 +116,7 @@ public class CraftingSubMenu : CreateSubMenu
 
     void ShowResultDetails(string nameDisplay, string details, Sprite Image)
     {
-        DestroyButtonCraft();
+        //DestroyButtonCraft();
         myDetailsW.SetTexts(nameDisplay, details).SetImage(Image);
     }
 
