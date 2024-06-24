@@ -323,7 +323,7 @@ public class InventorySubMenu : CreateSubMenu
         var totalDamage = Damage.Combine(Damage.AdditiveFusion, _weaponKata.itemBase.damages, character.caster.additiveDamage.content);
         totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, _kata.multiplyDamage.content);
         var resultDmgs = totalDamage.ToArray().ToString(": ", "\n");
-        mainText += new CustomColumns(weaponDmgs, characterDmgs, kataDmgs, kataDmgs, resultDmgs).ToString();
+        mainText += new CustomColumns(weaponDmgs, characterDmgs, kataDmgs, resultDmgs).ToString();
 
         if (slotItem.equiped != null)
         {
