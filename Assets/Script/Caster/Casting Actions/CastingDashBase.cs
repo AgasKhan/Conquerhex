@@ -91,6 +91,24 @@ public class CastingDash : CastingAction<CastingDashBase>
         return affected;
     }
 
+    public override CastingActionBase GetCastActionBase()
+    {
+        if (castingActionBase.startDashCastingAction != null)
+        {
+            return castingActionBase.startDashCastingAction;
+        }
+        else if (castingActionBase.updateDashCastingAction != null)
+        {
+            return castingActionBase.updateDashCastingAction;
+        }
+        else if (castingActionBase.endDashCastingAction != null)
+        {
+            return castingActionBase.endDashCastingAction;
+        }
+
+        return castingActionBase;
+    }
+
     void ApplyCastUpdate()
     {
         ability.ApplyCast(updateDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged));

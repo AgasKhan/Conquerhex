@@ -86,6 +86,11 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
         if (damagesMultiply.Length > 0)
             aux.Add("Modificadores", damagesMultiply.ToString(": x", "\n"));
 
+        aux.Add("Cooldown", velocity.ToString());
+
+        if(costExecution!=0)
+            aux.Add("Costo de energía", costExecution > 0 ? ("-" + costExecution.ToString()).RichText("color", "#701f28") : ("+" + costExecution.ToString()).RichText("color", "#166bac"));
+
         return aux;
     }
 

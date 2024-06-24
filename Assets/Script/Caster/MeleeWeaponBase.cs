@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
 public class MeleeWeaponBase : ItemCrafteable
@@ -30,7 +31,13 @@ public class MeleeWeaponBase : ItemCrafteable
     {
         var list = base.GetDetails();
 
-        list.Add("Daños", damages.ToString(": ", "\n"));
+        var totalDamage = Damage.Combine(Damage.MultiplicativeFusion, damages, defaultKata.damagesMultiply);
+
+        list.Add("Daño total", totalDamage.ToArray().ToString(": ", "\n"));
+
+        list.Add("Rango de detección", range.ToString());
+
+        list.Add("Cooldown", defaultKata.velocity.ToString());
 
         return list;
     }
