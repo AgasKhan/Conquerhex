@@ -15,16 +15,12 @@ public class IAHunterPathFanding : IAHunter
         }
     }
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-        pathFinding = new PathFinding(transform);
-    }
 
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
+
+        pathFinding = new PathFinding(transform);
 
         patrol.OnPatrolChange += pathFinding.GoTo;
 

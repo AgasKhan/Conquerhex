@@ -27,8 +27,6 @@ public class IAHunter : IAFather, IGetPatrol, Init
 
     public AutomaticCharacterAttack attk;
 
-
-
     public Team team
     {
         get
@@ -37,12 +35,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
         }
     }
 
-    protected virtual void Awake()
-    {
-        fsm = new HunterIntern(this);
-        Init();
-    }
-
+    /*
     private void OnEnable()
     {
         fsm?.energy.Start();
@@ -52,11 +45,13 @@ public class IAHunter : IAFather, IGetPatrol, Init
     {
         fsm?.energy.Stop();
     }
-
+    */
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
         attk.Init(param, param.caster.katasCombo[0]);
+        Init();
+        fsm = new HunterIntern(this);
     }
 
     public override void OnStayState(Character param)
@@ -78,8 +73,6 @@ public class IAHunter : IAFather, IGetPatrol, Init
         base.Health_death();
     }
 
-
-
     public Patrol GetPatrol()
     {
         return patrol;
@@ -98,9 +91,9 @@ public class HunterIntern : FSM<HunterIntern, IAHunter>
 
     public HunterChase chase = new HunterChase();
 
-    public IState<HunterIntern> idle = new HunterIdle();
+    //public IState<HunterIntern> idle = new HunterIdle();
 
-    public TimedAction energy;
+    //public TimedAction energy;
 
     public event System.Action<Vector3> detectEnemy
     {
@@ -127,16 +120,16 @@ public class HunterIntern : FSM<HunterIntern, IAHunter>
             chase.noDetectEnemy -= value;
         }
     }
-
+    /*
     void IdleEvent()
     {
         CurrentState = idle;
-    }
+    }*/
 
     public HunterIntern(IAHunter reference) : base(reference)
     {
-        energy = TimersManager.Create(reference.energy, IdleEvent);
-        Init(idle);
+        //energy = TimersManager.Create(reference.energy, IdleEvent);
+        Init(patrol);
     }
 }
 
@@ -208,7 +201,7 @@ public class HunterChase : IState<HunterIntern>
     {
         param.context.Detect();
 
-        param.energy.SetMultiply(1.5f);
+        //param.energy.SetMultiply(1.5f);
 
         steerings = param.context.steerings["corderitos"];
 
@@ -254,7 +247,7 @@ public class HunterChase : IState<HunterIntern>
     public void OnExitState(HunterIntern param)
     {
         noDetectEnemy?.Invoke(enemyPos);
-        param.energy.SetMultiply(1);
+        //param.energy.SetMultiply(1);
         param.context.steerings["corderitos"].targets.Clear();
 
         //notify.Stop();
@@ -268,7 +261,7 @@ public class HunterChase : IState<HunterIntern>
     }
 }
 
-
+/*
 public class HunterIdle : IState<HunterIntern>
 {
 
@@ -291,3 +284,4 @@ public class HunterIdle : IState<HunterIntern>
         param.energy.Start();
     }
 }
+*/
