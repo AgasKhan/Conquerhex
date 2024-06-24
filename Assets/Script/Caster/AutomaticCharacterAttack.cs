@@ -143,7 +143,7 @@ public class AutomaticCharacterAttack
         if (!timerChargeAttack.Chck || !timerToAttack.Chck)
             return;
         
-        timerChargeAttack.Stop();
+        //timerChargeAttack.Stop();
 
         timerToAttack.Reset();
     }
@@ -214,7 +214,7 @@ public class AutomaticCharacterAttack
             {
                 float percentage = (1 - timerToAttack.current / 0.5f);
 
-                FeedBackReference?.Area(radius* percentage).Angle(Mathf.Lerp(360, ability.Angle, percentage));
+                FeedBackReference?.Area(radius* percentage).Angle(Mathf.Lerp(360, ability.Angle, percentage)).Direction(Aiming);
             }
 
         }, Attack).Stop().SetInitCurrent(0);

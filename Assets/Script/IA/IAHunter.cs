@@ -193,7 +193,7 @@ public class HunterChase : IState<HunterIntern>
 
     public event System.Action<Vector3> noDetectEnemy;
 
-    SteeringWithTarget steerings;
+    SteeringWithTarget steeringsCorderito;
 
     Vector3 enemyPos;
 
@@ -203,9 +203,9 @@ public class HunterChase : IState<HunterIntern>
 
         //param.energy.SetMultiply(1.5f);
 
-        steerings = param.context.steerings["corderitos"];
+        steeringsCorderito = param.context.steerings["corderitos"];
 
-        enemyPos = steerings.targets[0].transform.position;
+        enemyPos = steeringsCorderito.targets[0].transform.position;
 
         //notify.Start();
 
@@ -214,7 +214,7 @@ public class HunterChase : IState<HunterIntern>
 
     public void OnStayState(HunterIntern param)
     {
-        enemyPos = steerings.targets[0].transform.position;
+        enemyPos = steeringsCorderito.targets[0].transform.position;
 
         Vector3 dirToEnemy = (enemyPos - param.context.transform.position);
 
@@ -222,18 +222,18 @@ public class HunterChase : IState<HunterIntern>
 
         var distance = dirToEnemy.sqrMagnitude;
 
-        if (distance > param.context.detectCordero.maxRadius * param.context.detectCordero.maxRadius || !steerings.targets[0].visible)
+        if (distance > param.context.detectCordero.maxRadius * param.context.detectCordero.maxRadius || !steeringsCorderito.targets[0].visible)
         {
             param.CurrentState = param.patrol;
             return;
         }
         else if (distance >= param.context.detectCordero.maxRadius / 2)
         {
-            steerings.SwitchSteering<Pursuit>();
+            steeringsCorderito.SwitchSteering<Pursuit>();
         }
         else if (distance < param.context.detectCordero.maxRadius / 3)
         {
-            steerings.SwitchSteering<Seek>();
+            steeringsCorderito.SwitchSteering<Seek>();
         }
 
         if (distance <= (param.context.attk.radius * param.context.attk.radius) && param.context.attk.cooldown)
@@ -241,7 +241,7 @@ public class HunterChase : IState<HunterIntern>
             param.context.attk.ResetAttack();
         }
 
-        param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+        param.context.moveEventMediator.ControllerPressed(steeringsCorderito[0].Vect3To2XZ(), 0);
     }
 
     public void OnExitState(HunterIntern param)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IASuperBoid : IABoid
 {
+    public AutomaticCharacterAttack automaticAttack = new AutomaticCharacterAttack();
 
     public Entity lider = null;
 
@@ -25,6 +26,7 @@ public class IASuperBoid : IABoid
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
+        automaticAttack.Init(character, character.caster.katasCombo[0]);
         fsmBoid = new FSMBoid(this);
     }
 
@@ -79,7 +81,7 @@ public class IASuperBoid : IABoid
 
 public class FSMBoid : FSM<FSMBoid, IASuperBoid>
 {
-    public BoidAttack boidAttack;
+    public BoidAttack boidAttack = new BoidAttack();
 
     public BoidCoward boidCoward = new BoidCoward();
 
@@ -87,30 +89,21 @@ public class FSMBoid : FSM<FSMBoid, IASuperBoid>
 
     public FSMBoid(IASuperBoid reference) : base(reference)
     {
-        boidAttack = new BoidAttack(context.character);
-
         Init(boidAttack);        
     }
 }
 
 public class BoidAttack : IState<FSMBoid>
 {
-    AutomaticCharacterAttack automaticAttack = new AutomaticCharacterAttack();
-
-    public BoidAttack(Character character)
-    {
-        automaticAttack.Init(character, character.caster.katasCombo[0]);
-    }
-
     //ataque
     public void OnEnterState(FSMBoid param)
     {
-        automaticAttack.timerToAttack.Set(5);
+        //automaticAttack.timerToAttack.Set(5);
     }
 
     public void OnExitState(FSMBoid param)
     {
-        automaticAttack.StopTimers();
+        //param.context.automaticAttack.StopTimers();
     }
 
     public void OnStayState(FSMBoid param)
@@ -118,7 +111,9 @@ public class BoidAttack : IState<FSMBoid>
         if (param.context.character.health.actualLife < param.context.character.health.maxLife / 2)
             param.CurrentState = param.BoidDamaged;
 
-        if(param.context.lider != null)
+        param.context.automaticAttack.ResetAttack();
+
+        if (param.context.lider != null)
         {
             var aux = param.context.transform.position - param.context.lider.transform.position;
 
@@ -141,7 +136,7 @@ public class BoidCoward : IState<FSMBoid>
 
     public void OnExitState(FSMBoid param)
     {
-        param.context.steerings["lider"].SwitchSteering<Arrive>();
+        param.context.steerings["lider"].SwitchSteering<Pursuit>();
     }
 
     public void OnStayState(FSMBoid param)
@@ -160,7 +155,7 @@ public class BoidDamaged : IState<FSMBoid>
 
     public void OnExitState(FSMBoid param)
     {
-        param.context.steerings["enemy"].SwitchSteering<Arrive>();
+        param.context.steerings["enemy"].SwitchSteering<Pursuit>();
     }
 
     public void OnStayState(FSMBoid param)

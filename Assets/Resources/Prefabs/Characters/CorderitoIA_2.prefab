@@ -10,8 +10,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
         type: 3}
-      propertyPath: steerings.pictionaries.Array.data[1].value.weight
+      propertyPath: detectEnemy.maxRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
+        type: 3}
+      propertyPath: automaticAttack.timeToAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
+        type: 3}
+      propertyPath: automaticAttack.precisionTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
+        type: 3}
+      propertyPath: automaticAttack.timeToChargeAttack
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
+        type: 3}
+      propertyPath: steerings.pictionaries.Array.data[1].value.weight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2150256583596366999, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
         type: 3}

@@ -59,6 +59,11 @@ public abstract class SteeringBehaviour : MonoBehaviour
     {
         me = GetComponent<MoveAbstract>();
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + _direction);
+    }
 }
 
 

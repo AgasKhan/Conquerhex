@@ -22,13 +22,17 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
     [SerializeField]
     public float minimalDistance;
 
-    public virtual Transform currentObjective { get => actualWaypoint; }
-
-    public Transform actualWaypoint => patrol.currentWaypoint;
-
     public Transform alertPoint;
 
     public AutomaticCharacterAttack attack;
+
+    public float timeToEvade = 2.5f;
+    public float timeToIdle = 0.5f;
+    public float alertPointRange = 5f;
+
+    public virtual Transform currentObjective { get => actualWaypoint; }
+
+    public Transform actualWaypoint => patrol.currentWaypoint;
 
     public MoveEntityComponent move
     {
@@ -37,10 +41,6 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
             return character.move;
         }
     }
-
-    public float timeToEvade = 2.5f;
-    public float timeToIdle = 0.5f;
-    public float alertPointRange = 5f;
 
     public Team team
     {

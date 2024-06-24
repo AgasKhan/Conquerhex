@@ -32,9 +32,7 @@ public class ObstacleAvoidance : SteeringBehaviour
 
         _direction = steering.Calculate(target);
 
-        var aux = Physics.RaycastAll(transform.position, _direction, _direction.magnitude, GameManager.instance.obstacleAvoidanceLayer);
-
-        if (aux != null && aux.Length > 1)
+        if (Physics.Raycast(transform.position, _direction, _direction.magnitude, GameManager.instance.obstacleAvoidanceLayer))
         {
             _direction = Quaternion.Euler(0, angle * dirSigned, 0) * _direction;
         }

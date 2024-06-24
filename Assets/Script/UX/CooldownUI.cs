@@ -112,7 +112,7 @@ namespace UI
                 ability.onExit -= AbilityOnExit;
                 ability.onEnter -= AbilityOnEnter;
                 timer.onChange -= FillAmount;
-                param.caster.energyUpdate -= AbilityDisponibility;
+                ability.caster.energyUpdate -= AbilityDisponibility;
             }
 
             if (param != null)
@@ -124,7 +124,7 @@ namespace UI
                 timer = param.cooldown;
                 timer.onChange += FillAmount;
 
-                param.caster.energyUpdate += AbilityDisponibility;
+                ability.caster.energyUpdate += AbilityDisponibility;
             }
 
             imageKata.sprite = item?.image;
