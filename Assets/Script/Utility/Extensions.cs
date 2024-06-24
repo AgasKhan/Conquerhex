@@ -650,7 +650,43 @@ public static class Extensions
                 result.Add(getEntity[i].GetEntity());
         }
     }
-    
+
+    static public IEnumerable<Damage> SortBy(this IEnumerable<Damage> damages, IEnumerable<Damage> toCompare, float defaultVoid)
+    {
+        HashSet<Damage> showed = new HashSet<Damage>();
+
+        foreach (var dmg in toCompare)
+        {
+            bool found = false;
+
+            foreach (var dmg2 in damages)
+            {
+                if(dmg.typeInstance == dmg2.typeInstance)
+                {
+                    yield return dmg2;
+                    showed.Add(dmg2);
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found)
+            {
+                var aux = dmg;
+                aux.amount = defaultVoid;
+                yield return aux;
+            }
+        }
+
+        foreach (var dmg2 in damages)
+        {
+            if(!showed.Contains(dmg2))
+            {
+                yield return dmg2;
+            }
+        }
+    }
+
     static public string ToString(this Damage[] damages, string glue, string reglon)
     {
         var aux = "";

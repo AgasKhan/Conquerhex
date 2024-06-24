@@ -62,6 +62,19 @@ public struct Damage
         return dmg;
     }
 
+    public static IEnumerable<Damage> CalcDamage(IEnumerable<Damage> original, IEnumerable<Damage> additive, IEnumerable<Damage> multiply)
+    {
+        var totalDamage = Combine(AdditiveFusion, original, additive);
+        totalDamage = Combine(MultiplicativeFusion, totalDamage, multiply);
+
+        return totalDamage;
+    }
+
+    public static IEnumerable<Damage> CalcDamage(MeleeWeapon weapon, CasterEntityComponent caster, Ability ability)
+    {
+        return CalcDamage(weapon.damages, caster.additiveDamage.content, ability.multiplyDamage.content);
+    }
+
     public static Damage MultiplicativeFusion(Damage original, Damage toCompare)
     {
         original.amount *= toCompare.amount;
