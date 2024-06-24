@@ -56,6 +56,9 @@ public class SubMenus : MonoBehaviour
 
     int maxDivision;
 
+    [SerializeField]
+    bool refresh = false;
+
     public TextAnchor lastSectionAlign
     {
         set => lastSectionLayoutGroup.childAlignment = value;
@@ -90,7 +93,9 @@ public class SubMenus : MonoBehaviour
 
         if (navbar.eventsCalls.Count >= 1)
             this.title.text += "/" + navbar.eventsCalls[0].textButton.text;
-            
+
+        refresh = true;
+
         return this;
     }
 
@@ -112,6 +117,8 @@ public class SubMenus : MonoBehaviour
 
         lastSection = SetWidth(Instantiate(sectionPrefab, body), comienzo, final);
 
+        refresh = true;
+
         return this;
     }
 
@@ -119,13 +126,18 @@ public class SubMenus : MonoBehaviour
     {
         secctions.Pop();
         lastSectionLayoutGroup = lastSection.GetComponent<LayoutGroup>();
+
+        refresh = true;
+
         return this;
     }
 
     public T AddComponent<T>() where T : MonoBehaviour
     {      
         var aux = componentMenu.CreateComponent<T>(lastSection);
-        RetardedOn((_bool)=> lastSectionLayoutGroup?.SetActive(_bool));
+
+        refresh = true;
+
         return aux;
     }
 
@@ -134,6 +146,8 @@ public class SubMenus : MonoBehaviour
         var result = componentMenu.CreateComponent<T>(lastSection);
 
         lastSection = result.GetComponent<ContentRectTransform>().rectTransform;
+
+        refresh = true;
 
         return result;
     }
@@ -148,6 +162,8 @@ public class SubMenus : MonoBehaviour
         maxDivision = 0;
 
         body.sizeDelta = new Vector2(fixedWidth, body.sizeDelta.y);
+
+        refresh = true;
     }
 
     public SubMenus AddNavBarButton(string text, string buttonName)
@@ -165,17 +181,24 @@ public class SubMenus : MonoBehaviour
         OnClose?.Invoke();
     }
 
-    public SubMenus RetardedOn(System.Action<bool> retardedOrder)
-    {
-        StartCoroutine(RetardedOnCoroutine(retardedOrder));
-
-        return this;
-    }
-
     public void ExitSubmenu()
     {
         //Debug.Log("Execute ExitSubMenu");
         transform.SetActiveGameObject(false);
+    }
+
+    private void LateUpdate()
+    {
+        if(refresh)
+        {
+            foreach (RectTransform child in body.GetComponentsInChildren<RectTransform>())
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(child);
+            }
+
+            
+            refresh = false;
+        }
     }
 
     private void Awake()
@@ -225,8 +248,6 @@ public class SubMenus : MonoBehaviour
         GameManager.instance.Menu(true);
     }
 
-    
-
     SubMenus AddNavbarButton(string text, string buttonName, UnityEngine.Events.UnityAction action)
     {
         UnityEngine.Events.UnityAction aux = action; 
@@ -266,30 +287,6 @@ public class SubMenus : MonoBehaviour
             title.text = titleString + "/" + str;
         else
             title.text = str;
-    }
-
-    //la magia potagia, para refrezcar lo creado
-    IEnumerator RetardedOnCoroutine(System.Action<bool> retardedOrder)
-    {
-        yield return null;
-        yield return null;
-
-        retardedOrder?.Invoke(false);
-        retardedOrder?.Invoke(true);
-        /*
-        yield return new WaitForEndOfFrame();
-
-        gameObject.SetActive(false);
-        
-        yield return null;
-
-        gameObject.SetActive(true);
-
-        yield return new WaitForEndOfFrame();
-
-        retardedOrder?.Invoke(false);
-        retardedOrder?.Invoke(true);
-        */
     }
 }
 

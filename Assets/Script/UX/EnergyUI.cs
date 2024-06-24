@@ -38,7 +38,7 @@ namespace UI
 
                 diference = diference.RichText("size", actualEnergy.fontSize.ToStringFixedComma(1));
 
-                textEnergy.SetText(textPopEnergy, diference, Vector2.up * 0.5f * Mathf.Sign(-str.diference), false);
+                textEnergy.SetText(textPopEnergy, diference, Vector2.up * 0.1f, false);
             }
 
             energy.value = str.energyValue;

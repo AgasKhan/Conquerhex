@@ -11,6 +11,15 @@ namespace UI
         Image imageKata;
 
         [SerializeField]
+        Image imageFrameWhite;
+
+        [SerializeField]
+        Image imageFrameRed;
+
+        [SerializeField]
+        Image imageFrameBlue;
+
+        [SerializeField]
         Image imageFill;
 
         [SerializeField]
@@ -21,6 +30,8 @@ namespace UI
 
         [SerializeField]
         Color inComplete;
+
+        Image imageFrame;
 
         ComplexColor complexColor = new ComplexColor();
 
@@ -93,13 +104,18 @@ namespace UI
             {
                 complexColor.Remove(inComplete);
                 if(noDisponibility)
+                {
                     timDisponibility.Reset();
+                    imageFrame.color = Color.white;
+                }
+                    
 
                 noDisponibility = false;
             }
             else
             {
                 complexColor.Add(inComplete);
+                imageFrame.color = Color.grey;
                 noDisponibility = true;
             }
         }
@@ -113,6 +129,7 @@ namespace UI
                 ability.onEnter -= AbilityOnEnter;
                 timer.onChange -= FillAmount;
                 ability.caster.energyUpdate -= AbilityDisponibility;
+                imageFrame.SetActiveGameObject(false);
             }
 
             if (param != null)
@@ -125,6 +142,12 @@ namespace UI
                 timer.onChange += FillAmount;
 
                 ability.caster.energyUpdate += AbilityDisponibility;
+
+                imageFrame = param.CostExecution > 0 ? imageFrameRed : (param.CostExecution < 0 ? imageFrameBlue : imageFrameWhite);
+
+                imageFrame.SetActiveGameObject(true);
+
+                imageFrame.color = Color.white;
             }
 
             imageKata.sprite = item?.image;
