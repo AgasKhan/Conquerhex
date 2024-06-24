@@ -19,8 +19,10 @@ public class CustomColumns
             {
                 string linea = i < columns[j].Count ? columns[j][i] : "";
 
+                /*
                 if (j % 2 != 0)
                     linea = new string(' ', (maxLengths[j - 1] / 2)) + linea;
+                */
 
                 linea = linea.RichText("pos", (j * 100 / columns.Count).ToString() + "%");
 
