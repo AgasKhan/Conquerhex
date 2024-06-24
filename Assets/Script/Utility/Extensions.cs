@@ -658,8 +658,6 @@ public static class Extensions
         {
             //if (item.ToString() != "")
                 aux += item.typeInstance.nameDisplay + glue + item + reglon;
-
-
         }
 
         return aux;

@@ -72,20 +72,18 @@ public class TransferItemAction : InteractAction<(InventoryEntityComponent inven
                 menu.buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image, item.GetItemTags(), () =>
                 {
                     menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
-                    menu.DestroyLastButtons();
-                    menu.CreateButton("Transferir item",
-                        () =>
-                        {
-                            Activate((inventoryTo, item));
-                            clearSubMenu.Invoke();
-                        }).rectTransform.sizeDelta = new Vector2(400, 85);
-                }
-                ));
+                    //menu.DestroyLastButtons();
+                }).SetAuxButton("Mover",
+                () =>
+                {
+                    Activate((inventoryTo, item));
+                    clearSubMenu.Invoke();
+                },""));
             }
 
             if (allItems.Count > 0)
             {
-                myListNavBar.AddButtonHor("Mover todos los items al " + inventoryTo.container.name, null, default, () =>
+                myListNavBar.AddButtonHor(("Mover todos los items al " + inventoryTo.container.name).RichText("color", "#edd15f"), null, default, () =>
                 {
                     menu.DestroyLastButtons();
                     foreach (var itemInChest in allItems)

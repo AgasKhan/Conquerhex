@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "Weapons/Melee", fileName = "New weapons")]
 public class MeleeWeaponBase : ItemCrafteable
@@ -30,7 +31,13 @@ public class MeleeWeaponBase : ItemCrafteable
     {
         var list = base.GetDetails();
 
-        list.Add("Daños", damages.ToString(": ", "\n"));
+        var totalDamage = Damage.Combine(Damage.MultiplicativeFusion, damages, defaultKata.damagesMultiply);
+
+        list.Add("Daño total".RichText("color", "#f6f1c2"), totalDamage.ToArray().ToString(": ", "\n"));
+
+        list.Add("Rango de detección".RichText("color", "#f6f1c2"), range.ToString() + " unidades" );
+
+        list.Add("Cooldown".RichText("color", "#f6f1c2"), defaultKata.velocity.ToString() + " segundos");
 
         return list;
     }
@@ -110,7 +117,7 @@ public class MeleeWeapon : ItemEquipable<MeleeWeaponBase>, IGetPercentage
 
         var aux = durability.current + "/" + durability.total;
 
-        list.Add("Durabilidad" , aux);
+        list.Add("Durabilidad".RichText("color", "#f6f1c2"), aux);
 
         return list;
     }

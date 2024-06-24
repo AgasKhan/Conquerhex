@@ -84,7 +84,14 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
         var aux = base.GetDetails();
 
         if (damagesMultiply.Length > 0)
-            aux.Add("Modificadores", damagesMultiply.ToString(": x", "\n"));
+            aux.Add("Modificadores".RichText("color", "#f6f1c2"), damagesMultiply.ToString(": x", "\n"));
+
+        aux.Add("Cooldown".RichText("color", "#f6f1c2"), velocity.ToString() + " segundos");
+
+        if(costExecution!=0)
+            aux.Add("Costo de energía".RichText("color", "#f6f1c2"), costExecution > 0 ? ("-" + costExecution.ToString()).RichText("color", "#ea925e") : ("+" + costExecution.ToString()).RichText("color", "#5afdf7"));
+
+        aux.Add("Área de efecto".RichText("color", "#f6f1c2"), "Ángulo: ".RichText("color", "#f6f1c2") + detection.detect.angle.ToString() +" grados"  +"\nRango máximo: ".RichText("color", "#f6f1c2") + detection.detect.maxRadius + " unidades");
 
         return aux;
     }

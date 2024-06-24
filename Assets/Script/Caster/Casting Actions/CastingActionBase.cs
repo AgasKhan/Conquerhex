@@ -64,6 +64,11 @@ public abstract class CastingAction : IAbilityComponent
         this.ability = ability;
     }
 
+    public virtual CastingActionBase GetCastActionBase()
+    {
+        return castingActionBase;
+    }
+
     public virtual void Destroy()
     {
         ability = null;

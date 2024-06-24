@@ -28,7 +28,7 @@ public class ShowDetails : ScriptableObject, IShowDetails
 
     public virtual Pictionarys<string, string> GetDetails()
     {
-        return new Pictionarys<string, string>() { { "Descripción", _details } };
+        return new Pictionarys<string, string>() { { "Descripción".RichText("color", "#f6f1c2"), _details } };
     }
 
     private void OnEnable()
