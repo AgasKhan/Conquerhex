@@ -11,7 +11,8 @@ namespace UI
         public Slider energy;
         public Image requirementLeft;
         public Image requirementRight;
-        public Transform textPopEnergy;
+        public Transform textRightPopEnergy;
+        public Transform textLeftPopEnergy;
         public TextMeshProUGUI actualEnergy;
 
         Timer leftEnergy;
@@ -19,6 +20,8 @@ namespace UI
 
         public void EnergyBarUpdate((float energyValue, float diference, float energyActual) str)
         {
+            Transform textPopEnergy = null;
+
             if (Mathf.Abs(str.diference) > 0.5f)
             {
                 PoolManager.SpawnPoolObject(Vector2Int.up * 2, out TextPop textEnergy);
@@ -30,9 +33,11 @@ namespace UI
                 if (str.diference < 0)
                 {
                     diference = diference.RichTextColor(Color.red);
+                    textPopEnergy = textRightPopEnergy;
                 }
                 else
                 {
+                    textPopEnergy = textLeftPopEnergy;
                     diference = ("+" + diference).RichTextColor(Color.blue);
                 }
 

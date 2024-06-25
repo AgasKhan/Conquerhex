@@ -316,6 +316,8 @@ RectTransform:
   - {fileID: 1354930942751327256}
   - {fileID: 5747380961962295169}
   - {fileID: 2441586210497515296}
+  - {fileID: 3505826927895174968}
+  - {fileID: 8668687501602521417}
   m_Father: {fileID: 36707653691741205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -446,7 +448,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8668687501602521417}
   - {fileID: 2975780742937659567}
   - {fileID: 7089963596518727668}
   m_Father: {fileID: 2441586210497515296}
@@ -548,7 +549,8 @@ MonoBehaviour:
   energy: {fileID: 4356799481514844943}
   requirementLeft: {fileID: 1741893230274669772}
   requirementRight: {fileID: 1252766497933194131}
-  textPopEnergy: {fileID: 8668687501602521417}
+  textRightPopEnergy: {fileID: 8668687501602521417}
+  textLeftPopEnergy: {fileID: 3505826927895174968}
   actualEnergy: {fileID: 3517488021288053821}
 --- !u!114 &4356799481514844943
 MonoBehaviour:
@@ -601,6 +603,41 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &5497053901597394654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3505826927895174968}
+  m_Layer: 5
+  m_Name: TextLeftPopPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3505826927895174968
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5497053901597394654}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5677239026208166153}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -320, y: -0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5764874486340472343
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8668687501602521417}
   m_Layer: 5
-  m_Name: TextPopPosition
+  m_Name: TextRightPopPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -629,11 +666,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4865068946512952945}
+  m_Father: {fileID: 5677239026208166153}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10}
+  m_AnchoredPosition: {x: 320, y: -0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6395230434843288428
