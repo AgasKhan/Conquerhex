@@ -38,7 +38,7 @@ namespace UI
 
                 if (str.diference < 0)
                 {
-                    diference = ("-" + diference).RichTextColor(right);
+                    diference = diference.RichTextColor(right);
                     textPopEnergy = textRightPopEnergy;
                 }
                 else
