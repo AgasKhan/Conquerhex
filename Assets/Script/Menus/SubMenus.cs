@@ -94,7 +94,7 @@ public class SubMenus : MonoBehaviour
         if (navbar.eventsCalls.Count >= 1)
             this.title.text += "/" + navbar.eventsCalls[0].textButton.text;
 
-        refresh = true;
+        Refresh();
 
         return this;
     }
@@ -117,7 +117,7 @@ public class SubMenus : MonoBehaviour
 
         lastSection = SetWidth(Instantiate(sectionPrefab, body), comienzo, final);
 
-        refresh = true;
+        Refresh();
 
         return this;
     }
@@ -127,16 +127,18 @@ public class SubMenus : MonoBehaviour
         secctions.Pop();
         lastSectionLayoutGroup = lastSection.GetComponent<LayoutGroup>();
 
-        refresh = true;
+        Refresh();
 
         return this;
     }
+
+
 
     public T AddComponent<T>() where T : MonoBehaviour
     {      
         var aux = componentMenu.CreateComponent<T>(lastSection);
 
-        refresh = true;
+        Refresh();
 
         return aux;
     }
@@ -147,7 +149,7 @@ public class SubMenus : MonoBehaviour
 
         lastSection = result.GetComponent<ContentRectTransform>().rectTransform;
 
-        refresh = true;
+        Refresh();
 
         return result;
     }
@@ -163,7 +165,14 @@ public class SubMenus : MonoBehaviour
 
         body.sizeDelta = new Vector2(fixedWidth, body.sizeDelta.y);
 
+        Refresh();
+    }
+
+    public SubMenus Refresh()
+    {
         refresh = true;
+
+        return this;
     }
 
     public SubMenus AddNavBarButton(string text, string buttonName)
@@ -195,7 +204,6 @@ public class SubMenus : MonoBehaviour
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(child);
             }
-
             
             refresh = false;
         }

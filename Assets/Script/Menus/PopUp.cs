@@ -12,6 +12,8 @@ public class PopUp : MonoBehaviour
     [SerializeField]
     protected ButtonFactory buttonFactory;
 
+    protected RectTransform rectTransform;
+
     /// <summary>
     /// Configura y muestra un título, texto y una imagen opcional que se mostrará en la ventana
     /// </summary>
@@ -23,6 +25,9 @@ public class PopUp : MonoBehaviour
     {
         detailsWindow.SetTexts(titulo, text).SetImage(sprite);
         buttonFactory.content.gameObject.SetActive(false);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+
         return this;
     }
 
@@ -36,6 +41,9 @@ public class PopUp : MonoBehaviour
     {
         buttonFactory.content.gameObject.SetActive(true);
         buttonFactory.Create(text, buttonName, null);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+
         return this;
     }
 
@@ -49,7 +57,15 @@ public class PopUp : MonoBehaviour
     {
         buttonFactory.content.gameObject.SetActive(true);
         buttonFactory.Create(text, "", action);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+
         return this;
+    }
+
+    private void OnDisable()
+    {
+        buttonFactory.DestroyAll();
     }
 
     private void OnEnable()
@@ -57,8 +73,8 @@ public class PopUp : MonoBehaviour
         GameManager.instance.Menu(true);
     }
 
-    private void OnDisable()
+    private void Awake()
     {
-        buttonFactory.DestroyAll();
+        rectTransform = (RectTransform)transform;
     }
 }

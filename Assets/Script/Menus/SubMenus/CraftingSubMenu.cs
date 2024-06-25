@@ -118,6 +118,7 @@ public class CraftingSubMenu : CreateSubMenu
     {
         //DestroyButtonCraft();
         myDetailsW.SetTexts(nameDisplay, details).SetImage(Image);
+        subMenu.Refresh();
     }
 
     void ButtonAct(string type)
