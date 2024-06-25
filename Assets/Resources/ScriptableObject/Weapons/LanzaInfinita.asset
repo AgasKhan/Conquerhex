@@ -32,6 +32,7 @@ MonoBehaviour:
   defaultKata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
   velocity: 1
   range: 2
+  minimalRange: 1
   damages:
   - name: 
     amount: 7.5
@@ -50,3 +51,6 @@ MonoBehaviour:
     knockBack: 0
     typeInstance: {fileID: 11400000, guid: 10654c72347acf24a9eef81a50d50b53, type: 2}
   durability: 9999
+  animationCastStart: {fileID: 0}
+  animationCastMiddle: {fileID: 0}
+  animationCastExit: {fileID: 0}

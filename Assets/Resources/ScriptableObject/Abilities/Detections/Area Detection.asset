@@ -15,15 +15,17 @@ MonoBehaviour:
   _nameDisplay: 
   _image: {fileID: 0}
   _details: 
+  type: 1
+  withRay: 0
   detect:
     maxRadius: 2
-    minRadius: 0
+    minRadius: 1
     inverse: 0
+    angle: 360
     dot: -1
     _maxDetects: 0
     _minDetects: 0
     queryTrigger: 1
     layerMask:
       serializedVersion: 2
-      m_Bits: 4294967295
-  withRay: 0
+      m_Bits: 0
