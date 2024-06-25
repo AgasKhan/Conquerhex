@@ -68,6 +68,7 @@ public class GenericSubMenu : CreateSubMenu
     {
         detailsWindow.SetTexts(nameDisplay, details).SetImage(Image);
         detailsWindow.SetActiveGameObject(true);
+        subMenu.Refresh();
     }
     /*
     public void CreateButtonA(string name, Sprite image, string textNum)

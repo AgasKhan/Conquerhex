@@ -68,17 +68,6 @@ public class TransferItemAction : InteractAction<(InventoryEntityComponent inven
                     continue;
 
                 allItems.Add(item);
-
-                menu.buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image, item.GetItemTags(), () =>
-                {
-                    menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
-                    //menu.DestroyLastButtons();
-                }).SetAuxButton("Mover",
-                () =>
-                {
-                    Activate((inventoryTo, item));
-                    clearSubMenu.Invoke();
-                },""));
             }
 
             if (allItems.Count > 0)
@@ -92,6 +81,20 @@ public class TransferItemAction : InteractAction<(InventoryEntityComponent inven
                     }
                     clearSubMenu.Invoke();
                 });
+            }
+
+            foreach (var item in allItems)
+            {
+                menu.buttonsList.Add(myListNavBar.AddButtonHor(item.nameDisplay, item.image, item.GetItemTags(), () =>
+                {
+                    menu.ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n"), item.image);
+                    //menu.DestroyLastButtons();
+                }).SetAuxButton("Mover",
+                () =>
+                {
+                    Activate((inventoryTo, item));
+                    clearSubMenu.Invoke();
+                }, ""));
             }
 
             myListNavBar.SetTitle("Del " + inventoryFrom.container.name + " al " + inventoryTo.container.name);
