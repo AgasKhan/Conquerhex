@@ -15,6 +15,9 @@ public class MeleeWeaponBase : ItemCrafteable
     [Tooltip("rango de deteccion")]
     public float range;
 
+    [Tooltip("rango de deteccion minima")]
+    public float minimalRange=0;
+
     public Damage[] damages = new Damage[1];
 
     public float durability;

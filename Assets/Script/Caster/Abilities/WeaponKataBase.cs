@@ -51,6 +51,8 @@ public class WeaponKata : Ability
 
     public override float FinalMaxRange => base.FinalMaxRange * (WeaponEnabled?.itemBase.range ?? 1);
 
+    public override float FinalMinRange => base.FinalMinRange * (WeaponEnabled?.itemBase.minimalRange ?? 1);
+
     public override bool DontExecuteCast => base.DontExecuteCast || WeaponEnabled == null;
 
     public override bool visible => externalKata && !IsCopy;

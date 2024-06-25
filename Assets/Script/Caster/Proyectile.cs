@@ -55,7 +55,6 @@ public class Proyectile : Entity
             affected[0].TakeDamage(damages);
             damages = null;
             gameObject.SetActive(false);
-            off.Reset();
             off.Stop();
         }
     }
@@ -67,7 +66,7 @@ public class Proyectile : Entity
         team = owner.team;
         damages = dmg;
         moveComponent.Velocity(dir.normalized);
-        off.Start();
+        off.Reset();
     }
 
     private void OnDrawGizmos()
