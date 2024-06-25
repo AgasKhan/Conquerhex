@@ -28,7 +28,8 @@ public class LoadSystem : SingletonScript <LoadSystem>
 
     public event System.Action onFinishtLoad;
 
-    public bool loadPause;
+    [field: SerializeField]
+    public bool loadPause { get; set; }
 
     //public string[] noSerailizeProperties;
 
