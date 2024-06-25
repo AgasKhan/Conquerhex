@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: f136b1e4b4ec4834384d497911be080a, type: 3}
+        m_Texture: {fileID: 2800000, guid: f21082a11a250f042b9aa222aae1e97d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AlphaOpacityTransparent:
@@ -63,7 +63,8 @@ Material:
     - _SeeThroughDistance: 0
     - _UseAlphaOptacityTransparent: 0
     - _UseDither: 0
-    m_Colors: []
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5000538907614471833
 MonoBehaviour:
