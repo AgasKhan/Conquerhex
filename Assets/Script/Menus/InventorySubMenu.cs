@@ -77,6 +77,8 @@ public class InventorySubMenu : CreateSubMenu
 
         if (slotItem != null)
             subMenu.navbar.DestroyAll();
+        else
+            myListNavBar.ShowAllTags();
 
         if (buttonsList.Count <= 0 && slotItem != null)
             ShowItemDetails("", "No tienes nada que equipar", null);

@@ -33,6 +33,14 @@ public class ButtonHor : MonoBehaviour
         return this;
     }
 
+    public ButtonHor HideAuxButton()
+    {
+        tags[0].SetActiveGameObject(true);
+        myAuxButton.SetActiveGameObject(false);
+
+        return this;
+    }
+
     public ButtonHor SetButton(Sprite _image, string _name, ItemTags _tags, UnityEngine.Events.UnityAction _action)
     {
         previewImage.sprite = _image;

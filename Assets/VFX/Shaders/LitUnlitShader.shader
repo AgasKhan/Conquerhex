@@ -57,7 +57,7 @@ Shader "Custom/LitUnlitBlendShader"
                     half4 baseColor = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv) * _Color;
 
                     // Calculate light direction and color manually
-                    half3 lightDirection = normalize(_WorldSpaceLightPos0.xyz - input.positionWS);
+                    //half3 lightDirection = normalize(_WorldSpaceLightPos0.xyz - input.positionWS);
                     half3 lightColor = _LightColor0.rgb;
 
                     // Calculate the lighting

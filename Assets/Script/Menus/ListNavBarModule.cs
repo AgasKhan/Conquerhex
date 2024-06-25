@@ -84,6 +84,14 @@ public class ListNavBarModule : MonoBehaviour
         return this;
     }
 
+    public void ShowAllTags()
+    {
+        tags[0].SetActiveGameObject(true);
+        tags[1].SetActiveGameObject(true);
+        tags[2].SetActiveGameObject(true);
+        tags[3].SetActiveGameObject(true);
+    }
+
     public EventsCall SetLeftAuxButton(string text, UnityEngine.Events.UnityAction action, string buttonName)
     {
         ShowHideAuxButtons(true);
