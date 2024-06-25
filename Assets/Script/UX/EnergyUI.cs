@@ -15,6 +15,12 @@ namespace UI
         public Transform textLeftPopEnergy;
         public TextMeshProUGUI actualEnergy;
 
+        [SerializeField]
+        Color left;
+
+        [SerializeField]
+        Color right;
+
         Timer leftEnergy;
         Timer rightEnergy;
 
@@ -32,13 +38,13 @@ namespace UI
 
                 if (str.diference < 0)
                 {
-                    diference = diference.RichTextColor(Color.red);
+                    diference = ("-" + diference).RichTextColor(right);
                     textPopEnergy = textRightPopEnergy;
                 }
                 else
                 {
+                    diference = ("+" + diference).RichTextColor(left);
                     textPopEnergy = textLeftPopEnergy;
-                    diference = ("+" + diference).RichTextColor(Color.blue);
                 }
 
                 diference = diference.RichText("size", actualEnergy.fontSize.ToStringFixedComma(1));
@@ -68,8 +74,6 @@ namespace UI
             leftEnergy = TimersManager.Create(0.3f, () => requirementLeft.enabled = leftEnergy.current < leftEnergy.total / 3 || leftEnergy.current > 2 * (leftEnergy.total / 3), () => requirementLeft.enabled = false).Stop();
             rightEnergy = TimersManager.Create(0.3f, () => requirementRight.enabled = rightEnergy.current < rightEnergy.total / 3 || rightEnergy.current > 2 * (rightEnergy.total / 3), () => requirementRight.enabled = false).Stop();
         }
-
     }
-
 }
 
