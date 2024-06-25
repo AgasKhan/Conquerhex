@@ -107,27 +107,6 @@ MonoBehaviour:
   bindDepthStencilAttachment: 0
   m_Version: 1
   MainCamera: 0
---- !u!114 &-2646888164137629011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
-  m_Name: FullScreenPassRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  injectionPoint: 550
-  fetchColorBuffer: 1
-  requirements: 5
-  passMaterial: {fileID: -876546973899608171, guid: 95f00d0692728ee4592ad6f2c07826f1,
-    type: 3}
-  passIndex: 0
-  bindDepthStencilAttachment: 0
-  m_Version: 1
 --- !u!114 &-266832351515254742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,11 +169,11 @@ MonoBehaviour:
   - {fileID: 3233976003540843404}
   - {fileID: -4559962870005143157}
   - {fileID: -3194483877275257867}
-  - {fileID: -2646888164137629011}
   - {fileID: -3850841579667572443}
+  - {fileID: 2135540002385118812}
   - {fileID: 5114080054119581445}
   - {fileID: -266832351515254742}
-  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0f5b34bb6d6e9aad3ad0a64103d5d44db25399c65fc0f8fca0547b5b2b6dcf8462ae059d963054cfc
+  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0f5b34bb6d6e9aad325399c65fc0f8fca5c46cd4d51f6a21d0547b5b2b6dcf8462ae059d963054cfc
   m_UseNativeRenderPass: 1
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -237,6 +216,27 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
+--- !u!114 &2135540002385118812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbff09b8b5a58cc45b8a20c5444c54ce, type: 3}
+  m_Name: GlitchEffect
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  injectionPoint: 600
+  fetchColorBuffer: 1
+  requirements: 4
+  passMaterial: {fileID: 2100000, guid: b328ba5f336a50d4f9032169b49ef57d, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
+  MainCamera: 1
 --- !u!114 &3233976003540843404
 MonoBehaviour:
   m_ObjectHideFlags: 0
