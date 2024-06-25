@@ -187,6 +187,8 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     public event System.Action<Vector3> noDetectEnemy;
 
+    IGetEntity target;
+
     SteeringWithTarget steerings;
 
     Vector3 enemyPos;
@@ -197,7 +199,13 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     public GenericChase()
     {
-        evadeTimer = TimersManager.Create(2, () => { param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/ }).Stop();
+        evadeTimer = TimersManager.Create(2, () => 
+        { 
+            if(param==null || !target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius))
+            {
+                param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/
+            }         
+        }).Stop();
     }
 
     public void OnEnterState(GenericEnemyFSM param)
@@ -219,9 +227,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     public void OnStayState(GenericEnemyFSM param)
     {
-        enemyPos = steerings.targets[0].transform.position;
-
-        Vector3 dirToEnemy = (enemyPos - param.context.transform.position);
+        Vector3 dirToEnemy = (target.transform.position - param.context.transform.position);
 
         param.context.attack.Aiming = dirToEnemy.normalized;
 
@@ -253,9 +259,14 @@ public class GenericChase : IState<GenericEnemyFSM>
             {
                 param.context.attack.ResetAttack();
             }
-        }
 
-        param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+            param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+        }
+        else if(target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius/2))
+        {
+            param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+        }
+            
     }
 
     private void Attack_onAttack()
@@ -279,11 +290,14 @@ public class GenericChase : IState<GenericEnemyFSM>
         //Debug.Log("FSM: " + (param==null) + "\nCharacter: " + (param.context == null) + "\nAttack: " + (param.context.attack==null));
         if(param.context.attack != null)
             param.context.attack.onAttack -= Attack_onAttack;
+
+        this.param = null;
     }
 
     void DetectEnemy()
     {
         detectEnemy?.Invoke(enemyPos);
+        target = steerings.targets[0];
     }
 }
 
