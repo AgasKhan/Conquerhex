@@ -113,7 +113,7 @@ public class BloodTreeBuild : Building
 
         foreach (var item in interactComp.lastCharInteract.inventory)
         {
-            if (gachaRewardsInt.ContainsKey((ItemCrafteable)item.GetItemBase()) && !(item.GetItemBase() is MeleeWeaponBase))
+            if (item.GetItemBase() is ItemCrafteable && gachaRewardsInt.ContainsKey((ItemCrafteable)item.GetItemBase()) && !(item.GetItemBase() is MeleeWeaponBase))
             {
                 gachaRewardsInt.Remove((ItemCrafteable)item.GetItemBase());
             }
