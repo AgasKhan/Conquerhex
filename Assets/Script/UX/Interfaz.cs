@@ -98,11 +98,18 @@ namespace UI
             //return _objectivesToShow.Count - 1;
         }
 
-        public void Objective(string str)
+        public void ProvisionalObjective(string str)
         {
             objectiveText.ClearMsg();
             objectiveText.WowEffect();
             objectiveText.ShowMsg("Objetivos:\n" + str);
+        }
+
+        public void ClearProvisionalObjective()
+        {
+            objectiveText.ClearMsg();
+            objectiveText.WowEffect();
+            objectiveText.ShowMsg(objectiveToShow);
         }
 
         public void ClearObjective()

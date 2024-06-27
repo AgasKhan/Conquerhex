@@ -75,6 +75,9 @@ public class BloodTreeBuild : Building
         }
 
         UI.Interfaz.instance["Titulo"].ShowMsg("Encerrado".RichTextColor(Color.red));
+
+        UI.Interfaz.instance.ProvisionalObjective("-Vence al arbol que te ha encerrado, para poder continuar con tu mision");
+
         encerradoTp.CopyTo(hexagoneParent.ladosArray, 0);
 
         GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);
@@ -85,6 +88,8 @@ public class BloodTreeBuild : Building
     [ContextMenu("Liberar")]
     public void Liberar()
     {
+        UI.Interfaz.instance.ClearProvisionalObjective();
+
         originalTp.CopyTo(hexagoneParent.ladosArray, 0);
 
         GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);

@@ -51,6 +51,7 @@ public class Salida : Building
 
     public void Victory()
     {
+        UI.Interfaz.instance.CompleteAllObjective();
         GameManager.instance.Menu(true);
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
                .SetWindow("Demo terminada", "Gracias por pasarte la demo de Arrange the Heaven \n\n¿Deseas cerrar el juego?")
