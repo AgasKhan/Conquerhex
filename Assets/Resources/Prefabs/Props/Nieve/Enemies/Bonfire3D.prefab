@@ -4987,7 +4987,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 992c7cde39dfdf04fb7074c718132c39, type: 3}
-  m_Color: {r: 0.99215686, g: 0.63929284, b: 0.50980395, a: 0.7921569}
+  m_Color: {r: 0.99215686, g: 0.63929284, b: 0.50980395, a: 0.74509805}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5078,7 +5078,7 @@ PrefabInstance:
     - target: {fileID: 1830034465871130614, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
         type: 3}
       propertyPath: m_Name
-      value: Circle3D
+      value: Bonfire3D
       objectReference: {fileID: 0}
     - target: {fileID: 3548689721889079025, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
         type: 3}
@@ -5095,10 +5095,15 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4403743105518410273, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
+        type: 3}
+      propertyPath: active
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5178110693702796374, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
         type: 3}
       propertyPath: m_Range
-      value: 12.07
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5178110693702796374, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
         type: 3}
@@ -5118,7 +5123,7 @@ PrefabInstance:
     - target: {fileID: 5178110693702796374, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
         type: 3}
       propertyPath: m_Intensity
-      value: 13.64
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 5178110693702796374, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
         type: 3}
@@ -5133,7 +5138,12 @@ PrefabInstance:
     - target: {fileID: 5568432326642350279, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.1
+      value: 2.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5568432326642350279, guid: e5ab3c1d6ce0cf24abc4c7e1ed29c2ae,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.09
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
