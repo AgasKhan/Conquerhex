@@ -176,8 +176,9 @@ public class FadeColorAttack : MonoBehaviour
     public FadeColorAttack Area(float max, float min=0)
     {
         areaFeedback.localScale = Vector3.one * max;
-
-        textCircular.Radius = max ;
+        
+        if(textCircular.isActiveAndEnabled)
+            textCircular.Radius = max ;
 
         area = "MaxRadius: " + max.ToStringFixed();
         InternalArea(min);
