@@ -8,7 +8,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     int currentDialog = 0;
     UI.TextCompleto dialogText;
-    UI.TextCompleto objectiveText;
+    UI.Interfaz interfaz;
 
     [Header("References")]
     public GameObject goal;
@@ -40,9 +40,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     bool isShowingADialogue = false;
     string messageToShow = "";
 
-    string objectiveToShow => string.Join('\n', _objectivesToShow);
 
-    List<string> _objectivesToShow = new List<string>();
 
     System.Action dialogueManagment;
 
@@ -189,9 +187,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         ability0 = true;
         player.caster.abilities[0].equiped.onCast -= EquipedOnCast0;
 
-        _objectivesToShow[0] = _objectivesToShow[0].RichText("s");
-
-        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+        interfaz.CompleteObjective(0);
 
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
@@ -201,9 +197,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         ability1 = true;
         player.caster.abilities[1].equiped.onCast -= EquipedOnCast1;
 
-        _objectivesToShow[1] = _objectivesToShow[1].RichText("s");
-
-        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+        interfaz.CompleteObjective(1);
 
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
@@ -213,9 +207,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         ability3 = true;
         player.caster.abilities[3].equiped.onCast -= EquipedOnCast3;
 
-        _objectivesToShow[2] = _objectivesToShow[2].RichText("s");
-
-        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+        interfaz.CompleteObjective(2);
 
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
@@ -225,9 +217,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         ability4 = true;
         player.caster.abilities[4].equiped.onCast -= EquipedOnCast4;
 
-        _objectivesToShow[3] = _objectivesToShow[3].RichText("s");
-
-        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow);
+        interfaz.CompleteObjective(3);
 
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
@@ -259,9 +249,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         currentDialog++;
 
-        objectiveText.CompleteEffect();
-
-        objectiveText.ShowMsg("Objetivos:\n" + objectiveToShow.RichText("s"));
+        interfaz.CompleteAllObjective();
     }
 
     void EndDialog()
@@ -286,15 +274,15 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         messageToShow = allDialogs[currentDialog].dialog;
 
-        _objectivesToShow.Clear();
+        interfaz.ClearObjective();
 
-        _objectivesToShow.AddRange(allDialogs[currentDialog].objective.Split('\n'));
+        foreach (var item in allDialogs[currentDialog].objective.Split('\n'))
+        {
+            interfaz.AddObjective(item);
+        }
 
         dialogText.ClearMsg();
         dialogText.AddMsg(messageToShow);
-
-        objectiveText.ClearMsg();
-        objectiveText.AddMsg("Objetivos:\n"+ objectiveToShow);
 
         dialogueManagment = ()=> FinishCurrentDialogue();
 
@@ -384,7 +372,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void Start()
     {
         dialogText = UI.Interfaz.SearchTitle("Subtitulo");
-        objectiveText = UI.Interfaz.SearchTitle("Objetivos");
+
+        interfaz = UI.Interfaz.instance;
+
         dialogText.off += EndDialog;
     }
 

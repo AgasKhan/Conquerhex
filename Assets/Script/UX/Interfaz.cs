@@ -21,6 +21,7 @@ namespace UI
 
         [SerializeField] Image dialogoImage;
         TextCompleto dialogoText;
+        TextCompleto objectiveText;
 
         float   widthDiag;
         float   heightDiag;
@@ -34,6 +35,9 @@ namespace UI
         [Header("Cooldowns"), SerializeField]
         CooldownUI[] basicCooldowns,katasCooldowns,abilitiesCooldowns;
 
+        List<string> _objectivesToShow = new List<string>();
+
+        string objectiveToShow => "Objetivos:\n" + string.Join('\n', _objectivesToShow);
 
         public TextCompleto this[string name]
         {
@@ -57,6 +61,54 @@ namespace UI
         public void Dialogo(string str)
         {
             dialogoText.AddMsg(str);
+        }
+
+        public void CompleteAllObjective()
+        {
+            for (int i = 0; i < _objectivesToShow.Count; i++)
+            {
+                _objectivesToShow[i] = _objectivesToShow[i].RichText("s");
+            }
+           
+            objectiveText.CompleteEffect();
+
+            objectiveText.ShowMsg(objectiveToShow);
+        }
+
+        public void CompleteObjective(int index)
+        {
+            _objectivesToShow[index] = _objectivesToShow[index].RichText("s");
+            objectiveText.ShowMsg(objectiveToShow);
+
+            objectiveText.CompleteEffect();
+        }
+
+        public void ModifyObjective(int index, string str)
+        {
+            _objectivesToShow[index] = str;
+            objectiveText.WowEffect();
+            objectiveText.ShowMsg(objectiveToShow);
+        }
+
+        public void AddObjective(string str)
+        {
+            _objectivesToShow.Add(str);
+            objectiveText.WowEffect();
+            objectiveText.ShowMsg(objectiveToShow);
+            //return _objectivesToShow.Count - 1;
+        }
+
+        public void Objective(string str)
+        {
+            objectiveText.ClearMsg();
+            objectiveText.WowEffect();
+            objectiveText.ShowMsg("Objetivos:\n" + str);
+        }
+
+        public void ClearObjective()
+        {
+            _objectivesToShow.Clear();
+            objectiveText.ClearMsg();
         }
 
         public void PopText(Entity entity, string text, Vector2? dir = null)
@@ -177,6 +229,8 @@ namespace UI
             }
 
             dialogoText = SearchTitle("Subtitulo");
+
+            objectiveText = SearchTitle("Objetivos");
         }
     }
 
