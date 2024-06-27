@@ -13,10 +13,23 @@ public abstract class SteeringBehaviour : MonoBehaviour
 
     public virtual SteeringBehaviour SwitchSteering<T>() where T : SteeringBehaviour
     {
-        if (this is T)
+        System.Type type = typeof(T);
+
+        T aux = null;
+
+        if (this.GetType() == type)
             return this;
-        
-        if(!TryGetComponent<T>(out var aux))
+
+        foreach (var compononent in GetComponents<T>())
+        {
+            if (compononent.GetType() == type)
+            {
+                aux = compononent;
+                break;
+            }
+        }
+
+        if (aux == null)
         {
             aux = gameObject.AddComponent<T>();
             aux.me = me;

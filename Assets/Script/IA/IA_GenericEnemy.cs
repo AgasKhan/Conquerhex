@@ -201,7 +201,7 @@ public class GenericChase : IState<GenericEnemyFSM>
     {
         evadeTimer = TimersManager.Create(2, () => 
         { 
-            if(param==null || !target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius))
+            if(param==null || !target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius*2))
             {
                 param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/
             }         
@@ -241,7 +241,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         if(evadeTimer.Chck)
         {
-            if (distance > param.context.attackDetection.maxRadius * param.context.attackDetection.maxRadius)
+            if (distance > Mathf.Pow(param.context.attackDetection.maxRadius *2,2))
             {
                 param.CurrentState = param.waiting;
                 return;
@@ -260,7 +260,13 @@ public class GenericChase : IState<GenericEnemyFSM>
                 param.context.attack.ResetAttack();
             }
 
-            param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+            if (distance <= 1)
+            {
+                param.context.moveEventMediator.ControllerPressed(Vector3.Cross(steerings[0].normalized, Vector3.up).Vect3To2XZ(), 0);
+            }
+            else
+                param.context.moveEventMediator.ControllerPressed(steerings[0].Vect3To2XZ(), 0);
+
         }
         else if(target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius/2))
         {

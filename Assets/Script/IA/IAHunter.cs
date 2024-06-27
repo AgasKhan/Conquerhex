@@ -138,7 +138,7 @@ public class HunterPatrol : IState<HunterIntern>
     IAHunter hunter;
     MoveEntityComponent move;
     Vector3 dir;
-    Vector3 conoDir;
+    //Vector3 conoDir;
 
     public void OnEnterState(HunterIntern param)
     {
@@ -163,9 +163,10 @@ public class HunterPatrol : IState<HunterIntern>
             return;
         }
 
+        /*
         if (move.VectorVelocity.sqrMagnitude >= 0.01f)
             conoDir = Vector3.Lerp(conoDir, move.VectorVelocity.normalized, Time.deltaTime);
-
+        */
         param.context.moveEventMediator.ControllerPressed(dir.Vect3To2XZ(), 0);
     }
     public void OnExitState(HunterIntern param)
@@ -197,6 +198,13 @@ public class HunterChase : IState<HunterIntern>
 
     Vector3 enemyPos;
 
+    int dirOrbiting=1;
+
+    private void Attk_onAttack()
+    {
+        dirOrbiting *= -1;
+    }
+
     public void OnEnterState(HunterIntern param)
     {
         param.context.Detect();
@@ -207,10 +215,14 @@ public class HunterChase : IState<HunterIntern>
 
         enemyPos = steeringsCorderito.targets[0].transform.position;
 
+        param.context.attk.onAttack += Attk_onAttack;
+
         //notify.Start();
 
         DetectEnemy();
     }
+
+
 
     public void OnStayState(HunterIntern param)
     {
@@ -241,7 +253,12 @@ public class HunterChase : IState<HunterIntern>
             param.context.attk.ResetAttack();
         }
 
-        param.context.moveEventMediator.ControllerPressed(steeringsCorderito[0].Vect3To2XZ(), 0);
+        if(distance<=1)
+        {
+            param.context.moveEventMediator.ControllerPressed(Vector3.Cross(steeringsCorderito[0].normalized, Vector3.up* dirOrbiting).Vect3To2XZ(), 0);
+        }
+        else
+            param.context.moveEventMediator.ControllerPressed(steeringsCorderito[0].Vect3To2XZ(), 0);
     }
 
     public void OnExitState(HunterIntern param)

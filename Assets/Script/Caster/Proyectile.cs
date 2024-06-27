@@ -69,6 +69,11 @@ public class Proyectile : Entity
         off.Reset();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

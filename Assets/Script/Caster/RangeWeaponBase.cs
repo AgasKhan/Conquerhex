@@ -52,9 +52,6 @@ public class RangeWeapon : MeleeWeapon
             return new Entity[] {};
         */
         CasterEntityComponent owner = ability.caster;
-
-        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f, Quaternion.identity, owner.transform.parent, false);
-        
         
         Vector3 aim = Quaternion.Euler(0, Random.Range(ability.Angle/-2, ability.Angle/2), 0) * (owner.Aiming + Vector3.up * 0.5f);
 
@@ -69,11 +66,12 @@ public class RangeWeapon : MeleeWeapon
             }
         }
 
-
         if(objective != null)
         {
-            aim = (objective.transform.position + Vector3.up * 0.5f) - proyectile.transform.position;
+            aim = (objective.transform.position - owner.transform.position).normalized;
         }
+
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f + aim, Quaternion.identity, owner.transform.parent, false);
 
         proyectile.Throw(owner.container, System.Linq.Enumerable.ToArray(damages), aim);
 
