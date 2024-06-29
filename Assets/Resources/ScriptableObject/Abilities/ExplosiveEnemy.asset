@@ -20,9 +20,17 @@ MonoBehaviour:
   maxAmount: 1
   weight: 0
   visible: 1
+  ingredients: []
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
+  waitAnimations: 0
+  animationCastStart: {fileID: -998496362607748373, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
+    type: 3}
+  animationCastMiddle: {fileID: 0}
+  animationCastExit: {fileID: 0}
   particles:
   - {fileID: 2983765467756224526, guid: 3dd12928ead895a43a20a0c036d17572, type: 3}
   audios:
@@ -30,6 +38,7 @@ MonoBehaviour:
   velocity: 2.5
   costExecution: 12.5
   costHandle: 0
+  weightAction: 0
   damagesMultiply: []
   indexParticles:
   - {x: 1, y: 13}
