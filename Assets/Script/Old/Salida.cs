@@ -57,6 +57,5 @@ public class Salida : Building
                .SetWindow("Demo terminada", "Gracias por pasarte la demo de Arrange the Heaven \n\n¿Deseas cerrar el juego?")
                .AddButton("Si", Application.Quit)
                .AddButton("No", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
-
     }
 }

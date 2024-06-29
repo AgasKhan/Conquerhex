@@ -99,9 +99,12 @@ public class PoolManager : MonoBehaviour
     [Header("Activar generacion")]
     public bool eneabled;
 
+    static public int categoriesCount => instance.categoriesOfPool.Length;
+
+    static public int[] poolObjectsCount;
+
     [SerializeField]
     Category[] categoriesOfPool;
-
 
     static PoolManager instance;
 
@@ -157,6 +160,20 @@ public class PoolManager : MonoBehaviour
         Debug.LogWarning("No se encontro el objeto: " + powerObject);
         return indexsFind;
 
+    }
+
+
+    /// <summary>
+    /// devuelve el indice de la categoria dentro del pool
+    /// </summary>
+    /// <param name="index">indice de la categoria</param>
+    /// <param name="powerObject">nombre del prefab del objeto</param>
+    /// <returns></returns>
+    static public void SrchInCategory(Vector2Int indexsFind, out string category, out GameObject powerObject)
+    {
+        category = instance.categoriesOfPool[indexsFind.x].name;
+
+        powerObject = instance.categoriesOfPool[indexsFind.x].objectPool[indexsFind.y].prefab;
     }
 
     #endregion
@@ -236,6 +253,17 @@ public class PoolManager : MonoBehaviour
         transform.gameObject.SetActive(active);
     }
     #endregion
+
+    private void OnValidate()
+    {
+        instance = this;
+        poolObjectsCount = new int[categoriesCount];
+
+        for (int i = 0; i < categoriesCount; i++)
+        {
+            poolObjectsCount[i] = categoriesOfPool[i].objectPool.Length;
+        }
+    }
 
     void Awake()
     {

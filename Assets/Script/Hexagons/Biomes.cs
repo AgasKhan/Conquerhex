@@ -110,6 +110,134 @@ public class Biomes : ShowDetails
             item.color = generalColor;
         }
     }
-
 }
 
+[System.Serializable]
+public class GameObjectSpawnProperty : ISerializationCallbackReceiver
+{
+    public GameObject prefabToSpawn;
+
+    public bool spawnInLocal;
+    [Space, Header("Offset position")]
+    [Range(0, 10)]
+    public float offsetPositionX;
+    [Range(0, 10)]
+    public float offsetPositionY;
+    [Range(0, 10)]
+    public float offsetPositionZ;
+    [Space, Header("Random position")]
+    [Range(0, 10)]
+    public float randomPositionX;
+    [Range(0, 10)]
+    public float randomPositionY;
+    [Range(0, 10)]
+    public float randomPositionZ;
+    [Space, Header("Random rotation")]
+    [Range(0, 360)]
+    public float randomRotationX;
+    [Range(0, 360)]
+    public float randomRotationY;
+    [Range(0, 360)]
+    public float randomRotationZ;
+    [Space]
+    public float radius;
+    [Space]
+    [Space]
+
+    [HideInInspector, SerializeField]
+    protected Vector3 offset;
+
+    public virtual Transform Spawn(Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
+    {
+        if (rotation == null)
+        {
+            rotation = Quaternion.Euler(Random.Range(-randomRotationX/2, randomRotationX/2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+        }
+        else
+        {
+            rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+        }
+
+        return Object.Instantiate(prefabToSpawn, ((Vector3)position) + offset + new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2)), (Quaternion)rotation, parent).transform;
+    }
+
+    public virtual Transform Spawn<T>(out T reference, Vector3? position = null, Quaternion? rotation = null, Transform parent = null) where T : Object
+    {
+        var aux = Spawn(position, rotation, parent);
+
+        reference = aux.gameObject.GetComponent<T>();
+
+        return aux;
+    }
+
+    public virtual void OnAfterDeserialize()
+    {
+    }
+
+    public virtual void OnBeforeSerialize()
+    {
+        offset = new Vector3 { x = offsetPositionX, y = offsetPositionY, z = offsetPositionZ };
+    }
+}
+
+
+[System.Serializable]
+//[UnityEditor.CustomPropertyDrawer(typeof(PoolGameObjectSpawnProperty))]
+public class PoolGameObjectSpawnProperty : GameObjectSpawnProperty
+{
+    [SerializeField, Tooltip("si posee valores negativos, sera ignorado")]
+    public Vector2Int index;
+
+    public string category;
+
+    public override void OnBeforeSerialize()
+    {
+        if(index.x>=0 && index.y>=0)
+        {
+            if (index.x >= PoolManager.categoriesCount)
+                index.x = PoolManager.categoriesCount - 1;
+
+            if(index.y>= PoolManager.poolObjectsCount[index.x])
+            {
+                index.y = PoolManager.poolObjectsCount[index.x] - 1;
+            }
+
+            PoolManager.SrchInCategory(index, out category, out prefabToSpawn);
+        }       
+        else
+        {
+            category = "NoSelection";
+            prefabToSpawn = null;
+        }
+
+        offset = new Vector3 { x = offsetPositionX, y = offsetPositionY, z = offsetPositionZ };
+    }
+
+    public override Transform Spawn(Vector3? position = null, Quaternion? rotation = null, Transform parent=null)
+    {
+        if(rotation==null)
+        {
+            rotation = Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+        }
+        else
+        {
+            rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+        }
+
+        return PoolManager.SpawnPoolObject(index, position + offset + new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2)), rotation, spawnInLocal ? parent : null);
+    }
+
+    public override Transform Spawn<T>(out T reference, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
+    {
+        if (rotation == null)
+        {
+            rotation = Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+        }
+        else
+        {
+            rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+        }
+
+        return PoolManager.SpawnPoolObject(index, out reference , position + offset + new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2)), rotation, spawnInLocal ? parent : null);
+    }
+}

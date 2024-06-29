@@ -71,7 +71,8 @@ public class BloodTreeBuild : Building
 
         for (int i = 0; i < minions.Length; i++)
         {
-            UI.Interfaz.instance.PopText(minions[i], "!".RichTextColor(Color.red).RichText("size", 50.ToString()), Vector2.up);
+            if(!minions[i].health.IsDeath)
+                UI.Interfaz.instance.PopText(minions[i], "!".RichTextColor(Color.red).RichText("size", 50.ToString()), Vector2.up);
         }
 
         UI.Interfaz.instance["Titulo"].ShowMsg("Encerrado".RichTextColor(Color.red));
@@ -188,7 +189,7 @@ public class BloodTreeBuild : Building
             //minions[i].CurrentState = null;
         }
 
-        UI.Interfaz.instance.PopText(this, "Conquistado".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);
+        UI.Interfaz.instance.PopText(this, "Abatido".RichText("size", "35").RichTextColor(Color.green), Vector2.up * 2);
 
         sprite.color = Color.green;
 

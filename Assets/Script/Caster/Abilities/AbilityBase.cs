@@ -26,7 +26,11 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 
     public AnimationClip animationCastExit;
 
-    public GameObject[] particles;
+    public PoolGameObjectSpawnProperty inPlaceAffected = new PoolGameObjectSpawnProperty() { index = Vector2Int.one*-1};
+
+    public PoolGameObjectSpawnProperty inPlaceOwner = new PoolGameObjectSpawnProperty() { index = Vector2Int.one * -1 };
+
+    public Pictionarys<string,PoolGameObjectSpawnProperty> auxiliarParticles = new Pictionarys<string, PoolGameObjectSpawnProperty>();
 
     [SerializeField]
     public Pictionarys<string, AudioLink> audios = new Pictionarys<string, AudioLink>();
@@ -50,8 +54,6 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
     public int weightAction;
 
     public Damage[] damagesMultiply = new Damage[0];
-
-    public Vector2Int[] indexParticles;
 
     [field: SerializeField, Header("Trigger controller")]
     public TriggerControllerBase trigger { get; private set; }
@@ -102,20 +104,17 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
         //buttonsAcctions.Add("Equip", Equip);
     }
 
-    protected override void MyEnable()
+    /// <summary>
+    /// Spawnea un objeto en la posicion marcada por el transform
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="tr"></param>
+    /// <returns></returns>
+    public Transform ParticlesSpawn(string name, Transform tr)
     {
-        base.MyEnable();
-
-        LoadSystem.AddPostLoadCorutine(() => {
-
-            indexParticles = new Vector2Int[particles.Length];
-
-            for (int i = 0; i < particles.Length; i++)
-            {
-                indexParticles[i] = PoolManager.SrchInCategory("Particles", particles[i].name);
-            }
-        });
+        return auxiliarParticles[name].Spawn(tr.position, Quaternion.identity, tr);
     }
+
 
     /// <summary>
     /// Spawnea una particula en cada afectado
@@ -123,26 +122,44 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
     /// <param name="dmg"></param>
     public virtual void InternalParticleSpawnToDamaged(Transform dmg)
     {
-        if (indexParticles != null && indexParticles.Length > 0)
-            PoolManager.SpawnPoolObject(indexParticles[0], dmg.position + Vector3.up * 0.5f, Quaternion.identity, dmg);
+        if (inPlaceAffected.prefabToSpawn != null)
+        {
+            inPlaceAffected.Spawn(dmg.position, Quaternion.identity, dmg);
+        }
     }
 
     /// <summary>
     /// Spawnea una particula en el lugar de ataque
     /// </summary>
-    /// <param name="dmg"></param>
+    /// <param name="owner"></param>
     /// <param name="scale"></param>
-    public virtual void InternalParticleSpawnToPosition(Transform dmg, Vector3 scale)
+    public virtual void InternalParticleSpawnToPosition(Transform owner, Vector3 scale)
     {
-        if (indexParticles != null && indexParticles.Length > 1)
+        if (inPlaceOwner.prefabToSpawn != null)
         {
-            var tr = PoolManager.SpawnPoolObject(indexParticles[1], dmg.position + Vector3.up * 0.5f, Quaternion.identity);
-            tr.localScale = scale;
+            inPlaceOwner.Spawn(owner.position, Quaternion.identity, owner);
         }
     }
 
     public List<Entity> Detect(ref List<Entity> result, Entity caster, Vector3 pos, Vector3 direction, int numObjectives, float minRange, float maxRange, float dot)
         => detection?.Detect(ref result, caster, pos, direction, numObjectives, minRange, maxRange, dot);
+
+    protected override void MyEnable()
+    {
+        base.MyEnable();
+        /*
+        LoadSystem.AddPostLoadCorutine(() =>
+        {
+            
+            indexParticles = new Vector2Int[particles.Length];
+
+            for (int i = 0; i < particles.Length; i++)
+            {
+                indexParticles[i] = particles[i].index;
+            }
+            
+        });*/
+    }
 }
 
 [System.Serializable]
