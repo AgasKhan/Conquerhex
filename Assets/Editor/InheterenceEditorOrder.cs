@@ -4,44 +4,128 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using Object = UnityEngine.Object;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using CustomEulerEditor;
 
 [CustomEditor(typeof(Object), true)]
 [CanEditMultipleObjects]
+
 public class InheterenceEditorOrder : Editor
 {
-    private bool showInheritedPropertiesInverted = false; // Configuración para mostrar propiedades heredadas abajo
-    private bool showClassTitles = false; // Configuración para mostrar títulos de clase
-    private bool showClassAllTitles = false; // Configuración para mostrar títulos de clase
+    InheterenceOrder inheterenceOrder;
 
-    public override void OnInspectorGUI()
+    public override VisualElement CreateInspectorGUI()
     {
+        var main = new VisualElement();
+
+        var serialized = serializedObject.GetIterator();
+
         // Mostrar propiedad m_Script primero y como no modificable
         SerializedProperty scriptProperty = serializedObject.FindProperty("m_Script");
         if (scriptProperty != null)
         {
-            // Mostrar el nombre del script
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.PropertyField(scriptProperty);
-            EditorGUI.EndDisabledGroup();
+            var scriptField = new PropertyField(scriptProperty, "Script");
+            scriptField.SetEnabled(false);
+            main.Add(scriptField);
         }
 
-        // Añadir opciones de configuración en la parte superior
-        EditorGUILayout.BeginVertical("box");
-        showInheritedPropertiesInverted = EditorGUILayout.Toggle("Mostrar propiedades heredadas abajo", showInheritedPropertiesInverted);
-        showClassTitles = EditorGUILayout.Toggle("Mostrar títulos de clase", showClassTitles);
+        if(serialized.NextVisible(true))
+        {
+            inheterenceOrder = new InheterenceOrder(target.GetType(), serialized);
+            inheterenceOrder.CreateGUI(main);
+        }
+        
 
-        if(showClassTitles)
-            showClassAllTitles = EditorGUILayout.Toggle("Mostrar títulos de clase sin miembros", showClassAllTitles);
+        return main;
+    }
+}
 
-        EditorGUILayout.EndVertical();
+namespace CustomEulerEditor
+{
+    public class InheterenceOrder
+    {
+        private bool showInheritedPropertiesInverted = false; // Configuración para mostrar propiedades heredadas abajo
+        private bool showClassTitles = false; // Configuración para mostrar títulos de clase
+        private bool showClassAllTitles = false; // Configuración para mostrar títulos de clase
 
-        // Obtener el tipo del objeto
-        Type type = target.GetType();
+        private VisualElement container;
 
-        List<SerializedProperty> allProperties = new List<SerializedProperty>();
-        List<(Type tipo, List<SerializedProperty> lista)> types = new List<(Type, List<SerializedProperty>)>();
+        Type type;
+        SerializedProperty serializedProperty;
 
-        // Obtener todos los tipos de la jerarquía de herencia
+        List<SerializedProperty> allProperties;
+        List<(Type tipo, List<SerializedProperty> lista)> types;
+
+        public InheterenceOrder(Type type, SerializedProperty serializedObject)
+        {
+            this.type = type;
+            this.serializedProperty = serializedObject;
+        }
+
+        public VisualElement CreateGUI(VisualElement main)
+        {
+            if (serializedProperty == null)
+                return main;
+
+            allProperties = new List<SerializedProperty>();
+            types = new List<(Type, List<SerializedProperty>)>();
+            container = new VisualElement();
+
+            var configContainer = new VisualElement();
+
+            configContainer.style.flexDirection = FlexDirection.Row;
+            configContainer.style.justifyContent = Justify.SpaceBetween;
+            configContainer.style.backgroundColor = new Color(0.3f, 0.3f, 0.3f,1);
+            configContainer.style.marginBottom = 5;
+
+            main.Add(configContainer);
+
+            main.Add(container);
+
+            //configContainer.style.marginBottom = 10;
+
+            var showInheritedToggle = new Button(() =>
+            {
+                showInheritedPropertiesInverted = !showInheritedPropertiesInverted;
+                AddPropertiesToContainer();
+            }) { text = "Invert Inheterence"};
+
+            var showClassAllTitlesToggle = new Button(() =>
+            {
+                showClassAllTitles = !showClassAllTitles;
+                AddPropertiesToContainer();
+            }) { text = "Show All"};
+            
+
+            var showClassTitlesToggle = new Button(() =>
+            {
+                showClassTitles = !showClassTitles;
+                if (showClassTitles)
+                {
+                    showClassAllTitlesToggle.SetEnabled(true);
+                }
+                else
+                {
+                    showClassAllTitlesToggle.SetEnabled(false);
+                }
+                AddPropertiesToContainer();
+            }) { text = "Show Classes"};
+
+            showClassAllTitlesToggle.SetEnabled(showClassTitles);
+
+            Init();
+
+            configContainer.Add(showInheritedToggle);
+            configContainer.Add(showClassTitlesToggle);
+            configContainer.Add(showClassAllTitlesToggle);
+
+            AddPropertiesToContainer();
+
+            return main;
+        }
+
+        private void Init()
         {
             Type baseType = type;
             while (baseType != null && baseType != typeof(System.Object))
@@ -49,107 +133,113 @@ public class InheterenceEditorOrder : Editor
                 types.Insert(0, (baseType, new List<SerializedProperty>()));
                 baseType = baseType.BaseType;
             }
-        }
 
-        // Obtener todas las propiedades serializadas
-        {
-            SerializedProperty property = serializedObject.GetIterator();
-            if (property.NextVisible(true))
+            SerializedProperty property = serializedProperty.Copy();
+            int depth = serializedProperty.depth;
+
+            // Obtener todas las propiedades serializadas
+            do
             {
-                do
-                {
-                    if (property.propertyPath != "m_Script")
-                        allProperties.Add(property.Copy());
-
-                } while (property.NextVisible(false));
+                if (property.propertyPath != "m_Script") // FIX propiedades duplicadas
+                    allProperties.Add(property.Copy());
             }
-        }
+            while (property.NextVisible(false) && property.depth == depth);
 
-        // Clasificar propiedades por tipo
-        for (int i = 0; i < types.Count; i++)
-        {
-            FieldInfo[] fields = types[i].tipo.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            foreach (var field in fields)
-            {
-                if (field.IsPrivate && !(field.IsDefined(typeof(SerializeField), true) || field.IsDefined(typeof(SerializeReference), true)))
-                    continue;
 
-                for (int ii = 0; ii < allProperties.Count; ii++)
-                {
-                    if (allProperties[ii].name == field.Name)
-                    {
-                        types[i].lista.Add(allProperties[ii]);
-                        allProperties.RemoveAt(ii);
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Añadir las propiedades no asignadas al último tipo (el tipo actual)
-        if (types.Count > 0)
-        {
-            types[types.Count - 1].lista.AddRange(allProperties);
-        }
-
-        // Dibujar propiedades según configuración
-        if (!showInheritedPropertiesInverted)
-        {
             for (int i = 0; i < types.Count; i++)
             {
-                DrawProperties(types[i].lista, types[i].tipo);
-            }
-        }
-        else
-        {
-            for (int i = types.Count - 1; i >= 0; i--)
-            {
-                DrawProperties(types[i].lista, types[i].tipo);
-            }
-        }
-
-        // Aplicar los cambios
-        serializedObject.ApplyModifiedProperties();
-    }
-
-    private void DrawProperties(List<SerializedProperty> properties, Type type)
-    {
-        if (properties.Count > 0)
-        {
-            EditorGUILayout.Space();
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-        }
-
-        if (showClassTitles)
-        {
-            if(properties.Count > 0 || showClassAllTitles)
-            {
-                EditorGUILayout.BeginHorizontal();
-
-                EditorGUILayout.LabelField(type.Name, EditorStyles.boldLabel);
-
-                if(ScriptAssetProcessor.HasInstanceID(type))
+                FieldInfo[] fields = types[i].tipo.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                foreach (var field in fields)
                 {
-                    GUIContent scriptIcon = EditorGUIUtility.IconContent("cs Script Icon"); // Icono predeterminado, puedes cambiarlo según tus preferencias
-                    if (GUILayout.Button(scriptIcon, GUILayout.Width(100), GUILayout.Height(20)))
+                    if (field.IsPrivate && !(field.IsDefined(typeof(SerializeField), true) || field.IsDefined(typeof(SerializeReference), true)))
+                        continue;
+
+                    for (int ii = 0; ii < allProperties.Count; ii++)
                     {
-                        // Abrir el script asociado
-
-                        var id = ScriptAssetProcessor.GetInstanceID(type);
-
-                        AssetDatabase.OpenAsset(id.ID, id.line);
+                        if (allProperties[ii].name == field.Name)
+                        {
+                            types[i].lista.Add(allProperties[ii]);
+                            allProperties.RemoveAt(ii);
+                            break;
+                        }
                     }
                 }
+            }
 
+            if (types.Count > 0)
+            {
+                types[types.Count - 1].lista.AddRange(allProperties);
+            }
 
-                EditorGUILayout.EndHorizontal();
+            //Debug.Log($"");
+        }
+
+        void AddPropertiesToContainer()
+        {
+            container.Clear();
+
+            if (!showInheritedPropertiesInverted)
+            {
+                for (int i = 0; i < types.Count; i++)
+                {
+                    AddPropertiesToContainer(types[i].lista, types[i].tipo);
+                }
+            }
+            else
+            {
+                for (int i = types.Count - 1; i >= 0; i--)
+                {
+                    AddPropertiesToContainer(types[i].lista, types[i].tipo);
+                }
             }
         }
 
-        foreach (SerializedProperty property in properties)
+        void AddPropertiesToContainer(List<SerializedProperty> properties, Type type)
         {
-            EditorGUILayout.PropertyField(property, true);
+            //Debug.Log($"{type.Name} {properties.Count}");
+            if(!showClassTitles && properties.Count > 0)
+            {
+                // Añadir línea separadora
+                container.Add(new IMGUIContainer(() => EditorGUILayout.LabelField("", GUI.skin.horizontalSlider)));
+            }
+            else if (showClassTitles && (properties.Count > 0 || showClassAllTitles))
+            {
+                // Contenedor para el título y el botón
+                container.Add(new IMGUIContainer(() => EditorGUILayout.LabelField("", GUI.skin.horizontalSlider)));
+                VisualElement titleSection = new VisualElement();
+                titleSection.style.flexDirection = FlexDirection.Row;
+                titleSection.style.justifyContent = Justify.SpaceBetween;
+
+                // Añadir el título
+                Label title = new Label { text = type.Name };
+                title.style.unityFontStyleAndWeight = FontStyle.Bold;
+                titleSection.Add(title);
+
+                // Añadir botón para abrir el script si corresponde
+                if (ScriptAssetProcessor.HasInstanceID(type))
+                {
+                    Button openScriptButton = new Button(() =>
+                    {
+                        var id = ScriptAssetProcessor.GetInstanceID(type);
+                        AssetDatabase.OpenAsset(id.ID, id.line);
+                    })
+                    {
+                        text = "Open"
+                    };
+                    titleSection.Add(openScriptButton);
+                }
+
+                container.Add(titleSection);
+            }
+
+            // Añadir las propiedades
+            for (int i = 0; i < properties.Count; i++)
+            {
+                var propertyField = new PropertyField();
+                propertyField.BindProperty(properties[i]);
+                container.Add(propertyField);
+            }
         }
     }
+
 }

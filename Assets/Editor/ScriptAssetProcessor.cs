@@ -4,34 +4,44 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 
-public static class ScriptAssetProcessor
-{
-    private static Dictionary<Type, (int ID, int line)> scriptTypeToInstanceID = new();
-
-    public static bool HasInstanceID(Type type)
+namespace CustomEulerEditor
+{   
+    public static class ScriptAssetProcessor
     {
-        return scriptTypeToInstanceID.ContainsKey(type);
-    }
+        private static Dictionary<Type, (int ID, int line)> scriptTypeToInstanceID = new();
 
-    public static (int ID, int line) GetInstanceID(Type type)
-    {
-        return scriptTypeToInstanceID[type];
-    }
+        public static bool HasInstanceID(Type type)
+        {
+            return scriptTypeToInstanceID.ContainsKey(type);
+        }
 
-    [InitializeOnLoadMethod]
-    private static void Initialize()
-    {
-        UpdateScriptTypeToInstanceID();
-    }
+        public static (int ID, int line) GetInstanceID(Type type)
+        {
+            return scriptTypeToInstanceID[type];
+        }
 
-    private static void UpdateScriptTypeToInstanceID()
-    {
-        scriptTypeToInstanceID.Clear();
+        [InitializeOnLoadMethod]
+        private static void Initialize()
+        {
+            UpdateAllScriptTypeToInstanceID();
+        }
 
-        string scriptsFolder = "Assets/Script"; // Ruta a la carpeta de scripts (ajústala según tu estructura)
-        string[] scriptFiles = Directory.GetFiles(scriptsFolder, "*.cs", SearchOption.AllDirectories);
+        private static void UpdateAllScriptTypeToInstanceID()
+        {
+            scriptTypeToInstanceID.Clear();
 
-        foreach (string scriptFile in scriptFiles)
+            string scriptsFolder = "Assets/Script"; // Ruta a la carpeta de scripts (ajústala según tu estructura)
+            string[] scriptFiles = Directory.GetFiles(scriptsFolder, "*.cs", SearchOption.AllDirectories);
+
+            foreach (string scriptFile in scriptFiles)
+            {
+                UpdateScriptTypeToInstanceID(scriptFile);
+            }
+
+            Debug.Log($"Cantidad de claves: {scriptTypeToInstanceID.Count}");
+        }
+
+        private static void UpdateScriptTypeToInstanceID(string scriptFile)
         {
             MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(scriptFile);
             if (script != null)
@@ -72,11 +82,11 @@ public static class ScriptAssetProcessor
                                 int instanceID = script.GetInstanceID();
                                 if (!scriptTypeToInstanceID.ContainsKey(scriptType))
                                 {
-                                    scriptTypeToInstanceID.Add(scriptType, (instanceID, i+1));
+                                    scriptTypeToInstanceID.Add(scriptType, (instanceID, i + 1));
                                 }
                                 else
                                 {
-                                    scriptTypeToInstanceID[scriptType] = (instanceID, i+1);
+                                    scriptTypeToInstanceID[scriptType] = (instanceID, i + 1);
                                 }
                             }
                         }
@@ -85,50 +95,46 @@ public static class ScriptAssetProcessor
             }
         }
 
-        Debug.Log($"Cantidad de claves: {scriptTypeToInstanceID.Count}");
-    }
-
-    private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
-    {
-        foreach (string assetPath in importedAssets)
+        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
-            if (IsScriptFile(assetPath))
+            foreach (string assetPath in deletedAssets)
             {
-                UpdateScriptTypeToInstanceID();
-                break;
+                if (IsScriptFile(assetPath))
+                {
+                    UpdateAllScriptTypeToInstanceID();
+                    return;
+                }
+            }
+
+            foreach (string assetPath in importedAssets)
+            {
+                if (IsScriptFile(assetPath))
+                {
+                    UpdateScriptTypeToInstanceID(assetPath);
+                }
+            }
+
+            foreach (string assetPath in movedAssets)
+            {
+                if (IsScriptFile(assetPath))
+                {
+                    UpdateScriptTypeToInstanceID(assetPath);
+                }
+            }
+
+            foreach (string assetPath in movedFromAssetPaths)
+            {
+                if (IsScriptFile(assetPath))
+                {
+                    UpdateScriptTypeToInstanceID(assetPath);
+                }
             }
         }
 
-        foreach (string assetPath in deletedAssets)
+        private static bool IsScriptFile(string path)
         {
-            if (IsScriptFile(assetPath))
-            {
-                UpdateScriptTypeToInstanceID();
-                break;
-            }
+            return path.EndsWith(".cs", StringComparison.OrdinalIgnoreCase);
         }
-
-        foreach (string assetPath in movedAssets)
-        {
-            if (IsScriptFile(assetPath))
-            {
-                UpdateScriptTypeToInstanceID();
-                break;
-            }
-        }
-
-        foreach (string assetPath in movedFromAssetPaths)
-        {
-            if (IsScriptFile(assetPath))
-            {
-                UpdateScriptTypeToInstanceID();
-                break;
-            }
-        }
-    }
-
-    private static bool IsScriptFile(string path)
-    {
-        return path.EndsWith(".cs", StringComparison.OrdinalIgnoreCase);
     }
 }
+
