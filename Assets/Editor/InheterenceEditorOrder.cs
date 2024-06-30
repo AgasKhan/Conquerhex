@@ -76,7 +76,7 @@ namespace CustomEulerEditor
 
             configContainer.style.flexDirection = FlexDirection.Row;
             configContainer.style.justifyContent = Justify.SpaceBetween;
-            configContainer.style.backgroundColor = new Color(0.3f, 0.3f, 0.3f,1);
+            configContainer.style.backgroundColor = new Color(0.18f, 0.18f, 0.18f,1);
             configContainer.style.marginBottom = 5;
 
             main.Add(configContainer);

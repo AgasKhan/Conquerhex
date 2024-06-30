@@ -2,70 +2,116 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
-[CustomPropertyDrawer(typeof(ScriptableObject), true)]
-public class ScriptableObjectProperty : PropertyDrawer
+namespace CustomEulerEditor
 {
-    const float muliplyHeight = 10;
-
-    bool selected;
-
-    float height;
-
-    Editor editor;
-
-    Vector2 scrollPos;
-
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(ScriptableObject), true)]
+    public class ScriptableObjectProperty : PropertyDrawer
     {
-        height = base.GetPropertyHeight(property, label);
+        const float multiplyHeight = 10;
+        bool selected;
+        Editor editor;
+        VisualElement container;
+        VisualElement contentContainer;
+        Button toggleButton;
+        ObjectField objectField;
 
-        return height;
-    }
-
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        GUIStyle style = new GUIStyle(GUI.skin.box);
-
-        style.richText = true;
-
-        if (selected)
-            EditorGUILayout.Space(height);
-
-        var copyPos = position;
-
-        copyPos.width *= 0.75f;
-
-        position.width *= 0.25f;
-
-        position.x = copyPos.width + copyPos.x;
-
-        EditorGUI.ObjectField(copyPos, property, label);
-
-        if (EditorGUI.DropdownButton(position, new GUIContent(selected? "Plegar" : "Desplegar"), FocusType.Passive))
-            selected = !selected;
-
-        if (!selected)
-            return;
-
-        if(property.objectReferenceValue==null)
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            EditorGUILayout.LabelField("Debes de seleccionar un Scriptable".RichTextColor(Color.red), style);
-            return;
+            container = new VisualElement();
+            contentContainer = new VisualElement();
+
+            objectField = new ObjectField(property.displayName)
+            {
+                objectType = fieldInfo.FieldType,
+                value = property.objectReferenceValue,
+                bindingPath = property.propertyPath
+            };
+            objectField.style.width = new Length(67, LengthUnit.Percent);
+
+            objectField.RegisterValueChangedCallback(evt =>
+            {
+                property.objectReferenceValue = evt.newValue as ScriptableObject;
+                property.serializedObject.ApplyModifiedProperties();
+                UpdateEditor(property);
+                UpdateContent(property);
+            });
+
+            toggleButton = new Button
+            {
+                text = "Desplegar"
+            };
+            toggleButton.style.width = new Length(33, LengthUnit.Percent);
+
+            toggleButton.clicked += () =>
+            {
+                selected = !selected;
+                toggleButton.text = selected ? "Plegar" : "Desplegar";
+                UpdateContent(property);
+            };
+
+            var row = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+            row.Add(objectField);
+            row.Add(toggleButton);
+
+            container.Add(row);
+            container.Add(contentContainer);
+
+            if (property.objectReferenceValue != null)
+            {
+                UpdateEditor(property);
+            }
+
+            if (selected)
+                UpdateContent(property);
+
+            return container;
         }
 
-        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        private void UpdateEditor(SerializedProperty property)
+        {
+            if (property.objectReferenceValue != null)
+            {
+                editor = Editor.CreateEditor(property.objectReferenceValue);
+            }
+        }
 
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos, style, GUILayout.Height(height * muliplyHeight));
+        private void UpdateContent(SerializedProperty property)
+        {
+            contentContainer.Clear();
+            if (selected)
+                if (property.objectReferenceValue != null)
+                {
+                    if (editor != null)
+                    {
+                        var scrollView = new ScrollView
+                        {
+                            style = { height = multiplyHeight * EditorGUIUtility.singleLineHeight }
+                        };
 
-        editor = Editor.CreateEditor(property.objectReferenceValue);
+                        var inspector = editor.CreateInspectorGUI();
+                        inspector.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f, 1));
+                        inspector.style.paddingBottom = 10;
+                        inspector.style.paddingLeft = 10;
+                        inspector.style.paddingRight = 10;
+                        inspector.style.paddingTop = 10;
 
-        editor.DrawDefaultInspector();
+                        scrollView.Add(inspector);
+                        scrollView.style.paddingBottom = 10;
+                        scrollView.style.paddingLeft = 10;
+                        scrollView.style.paddingRight = 10;
+                        scrollView.style.paddingTop = 10;
 
-        EditorGUILayout.EndScrollView();
-
-        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-        EditorGUILayout.Space(height);
+                        contentContainer.Add(scrollView);
+                    }
+                }
+                else
+                {
+                    contentContainer.Add(new Label("<color=red>Debes de seleccionar un Scriptable</color>"));
+                }
+        }
     }
 }
+
