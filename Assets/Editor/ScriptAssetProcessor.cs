@@ -38,7 +38,7 @@ namespace CustomEulerEditor
                 UpdateScriptTypeToInstanceID(scriptFile);
             }
 
-            Debug.Log($"Cantidad de claves: {scriptTypeToInstanceID.Count}");
+            //Debug.Log($"Cantidad de claves: {scriptTypeToInstanceID.Count}");
         }
 
         private static void UpdateScriptTypeToInstanceID(string scriptFile)

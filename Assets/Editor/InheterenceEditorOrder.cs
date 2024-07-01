@@ -10,7 +10,6 @@ using CustomEulerEditor;
 
 [CustomEditor(typeof(Object), true)]
 [CanEditMultipleObjects]
-
 public class InheterenceEditorOrder : Editor
 {
     InheterenceOrder inheterenceOrder;
