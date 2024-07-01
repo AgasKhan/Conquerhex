@@ -39,19 +39,68 @@ MonoBehaviour:
     type: 3}
   animationCastExit: {fileID: -8481709605947105597, guid: 647e2970723402e4da8e2d3065574bff,
     type: 3}
-  particles:
-  - {fileID: 2735815429252541836, guid: 089233dd072e77f4d98eb9b75d542638, type: 3}
-  - {fileID: 2983765467756224526, guid: 3dd12928ead895a43a20a0c036d17572, type: 3}
-  audios:
+  inPlaceAffected:
+    prefabToSpawn: {fileID: 0}
+    spawnInLocal: 0
+    offsetPositionX: 0
+    offsetPositionY: 0
+    offsetPositionZ: 0
+    offsetRotationX: 0
+    offsetRotationY: 0
+    offsetRotationZ: 0
+    randomPositionX: 0
+    randomPositionY: 0
+    randomPositionZ: 0
+    randomRotationX: 0
+    randomRotationY: 0
+    randomRotationZ: 0
+    radius: 0
+    offsetPosition: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0, w: 1}
+    index: {x: -1, y: -1}
+    category: NoSelection
+  inPlaceOwner:
+    prefabToSpawn: {fileID: 601091134088934410, guid: 6a1d7d60821c5ab45ac5aa7cbddab7f4,
+      type: 3}
+    spawnInLocal: 0
+    offsetPositionX: 0
+    offsetPositionY: 0.5
+    offsetPositionZ: 0
+    offsetRotationX: 0
+    offsetRotationY: 0
+    offsetRotationZ: 0
+    randomPositionX: 0
+    randomPositionY: 0
+    randomPositionZ: 0
+    randomRotationX: 0
+    randomRotationY: 360
+    randomRotationZ: 0
+    radius: 0
+    offsetPosition: {x: 0, y: 0.5, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0, w: 1}
+    index: {x: 1, y: 15}
+    category: Particles
+  auxiliarParticles:
     pictionaries: []
+  audios:
+    pictionaries:
+    - key: 
+      value:
+        mixer: {fileID: 0}
+        clip: {fileID: 0}
+        volume: 0
+        pitch: 0
+        spatialBlend: 0
+        maxDistance: 0
+        minDistance: 0
+        loop: 0
+        onAwake: 0
+        source: {fileID: 0}
   velocity: 2.5
   costExecution: 20
   costHandle: 0
   weightAction: 0
   damagesMultiply: []
-  indexParticles:
-  - {x: 1, y: 11}
-  - {x: 1, y: 13}
   <trigger>k__BackingField: {fileID: 11400000, guid: 557694eaafe7f1545997e989a2ea2b98,
     type: 2}
   detection: {fileID: 11400000, guid: aa08465df8a4943488a9fa498bbdd0f2, type: 2}

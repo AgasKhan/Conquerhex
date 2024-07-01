@@ -34,6 +34,16 @@ namespace CustomEulerEditor
             return fieldType;
         }
 
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.ObjectField(position, property, label);
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return base.GetPropertyHeight(property, label);
+        }
+
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             container = new VisualElement();

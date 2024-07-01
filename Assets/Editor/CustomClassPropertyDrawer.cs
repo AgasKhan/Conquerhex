@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using CustomEulerEditor;
 
-//[CustomPropertyDrawer(typeof(object), true)]
+[CustomPropertyDrawer(typeof(object), true)]
 public class CustomClassPropertyDrawer : PropertyDrawer
 {
     InheterenceOrder inheterenceOrder;
@@ -15,6 +15,16 @@ public class CustomClassPropertyDrawer : PropertyDrawer
     private bool CheckIfObjective(SerializedProperty property)
     {
         return property.propertyType == SerializedPropertyType.Generic && !(property.isArray || property.isFixedBuffer);
+    }
+
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        EditorGUI.PropertyField(position, property, label);
+    }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        return base.GetPropertyHeight(property, label);
     }
 
     public override VisualElement CreatePropertyGUI(SerializedProperty serializedProperty)
