@@ -118,6 +118,7 @@ public class GameObjectSpawnProperty : ISerializationCallbackReceiver
     public GameObject prefabToSpawn;
 
     public bool spawnInLocal;
+
     [Space, Header("Offset position")]
     [Range(0, 10)]
     public float offsetPositionX;
@@ -125,6 +126,16 @@ public class GameObjectSpawnProperty : ISerializationCallbackReceiver
     public float offsetPositionY;
     [Range(0, 10)]
     public float offsetPositionZ;
+
+    [Space, Header("Offset rotation")]
+    [Range(0, 360)]
+    public float offsetRotationX;
+    [Range(0, 360)]
+    public float offsetRotationY;
+    [Range(0, 360)]
+    public float offsetRotationZ;
+
+
     [Space, Header("Random position")]
     [Range(0, 10)]
     public float randomPositionX;
@@ -132,6 +143,7 @@ public class GameObjectSpawnProperty : ISerializationCallbackReceiver
     public float randomPositionY;
     [Range(0, 10)]
     public float randomPositionZ;
+
     [Space, Header("Random rotation")]
     [Range(0, 360)]
     public float randomRotationX;
@@ -139,26 +151,41 @@ public class GameObjectSpawnProperty : ISerializationCallbackReceiver
     public float randomRotationY;
     [Range(0, 360)]
     public float randomRotationZ;
+
     [Space]
     public float radius;
-    [Space]
-    [Space]
 
     [HideInInspector, SerializeField]
-    protected Vector3 offset;
+    protected Vector3 offsetPosition;
+
+    [HideInInspector, SerializeField]
+    protected Quaternion offsetRotation;
 
     public virtual Transform Spawn(Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
     {
         if (rotation == null)
         {
-            rotation = Quaternion.Euler(Random.Range(-randomRotationX/2, randomRotationX/2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+            rotation = offsetRotation;
         }
         else
         {
-            rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+            rotation *= offsetRotation;
         }
 
-        return Object.Instantiate(prefabToSpawn, ((Vector3)position) + offset + new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2)), (Quaternion)rotation, parent).transform;
+        rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+
+        if (position == null)
+        {
+            position = offsetPosition;
+        }
+        else
+        {
+            position += offsetPosition;
+        }
+
+        position += new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2));
+
+        return Object.Instantiate(prefabToSpawn, ((Vector3)position), (Quaternion)rotation, parent).transform;
     }
 
     public virtual Transform Spawn<T>(out T reference, Vector3? position = null, Quaternion? rotation = null, Transform parent = null) where T : Object
@@ -176,7 +203,9 @@ public class GameObjectSpawnProperty : ISerializationCallbackReceiver
 
     public virtual void OnBeforeSerialize()
     {
-        offset = new Vector3 { x = offsetPositionX, y = offsetPositionY, z = offsetPositionZ };
+        offsetPosition = new Vector3 { x = offsetPositionX, y = offsetPositionY, z = offsetPositionZ };
+
+        offsetRotation = Quaternion.Euler(offsetRotationX, offsetRotationY, offsetRotationZ);
     }
 }
 
@@ -210,34 +239,60 @@ public class PoolGameObjectSpawnProperty : GameObjectSpawnProperty
             prefabToSpawn = null;
         }
 
-        offset = new Vector3 { x = offsetPositionX, y = offsetPositionY, z = offsetPositionZ };
+        base.OnBeforeSerialize();
     }
 
     public override Transform Spawn(Vector3? position = null, Quaternion? rotation = null, Transform parent=null)
     {
-        if(rotation==null)
+        if (rotation == null)
         {
-            rotation = Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+            rotation = offsetRotation;
         }
         else
         {
-            rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+            rotation *= offsetRotation;
         }
 
-        return PoolManager.SpawnPoolObject(index, position + offset + new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2)), rotation, spawnInLocal ? parent : null);
+        rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+
+        if (position == null)
+        {
+            position = offsetPosition;
+        }
+        else
+        {
+            position += offsetPosition;
+        }
+
+        position += new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2));
+
+        return PoolManager.SpawnPoolObject(index, position, rotation, spawnInLocal ? parent : null);
     }
 
     public override Transform Spawn<T>(out T reference, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
     {
-        if (rotation == null)
+        if(rotation == null)
         {
-            rotation = Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+            rotation = offsetRotation;
         }
         else
         {
-            rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+            rotation *= offsetRotation;
         }
 
-        return PoolManager.SpawnPoolObject(index, out reference , position + offset + new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2)), rotation, spawnInLocal ? parent : null);
+        rotation *= Quaternion.Euler(Random.Range(-randomRotationX / 2, randomRotationX / 2), Random.Range(-randomRotationY / 2, randomRotationY / 2), Random.Range(-randomRotationZ / 2, randomRotationZ / 2));
+
+        if(position==null)
+        {
+            position = offsetPosition;
+        }
+        else
+        {
+            position += offsetPosition;
+        }
+
+        position += new Vector3(Random.Range(-randomPositionX / 2, randomPositionX / 2), Random.Range(-randomPositionY / 2, randomPositionY / 2), Random.Range(-randomPositionZ / 2, randomPositionZ / 2));
+
+        return PoolManager.SpawnPoolObject(index, out reference , position, rotation, spawnInLocal ? parent : null);
     }
 }
