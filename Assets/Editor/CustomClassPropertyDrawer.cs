@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using CustomEulerEditor;
 
-[CustomPropertyDrawer(typeof(object), true)]
+//[CustomPropertyDrawer(typeof(object), true)]
 public class CustomClassPropertyDrawer : PropertyDrawer
 {
     InheterenceOrder inheterenceOrder;
