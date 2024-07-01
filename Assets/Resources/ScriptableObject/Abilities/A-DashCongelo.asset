@@ -10,23 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: DashArdio
+  m_Name: A-DashCongelo
   m_EditorClassIdentifier: 
-  _nameDisplay: Dash Ardiente
-  _image: {fileID: -1838928281, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: "El jugador embiste hacia adelante con un poderoso dash atravesando a
-    cualquier enemigo a su paso empujandolos en direcci\xF3n contraria al dash dejando
-    una explosion de calor en su lugar inicial.\r"
+  _nameDisplay: Dash Congelante
+  _image: {fileID: 1922347695, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: "El jugador embiste hacia adelante atravesando a cualquier enemigo a
+    su paso empujandolos en direcci\xF3n del dash y al finalizar genera una explosi\xF3n
+    de fr\xEDo.\r"
   maxAmount: 1
   weight: 0
   visible: 1
   ingredients:
-  - Item: {fileID: 11400000, guid: 1cc8a87097780c04589ae4ac54ac62a4, type: 2}
-    Amount: 12
+  - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
+    Amount: 13
   - Item: {fileID: 11400000, guid: b8fcf2ebf3055d6448f2e27f48406fc4, type: 2}
-    Amount: 3
-  - Item: {fileID: 11400000, guid: 4c8be1a9653095041a2472a8d81e30f5, type: 2}
-    Amount: 20
+    Amount: 7
   resultAmount: 1
   resultColor: {r: 0, g: 0, b: 0, a: 0}
   joystick: 0
@@ -60,7 +58,7 @@ MonoBehaviour:
     index: {x: -1, y: -1}
     category: NoSelection
   inPlaceOwner:
-    prefabToSpawn: {fileID: 601091134088934410, guid: 6a1d7d60821c5ab45ac5aa7cbddab7f4,
+    prefabToSpawn: {fileID: 8773730536989774524, guid: d866383ac5d0e6140bc16e609b4fa216,
       type: 3}
     spawnInLocal: 0
     offsetPositionX: 0
@@ -78,32 +76,31 @@ MonoBehaviour:
     radius: 0
     offsetPosition: {x: 0, y: 0.5, z: 0}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: 1, y: 15}
+    index: {x: 1, y: 16}
     category: Particles
   auxiliarParticles:
     pictionaries: []
-  audios:
-    pictionaries:
-    - key: 
-      value:
-        mixer: {fileID: 0}
-        clip: {fileID: 0}
-        volume: 0
-        pitch: 0
-        spatialBlend: 0
-        maxDistance: 0
-        minDistance: 0
-        loop: 0
-        onAwake: 0
-        source: {fileID: 0}
-  velocity: 2.5
-  costExecution: 20
+  castAudio:
+    source: {fileID: 0}
+    mixer: {fileID: 0}
+    clip: {fileID: 0}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 5
+    minDistance: 1
+    loop: 0
+    onAwake: 0
+  auxiliarAudios:
+    pictionaries: []
+  velocity: 1.85
+  costExecution: -12.5
   costHandle: 0
   weightAction: 0
   damagesMultiply: []
   <trigger>k__BackingField: {fileID: 11400000, guid: 557694eaafe7f1545997e989a2ea2b98,
     type: 2}
-  detection: {fileID: 11400000, guid: aa08465df8a4943488a9fa498bbdd0f2, type: 2}
+  detection: {fileID: 11400000, guid: 2198b403b0eb77340b3dd273e2cd1911, type: 2}
   modificators: []
   <Auxiliar>k__BackingField: 0
-  castingAction: {fileID: 11400000, guid: 83e96d4c768a5a648bedf2e7d15644ea, type: 2}
+  castingAction: {fileID: 11400000, guid: cae169ed0f9cfd24fb0439d9ebbec72d, type: 2}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: DestroySign
+  m_Name: A-DestroySign
   m_EditorClassIdentifier: 
   _nameDisplay: Destruir Bandera
   _image: {fileID: 785699215, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
@@ -30,15 +30,66 @@ MonoBehaviour:
     type: 3}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
-  particles: []
-  audios:
+  inPlaceAffected:
+    prefabToSpawn: {fileID: 0}
+    spawnInLocal: 0
+    offsetPositionX: 0
+    offsetPositionY: 0
+    offsetPositionZ: 0
+    offsetRotationX: 0
+    offsetRotationY: 0
+    offsetRotationZ: 0
+    randomPositionX: 0
+    randomPositionY: 0
+    randomPositionZ: 0
+    randomRotationX: 0
+    randomRotationY: 0
+    randomRotationZ: 0
+    radius: 0
+    offsetPosition: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0, w: 1}
+    index: {x: -1, y: -1}
+    category: NoSelection
+  inPlaceOwner:
+    prefabToSpawn: {fileID: 0}
+    spawnInLocal: 0
+    offsetPositionX: 0
+    offsetPositionY: 0
+    offsetPositionZ: 0
+    offsetRotationX: 0
+    offsetRotationY: 0
+    offsetRotationZ: 0
+    randomPositionX: 0
+    randomPositionY: 0
+    randomPositionZ: 0
+    randomRotationX: 0
+    randomRotationY: 0
+    randomRotationZ: 0
+    radius: 0
+    offsetPosition: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0, w: 1}
+    index: {x: -1, y: -1}
+    category: NoSelection
+  auxiliarParticles:
+    pictionaries: []
+  castAudio:
+    source: {fileID: 0}
+    mixer: {fileID: 0}
+    clip: {fileID: 0}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 5
+    minDistance: 1
+    loop: 0
+    onAwake: 0
+  auxiliarAudios:
     pictionaries: []
   velocity: 0
   costExecution: -40
   costHandle: 0
   weightAction: 0
   damagesMultiply: []
-  indexParticles: []
   <trigger>k__BackingField: {fileID: 11400000, guid: ed2a28801559df24d9935adb16f5fac8,
     type: 2}
   detection: {fileID: 11400000, guid: 1c9437335fb88194fbf65036dc0726eb, type: 2}

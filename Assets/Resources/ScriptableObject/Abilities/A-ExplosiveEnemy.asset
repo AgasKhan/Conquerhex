@@ -10,33 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: DashCongelo
+  m_Name: A-ExplosiveEnemy
   m_EditorClassIdentifier: 
-  _nameDisplay: Dash Congelante
-  _image: {fileID: 1922347695, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: "El jugador embiste hacia adelante atravesando a cualquier enemigo a
-    su paso empujandolos en direcci\xF3n del dash y al finalizar genera una explosi\xF3n
-    de fr\xEDo.\r"
+  _nameDisplay: Enemigo explosivo
+  _image: {fileID: 1545782741, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: "El jugador golpea a un enemigo cercano empuj\xE1ndolo logrando utilizarlo
+    como un proyectil da\xF1\xE1ndose a \xE9l mismo en caso de chocar y a los enemigos
+    que choca\r"
   maxAmount: 1
   weight: 0
   visible: 1
-  ingredients:
-  - Item: {fileID: 11400000, guid: f86394447b270e442babd53e75d6fe09, type: 2}
-    Amount: 13
-  - Item: {fileID: 11400000, guid: b8fcf2ebf3055d6448f2e27f48406fc4, type: 2}
-    Amount: 7
+  ingredients: []
   resultAmount: 1
   resultColor: {r: 0, g: 0, b: 0, a: 0}
   joystick: 0
-  ShowFeedBackArea: 0
-  ShowFeedAffectedEntities: 0
+  ShowFeedBackArea: 1
+  ShowFeedAffectedEntities: 1
   waitAnimations: 0
-  animationCastStart: {fileID: 1827226128182048838, guid: 647e2970723402e4da8e2d3065574bff,
+  animationCastStart: {fileID: -998496362607748373, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
     type: 3}
-  animationCastMiddle: {fileID: 9067093048684652814, guid: 647e2970723402e4da8e2d3065574bff,
-    type: 3}
-  animationCastExit: {fileID: -8481709605947105597, guid: 647e2970723402e4da8e2d3065574bff,
-    type: 3}
+  animationCastMiddle: {fileID: 0}
+  animationCastExit: {fileID: 0}
   inPlaceAffected:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0
@@ -58,11 +52,10 @@ MonoBehaviour:
     index: {x: -1, y: -1}
     category: NoSelection
   inPlaceOwner:
-    prefabToSpawn: {fileID: 8773730536989774524, guid: d866383ac5d0e6140bc16e609b4fa216,
-      type: 3}
+    prefabToSpawn: {fileID: 0}
     spawnInLocal: 0
     offsetPositionX: 0
-    offsetPositionY: 0.5
+    offsetPositionY: 0
     offsetPositionZ: 0
     offsetRotationX: 0
     offsetRotationY: 0
@@ -71,25 +64,37 @@ MonoBehaviour:
     randomPositionY: 0
     randomPositionZ: 0
     randomRotationX: 0
-    randomRotationY: 360
+    randomRotationY: 0
     randomRotationZ: 0
     radius: 0
-    offsetPosition: {x: 0, y: 0.5, z: 0}
+    offsetPosition: {x: 0, y: 0, z: 0}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: 1, y: 16}
-    category: Particles
+    index: {x: -1, y: -1}
+    category: NoSelection
   auxiliarParticles:
     pictionaries: []
-  audios:
+  castAudio:
+    source: {fileID: 0}
+    mixer: {fileID: 0}
+    clip: {fileID: 0}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 5
+    minDistance: 1
+    loop: 0
+    onAwake: 0
+  auxiliarAudios:
     pictionaries: []
-  velocity: 1.85
-  costExecution: -12.5
+  velocity: 2.5
+  costExecution: 12.5
   costHandle: 0
   weightAction: 0
   damagesMultiply: []
-  <trigger>k__BackingField: {fileID: 11400000, guid: 557694eaafe7f1545997e989a2ea2b98,
+  <trigger>k__BackingField: {fileID: 11400000, guid: e288712ea219e96428936cd93668d771,
     type: 2}
-  detection: {fileID: 11400000, guid: 2198b403b0eb77340b3dd273e2cd1911, type: 2}
-  modificators: []
+  detection: {fileID: 11400000, guid: 27dde88104245274dbe0222e8714b08a, type: 2}
+  modificators:
+  - {fileID: 11400000, guid: b34a21c37dfc0594387a9bd2fc7e2f16, type: 2}
   <Auxiliar>k__BackingField: 0
-  castingAction: {fileID: 11400000, guid: cae169ed0f9cfd24fb0439d9ebbec72d, type: 2}
+  castingAction: {fileID: 11400000, guid: a31e5b139d5e7334d9119ae530c99371, type: 2}

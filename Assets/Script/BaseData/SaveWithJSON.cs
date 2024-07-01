@@ -83,7 +83,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
     {
         string json = JsonUtility.ToJson(data, true);
 
-        int index;
+        //int index;
 
         /*
         for (int i = 0; i < LoadSystem.instance.noSerailizeProperties.Length; i++)

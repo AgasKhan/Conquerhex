@@ -200,7 +200,7 @@ public class HunterChase : IState<HunterIntern>
 
     int dirOrbiting=1;
 
-    private void Attk_onAttack()
+    private void Attk_onAttack(Ability ability)
     {
         dirOrbiting *= -1;
     }

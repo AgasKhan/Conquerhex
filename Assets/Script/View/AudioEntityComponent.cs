@@ -5,14 +5,11 @@ using ComponentsAndContainers;
 
 public class AudioEntityComponent : AudioManager, IComponent<Entity>
 {
-    // Start is called before the first frame update
-
     [SerializeField]
     string damagedLifeAudio = "DamagedLife";
 
     [SerializeField]
     string damagedRegenAudio = "DamagedRegen";
-
 
     [SerializeField]
     string teleportAudio = "TeleportAudio";
@@ -26,6 +23,8 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
     public void AddInContainer<T>(T component) where T : IComponent<Entity> => container.AddInContainer(component);
 
     public bool TryGetInContainer<T>(out T component) where T : IComponent<Entity> => container.TryGetInContainer(out component);
+
+
 
     public void OnSetContainer(Entity param)
     {
@@ -43,21 +42,81 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
             entity.health.regenUpdate += Health_regenUpdate;
         }
 
-        if (entity.TryGetInContainer<MoveEntityComponent>(out var move))
+        if (TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onCast += Caster_onCast;
+        }
+
+        if (TryGetInContainer<InventoryEntityComponent>(out var inventory))
+        {
+            inventory.onNewItem += Inventory_onNewItem;
+            inventory.onLostItem += Inventory_onLostItem;
+        }
+
+        if (TryGetInContainer<MoveEntityComponent>(out var move))
         {
             if (audios.ContainsKey(teleportAudio))
                 move.onTeleport += TeleportAudio;
         }
     }
 
-    public void OnExitState(Entity param)
+    public void OnStayState(Entity param)
     {
+    }
+
+    public void OnExitState(Entity entity)
+    {
+        if (audios.ContainsKey(damagedLifeAudio))
+        {
+            entity.health.lifeUpdate -= Health_lifeUpdate;
+        }
+        if (audios.ContainsKey(damagedRegenAudio))
+        {
+            entity.health.regenUpdate -= Health_regenUpdate;
+        }
+
+        if (TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onCast -= Caster_onCast;
+        }
+
+        if (TryGetInContainer<InventoryEntityComponent>(out var inventory))
+        {
+            inventory.onNewItem -= Inventory_onNewItem;
+            inventory.onLostItem -= Inventory_onLostItem;
+        }
+
+        if (TryGetInContainer<MoveEntityComponent>(out var move))
+        {
+            if (audios.ContainsKey(teleportAudio))
+                move.onTeleport -= TeleportAudio;
+        }
+
         container = null;
     }
 
-    public void OnStayState(Entity param)
+    private void Caster_onCast(Ability obj)
     {
-        //throw new System.NotImplementedException();
+        Play($"{obj.itemBase.name}-Cast");
+    }
+
+    private void Inventory_onLostItem(Item obj)
+    {
+    }
+
+    private void Inventory_onNewItem(Item obj)
+    {
+        if (obj is Ability)
+        {
+            var itemBase = ((Ability)obj).itemBase;
+
+            AddAudio($"{itemBase.name}-Cast", itemBase.castAudio);
+
+            foreach (var item in itemBase.auxiliarAudios)
+            {
+                AddAudio($"{itemBase.name}-{item.key}", item.value);
+            }
+        }
     }
 
     private void Health_regenUpdate(IGetPercentage percentage, float number)

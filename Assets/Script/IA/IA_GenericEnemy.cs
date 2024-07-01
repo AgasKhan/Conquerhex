@@ -275,7 +275,7 @@ public class GenericChase : IState<GenericEnemyFSM>
             
     }
 
-    private void Attack_onAttack()
+    private void Attack_onAttack(Ability ability)
     {
         if(!evadeTimer.Chck)
             return;

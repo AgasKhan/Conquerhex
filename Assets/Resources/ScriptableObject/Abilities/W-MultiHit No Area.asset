@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: CreateSign
+  m_Script: {fileID: 11500000, guid: be7c53cccaa8897418cbc8496304f079, type: 3}
+  m_Name: W-MultiHit No Area
   m_EditorClassIdentifier: 
-  _nameDisplay: Colocar Bandera
-  _image: {fileID: 1625422272, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: "El jugador crea una bandera en la posici\xF3n en la que este para marcar
-    su camino"
+  _nameDisplay: Golpe Continuo
+  _image: {fileID: 1326865692, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _details: El jugador golpea de manera contina a  enemigos en un radio alrededor
+    suyo mientras se mantenga presionada la habilidad.
   maxAmount: 1
   weight: 0
   visible: 1
@@ -23,10 +23,10 @@ MonoBehaviour:
   resultAmount: 1
   resultColor: {r: 0, g: 0, b: 0, a: 0}
   joystick: 0
-  ShowFeedBackArea: 1
+  ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 1
   waitAnimations: 1
-  animationCastStart: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
+  animationCastStart: {fileID: -998496362607748373, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
     type: 3}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
     radius: 0
     offsetPosition: {x: 0, y: 0, z: 0}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: 1, y: -3}
+    index: {x: -1, y: -1}
     category: NoSelection
   inPlaceOwner:
     prefabToSpawn: {fileID: 0}
@@ -72,16 +72,29 @@ MonoBehaviour:
     category: NoSelection
   auxiliarParticles:
     pictionaries: []
-  audios:
+  castAudio:
+    source: {fileID: 0}
+    mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+      type: 2}
+    clip: {fileID: 8300000, guid: 5290d2c17a632f24ca82e501c75e6de2, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 5
+    minDistance: 1
+    loop: 0
+    onAwake: 0
+  auxiliarAudios:
     pictionaries: []
-  velocity: 0
-  costExecution: 40
+  velocity: 1
+  costExecution: 0
   costHandle: 0
   weightAction: 0
   damagesMultiply: []
-  <trigger>k__BackingField: {fileID: 11400000, guid: ed2a28801559df24d9935adb16f5fac8,
+  <trigger>k__BackingField: {fileID: 11400000, guid: 3d989d297fe644f429b84e5f2865cb91,
     type: 2}
-  detection: {fileID: 11400000, guid: 1c9437335fb88194fbf65036dc0726eb, type: 2}
+  detection: {fileID: 11400000, guid: c30127a39a2867f4792db3f5ffd30d46, type: 2}
   modificators: []
   <Auxiliar>k__BackingField: 0
-  castingAction: {fileID: 11400000, guid: 997239fa1d186eb49a527af80f34f918, type: 2}
+  damageToWeapon: 1
+  RequiredDamage: []

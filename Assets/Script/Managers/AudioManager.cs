@@ -7,8 +7,6 @@ public class AudioManager : MonoBehaviour
 {   
     public Pictionarys<string, AudioLink> audios = new Pictionarys<string, AudioLink>();
 
-
-
     public void AddAudio(string key, AudioLink audioLink)
     {
         Internal.Pictionary<string, AudioLink> pic;
@@ -48,17 +46,15 @@ public class AudioManager : MonoBehaviour
         {
             item.value.Init(gameObject);
         }
-    }
-
-
-
-    
+    }   
 }
 
 
 [System.Serializable]
 public struct AudioLink
 {
+    [HideInInspector]
+    public AudioSource source;
     public AudioMixerGroup mixer;
     public AudioClip clip;
 
@@ -82,17 +78,13 @@ public struct AudioLink
     public bool loop;
     public bool onAwake;
 
-    [HideInInspector]
-    public AudioSource source;
 
     /// <summary>
     /// Initialezer of audio clip
     /// </summary>
     /// <param name="param">necesita el gameobecjt de quien tendria el audio</param>
-    public void Init(params object[] param)
+    public void Init(GameObject go)
     {
-        GameObject go = param[0] as GameObject;
-
         source = go.AddComponent<AudioSource>();
         source.outputAudioMixerGroup = mixer;
         source.clip = clip;

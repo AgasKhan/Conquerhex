@@ -86,9 +86,9 @@ public class IALastChance : IAFather
 
         timer = TimersManager.Create(1);
 
-        prin.onAttack += () => timer.Set(prin.timerChargeAttack.total);
+        prin.onAttack += (Ability ability) => timer.Set(prin.timerChargeAttack.total);
 
-        sec.onAttack += () => timer.Set(sec.timerChargeAttack.total);
+        sec.onAttack += (Ability ability) => timer.Set(sec.timerChargeAttack.total);
     }
 
     public override void OnExitState(Character param)

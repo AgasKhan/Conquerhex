@@ -26,7 +26,7 @@ public class IAAnimator : IAFather
         base.OnStayState(param);
 
         return;
-
+        /*
         var entities = detectEntities.AreaWithRay(transform.position, (entity) => entity.visible && entity.GetEntity().team != Team.recursos && entity.GetEntity().team != character.team);
 
         if (entities.Count > 0)
@@ -37,6 +37,7 @@ public class IAAnimator : IAFather
         {
             enemy = null;
         }
+        */
     }
 
     private void Awake()

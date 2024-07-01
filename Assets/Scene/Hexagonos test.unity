@@ -901,7 +901,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6295448973055230582}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6295448973055230583}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36a11365eea590f4e8768a85bf1bca2a, type: 3}
@@ -1481,7 +1481,8 @@ PrefabInstance:
       propertyPath: m_LocalRotation.x
       value: 0.34202015
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8852253582668569097, guid: 24433cefb3e6b9e46acdb0dca9aea7bc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7674655437596361991, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
@@ -1491,7 +1492,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6592060790990565492, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
         type: 3}
-      insertIndex: 2
+      insertIndex: -1
       addedObject: {fileID: 2095252052}
   m_SourcePrefab: {fileID: 100100000, guid: 24433cefb3e6b9e46acdb0dca9aea7bc, type: 3}
 --- !u!1001 &1830034466160519531
@@ -3318,11 +3319,29 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6295448971589143386, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6295448973055230584}
     - targetCorrespondingSourceObject: {fileID: 2865451968721428657, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 210257082}
   m_SourcePrefab: {fileID: 100100000, guid: 9982472369f0d9b439b39b8f4172c71d, type: 3}
+--- !u!1 &6295448973055230583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6295448971589143386, guid: 9982472369f0d9b439b39b8f4172c71d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6295448973055230582}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &6295448973055230584
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448973055230583}
+  m_Enabled: 1
 --- !u!1001 &7739652028843599598
 PrefabInstance:
   m_ObjectHideFlags: 0

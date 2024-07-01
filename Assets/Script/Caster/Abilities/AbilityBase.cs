@@ -32,8 +32,10 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 
     public Pictionarys<string,PoolGameObjectSpawnProperty> auxiliarParticles = new Pictionarys<string, PoolGameObjectSpawnProperty>();
 
+    public AudioLink castAudio = new AudioLink() {volume = 1, pitch =1 };
+
     [SerializeField]
-    public Pictionarys<string, AudioLink> audios = new Pictionarys<string, AudioLink>();
+    public Pictionarys<string, AudioLink> auxiliarAudios = new Pictionarys<string, AudioLink>();
 
     [Header("Statitics"),Space()]
 
@@ -177,7 +179,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     /// </summary>
     public State state = State.start;
 
-    public event System.Action onCast;
+    public event System.Action<Ability> onCast;
 
     System.Action _onInternalCast;
 
@@ -335,7 +337,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
 
         _onInternalCast?.Invoke();
-        onCast?.Invoke();
+        onCast?.Invoke(this);
 
         return entities;
     }
@@ -451,13 +453,6 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         }
 
         this.caster = caster;
-
-
-        if (caster.TryGetInContainer<AudioEntityComponent>(out var audio))
-            foreach (var item in itemBase.audios)
-            {
-                audio.AddAudio(item.key, item.value);
-            }
 
         SetCooldown();
 

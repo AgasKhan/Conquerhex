@@ -115,6 +115,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
         ability.onPreCast += param.PreCastEvent;
 
+        ability.onCast += param.CastEvent;
+
         ability.ControllerDown(Vector2.zero, 0);
     }
 
@@ -130,6 +132,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         //ability.StopCast();
         caster.onTakeDamage -= Caster_onTakeDamage;
         param.abilityControllerMediator -= ability;
+        ability.onCast -= param.CastEvent;
         ability.onPreCast -= param.PreCastEvent;
     }
 

@@ -43,7 +43,7 @@ public class TurretController : BuildingsController
     }
     void SetAttack(AutomaticCharacterAttack automatic)
     {
-        automatic.onAttack += () =>
+        automatic.onAttack += (Ability ability) =>
         {
             /*
             if (automatic.weaponKata != null)

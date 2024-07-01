@@ -182,7 +182,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.caster.abilities[4].equiped.onCast += EquipedOnCast4;
     }
 
-    private void EquipedOnCast0()
+    private void EquipedOnCast0(Ability ability)
     {
         ability0 = true;
         player.caster.abilities[0].equiped.onCast -= EquipedOnCast0;
@@ -192,7 +192,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
     }
-    private void EquipedOnCast1()
+    private void EquipedOnCast1(Ability ability)
     {
         ability1 = true;
         player.caster.abilities[1].equiped.onCast -= EquipedOnCast1;
@@ -202,7 +202,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
     }
-    private void EquipedOnCast3()
+    private void EquipedOnCast3(Ability ability)
     {
         ability3 = true;
         player.caster.abilities[3].equiped.onCast -= EquipedOnCast3;
@@ -212,7 +212,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
     }
-    private void EquipedOnCast4()
+    private void EquipedOnCast4(Ability ability)
     {
         ability4 = true;
         player.caster.abilities[4].equiped.onCast -= EquipedOnCast4;

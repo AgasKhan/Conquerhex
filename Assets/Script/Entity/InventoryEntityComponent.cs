@@ -29,7 +29,10 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
     public event System.Action<InventoryEntityComponent> onChangeDisponiblity;
     
-    
+    public event System.Action<Item> onNewItem;
+    public event System.Action<Item> onLostItem;
+
+
     OrderedList<Item> inventory = new OrderedList<Item>();
 
     [SerializeField]
@@ -128,7 +131,10 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
             }
 
             if (item.GetStackCount() == 0)
+            {
                 inventory.Remove(item);
+                onLostItem?.Invoke(item);
+            }
         }
         else //Version de items no stackeables
         {
@@ -142,6 +148,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
             for (int i = 0; i < items.Length && count>0; i++)
             {
                 inventory.Remove(items[i]);
+                onLostItem?.Invoke(items[i]);
                 count--;
             }
         }        
@@ -187,6 +194,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
                 //para el primero creado
                 item = itemBase.Create();
                 item.Init(this);
+                onNewItem?.Invoke(item);
             }
             else
             {
@@ -206,7 +214,9 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
             {
                 //por cada creado le resto uno a la cantidad faltante
                 count--;
-                itemBase.Create().Init(this);
+                item = itemBase.Create();
+                item.Init(this);
+                onNewItem?.Invoke(item);
             }
         }
     }
@@ -251,7 +261,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         if(!(item is ItemStackeable) || !inventory.Contains(item, out int indx))
         {
             int orderedIndex = inventory.Add(item);
-
+            onNewItem?.Invoke(item);
             return orderedIndex;
         }
         else
@@ -261,7 +271,6 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
                 item.GetAmounts(i, out int actual);
                 inventory[indx].AddAmount(-1, actual, out int rst);
             }
-
             return indx;
         }
     }
@@ -280,6 +289,8 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
             Debug.LogError("No contiene el item");
             return -1;
         }
+
+        onLostItem?.Invoke(item);
 
         return indexOrder;
     }

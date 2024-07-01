@@ -44,7 +44,7 @@ public class AutomaticCharacterAttack
 
     Ability ability => slotItem.equiped == _ability ? _ability : null;
 
-    public event System.Action onAttack
+    public event System.Action<Ability> onAttack
     {
         add
         {

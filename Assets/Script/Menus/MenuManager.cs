@@ -12,8 +12,8 @@ public class MenuManager : SingletonMono<MenuManager>
     [SerializeField]
     ShowSubMenuSettings showSubMenuSettings;
 
-    [SerializeField]
-    bool initTutorial = true;
+    //[SerializeField]
+    //bool initTutorial = true;
 
     //para los eventos-------------------------------------------------------
     public Pictionarys<string, Action<GameObject>> eventListVoid = new Pictionarys<string, Action<GameObject>>();

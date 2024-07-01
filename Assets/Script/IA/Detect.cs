@@ -546,7 +546,7 @@ public class Detect2D<T> : DetectParent<T> where T : class
 
         throw new System.NotImplementedException("yyy no implemente el cuadrado deteccion en 2D, se hizo despues del 3D");
 
-        return results;
+        //return results;
     }
 
     public override List<T> Ray(Vector3 pos, Vector3 dir, System.Func<T, bool> chck, int min, int max, float distance = -1)
