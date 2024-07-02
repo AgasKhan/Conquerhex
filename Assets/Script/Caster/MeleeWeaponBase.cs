@@ -28,6 +28,8 @@ public class MeleeWeaponBase : ItemCrafteable
 
     public AnimationClip animationCastExit;
 
+    public PoolGameObjectSpawnProperty inPlaceOwner=new() { index = Vector2Int.one*-1 };
+
     #region FUNCIONES
 
     public override Pictionarys<string, string> GetDetails()

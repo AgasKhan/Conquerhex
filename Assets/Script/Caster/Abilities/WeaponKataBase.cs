@@ -67,6 +67,14 @@ public class WeaponKata : Ability
     /// </summary>
     public MeleeWeapon Weapon => equipedWeapon;
 
+    public override void InternalParticleSpawnToPosition(Transform owner, Vector3 scale)
+    {
+        if (equipedWeapon?.itemBase.inPlaceOwner.prefabToSpawn != null)
+            equipedWeapon?.itemBase.inPlaceOwner.Spawn(equipedWeapon.itemBase.inPlaceOwner.spawnInLocal ? Vector3.zero : owner.position, Quaternion.identity, owner);
+        else
+            base.InternalParticleSpawnToPosition(owner, scale);
+    }
+
     public virtual void ChangeWeapon(Item weaponParam)
     {
         if (!(weaponParam is MeleeWeapon))

@@ -299,6 +299,19 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         }
     }
 
+    /// <summary>
+    /// Spawnea una particula en cada afectado
+    /// </summary>
+    /// <param name="dmg"></param>
+    public virtual void InternalParticleSpawnToDamaged(Transform dmg) => itemBase.InternalParticleSpawnToDamaged(dmg);
+
+    /// <summary>
+    /// Spawnea una particula en el lugar de ataque
+    /// </summary>
+    /// <param name="owner"></param>
+    /// <param name="scale"></param>
+    public virtual void InternalParticleSpawnToPosition(Transform owner, Vector3 scale) => itemBase.InternalParticleSpawnToPosition(owner, scale);
+
     public Ability CreateCopy(out int index)
     {
         var aux = Create() as Ability;
@@ -340,13 +353,13 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
             onPreCast?.Invoke(this);
 
         if (showParticleInPos)
-            itemBase.InternalParticleSpawnToPosition(caster.GetInContainer<AnimatorController>().controller.transform, Vector3.one * FinalMaxRange);
+            InternalParticleSpawnToPosition(caster.GetInContainer<AnimatorController>().controller.transform, Vector3.one * FinalMaxRange);
 
         if (entities != null)
             foreach (var dmgEntity in entities)
             {
                 if (showParticleDamaged)
-                    itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
+                    InternalParticleSpawnToDamaged(dmgEntity.transform);
             }
 
         PlaySound("Cast");
