@@ -258,79 +258,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7d6475fa04082c488ae9b365d4e47db, type: 3}
---- !u!1 &404053126 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4018065896833431124, guid: 9982472369f0d9b439b39b8f4172c71d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6295448973055230582}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &404053127 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4361974874377186542, guid: 9982472369f0d9b439b39b8f4172c71d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6295448973055230582}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &404053130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 404053126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53d81660df360da4fb31a9c8de019177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolGameObject:
-    prefabToSpawn: {fileID: 2317820600058745072, guid: ab836b1ae8c75bd40a0ab561b48e08f1,
-      type: 3}
-    spawnInLocal: 0
-    offsetPositionX: 0
-    offsetPositionY: 0
-    offsetPositionZ: 0
-    offsetRotationX: 0
-    offsetRotationY: 0
-    offsetRotationZ: 0
-    randomPositionX: 0
-    randomPositionY: 0
-    randomPositionZ: 0
-    randomRotationX: 0
-    randomRotationY: 0
-    randomRotationZ: 0
-    radius: 0
-    offsetPosition: {x: 0, y: 0, z: 0}
-    offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: 1, y: 17}
-    category: Particles
---- !u!114 &404053131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 404053126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d2ea1c54b0aaed4398a0e482609bcc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reference: {fileID: 0}
-  unityEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 404053130}
-        m_TargetAssemblyTypeName: SpawnManager, Assembly-CSharp
-        m_MethodName: Spawn
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 404053127}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!4 &590155674 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7079250288975654491, guid: e7d6475fa04082c488ae9b365d4e47db,
@@ -5679,14 +5606,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6295448973055230584}
-    - targetCorrespondingSourceObject: {fileID: 4018065896833431124, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 404053131}
-    - targetCorrespondingSourceObject: {fileID: 4018065896833431124, guid: 9982472369f0d9b439b39b8f4172c71d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 404053130}
     - targetCorrespondingSourceObject: {fileID: 2865451968721428657, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       insertIndex: -1
