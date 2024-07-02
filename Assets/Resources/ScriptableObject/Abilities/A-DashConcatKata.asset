@@ -87,7 +87,7 @@ MonoBehaviour:
     source: {fileID: 0}
     mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
       type: 2}
-    clip: {fileID: 8300000, guid: 54fdb2f64ca26cc4da834172896846a3, type: 3}
+    clip: {fileID: 8300000, guid: 73afb0c6015ac51468f0517488b50b99, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -96,7 +96,20 @@ MonoBehaviour:
     loop: 0
     onAwake: 0
   auxiliarAudios:
-    pictionaries: []
+    pictionaries:
+    - key: ExternalCast
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 0}
+        volume: 1
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 3
+        minDistance: 1
+        loop: 0
+        onAwake: 0
   velocity: 1
   costExecution: 20
   costHandle: 0

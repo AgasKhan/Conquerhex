@@ -4846,6 +4846,7 @@ GameObject:
   - component: {fileID: 6228020001026168602}
   - component: {fileID: 3180629507576034152}
   - component: {fileID: 5159678057931422439}
+  - component: {fileID: 6908323901709766087}
   m_Layer: 0
   m_Name: BloodTreeBuild
   m_TagString: Props
@@ -5010,6 +5011,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6908323901709766087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820494545657111320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660233c709f76f1438afa52bf6bc4785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries:
+    - key: DamagedLife
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: be1bf4b543860ba41966e21b0d0df827, type: 3}
+        volume: 1
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 3.2
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+  damagedLifeAudio: DamagedLife
+  damagedRegenAudio: DamagedRegen
+  teleportAudio: TeleportAudio
 --- !u!1 &2999887883003423655
 GameObject:
   m_ObjectHideFlags: 0

@@ -613,14 +613,20 @@ public class Health
 
         if (lifeNumber>0)
         {
-            life = new Tim(lifeNumber);
+            if (life == null)
+                life = new Tim(lifeNumber);
+            else
+                life.Set(lifeNumber);
 
             life.onChange += (a,b) => helthUpdate?.Invoke(this);
         }
 
         if (regenNumber > 0)
         {
-            regen = new Tim(regenNumber);
+            if (regen == null)
+                regen = new Tim(regenNumber);
+            else
+                regen.Set(regenNumber);
 
             regen.onChange += (a, b) => helthUpdate?.Invoke(this);
         }

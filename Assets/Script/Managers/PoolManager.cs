@@ -103,10 +103,14 @@ public class PoolManager : MonoBehaviour
 
     static public int[] poolObjectsCount;
 
+    static public bool instanced => instance != null;
+
     [SerializeField]
     Category[] categoriesOfPool;
 
     static PoolManager instance;
+
+
 
     #region busqueda por categoria
 

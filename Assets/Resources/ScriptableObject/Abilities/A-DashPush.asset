@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f97437d72ebd9e4e83f2b4be366012c, type: 3}
-  m_Name: A-Push
+  m_Name: A-DashPush
   m_EditorClassIdentifier: 
   _nameDisplay: Embestida
   _image: {fileID: -1548720950, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
@@ -81,7 +81,7 @@ MonoBehaviour:
     source: {fileID: 0}
     mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
       type: 2}
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 73afb0c6015ac51468f0517488b50b99, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -90,7 +90,46 @@ MonoBehaviour:
     loop: 0
     onAwake: 0
   auxiliarAudios:
-    pictionaries: []
+    pictionaries:
+    - key: StartCast
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 0}
+        volume: 1
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 3
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+    - key: UpdateCast
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: 45a20cf916a681c458ffda78117dc3ad, type: 3}
+        volume: 1
+        pitch: 3
+        spatialBlend: 1
+        maxDistance: 3
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+    - key: EndCast
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 0}
+        volume: 1
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 3
+        minDistance: 1
+        loop: 0
+        onAwake: 0
   velocity: 2
   costExecution: 0
   costHandle: 0

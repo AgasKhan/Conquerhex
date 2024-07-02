@@ -77,7 +77,12 @@ public class CastingDash : CastingAction<CastingDashBase>
         if (caster.TryGetInContainer(out moveEntity))
         {
             dashInTime.Reset();
-            affected = startDashCastingAction?.InternalCastOfExternalCasting(ability.Detect(), out showParticleInPos, out showParticleDamaged);
+            affected = null;
+            if(startDashCastingAction!=null)
+            {
+                affected = startDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out showParticleInPos, out showParticleDamaged);
+                ability.PlaySound("StartCast");
+            }
         }
 
         //ability.state = Ability.State.middle;
@@ -112,6 +117,7 @@ public class CastingDash : CastingAction<CastingDashBase>
     void ApplyCastUpdate()
     {
         ability.ApplyCast(updateDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged));
+        ability.PlaySound("UpdateCast");
     }
 
     void Update()
@@ -135,7 +141,11 @@ public class CastingDash : CastingAction<CastingDashBase>
         moveEntity.Velocity(moveEntity.direction, moveEntity.objectiveVelocity);
 
         if(endDashCastingAction!=null)
+        {
             ability.ApplyCast(endDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
+            ability.PlaySound("EndCast");
+        }
+            
 
         End = true;
     }

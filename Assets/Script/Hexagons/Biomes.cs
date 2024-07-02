@@ -221,7 +221,10 @@ public class PoolGameObjectSpawnProperty : GameObjectSpawnProperty
 
     public override void OnBeforeSerialize()
     {
-        if(index.x>=0 && index.y>=0)
+        if (!PoolManager.instanced)
+            return;
+
+        if (index.x>=0 && index.y>=0)
         {
             if (index.x >= PoolManager.categoriesCount)
                 index.x = PoolManager.categoriesCount - 1;

@@ -112,6 +112,9 @@ MonoBehaviour:
     timerChargeAttack:
       _total: 0
       _current: 0
+    timeToAttack: 2
+    timeToChargeAttack: 1
+    precisionTime: 5
   timeToEvade: 1.8
   timeToIdle: 0.5
   alertPointRange: 5
@@ -153,7 +156,17 @@ MonoBehaviour:
   <inventory>k__BackingField: {fileID: 8529334885070716560}
   <caster>k__BackingField: {fileID: 5476637664899224542}
   <move>k__BackingField: {fileID: 4728687904288008135}
-  isStunned: 0
+  stunBar:
+    rid: 5359600277777809776
+  iaOn: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5359600277777809776
+      type: {class: StunBar, ns: , asm: Assembly-CSharp}
+      data:
+        body: {fileID: 0}
+        isStunned: 0
 --- !u!114 &8529334885070716560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,14 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualItems: []
-  inventory:
-    ts: []
+  itemBase: {fileID: 0}
+  count: 1
   _currentWeight: 0
   flyweight: {fileID: 0}
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &8639223274982456400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,82 +211,109 @@ MonoBehaviour:
     list:
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
   katasCombo:
     list:
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
   abilities:
     list:
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
-      _indexSlot: -1
+      <indexSlot>k__BackingField: -1
       _equiped:
+        rid: -2
+      defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
-  aiming: {x: 0, y: 0, z: 0}
   _buffEnergy: 0
   _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
@@ -312,8 +348,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audios:
-    pictionaries: []
-  damagedLifeAudio: 
+    pictionaries:
+    - key: DamagedLife
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: f75b22e4644a36f4e982f7d4aacb8335, type: 3}
+        volume: 0.1
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 4
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+  damagedLifeAudio: DamagedLife
   damagedRegenAudio: 
   teleportAudio: 
 --- !u!114 &4524455606131239847

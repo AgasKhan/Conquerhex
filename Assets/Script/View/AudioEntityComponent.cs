@@ -108,15 +108,15 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
         }
     }
 
+    private void Health_lifeUpdate(IGetPercentage percentage, float number)
+    {
+        DamagedLifeAudio(number);
+    }
     private void Health_regenUpdate(IGetPercentage percentage, float number)
     {
         DamagedRegenAudio(number);
     }
 
-    private void Health_lifeUpdate(IGetPercentage percentage, float number)
-    {
-        DamagedLifeAudio(number);
-    }
 
     private void TeleportAudio(Hexagone teleport, int lado)
     {
@@ -134,6 +134,4 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
         if (obj < 0)
             Play(damagedRegenAudio);
     }
-
-
 }
