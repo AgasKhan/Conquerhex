@@ -221,7 +221,9 @@ public class PoolManager : MonoBehaviour
 
     static void SetTransform(Transform transform, Transform original, Vector3? pos = null, Quaternion? angles = null, Transform padre = null, bool active = true)
     {
-        if(padre != null)
+        transform.SetActiveGameObject(false);
+
+        if (padre != null)
         {
             transform.SetParent(null, true);
 
