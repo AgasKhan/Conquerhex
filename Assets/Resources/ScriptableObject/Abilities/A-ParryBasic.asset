@@ -52,10 +52,11 @@ MonoBehaviour:
     index: {x: -1, y: -1}
     category: NoSelection
   inPlaceOwner:
-    prefabToSpawn: {fileID: 0}
+    prefabToSpawn: {fileID: 8863688557425813847, guid: 36f18e5daf19ca04fb9f9b736eb4391d,
+      type: 3}
     spawnInLocal: 0
     offsetPositionX: 0
-    offsetPositionY: 0
+    offsetPositionY: 0.5
     offsetPositionZ: 0
     offsetRotationX: 0
     offsetRotationY: 0
@@ -67,10 +68,10 @@ MonoBehaviour:
     randomRotationY: 0
     randomRotationZ: 0
     radius: 0
-    offsetPosition: {x: 0, y: 0, z: 0}
+    offsetPosition: {x: 0, y: 0.5, z: 0}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: -1, y: -1}
-    category: NoSelection
+    index: {x: 1, y: 9}
+    category: Particles
   auxiliarParticles:
     pictionaries: []
   castAudio:
