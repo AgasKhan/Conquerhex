@@ -126,7 +126,7 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
     {
         if (inPlaceAffected.prefabToSpawn != null)
         {
-            inPlaceAffected.Spawn(dmg.position, Quaternion.identity, dmg);
+            inPlaceAffected.Spawn(inPlaceAffected.spawnInLocal ? Vector3.zero : dmg.position, Quaternion.identity, dmg);
         }
     }
 
@@ -139,7 +139,7 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
     {
         if (inPlaceOwner.prefabToSpawn != null)
         {
-            inPlaceOwner.Spawn(owner.position, Quaternion.identity, owner);
+            inPlaceOwner.Spawn(inPlaceOwner.spawnInLocal ? Vector3.zero : owner.position, Quaternion.identity, owner);
         }
     }
 
@@ -279,7 +279,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         {
             if(_feedBackReference==null && itemBase.ShowFeedBackArea)
             {
-                /*var aux = */PoolManager.SpawnPoolObject(Vector2Int.up, out _feedBackReference, caster.transform.position, null ,caster.transform);
+                /*var aux = */PoolManager.SpawnPoolObject(Vector2Int.up, out _feedBackReference, Vector3.zero, null ,caster.transform);
                 
                 //aux.SetParent(caster.transform);
             }
@@ -326,7 +326,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
             onPreCast?.Invoke(this);
 
         if (showParticleInPos)
-            itemBase.InternalParticleSpawnToPosition(caster.transform, Vector3.one * FinalMaxRange);
+            itemBase.InternalParticleSpawnToPosition(caster.GetInContainer<AnimatorController>().controller.transform, Vector3.one * FinalMaxRange);
 
         if (entities != null)
             foreach (var dmgEntity in entities)

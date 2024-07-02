@@ -3,21 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ComponentsAndContainers;
 
-public class AnimatorController : ComponentOfContainer<Entity>
+public partial class AnimatorController : ComponentOfContainer<Entity>
 {
-    public class AnimationEventMediator : MonoBehaviour
-    {
-        public AnimatorController reference;
-
-        public void AnimEvent(string str)
-        {
-            if (str == string.Empty)
-                return;
-
-            //Debug.Log("AnimEvent: " + str);
-            reference?.animationEventMediator[str]?.Invoke();
-        }
-    }
 
     [System.Serializable]
     public class AnimationData
@@ -32,7 +19,7 @@ public class AnimatorController : ComponentOfContainer<Entity>
     bool active = true;
 
     [SerializeField]
-    Animator controller;
+    public Animator controller;
 
     [SerializeField]
     Pictionarys<string, AnimationData> animations = new Pictionarys<string, AnimationData>();
@@ -213,7 +200,12 @@ public class AnimatorController : ComponentOfContainer<Entity>
 
         SuperAnimator();
 
-        controller.gameObject.AddComponent<AnimationEventMediator>().reference = this;
+        var eventMediator = controller.gameObject.GetComponent<AnimationEventMediator>();
+
+        if(eventMediator == null)
+            eventMediator = controller.gameObject.AddComponent<AnimationEventMediator>();
+
+        eventMediator.reference = this;
 
         container.GetInContainer<CasterEntityComponent>().onPreCast += Ia_PreCast;
 

@@ -36,7 +36,7 @@ MonoBehaviour:
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
   inPlaceAffected:
-    prefabToSpawn: {fileID: 8863688557425813847, guid: 36f18e5daf19ca04fb9f9b736eb4391d,
+    prefabToSpawn: {fileID: 4045377163621132951, guid: 70fab5130edcc7b4d9dde891f1df18e5,
       type: 3}
     spawnInLocal: 0
     offsetPositionX: 0
@@ -54,13 +54,13 @@ MonoBehaviour:
     radius: 0
     offsetPosition: {x: 0, y: 0, z: 0}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: 1, y: 9}
+    index: {x: 1, y: 6}
     category: Particles
   inPlaceOwner:
     prefabToSpawn: {fileID: 0}
-    spawnInLocal: 0
-    offsetPositionX: 0
-    offsetPositionY: 0
+    spawnInLocal: 1
+    offsetPositionX: 0.28
+    offsetPositionY: 0.52
     offsetPositionZ: 0
     offsetRotationX: 0
     offsetRotationY: 0
@@ -72,9 +72,9 @@ MonoBehaviour:
     randomRotationY: 0
     randomRotationZ: 0
     radius: 0
-    offsetPosition: {x: 0, y: 0, z: 0}
+    offsetPosition: {x: 0.28, y: 0.52, z: 0}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: -1, y: -1}
+    index: {x: -1, y: 18}
     category: NoSelection
   auxiliarParticles:
     pictionaries: []

@@ -128,11 +128,11 @@ public class GameObjectSpawnProperty : ISerializationCallbackReceiver
     public float offsetPositionZ;
 
     [Space, Header("Offset rotation")]
-    [Range(0, 360)]
+    [Range(-180, 180)]
     public float offsetRotationX;
-    [Range(0, 360)]
+    [Range(-180, 180)]
     public float offsetRotationY;
-    [Range(0, 360)]
+    [Range(-180, 180)]
     public float offsetRotationZ;
 
 
