@@ -71,7 +71,7 @@ public class RangeWeapon : MeleeWeapon
             aim = (objective.transform.position - owner.transform.position).normalized;
         }
 
-        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f + aim, Quaternion.identity, owner.transform.parent, false);
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f + aim, Quaternion.identity, null, false);
 
         proyectile.Throw(owner.container, System.Linq.Enumerable.ToArray(damages), aim);
 
