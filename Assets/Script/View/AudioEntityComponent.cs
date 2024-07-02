@@ -42,15 +42,14 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
             entity.health.regenUpdate += Health_regenUpdate;
         }
 
-        if (TryGetInContainer<CasterEntityComponent>(out var caster))
-        {
-            caster.onCast += Caster_onCast;
-        }
-
         if (TryGetInContainer<InventoryEntityComponent>(out var inventory))
         {
             inventory.onNewItem += Inventory_onNewItem;
             inventory.onLostItem += Inventory_onLostItem;
+            foreach (var item in inventory)
+            {
+                Inventory_onNewItem(item);
+            }
         }
 
         if (TryGetInContainer<MoveEntityComponent>(out var move))
@@ -75,11 +74,6 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
             entity.health.regenUpdate -= Health_regenUpdate;
         }
 
-        if (TryGetInContainer<CasterEntityComponent>(out var caster))
-        {
-            caster.onCast -= Caster_onCast;
-        }
-
         if (TryGetInContainer<InventoryEntityComponent>(out var inventory))
         {
             inventory.onNewItem -= Inventory_onNewItem;
@@ -93,11 +87,6 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
         }
 
         container = null;
-    }
-
-    private void Caster_onCast(Ability obj)
-    {
-        Play($"{obj.itemBase.name}-Cast");
     }
 
     private void Inventory_onLostItem(Item obj)

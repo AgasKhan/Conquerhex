@@ -193,6 +193,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public CasterEntityComponent caster { get; private set;}
 
+
+
     [SerializeReference]
     public Ability original;
 
@@ -203,6 +205,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     protected TriggerController trigger;
 
     FadeColorAttack _feedBackReference;
+
+    AudioEntityComponent audio;
 
     AbilityModificator abilityModificator = new AbilityModificator();
 
@@ -273,6 +277,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public override bool visible => !IsCopy && !isDefault;
 
     
+
+
     public FadeColorAttack FeedBackReference
     {
         get
@@ -318,6 +324,14 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         End = true;
     }
 
+    public void PlaySound(string name)
+    {
+        if (audio == null)
+            return;
+
+        audio.Play($"{itemBase.name}-{name}");
+    }
+
     public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities, bool showParticleInPos = true, bool showParticleDamaged=true)
     {
         _feedBackReference?.Attack();
@@ -335,6 +349,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
                     itemBase.InternalParticleSpawnToDamaged(dmgEntity.transform);
             }
 
+        PlaySound("Cast");
 
         _onInternalCast?.Invoke();
         onCast?.Invoke(this);
@@ -453,6 +468,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         }
 
         this.caster = caster;
+
+        audio = caster.GetInContainer<AudioEntityComponent>();
 
         SetCooldown();
 

@@ -14,14 +14,15 @@ public class AudioManager : MonoBehaviour
         if (!audios.ContainsKey(key, out int index))
         {
             pic = audios.Add(key, audioLink);
+            pic.value.Init(gameObject);
         }
         else
         {
             pic = audios.GetPic(index);
+            var aux = pic.value.source;
             pic.value = audioLink;
+            pic.value.source = aux;
         }
-
-        pic.value.Init(gameObject);
     }
 
     public void Play(string name)
@@ -51,7 +52,7 @@ public class AudioManager : MonoBehaviour
 
 
 [System.Serializable]
-public struct AudioLink
+public struct AudioLink : ISerializationCallbackReceiver
 {
     [HideInInspector]
     public AudioSource source;
@@ -78,6 +79,34 @@ public struct AudioLink
     public bool loop;
     public bool onAwake;
 
+    public void OnAfterDeserialize()
+    {
+    }
+
+    public void OnBeforeSerialize()
+    {
+        if (minDistance == 0)
+            minDistance = 1;
+
+        if (volume == 0)
+            volume = 1;
+
+        if (pitch == 0)
+            pitch = 1;
+
+        if (source == null)
+            return;
+
+        source.outputAudioMixerGroup = mixer;
+        source.clip = clip;
+        source.volume = volume;
+        source.pitch = pitch;
+        source.loop = loop;
+        source.playOnAwake = onAwake;
+        source.maxDistance = maxDistance;
+        source.minDistance = minDistance;
+        source.spatialBlend = spatialBlend;
+    }
 
     /// <summary>
     /// Initialezer of audio clip
@@ -86,14 +115,6 @@ public struct AudioLink
     public void Init(GameObject go)
     {
         source = go.AddComponent<AudioSource>();
-        source.outputAudioMixerGroup = mixer;
-        source.clip = clip;
-        source.volume = volume;
-        source.pitch = pitch;
-        source.loop = loop;
-        source.playOnAwake = onAwake;
-        source.maxDistance = maxDistance;
-        source.spatialBlend = spatialBlend;
-        source.minDistance = minDistance;
+        OnBeforeSerialize();
     }
 }

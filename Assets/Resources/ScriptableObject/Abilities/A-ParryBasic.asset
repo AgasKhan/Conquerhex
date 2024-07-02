@@ -79,7 +79,7 @@ MonoBehaviour:
     mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
       type: 2}
     clip: {fileID: 0}
-    volume: 1
+    volume: 0.5
     pitch: 1
     spatialBlend: 1
     maxDistance: 5
@@ -87,7 +87,33 @@ MonoBehaviour:
     loop: 0
     onAwake: 0
   auxiliarAudios:
-    pictionaries: []
+    pictionaries:
+    - key: Succes
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: 3e28bdf4dc34d554daaffc9866158d9d, type: 3}
+        volume: 1
+        pitch: 2
+        spatialBlend: 1
+        maxDistance: 3
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+    - key: Fail
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 0}
+        volume: 1
+        pitch: 2
+        spatialBlend: 1
+        maxDistance: 3
+        minDistance: 1
+        loop: 0
+        onAwake: 0
   velocity: 0
   costExecution: 25
   costHandle: 0

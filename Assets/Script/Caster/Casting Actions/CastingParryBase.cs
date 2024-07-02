@@ -30,6 +30,8 @@ public class CastingParry : CastingAction<CastingParryBase>
 
     bool successParry = false;
 
+    System.Action<(Damage dmg, int weightAction, Vector3? origin)> takeDamage;
+
     public override void Init(Ability ability)
     {
         base.Init(ability);
@@ -45,6 +47,20 @@ public class CastingParry : CastingAction<CastingParryBase>
             failureCastingAction = castingActionBase.failureCastingAction.Create();
             failureCastingAction.Init(ability);
         }
+
+        caster.onTakeDamage += TriggerTakeDamage;
+    }
+
+    public override void Destroy()
+    {
+        base.Destroy();
+
+        caster.onTakeDamage -= TriggerTakeDamage;
+    }
+
+    private void TriggerTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)
+    {
+        takeDamage?.Invoke(obj);
     }
 
     public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
@@ -54,7 +70,7 @@ public class CastingParry : CastingAction<CastingParryBase>
 
         caster.container.vulnerabilities.Add(Damage.Create<DamageTypes.PureDamage>(0, 0, "Parry"));
 
-        caster.onTakeDamage += OnTakeDamage;
+        takeDamage = OnTakeDamage;
 
         parryTime.Reset();
 
@@ -72,12 +88,15 @@ public class CastingParry : CastingAction<CastingParryBase>
 
         successParry = true;
         if (successCastingAction != null)
+        { 
             ability.ApplyCast(successCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool shPos, out bool shDmg), shPos, shDmg);
+            ability.PlaySound("Succes");
+        }
     }
 
     void Finish()
     {
-        caster.onTakeDamage -= OnTakeDamage;
+        takeDamage = null;
 
         caster.container.vulnerabilities.Remove(Damage.Create<DamageTypes.PureDamage>(0, 0, "Parry"));
 
@@ -87,6 +106,7 @@ public class CastingParry : CastingAction<CastingParryBase>
                 ability.ApplyCast(failureCastingAction.InternalCastOfExternalCasting(null, out bool shPos, out bool shDmg), shPos, shDmg);
 
             caster.positiveEnergy = 0;
+            ability.PlaySound("Fail");
         }
         else
         {
