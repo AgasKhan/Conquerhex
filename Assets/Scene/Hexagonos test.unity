@@ -1282,6 +1282,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1125739740292512843}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &2100218690 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1127511684934417530, guid: 9982472369f0d9b439b39b8f4172c71d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6295448973055230582}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2145957378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5520401852989648850, guid: b2503bf7f270dc34e88bd54a22f9df33,
@@ -2605,6 +2611,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3966890278496644412, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: originalRenders.Array.data[8]
+      value: 
+      objectReference: {fileID: 2100218690}
     - target: {fileID: 3974020776244324689, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_Layer

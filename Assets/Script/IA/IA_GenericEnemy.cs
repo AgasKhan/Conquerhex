@@ -201,7 +201,7 @@ public class GenericChase : IState<GenericEnemyFSM>
     {
         evadeTimer = TimersManager.Create(2, () => 
         { 
-            if(param==null || !target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius*2))
+            if(param!=null && !target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius*2))
             {
                 param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/
             }         

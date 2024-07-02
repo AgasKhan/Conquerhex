@@ -22,20 +22,24 @@ public class ViewObjectModel : MonoBehaviour
     [SerializeField]
     public Renderer[] originalRenders;
 
+    /*
     [field: SerializeField]
     public bool isTransparent { get; private set; }
+    */
 
     public Renderer originalRender => originalRenders.Length == 1 ? originalRenders[0] : null;
 
+    /*
     [SerializeField]
     protected Material transparentMaterial;
+    */
 
     [field: SerializeField]
     public bool defaultRight { get; private set; }
 
     SingleEvent<Vector3> eventGeneric;
 
-    bool _isTransparent;
+    //bool _isTransparent;
 
     Animator[] animators;
 
@@ -141,7 +145,7 @@ public class ViewObjectModel : MonoBehaviour
     */
 
 
-
+    /*
     private void UpdateTransparent(Vector3 posPlayer)
     {
         if (!gameObject.activeSelf)
@@ -159,7 +163,7 @@ public class ViewObjectModel : MonoBehaviour
 
         //originalRender.material.SetInt("_transparent", b? 1:0);
     }
-
+    */
 
 
     

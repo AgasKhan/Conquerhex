@@ -16,7 +16,7 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
     [SerializeField]
     Color detected = new Color() { r = 1, b = 0.5f, g = 0.5f, a = 1 };
 
-    public ComplexColor colorSetter = new ComplexColor();
+    public ComplexColor[] colorSetter;
 
     [SerializeField]
     Shake shake = new Shake();
@@ -47,12 +47,21 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
         viewObjectModel = param;
 
-        colorSetter.setter += ColorSetter_setter;
+        colorSetter = new ComplexColor[originalRenderers.Length];
 
-        if(originalRenderer!=null)
-            colorSetter.Add(originalRenderer.material.color);
+        for (int i = 0; i < colorSetter.Length; i++)
+        {
+            int index = i;
+            colorSetter[i] = new ComplexColor();
+            colorSetter[i].setter += (Color obj) =>
+            {
+                originalRenderers[index].material.color = obj;
+            };
 
-        entity.onTakeDamage += ShakeSprite;
+            colorSetter[i].Add(originalRenderers[i].material.color);
+        }
+
+        entity.onTakeDamage += Entity_onTakeDamage;
 
         entity.onDetected += Entity_onDetected;
 
@@ -79,6 +88,12 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
             indexParticle = PoolManager.SrchInCategory("Particles", onDeathParticlePrefab.name);
             entity.health.death += Health_death;
         }
+    }
+
+    private void Entity_onTakeDamage(Damage obj)
+    {
+        shake.Execute();
+        timDamaged.Reset();
     }
 
     private void Shake_position(Vector3 obj)
@@ -134,44 +149,39 @@ public class ViewEntityController : MonoBehaviour, ViewObjectModel.IViewControll
 
     private void ChangeColor(Color save)
     {
-        colorSetter.multiply = save;
+        for (int i = 0; i < colorSetter.Length; i++)
+        {
+            colorSetter[i].multiply = save;
+        }        
     }
 
     private void ColorBlink(bool active)
     {
-        if (active)
+        for (int i = 0; i < colorSetter.Length; i++)
         {
-            //parpadeo rapido
-            colorSetter.Remove(damaged2);
-            colorSetter.Add(damaged1);
-        }
-        else
-        {
-            //el mantenido
-            colorSetter.Remove(damaged1);
-            colorSetter.Add(damaged2);
+            if (active)
+            {
+                //parpadeo rapido
+                colorSetter[i].Remove(damaged2);
+                colorSetter[i].Add(damaged1);
+            }
+            else
+            {
+                //el mantenido
+                colorSetter[i].Remove(damaged1);
+                colorSetter[i].Add(damaged2);
+            }
         }
     }
 
     private void ColorBlinkEnd()
     {
-        //volver al original
-        colorSetter.Remove(damaged2);
-        colorSetter.Remove(damaged1);
-    }
-    private void ColorSetter_setter(Color obj)
-    {
-        for (int i = 0; i < originalRenderers.Length; i++)
+        for (int i = 0; i < colorSetter.Length; i++)
         {
-            originalRenderers[i].material.SetColor("_Color", obj);
+            //volver al original
+            colorSetter[i].Remove(damaged2);
+            colorSetter[i].Remove(damaged1);
         }
-
-        //originalRenderer.material.SetColor("_Color",obj);
-    }
-
-    void ShakeSprite(Damage dmg)
-    {
-        shake.Execute();
     }
 }
 
