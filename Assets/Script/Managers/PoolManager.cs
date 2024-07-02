@@ -237,18 +237,17 @@ public class PoolManager : MonoBehaviour
 
             transform.SetParent(aux, true);
         }
-        
-        
-        if (pos!=null)
-            transform.localPosition = (Vector3)pos;
-
-        if (angles != null)
-            transform.localRotation = (Quaternion)angles;
 
         if(padre != null)
         {
             transform.SetParent(padre, true);
         }
+
+        if (pos != null)
+            transform.localPosition = (Vector3)pos;
+
+        if (angles != null)
+            transform.localRotation = (Quaternion)angles;
 
         transform.gameObject.SetActive(active);
     }
