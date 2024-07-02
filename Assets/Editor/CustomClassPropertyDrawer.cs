@@ -31,9 +31,19 @@ public class CustomClassPropertyDrawer : PropertyDrawer
     {
         if(!CheckIfObjective(serializedProperty))
         {
-            var aux = new PropertyField();
-            aux.BindProperty(serializedProperty);
-            return aux;
+            if(serializedProperty.propertyType == SerializedPropertyType.ObjectReference)
+            {
+                var aux = new ObjectField();
+                aux.BindProperty(serializedProperty);
+                return aux;
+            }
+            else
+            {
+                var aux = new PropertyField();
+                aux.BindProperty(serializedProperty);
+                return aux;
+            }
+
         }
 
         var serializedPropertyChild = serializedProperty.Copy();
