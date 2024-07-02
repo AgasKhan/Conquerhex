@@ -28,7 +28,7 @@ public class BasicsModule : MonoBehaviour
 
     public void SetGenericButtonA<T>(int index, SlotItem<T> item, string defaultName, UnityAction buttonAction) where T : ItemEquipable
     {
-        GameManager.RetardedOn((_bool) => layoutGroup.SetActive(_bool));
+        //GameManager.RetardedOn((_bool) => layoutGroup.SetActive(_bool));
         var info = new SlotInfo(buttonsA[index].defaultText, buttonsA[index].defaultImage, "", typeof(T));
         
         if (item.equiped != null)
