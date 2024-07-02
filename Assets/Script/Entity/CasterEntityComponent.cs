@@ -333,12 +333,14 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, katasCombo.Count); i++)
         {
-            SetWeaponKataCombo(i);
+            var index = i;
+            GameManager.eventQueueGamePlay.Enqueue(()=> SetWeaponKataCombo(index));
         }
 
         for (int i = 0; i < Mathf.Clamp(flyweight.abilities.Length, 0, abilities.Count); i++)
         {
-            SetAbility(i);
+            var index = i;
+            GameManager.eventQueueGamePlay.Enqueue(() => SetAbility(index));
         }
     }
 
