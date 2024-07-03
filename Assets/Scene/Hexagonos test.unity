@@ -124,24 +124,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &119880693 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3161894992169577479, guid: 626138fc60cd2014095952742520b9a1,
-    type: 3}
-  m_PrefabInstance: {fileID: 5478742582229948988}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &119880700 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 503290133110303827, guid: 626138fc60cd2014095952742520b9a1,
-    type: 3}
-  m_PrefabInstance: {fileID: 5478742582229948988}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119880693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 375d866d7de28cf4eb5a1ade68639eb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &158246444 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8181218115479918986, guid: 626138fc60cd2014095952742520b9a1,
@@ -264,60 +246,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 227419225}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1324227885
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1324227887}
-  - component: {fileID: 1324227886}
-  m_Layer: 0
-  m_Name: Secret
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1324227886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324227885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffc8cb3aa26d87e48af0207fbea92f9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statisticsSubMenu:
-    subMenu: {fileID: 119880700}
-    inventorySubMenu:
-      subMenu: {fileID: 119880700}
-      itemList: {fileID: 0}
-  submenuRef: {fileID: 119880693}
-  myObjects: []
-  leverCorderito: {fileID: 0}
-  minion: {fileID: 0}
-  interComp: {fileID: 0}
---- !u!4 &1324227887
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324227885}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2987.7542, y: 3.4589448, z: 74.948105}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1413322246
 GameObject:
   m_ObjectHideFlags: 0
@@ -16593,7 +16521,6 @@ SceneRoots:
   - {fileID: 6295448973055230582}
   - {fileID: 1413322247}
   - {fileID: 1591646562}
-  - {fileID: 1324227887}
   - {fileID: 1598749285}
   - {fileID: 1425985593}
   - {fileID: 1502638158}
