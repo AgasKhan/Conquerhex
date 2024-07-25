@@ -143,6 +143,14 @@ public class WeaponKata : Ability
         equipedWeapon = null;
     }
 
+    public override void PlaySound(string name)
+    {
+        if (audio == null)
+            return;
+
+        audio.PlayOr($"{WeaponEnabled.itemBase.name}-{name}", $"{itemBase.name}-{name}");
+    }
+
     protected override IEnumerable<Entity> InternalCast(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
         showParticleInPos = true;

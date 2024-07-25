@@ -25,6 +25,18 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayOr(string searchName, string defaultName)
+    {
+        if(audios.ContainsKey(searchName, out int index))
+        {
+            audios[index].source.Play();
+        }
+        else
+        {
+            audios[defaultName].source.Play();
+        }
+    }
+
     public void Play(string name)
     {
         audios[name].source.Play();

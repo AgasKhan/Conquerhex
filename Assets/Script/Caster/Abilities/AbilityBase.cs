@@ -204,9 +204,9 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     protected TriggerController trigger;
 
-    FadeColorAttack _feedBackReference;
+    protected AudioEntityComponent audio;
 
-    AudioEntityComponent audio;
+    FadeColorAttack _feedBackReference;
 
     AbilityModificator abilityModificator = new AbilityModificator();
 
@@ -337,7 +337,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         End = true;
     }
 
-    public void PlaySound(string name)
+    public virtual void PlaySound(string name)
     {
         if (audio == null)
             return;

@@ -91,20 +91,43 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
 
     private void Inventory_onLostItem(Item obj)
     {
+        if (obj is WeaponKata weaponKata)
+        {
+            weaponKata.onEquipedWeapon -= WeaponKata_onEquipedWeapon;
+        }
     }
 
     private void Inventory_onNewItem(Item obj)
     {
-        if (obj is Ability)
+        if (obj is Ability ability)
         {
-            var itemBase = ((Ability)obj).itemBase;
+            AddAudio($"{ability.itemBase.name}-Cast", ability.itemBase.castAudio);
 
-            AddAudio($"{itemBase.name}-Cast", itemBase.castAudio);
-
-            foreach (var item in itemBase.auxiliarAudios)
+            foreach (var item in ability.itemBase.auxiliarAudios)
             {
-                AddAudio($"{itemBase.name}-{item.key}", item.value);
+                AddAudio($"{ability.itemBase.name}-{item.key}", item.value);
             }
+        }
+
+        if(obj is WeaponKata weaponKata)
+        {
+            weaponKata.onEquipedWeapon += WeaponKata_onEquipedWeapon;
+        }
+    }
+
+    private void WeaponKata_onEquipedWeapon(MeleeWeapon obj)
+    {
+        if (obj == null)
+            return;
+
+        if(obj.itemBase.castAudio.clip!= null)
+        {
+            AddAudio($"{obj.itemBase.name}-Cast", obj.itemBase.castAudio);
+        }
+
+        foreach (var item in obj.itemBase.auxiliarAudios)
+        {
+            AddAudio($"{obj.itemBase.name}-{item.key}", item.value);
         }
     }
 

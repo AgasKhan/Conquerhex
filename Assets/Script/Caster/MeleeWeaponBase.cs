@@ -30,6 +30,11 @@ public class MeleeWeaponBase : ItemCrafteable
 
     public PoolGameObjectSpawnProperty inPlaceOwner=new() { index = Vector2Int.one*-1 };
 
+    public AudioLink castAudio = new AudioLink() { volume = 1, pitch = 1 };
+
+    [SerializeField]
+    public Pictionarys<string, AudioLink> auxiliarAudios = new Pictionarys<string, AudioLink>();
+
     #region FUNCIONES
 
     public override Pictionarys<string, string> GetDetails()
