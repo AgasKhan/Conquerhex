@@ -9,6 +9,8 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
 
     void Drop()
     {
+        Debug.Log("DROP: " + transform.gameObject.name + "\nDROPBASE is null: "+ (dropBase == null));
+
         if (dropBase == null)
             return;
 
@@ -22,9 +24,9 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
             {
                 PoolManager.SpawnPoolObject(Vector2Int.zero, 
                     out RecolectableItem reference, 
-                    transform.position + (Random.insideUnitCircle * 1.2f).Vect2To3XZ(0), 
+                    transform.localPosition + (Random.insideUnitCircle * 1.2f).Vect2To3XZ(0), 
                     Quaternion.identity,
-                    container?.hexagoneParent?.transform);
+                    container?.transform.parent);
 
                 reference.Init(dropItem.item);
             }
