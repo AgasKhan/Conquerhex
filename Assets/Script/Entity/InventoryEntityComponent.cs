@@ -115,8 +115,9 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         }
 
         CurrentWeight -= itemToCompare.weight * count;
-
-        if (typeof(ItemStackeable).IsAssignableFrom(itemBase.GetItemType()))//Version de items stackeables
+        
+        //if (typeof(ItemStackeable).IsAssignableFrom(itemBase.GetItemType()))
+        if (itemToCompare is ResourcesBase_ItemBase)//Version de items stackeables
         {
             if (count > 0)
                 count = -count;

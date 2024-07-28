@@ -412,7 +412,7 @@ public abstract class ItemCrafteable : ItemBase
         {
             if (container.ItemCount(ingredient.Item) < ingredient.Amount)
             {
-                Debug.Log("No posees los items necesarios para el crafteo");
+                //Debug.Log("No posees los items necesarios para el crafteo");
                 return false;
             }
 

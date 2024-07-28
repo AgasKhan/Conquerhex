@@ -9,8 +9,6 @@ public class DropEntityComponent : ComponentOfContainer<Entity>
 
     void Drop()
     {
-        Debug.Log("DROP: " + transform.gameObject.name + "\nDROPBASE is null: "+ (dropBase == null));
-
         if (dropBase == null)
             return;
 
