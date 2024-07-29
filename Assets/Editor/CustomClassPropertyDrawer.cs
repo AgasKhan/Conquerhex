@@ -27,6 +27,26 @@ public class CustomClassPropertyDrawer : PropertyDrawer
         return base.GetPropertyHeight(property, label);
     }
 
+    private System.Type GetObjectType(SerializedProperty property)
+    {
+        var fieldType = fieldInfo.FieldType;
+
+        //if(property.isArray || property.isFixedBuffer)
+        if (fieldType.IsArray)
+        {
+            return fieldType.GetElementType();
+        }
+        else if (fieldType.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(fieldType))
+        {
+            // Assume that we want the first generic argument type
+            return fieldType.GetGenericArguments()[0];
+        }
+        
+
+        // Otherwise, return the field type itself
+        return fieldType;
+    }
+
     public override VisualElement CreatePropertyGUI(SerializedProperty serializedProperty)
     {
         if(!CheckIfObjective(serializedProperty))
@@ -35,7 +55,7 @@ public class CustomClassPropertyDrawer : PropertyDrawer
             {
                 var aux = new ObjectField(serializedProperty.displayName)
                 {
-                    objectType = fieldInfo.FieldType,
+                    objectType = GetObjectType(serializedProperty),
                     bindingPath = serializedProperty.propertyPath
                 };
                 //aux.BindProperty(serializedProperty);

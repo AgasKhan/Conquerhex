@@ -245,6 +245,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         dialogueManagment?.Invoke();
     }
 
+    [ContextMenu("Next dialog")]
     public void NextDialog()
     {
         currentDialog++;

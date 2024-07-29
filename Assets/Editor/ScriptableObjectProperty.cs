@@ -23,12 +23,16 @@ namespace CustomEulerEditor
             var fieldType = fieldInfo.FieldType;
 
             //if(property.isArray || property.isFixedBuffer)
-                // If the field is a generic type (e.g., List<T>), get the generic argument type
-                if (fieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(fieldType))
-                {
-                    // Assume that we want the first generic argument type
-                    return fieldType.GetGenericArguments()[0];
-                }
+            if (fieldType.IsArray)
+            {
+                return fieldType.GetElementType();
+            }
+            else if (fieldType.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(fieldType))
+            {
+                // Assume that we want the first generic argument type
+                return fieldType.GetGenericArguments()[0];
+            }
+
 
             // Otherwise, return the field type itself
             return fieldType;
