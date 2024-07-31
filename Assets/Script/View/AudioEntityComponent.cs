@@ -14,6 +14,9 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
     [SerializeField]
     string teleportAudio = "TeleportAudio";
 
+    [SerializeField]
+    string deadAudio = "DeadAudio";
+
     public Entity container {get; private set;}
 
     public T GetInContainer<T>() where T : IComponent<Entity> => container.GetInContainer<T>();
@@ -40,6 +43,10 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
         if (audios.ContainsKey(damagedRegenAudio))
         {
             entity.health.regenUpdate += Health_regenUpdate;
+        }
+        if (audios.ContainsKey(deadAudio))
+        {
+            entity.health.death += Health_death;
         }
 
         if (TryGetInContainer<InventoryEntityComponent>(out var inventory))
@@ -72,6 +79,10 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
         if (audios.ContainsKey(damagedRegenAudio))
         {
             entity.health.regenUpdate -= Health_regenUpdate;
+        }
+        if (audios.ContainsKey(deadAudio))
+        {
+            entity.health.death -= Health_death;
         }
 
         if (TryGetInContainer<InventoryEntityComponent>(out var inventory))
@@ -139,7 +150,10 @@ public class AudioEntityComponent : AudioManager, IComponent<Entity>
     {
         DamagedRegenAudio(number);
     }
-
+    private void Health_death()
+    {
+        Play(deadAudio);
+    }
 
     private void TeleportAudio(Hexagone teleport, int lado)
     {

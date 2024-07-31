@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8155588718149302041}
   - component: {fileID: 3849503840052946532}
   - component: {fileID: 7715330815073680013}
+  - component: {fileID: 2069966512398591591}
   - component: {fileID: 7952715998685505811}
   m_Layer: 6
   m_Name: Recolectable
@@ -62,14 +63,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualItems: []
-  inventory:
-    ts: []
+  itemBase: {fileID: 0}
+  count: 1
   _currentWeight: 0
   flyweight: {fileID: 0}
-  references:
-    version: 2
-    RefIds: []
+--- !u!114 &2069966512398591591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790657688179249189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660233c709f76f1438afa52bf6bc4785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries:
+    - key: RecolectAudio
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: 754f15fc84ec41d489a30b3187b32119, type: 3}
+        volume: 0.5
+        pitch: 1
+        spatialBlend: 0.5
+        maxDistance: 1.5
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+  damagedLifeAudio: DamagedLife
+  damagedRegenAudio: DamagedRegen
+  teleportAudio: TeleportAudio
+  deadAudio: DeadAudio
 --- !u!54 &7952715998685505811
 Rigidbody:
   m_ObjectHideFlags: 0

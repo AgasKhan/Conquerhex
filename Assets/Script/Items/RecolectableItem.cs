@@ -15,18 +15,22 @@ public class RecolectableItem : MonoBehaviour
     Timer wait;
 
     public InventoryEntityComponent inventory;
+
+    AudioEntityComponent audio;
     InventoryEntityComponent referenceToTravel;
 
     Hexagone hex;
 
     void Awake()
     {
+        audio = GetComponent<AudioEntityComponent>();
         recolect = TimersManager.Create(() => transform.position, ()=> referenceToTravel.transform.position + Vector3.up, 0.85f, Vector3.Slerp, (pos) => transform.position = pos)
         .AddToEnd(() =>
         {
+            audio.Play("RecolectAudio");
             referenceToTravel.AddItem(myItemBase,1);
-            transform.gameObject.SetActive(false);
             UI.Interfaz.instance?["Danio"].AddMsg((myItemBase.nameDisplay + " x " + 1).RichTextColor(SetColorTxt(((ResourcesBase_ItemBase)myItemBase).rarity)));
+            transform.SetActiveGameObject(false);
         })
         .Stop().SetInitCurrent(0);
 

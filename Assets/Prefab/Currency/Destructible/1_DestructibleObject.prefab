@@ -146,14 +146,14 @@ MonoBehaviour:
         minDistance: 1
         loop: 0
         onAwake: 0
-    - key: NoLife
+    - key: DeadAudio
       value:
         source: {fileID: 0}
         mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
           type: 2}
-        clip: {fileID: 8300000, guid: 87282df4ecf57404eb1285798887e861, type: 3}
-        volume: 0.3
-        pitch: 1
+        clip: {fileID: 8300000, guid: c234c997c448d574b9b5311056f4cbc8, type: 3}
+        volume: 0.03
+        pitch: 3
         spatialBlend: 1
         maxDistance: 3
         minDistance: 1
@@ -162,6 +162,7 @@ MonoBehaviour:
   damagedLifeAudio: DamagedLife
   damagedRegenAudio: DamagedRegen
   teleportAudio: TeleportAudio
+  deadAudio: DeadAudio
 --- !u!1001 &182513100124275803
 PrefabInstance:
   m_ObjectHideFlags: 0
