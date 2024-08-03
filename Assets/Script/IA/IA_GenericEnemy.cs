@@ -203,6 +203,7 @@ public class GenericChase : IState<GenericEnemyFSM>
         { 
             if(param!=null && !target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius*2))
             {
+                Debug.Log("EVADE");
                 param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/
             }         
         }).Stop();
@@ -210,6 +211,8 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     public void OnEnterState(GenericEnemyFSM param)
     {
+        Debug.Log("Enter Chase State");
+
         this.param = param;
 
         param.context.Detect();
@@ -248,15 +251,20 @@ public class GenericChase : IState<GenericEnemyFSM>
             }
             else if ( distance >= param.context.attackDetection.maxRadius / 2)
             {
+                Debug.Log("PURSUIT");
+                param.context.character.move.maxSpeed = 100f;
                 steerings.SwitchSteering<Pursuit>();
             }
             else if (distance < param.context.attackDetection.maxRadius / 3)
             {
+                Debug.Log("SEEK");
+                param.context.character.move.maxSpeed = 4.5f;
                 steerings.SwitchSteering<Seek>();
             }
 
             if (distance <= (param.context.attack.radius * param.context.attack.radius) && param.context.attack.cooldown)
             {
+                Debug.Log("ATTACK");
                 param.context.attack.ResetAttack();
             }
 
@@ -350,7 +358,6 @@ public class GenericAlert : IState<GenericEnemyFSM>
     float alertPointRange;
 
     SteeringWithTarget steerings;
-
     public GenericAlert()
     {
         timeToGeneratePoint = TimersManager.Create(2f, () => GeneratePoint()).SetLoop(true).Stop();

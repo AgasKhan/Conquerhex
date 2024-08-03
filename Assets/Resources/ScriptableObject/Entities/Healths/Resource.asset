@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ae217bffcfea84a8596a51fab57ca2, type: 3}
   m_Name: Resource
   m_EditorClassIdentifier: 
-  life: 70
+  life: 120
   regen: 0
-  vulnerabilities: []
+  vulnerabilities:
+  - name: 
+    amount: 1.5
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}

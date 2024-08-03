@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CraftingAction : InteractAction<(Character customer, ItemCrafteable recipeName)>
 {
+    AudioEntityComponent audioComponent;
+
     public override void Activate((Character customer, ItemCrafteable recipeName) specificParam)
     {
         var customer = specificParam.customer;
@@ -15,8 +17,9 @@ public class CraftingAction : InteractAction<(Character customer, ItemCrafteable
         if (itemToCraft.CanCraft(customer.inventory))
         {
             itemToCraft.Craft(customer.inventory, itemToCraft.nameDisplay);
+            audioComponent.Play("CraftAudio");
 
-            if(itemToCraft is MeleeWeaponBase)
+            if (itemToCraft is MeleeWeaponBase)
             {
                 ((CraftingSubMenu)subMenu).RefreshDetailW(itemToCraft);
             }
@@ -33,5 +36,6 @@ public class CraftingAction : InteractAction<(Character customer, ItemCrafteable
     {
         base.InteractInit(_interactComp);
         subMenu = new CraftingSubMenu(this);
+        audioComponent = GetComponent<AudioEntityComponent>();
     }
 }

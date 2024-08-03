@@ -118,6 +118,7 @@ MonoBehaviour:
   timeToEvade: 1.8
   timeToIdle: 0.5
   alertPointRange: 5
+  timeToGeneratePoint: 2
   references:
     version: 2
     RefIds:
@@ -365,6 +366,7 @@ MonoBehaviour:
   damagedLifeAudio: DamagedLife
   damagedRegenAudio: 
   teleportAudio: 
+  deadAudio: DeadAudio
 --- !u!114 &4524455606131239847
 MonoBehaviour:
   m_ObjectHideFlags: 0
