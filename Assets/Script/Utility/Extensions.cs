@@ -221,6 +221,16 @@ public static class Extensions
 
     #region string
 
+    /// <summary>
+    /// Chequea si un string esta vacio<br/>de la forma mas eficiente posible
+    /// </summary>
+    /// <param name="s"></param>
+    /// <returns></returns>
+    static public bool IsEmpty(this string s)
+    {
+        return s.Length == 0;
+    }
+
     static public string RichText(this string s, string tag, string valor = "")
     {
         if (valor != "")

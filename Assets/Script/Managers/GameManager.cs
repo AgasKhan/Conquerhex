@@ -48,6 +48,8 @@ public class GameManager : SingletonMono<GameManager>
 
     public static bool VerySlowFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 15);
 
+    public static bool WatchDogFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 1);
+
     public LayerMask obstacleAvoidanceLayer;
 
     [field: SerializeField, Tooltip("Original player character")]

@@ -70,56 +70,40 @@ namespace UI
 
         [SerializeField] float tiempoEntreLetras;
 
-        [SerializeField] float tiempoEntrePaginas;
-
         [SerializeField] float tiempoParaDesaparecer = 3;
 
-        [SerializeField]
-        FadeOnOff fadeMenu;
+        [SerializeField] float width;
 
-        [SerializeField]
-        bool useAutomaticGradients;
+        [SerializeField] float height;
 
-        [SerializeField]
-        GradientOverTime wow;
+        [SerializeField] FadeOnOff fadeMenu;
 
-        [SerializeField]
-        GradientOverTime cancel;
+        [SerializeField] bool useAutomaticGradients;
 
-        [SerializeField]
-        GradientOverTime complete;
+        [SerializeField] GradientOverTime wow;
+
+        [SerializeField] GradientOverTime cancel;
+
+        [SerializeField] GradientOverTime complete;
 
         [Header("Para debug")]
-        [SerializeReference]
-        Timer timerToHide;
-        [SerializeReference]
-        Timer letras;
-        [SerializeReference]
-        Timer entrePaginas;
+        [SerializeReference] Timer timerToHide;
+
+        [SerializeReference] Timer writeTimer;
+
+        bool onFlag = false;
 
         static char[] saltos = new char[] { '\n', '.', '!', '?' };
 
         public event System.Action on;
 
         public event System.Action off;
-        public float velocityMultiply => letras.Multiply;
 
         public string text => texto.text;
 
         private void FadeMenu_alphas(float obj)
         {
             texto.color = texto.color.ChangeAlphaCopy(obj);
-        }
-
-        public void AcelerateMsg(float velocity)
-        {
-            letras.SetMultiply(velocity);
-
-            if (!entrePaginas.Chck)
-                entrePaginas.SetInitCurrent(0);
-
-            if (final == string.Empty)
-                timerToHide?.SetInitCurrent(0);
         }
 
         public void WowEffect()
@@ -143,24 +127,39 @@ namespace UI
         /// <param name="msg"></param>
         public void ClearMsg()
         {
-            letras.Stop();
-            final = "";
-            texto.text = "";
+            writeTimer.Stop();
+            final = string.Empty;
+            texto.text = string.Empty;
         }
 
         /// <summary>
         /// Muestra un mensaje directamente en el campo, no checkea su largo
         /// </summary>
         /// <param name="msg"></param>
-        public void ShowMsg(string msg)
+        public void ShowMsg(string msg = null)
         {
-            final = msg;
-            texto.text = msg;
-
-            if (timerToHide?.Chck ?? true)
-                On();
+            if(msg==null)
+            {
+                if(text.Length != final.Length)
+                {
+                    texto.text = final;
+                }
+            }
             else
-                timerToHide?.Reset();
+            {
+                final = msg;
+                texto.text = msg;
+            }
+
+            if (final.IsEmpty() && text.IsEmpty())
+            {
+                return;
+            }
+
+            if (!onFlag)
+                On();
+
+            CompleteText();
         }
 
         /// <summary>
@@ -169,9 +168,9 @@ namespace UI
         /// <param name="msg"></param>
         public void AddMsg(string msg)
         {
-            if (final == "")
+            if (final.IsEmpty())
             {
-                letras.SetMultiply(1);
+                writeTimer.SetMultiply(1);
                 msg = texto.text + msg;
             }
 
@@ -182,10 +181,10 @@ namespace UI
 
         void On()
         {
+            onFlag = true;
             fadeMenu.end -= FadeMenu_end;
             SetFade(1);
-            timerToHide?.Reset();
-            letras.Start();
+            writeTimer.Reset();
             on?.Invoke();
         }
 
@@ -194,90 +193,102 @@ namespace UI
             fadeMenu.SetFade(texto.color.a, end);
         }
 
-        bool TextOverFlowing()
+        void Write()
         {
-            Vector2 rectSize = texto.rectTransform.sizeDelta;
-            Vector2 preferedSize = texto.GetPreferredValues(texto.text);
-
-            return rectSize.x < preferedSize.x && rectSize.y < preferedSize.y;
-        }
-        
-        void EntrePaginasFixed()
-        {
-            if (!texto.isTextOverflowing)
+            if(!IsTextOverflowing())
             {
-                entrePaginas.SetInitCurrent(0);
+                if (texto.text == final && !final.IsEmpty())
+                {
+                    final = string.Empty;
+                    writeTimer.Stop();
+                    timerToHide?.Reset();
+                }
+                else if (!final.IsEmpty())
+                {
+                    string sum = final[texto.text.Length].ToString();
+
+                    if (sum == "<")
+                    {
+                        sum = final.Substring(texto.text.Length, final.IndexOf('>', texto.text.Length) - texto.text.Length + 1);
+                    }
+
+                    texto.text += sum;
+                }
+            }
+            else
+            {
+                Overflowing();
             }
         }
 
-        void EntrePaginas()
+        void CompleteText()
         {
-            var lastIndex = texto.text.LastIndexOfAny(saltos);
+            int lenght = 0;
 
-            if (lastIndex >= 0)
-                final = final.Replace(texto.text.Substring(0, lastIndex + 1), "").Trim();
-            //else
-            //  final = final.Replace(texto.text, "");
+            while (IsTextOverflowing() && fadeMenu.timerOn.Chck)
+            {
+                var index = texto.text.Remove(texto.text.Length - 1).LastIndexOfAny(saltos);
 
-            texto.text = "";
-            letras.Reset();
+                if (index > 0)
+                {
+                    texto.text = texto.text.Substring(0, index + 1);
+
+                    if (texto.text.Length == lenght)
+                        break;
+
+                    lenght = texto.text.Length;
+                }
+                else
+                {
+                    Debug.LogWarning("No se encontro como cortar el texto");
+                    break;
+                }
+            }
+            if(lenght>0)
+                Overflowing();
         }
 
-        void ChecktOverflowing()
+        void Overflowing()
         {
-            if (texto.isTextOverflowing && fadeMenu.timerOn.Chck)
+            if (fadeMenu.timerOn.Chck)
             {
-                letras.SetMultiply(1);
-
-                if (tiempoEntrePaginas > 0)
+                if (tiempoParaDesaparecer > 0)
                 {
-                    if (entrePaginas.Chck && texto.text != string.Empty)
+                    if (!text.IsEmpty())
                     {
-                        entrePaginas.Reset();
-                        letras.Stop();
-                        timerToHide?.Stop();
+                        writeTimer.Stop();
+                        if (!(timerToHide.Chck))
+                        {
+                            timerToHide.SetInitCurrent(0).Start();
+                        }
+                        else
+                            timerToHide.Reset();
                     }
                     return;
                 }
 
-                var index = texto.text.IndexOfAny(saltos) + 1;
-
-                if (index > 0)
-                {
-                    texto.text = texto.text.Substring(index);
-
-                    final = final.Substring(final.IndexOfAny(saltos) + 1);
-                }
-                else if (texto.text.Length > 0)
-                {
-                    final = final.Replace(texto.text, "");
-                    texto.text = "";
-                }
+                NextPage();
             }
         }
 
-        void Write()
+        void NextPage()
         {
-            if (texto.text == final && final != "")
+            var lastIndex = texto.text.LastIndexOfAny(saltos);
+
+            if (lastIndex >= 0)
+                final = final.Replace(texto.text.Substring(0, lastIndex + 1), string.Empty).Trim();
+            //else
+            //  final = final.Replace(texto.text, "");
+
+            texto.text = string.Empty;
+
+            if (final.IsEmpty())
             {
-                final = "";
+                timerToHide?.Stop();
+                Hide();
             }
-            else if (final != "")
-            {
-                string sum = final[texto.text.Length].ToString();
-
-                if (sum == "<")
-                {
-                    sum = final.Substring(texto.text.Length, final.IndexOf('>', texto.text.Length) - texto.text.Length + 1);
-                }
-
-                texto.text += sum;
-                timerToHide?.Reset();
-            }
-
-            texto.ForceMeshUpdate();
-
-            ChecktOverflowing();
+            else
+                writeTimer.Reset();
         }
 
         public void Init()
@@ -286,17 +297,20 @@ namespace UI
 
             fadeMenu.Init();
 
-            letras = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
+            writeTimer = TimersManager.Create(tiempoEntreLetras, Write).SetLoop(true).Stop();
 
             if (tiempoParaDesaparecer > 0)
                 timerToHide = TimersManager.Create(tiempoParaDesaparecer, () =>
                 {
-                    fadeMenu.end += FadeMenu_end;
-                    SetFade(0);
-                    letras.Stop();
-                });
-
-            entrePaginas = TimersManager.Create(tiempoEntrePaginas,EntrePaginasFixed, EntrePaginas).Stop().SetInitCurrent(0);
+                    if(!final.IsEmpty())
+                    {
+                        NextPage();
+                    }
+                    else
+                    {
+                        Hide();
+                    }
+                }).Stop();
 
             System.Func<Color?, Color> func = (color) =>
             {
@@ -313,10 +327,34 @@ namespace UI
             complete.Init(func);
         }
 
+        private void Hide()
+        {
+            fadeMenu.end += FadeMenu_end;
+            SetFade(0);
+            writeTimer.Stop();
+        }
+
         private void FadeMenu_end()
         {
-            texto.text = "";
+            texto.text = string.Empty;
+            onFlag = false;
             off?.Invoke();
+        }
+
+        private bool IsTextOverflowing()
+        {
+            float preferedHeight = texto.GetPreferredValues(texto.text.ClearRichText(), width, height).y;
+            //Debug.Log($"{preferedHeight} >= {height} : {preferedHeight >= height}" );
+
+            return preferedHeight >= height;
+        }
+
+        private void OnValidate()
+        {
+            if(width==0)
+                width = texto?.rectTransform.rect.width ?? 0;
+            if(height==0)
+                height = texto?.rectTransform.rect.height ?? 0;
         }
     }
 }

@@ -228,7 +228,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void FinishCurrentDialogue()
     {
-        dialogText.AcelerateMsg(dialogText.velocityMultiply * 2);
+        dialogText.ShowMsg();
         //dialogText.ShowMsg(messageToShow);
         //dialogueManagment = () => SkipDialogue();
     }
