@@ -21,6 +21,6 @@ public class DestructibleObjects : Entity
 
     private void MyAwake()
     {
-        health.death += () => gameObject.SetActive(false);
+        health.death += () => TimersManager.Create(0.2f, () => gameObject.SetActive(false)).Reset();
     }
 }

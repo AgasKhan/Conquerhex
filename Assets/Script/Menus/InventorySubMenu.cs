@@ -114,7 +114,8 @@ public class InventorySubMenu : CreateSubMenu
 
                    DestroyButtonsActions();
 
-                   CreateDetailsButton(item);
+                   if(item is ItemEquipable)
+                       CreateDetailsButton(item);
 
 
                    /*
