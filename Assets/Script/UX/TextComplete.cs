@@ -91,8 +91,6 @@ namespace UI
 
         [SerializeReference] Timer writeTimer;
 
-        bool onFlag = false;
-
         static char[] saltos = new char[] { '\n', '.', '!', '?' };
 
         public event System.Action on;
@@ -182,7 +180,6 @@ namespace UI
 
         void On()
         {
-            onFlag = true;
             fadeMenu.end -= FadeMenu_end;
             SetFade(1);
 
@@ -227,6 +224,9 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Escribo todo el texto posible en el cuadro del texto
+        /// </summary>
         void CompleteText()
         {
             int lenght = 0;
@@ -253,7 +253,8 @@ namespace UI
                 }
             }
 
-            
+            //dado que debo continuar con el ciclo logico, la forma mas sencilla es como si siempre este overrideando el texto
+            //para asi pasar pagina o etc
             Overflowing();
         }
 
@@ -315,7 +316,7 @@ namespace UI
             if (tiempoParaDesaparecer > 0)
                 timerToHide = TimersManager.Create(tiempoParaDesaparecer, () =>
                 {
-                    if(!final.IsEmpty())
+                    if(!final.IsEmpty())//dependiendo si tengo algo por escribir o no, realizo acciones distintas
                     {
                         NextPage();
                     }
@@ -350,7 +351,6 @@ namespace UI
         private void FadeMenu_end()
         {
             texto.text = string.Empty;
-            onFlag = false;
             off?.Invoke();
         }
 
