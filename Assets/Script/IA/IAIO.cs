@@ -33,6 +33,8 @@ public class IAIO : IAFather
     System.Action<int, WeaponKata>[] kataUIMediator = new System.Action<int, WeaponKata>[4];
     System.Action<int, AbilityExtCast>[] abilityExtUIMediator = new System.Action<int, AbilityExtCast>[6];
 
+    Vector2 automaticMoveToBase;
+
 
     void TriggerUI()
     {
@@ -308,7 +310,60 @@ public class IAIO : IAFather
     {
         base.OnStayState(param);
 
-        //eventsManager.events.SearchOrCreate<SingleEvent<Vector3>>("move").delegato.Invoke(transform.position);
+        #region vuelta a base hardcodeada
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            if(automaticMoveToBase==Vector2.zero)
+            {
+                int ladoToGo = character.hexagoneParent.ladoToBase;
+
+                if (ladoToGo == -1)
+                {
+                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde aqui");
+                }
+                else
+                {
+                    automaticMoveToBase = Vector2.one;
+                    character.move.objectiveVelocity *= 5;
+                    character.gameObject.layer = 14;
+                }
+            }
+            else
+            {
+                character.move.objectiveVelocity /= 5;
+                automaticMoveToBase = Vector2.zero;
+                character.gameObject.layer = 7;
+            }
+        }
+
+
+        if(automaticMoveToBase!=Vector2.zero)
+        {
+            int ladoToGo = character.hexagoneParent.ladoToBase;
+
+            if (ladoToGo == -1)
+            {
+                character.move.objectiveVelocity /= 5;
+                automaticMoveToBase = Vector2.zero;
+                character.gameObject.layer = 7;
+                return;
+            }
+
+            Vector2 dir = new Vector2(character.hexagoneParent.ladosPuntos[ladoToGo, 0], character.hexagoneParent.ladosPuntos[ladoToGo, 1]);
+
+            dir -= character.transform.position.Vect3To2XZ();
+
+            if (dir.sqrMagnitude > 0.25f)
+            {
+                automaticMoveToBase = dir.normalized;
+            }
+
+            moveEventMediator.ControllerPressed(automaticMoveToBase, 0);
+            return;
+        }
+
+        #endregion
 
         var buildings = detectInteractuable.Area(character.transform.position, (edificio) => { return edificio.interactuable; });
 

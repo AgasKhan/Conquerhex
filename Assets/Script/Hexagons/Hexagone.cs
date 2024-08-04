@@ -33,7 +33,7 @@ public class Hexagone : MonoBehaviour
 
     public int level;
 
-
+    public int ladoToBase = -1;
 
     public Hexagone[] ladosArray = new Hexagone[6];//Lo uso para definir A DONDE me voy a teletransportar
 
@@ -322,6 +322,7 @@ public class Hexagone : MonoBehaviour
                 if (HexagonsManager.fluentMap[id] == HexagonsManager.hexagonos[id][i + 1, 0])
                 {
                     Paths.points[i] = 1;
+                    ladoToBase = i;
                 }
             }
 
