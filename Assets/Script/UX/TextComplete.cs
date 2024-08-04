@@ -132,34 +132,35 @@ namespace UI
             texto.text = string.Empty;
         }
 
-        /// <summary>
-        /// Muestra un mensaje directamente en el campo, no checkea su largo
-        /// </summary>
-        /// <param name="msg"></param>
-        public void ShowMsg(string msg = null)
+        public void CompleteMsg()
         {
-            if(msg==null)
-            {
-                if(text.Length != final.Length)
-                {
-                    texto.text = final;
-                }
-            }
-            else
-            {
-                final = msg;
-                texto.text = msg;
-            }
-
             if (final.IsEmpty() && text.IsEmpty())
             {
                 return;
             }
 
-            if (!onFlag)
-                On();
+            if(tiempoParaDesaparecer>0 && !timerToHide.Freeze)
+            {
+                //adelanto el tiempo en caso que ya este todo escrito
+                timerToHide.SetInitCurrent(0);
+            }
+            else
+            {
+                //En caso que este escribiendo, lo completo todo
+                CompleteText();
+            }
+        }
 
-            CompleteText();
+
+        /// <summary>
+        /// Muestra un mensaje directamente en el campo, no checkea su largo
+        /// </summary>
+        /// <param name="msg"></param>
+        public void ShowMsg(string msg)
+        {
+            final = msg;
+            texto.text = msg;
+            On();
         }
 
         /// <summary>
@@ -184,7 +185,12 @@ namespace UI
             onFlag = true;
             fadeMenu.end -= FadeMenu_end;
             SetFade(1);
-            writeTimer.Reset();
+
+            if (writeTimer.total > 0)
+                writeTimer.Reset();
+            else
+                CompleteText();
+
             on?.Invoke();
         }
 
@@ -225,7 +231,9 @@ namespace UI
         {
             int lenght = 0;
 
-            while (IsTextOverflowing() && fadeMenu.timerOn.Chck)
+            texto.text = final;
+
+            while (IsTextOverflowing())
             {
                 var index = texto.text.Remove(texto.text.Length - 1).LastIndexOfAny(saltos);
 
@@ -244,33 +252,32 @@ namespace UI
                     break;
                 }
             }
-            if(lenght>0)
-                Overflowing();
+
+            
+            Overflowing();
         }
 
+        /// <summary>
+        /// Que hago en caso de que el texto este overflowing
+        /// </summary>
         void Overflowing()
         {
-            if (fadeMenu.timerOn.Chck)
+            if (tiempoParaDesaparecer > 0)
             {
-                if (tiempoParaDesaparecer > 0)
+                if (!text.IsEmpty())
                 {
-                    if (!text.IsEmpty())
-                    {
-                        writeTimer.Stop();
-                        if (!(timerToHide.Chck))
-                        {
-                            timerToHide.SetInitCurrent(0).Start();
-                        }
-                        else
-                            timerToHide.Reset();
-                    }
-                    return;
+                    writeTimer.Stop();
+                    timerToHide.Reset();
                 }
-
-                NextPage();
+                return;
             }
+
+            NextPage();
         }
 
+        /// <summary>
+        /// Que hago cuando paso la pagina
+        /// </summary>
         void NextPage()
         {
             var lastIndex = texto.text.LastIndexOfAny(saltos);
@@ -282,13 +289,19 @@ namespace UI
 
             texto.text = string.Empty;
 
+            timerToHide?.Stop();
+
             if (final.IsEmpty())
             {
-                timerToHide?.Stop();
                 Hide();
             }
             else
-                writeTimer.Reset();
+            {
+                if (tiempoEntreLetras <= 0)
+                    CompleteText();
+                else
+                    writeTimer.Reset();
+            }    
         }
 
         public void Init()

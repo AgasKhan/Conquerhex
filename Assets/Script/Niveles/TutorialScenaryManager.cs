@@ -228,7 +228,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void FinishCurrentDialogue()
     {
-        dialogText.ShowMsg();
+        dialogText.CompleteMsg();
         //dialogText.ShowMsg(messageToShow);
         //dialogueManagment = () => SkipDialogue();
     }
