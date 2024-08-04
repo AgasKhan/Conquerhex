@@ -7,6 +7,7 @@ public class TerrainManager : MonoBehaviour
     [System.Serializable]
     public class Paths
     {
+        public bool toCenterPath = false;
         public int[] points= new int[6];
         public float width;
     }
@@ -20,7 +21,7 @@ public class TerrainManager : MonoBehaviour
     ComputeShader computeShader;
 
     [SerializeField]
-    Paths[] paths;
+    public Paths[] paths;
 
     ComputeBuffer inputPathBuffer;
 
@@ -123,6 +124,7 @@ public class TerrainManager : MonoBehaviour
             //inputVertex.SetData(apotemaShader);
 
             computeShader.SetFloat("diference", (paths[i].width / terrainData.size.x)/2);
+            computeShader.SetBool("toCenterPath", paths[i].toCenterPath);
 
             computeShader.SetBuffer(2, "inputVertex", inputVertex);
             computeShader.SetBuffer(2, "inputPathBuffer", inputPathBuffer);

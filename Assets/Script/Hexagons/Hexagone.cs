@@ -33,6 +33,8 @@ public class Hexagone : MonoBehaviour
 
     public int level;
 
+
+
     public Hexagone[] ladosArray = new Hexagone[6];//Lo uso para definir A DONDE me voy a teletransportar
 
     //pareja de coordenadas
@@ -58,10 +60,12 @@ public class Hexagone : MonoBehaviour
 
     public int lenght = 42;
 
-    [SerializeField]
+    //[SerializeField]
     int objectsPerChunk => HexagonsManager.instance.objectsPerChunk;
 
     int[,] detailsMap => mapCopado.detailsMap;
+
+    public TerrainManager.Paths Paths => mapCopado.paths[0];
 
     public HashSet<Entity> childsEntities { get; private set; } = new HashSet<Entity>();
 
@@ -302,6 +306,28 @@ public class Hexagone : MonoBehaviour
         seedTerrain = Random.state;
 
         mapCopado.copyData = biomes.terrainBiome;
+
+        if (manualTiles)
+        {
+            Paths.toCenterPath = true;
+
+            for (int i = 0; i < ladosArray.Length; i++)
+            {
+                if (HexagonsManager.fluentMap[HexagonsManager.hexagonos[id][i + 1, 0]] == id)
+                {
+                    Paths.points[i] = 1;
+                    Paths.toCenterPath = false;
+                }
+
+                if (HexagonsManager.fluentMap[id] == HexagonsManager.hexagonos[id][i + 1, 0])
+                {
+                    Paths.points[i] = 1;
+                }
+            }
+
+            if (id == 0)
+                Paths.toCenterPath = true;
+        }
 
         mapCopado.Generate();
 

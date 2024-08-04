@@ -43,6 +43,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static int[,] apotemaShader;
 
+    public static Dictionary<int, int> fluentMap;
 
     [Tooltip("En caso de asignarse un jugador, se mostrara el hexagono de forma automatica")]
     public bool automaticRender = true;
@@ -84,6 +85,8 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     Pictionarys<int, Hexagone> _activeHex = new Pictionarys<int, Hexagone>();
 
     Pictionarys<Hexagone, bool> _queueOnOff = new Pictionarys<Hexagone, bool>();
+
+    
 
     float[,] _localApotema;
 
@@ -513,6 +516,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     /// <returns></returns>
     bool ChequeoHexagonos(int[][,] hexagonos)
     {
+        fluentMap = new();//historial
         /*
             Ademas de mostrar en consola el valor del array 
             muestra errores de relacion, en caso de que existan
@@ -550,11 +554,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         if(reload)
             return reload;
 
-        List<int> checkedList = new List<int>();//historial
+        
         Queue<int> toCheck = new Queue<int>();
 
         toCheck.Enqueue(0);//agrego mi comienzo
-        checkedList.Add(0); //lo agrego como ya verificado, solo por ser el comienzo
+        fluentMap.Add(0,0); //lo agrego como ya verificado, solo por ser el comienzo
 
         hexagonos[0][0, 0] = 0;
 
@@ -564,10 +568,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         {
             for (int l = 1; l < hexagonos[current].GetLength(0); l++)
             {
-                if(!checkedList.Contains(hexagonos[current][l,0]))
+                if(!fluentMap.ContainsKey(hexagonos[current][l,0]))
                 {
                     toCheck.Enqueue(hexagonos[current][l, 0]);
-                    checkedList.Add(hexagonos[current][l, 0]);
+                    fluentMap.Add(hexagonos[current][l, 0], current);
                     hexagonos[hexagonos[current][l, 0]][0, 0] = hexagonos[current][0, 0] + 1;
                     
                     if (maxLevel < hexagonos[hexagonos[current][l, 0]][0, 0])
@@ -579,10 +583,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             }
         }
 
-        if(checkedList.Count != hexagonos.Length)//si mi cantidad de hexagonos no es la misma que la que puedo recorrer re armo el recorrido
+        if(fluentMap.Count != hexagonos.Length)//si mi cantidad de hexagonos no es la misma que la que puedo recorrer re armo el recorrido
         {
             reload = true;
-            Debug.Log(checkedList.Count + " " + hexagonos.GetLength(0));
+            Debug.Log(fluentMap.Count + " " + hexagonos.GetLength(0));
         }
 
         return reload;

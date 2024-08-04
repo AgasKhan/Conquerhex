@@ -18,6 +18,8 @@ RWStructuredBuffer<int2> inputVertex;
 
 float3 toSave;
 
+bool toCenterPath;
+
 uint pathEntry;
 
 uint width;
@@ -150,46 +152,68 @@ void Paths(uint3 id : SV_DispatchThreadID)
     
     float2 start = float2(0,0);
     float2 end;
-    float2 startEnd;
+   
     
-    for (i = 0; i < lenght; i++)
+    if(!toCenterPath)
     {
-        if (localBuffer[(i)] == 1)
+        float2 startEnd; //anterior entre puntos
+        
+        for (i = 0; i < lenght; i++)
         {
-            if (start.x == 0)
+            if (localBuffer[(i)] == 1)
             {
-                start = float2(float(inputVertex[(i)].y) / width, float(inputVertex[(i)].x) / height);
-                startEnd = start;
-            }
-            else
-            {
-                start = float2(float(inputVertex[(i)].y) / width, float(inputVertex[(i)].x) / height);
-            }
-            
-            for (uint j = 0; j < lenght; j++)
-            {
-                if (localBuffer[(j)] == 1)
+                if (start.x == 0)
                 {
+                    start = float2(float(inputVertex[(i)].y) / width, float(inputVertex[(i)].x) / height);
+                    startEnd = start;
+                }
+                else
+                {
+                    start = float2(float(inputVertex[(i)].y) / width, float(inputVertex[(i)].x) / height);
+                }
+            
+                for (uint j = 0; j < lenght; j++)
+                {
+                    if (localBuffer[(j)] == 1)
+                    {
                     
-                    end = float2(float(inputVertex[(j)].y) / width, float(inputVertex[(j)].x) / height);
+                        end = float2(float(inputVertex[(j)].y) / width, float(inputVertex[(j)].x) / height);
                     
-                    Bezier2_float(id.xy / float(width), start,0.3, end, diference, resultado);
+                        Bezier2_float(id.xy / float(width), start, 0.3, end, diference, resultado);
                     
                     //LinealPoint_float(id.xy / float(width), start, end, diference, resultado);
                     
-                    Out += resultado;
+                        Out += resultado;
                     
-                    localBuffer[(j)] = 0;
+                        localBuffer[(j)] = 0;
                     
-                    start = end;
+                        start = end;
+                    }
                 }
             }
         }
-    }
     
-    Bezier2_float(id.xy / float(width), end, 0.3, startEnd, diference, resultado);
+        Bezier2_float(id.xy / float(width), end, 0.3, startEnd, diference, resultado);
     //LinealPoint_float(id.xy / float(width), end, startEnd, diference, resultado);
-    Out += resultado;
+        Out += resultado;
+    }
+    else
+    {
+        for (i = 0; i < lenght; i++)
+        {
+            if (localBuffer[(i)] == 1)
+            {
+                start = float2(float(inputVertex[(i)].y) / width, float(inputVertex[(i)].x) / height);
+            
+                end = float2(0.5, 0.5);
+                    
+                LinealPoint_float(id.xy / float(width), start, end, diference, resultado);
+                    
+                Out += resultado;
+            }
+        }
+        Out += resultado;
+    }   
     
     float4 aux = outputAlphaBuffer[IndexForIdAlpha(id)];
     
