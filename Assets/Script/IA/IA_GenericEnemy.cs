@@ -197,6 +197,11 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     GenericEnemyFSM param;
 
+    bool isSeeking;
+    bool isPursuing;
+
+    float originalSpeed = 7f;
+
     public GenericChase()
     {
         evadeTimer = TimersManager.Create(2, () => 
@@ -226,6 +231,8 @@ public class GenericChase : IState<GenericEnemyFSM>
         param.context.attack.onAttack += Attack_onAttack;
 
         evadeTimer.Set(param.context.timeToEvade, false).SetInitCurrent(0);
+
+        originalSpeed = param.context.character.move.objectiveVelocity;
     }
 
     public void OnStayState(GenericEnemyFSM param)
@@ -249,22 +256,23 @@ public class GenericChase : IState<GenericEnemyFSM>
                 param.CurrentState = param.waiting;
                 return;
             }
-            else if ( distance >= param.context.attackDetection.maxRadius / 2)
+            else if ( distance >= param.context.attackDetection.maxRadius / 2 && !isPursuing)
             {
-                Debug.Log("PURSUIT");
-                param.context.character.move.maxSpeed = 100f;
+                isPursuing = true;
+                isSeeking = false;
+                param.context.character.move.objectiveVelocity = originalSpeed;
                 steerings.SwitchSteering<Pursuit>();
             }
-            else if (distance < param.context.attackDetection.maxRadius / 3)
+            else if (distance < param.context.attackDetection.maxRadius / 3 && !isSeeking)
             {
-                Debug.Log("SEEK");
-                param.context.character.move.maxSpeed = 4.5f;
+                isSeeking = true;
+                isPursuing = false;
+                param.context.character.move.objectiveVelocity = 3.5f;
                 steerings.SwitchSteering<Seek>();
             }
 
             if (distance <= (param.context.attack.radius * param.context.attack.radius) && param.context.attack.cooldown)
             {
-                Debug.Log("ATTACK");
                 param.context.attack.ResetAttack();
             }
 
@@ -305,6 +313,10 @@ public class GenericChase : IState<GenericEnemyFSM>
         if(param.context.attack != null)
             param.context.attack.onAttack -= Attack_onAttack;
 
+        isPursuing = false;
+        isSeeking = false;
+
+        param.context.character.move.objectiveVelocity = originalSpeed;
         this.param = null;
     }
 

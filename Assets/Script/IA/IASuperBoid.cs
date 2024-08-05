@@ -44,7 +44,7 @@ public class IASuperBoid : IABoid
 
         //enemigo
 
-        steerings["enemy"].targets = detectEnemy.AreaWithRay(character.transform.position, (algo) => { return algo.visible && character.team != algo.GetEntity().team && Team.recursos != algo.GetEntity().team && Team.noTeam != algo.GetEntity().team; });
+        steerings["enemy"].targets = detectEnemy.AreaWithRay(character.transform.position, (algo) => { return algo.visible && character.team.TeamEnemyAttack(algo.GetEntity().team); });
 
 
         //Lider
@@ -95,21 +95,28 @@ public class FSMBoid : FSM<FSMBoid, IASuperBoid>
 
 public class BoidAttack : IState<FSMBoid>
 {
+    float originalSpeed = 7f;
     //ataque
     public void OnEnterState(FSMBoid param)
     {
+        param.context.character.move.objectiveVelocity = originalSpeed;
         //automaticAttack.timerToAttack.Set(5);
     }
 
     public void OnExitState(FSMBoid param)
     {
         //param.context.automaticAttack.StopTimers();
+        originalSpeed = param.context.character.move.objectiveVelocity;
+        param.context.character.move.objectiveVelocity = 4.5f;
     }
 
     public void OnStayState(FSMBoid param)
     {
         if (param.context.character.health.actualLife < param.context.character.health.maxLife / 2)
             param.CurrentState = param.BoidDamaged;
+
+        //if (param.context.automaticAttack.timerChargeAttack.Chck)
+            //param.context.SteeringsMovement();
 
         param.context.automaticAttack.ResetAttack();
 
@@ -129,6 +136,7 @@ public class BoidAttack : IState<FSMBoid>
 
 public class BoidCoward : IState<FSMBoid>
 {
+
     public void OnEnterState(FSMBoid param)
     {
         param.context.steerings["lider"].SwitchSteering<Evade>();

@@ -16,7 +16,12 @@ PrefabInstance:
     - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
         type: 3}
       propertyPath: automaticAttack.timeToAttack
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
+        type: 3}
+      propertyPath: detectEnemy.layerMask.m_Bits
+      value: 449
       objectReference: {fileID: 0}
     - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
         type: 3}
@@ -25,8 +30,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
         type: 3}
+      propertyPath: automaticAttack.automaticAiming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
+        type: 3}
+      propertyPath: detectObjective.layerMask.m_Bits
+      value: 449
+      objectReference: {fileID: 0}
+    - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
+        type: 3}
       propertyPath: automaticAttack.timeToChargeAttack
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 538333034806915777, guid: d1c5a76f5f9e7a242ae0fd6e35369f36,
         type: 3}

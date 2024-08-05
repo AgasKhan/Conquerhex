@@ -7,6 +7,7 @@ public class AutomaticCharacterAttack
 {
     public TimedAction timerToAttack;
     public Timer timerChargeAttack;
+    public bool automaticAiming = false;
 
     public Vector3 Aiming
     {
@@ -55,7 +56,6 @@ public class AutomaticCharacterAttack
             _ability.onCast -= value;
         }
     }
-
     public bool cooldown => ability != null ? ability.onCooldownTime && timerChargeAttack.Chck : false;
 
     FadeColorAttack FeedBackReference
@@ -223,7 +223,10 @@ public class AutomaticCharacterAttack
 
         timerChargeAttack = TimersManager.Create(timeToChargeAttack, () =>
         {
-
+            if(automaticAiming && ability.affected.Count > 0)
+            {
+                _aiming = (ability.affected[0].transform.position - owner.transform.position).Vect3To2XZ().normalized;
+            }
             eventControllerMediator.ControllerPressed(_aiming, timerChargeAttack.total - timerChargeAttack.current);
 
         }, () =>

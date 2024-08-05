@@ -660,7 +660,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -760,7 +760,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -848,7 +848,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -977,9 +977,11 @@ MonoBehaviour:
   terrain: {fileID: 205939177}
   computeShader: {fileID: 7200000, guid: bc6f7bf13e8f400489f9a79d969a1375, type: 3}
   paths:
-  - points: 010000000000000001000000010000000000000001000000
+  - toCenterPath: 0
+    points: 010000000000000001000000010000000000000001000000
     width: 3
-  - points: 000000000100000000000000000000000100000000000000
+  - toCenterPath: 0
+    points: 000000000100000000000000000000000100000000000000
     width: 2
   diference: 0.5
   scale: 10
@@ -1344,7 +1346,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1808,7 +1810,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2081,7 +2083,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4605,7 +4607,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10835,7 +10837,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12686,7 +12688,7 @@ Transform:
   m_GameObject: {fileID: 1635084918}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1545}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -13242,7 +13244,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13950,7 +13952,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14207,7 +14209,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16045,7 +16047,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16314,7 +16316,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16402,7 +16404,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16834,7 +16836,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17042,7 +17044,7 @@ PrefabInstance:
     - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17234,7 +17236,7 @@ PrefabInstance:
     - target: {fileID: 1820494545657111320, guid: f178844b8ac603141a9daf9fa0d66fb8,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6576931610452621751, guid: f178844b8ac603141a9daf9fa0d66fb8,
         type: 3}
@@ -17615,6 +17617,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GenericEnemy (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18575,6 +18582,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CorderitoIA_2 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7869557001442534494, guid: f07391353fe17824382b76400b2440d9,
+        type: 3}
+      propertyPath: automaticAttack.timeToChargeAttack
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18648,6 +18660,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CorderitoIA_2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6259230563897308407, guid: f07391353fe17824382b76400b2440d9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21288,6 +21305,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GenericEnemy (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22062,6 +22084,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeadBodies
       objectReference: {fileID: 0}
+    - target: {fileID: 4429543369618629692, guid: 01e8437cf4c20c14aa83125d91ade9fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5320460430764951090, guid: 01e8437cf4c20c14aa83125d91ade9fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22179,6 +22206,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GenericEnemy (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23085,7 +23117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &8231866839227377354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23166,6 +23198,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BloodTreeBuild
+      objectReference: {fileID: 0}
+    - target: {fileID: 1820494545657111320, guid: f178844b8ac603141a9daf9fa0d66fb8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6576931610452621751, guid: f178844b8ac603141a9daf9fa0d66fb8,
         type: 3}
@@ -23290,6 +23327,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GenericEnemy (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -79,7 +79,7 @@ public class IABoid : IAFather
             steerings["frutas"].targets.Add(manzana);
     }
 
-    protected void SteeringsMovement()
+    public void SteeringsMovement()
     {
         foreach (var itemInPictionary in steerings)
         {
