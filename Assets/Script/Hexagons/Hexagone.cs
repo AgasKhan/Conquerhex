@@ -270,6 +270,13 @@ public class Hexagone : MonoBehaviour
         return this;
     }
 
+    public Hexagone SetOwnerColor()
+    {
+        HexagonsManager.SetColorHexagone(this);
+
+        return this;
+    }
+
     public Hexagone SetTileMap(Tilemap map)
     {
         this.map = map;

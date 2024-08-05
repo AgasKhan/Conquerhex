@@ -114,6 +114,7 @@ public class LoadMap : SingletonMono<LoadMap>
                     .SetBiome(biomes.RandomPic())
                     .SetTeleportEdge(hexagonos[i])
                     .SetTerrain()
+                    .SetOwnerColor()
                     .FillPropsPosRoutine((str) => msg2($"{msg}\n{str}\n"), i != 0, i == 0 || i == HexagonsManager.idMaxLevel, spawnCountLimitPerFrame);
 
                 yield return arrHexTeleport.Off();
