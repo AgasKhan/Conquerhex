@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IAIO : IAFather
 {
@@ -14,6 +15,12 @@ public class IAIO : IAFather
 
     [SerializeField]
     string lastCombo;
+
+    [SerializeField]
+    UnityEvent effectBackToBaseStart;
+
+    [SerializeField]
+    UnityEvent effectBackToBaseEnd;
 
     string[] combos = new string[] { "↑↑","→→", "←←" , "↓↓" };
 
@@ -320,10 +327,14 @@ public class IAIO : IAFather
 
                 if (ladoToGo == -1)
                 {
-                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde aqui");
+                    if(character.hexagoneParent.id == 0)
+                        UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde desde la base");
+                    else
+                        UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde aqui");
                 }
                 else
                 {
+                    effectBackToBaseStart.Invoke();
                     automaticMoveToBase = Vector2.one;
                     character.move.objectiveVelocity *= 5;
                     character.gameObject.layer = 14;
@@ -331,6 +342,7 @@ public class IAIO : IAFather
             }
             else
             {
+                effectBackToBaseEnd.Invoke();
                 character.move.objectiveVelocity /= 5;
                 automaticMoveToBase = Vector2.zero;
                 character.gameObject.layer = 7;
@@ -342,8 +354,15 @@ public class IAIO : IAFather
         {
             int ladoToGo = character.hexagoneParent.ladoToBase;
 
-            if (ladoToGo == -1)
+            if (character.hexagoneParent.id == 0 || ladoToGo==-1)
             {
+                effectBackToBaseEnd.Invoke();
+
+                if(character.hexagoneParent.id == 0)
+                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("Llegaste a base");
+                else
+                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("Se perdio el rumbo");
+
                 character.move.objectiveVelocity /= 5;
                 automaticMoveToBase = Vector2.zero;
                 character.gameObject.layer = 7;

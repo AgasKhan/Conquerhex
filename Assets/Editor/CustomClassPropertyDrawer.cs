@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using CustomEulerEditor;
 
+/*
 [CustomPropertyDrawer(typeof(object), true)]
 public class CustomClassPropertyDrawer : PropertyDrawer
 {
@@ -91,3 +92,4 @@ public class CustomClassPropertyDrawer : PropertyDrawer
         return foldout;
     }
 }
+*/

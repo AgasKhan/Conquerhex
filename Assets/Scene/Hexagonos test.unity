@@ -871,6 +871,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660d4632559fa0744a119fc58b33b9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1453838018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8510445269832402742, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1125739740292512843}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &1453838021
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453838018}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 101d2ec8cfe41784d92e6d5ddcbab2bb, type: 2}
+  - {fileID: 7400000, guid: e5daaddba430f934ca97ef317d0ab202, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1453838022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453838018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 0
+  sharedProfile: {fileID: 11400000, guid: 081cae3f4297b3649b1ff4bf02dfd8bc, type: 2}
 --- !u!1001 &1502638158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1588,6 +1628,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2095252052}
+    - targetCorrespondingSourceObject: {fileID: 8510445269832402742, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1453838022}
+    - targetCorrespondingSourceObject: {fileID: 8510445269832402742, guid: 24433cefb3e6b9e46acdb0dca9aea7bc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1453838021}
   m_SourcePrefab: {fileID: 100100000, guid: 24433cefb3e6b9e46acdb0dca9aea7bc, type: 3}
 --- !u!1001 &1830034466160519531
 PrefabInstance:
@@ -16525,6 +16573,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3934061507348870747, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: effectBackToBaseEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1453838021}
+    - target: {fileID: 3934061507348870747, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: effectBackToBaseStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1453838021}
     - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
       propertyPath: categoriesOfPool.Array.data[0].objectPool.Array.data[2].parent
