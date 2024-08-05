@@ -25,6 +25,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static int idMaxLevel => instance._idMaxLevel;
 
+    public static Color ColorFortaleza => instance?._colorFortaleza ?? Color.white;
+
+    public static Color ColorBase => instance?._colorBase ?? Color.white;
+
     public static Color ColorEncerrado => instance?._colorEncerrado ?? Color.white;
 
 
@@ -61,6 +65,12 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     [SerializeReference]
     Hexagone _hexagonoPrefabFinal;
+
+    [SerializeReference]
+    Color _colorFortaleza = Color.yellow;
+
+    [SerializeReference]
+    Color _colorBase = Color.blue;
 
     [SerializeReference]
     Color _colorEncerrado = Color.red;
@@ -100,6 +110,22 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     static bool queueOnOffFlag;
 
+    public static void SetColorHexagone(Hexagone hex)
+    {
+        if (hex.id == 0)
+        {
+            hex.effect.color = ColorBase;
+        }
+        else if (hex.name.Contains("Fortaleza"))
+        {
+            hex.effect.color = ColorFortaleza;
+        }
+        else
+        {
+            hex.effect.color = ColorDefault;
+        }
+    }
+
     public static void SetArrayHexagons(int number)
     {
         instance._hexagonos = new int[number][,];
@@ -136,9 +162,10 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         //Colors view
         {
-
             if(instance?.previusViewActive!=null)
-                instance.previusViewActive.effect.color = ColorDefault;
+            {
+                SetColorHexagone(instance.previusViewActive);
+            }
 
             bool allSame = true;
 
@@ -157,8 +184,6 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
                 hex.effect.color = ColorSame;
 
         }
-        
-
 
         int index = lado == arista ? lado + 1 : lado - 1;
 
