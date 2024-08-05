@@ -39,7 +39,16 @@ public class Proyectile : Entity
         //moveComponent = GetInContainer<MoveEntityComponent>();
 
         if(TryGetInContainer(out moveComponent))
+        {
             moveComponent.onMove += Move_onMove;
+            moveComponent.onIdle += Move_onIdle; ;
+        }
+            
+    }
+
+    private void Move_onIdle()
+    {
+        gameObject.SetActive(false);
     }
 
     private void Move_onMove(Vector3 obj)
@@ -62,11 +71,11 @@ public class Proyectile : Entity
     public virtual void Throw(Entity owner ,Damage[] dmg, Vector3 dir)
     {
         transform.up = dir;
-        gameObject.SetActive(true);
         team = owner.team;
         damages = dmg;
         moveComponent.Velocity(dir.normalized);
         off.Reset();
+        gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter(Collision collision)
