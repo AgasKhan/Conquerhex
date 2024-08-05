@@ -129,6 +129,8 @@ public class LoadMap : SingletonMono<LoadMap>
 
                 arrHexTeleport.name = "Hexagono Fortaleza " + i;
 
+                arrHexTeleport.SetOwnerColor();
+
                 yield return arrHexTeleport.Off();
             }
 
