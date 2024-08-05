@@ -19,6 +19,9 @@ public class BloodTreeBuild : Building
     [SerializeField]
     SpriteRenderer sprite;
 
+    [SerializeField]
+    UnityEngine.Events.UnityEvent onRewardGiven;
+
     Hexagone[] originalTp = new Hexagone[6];
 
     Hexagone[] encerradoTp = new Hexagone[6];
@@ -161,6 +164,8 @@ public class BloodTreeBuild : Building
                     .SetWindow("Felicidades", "Ya obtuviste todas las recetas\nHas obtenido: " + randomItem.nameDisplay.RichTextColor(Color.cyan) + " x ".RichTextColor(Color.cyan) + (randomAmount.ToString().RichTextColor(Color.cyan)) + " como compensación")
                     .AddButton("Aceptar", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
         }
+
+        onRewardGiven.Invoke();
 
         interactComp.ChangeInteract(false);
         /*
