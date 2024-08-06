@@ -234,9 +234,12 @@ public class GameManager : SingletonMono<GameManager>
     {
         stopwatch.Restart();
 
-        fsmGameMaganer.UpdateState();
-
         updateUnityEvent?.Invoke();
+    }
+
+    private void LateUpdate()
+    {
+        fsmGameMaganer.UpdateState();
     }
 
     private void FixedUpdate()
