@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5690567857835757096, guid: 8dfd475b212703847a2e5f3525eef81d,
+        type: 3}
+      propertyPath: audios.pictionaries.Array.data[0].value.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c7ce65e0d1cb9c4fbe7a6a49ba25b0b, type: 3}
     - target: {fileID: 854635496143139254, guid: 8dfd475b212703847a2e5f3525eef81d,
         type: 3}
       propertyPath: m_Color.b
@@ -209,6 +214,17 @@ MonoBehaviour:
       value:
         steering: {fileID: 2739338104273489335}
         weight: 1
+  automaticAttack:
+    timerToAttack:
+      _total: 0
+      _current: 0
+    timerChargeAttack:
+      _total: 0
+      _current: 0
+    automaticAiming: 0
+    timeToAttack: 2
+    timeToChargeAttack: 1
+    precisionTime: 5
   lider: {fileID: 0}
 --- !u!114 &3372423637999013521
 MonoBehaviour:
