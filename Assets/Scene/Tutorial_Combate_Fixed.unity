@@ -42371,7 +42371,7 @@ PrefabInstance:
     - target: {fileID: 1919550693263243276, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -387.91998
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 2330323508802245277, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -42406,6 +42406,16 @@ PrefabInstance:
     - target: {fileID: 2993547733947319420, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163192528987766755, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163192528987766755, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3778793013017080466, guid: 626138fc60cd2014095952742520b9a1,
@@ -42476,7 +42486,7 @@ PrefabInstance:
     - target: {fileID: 5642960136826889336, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -83.520004
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 6032241061342428600, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -42616,7 +42626,7 @@ PrefabInstance:
     - target: {fileID: 7045241114997381348, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -243.54001
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 7280183783545164915, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
@@ -48348,7 +48358,7 @@ MonoBehaviour:
   allDialogs:
   - dialog: "Ahora necesitas aprender a defenderte, as\xED que practicar\xE1s con
       un mu\xF1eco de entrenamiento. Ac\xE9rcate a la <color=#F6CB30>palanca y acci\xF3nala</color>
-      presionando la <color=lightblue>tecla F</color> para que aparezca el mu\xF1eco."
+      presionando la <color=#2899BC>tecla F</color> para que aparezca el mu\xF1eco."
     objective: -Interacciona con la palanca
     logicActive:
       m_PersistentCalls:
@@ -48411,7 +48421,7 @@ MonoBehaviour:
     timeToCallEvent: 10
   - dialog: "Bien, ahora te dar\xE9 un arma, equ\xEDpatela para poder practicar la
       mejor defensa que existe, un ataque frontal.\r\nPuedes revisar tu equipamiento
-      e inventario presionando la tecla <color=lightblue>Tab</color>. \nDespu\xE9s
+      e inventario presionando la <color=#2899BC>tecla Tab</color>. \nDespu\xE9s
       vuelve a hablar conmigo.\r"
     objective: "-Equ\xEDpate el arma"
     logicActive:
@@ -48443,7 +48453,7 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 0
   - dialog: "Ahora s\xED, encend\xED el mu\xF1eco de pruebas, as\xED que intenta
-      atacarlo con el <color=lightblue>Click Izquierdo</color> para familiarizarte
+      atacarlo con el <color=#2899BC>Click Izquierdo</color> para familiarizarte
       con tu nueva arma. \r"
     objective: -Ataca el objetivo
     logicActive:
@@ -48488,15 +48498,15 @@ MonoBehaviour:
     timeToCallEvent: 1.2
   - dialog: "Est\xE1s listo para usar tu brazal anti-entr\xF3pico, cortes\xEDa de
       los \xC1ngeles.\n\xA1El cual te permitir\xE1 hacer cosas realmente incre\xEDbles!\n\nLe
-      hemos equipado de serie con las siguientes habilidades: \n<color=blue>Dash
-      Simple</color>\t<color=blue>Parry b\xE1sico</color>\n<color=blue>Casteo de
-      se\xF1ales</color>\t<color=blue>Destrucci\xF3n de se\xF1ales</color>\n\n\nDepende
+      hemos equipado de serie con las siguientes habilidades: \n<color=#F6CB30>Dash
+      Simple</color>\t<color=#F6CB30>Parry b\xE1sico</color>\n<color=#F6CB30>Casteo
+      de se\xF1ales</color>\t<color=#F6CB30>Destrucci\xF3n de se\xF1ales</color>\n\n\nDepende
       de donde est\xE9n equipadas, podr\xE1s usar distintas teclas para ejecutarlas.\n\n\nRecuerda
       que podr\xE1s conseguir m\xE1s a lo largo de tu misi\xF3n.\n\n\nPru\xE9balos
       en combinaci\xF3n con tu arma sobre estos enemigos."
-    objective: "-Ejecuta <color=blue>Parry b\xE1sico</color> con ClickDer\n-Ejecuta
-      <color=blue>Dash Simple</color> con LeftShift\n-Ejecuta <color=blue>Casteo
-      de se\xF1ales</color> con \u2192\u2192 + ClickDer\n-Ejecuta <color=blue>Destruccion
+    objective: "-Ejecuta <color=#F6CB30>Parry b\xE1sico</color> con ClickDer\n-Ejecuta
+      <color=#F6CB30>Dash Simple</color> con LeftShift\n-Ejecuta <color=#F6CB30>Casteo
+      de se\xF1ales</color> con \u2192\u2192 + ClickDer\n-Ejecuta <color=#F6CB30>Destruccion
       de se\xF1ales</color> con \u2190\u2190 + ClickDer\n"
     logicActive:
       m_PersistentCalls:
@@ -48623,10 +48633,11 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 8
   - dialog: "Desde aqu\xED ya no te acompa\xF1ar\xE9 en tu aventura.\nHe abierto
-      las puertas para que explores la zona, simulando tu misi\xF3n real.\n\nRecuerda
-      que tu misi\xF3n es adentrate en zona enemigo y abatir los <color=green>\xE1rboles
-      sangrantes</color>.\r\n<color=red> Este ya no es tu mundo...</color>, hasta
-      un inocente cordero podr\xEDa ser tu perdici\xF3n. \r\n<align=\"center\"><i>Ten
+      las puertas para que explores la zona, simulando tu misi\xF3n real.\n\nSi te
+      pierdes podr\xE1s volver al inicio con la <color=#2899BC>tecla Y</color>\n\n\nRecuerda
+      que tu misi\xF3n es adentrate en zona enemigo y abatir los <color=#F6CB30>\xE1rboles
+      sangrantes</color>.\n\r\n<color=red>Este ya no es tu mundo...</color> \nhasta
+      un inocente cordero podr\xEDa ser tu perdici\xF3n. \n\n<align=\"center\"><i>Ten
       cuidado</i></align>\r"
     objective: "-Busca el \xE1rbol para salir de la simulaci\xF3n. <align=\"center\"><size=75><sprite=\"BloodTree\"
       index=16></size></align>"

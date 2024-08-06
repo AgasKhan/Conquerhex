@@ -1668,11 +1668,11 @@ MonoBehaviour:
       a un cuerpo modificado no debe ser tan f\xE1cil \xBFVerdad?\n\n\nNo intentes
       responderme, solo sigo una rutina de comportamiento pre concebida.\n\n\nEspero
       que me est\xE9s prestando atenci\xF3n y no quieras agilizar mis di\xE1logos
-      utilizando la tecla de <color=green>interacci\xF3n</color>, ya que este di\xE1logo
+      utilizando la tecla de <color=#2899BC>interacci\xF3n</color>, ya que este di\xE1logo
       no lo repetir\xE9."
     objective: "-Darle sentido de existencia al npc interactuando con el para buscar
       informaci\xF3n relevante prestando atenci\xF3n sin agilizar los di\xE1logos
-      con la tecla <color=green>F</color>."
+      con la <color=#2899BC>tecla F</color>."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1714,7 +1714,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     timeToCallEvent: 0
-  - dialog: "Oh, \xBFhas vuelto tan r\xE1pido? Prueba <color=green>teletransportarte</color>
+  - dialog: "Oh, \xBFhas vuelto tan r\xE1pido? Prueba <color=#F6CB30>teletransportarte</color>
       por otro lado."
     objective: "-Intenta entender la l\xF3gica de los portales en los lados."
     logicActive:
@@ -1735,13 +1735,13 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Te noto confundido, no es tu culpa que con tu cerebro primitivo y sentimental
       te cueste entender que sucede \xA1Es la idea!\n\nEn el mundo al que te transladaremos
-      <color=green>cada lado es un portal</color> que se conecta a otro permiti\xE9ndote
+      <color=#F6CB30>cada lado es un portal</color> que se conecta a otro permiti\xE9ndote
       acceder a otras parcelas o la \xA1misma!\n\n\xBFNo es guay el laberinto que
       crearon los \xE1ngeles para que los humanos dejen de intentar extinguirse?\n\nYa
       he reconfigurado el mapa.\n\nExplora los otros biomas y ven a hablarme cuando
       hayas terminado."
-    objective: "-Explora los 2 nuevos biomas <color=yellow>des\xE9rtico</color> y
-      <color=#00ffffff>nevado</color>."
+    objective: "-Explora los 2 nuevos biomas <color=#F6CB30>des\xE9rtico</color>
+      y <color=#00ffffff>nevado</color>."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -34656,6 +34656,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -540
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350294693350688342, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565151969290883887, guid: 626138fc60cd2014095952742520b9a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1857834064515438230, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
