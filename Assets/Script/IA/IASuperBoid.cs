@@ -36,6 +36,12 @@ public class IASuperBoid : IABoid
         base.OnStayState(param);
     }
 
+    public override void OnExitState(Character param)
+    {
+        automaticAttack.StopTimers();
+        base.OnExitState(param);
+    }
+
     protected override void Detection()
     {
         float distance = float.PositiveInfinity;
