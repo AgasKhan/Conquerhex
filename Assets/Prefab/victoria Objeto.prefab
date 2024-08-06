@@ -5152,6 +5152,7 @@ GameObject:
   - component: {fileID: 144700975390268930}
   - component: {fileID: 5270999359318039287}
   - component: {fileID: 4550077736463737941}
+  - component: {fileID: 2853309217799455824}
   m_Layer: 0
   m_Name: victoria Objeto
   m_TagString: Props
@@ -5369,6 +5370,37 @@ CapsuleCollider:
   m_Height: 255.84616
   m_Direction: 1
   m_Center: {x: 60.026276, y: 111.90569, z: -2.4734616}
+--- !u!114 &2853309217799455824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019227970276860375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660233c709f76f1438afa52bf6bc4785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries:
+    - key: DamagedLife
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: be1bf4b543860ba41966e21b0d0df827, type: 3}
+        volume: 0.5
+        pitch: 1
+        spatialBlend: 1
+        maxDistance: 4
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+  damagedLifeAudio: DamagedLife
+  damagedRegenAudio: DamagedRegen
+  teleportAudio: TeleportAudio
+  deadAudio: DeadAudio
 --- !u!1 &3296327352810058749
 GameObject:
   m_ObjectHideFlags: 0
@@ -10271,7 +10303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4ae0ca32929e94b8a435384b851ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 0}
+  entity: {fileID: 4117765965156086507}
   damaged1: {r: 1, g: 1, b: 0, a: 1}
   damaged2: {r: 1, g: 0.016, b: 0.92, a: 1}
   detected: {r: 1, g: 0.5, b: 0.5, a: 1}
