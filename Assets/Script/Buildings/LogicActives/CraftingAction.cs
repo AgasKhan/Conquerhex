@@ -17,7 +17,7 @@ public class CraftingAction : InteractAction<(Character customer, ItemCrafteable
         if (itemToCraft.CanCraft(customer.inventory))
         {
             itemToCraft.Craft(customer.inventory, itemToCraft.nameDisplay);
-            audioComponent.Play("CraftAudio");
+            //audioComponent.Play("CraftAudio");
 
             if (itemToCraft is MeleeWeaponBase)
             {
