@@ -642,6 +642,18 @@ MonoBehaviour:
           m_StringArgument: "- Encuentra y abate el \xE1rbol sangrante de la fortaleza"
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 5478742582229948989}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "- Encuentra y abate el \xE1rbol sangrante de la fortaleza"
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!111 &1419706976
 Animation:
   m_ObjectHideFlags: 0
@@ -13203,6 +13215,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 158246449}
   m_SourcePrefab: {fileID: 100100000, guid: 626138fc60cd2014095952742520b9a1, type: 3}
+--- !u!1 &5478742582229948989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4241346766244645278, guid: 626138fc60cd2014095952742520b9a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5478742582229948988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6295448973055230582
 PrefabInstance:
   m_ObjectHideFlags: 0
