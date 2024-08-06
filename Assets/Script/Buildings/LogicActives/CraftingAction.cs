@@ -30,6 +30,11 @@ public class CraftingAction : InteractAction<(Character customer, ItemCrafteable
             }
             return;
         }
+        else
+        {
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "No tienes suficientes materiales")
+                        .AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
+        }
     }
 
     public override void InteractInit(InteractEntityComponent _interactComp)
