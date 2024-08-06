@@ -53,9 +53,8 @@ public class CastingParry : CastingAction<CastingParryBase>
 
     public override void Destroy()
     {
-        base.Destroy();
-
         caster.onTakeDamage -= TriggerTakeDamage;
+        base.Destroy();
     }
 
     private void TriggerTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)

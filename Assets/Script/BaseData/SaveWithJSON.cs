@@ -169,7 +169,7 @@ public class SaveWithJSON : SingletonClass<SaveWithJSON>, Init
 
     public void Init()
     {
-        Debug.Log("BD: \n" + BD.ToString());
+        //Debug.Log("BD: \n" + BD.ToString());
 
         if (PlayerPrefs.HasKey("GameData"))
         {

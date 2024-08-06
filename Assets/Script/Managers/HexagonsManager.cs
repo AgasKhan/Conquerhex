@@ -651,13 +651,13 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         _localApotema = LocalApotema();
 
         _localRadio = LocalRadio();
-
+        /*
         Debug.Log("Informacion de seteo");
 
         Debug.Log("lado" + lado);
 
         Debug.Log("apotema " + apotema);
-
+        */
         queueOnOffFlag = false;
 
         if (!automaticRender)

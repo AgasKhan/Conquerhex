@@ -208,7 +208,7 @@ public class GenericChase : IState<GenericEnemyFSM>
         { 
             if(param!=null && !target.transform.IsInRadius(param.context, param.context.attackDetection.maxRadius*2))
             {
-                Debug.Log("EVADE");
+                //Debug.Log("EVADE");
                 param.CurrentState = param.waiting; /*Debug.Log("Timer Evade Check");*/
             }         
         }).Stop();
@@ -216,7 +216,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
     public void OnEnterState(GenericEnemyFSM param)
     {
-        Debug.Log("Enter Chase State");
+        //Debug.Log("Enter Chase State");
 
         this.param = param;
 

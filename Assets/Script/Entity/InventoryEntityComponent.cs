@@ -235,7 +235,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
 
         if (item is ItemStackeable && inventory.Contains(item, out int index))
         {
-            Debug.Log("Es stackeable");
+            //Debug.Log("Es stackeable");
             int indexStack = inventory[index].GetStackCount()-1;
 
             for (int j = 0; j < item.GetStackCount(); j++)
@@ -249,7 +249,7 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         }
         else
         {
-            Debug.Log("No es stackeable");
+            //Debug.Log("No es stackeable");
             item.ChangeContainer(this);
         }
             

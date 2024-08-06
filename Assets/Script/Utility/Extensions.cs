@@ -417,7 +417,7 @@ public static class Extensions
         b.onClick.AddListener(unityAction);
         //menu.eventListVoid[b.name](b.gameObject);
 
-        Debug.Log("\tboton configurando");
+        //Debug.Log("\tboton configurando");
     }
 
     public static void SlotEvent(this Slot s)

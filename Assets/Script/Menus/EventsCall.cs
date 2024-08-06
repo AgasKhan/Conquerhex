@@ -56,7 +56,7 @@ public class EventsCall : ContentRectTransform
     /// <param name="g"></param>
     public void Event(GameObject g)
     {
-        print("\tAccediendo: " + g.name);
+        //print("\tAccediendo: " + g.name);
 
         /*
         if(button == null)
