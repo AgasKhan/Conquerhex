@@ -17,7 +17,7 @@ public class CraftingAction : InteractAction<(Character customer, ItemCrafteable
         if (itemToCraft.CanCraft(customer.inventory))
         {
             itemToCraft.Craft(customer.inventory, itemToCraft.nameDisplay);
-            audioComponent.Play("CraftAudio");
+            //audioComponent.Play("CraftAudio");
 
             if (itemToCraft is MeleeWeaponBase)
             {
@@ -29,6 +29,11 @@ public class CraftingAction : InteractAction<(Character customer, ItemCrafteable
                 ((CraftingSubMenu)subMenu).Create(customer);
             }
             return;
+        }
+        else
+        {
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "No tienes suficientes materiales")
+                        .AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
         }
     }
 
