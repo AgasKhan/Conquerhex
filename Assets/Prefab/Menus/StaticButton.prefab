@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6350085083266044057}
   - component: {fileID: 3575972917624725941}
   - component: {fileID: 4741700821661415422}
+  - component: {fileID: 1819301023050698432}
   - component: {fileID: 6926420586964467372}
   m_Layer: 5
   m_Name: Button
@@ -77,6 +78,46 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1819301023050698432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4010141340871702410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e675479cc1aa37489f79d2c52e85af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audios:
+    pictionaries:
+    - key: Hover
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: f4cc060fcba58854387d250793718667, type: 3}
+        volume: 0.3
+        pitch: 1
+        spatialBlend: 0
+        maxDistance: 0
+        minDistance: 1
+        loop: 0
+        onAwake: 0
+    - key: Confirmation
+      value:
+        source: {fileID: 0}
+        mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+          type: 2}
+        clip: {fileID: 8300000, guid: f04a0cbba3ff6ea4cac4e7360dbb1161, type: 3}
+        volume: 0.2
+        pitch: 1
+        spatialBlend: 0
+        maxDistance: 1
+        minDistance: 1
+        loop: 0
+        onAwake: 0
 --- !u!114 &6926420586964467372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +172,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1819301023050698432}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4010141340871702410}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Confirmation
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &6099305334868113679
