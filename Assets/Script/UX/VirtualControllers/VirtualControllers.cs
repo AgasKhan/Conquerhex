@@ -22,6 +22,9 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
     static public Axis Alpha2 { get => instance._alpha2; }
     static public Axis Alpha3 { get => instance._alpha3; }
     static public Axis Alpha4 { get => instance._alpha4; }
+    static public Axis Escape { get => instance._escape; }
+    static public Axis Inventory { get => instance._inventory; }
+    static public Axis Accept { get => instance._accept; }
 
 
     [SerializeField]
@@ -50,6 +53,15 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     [SerializeField]
     Axis _alpha4;
+
+    [SerializeField]
+    Axis _escape;
+
+    [SerializeField]
+    Axis _accept;
+
+    [SerializeField]
+    Axis _inventory;
 
     TriggerDetection[] triggersArray;
 
