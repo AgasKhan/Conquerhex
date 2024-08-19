@@ -38,6 +38,7 @@ public class SecretKey : MonoBehaviour
             }
         }
         */
+        /*
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
@@ -45,7 +46,7 @@ public class SecretKey : MonoBehaviour
                 .AddButton("Si", Application.Quit)
                 .AddButton("No", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (!submenuRef.activeSelf && !isInStatistics)
@@ -76,7 +77,7 @@ public class SecretKey : MonoBehaviour
                 GameManager.instance.Load("Hexagonos test");
             }
         }
-
+        */
     }
 
     public void ReviveMinion()
