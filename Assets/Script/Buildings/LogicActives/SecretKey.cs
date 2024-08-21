@@ -18,11 +18,53 @@ public class SecretKey : MonoBehaviour
     public Character minion;
 
     Vector3 originalMinionPos;
+
+    public EventControllerMediator escapeEventMediator;
+    public EventControllerMediator inventoryEventMediator;
     private void Awake()
     {
         if(minion!=null)
             originalMinionPos = minion.transform.position;
+
+        escapeEventMediator = new EventControllerMediator();
+        escapeEventMediator.eventDown += EscapeEventMediator_eventDown;
+
+        inventoryEventMediator = new EventControllerMediator();
+        inventoryEventMediator.eventDown += InventoryEventMediator_eventDown;
+
+        VirtualControllers.Escape.SuscribeController(escapeEventMediator);
+        VirtualControllers.Inventory.SuscribeController(inventoryEventMediator);
     }
+
+    private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        Debug.Log("TAB-------------");
+
+        if (!submenuRef.activeSelf)
+        {
+            statisticsSubMenu.Create(MenuManager.instance.character);
+        }
+        else
+        {
+            statisticsSubMenu.TriggerMyOnClose();
+        }
+    }
+
+    private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        if(submenuRef.activeSelf)
+        {
+            statisticsSubMenu.TriggerMyOnClose();
+        }
+        else
+        {
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+                .SetWindow("", "¿Seguro que deseas cerrar el juego?")
+                .AddButton("Si", Application.Quit)
+                .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Comma) && leverCorderito != null)
