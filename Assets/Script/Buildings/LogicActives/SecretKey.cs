@@ -38,7 +38,7 @@ public class SecretKey : MonoBehaviour
 
     private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
     {
-        Debug.Log("TAB-------------");
+        //Debug.Log("TAB-------------");
 
         if (!submenuRef.activeSelf)
         {

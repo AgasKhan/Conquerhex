@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=a9b3381a4b92e46449f304a59700c432&amp;type=3#MainMenuStyle" />
+    <ui:VisualElement name="Container" style="flex-grow: 1; align-items: flex-end; background-image: url(&quot;project://database/Assets/Sprites/HUD/Arrange-menu.png?fileID=21300000&amp;guid=24b4259bb722c9d40bc7cddcbd6384cd&amp;type=3#Arrange-menu&quot;); background-color: rgba(0, 0, 0, 0); justify-content: space-around; padding-top: 340px; padding-right: 26px; padding-bottom: 26px; padding-left: 26px; align-self: auto;">
+        <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" class="menuButtom" />
+        <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="menuButtom" />
+        <ui:Button text="Credits" parse-escape-sequences="true" display-tooltip-when-elided="true" class="menuButtom" />
+        <ui:Button text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" class="menuButtom" />
+    </ui:VisualElement>
+</ui:UXML>

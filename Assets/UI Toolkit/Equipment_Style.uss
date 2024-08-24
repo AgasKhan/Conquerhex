@@ -1,0 +1,105 @@
+.slotButton {
+    width: 70px;
+    height: 70px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgb(21, 20, 20);
+    border-left-color: rgb(135, 110, 65);
+    border-right-color: rgb(135, 110, 65);
+    border-top-color: rgb(135, 110, 65);
+    border-bottom-color: rgb(135, 110, 65);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.KataButton {
+    width: 145px;
+    height: 80px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: rgb(21, 20, 20);
+    border-left-color: rgb(135, 110, 65);
+    border-right-color: rgb(135, 110, 65);
+    border-top-color: rgb(135, 110, 65);
+    border-bottom-color: rgb(135, 110, 65);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.titleText {
+    color: rgb(173, 144, 91);
+    justify-content: flex-start;
+    align-self: center;
+    align-items: auto;
+    font-size: 40px;
+    left: 54px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.verticalContainer {
+    justify-content: space-around;
+    align-self: center;
+}
+
+.horizontalContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-self: center;
+}
+
+.subTitle {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+.margin20 {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.padding20 {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.verticalList {
+    justify-content: flex-start;
+    align-self: flex-start;
+    flex-wrap: nowrap;
+}
+
+.horizontalList {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-self: center;
+    flex-shrink: 0;
+}
+
+.listButton {
+    background-color: rgb(41, 39, 39);
+    border-left-color: rgb(130, 98, 41);
+    border-right-color: rgb(130, 98, 41);
+    border-top-color: rgb(130, 98, 41);
+    border-bottom-color: rgb(130, 98, 41);
+}

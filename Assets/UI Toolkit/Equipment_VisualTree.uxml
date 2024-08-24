@@ -1,0 +1,46 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-wrap: wrap;">
+        <ui:VisualElement name="LeftBox" style="flex-grow: 1; width: 50%; height: 100%;">
+            <ui:Label tabindex="-1" text="EQUIPAMIENTO" parse-escape-sequences="true" display-tooltip-when-elided="true" class="subTitle padding20" style="height: 12%; width: 100%; font-size: 44px; color: rgb(190, 148, 101);" />
+            <ui:VisualElement name="EquipmentContainer" style="flex-grow: 0; height: 88%;">
+                <ui:VisualElement name="Basics" style="flex-grow: 1; height: 15%; flex-wrap: nowrap; flex-direction: row; justify-content: space-between; width: 436px; align-self: center;">
+                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AuxContainer" style="flex-grow: 1; flex-wrap: wrap; height: 85%; justify-content: space-around;">
+                    <ui:VisualElement name="Abilities" style="flex-grow: 0; flex-shrink: 0; width: 25%; height: 522px; justify-content: space-between; align-self: center;">
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Banner" style="flex-grow: 0; flex-shrink: 0; width: 45%; height: 100%; justify-content: center;">
+                        <ui:VisualElement name="BannerImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/HumanoBanner.png?fileID=21300000&amp;guid=8eb0e6035b54c1446b10856ec047b3a3&amp;type=3#HumanoBanner&quot;); width: 425px; height: 737px; justify-content: center; align-self: center; align-items: center;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 75%; justify-content: space-between;">
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="KataButton" style="align-items: center; justify-content: center; align-self: center;">
+                            <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" style="align-self: flex-end; align-items: flex-end; right: -13px;" />
+                        </ui:Button>
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="KataButton" style="align-items: center; justify-content: center; align-self: center;">
+                            <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" style="align-self: flex-end; align-items: flex-end; right: -13px;" />
+                        </ui:Button>
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="KataButton" style="align-items: center; justify-content: center; align-self: center;">
+                            <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" style="align-self: flex-end; align-items: flex-end; right: -13px;" />
+                        </ui:Button>
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="KataButton" style="align-items: center; justify-content: center; align-self: center;">
+                            <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" style="align-self: flex-end; align-items: flex-end; right: -13px;" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="RightBox" class="padding20 verticalContainer" style="width: 50%; flex-grow: 1;">
+            <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="ESTADISTICAS" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(190, 148, 101); font-size: 40px; -unity-text-align: upper-center;" />
+                <ui:Label tabindex="-1" text="DAÑO POR LANZ-------------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0&#10;DAÑO POR LANZ-------------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Statistics" class="padding20" style="color: rgb(118, 85, 61); font-size: 24px; -unity-text-align: upper-center;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
