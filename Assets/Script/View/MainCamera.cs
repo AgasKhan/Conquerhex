@@ -120,6 +120,13 @@ public class MainCamera : SingletonMono<MainCamera>
         shakeTr.localPosition = obj;
     }
 
+    public void SetPerspective(Vector3 pos, Vector3 rotation)
+    {
+        rotationPerspective += rotation;
+        vectorPerspective = pos;
+        Refresh();
+    }
+
     void Refresh()
     {
         if (main == null)
