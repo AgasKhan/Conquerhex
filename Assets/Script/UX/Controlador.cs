@@ -31,11 +31,33 @@ public interface ICoolDown
     public event System.Action<IGetPercentage, float> onCooldownChange;
 }
 
+
 public class EventControllerMediator : IEventController, IControllerDir
 {
     public event Action<Vector2, float> eventDown;
     public event Action<Vector2, float> eventPress;
     public event Action<Vector2, float> eventUp;
+
+    public Func<Quaternion> quaternion
+    {
+        set
+        {
+            if(value == null)
+            {
+                _quaternion = QuaterionIdentity;
+            }
+            else
+            {
+                _quaternion = value;
+            }
+        }
+    }
+
+    Func<Quaternion> _quaternion = QuaterionIdentity;
+
+    //Quaternion _quaternion => quaternion == null ? Quaternion.identity : quaternion();
+
+    static Quaternion QuaterionIdentity() => Quaternion.identity;
 
     public bool Enabled
     {
@@ -51,19 +73,19 @@ public class EventControllerMediator : IEventController, IControllerDir
     public void ControllerDown(Vector2 dir, float tim)
     {
         if(Enabled)
-            eventDown?.Invoke(dir, tim);
+            eventDown?.Invoke(_quaternion() * dir, tim);
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
         if (Enabled)
-            eventPress?.Invoke(dir, tim);
+            eventPress?.Invoke(_quaternion() * dir, tim);
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
         if (Enabled)
-            eventUp?.Invoke(dir, tim);
+            eventUp?.Invoke(_quaternion() * dir, tim);
     }
 
 
