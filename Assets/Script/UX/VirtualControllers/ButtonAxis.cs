@@ -6,15 +6,21 @@ using System;
 
 namespace Controllers
 {
-    [CreateAssetMenu(menuName = "Controllers/Axis")]
     /// <summary>
-    /// combinacion de middleaxis, eventos para si se mueve un joystick (down) o deja de hacerlo(up), y si se mantiene en movimiento (pressed)
+    /// Evento de tecla que puede representar: <br/>
+    /// Axis<br/>
+    /// Botones<br/>
+    /// Botones + axis<br/>
+    /// Posee eventos para cuando comienza a presionarse/moverse (down) o deja de hacerlo (up), y si se mantiene (pressed)
     /// </summary>
-    public class Axis : FatherKey, IEventController, IState<Vector2>
+    [CreateAssetMenu(menuName = "Controllers/ButtonAxis")]
+    public class ButtonAxis : FatherKey, IEventController, IState<Vector2>
     {
         public event Action<Vector2, float> eventDown;
         public event Action<Vector2, float> eventPress;
         public event Action<Vector2, float> eventUp;
+
+        public event Action<ButtonAxis> onSwitchGetDir;
 
         [field: SerializeField]
         public Vector2 dir { get; private set; }
@@ -24,6 +30,11 @@ namespace Controllers
             eventDown = null;
             eventUp = null;
             eventPress = null;
+        }
+
+        public void SitchGetDir(ButtonAxis axis)
+        {
+            onSwitchGetDir?.Invoke(axis);
         }
 
         public void OnEnterState(Vector2 param)

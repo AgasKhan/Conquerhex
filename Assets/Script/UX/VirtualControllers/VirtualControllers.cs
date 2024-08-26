@@ -12,56 +12,59 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
     static public HashSet<FatherKey> keys = new HashSet<FatherKey>();
 
     static public HashSet<TriggerDetection> triggers = new HashSet<TriggerDetection>();
+    static public ButtonAxis Movement { get => instance._movement; }
+    static public ButtonAxis Camera { get => instance._camera; }
+    static public ButtonAxis Principal { get => instance._principal; }
+    static public ButtonAxis Secondary { get => instance._secondary; }
+    static public ButtonAxis Terciary { get => instance._terciary; }
+    static public ButtonAxis Interact { get => instance._interact; }
+    static public ButtonAxis Alpha1 { get => instance._alpha1; }
+    static public ButtonAxis Alpha2 { get => instance._alpha2; }
+    static public ButtonAxis Alpha3 { get => instance._alpha3; }
+    static public ButtonAxis Alpha4 { get => instance._alpha4; }
+    static public ButtonAxis Escape { get => instance._escape; }
+    static public ButtonAxis Inventory { get => instance._inventory; }
+    static public ButtonAxis Accept { get => instance._accept; }
 
-    static public Axis Movement { get => instance._movement; }
-    static public Axis Principal { get => instance._principal; }
-    static public Axis Secondary { get => instance._secondary; }
-    static public Axis Terciary { get => instance._terciary; }
-    static public Axis Interact { get => instance._interact; }
-    static public Axis Alpha1 { get => instance._alpha1; }
-    static public Axis Alpha2 { get => instance._alpha2; }
-    static public Axis Alpha3 { get => instance._alpha3; }
-    static public Axis Alpha4 { get => instance._alpha4; }
-    static public Axis Escape { get => instance._escape; }
-    static public Axis Inventory { get => instance._inventory; }
-    static public Axis Accept { get => instance._accept; }
-
-
-    [SerializeField]
-    Axis _movement;
 
     [SerializeField]
-    Axis _principal;
+    ButtonAxis _movement;
 
     [SerializeField]
-    Axis _secondary;
+    ButtonAxis _camera;
 
     [SerializeField]
-    Axis _terciary;
+    ButtonAxis _principal;
 
     [SerializeField]
-    Axis _interact;
+    ButtonAxis _secondary;
 
     [SerializeField]
-    Axis _alpha1;
+    ButtonAxis _terciary;
 
     [SerializeField]
-    Axis _alpha2;
+    ButtonAxis _interact;
 
     [SerializeField]
-    Axis _alpha3;
+    ButtonAxis _alpha1;
 
     [SerializeField]
-    Axis _alpha4;
+    ButtonAxis _alpha2;
 
     [SerializeField]
-    Axis _escape;
+    ButtonAxis _alpha3;
 
     [SerializeField]
-    Axis _accept;
+    ButtonAxis _alpha4;
 
     [SerializeField]
-    Axis _inventory;
+    ButtonAxis _escape;
+
+    [SerializeField]
+    ButtonAxis _accept;
+
+    [SerializeField]
+    ButtonAxis _inventory;
 
     TriggerDetection[] triggersArray;
 
@@ -147,10 +150,18 @@ namespace Controllers
     public abstract class TriggerDetection : ScriptableObject
     {
 
+        [SerializeField]
+        protected ButtonAxis axis;
+
+        protected bool press;
+
+        [SerializeField]
+        protected Vector2 dir;
+
         [SerializeField, Tooltip("En caso de estar activo, se agregara a la lista de los triggers a detectar, en caso que no, no se ejecutara de forma automatica")]
         bool active = true;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if(active)
                 VirtualControllers.triggers.Add(this);

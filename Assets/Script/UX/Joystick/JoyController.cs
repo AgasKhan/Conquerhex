@@ -43,7 +43,7 @@ public class JoyController : MonoBehaviour
         get => imageToFill.fillAmount;
     }
 
-    public Controllers.Axis axisButton
+    public Controllers.ButtonAxis axisButton
     {
         get => stick.AxisButton;
     }

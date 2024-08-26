@@ -32,8 +32,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         }
     }
 
-    Vector3 _aiming;
-
     public event System.Action<Ability> onCast;
     public event System.Action<Ability> onPreCast;
     public event System.Action<Vector3> onAiming;
@@ -51,6 +49,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     [SerializeField,Range(-100,100), Tooltip(   "en caso de ser calor (positivo): es el porcentage de cuanta mas energia ganara con frio y cuanta menos energia perdera con calor" +
                                 "\nen caso de ser frio (negativo): es el porcentage de cuanta menos energia ganara con frio y cuanta mas energia perdera con calor")]
     float _buffEnergy;
+
+    [SerializeField]
+    Vector3 _aiming;
 
     [SerializeField]
     float _energy;

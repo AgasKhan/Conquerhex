@@ -87,7 +87,6 @@ public class MainCamera : SingletonMono<MainCamera>
 
     bool[] camerasEdge = new bool[6];
 
-
     Vector3 position => obj.position + offsetObjPosition;
 
     Character character;
@@ -114,18 +113,30 @@ public class MainCamera : SingletonMono<MainCamera>
     public void OnCharacterSelected(Character character)
     {
         if(this.character!=null)
+        {
             this.character.moveEventMediator.quaternion = null;
+            this.character.attackEventMediator.quaternion = null;
+            this.character.dashEventMediator.quaternion = null;
+            this.character.abilityEventMediator.quaternion = null;
+        }
 
         obj = character.transform;
 
         this.character = character;
 
-        this.character.moveEventMediator.quaternion = () =>
-        {
-            return Quaternion.Euler(0, 0, -rotationPerspective.y);
-        };
+        this.character.moveEventMediator.quaternion = RotationCamera;
+
+        this.character.attackEventMediator.quaternion = RotationCamera;
+
+        this.character.dashEventMediator.quaternion = RotationCamera;
+
+        this.character.abilityEventMediator.quaternion = RotationCamera;
     }
-    
+
+    Quaternion RotationCamera()
+    {
+        return Quaternion.Euler(0, 0, -rotationPerspective.y);
+    }
 
     void ShakeStart(Health health)
     {

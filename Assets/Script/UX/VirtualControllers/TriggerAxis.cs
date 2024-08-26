@@ -8,17 +8,13 @@ namespace Controllers
     public class TriggerAxis : TriggerDetection
     {
         [SerializeField]
-        protected Axis axis;
-
-        [SerializeField]
         string vertical;
 
         [SerializeField]
         string horizontal;
 
-        protected bool press;
-
-        protected Vector2 dir;
+        [SerializeField, Tooltip("en caso de ser verdadero leera el axis ingresado\nen caso de ser falso utilizara la posicion del mouse")]
+        bool mouseOverride = false;
 
         protected Vector2 vecPressed
         {
@@ -28,18 +24,26 @@ namespace Controllers
 
                 return dir;
             }
-
         }
 
         protected void UpdateAxis(bool b = false)
         {
-            float h = Input.GetAxisRaw(horizontal);
-            float v = Input.GetAxisRaw(vertical);
+            float h = Input.GetAxis(horizontal);
+            float v = Input.GetAxis(vertical);
 
             if (b || (h != 0 && v != 0))
-                dir.Set(h, v);
+            {
+                if (mouseOverride)
+                {
+                    dir.Set(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2);
+                }
+                else
+                {
+                    dir.Set(h, v);
+                }
+            }
 
-            if (dir.sqrMagnitude > 1)
+            //if (dir.sqrMagnitude > 1)
                 dir.Normalize();
         }
 
@@ -64,6 +68,8 @@ namespace Controllers
                     axis.OnStayState(dir);
             }
         }
+
+        
     }
 }
 
