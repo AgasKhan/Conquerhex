@@ -8,6 +8,10 @@ public interface IEventController
     public event System.Action<Vector2, float> eventDown;
     public event System.Action<Vector2, float> eventPress;
     public event System.Action<Vector2, float> eventUp;
+
+    public void SuscribeController(IControllerDir controllerDir);
+
+    public void DesuscribeController(IControllerDir controllerDir);
 }
 
 public interface IControllerDir
@@ -91,24 +95,24 @@ public class EventControllerMediator : IEventController, IControllerDir
 
     public static EventControllerMediator operator - (EventControllerMediator eventController, IControllerDir controllerDir)
     {
-        eventController.Remove(controllerDir);
+        eventController.DesuscribeController(controllerDir);
         return eventController;
     }
 
     public static EventControllerMediator operator + (EventControllerMediator eventController, IControllerDir controllerDir)
     {
-        eventController.Add(controllerDir);
+        eventController.SuscribeController(controllerDir);
         return eventController;
     }
 
-    void Add(IControllerDir controllerDir)
+    public void SuscribeController(IControllerDir controllerDir)
     {
         eventDown += controllerDir.ControllerDown;
         eventPress += controllerDir.ControllerPressed;
         eventUp += controllerDir.ControllerUp;
     }
 
-    void Remove(IControllerDir controllerDir)
+    public void DesuscribeController(IControllerDir controllerDir)
     {
         eventDown -= controllerDir.ControllerDown;
         eventPress -= controllerDir.ControllerPressed;

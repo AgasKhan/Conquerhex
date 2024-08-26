@@ -39,6 +39,8 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public Transform obj;
 
+    public Vector3 offsetObjPosition;
+
     public bool perspective;
 
     public Vector3[] pointsInWorld;
@@ -85,6 +87,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
     bool[] camerasEdge = new bool[6];
 
+
+    Vector3 position => obj.position + offsetObjPosition;
+
+    Character character;
+
     public void SetProyections(Hexagone hexagone)
     {
         if (hexagone == null)
@@ -106,7 +113,17 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public void OnCharacterSelected(Character character)
     {
+        if(this.character!=null)
+            this.character.moveEventMediator.quaternion = null;
+
         obj = character.transform;
+
+        this.character = character;
+
+        this.character.moveEventMediator.quaternion = () =>
+        {
+            return Quaternion.Euler(0, 0, -rotationPerspective.y);
+        };
     }
     
 
@@ -221,7 +238,7 @@ public class MainCamera : SingletonMono<MainCamera>
             camerasEdge[i] = (false);
         }
 
-        transform.position  = obj.position.Vect3Copy_Y(transform.position.y);
+        transform.position  = position.Vect3Copy_Y(offsetObjPosition.y);
 
         if (HexagonsManager.instance == null)
         {

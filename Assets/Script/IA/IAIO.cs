@@ -42,7 +42,6 @@ public class IAIO : IAFather
 
     Vector2 automaticMoveToBase;
 
-
     void TriggerUI()
     {
         equipedEvents[0].Invoke((caster.weapons[0].equiped?.defaultKata, caster.weapons[0].equiped?.itemBase));
@@ -93,58 +92,6 @@ public class IAIO : IAFather
             caster.abilities[i + 2].toChange -= abilityExtUIMediator[i + 2];
         }
     }
-
-    #region controles numericos
-
-    void AlphaController(Controllers.Axis axis, EventControllerMediator eventControllerMediator, System.Action down)
-    {
-        VirtualControllers.Alpha1.DesuscribeController(eventControllerMediator);
-        VirtualControllers.Alpha2.DesuscribeController(eventControllerMediator);
-        VirtualControllers.Alpha3.DesuscribeController(eventControllerMediator);
-        VirtualControllers.Alpha4.DesuscribeController(eventControllerMediator);
-        character.castingActionCharacter.OnExit += () => axis.DesuscribeController(eventControllerMediator);
-        axis.SuscribeController(eventControllerMediator);
-        down();
-    }
-
-    private void Alpha1_eventDown(Vector2 arg1, float arg2)
-    {
-        lastCombo = "↑↑";
-        if (!Input.GetKey(KeyCode.LeftControl))
-            AlphaController(VirtualControllers.Alpha1, character.attackEventMediator, ()=> AttackEventMediator_eventDown(Vector2.zero, 0));
-        else
-            AlphaController(VirtualControllers.Alpha1, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
-    }
-
-    private void Alpha2_eventDown(Vector2 arg1, float arg2)
-    {
-        lastCombo = "→→";
-        if (!Input.GetKey(KeyCode.LeftControl))
-            AlphaController(VirtualControllers.Alpha2, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
-        else
-            AlphaController(VirtualControllers.Alpha2, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
-    }
-
-    private void Alpha3_eventDown(Vector2 arg1, float arg2)
-    {
-        lastCombo = "←←";
-        if (!Input.GetKey(KeyCode.LeftControl))
-            AlphaController(VirtualControllers.Alpha3, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
-        else
-            AlphaController(VirtualControllers.Alpha3, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
-    }
-
-    private void Alpha4_eventDown(Vector2 arg1, float arg2)
-    {
-        lastCombo = "↓↓";
-        if (!Input.GetKey(KeyCode.LeftControl))
-            AlphaController(VirtualControllers.Alpha4, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
-        else
-            AlphaController(VirtualControllers.Alpha4, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
-    }
-
-    #endregion
-
     public void ChangeCharacter(Character newCharacter)
     {
         characterEvent.delegato.Invoke(newCharacter);
@@ -213,8 +160,6 @@ public class IAIO : IAFather
         character.AlternateAbility();
     }
 
-    
-
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
@@ -247,14 +192,16 @@ public class IAIO : IAFather
 
         abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
 
-        moveEventMediator.eventDown += MoveEventMediator_eventDown;
+        VirtualControllers.Movement.eventDown += MoveEventMediator_eventDown;
 
         dashEventMediator.eventDown += DashEventMediator_eventDown;
 
+        /*
         VirtualControllers.Alpha1.eventDown += Alpha1_eventDown;
         VirtualControllers.Alpha2.eventDown += Alpha2_eventDown;
         VirtualControllers.Alpha3.eventDown += Alpha3_eventDown;
         VirtualControllers.Alpha4.eventDown += Alpha4_eventDown;
+        */
 
         VirtualControllers.Movement.SuscribeController(moveEventMediator);
 
@@ -282,16 +229,18 @@ public class IAIO : IAFather
 
         abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
 
-        moveEventMediator.eventDown -= MoveEventMediator_eventDown;
+        VirtualControllers.Movement.eventDown -= MoveEventMediator_eventDown;
 
         dashEventMediator.eventDown -= DashEventMediator_eventDown;
 
         DesuscribiUI();
 
+        /*
         VirtualControllers.Alpha1.eventDown -= Alpha1_eventDown;
         VirtualControllers.Alpha2.eventDown -= Alpha2_eventDown;
         VirtualControllers.Alpha3.eventDown -= Alpha3_eventDown;
         VirtualControllers.Alpha4.eventDown -= Alpha4_eventDown;
+        */
 
         VirtualControllers.Movement.DesuscribeController(moveEventMediator);
 
@@ -514,7 +463,7 @@ public class IAIO : IAFather
     }
 
     private void Awake()
-    {
+    { 
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
         characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
@@ -553,3 +502,56 @@ public class IAIO : IAFather
         },100);
     }
 }
+
+/*
+#region controles numericos
+
+void AlphaController(Controllers.Axis axis, EventControllerMediator eventControllerMediator, System.Action down)
+{
+    VirtualControllers.Alpha1.DesuscribeController(eventControllerMediator);
+    VirtualControllers.Alpha2.DesuscribeController(eventControllerMediator);
+    VirtualControllers.Alpha3.DesuscribeController(eventControllerMediator);
+    VirtualControllers.Alpha4.DesuscribeController(eventControllerMediator);
+    character.castingActionCharacter.OnExit += () => axis.DesuscribeController(eventControllerMediator);
+    axis.SuscribeController(eventControllerMediator);
+    down();
+}
+
+private void Alpha1_eventDown(Vector2 arg1, float arg2)
+{
+    lastCombo = "↑↑";
+    if (!Input.GetKey(KeyCode.LeftControl))
+        AlphaController(VirtualControllers.Alpha1, character.attackEventMediator, ()=> AttackEventMediator_eventDown(Vector2.zero, 0));
+    else
+        AlphaController(VirtualControllers.Alpha1, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+}
+
+private void Alpha2_eventDown(Vector2 arg1, float arg2)
+{
+    lastCombo = "→→";
+    if (!Input.GetKey(KeyCode.LeftControl))
+        AlphaController(VirtualControllers.Alpha2, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
+    else
+        AlphaController(VirtualControllers.Alpha2, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+}
+
+private void Alpha3_eventDown(Vector2 arg1, float arg2)
+{
+    lastCombo = "←←";
+    if (!Input.GetKey(KeyCode.LeftControl))
+        AlphaController(VirtualControllers.Alpha3, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
+    else
+        AlphaController(VirtualControllers.Alpha3, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+}
+
+private void Alpha4_eventDown(Vector2 arg1, float arg2)
+{
+    lastCombo = "↓↓";
+    if (!Input.GetKey(KeyCode.LeftControl))
+        AlphaController(VirtualControllers.Alpha4, character.attackEventMediator, () => AttackEventMediator_eventDown(Vector2.zero, 0));
+    else
+        AlphaController(VirtualControllers.Alpha4, character.abilityEventMediator, () => AbilityEventMediator_eventDown(Vector2.zero, 0));
+}
+
+#endregion
+*/
