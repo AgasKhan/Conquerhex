@@ -82,7 +82,7 @@ MonoBehaviour:
     queryTrigger: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 32896
   energy: 15
   patrol:
     reverse: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
     queryTrigger: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 32768
   energy: 15
   patrol:
     reverse: 1
@@ -366,6 +366,7 @@ MonoBehaviour:
         rid: -2
     <indexer>k__BackingField: 0
   _buffEnergy: 0
+  _aiming: {x: 0, y: 0, z: 0}
   _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
   references:

@@ -8,7 +8,6 @@ public class IAIO : IAFather
     [SerializeField]
     EventManager eventsManager;
 
-    string originalTag;
 
     [SerializeField]
     Detect<InteractEntityComponent> detectInteractuable = new Detect<InteractEntityComponent>();
@@ -21,6 +20,15 @@ public class IAIO : IAFather
 
     [SerializeField]
     UnityEvent effectBackToBaseEnd;
+
+    [Header("Player sets"),SerializeField]
+    string playerTag="Player";
+    string originalTag;
+
+    [SerializeField]
+    LayerMask playerLayerMask;
+    LayerMask originalLayerMask;
+
 
     string[] combos = new string[] { "↑↑","→→", "←←" , "↓↓" };
 
@@ -165,8 +173,13 @@ public class IAIO : IAFather
         base.OnEnterState(param);
 
         originalTag = param.gameObject.tag;
+        param.gameObject.tag = playerTag;
 
-        param.gameObject.tag = "Player";
+        originalLayerMask = param.gameObject.layer;
+        foreach (Transform child in param.GetComponentsInChildren<Transform>())
+        {
+            child.gameObject.layer = 15;
+        }
 
         param.move.onTeleport += TeleportEvent;
 
@@ -254,10 +267,14 @@ public class IAIO : IAFather
 
         interactEvent.secondDelegato?.Invoke((false, false, null));
 
-
-
         lastInteractuable = null;
+
         param.gameObject.tag = originalTag;
+
+        foreach (Transform child in param.GetComponentsInChildren<Transform>())
+        {
+            child.gameObject.layer = originalLayerMask;
+        }
 
         base.OnExitState(character);
     }

@@ -81,7 +81,7 @@ MonoBehaviour:
     queryTrigger: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 32896
   attackDetection:
     maxRadius: 5
     minRadius: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
     queryTrigger: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 32896
   patrol:
     reverse: 0
     patrolParent: {fileID: 0}
@@ -316,6 +316,7 @@ MonoBehaviour:
         rid: -2
     <indexer>k__BackingField: 0
   _buffEnergy: 0
+  _aiming: {x: 0, y: 0, z: 0}
   _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
   references:
