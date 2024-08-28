@@ -205,6 +205,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     protected TriggerController trigger;
 
     protected AudioEntityComponent audio;
+    protected AimingEntityComponent aiming;
 
     FadeColorAttack _feedBackReference;
 
@@ -261,10 +262,10 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public virtual Vector3 Aiming
     {
-        get => caster.Aiming;
+        get => aiming.Aiming;
         set
         {
-            caster.Aiming = value;
+            aiming.Aiming = value;
         }
     }
 
@@ -483,6 +484,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         this.caster = caster;
 
         audio = caster.GetInContainer<AudioEntityComponent>();
+
+        aiming = caster.GetInContainer<AimingEntityComponent>();
 
         SetCooldown();
 

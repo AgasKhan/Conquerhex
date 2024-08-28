@@ -8,7 +8,6 @@ public class IAIO : IAFather
     [SerializeField]
     EventManager eventsManager;
 
-
     [SerializeField]
     Detect<InteractEntityComponent> detectInteractuable = new Detect<InteractEntityComponent>();
 
@@ -41,6 +40,8 @@ public class IAIO : IAFather
     TripleEvent<(float, float, float), float, float> energyEvent;
 
     SingleEvent<Character> characterEvent;
+
+    SingleEvent<Health> healthEvent;
 
     System.Action<(Ability, ItemBase)>[] equipedEvents = new System.Action<(Ability, ItemBase)>[12];
 
@@ -435,7 +436,7 @@ public class IAIO : IAFather
 
     private void Health_helthUpdate(Health obj)
     {
-        eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all).delegato?.Invoke(obj);
+        healthEvent.delegato?.Invoke(obj);
     }
 
     private void EnergyUpdate((float,float,float) obj)
@@ -484,6 +485,7 @@ public class IAIO : IAFather
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
         characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
+        healthEvent = eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all);
 
         energyEvent = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
 

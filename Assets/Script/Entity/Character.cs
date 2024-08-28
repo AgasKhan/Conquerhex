@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using FSMCharacterAndStates;
 
-[RequireComponent(typeof(MoveEntityComponent))]
 [RequireComponent(typeof(CasterEntityComponent))]
+[RequireComponent(typeof(AimingEntityComponent))]
+[RequireComponent(typeof(MoveEntityComponent))]
 public class Character : Entity, ISwitchState<Character, IState<Character>>
 {
+    /// <summary>
+    /// Boton de apuntado
+    /// </summary>
+    public EventControllerMediator aimingEventMediator = new EventControllerMediator();
+
     /// <summary>
     /// Boton de ataque
     /// </summary>
@@ -39,6 +45,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     [field: SerializeField]
     public MoveEntityComponent move { get; private set; }
+
+    [field: SerializeField]
+    public AimingEntityComponent aiming { get; private set; }
 
     public MoveStateCharacter moveStateCharacter { get; private set; }
     public ActionStateCharacter actionStateCharacter { get; private set; }
@@ -184,9 +193,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         castingActionCharacter.stateWithEnd = weaponKata;
 
         Action = castingActionCharacter;
-    }
-
-    
+    }    
 
     private void Health_death()
     {
@@ -258,8 +265,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         _ia = GetComponent<IState<Character>>();
 
         move = GetInContainer<MoveEntityComponent>();
-        caster = GetInContainer<CasterEntityComponent>();
         inventory = GetInContainer<InventoryEntityComponent>();
+        aiming = GetInContainer<AimingEntityComponent>();
+        caster = GetInContainer<CasterEntityComponent>();
 
         moveStateCharacter = new MoveStateCharacter();
         actionStateCharacter = new ActionStateCharacter(this);

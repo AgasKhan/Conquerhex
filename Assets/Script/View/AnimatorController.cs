@@ -207,20 +207,24 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
         eventMediator.reference = this;
 
-        container.GetInContainer<CasterEntityComponent>().onPreCast += Ia_PreCast;
+        if(container.TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onPreCast += Ia_PreCast;
+        }
 
-        container.GetInContainer<CasterEntityComponent>().onAiming += Ia_onAiming;
+        if (container.TryGetInContainer<AimingEntityComponent>(out var aiming))
+        {
+            aiming.onAiming += Ia_onAiming;
+        }
 
-        container.GetInContainer<MoveEntityComponent>().onIdle += Ia_onIdle;
-
-        container.GetInContainer<MoveEntityComponent>().onMove += Ia_onMove;
+        if (container.TryGetInContainer<MoveEntityComponent>(out var move))
+        {
+            move.onIdle += Ia_onIdle;
+            move.onMove += Ia_onMove;
+        }
 
         container.health.death += Ia_onDeath;
-
-        //animationEventMediator.Add("Cast", )
     }
-
-
 
     public override void OnStayState(Entity param)
     {

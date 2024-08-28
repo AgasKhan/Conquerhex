@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #region parent
-public abstract class DetectParent<T> : ISerializationCallbackReceiver where T : class
+public abstract class AbstractDetectParent
 {
-    public static bool ChckEmpety(T obj) => true;
-    public static bool ChckTrEmpety(Transform obj) => true;
-
     protected const int cantidad = 50;
-    public List<T> results { get; private set; } = new List<T>();
 
     [Tooltip("Radio maximo de deteccion")]
     public float maxRadius;
@@ -39,17 +35,6 @@ public abstract class DetectParent<T> : ISerializationCallbackReceiver where T :
 
     protected Transform[] transformsBuffer = new Transform[cantidad];
 
-    protected System.Func<T, bool> chck;
-
-    protected System.Func<T, bool> chckWithRay;
-
-    protected System.Func<Transform, bool> chckTR;
-
-    /// <summary>
-    /// Objetivo a procesar la deteccion
-    /// </summary>
-    protected T selected;
-
     protected Vector3 pos;
 
     protected Vector3 dir;
@@ -72,6 +57,25 @@ public abstract class DetectParent<T> : ISerializationCallbackReceiver where T :
     /// numero minimo de objetos detectados
     /// </summary>
     public int minDetects => _minDetects;
+}
+
+public abstract class DetectParent<T> : AbstractDetectParent, ISerializationCallbackReceiver where T : class
+{
+    public static bool ChckEmpety(T obj) => true;
+    public static bool ChckTrEmpety(Transform obj) => true;
+    
+    public List<T> results { get; private set; } = new List<T>();
+
+    protected System.Func<T, bool> chck;
+
+    protected System.Func<T, bool> chckWithRay;
+
+    protected System.Func<Transform, bool> chckTR;
+
+    /// <summary>
+    /// Objetivo a procesar la deteccion
+    /// </summary>
+    protected T selected;
 
     public abstract List<T> Area(Vector3 position, System.Func<T, bool> chck, int min, int max, float minRadius, float maxRadius);
 

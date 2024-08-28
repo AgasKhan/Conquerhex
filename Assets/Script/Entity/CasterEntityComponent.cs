@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ComponentsAndContainers;
 
+[RequireComponent(typeof(AimingEntityComponent))]
 [RequireComponent(typeof(InventoryEntityComponent))]
 public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, IDamageable
 {
@@ -22,19 +23,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public DamageContainer additiveDamage;
 
-    public Vector3 Aiming
-    {
-        get => _aiming;
-        set
-        {
-            _aiming = value;
-            onAiming?.Invoke(value);
-        }
-    }
-
     public event System.Action<Ability> onCast;
     public event System.Action<Ability> onPreCast;
-    public event System.Action<Vector3> onAiming;
+
     public event System.Action<(Damage dmg, int weightAction, Vector3? origin)> onTakeDamage;
 
     /// <summary>
@@ -46,12 +37,11 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     InventoryEntityComponent inventoryEntity;
 
+    AimingEntityComponent aimingSystem;
+
     [SerializeField,Range(-100,100), Tooltip(   "en caso de ser calor (positivo): es el porcentage de cuanta mas energia ganara con frio y cuanta menos energia perdera con calor" +
                                 "\nen caso de ser frio (negativo): es el porcentage de cuanta menos energia ganara con frio y cuanta mas energia perdera con calor")]
     float _buffEnergy;
-
-    [SerializeField]
-    Vector3 _aiming;
 
     [SerializeField]
     float _energy;
@@ -308,12 +298,14 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     {
         container = null;
         inventoryEntity = null;
+        aimingSystem = null;
         enabled = false;
     }
 
     public override void OnEnterState(Entity param)
     {
         inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
+        aimingSystem = param.GetInContainer<AimingEntityComponent>();
 
         weapons.Init(inventoryEntity);
         abilities.Init(inventoryEntity);

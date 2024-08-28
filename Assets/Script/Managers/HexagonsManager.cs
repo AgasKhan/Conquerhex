@@ -31,9 +31,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static Color ColorEncerrado => instance?._colorEncerrado ?? Color.white;
 
-
     public static Color ColorSame => instance?._colorSame ?? Color.white;
-
 
     public static Color ColorDefault => instance?._colorDefault ?? Color.white;
 
