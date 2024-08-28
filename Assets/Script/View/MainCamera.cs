@@ -314,6 +314,7 @@ public class MainCamera : SingletonMono<MainCamera>
             if (character == null)
                 return;
 
+            prevRotationPerspective.y = 0;
             rotationPerspective = setRotationPerspective;
             vectorPerspective = setVectorPerspective;
             offsetObjPosition = setOffsetObjPosition;
