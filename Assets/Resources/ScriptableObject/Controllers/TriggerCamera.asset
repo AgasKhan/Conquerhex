@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: TriggerCamera
   m_EditorClassIdentifier: 
   axis: {fileID: 11400000, guid: f103d6539f165f349a9ef6be1cf82abb, type: 2}
-  dir: {x: 0.35977373, y: 0.93303955}
+  dir: {x: 0, y: 0}
   active: 1
   vertical: Mouse Y
   horizontal: Mouse X
-  mouseOverride: 1
+  velocity: 3
+  mouseOverride: 0

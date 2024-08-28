@@ -194,6 +194,8 @@ public class IAIO : IAFather
 
         Health_helthUpdate(param.health);
 
+        param.aiming.onMode += Aiming_onMode;
+
         param.caster.energyUpdate += EnergyUpdate;
         param.caster.leftEnergyUpdate += LeftEnergyUpdate;
         param.caster.rightEnergyUpdate += RightEnergyUpdate;
@@ -219,12 +221,16 @@ public class IAIO : IAFather
 
         VirtualControllers.Movement.SuscribeController(moveEventMediator);
 
+        VirtualControllers.Camera.SuscribeController(aimingEventMediator);
+
         VirtualControllers.Principal.SuscribeController(attackEventMediator);
 
         VirtualControllers.Secondary.SuscribeController(abilityEventMediator);
 
         VirtualControllers.Terciary.SuscribeController(dashEventMediator);
     }
+
+
 
     public override void OnExitState(Character param)
     {
@@ -257,6 +263,8 @@ public class IAIO : IAFather
         */
 
         VirtualControllers.Movement.DesuscribeController(moveEventMediator);
+
+        VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
 
         VirtualControllers.Principal.DesuscribeController(attackEventMediator);
 
@@ -351,6 +359,16 @@ public class IAIO : IAFather
 
         #endregion
 
+        #region cambio perspectiva hardcodeada
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
+                character.aiming.mode = AimingEntityComponent.Mode.topdown;
+            else
+                character.aiming.mode = AimingEntityComponent.Mode.perspective;
+        }
+        #endregion
+
         var buildings = detectInteractuable.Area(character.transform.position, (edificio) => { return edificio.interactuable; });
 
         if (buildings == null || buildings.Count == 0)
@@ -384,6 +402,38 @@ public class IAIO : IAFather
 
         if (lastInteractuable != null)
             UI.Interfaz.instance.interactButton.transform.position = Camera.main.WorldToScreenPoint(lastInteractuable.offsetInteractView);
+    }
+
+    private void Aiming_onMode(AimingEntityComponent.Mode obj)
+    {
+        switch (obj)
+        {
+            case AimingEntityComponent.Mode.topdown:
+
+                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
+
+                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
+
+                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+
+                break;
+
+
+            case AimingEntityComponent.Mode.perspective:
+
+                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
+
+                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
+
+                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+
+                break;
+
+
+            case AimingEntityComponent.Mode.focus:
+
+                break;
+        }
     }
 
     private void Interact_eventDown(Vector2 arg1, float arg2)

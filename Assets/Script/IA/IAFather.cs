@@ -22,6 +22,8 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
 
     public EventControllerMediator abilityEventMediator => character.abilityEventMediator;
 
+    public EventControllerMediator aimingEventMediator => character.aimingEventMediator;
+
     public event System.Action detect;
 
     public void Detect()

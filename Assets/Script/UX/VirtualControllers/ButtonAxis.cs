@@ -32,7 +32,7 @@ namespace Controllers
             eventPress = null;
         }
 
-        public void SitchGetDir(ButtonAxis axis)
+        public void SwitchGetDir(ButtonAxis axis)
         {
             onSwitchGetDir?.Invoke(axis);
         }

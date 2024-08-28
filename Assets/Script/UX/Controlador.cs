@@ -42,7 +42,7 @@ public class EventControllerMediator : IEventController, IControllerDir
     public event Action<Vector2, float> eventPress;
     public event Action<Vector2, float> eventUp;
 
-    public Func<Quaternion> quaternion
+    public Func<Quaternion> quaternionOffset
     {
         set
         {

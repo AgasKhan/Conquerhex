@@ -262,10 +262,10 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public virtual Vector3 Aiming
     {
-        get => aiming.Aiming;
+        get => aiming.AimingToObjective;
         set
         {
-            aiming.Aiming = value;
+            aiming.AimingToObjective = value;
         }
     }
 

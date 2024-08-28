@@ -5,20 +5,42 @@ using ComponentsAndContainers;
 
 public class AimingEntityComponent : ComponentOfContainer<Entity>
 {
-    public Vector3 Aiming
+    public enum Mode
     {
-        get => _aiming;
+        topdown,
+        perspective,
+        focus
+    }
+
+    public Vector3 AimingToObjective
+    {
+        get => _aimingToObj;
         set
         {
-            _aiming = value;
-            onAiming?.Invoke(value);
+            _aimingToObj = value;
+            onAiming?.Invoke(_aimingToObj);
         }
     }
+
+    public Mode mode
+    {
+        get => _mode;
+        set
+        {
+            _mode = value;
+            onMode.Invoke(value);
+        }
+    }
+
+    public event System.Action<Mode> onMode;
 
     public event System.Action<Vector3> onAiming;
 
     [SerializeField]
-    Vector3 _aiming;
+    Vector3 _aimingToObj;
+
+    [SerializeField]
+    Mode _mode = Mode.topdown;
 
     public List<AbstractDetectParent> detects = new List<AbstractDetectParent>();
 

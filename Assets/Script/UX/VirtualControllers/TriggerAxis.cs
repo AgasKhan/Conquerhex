@@ -13,6 +13,9 @@ namespace Controllers
         [SerializeField]
         string horizontal;
 
+        [SerializeField]
+        float velocity;
+
         [SerializeField, Tooltip("en caso de ser verdadero leera el axis ingresado\nen caso de ser falso utilizara la posicion del mouse")]
         bool mouseOverride = false;
 
@@ -45,6 +48,8 @@ namespace Controllers
 
             //if (dir.sqrMagnitude > 1)
                 dir.Normalize();
+
+            dir *= velocity;
         }
 
 

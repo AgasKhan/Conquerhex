@@ -33,23 +33,58 @@ public class MainCamera : SingletonMono<MainCamera>
         }
     }
 
+    [System.Serializable]
+    public struct CameraSet
+    {
+        public Vector3 offsetObjPosition;
+
+        public Vector3 rotationPerspective;
+
+        public Vector3 vectorPerspective;
+    }
+
     [Header("Configuracion general")]
 
     public Shake shake = new Shake();
 
     public Transform obj;
 
-    public Vector3 offsetObjPosition;
-
     public bool perspective;
 
     public Vector3[] pointsInWorld;
+
+    [SerializeField]
+    CameraSet[] sets; 
+
+    [SerializeReference]
+    Vector3 offsetObjPosition;
 
     [SerializeField]
     Vector3 rotationPerspective;
 
     [SerializeField]
     Vector3 vectorPerspective;
+
+    ref Vector3 setOffsetObjPosition => ref sets[indexSetConf].offsetObjPosition;
+
+    ref Vector3 setRotationPerspective => ref sets[indexSetConf].rotationPerspective;
+
+    ref Vector3 setVectorPerspective => ref sets[indexSetConf].vectorPerspective;
+
+    ref Vector3 prevOffsetObjPosition => ref sets[prevIndexSetConf].offsetObjPosition;
+
+    ref Vector3 prevRotationPerspective => ref sets[prevIndexSetConf].rotationPerspective;
+
+    ref Vector3 prevVectorPerspective => ref sets[prevIndexSetConf].vectorPerspective;
+
+    [SerializeField]
+    float velocityTransition = 1;
+
+    [SerializeField]
+    int indexSetConf;
+
+    [SerializeField]
+    int prevIndexSetConf;
 
     [Header("Configuracion interna")]
 
@@ -87,9 +122,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
     bool[] camerasEdge = new bool[6];
 
-    Vector3 position => obj.position + offsetObjPosition;
-
     Character character;
+
+    Timer transitionsSet;
+
+    Vector3 position => obj.position + offsetObjPosition;
 
     public void SetProyections(Hexagone hexagone)
     {
@@ -114,23 +151,55 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         if(this.character!=null)
         {
-            this.character.moveEventMediator.quaternion = null;
-            this.character.attackEventMediator.quaternion = null;
-            this.character.dashEventMediator.quaternion = null;
-            this.character.abilityEventMediator.quaternion = null;
+            this.character.moveEventMediator.quaternionOffset = null;
+            this.character.attackEventMediator.quaternionOffset = null;
+            this.character.dashEventMediator.quaternionOffset = null;
+            this.character.abilityEventMediator.quaternionOffset = null;
+            this.character.aimingEventMediator.eventPress -= AimingEventMediatorEventPress;
+            this.character.aiming.onMode -= Aiming_onMode;
         }
 
-        obj = character.transform;
+        obj = character?.transform;
 
         this.character = character;
 
-        this.character.moveEventMediator.quaternion = RotationCamera;
+        if (character == null)
+            return;
 
-        this.character.attackEventMediator.quaternion = RotationCamera;
+        this.character.moveEventMediator.quaternionOffset = RotationCamera;
 
-        this.character.dashEventMediator.quaternion = RotationCamera;
+        this.character.attackEventMediator.quaternionOffset = RotationCamera;
 
-        this.character.abilityEventMediator.quaternion = RotationCamera;
+        this.character.dashEventMediator.quaternionOffset = RotationCamera;
+
+        this.character.abilityEventMediator.quaternionOffset = RotationCamera;
+
+        this.character.aimingEventMediator.eventPress += AimingEventMediatorEventPress;
+
+        this.character.aiming.onMode += Aiming_onMode;
+
+        Aiming_onMode(this.character.aiming.mode);
+    }
+
+    private void Aiming_onMode(AimingEntityComponent.Mode obj)
+    {
+        prevIndexSetConf = indexSetConf;
+        indexSetConf = (int)obj;
+
+        transitionsSet.Reset();
+    }
+
+    private void AimingEventMediatorEventPress(Vector2 arg1, float arg2)
+    {
+        if(character.aiming.mode==AimingEntityComponent.Mode.perspective)
+        {
+            setRotationPerspective.y += arg1.x;
+            setRotationPerspective.x -= arg1.y;
+
+            setRotationPerspective.x = Mathf.Clamp(setRotationPerspective.x, -20, 89);
+
+            rotationPerspective = setRotationPerspective;
+        }
     }
 
     Quaternion RotationCamera()
@@ -231,6 +300,25 @@ public class MainCamera : SingletonMono<MainCamera>
 
         pointsInWorld = new Vector3[rendersOverlay.cameras.Length];
 
+        transitionsSet = TimersManager.Create(velocityTransition, () => 
+        {
+            if (character == null)
+                return;
+
+            rotationPerspective = Vector3.Slerp(prevRotationPerspective, setRotationPerspective, transitionsSet.InversePercentage());
+            vectorPerspective = Vector3.Lerp(prevVectorPerspective, setVectorPerspective, transitionsSet.InversePercentage());
+            offsetObjPosition = Vector3.Lerp(prevOffsetObjPosition, setOffsetObjPosition, transitionsSet.InversePercentage());
+
+        }, ()=>
+        {
+            if (character == null)
+                return;
+
+            rotationPerspective = setRotationPerspective;
+            vectorPerspective = setVectorPerspective;
+            offsetObjPosition = setOffsetObjPosition;
+        });
+
         LoadSystem.AddPostLoadCorutine(() =>
         {
             if (HexagonsManager.instance != null && HexagonsManager.instance.automaticRender)
@@ -249,7 +337,27 @@ public class MainCamera : SingletonMono<MainCamera>
             camerasEdge[i] = (false);
         }
 
+        //rotationPerspective = Vector3.Slerp(rotationPerspective, aimingPerspective, Time.deltaTime * velocityRotation);
+
         transform.position  = position.Vect3Copy_Y(offsetObjPosition.y);
+
+        for (int i = -2; i < rendersOverlay.Length; i++)
+        {
+            rendersOverlay.GetParent(i).rotation = Quaternion.Euler(rotationPerspective);
+
+            rendersOverlay[i].transform.localPosition = vectorPerspective;
+        }
+
+        for (int i = 0; i < pointsInScreen.Length; i++)
+        {
+            _points[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, main.nearClipPlane));
+
+            Ray ray = new Ray(main.transform.position, _points[i] - main.transform.position);
+
+            plane.Raycast(ray, out float distance);
+
+            _points2[i] = ray.GetPoint(distance) - main.transform.position;
+        }
 
         if (HexagonsManager.instance == null)
         {
