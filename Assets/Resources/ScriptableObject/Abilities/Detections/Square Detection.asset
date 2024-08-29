@@ -15,11 +15,14 @@ MonoBehaviour:
   _nameDisplay: 
   _image: {fileID: 0}
   _details: 
+  type: 1
+  withRay: 1
   detect:
-    maxRadius: 0
-    minRadius: 0
-    inverse: 0
-    dot: 1
+    <maxRadius>k__BackingField: 4
+    <minRadius>k__BackingField: 1
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 360
+    <dot>k__BackingField: -1
     _maxDetects: 0
     _minDetects: 0
     queryTrigger: 1
