@@ -16,8 +16,14 @@ namespace Controllers
         [SerializeField]
         float velocity;
 
-        [SerializeField, Tooltip("en caso de ser verdadero leera el axis ingresado\nen caso de ser falso utilizara la posicion del mouse")]
-        bool mouseOverride = false;
+        [SerializeField]
+        bool isSmooth;
+
+        [SerializeField]
+        float smoothVelocity;
+
+        [Tooltip("en caso de ser verdadero leera el axis ingresado\nen caso de ser falso utilizara la posicion del mouse")]
+        public bool mouseOverride = false;
 
         protected Vector2 vecPressed
         {
@@ -39,17 +45,25 @@ namespace Controllers
                 if (mouseOverride)
                 {
                     dir.Set(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2);
+
+                    dir.Normalize();
                 }
                 else
                 {
                     dir.Set(h, v);
                 }
+
+                dir *= velocity;
+
+                if (!isSmooth)
+                    return;
+
+                dir.x = Mathf.Lerp(0, dir.x, Time.deltaTime * smoothVelocity);
+
+                dir.y = Mathf.Lerp(0, dir.y, Time.deltaTime * smoothVelocity);
             }
 
             //if (dir.sqrMagnitude > 1)
-                dir.Normalize();
-
-            dir *= velocity;
         }
 
 

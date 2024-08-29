@@ -12,6 +12,12 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
         focus
     }
 
+    public event System.Action<Mode> onMode;
+
+    public event System.Action<Vector3> onAiming;
+
+    public Transform track;
+
     public Vector3 AimingToObjective
     {
         get => _aimingToObj;
@@ -31,10 +37,6 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
             onMode.Invoke(value);
         }
     }
-
-    public event System.Action<Mode> onMode;
-
-    public event System.Action<Vector3> onAiming;
 
     [SerializeField]
     Vector3 _aimingToObj;

@@ -93,8 +93,8 @@ public class RenderTextureHex : MonoBehaviour
         rendCielo.sortingLayerName = effectLayer;
 
 
-        var aux = MainCamera.instance.perspective ? 0 : 1;
-        rend.material.SetInt("_DeActiveEffect", aux);
+        //var aux = MainCamera.instance.perspective ? 0 : 1;
+        rend.material.SetInt("_DeActiveEffect", 1);
         rend.sortingOrder = orderInLayer;
         rend.sortingLayerName = renderLayer;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #region parent
-public abstract class AbstractDetectParent
+public abstract class AbstractDetectParent : ISerializationCallbackReceiver
 {
     protected const int cantidad = 50;
 
@@ -57,9 +57,19 @@ public abstract class AbstractDetectParent
     /// numero minimo de objetos detectados
     /// </summary>
     public int minDetects => _minDetects;
+
+    public void OnBeforeSerialize()
+    {
+
+    }
+
+    public void OnAfterDeserialize()
+    {
+        dot = Utilitys.DotCalculate(angle);
+    }
 }
 
-public abstract class DetectParent<T> : AbstractDetectParent, ISerializationCallbackReceiver where T : class
+public abstract class DetectParent<T> : AbstractDetectParent where T : class
 {
     public static bool ChckEmpety(T obj) => true;
     public static bool ChckTrEmpety(Transform obj) => true;
@@ -252,15 +262,7 @@ public abstract class DetectParent<T> : AbstractDetectParent, ISerializationCall
         return (selected as Component).transform != tr;
     }
 
-    public void OnBeforeSerialize()
-    {
-        
-    }
 
-    public void OnAfterDeserialize()
-    {
-        dot = Utilitys.DotCalculate(angle);
-    }
 }
 
 #endregion

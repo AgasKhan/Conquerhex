@@ -28,6 +28,8 @@ public class IAIO : IAFather
     LayerMask playerLayerMask;
     LayerMask originalLayerMask;
 
+    [SerializeField]
+    Controllers.TriggerAxis cameraTrigger;
 
     string[] combos = new string[] { "↑↑","→→", "←←" , "↓↓" };
 
@@ -199,6 +201,8 @@ public class IAIO : IAFather
         param.caster.energyUpdate += EnergyUpdate;
         param.caster.leftEnergyUpdate += LeftEnergyUpdate;
         param.caster.rightEnergyUpdate += RightEnergyUpdate;
+
+        Aiming_onMode(param.aiming.mode);
 
         SuscribeUI();
 
@@ -410,6 +414,8 @@ public class IAIO : IAFather
         {
             case AimingEntityComponent.Mode.topdown:
 
+                cameraTrigger.mouseOverride = true;
+
                 VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
 
                 VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
@@ -420,6 +426,8 @@ public class IAIO : IAFather
 
 
             case AimingEntityComponent.Mode.perspective:
+
+                cameraTrigger.mouseOverride = false;
 
                 VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
 

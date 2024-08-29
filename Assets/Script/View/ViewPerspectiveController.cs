@@ -12,10 +12,10 @@ public class ViewPerspectiveController : MonoBehaviour, ViewObjectModel.IViewCon
         if (!active)
             return;
 
-        if (MainCamera.instance.perspective)
+        //if (MainCamera.instance.perspective)
             transform.rotation = MainCamera.instance.transform.GetChild(0).rotation;
-        else
-            transform.rotation = Quaternion.identity;
+        //else
+            //transform.rotation = Quaternion.identity;
     }
 
     public void OnExitState(ViewObjectModel param)
