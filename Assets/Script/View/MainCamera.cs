@@ -36,15 +36,7 @@ public class MainCamera : SingletonMono<MainCamera>
     [System.Serializable]
     public class Tracker
     {
-        [System.Serializable]
-        public struct CameraSet
-        {
-            public Vector3 offsetObjPosition;
 
-            public Vector3 rotationPerspective;
-
-            public Vector3 vectorPerspective;
-        }
 
         public Transform obj;
 
@@ -55,35 +47,31 @@ public class MainCamera : SingletonMono<MainCamera>
         public Vector3 vectorPerspective;
 
         [SerializeField]
-        CameraSet[] sets;
-
-        [SerializeField]
         float velocityTransition = 1;
 
         [SerializeField]
         float smoothColision = 1;
 
-        int indexSetConf;
-
-        int prevIndexSetConf;
-
         Character character;
 
         Timer transitionsSet;
 
+        AimingEntityComponent.CameraSet cameraSet;
 
-        ref Vector3 setOffsetObjPosition => ref sets[indexSetConf].offsetObjPosition;
+        AimingEntityComponent.CameraSet prevCameraSet;
 
-        ref Vector3 setRotationPerspective => ref sets[indexSetConf].rotationPerspective;
+        ref Vector3 setOffsetObjPosition => ref cameraSet.offsetObjPosition;
 
-        ref Vector3 setVectorPerspective => ref sets[indexSetConf].vectorPerspective;
+        ref Vector3 setRotationPerspective => ref cameraSet.rotationPerspective;
+
+        ref Vector3 setVectorPerspective => ref cameraSet.vectorPerspective;
 
 
-        ref Vector3 prevOffsetObjPosition => ref sets[prevIndexSetConf].offsetObjPosition;
+        ref Vector3 prevOffsetObjPosition => ref prevCameraSet.offsetObjPosition;
 
-        ref Vector3 prevRotationPerspective => ref sets[prevIndexSetConf].rotationPerspective;
+        ref Vector3 prevRotationPerspective => ref prevCameraSet.rotationPerspective;
 
-        ref Vector3 prevVectorPerspective => ref sets[prevIndexSetConf].vectorPerspective;
+        ref Vector3 prevVectorPerspective => ref prevCameraSet.vectorPerspective;
 
         Vector3 position => obj.position + offsetObjPosition;
 
@@ -127,8 +115,9 @@ public class MainCamera : SingletonMono<MainCamera>
 
         private void Aiming_onMode(AimingEntityComponent.Mode obj)
         {
-            prevIndexSetConf = indexSetConf;
-            indexSetConf = (int)obj;
+            prevCameraSet = cameraSet;
+
+            cameraSet = character.aiming.sets[(int)obj];
 
             transitionsSet.Reset();
         }
@@ -156,7 +145,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public void Update()
         {
-            if (!transitionsSet.Chck)
+            if (!transitionsSet.Chck || character.aiming.mode != AimingEntityComponent.Mode.perspective)
                 return;
 
             if (Physics.SphereCast(Position, 0.5f, Quaternion.Euler(rotationPerspective) * setVectorPerspective, out RaycastHit hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))

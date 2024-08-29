@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: -5021417744897424921}
   - component: {fileID: 4660629127224764075}
   - component: {fileID: 8374503059299788059}
+  - component: {fileID: 7652112461761767538}
   m_Layer: 7
   m_Name: pj
   m_TagString: Player
@@ -283,6 +284,7 @@ MonoBehaviour:
   <inventory>k__BackingField: {fileID: 0}
   <caster>k__BackingField: {fileID: 0}
   <move>k__BackingField: {fileID: 0}
+  <aiming>k__BackingField: {fileID: 0}
   stunBar:
     rid: 1000
   iaOn: 1
@@ -695,6 +697,52 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.41, z: 0}
+--- !u!114 &7652112461761767538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e865b0024133e44bbe55ad095c3c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sets:
+  - offsetObjPosition: {x: 0, y: 0, z: 0}
+    rotationPerspective: {x: 40, y: 0, z: 0}
+    vectorPerspective: {x: 0, y: 0, z: -7}
+    <maxRadius>k__BackingField: 0
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 0
+    <dot>k__BackingField: 0
+    <maxDetects>k__BackingField: 0
+    <minDetects>k__BackingField: 0
+  - offsetObjPosition: {x: 0, y: 1.5, z: 0}
+    rotationPerspective: {x: 0, y: 0, z: 0}
+    vectorPerspective: {x: 0.65, y: 0, z: -2}
+    <maxRadius>k__BackingField: 0
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 0
+    <dot>k__BackingField: 0
+    <maxDetects>k__BackingField: 0
+    <minDetects>k__BackingField: 0
+  - offsetObjPosition: {x: 0, y: 0, z: 0}
+    rotationPerspective: {x: 0, y: 0, z: 0}
+    vectorPerspective: {x: 0, y: 0, z: 0}
+    <maxRadius>k__BackingField: 0
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 0
+    <dot>k__BackingField: 0
+    <maxDetects>k__BackingField: 0
+    <minDetects>k__BackingField: 0
+  track: {fileID: 0}
+  _aimingToObj: {x: 0, y: 0, z: 0}
+  _mode: 0
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0

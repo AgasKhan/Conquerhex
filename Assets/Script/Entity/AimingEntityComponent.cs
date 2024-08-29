@@ -11,6 +11,34 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
         perspective,
         focus
     }
+    [System.Serializable]
+    public struct CameraSet : IDetect
+    {
+        [Header("Camera")]
+        public Vector3 offsetObjPosition;
+
+        public Vector3 rotationPerspective;
+
+        public Vector3 vectorPerspective;
+
+        [field: SerializeField, Header("Detection")]
+        public float maxRadius { get ; set ; }
+        [field: SerializeField]
+        public float minRadius { get ; set ; }
+        [field: SerializeField]
+        public bool inverse { get ; set ; }
+        [field: SerializeField]
+        public float angle { get ; set ; }
+        [field: SerializeField]
+        public float dot { get ; set ; }
+        [field: SerializeField]
+        public int maxDetects { get; set; }
+        [field: SerializeField]
+        public int minDetects { get; set; }
+    }
+
+    [SerializeField]
+    public CameraSet[] sets;
 
     public event System.Action<Mode> onMode;
 
@@ -43,8 +71,6 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
 
     [SerializeField]
     Mode _mode = Mode.topdown;
-
-    public List<AbstractDetectParent> detects = new List<AbstractDetectParent>();
 
     public override void OnEnterState(Entity param)
     {

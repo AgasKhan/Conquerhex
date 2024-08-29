@@ -3,24 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #region parent
-public abstract class AbstractDetectParent : ISerializationCallbackReceiver
+public interface IDetect
+{
+    public float maxRadius { get; set; }
+
+    public float minRadius { get; set; }
+
+    public bool inverse { get; set; }
+
+    public float angle { get; set; }
+
+    public float dot { get; set; }
+
+    /// <summary>
+    /// diametro
+    /// </summary>
+    public float diameter => maxRadius * 2;
+
+    /// <summary>
+    /// numero maximo de objetos detectados
+    /// </summary>
+    public int maxDetects { get; }
+
+    /// <summary>
+    /// numero minimo de objetos detectados
+    /// </summary>
+    public int minDetects { get; }
+}
+
+public abstract class DetectParent<T> :  ISerializationCallbackReceiver, IDetect where T : class
 {
     protected const int cantidad = 50;
 
-    [Tooltip("Radio maximo de deteccion")]
-    public float maxRadius;
+    [field: SerializeField, Tooltip("Radio maximo de deteccion")]
+    public float maxRadius { get; set; }
 
-    [Tooltip("Radio minimo de deteccion")]
-    public float minRadius;
+    [field: SerializeField, Tooltip("Radio minimo de deteccion")]
+    public float minRadius { get; set; }
 
-    [Tooltip("si arranca por el mas lejano, en vez del mas cercano")]
-    public bool inverse;
+    [field: SerializeField, Tooltip("si arranca por el mas lejano, en vez del mas cercano")]
+    public bool inverse { get; set; }
 
-    [Tooltip("Angulo del cono en si")]
-    public float angle = 360;
+    [field: SerializeField, Tooltip("Angulo del cono en si")]
+    public float angle { get; set; } = 360;
 
-    [Tooltip("Producto punto utilizado para el calculo del cono")]
-    public float dot = 1;
+    [field: SerializeField, Tooltip("Producto punto utilizado para el calculo del cono")]
+    public float dot { get; set; } =  1;
 
     [SerializeField]
     int _maxDetects;
@@ -67,10 +95,7 @@ public abstract class AbstractDetectParent : ISerializationCallbackReceiver
     {
         dot = Utilitys.DotCalculate(angle);
     }
-}
 
-public abstract class DetectParent<T> : AbstractDetectParent where T : class
-{
     public static bool ChckEmpety(T obj) => true;
     public static bool ChckTrEmpety(Transform obj) => true;
     
@@ -261,8 +286,6 @@ public abstract class DetectParent<T> : AbstractDetectParent where T : class
     {
         return (selected as Component).transform != tr;
     }
-
-
 }
 
 #endregion
