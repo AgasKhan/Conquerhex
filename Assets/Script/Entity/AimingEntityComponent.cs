@@ -77,7 +77,7 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
     }
 
     /// <summary>
-    /// Vector que desprecia su componente en Y de direccion desde el offset al objetivo
+    /// Vector de direccion desde el offset al objetivo que desprecia su componente en Y 
     /// </summary>
     public Vector3 AimingToObjectiveXZ
     {
