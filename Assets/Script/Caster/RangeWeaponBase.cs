@@ -48,17 +48,21 @@ public class RangeWeapon : MeleeWeapon
     {
         CasterEntityComponent owner = ability.caster;
 
-        Vector3 aim ;
+        Vector3 sapawnPos = owner.transform.position + Vector3.up + ability.AimingXZ;
+
+        Vector3 aim = ability.ObjectiveToAim - sapawnPos;
 
         Entity objective = null;
 
         if(ability.isPerspective)
         {
-            aim = Quaternion.Euler(Random.Range(ability.Angle / -2, ability.Angle / 2), Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (ability.Aiming);
+            aim = ability.ObjectiveToAim - sapawnPos;
+            aim = Quaternion.Euler(Random.Range(ability.Angle / -2, ability.Angle / 2), Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (aim);
         }
         else
         {
-            aim = Quaternion.Euler(0 , Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (ability.Aiming);
+            aim = ability.AimingXZ;
+            aim = Quaternion.Euler(0 , Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (aim);
 
             if (damageables != null)
             {
@@ -75,7 +79,7 @@ public class RangeWeapon : MeleeWeapon
             }
         }
 
-        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f + aim, Quaternion.identity, null, false);
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, sapawnPos, Quaternion.identity, null, false);
 
         proyectile.Throw(owner.container, System.Linq.Enumerable.ToArray(damages), aim);
 

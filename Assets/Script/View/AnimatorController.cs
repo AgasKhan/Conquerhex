@@ -221,7 +221,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
         if (container.TryGetInContainer<AimingEntityComponent>(out var aiming))
         {
-            aiming.onAiming += Ia_onAiming;
+            aiming.onAimingXZ += Ia_onAiming;
         }
 
         if (container.TryGetInContainer<MoveEntityComponent>(out var move))

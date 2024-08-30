@@ -35,7 +35,7 @@ public class PressTrggrCtrllr : TriggerController
         if (!onCooldownTime)
             return;
 
-        Aiming = dir.Vect2To3XZ(0);
+        Aiming2D = dir;
 
         ability.FeedbackDetect();
 
@@ -57,7 +57,7 @@ public class PressTrggrCtrllr : TriggerController
             return;
         }
 
-        Aiming = dir.Vect2To3XZ(0);
+        Aiming2D = dir;
 
         ability.FeedbackDetect();
 

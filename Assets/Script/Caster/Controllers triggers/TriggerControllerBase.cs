@@ -59,21 +59,21 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
-    public virtual Vector3 Aiming
-    {
-        get => ability.Aiming;
+    public virtual Vector3 Aiming => ability.Aiming;
 
-        set
-        {
-            ability.Aiming = value;
-        }
-    }
+    public Vector3 AimingXZ => ability.AimingXZ;
+
+    public Vector3 ObjectiveToAim { get => ability.ObjectiveToAim; set => ability.ObjectiveToAim = value; }
+
+    public Vector2 Aiming2D { set => ability.Aiming2D = value; }
 
     public int FinalMaxDetects => throw new System.NotImplementedException();
 
     public int MinDetects => throw new System.NotImplementedException();
 
     public float Auxiliar => ((IAbilityStats)ability).Auxiliar;
+
+
 
     public void Cast(System.Action actionOnCast = null)
     {
@@ -185,6 +185,12 @@ public interface IAbilityComponent : IAbilityStats
     public bool End { get ; set ; }
 
     public  Vector3 Aiming { get ; }
+
+    public Vector3 AimingXZ { get; }
+
+    public Vector3 ObjectiveToAim { get; set; }
+
+    public Vector2 Aiming2D { set; } 
 
     public  bool DontExecuteCast { get; }
 

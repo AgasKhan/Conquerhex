@@ -23,7 +23,7 @@ public class UpTrggrCtrllr : TriggerController
     private void MoveEventMediator_eventPress(Vector2 arg1, float arg2)
     {
         if(arg1!=Vector2.zero)
-            Aiming = arg1.Vect2To3XZ(0);
+            Aiming2D = arg1;
     }
 
     public override void OnEnterState(CasterEntityComponent param)
@@ -34,7 +34,7 @@ public class UpTrggrCtrllr : TriggerController
         {
             var character = ((Character)param.container);
 
-            Aiming = character.move.direction;
+            Aiming2D = character.move.direction.Vect3To2XZ();
 
             character.moveEventMediator.eventPress += MoveEventMediator_eventPress;
         }
@@ -72,9 +72,9 @@ public class UpTrggrCtrllr : TriggerController
 
         //Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime*10);
         if(!(triggerBase?.aimingToMove ?? false))
-            Aiming = dir.Vect2To3XZ(0);            
+            Aiming2D = dir;            
 
-        FeedBackReference?.Area(FinalMaxRange).Direction(Aiming).Angle(Angle);
+        FeedBackReference?.Area(FinalMaxRange).Direction(AimingXZ).Angle(Angle);
 
         Detect();
     }
@@ -93,7 +93,7 @@ public class UpTrggrCtrllr : TriggerController
         Cast();
 
         if(affected!=null && affected.Count>0 && !(triggerBase?.aimingToMove ?? false))
-            Aiming = (affected[0].transform.position - caster.transform.position).normalized;
+            ObjectiveToAim = affected[0].transform.position;
 
         caster.abilityControllerMediator -= this;
     }

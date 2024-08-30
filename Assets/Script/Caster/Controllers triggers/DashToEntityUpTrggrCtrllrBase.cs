@@ -93,7 +93,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             }
 
             objectivesAttacked.RemoveAt(0);
-            Aiming = (objectivesAttacked[0].transform.position - caster.transform.position).normalized;
+            ObjectiveToAim = objectivesAttacked[0].transform.position;
         }
         else
         {
@@ -131,7 +131,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         timerToEnd.Reset();
 
-        Aiming = (objectivesAttacked[0].transform.position - caster.transform.position).normalized;
+        ObjectiveToAim = objectivesAttacked[0].transform.position;
 
         moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
 

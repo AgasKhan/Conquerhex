@@ -261,16 +261,21 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public bool isPerspective => aiming.mode != AimingEntityComponent.Mode.topdown;
 
-    public virtual Vector3 Aiming
+    public virtual Vector3 Aiming => aiming.AimingToObjective;
+
+    public virtual Vector3 AimingXZ => aiming.AimingToObjectiveXZ;
+
+    public Vector2 Aiming2D { set => aiming.AimingToObjective2D = value; }
+
+    public virtual Vector3 ObjectiveToAim
     {
-        get => aiming.AimingToObjective;
+        get => aiming.ObjectivePosition;
         set
         {
-            value.y = aiming.AimingToObjective.y;
-
-            aiming.AimingToObjective = value;
+            aiming.ObjectivePosition = value;
         }
     }
+
 
     public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeInHierarchy;
 
@@ -302,6 +307,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
             _feedBackReference = value;
         }
     }
+
 
     /// <summary>
     /// Spawnea una particula en cada afectado

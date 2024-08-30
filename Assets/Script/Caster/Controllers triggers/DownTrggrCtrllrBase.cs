@@ -29,7 +29,7 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
         Cast();
 
         if (affected != null && affected.Count > 0 && !(triggerBase?.aimingToMove ?? false))
-            Aiming = (affected[0].transform.position - caster.transform.position).normalized;
+            ObjectiveToAim = (affected[0].transform.position);
 
         caster.abilityControllerMediator -= this;
     }

@@ -134,8 +134,6 @@ public class MainCamera : SingletonMono<MainCamera>
                 setRotationPerspective.y += arg1.x;
                 setRotationPerspective.x -= arg1.y;
 
-                character.aiming.AimingToObjective = Quaternion.Euler(rotationPerspective) * Vector3.forward;
-
                 setRotationPerspective.x = Mathf.Clamp(setRotationPerspective.x, -20, 89);
 
                 rotationPerspective = setRotationPerspective;
@@ -164,8 +162,6 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 Debug.DrawRay(character.transform.position, aux, Color.green);
 
-                character.aiming.AimingToObjective = aux.normalized;
-
                 character.aiming.ObjectivePosition = hitInfo.point;
 
                 aux.y = 0;
@@ -174,8 +170,6 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 return Quaternion.AngleAxis(-angleY, Vector3.forward);
             }
-
-            character.aiming.ObjectivePosition = null;
 
 
             return RotationCamera();

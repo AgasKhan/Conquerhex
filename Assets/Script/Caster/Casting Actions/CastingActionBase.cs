@@ -32,6 +32,12 @@ public abstract class CastingAction : IAbilityComponent
 
     public Vector3 Aiming => (ability).Aiming;
 
+    public Vector3 AimingXZ => (ability).AimingXZ;
+
+    public Vector2 Aiming2D { set => (ability).Aiming2D = value;}
+
+    public Vector3 ObjectiveToAim { get => (ability).ObjectiveToAim; set => (ability).ObjectiveToAim = value; }
+
     public virtual bool DontExecuteCast => false;
 
     public bool onCooldownTime => (ability).onCooldownTime;
@@ -51,6 +57,10 @@ public abstract class CastingAction : IAbilityComponent
     public float Dot => (ability).Dot;
 
     public float Auxiliar => (ability).Auxiliar;
+
+    
+
+
 
     /// <summary>
     /// Ejecuta el casteo personalizado de las AbilityExtCast

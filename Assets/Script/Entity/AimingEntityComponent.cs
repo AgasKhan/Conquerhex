@@ -42,19 +42,46 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
 
     public event System.Action<Mode> onMode;
 
-    public event System.Action<Vector3> onAiming;
+    public event System.Action<Vector3> onAimingXZ;
 
-    public Vector3? ObjectivePosition;
+    public Vector3 ObjectivePosition
+    {
+        get => _objectivePosition;
+        set
+        {
+            _objectivePosition = value;
+            _aimingToObj = _objectivePosition - (transform.position + offsetView);
+            _aimingToObj.Normalize();
+            onAimingXZ.Invoke(AimingToObjectiveXZ);
+        }
+    }
 
+    /// <summary>
+    /// Setea en base a un vector2 de forma indirecta el ObjectivePosition <br/>
+    /// Toma el Y como Z
+    /// </summary>
+    public Vector2 AimingToObjective2D
+    {
+        set
+        {
+            ObjectivePosition = (transform.position + offsetView) + value.Vect2To3XZ(0);
+        }
+    }
+
+    /// <summary>
+    /// Vector de direccion desde el offset al objetivo
+    /// </summary>
     public Vector3 AimingToObjective
     {
         get => _aimingToObj;
-        set
-        {
-            _aimingToObj = value;
-            Debug.DrawRay(transform.position, _aimingToObj);
-            onAiming?.Invoke(_aimingToObj);
-        }
+    }
+
+    /// <summary>
+    /// Vector que desprecia su componente en Y de direccion desde el offset al objetivo
+    /// </summary>
+    public Vector3 AimingToObjectiveXZ
+    {
+        get => _aimingToObj.Vect3Copy_Y(0);
     }
 
     public Mode mode
@@ -68,7 +95,13 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
     }
 
     [SerializeField]
+    Vector3 _objectivePosition;
+
+    [SerializeField]
     Vector3 _aimingToObj;
+
+    [SerializeField]
+    Vector3 offsetView;
 
     [SerializeField]
     Mode _mode = Mode.topdown;
