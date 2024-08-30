@@ -177,7 +177,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public void Update()
         {
-            if (!transitionsSet.Chck || character.aiming.mode != AimingEntityComponent.Mode.perspective)
+            if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
                 return;
 
             if (Physics.SphereCast(Position, 0.5f, Quaternion.Euler(rotationPerspective) * setVectorPerspective, out RaycastHit hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
