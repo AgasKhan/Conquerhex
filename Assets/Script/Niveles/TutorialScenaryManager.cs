@@ -13,6 +13,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     [Header("References")]
     public GameObject goal;
     public Character player;
+    public Transform NPC;
+
+    public float maxDist = 10;
     IState<Character> playerIA;
 
     [Header("Scenary")]
@@ -44,16 +47,32 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     System.Action dialogueManagment;
 
-    System.Action<Hexagone,int> teleportEvent;
+    System.Action<Hexagone, int> teleportEvent;
     System.Action<int, MeleeWeapon> weaponEvent;
     System.Action<Damage> dummyTakeDamageEvent;
     System.Action<Health> healthEvent;
+
+    bool distanceCheck;
 
     public void SetHexagons()
     {
         firstHexagon.ladosArray = newBorders;
         HexagonsManager.SetRenders(firstHexagon);
     }
+
+    public void NPCDistance()
+    {
+        float dist = Vector3.Distance(player.transform.position, NPC.position);
+
+        if (dist >= maxDist)
+        {
+            NextDialog();
+            distanceCheck = false;
+        }
+    }
+
+    public void DistanceBoolSet(bool e) => distanceCheck = e;
+
 
     public void EnableExit()
     {
@@ -72,7 +91,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void WaitToEnableDialog(float time)
     {
-        if(timerToNextDialog.Chck)
+        if (timerToNextDialog.Chck)
             timerToNextDialog.Set(time);
     }
 
@@ -104,7 +123,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     void HealthEvent2(Health obj)
     {
-        if(obj.actualLife==obj.maxLife && obj.actualRegen == obj.maxRegen)
+        if (obj.actualLife == obj.maxLife && obj.actualRegen == obj.maxRegen)
         {
             healthEvent = null;
             NextDialog();
@@ -125,7 +144,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     private void EquipeWeapon(int arg1, MeleeWeapon arg2)
     {
-        if(arg1>=0)
+        if (arg1 >= 0)
         {
             NextDialog();
             weaponEvent = null;
@@ -151,7 +170,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             teleportEvent -= Teleport2;
         }
     }
-    
+
     public void GiveToPlayer()
     {
         GiveToPlayer(weaponForPlayer.Item, weaponForPlayer.Amount);
@@ -192,6 +211,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (ability0 && ability1 && ability3 && ability4)
             NextDialog();
     }
+
     private void EquipedOnCast1(Ability ability)
     {
         ability1 = true;
@@ -285,7 +305,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         dialogText.ClearMsg();
         dialogText.AddMsg(messageToShow);
 
-        dialogueManagment = ()=> FinishCurrentDialogue();
+        dialogueManagment = () => FinishCurrentDialogue();
 
         if (allDialogs[currentDialog].timeToCallEvent != 0)
         {
@@ -296,12 +316,12 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             allDialogs[currentDialog].logicActive?.Invoke();
         }
 
-        if(playerIA==null && player.CurrentState!=null)
+        if (playerIA == null && player.CurrentState != null)
             playerIA = player.CurrentState;
 
         player.CurrentState = null;
 
-        TimersManager.Create(0.2f, ()=> isShowingADialogue = true);
+        TimersManager.Create(0.2f, () => isShowingADialogue = true);
 
         VirtualControllers.Interact.eventDown += InteractDialog;
         VirtualControllers.Principal.eventDown += InteractDialog;
@@ -345,7 +365,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         player.health.helthUpdate += HealthEvent;
 
-        if (dummy!=null)
+        if (dummy != null)
             dummy.onTakeDamage += DummyTakeDamage;
 
         var title = UI.Interfaz.SearchTitle("Titulo");
@@ -365,7 +385,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         TimersManager.Create(3, () =>
         {
-            titleSec.AddMsg("Simulación corrupta");
+            titleSec.AddMsg("Simulaciï¿½n corrupta");
         });
     }
 
@@ -377,6 +397,12 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         interfaz = UI.Interfaz.instance;
 
         dialogText.off += EndDialog;
+    }
+
+    void Update()
+    {
+        if (distanceCheck)
+            NPCDistance();
     }
 
     protected override void Awake()
@@ -395,7 +421,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 [System.Serializable]
 public struct DialogEvents
 {
-    [TextArea(6,12)]
+    [TextArea(6, 12)]
     public string dialog;
     [TextArea(6, 12)]
     public string objective;
