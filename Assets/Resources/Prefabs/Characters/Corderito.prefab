@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 1140486446002502534}
   - component: {fileID: 8018831168674537570}
   - component: {fileID: 1360126211719277060}
+  - component: {fileID: 5326160794881623281}
   m_Layer: 7
   m_Name: Corderito
   m_TagString: Enemigo
@@ -127,11 +128,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectEnemy:
-    maxRadius: 0
-    minRadius: 0
-    inverse: 0
-    angle: 360
-    dot: -1
+    <maxRadius>k__BackingField: 5
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 360
+    <dot>k__BackingField: -1
     _maxDetects: 0
     _minDetects: 0
     queryTrigger: 0
@@ -139,11 +140,11 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
   detectObjective:
-    maxRadius: 0
-    minRadius: 0
-    inverse: 0
-    angle: 360
-    dot: -1
+    <maxRadius>k__BackingField: 3
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 360
+    <dot>k__BackingField: -1
     _maxDetects: 0
     _minDetects: 0
     queryTrigger: 0
@@ -192,6 +193,7 @@ MonoBehaviour:
   <inventory>k__BackingField: {fileID: 0}
   <caster>k__BackingField: {fileID: 0}
   <move>k__BackingField: {fileID: 0}
+  <aiming>k__BackingField: {fileID: 0}
   stunBar:
     rid: 6367994743027663006
   iaOn: 1
@@ -369,6 +371,7 @@ MonoBehaviour:
     pictionaries:
     - key: TeleportAudio
       value:
+        source: {fileID: 0}
         mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
           type: 2}
         clip: {fileID: 8300000, guid: d04817b6de89c4c4a8040a31789ce317, type: 3}
@@ -379,10 +382,10 @@ MonoBehaviour:
         minDistance: 2.5
         loop: 0
         onAwake: 0
-        source: {fileID: 0}
   damagedLifeAudio: DamagedLife
   damagedRegenAudio: DamagedRegen
   teleportAudio: TeleportAudio
+  deadAudio: DeadAudio
 --- !u!114 &6470725003548605303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,6 +620,23 @@ MonoBehaviour:
   actionLoop2NameStart: anim_dash2_start
   actionLoop2NameMiddle: anim_dash2_middle
   actionLoop2NameEnd: anim_dash2_end
+--- !u!114 &5326160794881623281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691427261028014608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e865b0024133e44bbe55ad095c3c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sets: []
+  _objectivePosition: {x: 0, y: 0, z: 0}
+  _aimingToObj: {x: 0, y: 0, z: 0}
+  offsetView: {x: 0, y: 0, z: 0}
+  _mode: 0
 --- !u!1001 &269074638775458034
 PrefabInstance:
   m_ObjectHideFlags: 0

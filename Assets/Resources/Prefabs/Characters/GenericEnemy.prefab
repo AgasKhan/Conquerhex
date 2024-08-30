@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 8771883413071932400}
   - component: {fileID: 1066732738913527284}
   - component: {fileID: 8387821993902090873}
+  - component: {fileID: 4202666183399406402}
   m_Layer: 7
   m_Name: GenericEnemy
   m_TagString: Enemigo
@@ -71,11 +72,11 @@ MonoBehaviour:
         steering: {fileID: 1553578019271761151}
         weight: 1
   alertDetection:
-    maxRadius: 8
-    minRadius: 0
-    inverse: 0
-    angle: 360
-    dot: -1
+    <maxRadius>k__BackingField: 3
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 360
+    <dot>k__BackingField: -1
     _maxDetects: 1
     _minDetects: 0
     queryTrigger: 0
@@ -83,11 +84,11 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 32896
   attackDetection:
-    maxRadius: 5
-    minRadius: 0
-    inverse: 0
-    angle: 360
-    dot: -1
+    <maxRadius>k__BackingField: 3
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 360
+    <dot>k__BackingField: -1
     _maxDetects: 1
     _minDetects: 0
     queryTrigger: 0
@@ -157,6 +158,7 @@ MonoBehaviour:
   <inventory>k__BackingField: {fileID: 8529334885070716560}
   <caster>k__BackingField: {fileID: 5476637664899224542}
   <move>k__BackingField: {fileID: 4728687904288008135}
+  <aiming>k__BackingField: {fileID: 0}
   stunBar:
     rid: 5359600277777809776
   iaOn: 1
@@ -316,7 +318,6 @@ MonoBehaviour:
         rid: -2
     <indexer>k__BackingField: 0
   _buffEnergy: 0
-  _aiming: {x: 0, y: 0, z: 0}
   _energy: 0
   <flyweight>k__BackingField: {fileID: 0}
   references:
@@ -633,6 +634,23 @@ MonoBehaviour:
   actionLoop2NameStart: 
   actionLoop2NameMiddle: 
   actionLoop2NameEnd: 
+--- !u!114 &4202666183399406402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8121943635083756471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e865b0024133e44bbe55ad095c3c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sets: []
+  _objectivePosition: {x: 0, y: 0, z: 0}
+  _aimingToObj: {x: 0, y: 0, z: 0}
+  offsetView: {x: 0, y: 0, z: 0}
+  _mode: 0
 --- !u!1001 &5450021978071093287
 PrefabInstance:
   m_ObjectHideFlags: 0
