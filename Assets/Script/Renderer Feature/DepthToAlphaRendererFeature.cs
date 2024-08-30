@@ -111,7 +111,9 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
             }
             */
 
-            if (renderingData.cameraData.camera.targetTexture.width != settings.width || renderingData.cameraData.camera.targetTexture.height != settings.height)
+            //Debug.Log("cameraData null = " + (renderingData.cameraData.camera == null) + "\ntargetTexture null =" + (renderingData.cameraData.camera.targetTexture == null));
+
+            if (renderingData.cameraData.camera.targetTexture!=null && (renderingData.cameraData.camera.targetTexture.width != settings.width || renderingData.cameraData.camera.targetTexture.height != settings.height))
             {
                 var copyTarget = renderingData.cameraData.camera.targetTexture;
 

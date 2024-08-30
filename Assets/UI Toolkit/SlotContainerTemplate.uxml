@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="SlotContainer" class="slotContainerStyle">
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="slotImage" class="slotButton" />
+        <ui:Label tabindex="-1" text="Dash Concatenado" name="slotText" class="slotTextStyle" />
+    </ui:VisualElement>
+</ui:UXML>

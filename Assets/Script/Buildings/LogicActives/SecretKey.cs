@@ -19,6 +19,8 @@ public class SecretKey : MonoBehaviour
 
     Vector3 originalMinionPos;
 
+    public GameObject newMenu;
+
     public EventControllerMediator escapeEventMediator;
     public EventControllerMediator inventoryEventMediator;
     private void Awake()
@@ -42,11 +44,13 @@ public class SecretKey : MonoBehaviour
 
         if (!submenuRef.activeSelf)
         {
-            statisticsSubMenu.Create(MenuManager.instance.character);
+            UIE_MenusManager.instance.EnableMenu(newMenu.gameObject.name);
+
+            //statisticsSubMenu.Create(MenuManager.instance.character);
         }
         else
         {
-            statisticsSubMenu.TriggerMyOnClose();
+            //statisticsSubMenu.TriggerMyOnClose();
         }
     }
 

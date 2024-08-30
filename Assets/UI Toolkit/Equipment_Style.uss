@@ -17,6 +17,16 @@
     justify-content: center;
     align-items: center;
     align-self: center;
+    transition-duration: 0.25s;
+    background-image: url("project://database/Assets/Sprites/Default%20Weapon.png?fileID=2800000&guid=fe126f528f2475c45acba7da868df363&type=3#Default Weapon");
+}
+
+.slotButton:hover {
+    border-left-color: rgb(255, 218, 150);
+    border-right-color: rgb(255, 218, 150);
+    border-top-color: rgb(255, 218, 150);
+    border-bottom-color: rgb(255, 218, 150);
+    background-color: rgb(36, 36, 36);
 }
 
 .KataButton {
@@ -102,4 +112,106 @@
     border-right-color: rgb(130, 98, 41);
     border-top-color: rgb(130, 98, 41);
     border-bottom-color: rgb(130, 98, 41);
+}
+
+.slotContainerStyle {
+    flex-grow: 0;
+    width: 110px;
+    flex-shrink: 0;
+    height: 120px;
+}
+
+.slotTextStyle {
+    color: rgb(178, 145, 86);
+    flex-shrink: 1;
+    width: auto;
+    height: auto;
+    -unity-text-align: middle-center;
+    white-space: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    font-size: 15px;
+    padding-right: 0;
+    flex-grow: 1;
+    -unity-font-style: normal;
+    -unity-text-outline-width: 0.5px;
+    -unity-text-outline-color: rgb(135, 110, 65);
+    text-shadow: 0 0 43.2px rgb(91, 72, 36);
+}
+
+.listItemText {
+    width: 20%;
+    justify-content: flex-start;
+    align-self: center;
+    color: rgb(255, 255, 255);
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ListItemButton {
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 40px;
+    width: 100%;
+    background-color: rgba(25, 29, 35, 0.86);
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
+}
+
+.ListItemButton:hover {
+    background-color: rgb(80, 83, 87);
+}
+
+.closeButton {
+    position: absolute;
+    transform-origin: right bottom;
+    top: 1012px;
+    left: 1765px;
+    width: 120px;
+    background-color: rgb(21, 20, 20);
+    color: rgb(255, 255, 255);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    font-size: 20px;
+    height: 45px;
+}
+
+.slotButtonClicked {
+    width: 70px;
+    height: 70px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgb(21, 20, 20);
+    border-left-color: rgb(135, 110, 65);
+    border-right-color: rgb(135, 110, 65);
+    border-top-color: rgb(135, 110, 65);
+    border-bottom-color: rgb(135, 110, 65);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition-duration: 0.25s;
+    background-image: url("project://database/Assets/Sprites/Default%20Weapon.png?fileID=2800000&guid=fe126f528f2475c45acba7da868df363&type=3#Default Weapon");
 }
