@@ -166,6 +166,48 @@ public class IAIO : IAFather
         character.Ability(0);
     }
 
+    private void Aiming_onMode(AimingEntityComponent.Mode obj)
+    {
+        switch (obj)
+        {
+            case AimingEntityComponent.Mode.topdown:
+
+                cameraTrigger.mouseOverride = true;
+
+                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
+
+                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
+
+                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+
+                break;
+
+
+            case AimingEntityComponent.Mode.perspective:
+
+                cameraTrigger.mouseOverride = false;
+
+                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
+
+                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
+
+                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+
+                break;
+
+
+            case AimingEntityComponent.Mode.focus:
+
+                break;
+        }
+    }
+
+    private void Interact_eventDown(Vector2 arg1, float arg2)
+    {
+        lastInteractuable.Interact(character);
+        UI.Interfaz.instance.interactButton.Play("InteractAccept");
+    }
+
     private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
     {
         character.AlternateAbility();
@@ -408,47 +450,7 @@ public class IAIO : IAFather
             UI.Interfaz.instance.interactButton.transform.position = Camera.main.WorldToScreenPoint(lastInteractuable.offsetInteractView);
     }
 
-    private void Aiming_onMode(AimingEntityComponent.Mode obj)
-    {
-        switch (obj)
-        {
-            case AimingEntityComponent.Mode.topdown:
-
-                cameraTrigger.mouseOverride = true;
-
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
-
-                break;
-
-
-            case AimingEntityComponent.Mode.perspective:
-
-                cameraTrigger.mouseOverride = false;
-
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
-
-                break;
-
-
-            case AimingEntityComponent.Mode.focus:
-
-                break;
-        }
-    }
-
-    private void Interact_eventDown(Vector2 arg1, float arg2)
-    {
-        lastInteractuable.Interact(character);
-        UI.Interfaz.instance.interactButton.Play("InteractAccept");
-    }
+  
 
     private void TeleportEvent(Hexagone obj, int lado)
     {

@@ -96,9 +96,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -224,9 +224,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -448,9 +448,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -576,9 +576,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -704,9 +704,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -832,9 +832,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1087,18 +1087,30 @@ MonoBehaviour:
     offsetObjPosition: {x: 0, y: 0, z: 0}
     rotationPerspective: {x: 0, y: 0, z: 0}
     vectorPerspective: {x: 0, y: 0, z: 0}
-    sets:
-    - offsetObjPosition: {x: 0, y: 0, z: 0}
-      rotationPerspective: {x: 40, y: 0, z: 0}
-      vectorPerspective: {x: 0, y: 0, z: -7}
-    - offsetObjPosition: {x: 0, y: 1.5, z: 0}
-      rotationPerspective: {x: 0, y: 0, z: 0}
-      vectorPerspective: {x: 0.65, y: 0, z: -2}
-    - offsetObjPosition: {x: 0, y: 0, z: 0}
-      rotationPerspective: {x: 0, y: 0, z: 0}
-      vectorPerspective: {x: 0, y: 0, z: 0}
     velocityTransition: 0.75
     smoothColision: 5
+    cameraSet:
+      offsetObjPosition: {x: 0, y: 0, z: 0}
+      rotationPerspective: {x: 0, y: 0, z: 0}
+      vectorPerspective: {x: 0, y: 0, z: 0}
+      <maxRadius>k__BackingField: 0
+      <minRadius>k__BackingField: 0
+      <inverse>k__BackingField: 0
+      <angle>k__BackingField: 0
+      <dot>k__BackingField: 0
+      <maxDetects>k__BackingField: 0
+      <minDetects>k__BackingField: 0
+    prevCameraSet:
+      offsetObjPosition: {x: 0, y: 0, z: 0}
+      rotationPerspective: {x: 0, y: 0, z: 0}
+      vectorPerspective: {x: 0, y: 0, z: 0}
+      <maxRadius>k__BackingField: 0
+      <minRadius>k__BackingField: 0
+      <inverse>k__BackingField: 0
+      <angle>k__BackingField: 0
+      <dot>k__BackingField: 0
+      <maxDetects>k__BackingField: 0
+      <minDetects>k__BackingField: 0
   main: {fileID: 8646954649118161720}
   eventManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
   shakeTr: {fileID: 7594496600214237208}
@@ -1372,9 +1384,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

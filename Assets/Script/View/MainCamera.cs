@@ -36,8 +36,6 @@ public class MainCamera : SingletonMono<MainCamera>
     [System.Serializable]
     public class Tracker
     {
-
-
         public Transform obj;
 
         public Vector3 offsetObjPosition;
@@ -56,8 +54,10 @@ public class MainCamera : SingletonMono<MainCamera>
 
         Timer transitionsSet;
 
+        [SerializeField]
         AimingEntityComponent.CameraSet cameraSet;
 
+        [SerializeField]
         AimingEntityComponent.CameraSet prevCameraSet;
 
         ref Vector3 setOffsetObjPosition => ref cameraSet.offsetObjPosition;
@@ -73,9 +73,9 @@ public class MainCamera : SingletonMono<MainCamera>
 
         ref Vector3 prevVectorPerspective => ref prevCameraSet.vectorPerspective;
 
-        Vector3 position => obj.position + offsetObjPosition;
+        Vector3 CameraPosition => Position + Quaternion.Euler(rotationPerspective) * vectorPerspective;
 
-        public Vector3 Position => position.Vect3Copy_Y(offsetObjPosition.y);
+        public Vector3 Position => (obj.position + offsetObjPosition).Vect3Copy_Y(offsetObjPosition.y);
 
         float distanceToObjective;
 
@@ -100,11 +100,13 @@ public class MainCamera : SingletonMono<MainCamera>
 
             this.character.moveEventMediator.quaternionOffset = RotationCamera;
 
-            this.character.attackEventMediator.quaternionOffset = RotationCamera;
-
             this.character.dashEventMediator.quaternionOffset = RotationCamera;
 
-            this.character.abilityEventMediator.quaternionOffset = RotationCamera;
+
+            this.character.attackEventMediator.quaternionOffset = CameraAiming;
+
+            this.character.abilityEventMediator.quaternionOffset = CameraAiming;
+
 
             this.character.aimingEventMediator.eventPress += AimingEventMediatorEventPress;
 
@@ -132,6 +134,8 @@ public class MainCamera : SingletonMono<MainCamera>
                 setRotationPerspective.y += arg1.x;
                 setRotationPerspective.x -= arg1.y;
 
+                character.aiming.AimingToObjective = Quaternion.Euler(rotationPerspective) * Vector3.forward;
+
                 setRotationPerspective.x = Mathf.Clamp(setRotationPerspective.x, -20, 89);
 
                 rotationPerspective = setRotationPerspective;
@@ -141,6 +145,40 @@ public class MainCamera : SingletonMono<MainCamera>
         Quaternion RotationCamera()
         {
             return Quaternion.Euler(0, 0, -rotationPerspective.y);
+        }
+
+        Quaternion CameraAiming()
+        {
+            if (character.aiming.mode != AimingEntityComponent.Mode.perspective)
+            {
+                return RotationCamera();
+            }
+
+            Ray ray = new Ray(CameraPosition, Quaternion.Euler(rotationPerspective) * Vector3.forward);
+
+            Debug.DrawRay(ray.origin,ray.direction, Color.red);
+               
+            if(Physics.Raycast(ray, out RaycastHit hitInfo, float.PositiveInfinity, Physics.AllLayers  & ~(1<<15) , QueryTriggerInteraction.Ignore))
+            {
+                Vector3 aux = hitInfo.point - character.transform.position;
+
+                Debug.DrawRay(character.transform.position, aux, Color.green);
+
+                character.aiming.AimingToObjective = aux.normalized;
+
+                character.aiming.ObjectivePosition = hitInfo.point;
+
+                aux.y = 0;
+
+                float angleY = Mathf.Atan2(aux.x, aux.z) * Mathf.Rad2Deg;
+
+                return Quaternion.AngleAxis(-angleY, Vector3.forward);
+            }
+
+            character.aiming.ObjectivePosition = null;
+
+
+            return RotationCamera();
         }
 
         public void Update()

@@ -61,8 +61,15 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void Ia_onAiming(Vector3 obj)
     {
+        Vector3 vector3;
         if (obj != Vector3.zero)
-            controller.transform.forward = Vector3.Slerp(controller.transform.forward, obj, Time.deltaTime * 10);
+            vector3 = Vector3.Slerp(controller.transform.forward, obj, Time.deltaTime * 10);
+        else
+            return;
+
+        vector3.y = 0;
+
+        controller.transform.forward = vector3;
     }
 
     private void Ia_PreCast(Ability ability)

@@ -44,31 +44,35 @@ public class RangeWeapon : MeleeWeapon
         amination = new Tim(((RangeWeaponBase)itemBase).magazine);
     }
 
-
     public override IEnumerable<Entity> ApplyDamage(Ability ability, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {
-        /*
-        if (damageables == null || damageables.Length == 0)
-            return new Entity[] {};
-        */
         CasterEntityComponent owner = ability.caster;
-        
-        Vector3 aim = Quaternion.Euler(0, Random.Range(ability.Angle/-2, ability.Angle/2), 0) * (ability.Aiming + Vector3.up * 0.5f);
+
+        Vector3 aim ;
 
         Entity objective = null;
 
-        if (damageables != null)
+        if(ability.isPerspective)
         {
-            foreach (var item in damageables)
-            {
-                objective = item;
-                break;
-            }
+            aim = Quaternion.Euler(Random.Range(ability.Angle / -2, ability.Angle / 2), Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (ability.Aiming);
         }
-
-        if(objective != null)
+        else
         {
-            aim = (objective.transform.position - owner.transform.position).normalized;
+            aim = Quaternion.Euler(0 , Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (ability.Aiming);
+
+            if (damageables != null)
+            {
+                foreach (var item in damageables)
+                {
+                    objective = item;
+                    break;
+                }
+            }
+
+            if (objective != null)
+            {
+                aim = (objective.transform.position - owner.transform.position).normalized;
+            }
         }
 
         PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, owner.transform.position + Vector3.up * 0.5f + aim, Quaternion.identity, null, false);

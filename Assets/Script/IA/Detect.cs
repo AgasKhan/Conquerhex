@@ -304,7 +304,7 @@ public class Detect<T> : DetectParent<T> where T : class
     {
         results.Clear();
 
-        int length = Physics.OverlapCapsuleNonAlloc(position.Vect3Copy_Y(-10), position.Vect3Copy_Y(10), maxRadius, buffer, layerMask, queryTrigger);
+        int length = Physics.OverlapCapsuleNonAlloc(position.Vect3Copy_Y(0), position.Vect3Copy_Y(0), maxRadius, buffer, layerMask, queryTrigger);
 
         //length = Physics.OverlapSphereNonAlloc(position, maxRadius, buffer, layerMask);
 

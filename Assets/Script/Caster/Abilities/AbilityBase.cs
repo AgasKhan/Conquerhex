@@ -259,12 +259,15 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public float Auxiliar => abilityModificator.Auxiliar;
 
+    public bool isPerspective => aiming.mode != AimingEntityComponent.Mode.topdown;
 
     public virtual Vector3 Aiming
     {
         get => aiming.AimingToObjective;
         set
         {
+            value.y = aiming.AimingToObjective.y;
+
             aiming.AimingToObjective = value;
         }
     }

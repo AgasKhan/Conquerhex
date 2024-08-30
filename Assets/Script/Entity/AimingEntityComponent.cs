@@ -44,7 +44,7 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
 
     public event System.Action<Vector3> onAiming;
 
-    public Transform track;
+    public Vector3? ObjectivePosition;
 
     public Vector3 AimingToObjective
     {
@@ -52,6 +52,7 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
         set
         {
             _aimingToObj = value;
+            Debug.DrawRay(transform.position, _aimingToObj);
             onAiming?.Invoke(_aimingToObj);
         }
     }
