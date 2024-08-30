@@ -227,6 +227,18 @@ MonoBehaviour:
       amount: 1
       parent: {fileID: 0}
       pool: []
+    - prefab: {fileID: 6163313678574278218, guid: ea41807d005ff1c4592a793ae10d63cf,
+        type: 3}
+      utilityRefence: []
+      amount: 20
+      parent: {fileID: 0}
+      pool: []
+    - prefab: {fileID: 6808594714220762648, guid: affa2479299ffac4aa96965cfb7cd765,
+        type: 3}
+      utilityRefence: []
+      amount: 20
+      parent: {fileID: 0}
+      pool: []
   - name: Bullets
     objectPool:
     - prefab: {fileID: 6636733154270346112, guid: 6187da6f17fa2d247b45239a7266d8fa,
@@ -253,11 +265,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventsManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
   detectInteractuable:
-    maxRadius: 2
-    minRadius: 0
-    inverse: 0
-    angle: 360
-    dot: -1
+    <maxRadius>k__BackingField: 0
+    <minRadius>k__BackingField: 0
+    <inverse>k__BackingField: 0
+    <angle>k__BackingField: 360
+    <dot>k__BackingField: -1
     _maxDetects: 1
     _minDetects: 0
     queryTrigger: 0
