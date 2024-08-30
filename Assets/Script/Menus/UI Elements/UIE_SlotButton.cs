@@ -12,7 +12,7 @@ public class UIE_SlotButton : VisualElement
 
     public void Init(Texture2D image, string text, UnityAction action)
     {
-        VisualTreeAsset asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/SlotButton.uxml");
+        VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
         asset.CloneTree(this);
 
         Debug.Log("slotImage is null = " + (slotImage == null) + "\nstyle is null= " + (slotImage.style == null) + "\nbackgroundImage is null = " + (slotImage.style.backgroundImage == null)+ "\nSended image is null = "+(image==null));

@@ -13,6 +13,24 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     string currentMenu = "";
     string lastMenu;
 
+    public static Dictionary<string, VisualTreeAsset> treeAsset = new Dictionary<string, VisualTreeAsset>();
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if(treeAsset.Count == 0)
+            LoadSystem.AddPostLoadCorutine(ChargeResources);
+    }
+
+    void ChargeResources()
+    {
+        foreach (var item in LoadSystem.LoadAssets<VisualTreeAsset>("UI Toolkit/"))
+        {
+            treeAsset.Add(item.name, item);
+        }
+    }
+
+
     public void SwitchMenu(string menuToGo)
     {
         DisableMenu(currentMenu);
@@ -21,12 +39,14 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
 
     public void EnableMenu(string name)
     {
+        GameManager.instance.Menu(true);
         currentMenu = name;
         menuList[name].EnableMenu();
     }
 
     public void DisableMenu(string name)
     {
+        GameManager.instance.Menu(false);
         lastMenu = name;
         menuList[name].DisableMenu();
     }

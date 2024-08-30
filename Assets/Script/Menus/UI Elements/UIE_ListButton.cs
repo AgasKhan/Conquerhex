@@ -19,7 +19,7 @@ public class UIE_ListButton : VisualElement
 
     public void Init(Texture2D _itemImage, string _itemName, string _typeItem, string _specialityItem, bool changeButtonVisible, System.Action<ClickEvent> _mainAction, System.Action<ClickEvent> _changeAction)
     {
-        VisualTreeAsset asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/ListItemButton.uxml");
+        VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);
         /*
         Debug.Log("itemImage is null = " + (itemImage == null));

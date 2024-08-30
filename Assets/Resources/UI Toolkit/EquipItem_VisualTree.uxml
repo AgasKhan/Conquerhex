@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
     <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/Mockup%202.png?fileID=2800000&amp;guid=28658a0e9c7c31645961728d2d8f5c1f&amp;type=3#Mockup 2&quot;); -unity-background-image-tint-color: rgba(255, 255, 255, 0); background-color: rgb(30, 28, 28);">
         <ui:VisualElement name="BoxTop" style="flex-grow: 0; height: 10%; flex-direction: row;">
-            <ui:Label tabindex="-1" text="EQUIP ABILITY" parse-escape-sequences="true" display-tooltip-when-elided="true" class="titleText" />
+            <ui:Label tabindex="-1" text="EQUIPAR ITEM" parse-escape-sequences="true" display-tooltip-when-elided="true" class="titleText" />
             <ui:VisualElement style="flex-grow: 0; flex-direction: row; justify-content: space-around; width: 315px; left: 732px;">
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="originalButton" class="slotButton" />
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="changeButton" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
@@ -21,11 +21,11 @@
             </ui:VisualElement>
             <ui:VisualElement name="DetailsWindow" class="padding20 verticalContainer" style="flex-grow: 0; width: 38%; flex-shrink: 1; height: auto; justify-content: center; background-color: rgba(89, 89, 89, 0.29);">
                 <ui:VisualElement class="horizontalContainer" style="flex-grow: 0; height: 189px; width: 100%;">
-                    <ui:VisualElement name="imageDW" style="flex-grow: 0; flex-shrink: 0; width: 150px; height: 150px; background-image: url(&quot;project://database/Assets/Sprites/Weapons-Tools/Full%20Sheet%201.png?fileID=-1336454371&amp;guid=17d90ad2b19afdb409c147bd3ff6fd9b&amp;type=3#Full Sheet 1_32&quot;);" />
-                    <ui:Label tabindex="-1" text="Hacha" parse-escape-sequences="true" display-tooltip-when-elided="true" name="titleDW" class="slotTextStyle" style="flex-grow: 1; font-size: 40px; height: 149px; justify-content: center; -unity-text-align: middle-center;" />
+                    <ui:VisualElement name="imageDW" style="flex-grow: 0; flex-shrink: 0; width: 150px; height: 150px; background-image: none;" />
+                    <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="titleDW" class="slotTextStyle" style="flex-grow: 1; font-size: 40px; height: 149px; justify-content: center; -unity-text-align: middle-center;" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-grow: 1; height: auto;">
-                    <ui:Label tabindex="-1" text="Descripcion innecesariamente detallada y larga relacionada al Hacha, con información tanto necesarioa como innecesaria. pero que sea mayormente de ilidad para el jugador dhsdhsdjsjdshdhdshdsjsdhjhsdshjdhjsdhjsdhjsdjhsdjhsdhjdshjsdhjsdhjsdhjsdhjsdhjsdhjsdhjsdhjddasdsdsdsdsdsdsdsdsdsdsdsdsdgsgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg" parse-escape-sequences="true" display-tooltip-when-elided="true" name="descriptionDW" style="color: rgb(255, 255, 255); height: auto; white-space: normal; -unity-text-align: upper-center; font-size: 18px; flex-grow: 1;" />
+                    <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="descriptionDW" style="color: rgb(255, 255, 255); height: auto; white-space: normal; -unity-text-align: upper-center; font-size: 18px; flex-grow: 1;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1; justify-content: center;">
