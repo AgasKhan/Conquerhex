@@ -11,10 +11,13 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     public SlotItemList<MeleeWeapon> weapons = new SlotItemList<MeleeWeapon>(5);
 
     [Tooltip("Ataques especiales que se efectuaran con el combo de ataque")]
-    public SlotItemList<WeaponKata> katasCombo = new SlotItemList<WeaponKata>(4);
+    public SlotItemList<WeaponKata> katas = new SlotItemList<WeaponKata>(4);
 
     [Tooltip("Habilidades equipadas y de cambio rapido")]
     public SlotItemList<AbilityExtCast> abilities = new SlotItemList<AbilityExtCast>(6);
+
+    [Tooltip("Combos de ataque")]
+    public SlotItemList<Ability> combos = new SlotItemList<Ability>(15);
 
     /*
     [Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
@@ -219,7 +222,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     {
         var indexToEquip = flyweight.kataCombos[index].indexToEquip == -1 ? index : flyweight.kataCombos[index].indexToEquip;
 
-        if (flyweight.kataCombos[index].kata == null || indexToEquip > katasCombo.Count || katasCombo.Actual(indexToEquip).equiped != null)
+        if (flyweight.kataCombos[index].kata == null || indexToEquip > katas.Count || katas.Actual(indexToEquip).equiped != null)
             return;
 
         var aux = flyweight.kataCombos[index].kata.Create();
@@ -232,17 +235,17 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         ((WeaponKata)aux).isDefault = flyweight.kataCombos[index].isDefault;
         ((MeleeWeapon)aux2).isDefault = flyweight.kataCombos[index].isDefault;
-        katasCombo.actual.SetDefaultItem((WeaponKata)aux);
+        katas.actual.SetDefaultItem((WeaponKata)aux);
 
         ((WeaponKata)aux).CreateCopy(out int otherindex);
 
-        katasCombo.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
+        katas.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
 
-        katasCombo.actual.indexEquipedItem = otherindex;
+        katas.actual.indexEquipedItem = otherindex;
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 
-        katasCombo.actual.equiped.ChangeWeapon(aux2);
+        katas.actual.equiped.ChangeWeapon(aux2);
     }
 
     public void SetAbility(AbilityToEquip abilityToEquip)
@@ -309,7 +312,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         weapons.Init(inventoryEntity);
         abilities.Init(inventoryEntity);
-        katasCombo.Init(inventoryEntity);
+        katas.Init(inventoryEntity);
         //abilitiesCombo.Init(inventoryEntity);
 
         additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
@@ -324,7 +327,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         positiveEnergy = EnergyDefault * MaxEnergy;
 
-        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, katasCombo.Count); i++)
+        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, katas.Count); i++)
         {
             SetWeaponKataCombo(i);
         }
@@ -337,13 +340,13 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void Init()
     {
-        for (int i = 0; i < katasCombo.Count; i++)
+        for (int i = 0; i < katas.Count; i++)
         {
-            katasCombo[i].inventoryComponent = inventoryEntity;
+            katas[i].inventoryComponent = inventoryEntity;
 
-            if (katasCombo[i].equiped != null)
+            if (katas[i].equiped != null)
             {
-                katasCombo[i].equiped.Init(inventoryEntity);
+                katas[i].equiped.Init(inventoryEntity);
             }
         }
     }

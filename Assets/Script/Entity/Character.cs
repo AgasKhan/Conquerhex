@@ -54,7 +54,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public CastingActionCharacter castingActionCharacter { get; private set; }
     public StopActionCharacter stopIA { get; private set; }
 
-
+    public int nextCombo;
 
     [SerializeReference]
     StunBar stunBar = new StunBar();
@@ -131,6 +131,36 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
+    /*
+    Diseniar un sistema el cual almacene el combo siguiente que ejecutara de manera autonoma al finalizar el actual
+
+    En otras palabras, agregar al OnExit una funcion que verifique si debe de continuar el combo, y con cual
+     
+     */
+
+
+    public void ComboAttack(int i)
+    {
+        Ability ability = caster.combos.Actual(i).equiped;
+
+
+        ////
+
+
+        castingActionCharacter.OnExit += () =>
+        {
+            castingActionCharacter.stateWithEnd = ability;
+            Action = castingActionCharacter;
+            castingActionCharacter.OnExit += () =>
+            {
+                if(nextCombo>=0)
+                {
+                    ComboAttack(nextCombo);
+                }
+            };
+        };
+    }
+
     public void Attack(int i)
     {
         WeaponKata weaponKata;
@@ -141,7 +171,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
         else
         {
-            weaponKata = caster.katasCombo.Actual(i - 1).equiped;
+            weaponKata = caster.katas.Actual(i - 1).equiped;
         }
 
         if (castingActionCharacter.stateWithEnd == weaponKata)
@@ -515,6 +545,35 @@ namespace FSMCharacterAndStates
         System.Action _OnExit;
 
         public bool End => stateWithEnd?.End ?? true;
+
+        /*
+         public bool End  
+        {
+            get
+            {
+                if(stateWithEnd==null) //si no poseo estado
+                    return true;
+                
+                if (!stateWithEnd.End) //si no termine
+                    return false;
+
+                if (stateWithEnd.IsChildOf<IStateWithEndWithNext<CasterEntityComponent>>())
+                {
+                    var state = ((IStateWithEndWithNext<CasterEntityComponent>)stateWithEnd);
+
+                    if (state.Next != null)
+                    {
+                        stateWithEnd = state.Next;
+                        return false;
+                    }
+                    else
+                        return true;
+                }
+                else
+                    return true;
+            }
+        }
+         */
 
         //public bool End => stateWithEnd == null ? true : false;
 

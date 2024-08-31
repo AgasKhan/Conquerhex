@@ -49,7 +49,7 @@ public class IAHunter : IAFather, IGetPatrol, Init
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
-        attk.Init(param, param.caster.katasCombo[0]);
+        attk.Init(param, param.caster.katas[0]);
         Init();
         fsm = new HunterIntern(this);
     }

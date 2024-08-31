@@ -16,7 +16,7 @@ public class CastingWeaponKataInSlot : CastingAction
 {
     int slot;
 
-    public override bool DontExecuteCast => base.DontExecuteCast || caster.katasCombo[slot]?.equiped == null;
+    public override bool DontExecuteCast => base.DontExecuteCast || caster.katas[slot]?.equiped == null;
 
     public override void Init(Ability ability)
     {
@@ -34,11 +34,11 @@ public class CastingWeaponKataInSlot : CastingAction
     {
         End = true;
 
-        if(caster.katasCombo[slot]?.equiped != null)
+        if(caster.katas[slot]?.equiped != null)
         {
             //caster.katasCombo[slot].equiped.Detect();
 
-            return caster.katasCombo[slot].equiped.Cast(entities, out showParticleInPos, out showParticleDamaged);
+            return caster.katas[slot].equiped.Cast(entities, out showParticleInPos, out showParticleDamaged);
         }
 
         showParticleInPos = false;

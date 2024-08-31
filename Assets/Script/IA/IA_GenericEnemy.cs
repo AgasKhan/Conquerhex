@@ -55,7 +55,7 @@ public class IA_GenericEnemy : IAFather, IGetPatrol, Init
         Init();
         base.OnEnterState(param);
         fsm = new GenericEnemyFSM(this);
-        attack.Init(param, param.caster.katasCombo[0]);
+        attack.Init(param, param.caster.katas[0]);
     }
 
     public override void OnStayState(Character param)

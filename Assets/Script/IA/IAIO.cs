@@ -31,7 +31,11 @@ public class IAIO : IAFather
     [SerializeField]
     Controllers.TriggerAxis cameraTrigger;
 
-    string[] combos = new string[] { "↑↑","→→", "←←" , "↓↓" };
+    string[] comboRapido = new string[] { "↑↑","→→", "←←" , "↓↓" };
+
+    char[] womboCOMBO = new char[] { '↑', '→', '←', '↓' };
+
+    int womboIndex;
 
     Timer comboReset;
 
@@ -55,169 +59,185 @@ public class IAIO : IAFather
 
     EventControllerMediator inventoryEventMediator;
 
-    void TriggerUI()
+    
+    public override void OnStayState(Character param)
     {
-        equipedEvents[0].Invoke((caster.weapons[0].equiped?.defaultKata, caster.weapons[0].equiped?.itemBase));
-        equipedEvents[1].Invoke((caster.abilities[0].equiped, caster.abilities[0].equiped?.itemBase));
-        equipedEvents[2].Invoke((caster.abilities[1].equiped, caster.abilities[1].equiped?.itemBase));
+        base.OnStayState(param);
 
-        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
+        #region vuelta a base hardcodeada
+
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            equipedEvents[i + 3].Invoke((caster.katasCombo[i].equiped, caster.katasCombo[i].equiped?.itemBase));
-        }
-
-        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
-        {
-            equipedEvents[i + 7].Invoke((caster.abilities[i + 2].equiped, caster.abilities[i + 2].equiped?.itemBase));
-        }
-    }
-
-    void SuscribeUI()
-    {
-        caster.weapons[0].toChange += meleeWeaponUIMediator;
-        caster.abilities[0].toChange += abilityExtUIMediator[0];
-        caster.abilities[1].toChange += abilityExtUIMediator[1];
-
-        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
-        {
-            caster.katasCombo[i].toChange += kataUIMediator[i];
-        }
-
-        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
-        {
-            caster.abilities[i + 2].toChange += abilityExtUIMediator[i+2];
-        }
-    }
-
-    void DesuscribiUI()
-    {
-        caster.weapons[0].toChange -= meleeWeaponUIMediator;
-        caster.abilities[0].toChange -= abilityExtUIMediator[0];
-        caster.abilities[1].toChange -= abilityExtUIMediator[1];
-
-        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
-        {
-            caster.katasCombo[i].toChange -= kataUIMediator[i];
-        }
-
-        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
-        {
-            caster.abilities[i + 2].toChange -= abilityExtUIMediator[i + 2];
-        }
-    }
-    public void ChangeCharacter(Character newCharacter)
-    {
-        characterEvent.delegato.Invoke(newCharacter);
-    }
-
-    private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        Vector2 tecla = arg1.AproxDir();
-
-        if (tecla != Vector2.zero)
-        {
-            comboReset.Reset();
-
-            if (lastCombo.Length >= 2)
-                lastCombo = new string(lastCombo[^1], 1);
-
-            if (tecla.x > 0)
+            if (automaticMoveToBase == Vector2.zero)
             {
-                lastCombo += "→";
+                int ladoToGo = character.hexagoneParent.ladoToBase;
+
+                if (ladoToGo == -1)
+                {
+                    if (character.hexagoneParent.id == 0)
+                        UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde desde la base");
+                    else
+                        UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde aqui");
+                }
+                else
+                {
+                    effectBackToBaseStart.Invoke();
+                    automaticMoveToBase = Vector2.one;
+                    character.move.objectiveVelocity *= 5;
+                    character.gameObject.layer = 14;
+                }
             }
-            else if (tecla.x < 0)
+            else
             {
-                lastCombo += "←";
-            }
-            else if (tecla.y > 0)
-            {
-                lastCombo += "↑";
-            }
-            else if (tecla.y < 0)
-            {
-                lastCombo += "↓";
+                effectBackToBaseEnd.Invoke();
+                character.move.objectiveVelocity /= 5;
+                automaticMoveToBase = Vector2.zero;
+                character.gameObject.layer = 7;
             }
         }
-    }
 
-    private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        for (int i = 0; i < combos.Length; i++)
+
+        if (automaticMoveToBase != Vector2.zero)
         {
-            if (combos[i] == lastCombo)
+            int ladoToGo = character.hexagoneParent.ladoToBase;
+
+            if (character.hexagoneParent.id == 0 || ladoToGo == -1)
             {
-                character.Attack(i + 1);
+                effectBackToBaseEnd.Invoke();
+
+                if (character.hexagoneParent.id == 0)
+                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("Llegaste a base");
+                else
+                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("Se perdio el rumbo");
+
+                character.move.objectiveVelocity /= 5;
+                automaticMoveToBase = Vector2.zero;
+                character.gameObject.layer = 7;
                 return;
             }
+
+            Vector2 dir = new Vector2(character.hexagoneParent.ladosPuntos[ladoToGo, 0], character.hexagoneParent.ladosPuntos[ladoToGo, 1]);
+
+            dir -= character.transform.position.Vect3To2XZ();
+
+            if (dir.sqrMagnitude > 0.25f)
+            {
+                automaticMoveToBase = dir.normalized;
+            }
+
+            moveEventMediator.ControllerPressed(automaticMoveToBase, 0);
+            return;
         }
 
-        character.Attack(0);
-    }
+        #endregion
 
-    private void AbilityEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        for (int i = 0; i < combos.Length; i++)
+        #region cambio perspectiva hardcodeada
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            if (combos[i] == lastCombo)
+            if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
+                character.aiming.mode = AimingEntityComponent.Mode.topdown;
+            else
+                character.aiming.mode = AimingEntityComponent.Mode.perspective;
+        }
+        #endregion
+
+        #region prueba combo Hardcodeado
+
+        //aca pondria mi codigo hardcodeado, sii tuviera uno
+
+        #endregion
+
+        var buildings = detectInteractuable.Area(character.transform.position, (edificio) => { return edificio.interactuable; });
+
+        if (buildings == null || buildings.Count == 0)
+        {
+            interactEvent.secondDelegato?.Invoke((false, false, null));
+
+            VirtualControllers.Interact.eventDown -= Interact_eventDown;
+
+            if (lastInteractuable != null)
             {
-                character.Ability(i + 1);
-                return;
+                UI.Interfaz.instance.interactButton.Play("InteractClose");
+            }
+
+            lastInteractuable = null;
+        }
+        else if (buildings[0] != lastInteractuable)
+        {
+            VirtualControllers.Interact.eventDown -= Interact_eventDown;
+
+            lastInteractuable = buildings[0];
+
+            interactEvent.secondDelegato?.Invoke((true, false, lastInteractuable.Image));
+
+            VirtualControllers.Interact.eventDown += Interact_eventDown;
+
+            if (lastInteractuable != null)
+            {
+                UI.Interfaz.instance.interactButton.Play("InteractOpen");
             }
         }
 
-        character.Ability(0);
+        if (lastInteractuable != null)
+            UI.Interfaz.instance.interactButton.transform.position = Camera.main.WorldToScreenPoint(lastInteractuable.offsetInteractView);
     }
 
-    private void Aiming_onMode(AimingEntityComponent.Mode obj)
+    public override void OnExitState(Character param)
     {
-        switch (obj)
+        param.move.onTeleport -= TeleportEvent;
+
+        //param.health.lifeUpdate -= UpdateLife;
+        //param.health.regenUpdate -= UpdateRegen;
+        //param.health.regenTimeUpdate -= UpdateRegenTime;
+        param.health.helthUpdate -= Health_helthUpdate;
+        param.caster.energyUpdate -= EnergyUpdate;
+        param.caster.leftEnergyUpdate -= LeftEnergyUpdate;
+        param.caster.rightEnergyUpdate -= RightEnergyUpdate;
+        //param.onTakeDamage -= OnTakeDamage;
+
+        attackEventMediator.eventDown -= AttackEventMediator_eventDown;
+
+        abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
+
+        VirtualControllers.Movement.eventDown -= MoveEventMediator_eventDown;
+
+        dashEventMediator.eventDown -= DashEventMediator_eventDown;
+
+        DesuscribiUI();
+
+        /*
+        VirtualControllers.Alpha1.eventDown -= Alpha1_eventDown;
+        VirtualControllers.Alpha2.eventDown -= Alpha2_eventDown;
+        VirtualControllers.Alpha3.eventDown -= Alpha3_eventDown;
+        VirtualControllers.Alpha4.eventDown -= Alpha4_eventDown;
+        */
+
+        VirtualControllers.Movement.DesuscribeController(moveEventMediator);
+
+        VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
+
+        VirtualControllers.Principal.DesuscribeController(attackEventMediator);
+
+        VirtualControllers.Secondary.DesuscribeController(abilityEventMediator);
+
+        VirtualControllers.Terciary.DesuscribeController(dashEventMediator);
+
+        VirtualControllers.Interact.eventDown -= Interact_eventDown;
+
+        interactEvent.secondDelegato?.Invoke((false, false, null));
+
+        lastInteractuable = null;
+
+        param.gameObject.tag = originalTag;
+
+        foreach (Transform child in param.GetComponentsInChildren<Transform>())
         {
-            case AimingEntityComponent.Mode.topdown:
-
-                cameraTrigger.mouseOverride = true;
-
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
-
-                break;
-
-
-            case AimingEntityComponent.Mode.perspective:
-
-                cameraTrigger.mouseOverride = false;
-
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
-
-                break;
-
-
-            case AimingEntityComponent.Mode.focus:
-
-                break;
+            child.gameObject.layer = originalLayerMask;
         }
+
+        base.OnExitState(character);
     }
 
-    private void Interact_eventDown(Vector2 arg1, float arg2)
-    {
-        lastInteractuable.Interact(character);
-        UI.Interfaz.instance.interactButton.Play("InteractAccept");
-    }
-
-    private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        character.AlternateAbility();
-    }
-    private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
-    }
 
     public override void OnEnterState(Character param)
     {
@@ -286,181 +306,231 @@ public class IAIO : IAFather
         VirtualControllers.Terciary.SuscribeController(dashEventMediator);
     }
 
-
-
-    public override void OnExitState(Character param)
+    protected override void Health_death()
     {
-        param.move.onTeleport -= TeleportEvent;
+        var chr = character;
 
-        //param.health.lifeUpdate -= UpdateLife;
-        //param.health.regenUpdate -= UpdateRegen;
-        //param.health.regenTimeUpdate -= UpdateRegenTime;
-        param.health.helthUpdate -= Health_helthUpdate;
-        param.caster.energyUpdate -= EnergyUpdate;
-        param.caster.leftEnergyUpdate -= LeftEnergyUpdate;
-        param.caster.rightEnergyUpdate -= RightEnergyUpdate;
-        //param.onTakeDamage -= OnTakeDamage;
+        character.CurrentState = null;
 
-        attackEventMediator.eventDown -= AttackEventMediator_eventDown;
-
-        abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
-
-        VirtualControllers.Movement.eventDown -= MoveEventMediator_eventDown;
-
-        dashEventMediator.eventDown -= DashEventMediator_eventDown;
-
-        DesuscribiUI();
-
-        /*
-        VirtualControllers.Alpha1.eventDown -= Alpha1_eventDown;
-        VirtualControllers.Alpha2.eventDown -= Alpha2_eventDown;
-        VirtualControllers.Alpha3.eventDown -= Alpha3_eventDown;
-        VirtualControllers.Alpha4.eventDown -= Alpha4_eventDown;
-        */
-
-        VirtualControllers.Movement.DesuscribeController(moveEventMediator);
-
-        VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
-
-        VirtualControllers.Principal.DesuscribeController(attackEventMediator);
-
-        VirtualControllers.Secondary.DesuscribeController(abilityEventMediator);
-
-        VirtualControllers.Terciary.DesuscribeController(dashEventMediator);
-
-        VirtualControllers.Interact.eventDown -= Interact_eventDown;
-
-        interactEvent.secondDelegato?.Invoke((false, false, null));
-
-        lastInteractuable = null;
-
-        param.gameObject.tag = originalTag;
-
-        foreach (Transform child in param.GetComponentsInChildren<Transform>())
+        TimersManager.Create(0.5f, () =>
         {
-            child.gameObject.layer = originalLayerMask;
-        }
-
-        base.OnExitState(character);
-    }
-
-    public override void OnStayState(Character param)
-    {
-        base.OnStayState(param);
-
-        #region vuelta a base hardcodeada
-
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            if(automaticMoveToBase==Vector2.zero)
+            if (chr != GameManager.instance.playerCharacter)
             {
-                int ladoToGo = character.hexagoneParent.ladoToBase;
-
-                if (ladoToGo == -1)
-                {
-                    if(character.hexagoneParent.id == 0)
-                        UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde desde la base");
-                    else
-                        UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde aqui");
-                }
-                else
-                {
-                    effectBackToBaseStart.Invoke();
-                    automaticMoveToBase = Vector2.one;
-                    character.move.objectiveVelocity *= 5;
-                    character.gameObject.layer = 14;
-                }
+                enabled = true;
+                chr.SetActiveGameObject(false);
+                VirtualControllers.Principal.eventDown += NoCharacterSelected;
             }
             else
             {
-                effectBackToBaseEnd.Invoke();
-                character.move.objectiveVelocity /= 5;
-                automaticMoveToBase = Vector2.zero;
-                character.gameObject.layer = 7;
+                GameManager.instance.Defeat("Has muerto");
             }
-        }
-
-
-        if(automaticMoveToBase!=Vector2.zero)
-        {
-            int ladoToGo = character.hexagoneParent.ladoToBase;
-
-            if (character.hexagoneParent.id == 0 || ladoToGo==-1)
-            {
-                effectBackToBaseEnd.Invoke();
-
-                if(character.hexagoneParent.id == 0)
-                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("Llegaste a base");
-                else
-                    UI.Interfaz.instance["Titulo secundario"].ShowMsg("Se perdio el rumbo");
-
-                character.move.objectiveVelocity /= 5;
-                automaticMoveToBase = Vector2.zero;
-                character.gameObject.layer = 7;
-                return;
-            }
-
-            Vector2 dir = new Vector2(character.hexagoneParent.ladosPuntos[ladoToGo, 0], character.hexagoneParent.ladosPuntos[ladoToGo, 1]);
-
-            dir -= character.transform.position.Vect3To2XZ();
-
-            if (dir.sqrMagnitude > 0.25f)
-            {
-                automaticMoveToBase = dir.normalized;
-            }
-
-            moveEventMediator.ControllerPressed(automaticMoveToBase, 0);
-            return;
-        }
-
-        #endregion
-
-        #region cambio perspectiva hardcodeada
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
-                character.aiming.mode = AimingEntityComponent.Mode.topdown;
-            else
-                character.aiming.mode = AimingEntityComponent.Mode.perspective;
-        }
-        #endregion
-
-        var buildings = detectInteractuable.Area(character.transform.position, (edificio) => { return edificio.interactuable; });
-
-        if (buildings == null || buildings.Count == 0)
-        {
-            interactEvent.secondDelegato?.Invoke((false, false, null));
-
-            VirtualControllers.Interact.eventDown -= Interact_eventDown;
-
-            if (lastInteractuable != null)
-            {
-                UI.Interfaz.instance.interactButton.Play("InteractClose");
-            }
-
-            lastInteractuable = null;
-        }
-        else if (buildings[0] != lastInteractuable)
-        {
-            VirtualControllers.Interact.eventDown -= Interact_eventDown;
-
-            lastInteractuable = buildings[0];
-
-            interactEvent.secondDelegato?.Invoke((true, false, lastInteractuable.Image));
-
-            VirtualControllers.Interact.eventDown += Interact_eventDown;
-
-            if(lastInteractuable!=null)
-            {
-                UI.Interfaz.instance.interactButton.Play("InteractOpen");
-            }
-        }
-
-        if (lastInteractuable != null)
-            UI.Interfaz.instance.interactButton.transform.position = Camera.main.WorldToScreenPoint(lastInteractuable.offsetInteractView);
+        });
     }
 
   
+
+    void SuscribeUI()
+    {
+        caster.weapons[0].toChange += meleeWeaponUIMediator;
+        caster.abilities[0].toChange += abilityExtUIMediator[0];
+        caster.abilities[1].toChange += abilityExtUIMediator[1];
+
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
+        {
+            caster.katas[i].toChange += kataUIMediator[i];
+        }
+
+        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
+        {
+            caster.abilities[i + 2].toChange += abilityExtUIMediator[i + 2];
+        }
+    }
+
+    void DesuscribiUI()
+    {
+        caster.weapons[0].toChange -= meleeWeaponUIMediator;
+        caster.abilities[0].toChange -= abilityExtUIMediator[0];
+        caster.abilities[1].toChange -= abilityExtUIMediator[1];
+
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
+        {
+            caster.katas[i].toChange -= kataUIMediator[i];
+        }
+
+        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
+        {
+            caster.abilities[i + 2].toChange -= abilityExtUIMediator[i + 2];
+        }
+    }
+
+    void TriggerUI()
+    {
+        equipedEvents[0].Invoke((caster.weapons[0].equiped?.defaultKata, caster.weapons[0].equiped?.itemBase));
+        equipedEvents[1].Invoke((caster.abilities[0].equiped, caster.abilities[0].equiped?.itemBase));
+        equipedEvents[2].Invoke((caster.abilities[1].equiped, caster.abilities[1].equiped?.itemBase));
+
+        for (int i = 0; i < 4 && (i) < caster.abilities.Count; i++)
+        {
+            equipedEvents[i + 3].Invoke((caster.katas[i].equiped, caster.katas[i].equiped?.itemBase));
+        }
+
+        for (int i = 0; i < 4 && (i + 2) < caster.abilities.Count; i++)
+        {
+            equipedEvents[i + 7].Invoke((caster.abilities[i + 2].equiped, caster.abilities[i + 2].equiped?.itemBase));
+        }
+    }
+
+    public void ChangeCharacter(Character newCharacter)
+    {
+        characterEvent.delegato.Invoke(newCharacter);
+    }
+
+    private void MoveEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        Vector2 tecla = arg1.AproxDir();
+
+        if (tecla != Vector2.zero)
+        {
+            comboReset.Reset();
+
+            if (lastCombo.Length >= 2)
+                lastCombo = new string(lastCombo[^1], 1);
+
+            if (tecla.x > 0)
+            {
+                lastCombo += "→";
+            }
+            else if (tecla.x < 0)
+            {
+                lastCombo += "←";
+            }
+            else if (tecla.y > 0)
+            {
+                lastCombo += "↑";
+            }
+            else if (tecla.y < 0)
+            {
+                lastCombo += "↓";
+            }
+        }
+    }
+    private void WomboComboSaga()
+    {
+        womboIndex++;
+        if (womboIndex >= 4)
+            womboIndex = 0;
+
+        //character.castingActionCharacter.OnExit += ()=> attackEventMediator.eventDown += AttackComboEventMediator_eventDown; 
+    }
+
+    private void AttackComboEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        int number=-1;
+
+        if (lastCombo.IsEmpty())
+        {
+            number = womboIndex * 5;
+        }
+        else
+            for (int i = 0; i < womboCOMBO.Length; i++)
+            {
+                if (lastCombo[^1] == womboCOMBO[i])
+                {
+                    number=(i + 1 + womboIndex*5);
+                    break;
+                }
+            }
+
+        character.castingActionCharacter.OnExit += WomboComboSaga;
+
+        character.nextCombo = number;
+    }
+
+    private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        womboIndex = 0;
+
+        for (int i = 0; i < comboRapido.Length; i++)
+        {
+            if (comboRapido[i] == lastCombo)
+            {
+                character.Attack(i + 1);
+                lastCombo = string.Empty;
+                comboReset.Stop();
+                return;
+            }
+        }
+
+        character.Attack(0);
+    }
+
+    private void AbilityEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        for (int i = 0; i < comboRapido.Length; i++)
+        {
+            if (comboRapido[i] == lastCombo)
+            {
+                character.Ability(i + 1);
+                lastCombo = string.Empty;
+                comboReset.Stop();
+                return;
+            }
+        }
+
+        character.Ability(0);
+    }
+
+    private void Aiming_onMode(AimingEntityComponent.Mode obj)
+    {
+        switch (obj)
+        {
+            case AimingEntityComponent.Mode.topdown:
+
+                cameraTrigger.mouseOverride = true;
+
+                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
+
+                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
+
+                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+
+                break;
+
+
+            case AimingEntityComponent.Mode.perspective:
+
+                cameraTrigger.mouseOverride = false;
+
+                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
+
+                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
+
+                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+
+                break;
+
+
+            case AimingEntityComponent.Mode.focus:
+
+                break;
+        }
+    }
+
+    private void Interact_eventDown(Vector2 arg1, float arg2)
+    {
+        lastInteractuable.Interact(character);
+        UI.Interfaz.instance.interactButton.Play("InteractAccept");
+    }
+
+    private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        character.AlternateAbility();
+    }
+    private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+    }
+
 
     private void TeleportEvent(Hexagone obj, int lado)
     {
@@ -481,27 +551,6 @@ public class IAIO : IAFather
                 }
             }
         }
-    }
-
-    protected override void Health_death()
-    {
-        var chr = character;
-
-        character.CurrentState = null;
-
-        TimersManager.Create(0.5f, ()=>
-        {
-            if (chr != GameManager.instance.playerCharacter)
-            {
-                enabled = true;
-                chr.SetActiveGameObject(false);
-                VirtualControllers.Principal.eventDown += NoCharacterSelected;
-            }
-            else
-            {
-                GameManager.instance.Defeat("Has muerto");
-            }
-        });
     }
 
     private void Health_helthUpdate(Health obj)

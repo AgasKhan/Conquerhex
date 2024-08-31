@@ -84,7 +84,7 @@ public class MeleeWeaponBase : ItemCrafteable
 
     void Equip(Character chr, Item item)
     {
-        chr.caster.katasCombo.actual.equiped?.ChangeWeapon(item);
+        chr.caster.katas.actual.equiped?.ChangeWeapon(item);
     }
 
     #endregion

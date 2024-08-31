@@ -98,7 +98,7 @@ public class BrandNewAttack : IState<FSMBrandNew>
 
     public BrandNewAttack(Character character)
     {
-        automaticAttack.Init(character, character.caster.katasCombo[0]);
+        automaticAttack.Init(character, character.caster.katas[0]);
     }
 
     //ataque

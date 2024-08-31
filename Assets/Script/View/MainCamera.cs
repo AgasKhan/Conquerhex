@@ -38,9 +38,11 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         public Transform obj;
 
+        public Quaternion rotationPerspective;
+
         public Vector3 offsetObjPosition;
 
-        public Vector3 rotationPerspective;
+        public Vector3 rotationEulerPerspective;
 
         public Vector3 vectorPerspective;
 
@@ -73,7 +75,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         ref Vector3 prevVectorPerspective => ref prevCameraSet.vectorPerspective;
 
-        Vector3 CameraPosition => Position + Quaternion.Euler(rotationPerspective) * vectorPerspective;
+        Vector3 CameraPosition => Position + rotationPerspective * vectorPerspective;
 
         public Vector3 Position => (obj.position + offsetObjPosition).Vect3Copy_Y(offsetObjPosition.y);
 
@@ -136,13 +138,15 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 setRotationPerspective.x = Mathf.Clamp(setRotationPerspective.x, -20, 89);
 
-                rotationPerspective = setRotationPerspective;
+                rotationEulerPerspective = setRotationPerspective;
+
+                rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
             }
         }
 
         Quaternion RotationCamera()
         {
-            return Quaternion.Euler(0, 0, -rotationPerspective.y);
+            return Quaternion.Euler(0, 0, -rotationEulerPerspective.y);
         }
 
         Quaternion CameraAiming()
@@ -152,15 +156,15 @@ public class MainCamera : SingletonMono<MainCamera>
                 return RotationCamera();
             }
 
-            Ray ray = new Ray(CameraPosition, Quaternion.Euler(rotationPerspective) * Vector3.forward);
+            Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
 
-            Debug.DrawRay(ray.origin,ray.direction, Color.red);
+            //Debug.DrawRay(ray.origin,ray.direction, Color.red);
                
             if(Physics.Raycast(ray, out RaycastHit hitInfo, float.PositiveInfinity, Physics.AllLayers  & ~(1<<15) , QueryTriggerInteraction.Ignore))
             {
                 Vector3 aux = hitInfo.point - character.transform.position;
 
-                Debug.DrawRay(character.transform.position, aux, Color.green);
+                //Debug.DrawRay(character.transform.position, aux, Color.green);
 
                 character.aiming.ObjectivePosition = hitInfo.point;
 
@@ -180,7 +184,7 @@ public class MainCamera : SingletonMono<MainCamera>
             if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
                 return;
 
-            if (Physics.SphereCast(Position, 0.5f, Quaternion.Euler(rotationPerspective) * setVectorPerspective, out RaycastHit hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out RaycastHit hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
             {
                 vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective.normalized * (hitInfo.distance-0.1f), Time.deltaTime* smoothColision);
             }
@@ -199,7 +203,7 @@ public class MainCamera : SingletonMono<MainCamera>
                 if (character == null)
                     return;
 
-                rotationPerspective = Vector3.Slerp(prevRotationPerspective, setRotationPerspective, transitionsSet.InversePercentage());
+                rotationEulerPerspective = Vector3.Slerp(prevRotationPerspective, setRotationPerspective, transitionsSet.InversePercentage());
                 vectorPerspective = Vector3.Lerp(prevVectorPerspective, setVectorPerspective, transitionsSet.InversePercentage());
                 offsetObjPosition = Vector3.Lerp(prevOffsetObjPosition, setOffsetObjPosition, transitionsSet.InversePercentage());
 
@@ -211,11 +215,13 @@ public class MainCamera : SingletonMono<MainCamera>
                     return;
 
                 prevRotationPerspective.y = 0;
-                rotationPerspective = setRotationPerspective;
+                rotationEulerPerspective = setRotationPerspective;
                 vectorPerspective = setVectorPerspective;
                 offsetObjPosition = setOffsetObjPosition;
 
                 distanceToObjective = vectorPerspective.magnitude;
+
+                rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
             });
         }
     }
@@ -310,7 +316,7 @@ public class MainCamera : SingletonMono<MainCamera>
        
         for (int i = -2; i < rendersOverlay.Length; i++)
         {
-            rendersOverlay.GetParent(i).rotation = Quaternion.Euler(tracker.rotationPerspective);
+            rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
 
             rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
         }
@@ -380,7 +386,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = -2; i < rendersOverlay.Length; i++)
         {
-            rendersOverlay.GetParent(i).rotation = Quaternion.Euler(tracker.rotationPerspective);
+            rendersOverlay.GetParent(i).rotation = Quaternion.Euler(tracker.rotationEulerPerspective);
 
             rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
         }

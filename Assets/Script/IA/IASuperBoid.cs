@@ -26,7 +26,7 @@ public class IASuperBoid : IABoid
     public override void OnEnterState(Character param)
     {
         base.OnEnterState(param);
-        automaticAttack.Init(character, character.caster.katasCombo[0]);
+        automaticAttack.Init(character, character.caster.katas[0]);
         fsmBoid = new FSMBoid(this);
     }
 

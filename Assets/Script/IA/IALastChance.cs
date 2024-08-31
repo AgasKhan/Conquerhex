@@ -80,9 +80,9 @@ public class IALastChance : IAFather
 
         doryEnemy = TimersManager.Create(10, () => enemy = null);
 
-        prin.Init(param, param.caster.katasCombo[0]);
+        prin.Init(param, param.caster.katas[0]);
 
-        sec.Init(param, param.caster.katasCombo[1]);
+        sec.Init(param, param.caster.katas[1]);
 
         timer = TimersManager.Create(1);
 

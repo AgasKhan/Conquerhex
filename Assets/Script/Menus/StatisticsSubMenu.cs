@@ -185,10 +185,10 @@ public class StatisticsSubMenu : CreateSubMenu
 
     void CreateEquipamentKatas(Character charac)
     {
-        for (int i = 0; i < charac.caster.katasCombo.Count; i++)
+        for (int i = 0; i < charac.caster.katas.Count; i++)
         {
-            myAbilityKataModule.SetKataComboButton(i, charac.caster.katasCombo[i],
-                KataAction(charac.caster.katasCombo[i]), WeaponOfKataAction(charac.caster.katasCombo[i]));
+            myAbilityKataModule.SetKataComboButton(i, charac.caster.katas[i],
+                KataAction(charac.caster.katas[i]), WeaponOfKataAction(charac.caster.katas[i]));
         }
         /*
         for (int i = 0; i < charac.caster.katasCombo.Count; i++)

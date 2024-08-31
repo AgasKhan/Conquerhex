@@ -28,9 +28,9 @@ public class TurretBuild : BarrierBuild
     {
         base.DestroyConstruction();
 
-        attack.katasCombo[0].indexEquipedItem = -1;
-        attack.katasCombo[1].indexEquipedItem = -1;
-        attack.katasCombo[2].indexEquipedItem = -1;
+        attack.katas[0].indexEquipedItem = -1;
+        attack.katas[1].indexEquipedItem = -1;
+        attack.katas[2].indexEquipedItem = -1;
 
         transform.GetComponent<Collider2D>().isTrigger = true;
         invent.Clear();
