@@ -102,7 +102,7 @@ public class UIE_Equipment : UIE_BaseMenu
         Action<SlotItem, int> equipAction = (_slotItem, _index) =>
         {
             _slotItem.indexEquipedItem = _index;
-            TriggerOnClose(default);
+            //TriggerOnClose(default);
         };
 
         return () =>

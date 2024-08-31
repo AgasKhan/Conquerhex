@@ -10,6 +10,7 @@ public class UIE_EquipMenu : UIE_BaseMenu
     public VisualElement listContainer;
 
     //Details Window
+    VisualElement containerDW;
     Label titleDW;
     Label descriptionDW;
     VisualElement imageDW;
@@ -42,12 +43,14 @@ public class UIE_EquipMenu : UIE_BaseMenu
         imageDW = ui.Q<VisualElement>("imageDW");
         originalButton = ui.Q<VisualElement>("originalButton");
         changeButton = ui.Q<VisualElement>("changeButton");
+        containerDW = ui.Q<VisualElement>("containerDW");
 
         onClose += () => manager.BackLastMenu();
     }
 
     private void myOnEnable()
     {
+        listContainer.Clear();
         CreateListItems();
     }
     private void myOnDisable()
@@ -56,8 +59,13 @@ public class UIE_EquipMenu : UIE_BaseMenu
         slotItem = null;
         filterType = null;
 
+        SetChangeButton(null);
+
         ShowItemDetails("", "", null);
-        listContainer.Clear();
+        containerDW.AddToClassList("opacityHidden");
+
+        originalButton.style.display = DisplayStyle.None;
+        originalButton.style.backgroundImage = default;
     }
 
     public void SetEquipMenu<T>(SlotItem _slotItem, Type _type, Action<SlotItem, int> _action) where T : Item
@@ -65,6 +73,21 @@ public class UIE_EquipMenu : UIE_BaseMenu
         auxAction = _action;
         slotItem = _slotItem;
         filterType = _type;
+
+        if(_slotItem.equiped != null)
+        {
+            originalButton.style.display = DisplayStyle.Flex;
+            originalButton.style.backgroundImage = new StyleBackground(_slotItem.equiped.image);
+        }
+    }
+    void SetChangeButton(Sprite _sprite)
+    {
+        if(_sprite!=null)
+            changeButton.style.display = DisplayStyle.Flex;
+        else
+            changeButton.style.display = DisplayStyle.None;
+
+        changeButton.style.backgroundImage = new StyleBackground(_sprite);
     }
 
     void CreateListItems()
@@ -81,10 +104,13 @@ public class UIE_EquipMenu : UIE_BaseMenu
 
             var item = character.inventory[index];
 
+            var changeText = "Equipar";
+
             System.Action<ClickEvent> action =
                (clEvent) =>
                {
                    ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                   SetChangeButton(item.image);
                };
 
             System.Action<ClickEvent> changeAction = null;
@@ -92,30 +118,38 @@ public class UIE_EquipMenu : UIE_BaseMenu
             {
                 if (slotItem.equiped != default && item.GetItemBase().nameDisplay == slotItem.equiped.GetItemBase().nameDisplay)
                 {
+                    changeText = "Desequipar";
                     changeAction = (clEvent) =>
                     {
                         slotItem.indexEquipedItem = -1;
-                        gameObject.SetActive(false);
+                        TriggerOnClose(default);
                     };
                 }
                 else
-                    changeAction = (clEvent) => { auxAction.Invoke(slotItem, index); };
+                {
+                    changeText = "Equipar";
+                    changeAction = (clEvent) => { auxAction.Invoke(slotItem, index); TriggerOnClose(default); };
+                }
             }
 
             UIE_ListButton button = new UIE_ListButton();
 
             //Debug.Log("List container is null = " + (listContainer == null));
             listContainer.Add(button);
-            button.Init(item.image.texture, item.nameDisplay, item.GetType().ToString(), "Cortante", true, action, changeAction);
+            button.Init(item.image.texture, item.nameDisplay, item.GetType().ToString(), "Cortante", true, action, changeAction, changeText);
 
             buttonsList.Add(button);
         }
+
+        if (buttonsList.Count == 0)
+            ShowItemDetails("No tienes nada para equipar", "", null);
 
         filterType = null;
     }
 
     void ShowItemDetails(string nameDisplay, string details, Sprite Image)
     {
+        containerDW.RemoveFromClassList("opacityHidden");
         titleDW.text = nameDisplay;
         descriptionDW.text = details;
         imageDW.style.backgroundImage = new StyleBackground(Image);

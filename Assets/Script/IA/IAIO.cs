@@ -53,6 +53,8 @@ public class IAIO : IAFather
 
     Vector2 automaticMoveToBase;
 
+    EventControllerMediator inventoryEventMediator;
+
     void TriggerUI()
     {
         equipedEvents[0].Invoke((caster.weapons[0].equiped?.defaultKata, caster.weapons[0].equiped?.itemBase));
@@ -212,6 +214,10 @@ public class IAIO : IAFather
     {
         character.AlternateAbility();
     }
+    private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+    }
 
     public override void OnEnterState(Character param)
     {
@@ -258,6 +264,10 @@ public class IAIO : IAFather
 
         dashEventMediator.eventDown += DashEventMediator_eventDown;
 
+        inventoryEventMediator = new EventControllerMediator();
+        inventoryEventMediator.eventDown += InventoryEventMediator_eventDown;
+
+        VirtualControllers.Inventory.SuscribeController(inventoryEventMediator);
         /*
         VirtualControllers.Alpha1.eventDown += Alpha1_eventDown;
         VirtualControllers.Alpha2.eventDown += Alpha2_eventDown;

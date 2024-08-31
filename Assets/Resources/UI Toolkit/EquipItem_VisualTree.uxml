@@ -1,31 +1,54 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
+    <ui:Template name="ListItemButton" src="project://database/Assets/Resources/UI%20Toolkit/ListItemButton.uxml?fileID=9197481963319205126&amp;guid=6ca4905cc562c4f438b03ee3218a8758&amp;type=3#ListItemButton" />
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
     <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/Mockup%202.png?fileID=2800000&amp;guid=28658a0e9c7c31645961728d2d8f5c1f&amp;type=3#Mockup 2&quot;); -unity-background-image-tint-color: rgba(255, 255, 255, 0); background-color: rgb(30, 28, 28);">
         <ui:VisualElement name="BoxTop" style="flex-grow: 0; height: 10%; flex-direction: row;">
             <ui:Label tabindex="-1" text="EQUIPAR ITEM" parse-escape-sequences="true" display-tooltip-when-elided="true" class="titleText" />
             <ui:VisualElement style="flex-grow: 0; flex-direction: row; justify-content: space-around; width: 315px; left: 732px;">
-                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="originalButton" class="slotButton" />
-                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="changeButton" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="originalButton" class="slotButton" style="display: none;" />
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="changeButton" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;); display: none;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BoxBottom" style="flex-grow: 1; flex-direction: row;">
-            <ui:VisualElement name="Inventory" class="padding20 verticalList" style="width: 32%; height: 843px; background-color: rgba(0, 0, 0, 0); background-image: none;">
-                <ui:Label tabindex="-1" text="INVENTARIO" parse-escape-sequences="true" display-tooltip-when-elided="true" class="subTitle" />
-                <ui:VisualElement name="VisualElement" class="horizontalList" style="flex-grow: 0; height: 58px; width: 100%;">
-                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
-                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
-                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotButton" />
+            <ui:VisualElement style="flex-grow: 1; width: 32%; justify-content: center; align-items: center;">
+                <ui:VisualElement name="Inventory" class="verticalList" style="width: 88%; height: 843px; background-color: rgb(21, 23, 26); background-image: none; align-self: center;">
+                    <ui:Label tabindex="-1" text="INVENTARIO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="subTitle" style="color: rgb(243, 232, 201);" />
+                    <ui:VisualElement name="navBar" class="horizontalList" style="flex-grow: 0; height: 58px; width: 100%; align-self: center; align-items: center;">
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-shrink: 1; height: 80%; width: 50px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Weapon.png?fileID=21300000&amp;guid=fe126f528f2475c45acba7da868df363&amp;type=3#Default Weapon&quot;); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-shrink: 1; height: 80%; width: 50px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Weapon.png?fileID=21300000&amp;guid=fe126f528f2475c45acba7da868df363&amp;type=3#Default Weapon&quot;); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-shrink: 1; height: 80%; width: 50px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Weapon.png?fileID=21300000&amp;guid=fe126f528f2475c45acba7da868df363&amp;type=3#Default Weapon&quot;); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="searchBar" class="horizontalContainer ListItemButton" style="flex-grow: 0; height: 42px; width: 100%; align-self: center;">
+                        <ui:Label tabindex="-1" text="NOMBRE" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                        <ui:Label tabindex="-1" text="TIPO" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                        <ui:Label tabindex="-1" text="ESPECIALIDAD" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                    </ui:VisualElement>
+                    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="listContainer">
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:Instance template="ListItemButton" name="ListItemButton" />
+                        <ui:VisualElement style="flex-grow: 1;" />
+                    </ui:ScrollView>
                 </ui:VisualElement>
-                <ui:VisualElement name="VisualElement" class="horizontalContainer" style="flex-grow: 0; height: 42px; width: 100%;" />
-                <ui:VisualElement name="listContainer" style="flex-grow: 1;" />
             </ui:VisualElement>
-            <ui:VisualElement name="DetailsWindow" class="padding20 verticalContainer" style="flex-grow: 0; width: 38%; flex-shrink: 1; height: auto; justify-content: center; background-color: rgba(89, 89, 89, 0.29);">
-                <ui:VisualElement class="horizontalContainer" style="flex-grow: 0; height: 189px; width: 100%;">
-                    <ui:VisualElement name="imageDW" style="flex-grow: 0; flex-shrink: 0; width: 150px; height: 150px; background-image: none;" />
-                    <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="titleDW" class="slotTextStyle" style="flex-grow: 1; font-size: 40px; height: 149px; justify-content: center; -unity-text-align: middle-center;" />
-                </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 1; height: auto;">
-                    <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="descriptionDW" style="color: rgb(255, 255, 255); height: auto; white-space: normal; -unity-text-align: upper-center; font-size: 18px; flex-grow: 1;" />
+            <ui:VisualElement name="DWContainer" style="flex-grow: 1; width: 38%; justify-content: center;">
+                <ui:VisualElement name="containerDW" class="padding20 verticalContainer opacityHidden" style="flex-grow: 0; width: 88%; flex-shrink: 1; height: auto; justify-content: center; background-color: rgba(89, 89, 89, 0.29); transition-duration: 1.1s; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+                    <ui:VisualElement class="horizontalContainer" style="flex-grow: 0; height: 150px; width: 100%;">
+                        <ui:VisualElement name="imageDW" style="flex-grow: 0; flex-shrink: 0; width: 150px; height: 150px; background-image: url(&quot;project://database/Assets/Sprites/Weapons-Tools/Full%20Sheet%201.png?fileID=-1771817514&amp;guid=17d90ad2b19afdb409c147bd3ff6fd9b&amp;type=3#Full Sheet 1_4&quot;);" />
+                        <ui:VisualElement style="flex-grow: 1;">
+                            <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="titleDW" text="DASH CONCATENADO DOBLE" style="flex-grow: 0; font-size: 25px; height: 38px; justify-content: center; -unity-text-align: middle-left; align-self: flex-start; width: 100%; align-items: flex-start; flex-shrink: 1; color: rgb(169, 148, 86);" />
+                            <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="shortDescription" style="flex-grow: 1; color: rgb(255, 255, 255);" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-grow: 1; height: auto;">
+                        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="descriptionDW" style="color: rgb(255, 255, 255); height: auto; white-space: normal; -unity-text-align: upper-left; font-size: 18px; flex-grow: 1; align-self: stretch;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1; justify-content: center;">

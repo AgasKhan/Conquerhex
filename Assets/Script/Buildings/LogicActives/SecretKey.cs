@@ -22,7 +22,7 @@ public class SecretKey : MonoBehaviour
     public GameObject newMenu;
 
     public EventControllerMediator escapeEventMediator;
-    public EventControllerMediator inventoryEventMediator;
+    
     private void Awake()
     {
         if(minion!=null)
@@ -31,27 +31,10 @@ public class SecretKey : MonoBehaviour
         escapeEventMediator = new EventControllerMediator();
         escapeEventMediator.eventDown += EscapeEventMediator_eventDown;
 
-        inventoryEventMediator = new EventControllerMediator();
-        inventoryEventMediator.eventDown += InventoryEventMediator_eventDown;
-
         VirtualControllers.Escape.SuscribeController(escapeEventMediator);
-        VirtualControllers.Inventory.SuscribeController(inventoryEventMediator);
-    }
+        
 
-    private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        //Debug.Log("TAB-------------");
-
-        if (!submenuRef.activeSelf)
-        {
-            UIE_MenusManager.instance.EnableMenu(newMenu.gameObject.name);
-
-            //statisticsSubMenu.Create(MenuManager.instance.character);
-        }
-        else
-        {
-            //statisticsSubMenu.TriggerMyOnClose();
-        }
+        //var timeToOff = TimersManager.Create(0.1f, () => gameObject.SetActive(false));
     }
 
     private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)

@@ -1,29 +1,25 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
-    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-wrap: wrap; background-color: rgb(31, 31, 31);">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-wrap: wrap; background-color: rgb(31, 31, 31); transition-duration: 1s;">
         <ui:VisualElement name="LeftBox" style="flex-grow: 1; width: 50%; height: 100%;">
             <ui:Label tabindex="-1" text="EQUIPAMIENTO" parse-escape-sequences="true" display-tooltip-when-elided="true" class="subTitle padding20" style="height: 12%; width: 100%; font-size: 44px; color: rgb(190, 148, 101);" />
             <ui:VisualElement name="EquipmentContainer" style="flex-grow: 0; height: 88%;">
                 <ui:VisualElement name="Basics" class="horizontalContainer" style="width: 539px;">
-                    <ui:VisualElement name="slotContainer" class="slotContainerStyle">
-                        <ui:VisualElement name="AbilityButton1" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
-                        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText1" class="slotTextStyle" />
+                    <ui:VisualElement name="slotContainer" class="slotContainerStyle slotButtonClicked">
+                        <ui:VisualElement name="AbilityButton1" class="slotButton slotButtonClicked" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;); background-color: rgb(48, 47, 47); border-left-color: rgb(255, 213, 138); border-right-color: rgb(255, 213, 138); border-top-color: rgb(255, 213, 138); border-bottom-color: rgb(255, 213, 138);" />
+                        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText1" class="slotTextStyle slotButtonClicked" />
                     </ui:VisualElement>
                     <ui:VisualElement name="slotContainer" class="slotContainerStyle">
-                        <ui:VisualElement name="AbilityButton1" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
-                        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText1" class="slotTextStyle" />
+                        <ui:VisualElement name="AbilityButton1" class="slotButton slotButtonClicked" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
+                        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText1" class="slotTextStyle slotTextClicked" />
                     </ui:VisualElement>
                     <ui:VisualElement name="slotContainer" class="slotContainerStyle">
-                        <ui:VisualElement name="AbilityButton1" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
+                        <ui:VisualElement name="AbilityButton1" class="slotButton slotButtonClicked" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
                         <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText1" class="slotTextStyle" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="AuxContainer" style="flex-grow: 1; flex-wrap: wrap; height: 85%; justify-content: space-around;">
                     <ui:VisualElement name="Abilities" style="flex-grow: 0; flex-shrink: 0; width: 25%; height: 522px; justify-content: space-between; align-self: center; align-items: center;">
-                        <ui:VisualElement name="slotContainer" class="slotContainerStyle">
-                            <ui:VisualElement name="AbilityButton1" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
-                            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText1" class="slotTextStyle" />
-                        </ui:VisualElement>
                         <ui:VisualElement name="slotContainer" class="slotContainerStyle">
                             <ui:VisualElement name="AbilityButton2" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Menu/21ae3d0ffb602ef2035864c42cd9d7aa.jpg?fileID=1625422272&amp;guid=b12f87e42dbf70f41978da397e9d83cf&amp;type=3#21ae3d0ffb602ef2035864c42cd9d7aa_90&quot;);" />
                             <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText2" class="slotTextStyle" />
@@ -60,7 +56,7 @@
         <ui:VisualElement name="RightBox" class="padding20 verticalContainer" style="width: 50%; flex-grow: 1;">
             <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0;">
                 <ui:Label tabindex="-1" text="ESTADISTICAS" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(190, 148, 101); font-size: 40px; -unity-text-align: upper-center;" />
-                <ui:Label tabindex="-1" text="DAÑO POR LANZA-----------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0&#10;DAÑO POR LANZA------------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Statistics" class="padding20" style="color: rgb(118, 85, 61); font-size: 24px; -unity-text-align: upper-center;" />
+                <ui:Label tabindex="-1" text="DAÑO POR LANZA-----------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0&#10;DAÑO POR LANZA------------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statistics" class="padding20" style="color: rgb(118, 85, 61); font-size: 24px; -unity-text-align: upper-center;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:Button text="Cerrar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="closeButton" class="closeButton" />
