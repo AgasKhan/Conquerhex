@@ -14,12 +14,14 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
     [System.Serializable]
     public struct CameraSet : IDetect
     {
-        [Header("Camera")]
-        public Vector3 offsetObjPosition;
-
-        public Vector3 rotationPerspective;
-
-        public Vector3 vectorPerspective;
+        [field: SerializeField, Header("Camera")]
+        public Vector3 offsetObjPosition ; 
+        [field: SerializeField]
+        public Quaternion rotationPerspective ; 
+        [field: SerializeField]
+        public Vector3 vectorPerspective ;
+        [field:SerializeField, Range(0,179)]
+        public float fov;
 
         [field: SerializeField, Header("Detection")]
         public float maxRadius { get ; set ; }

@@ -822,8 +822,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sets:
   - offsetObjPosition: {x: 0, y: 0, z: 0}
-    rotationPerspective: {x: 30, y: 0, z: 0}
+    rotationPerspective: {x: 0.34202012, y: 0, z: 0, w: 0.9396926}
     vectorPerspective: {x: 0, y: 0, z: -14}
+    fov: 30
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0
@@ -832,8 +833,9 @@ MonoBehaviour:
     <maxDetects>k__BackingField: 0
     <minDetects>k__BackingField: 0
   - offsetObjPosition: {x: 0, y: 1.5, z: 0}
-    rotationPerspective: {x: 0, y: 0, z: 0}
+    rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0.5, y: 0, z: -3.5}
+    fov: 30
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0
@@ -842,8 +844,9 @@ MonoBehaviour:
     <maxDetects>k__BackingField: 0
     <minDetects>k__BackingField: 0
   - offsetObjPosition: {x: 0, y: 0, z: 0}
-    rotationPerspective: {x: 0, y: 0, z: 0}
+    rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0, y: 0, z: 0}
+    fov: 30
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0

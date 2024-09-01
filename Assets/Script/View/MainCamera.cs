@@ -38,13 +38,13 @@ public class MainCamera : SingletonMono<MainCamera>
     {
         public Transform obj;
 
-        public Quaternion rotationPerspective;
-
-        public Vector3 offsetObjPosition;
-
         public Vector3 rotationEulerPerspective;
 
-        public Vector3 vectorPerspective;
+        public Vector3 offsetObjPosition ; 
+
+        public Quaternion rotationPerspective ; 
+
+        public Vector3 vectorPerspective ; 
 
         [SerializeField]
         float velocityTransition = 1;
@@ -57,27 +57,29 @@ public class MainCamera : SingletonMono<MainCamera>
         Timer transitionsSet;
 
         [SerializeField]
-        AimingEntityComponent.CameraSet cameraSet;
+        int cameraSet;
 
         [SerializeField]
-        AimingEntityComponent.CameraSet prevCameraSet;
+        int prevCameraSet;
 
-        ref Vector3 setOffsetObjPosition => ref cameraSet.offsetObjPosition;
+        ref Vector3 setOffsetObjPosition => ref character.aiming.sets[cameraSet].offsetObjPosition;
 
-        ref Vector3 setRotationPerspective => ref cameraSet.rotationPerspective;
+        ref Quaternion setRotationPerspective => ref character.aiming.sets[cameraSet].rotationPerspective;
 
-        ref Vector3 setVectorPerspective => ref cameraSet.vectorPerspective;
+        ref Vector3 setVectorPerspective => ref character.aiming.sets[cameraSet].vectorPerspective;
 
 
-        ref Vector3 prevOffsetObjPosition => ref prevCameraSet.offsetObjPosition;
+        ref Vector3 prevOffsetObjPosition => ref character.aiming.sets[prevCameraSet].offsetObjPosition;
 
-        ref Vector3 prevRotationPerspective => ref prevCameraSet.rotationPerspective;
+        ref Quaternion prevRotationPerspective => ref character.aiming.sets[prevCameraSet].rotationPerspective;
 
-        ref Vector3 prevVectorPerspective => ref prevCameraSet.vectorPerspective;
+        ref Vector3 prevVectorPerspective => ref character.aiming.sets[prevCameraSet].vectorPerspective;
 
         Vector3 CameraPosition => Position + rotationPerspective * vectorPerspective;
 
         public Vector3 Position => (obj.position + offsetObjPosition).Vect3Copy_Y(offsetObjPosition.y);
+
+        public float Fov => character?.aiming.sets[cameraSet].fov ?? 60;
 
         float distanceToObjective;
 
@@ -121,7 +123,7 @@ public class MainCamera : SingletonMono<MainCamera>
         {
             prevCameraSet = cameraSet;
 
-            cameraSet = character.aiming.sets[(int)obj];
+            cameraSet = (int)obj;
 
             transitionsSet.Reset();
         }
@@ -133,15 +135,20 @@ public class MainCamera : SingletonMono<MainCamera>
 
             if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
             {
-                setRotationPerspective.y += arg1.x;
-                setRotationPerspective.x -= arg1.y;
+                rotationEulerPerspective.x -= arg1.y;
 
-                setRotationPerspective.x = Mathf.Clamp(setRotationPerspective.x, -20, 89);
-
-                rotationEulerPerspective = setRotationPerspective;
-
-                rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
+                rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
             }
+
+            if(character.aiming.mode == AimingEntityComponent.Mode.perspective || Input.GetKey(KeyCode.LeftControl))
+                rotationEulerPerspective.y += arg1.x;
+
+
+            setRotationPerspective = Quaternion.Euler(rotationEulerPerspective);
+
+            prevRotationPerspective = Quaternion.Euler(prevRotationPerspective.eulerAngles.x, rotationEulerPerspective.y, prevRotationPerspective.eulerAngles.z);
+
+            rotationPerspective = setRotationPerspective;
         }
 
         Quaternion RotationCamera()
@@ -196,33 +203,30 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public void Init()
         {
-            distanceToObjective = setVectorPerspective.magnitude;
-
             transitionsSet = TimersManager.Create(velocityTransition, () =>
             {
                 if (character == null)
                     return;
 
-                rotationEulerPerspective = Vector3.Slerp(prevRotationPerspective, setRotationPerspective, transitionsSet.InversePercentage());
+                rotationPerspective = Quaternion.Slerp(prevRotationPerspective, setRotationPerspective, transitionsSet.InversePercentage());
                 vectorPerspective = Vector3.Lerp(prevVectorPerspective, setVectorPerspective, transitionsSet.InversePercentage());
                 offsetObjPosition = Vector3.Lerp(prevOffsetObjPosition, setOffsetObjPosition, transitionsSet.InversePercentage());
 
                 distanceToObjective = vectorPerspective.magnitude;
+                rotationEulerPerspective = rotationPerspective.eulerAngles;
 
             }, () =>
             {
                 if (character == null)
                     return;
 
-                prevRotationPerspective.y = 0;
-                rotationEulerPerspective = setRotationPerspective;
+                rotationPerspective = setRotationPerspective;
                 vectorPerspective = setVectorPerspective;
                 offsetObjPosition = setOffsetObjPosition;
 
                 distanceToObjective = vectorPerspective.magnitude;
-
-                rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
-            });
+                rotationEulerPerspective = rotationPerspective.eulerAngles;
+            }).Stop();
         }
     }
 
@@ -319,6 +323,8 @@ public class MainCamera : SingletonMono<MainCamera>
             rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
 
             rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
+
+            rendersOverlay.cameras[i + 2].fieldOfView = tracker.Fov;
         }
 
         for (int i = 0; i < pointsInScreen.Length; i++)
@@ -386,9 +392,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = -2; i < rendersOverlay.Length; i++)
         {
-            rendersOverlay.GetParent(i).rotation = Quaternion.Euler(tracker.rotationEulerPerspective);
+            rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
 
             rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
+
+            rendersOverlay.cameras[i+2].fieldOfView = tracker.Fov;
         }
 
         for (int i = 0; i < pointsInScreen.Length; i++)
@@ -466,6 +474,7 @@ public class MainCamera : SingletonMono<MainCamera>
         }
     }
 }
+
 
 
 
