@@ -188,38 +188,41 @@ public class MainCamera : SingletonMono<MainCamera>
         public void Update()
         {
 
-            if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
-                return;
+            //if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
+              //  return;
 
-            if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            if(!transitionsSet.Chck && character != null && character.aiming.mode == AimingEntityComponent.Mode.perspective)
             {
-                vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective.normalized * (hitInfo.distance-0.1f), Time.deltaTime* smoothColision);
-            }
-            else
-            {
-                vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective, Time.deltaTime * smoothColision);
-            }
-
-            Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
-
-            if(Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore))
-            {
-                if (Input.GetKeyDown(KeyCode.LeftControl)) //seteo del trackeo
+                if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
                 {
-                    if (toTrack != null)
+                    vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective.normalized * (hitInfo.distance - 0.1f), Time.deltaTime * smoothColision);
+                }
+                else
+                {
+                    vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective, Time.deltaTime * smoothColision);
+                }
+
+                Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
+
+                if (Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore))
+                {
+                    if (Input.GetKeyDown(KeyCode.LeftControl)) //seteo del trackeo
                     {
-                        toTrack = null;
-                    }
-                    else
-                    {
-                        toTrack = hitInfo.transform;
-                        offsetToTrack = hitInfo.point - hitInfo.transform.position;
+                        if (toTrack != null)
+                        {
+                            toTrack = null;
+                        }
+                        else
+                        {
+                            toTrack = hitInfo.transform;
+                            offsetToTrack = hitInfo.point - hitInfo.transform.position;
+                        }
                     }
                 }
-            }
 
-            if(toTrack != null)//trackeo
-                rotationEulerPerspective = Quaternion.LookRotation(ToTrackPosition - CameraPosition).eulerAngles;
+                if (toTrack != null)//trackeo
+                    rotationEulerPerspective = Quaternion.LookRotation(ToTrackPosition - CameraPosition).eulerAngles;
+            }
 
             setRotationPerspective = Quaternion.Euler(rotationEulerPerspective);
 
