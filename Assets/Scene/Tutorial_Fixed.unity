@@ -1190,6 +1190,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: ChangeColorToLocked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     timeToCallEvent: 0
   - dialog: "Veo que si te has desplazado hasta mi, es que debes de saber usar tus
       piernas, tu nuevo cerebelo deber\xEDa de facilitarte el movimiento.\n\nPongamos
@@ -1331,8 +1343,9 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "En el mundo al que te transladaremos <color=#F6CB30>cada lado es un
       portal</color> que se conecta a otro permiti\xE9ndote acceder a otras parcelas
-      o la \xA1misma!\n\nAhora he reconfigurado el mapa. Explora los otros biomas
-      y ven a hablarme cuando hayas terminado."
+      o la \xA1misma!\n\nPor lo que puedes observar, los portales tienen un color
+      especifico. Reconfigurare el mapa para que puedas acceder a otros biomas. Vuelve
+      a fijarte en su color."
     objective: "-Explora los 2 nuevos biomas <color=#F6CB30>des\xE9rtico</color>
       y <color=#00ffffff>nevado</color>."
     logicActive:
@@ -1362,11 +1375,47 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: ChangeColorToBase
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    timeToCallEvent: 0
+  - dialog: 'Como has visto, los portales cambian de color. Ya sea por estar <color=#FF0000>encerrado</color>, 
+      por estar cerca de una <color=#F6CB30>fortaleza</color> o cuando estes cerca
+      de tu <color=#0000FF>base</color>.
+
+
+      Esto te servira cuando te encuentres
+      en peligro real.'
+    objective: Terminar el entrenamiento basico interactuando con el npc.
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 100036655}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: NextDialog
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     timeToCallEvent: 0
   - dialog: "Ya aprendiste lo b\xE1sico de esta etapa, busca lo que ustedes los humanos
       conocen como <color=red>\xE1rbol sangrante</color> en cuanto te sientas listo
       de continuar.\n\nEs importante que lo reconozcas, ser\xE1 el nexo que deber\xE1s
-      abatir en tu misi\xF3n.\n\n\xC9ste es el aspecto del \xE1rbol:\n\n<align=\"center\"><size=100><sprite=\"NewBloodTree\"
+      abatir en tu misi\xF3n. Asi es como se ve:\n\n<align=\"center\"><size=50><sprite=\"NewBloodTree\"
       index=0></size></align>"
     objective: "-Busca el \xE1rbol, para continuar.\n<align=\"center\"><size=50><sprite=\"NewBloodTree\"
       index=0></size></align>"
