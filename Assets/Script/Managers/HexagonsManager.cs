@@ -124,6 +124,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         }
     }
 
+    public static void SetColorHexagone(Hexagone hex, Color color)
+    {
+        hex.effect.color = color;
+    }
+
     public static void SetArrayHexagons(int number)
     {
         instance._hexagonos = new int[number][,];
@@ -352,7 +357,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static float[,] LocalApotema(float magnitud = 1f)
     {
-        DebugPrint.Log("Calculo de posición de lados");
+        DebugPrint.Log("Calculo de posiciï¿½n de lados");
 
         float[,] localApotema = new float[6, 2];
 
@@ -376,7 +381,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
     public static float[,] LocalRadio(float magnitud = 1f)
     {
-        //DebugPrint.Log("Calculo de posición de aristas");
+        //DebugPrint.Log("Calculo de posiciï¿½n de aristas");
 
         float[,] localRadio = new float[6, 2];
 
