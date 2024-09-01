@@ -196,6 +196,7 @@ public class IAIO : IAFather
         //param.onTakeDamage -= OnTakeDamage;
 
         attackEventMediator.eventDown -= AttackEventMediator_eventDown;
+        attackEventMediator.eventDown -= AttackComboEventMediator_eventDown;
 
         abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
 
@@ -276,7 +277,9 @@ public class IAIO : IAFather
 
         TriggerUI();
 
+        attackEventMediator.eventDown += AttackComboEventMediator_eventDown;
         attackEventMediator.eventDown += AttackEventMediator_eventDown;
+
 
         abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
 
@@ -414,17 +417,12 @@ public class IAIO : IAFather
             }
         }
     }
-    private void WomboComboSaga()
-    {
-        womboIndex++;
-        if (womboIndex >= 4)
-            womboIndex = 0;
-
-        //character.castingActionCharacter.OnExit += ()=> attackEventMediator.eventDown += AttackComboEventMediator_eventDown; 
-    }
-
+ 
     private void AttackComboEventMediator_eventDown(Vector2 arg1, float arg2)
     {
+        if (character.actualCombo == -2)
+            return;
+
         int number=-1;
 
         if (lastCombo.IsEmpty())
@@ -441,9 +439,20 @@ public class IAIO : IAFather
                 }
             }
 
-        character.castingActionCharacter.OnExit += WomboComboSaga;
+        /*
+        
+        tier 1: 0 a 4 NO SUMO
+        tier 2: 5 a 9 debo de sumar 5
+        tier 3: del 10 al 14 debo sumar 10
+        
+        */
 
-        character.nextCombo = number;
+        if (character.actualCombo >= 5 && character.actualCombo < 10)
+            number += 10;
+        else if(character.actualCombo >= 0)
+            number += 5;
+
+        character.ComboAttack(number);
     }
 
     private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
@@ -461,7 +470,8 @@ public class IAIO : IAFather
             }
         }
 
-        character.Attack(0);
+        if(character.actualCombo==-2)
+            character.Attack(0);
     }
 
     private void AbilityEventMediator_eventDown(Vector2 arg1, float arg2)

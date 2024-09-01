@@ -54,7 +54,15 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public CastingActionCharacter castingActionCharacter { get; private set; }
     public StopActionCharacter stopIA { get; private set; }
 
-    public int nextCombo;
+    [field: SerializeField]
+    public int actualCombo { get; private set; } = -2;
+
+    [SerializeField]
+    int nextCombo=-1;
+    [SerializeField]
+    float deltaTimeCombo=0.3f;
+
+    float timeComboSet;
 
     [SerializeReference]
     StunBar stunBar = new StunBar();
@@ -114,12 +122,10 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         iaOn = value;
     }
 
-
     public void StopIA()
     {
         Action = stopIA;
     }
-
 
     public IStateWithEnd<FSMAutomaticEnd<Character>> Action
     {
@@ -131,35 +137,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
-    /*
-    Diseniar un sistema el cual almacene el combo siguiente que ejecutara de manera autonoma al finalizar el actual
-
-    En otras palabras, agregar al OnExit una funcion que verifique si debe de continuar el combo, y con cual
-     
-     */
-
-
-    public void ComboAttack(int i)
-    {
-        Ability ability = caster.combos.Actual(i).equiped;
-
-
-        ////
-
-
-        castingActionCharacter.OnExit += () =>
-        {
-            castingActionCharacter.stateWithEnd = ability;
-            Action = castingActionCharacter;
-            castingActionCharacter.OnExit += () =>
-            {
-                if(nextCombo>=0)
-                {
-                    ComboAttack(nextCombo);
-                }
-            };
-        };
-    }
 
     public void Attack(int i)
     {
@@ -183,6 +160,8 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         castingActionCharacter.stateWithEnd = weaponKata;
 
         Action = castingActionCharacter;
+
+        actualCombo = -1;
     }
 
     public void Ability(int i)
@@ -223,7 +202,40 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         castingActionCharacter.stateWithEnd = weaponKata;
 
         Action = castingActionCharacter;
-    }    
+    }
+
+    public void ComboAttack(int i)
+    {
+        nextCombo = i;
+        timeComboSet = Time.realtimeSinceStartup;
+    }
+
+    public void ComboAttack()
+    {
+        actualCombo = -2;
+
+        if (nextCombo < 0)
+            return;
+
+        if (Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo)
+        {
+            nextCombo = -1;
+            return;
+        }
+
+        Debug.Log($"{Time.realtimeSinceStartup} - {timeComboSet} = {Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo}");
+
+        actualCombo = nextCombo;
+
+        timeComboSet = 0;
+
+        castingActionCharacter.OnEnter += () => attackEventMediator += caster.abilityControllerMediator;
+        castingActionCharacter.OnExit += () => attackEventMediator -= caster.abilityControllerMediator;
+
+        Ability ability = caster.combos.Actual(actualCombo).equiped;
+        castingActionCharacter.stateWithEnd = ability;
+        Action = castingActionCharacter;
+    }
 
     private void Health_death()
     {
@@ -292,6 +304,8 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     void MyAwake()
     {
+        actualCombo  = -2;
+
         _ia = GetComponent<IState<Character>>();
 
         move = GetInContainer<MoveEntityComponent>();
@@ -437,6 +451,8 @@ namespace FSMCharacterAndStates
             param.context.moveEventMediator += param.context.move;
 
             OnActionEnter?.Invoke();
+
+            param.context.ComboAttack();
         }
 
         public void OnExitState(FSMCharacter param)
@@ -477,7 +493,7 @@ namespace FSMCharacterAndStates
 
         IStateWithEnd<FSMAutomaticEnd<Character>> _stateWithEnd;
 
-        FSMAutomaticEnd<Character> InternalCharacterAction = new FSMAutomaticEnd<Character>();
+        FSMAutomaticEnd<Character> InternalCharacterAction = new FSMAutomaticEnd<Character>(); //propia de action
 
         public void OnEnterState(FSMCharacter param)
         {
@@ -538,7 +554,7 @@ namespace FSMCharacterAndStates
     {
         IStateWithEnd<CasterEntityComponent> _stateWithEnd;
 
-        FSMAutomaticEnd<Character> param;
+        FSMAutomaticEnd<Character> param; //propia action
 
         System.Action _OnEnter;
 

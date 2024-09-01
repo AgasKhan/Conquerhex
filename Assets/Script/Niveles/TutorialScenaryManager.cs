@@ -29,7 +29,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public DestructibleObjects dummy;
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
-    public List<AbilityToEquip> abilitiesForPlayer = new List<AbilityToEquip>();
+    public List<AttackBase.AbilityToEquip> abilitiesForPlayer = new List<AttackBase.AbilityToEquip>();
     bool weaponGive = false;
 
     bool ability0 = false;
@@ -183,7 +183,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     #region abilities
 
-    public void SetPlayerAbility(AbilityToEquip abilityTo)
+    public void SetPlayerAbility(AttackBase.AbilityToEquip abilityTo)
     {
         player.caster.SetAbility(abilityTo);
     }

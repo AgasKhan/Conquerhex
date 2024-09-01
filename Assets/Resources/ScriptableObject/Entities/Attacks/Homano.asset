@@ -16,17 +16,22 @@ MonoBehaviour:
   chargeEnergy: 2
   energyStatic: 0
   energyDefault: 0.5
+  weaponToEquip:
+    indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    weapon: {fileID: 11400000, guid: 4503a50c1f70575499f64f55a44764df, type: 2}
   kataCombos:
   - indexToEquip: 0
     isModifiable: 1
     isDefault: 0
-    kata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
     weapon: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
+    kata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
   - indexToEquip: 1
     isModifiable: 1
     isDefault: 0
-    kata: {fileID: 11400000, guid: 7fb1b94fb8c1cfa4aabf132841e81b4b, type: 2}
     weapon: {fileID: 11400000, guid: 00c520bc752f70f45b63631e968637ae, type: 2}
+    kata: {fileID: 11400000, guid: 7fb1b94fb8c1cfa4aabf132841e81b4b, type: 2}
   abilities:
   - indexToEquip: 0
     isModifiable: 1
@@ -44,6 +49,17 @@ MonoBehaviour:
     isModifiable: 1
     isDefault: 1
     ability: {fileID: 11400000, guid: e8c04fae3cd8b9f439f5bb3f2769350f, type: 2}
+  combos:
+  - indexToEquip: 0
+    isModifiable: 0
+    isDefault: 0
+    weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
+    ability: {fileID: 11400000, guid: 25c32209251f7b84db2f5362d0c971f6, type: 2}
+  - indexToEquip: 5
+    isModifiable: 0
+    isDefault: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 11400000, guid: 1bd1f7734d5440242bff7b86fe2af13d, type: 2}
   additiveDamage:
   - name: Perforation
     amount: 2

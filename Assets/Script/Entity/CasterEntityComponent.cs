@@ -218,7 +218,18 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         EnergyUpdate();
     }
 
-    void SetWeaponKataCombo(int index)
+    void SetWeapon(int index)
+    {
+        if (flyweight.weaponToEquip.weapon == null /*|| indexToEquip > katas.Count */ || weapons.Actual(0).equiped != null)
+            return;
+
+        var aux2 = (MeleeWeapon)flyweight.weaponToEquip.weapon.Create();
+        int indexInventory = aux2.Init(inventoryEntity);
+        aux2.isDefault = flyweight.weaponToEquip.isDefault;
+        weapons.actual.indexEquipedItem = indexInventory;
+    }
+
+    void SetWeaponKata(int index)
     {
         var indexToEquip = flyweight.kataCombos[index].indexToEquip == -1 ? index : flyweight.kataCombos[index].indexToEquip;
 
@@ -248,25 +259,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         katas.actual.equiped.ChangeWeapon(aux2);
     }
 
-    public void SetAbility(AbilityToEquip abilityToEquip)
-    {
-        if (abilityToEquip == null || abilityToEquip.indexToEquip > abilities.Count || abilities.Actual(abilityToEquip.indexToEquip).equiped != null)
-            return;
-
-        var aux = abilityToEquip.ability.Create();
-
-        aux.Init(inventoryEntity);
-
-        ((AbilityExtCast)aux).isDefault = abilityToEquip.isDefault;
-
-        abilities.actual.SetDefaultItem((AbilityExtCast)aux);
-
-        ((AbilityExtCast)aux).CreateCopy(out int otherindex);
-
-        abilities.actual.isModifiable = abilityToEquip.isModifiable;
-
-        abilities.actual.indexEquipedItem = otherindex;
-    }
 
     void SetAbility(int index)
     {
@@ -289,6 +281,63 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         abilities.actual.indexEquipedItem = otherindex;
     }
+
+    void SetCombo(int index)
+    {
+        var indexToEquip = flyweight.combos[index].indexToEquip == -1 ? index : flyweight.combos[index].indexToEquip;
+
+        if (flyweight.combos[index].ability == null || indexToEquip > combos.Count || combos.Actual(indexToEquip).equiped != null)
+            return;
+
+        Ability aux = (Ability)flyweight.combos[index].ability.Create();
+
+        aux.Init(inventoryEntity);
+
+        aux.isDefault = flyweight.combos[index].isDefault;
+
+        aux.CreateCopy(out int otherindex);
+
+        combos.actual.indexEquipedItem = otherindex;
+
+        combos.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
+        //
+
+
+        if (aux is WeaponKata weaponKata)
+        {
+            if (flyweight.combos[index].weapon == null)
+                weaponKata.ChangeWeapon(weapons.actual.equiped);
+            else
+            {
+                var aux2 = (MeleeWeapon)flyweight.combos[index].weapon.Create();
+                aux2.Init(inventoryEntity);
+                aux2.isDefault = flyweight.kataCombos[index].isDefault;
+                //combos.actual.SetDefaultItem(aux);
+                weaponKata.ChangeWeapon(aux2);
+            }
+        }
+    }
+
+    public void SetAbility(AttackBase.AbilityToEquip abilityToEquip)
+    {
+        if (abilityToEquip == null || abilityToEquip.indexToEquip > abilities.Count || abilities.Actual(abilityToEquip.indexToEquip).equiped != null)
+            return;
+
+        var aux = abilityToEquip.ability.Create();
+
+        aux.Init(inventoryEntity);
+
+        ((AbilityExtCast)aux).isDefault = abilityToEquip.isDefault;
+
+        abilities.actual.SetDefaultItem((AbilityExtCast)aux);
+
+        ((AbilityExtCast)aux).CreateCopy(out int otherindex);
+
+        abilities.actual.isModifiable = abilityToEquip.isModifiable;
+
+        abilities.actual.indexEquipedItem = otherindex;
+    }
+
 
 
     public override void OnStayState(Entity param)
@@ -313,6 +362,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         weapons.Init(inventoryEntity);
         abilities.Init(inventoryEntity);
         katas.Init(inventoryEntity);
+        combos.Init(inventoryEntity);
         //abilitiesCombo.Init(inventoryEntity);
 
         additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
@@ -320,22 +370,30 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         if (flyweight == null)
         {
             flyweight = container.flyweight?.GetFlyWeight<AttackBase>();
-
-            if (flyweight?.kataCombos == null)
-                return;
         }
 
         positiveEnergy = EnergyDefault * MaxEnergy;
 
-        for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, katas.Count); i++)
-        {
-            SetWeaponKataCombo(i);
-        }
+        if (flyweight?.weaponToEquip != null)
+            SetWeapon(0);
 
-        for (int i = 0; i < Mathf.Clamp(flyweight.abilities.Length, 0, abilities.Count); i++)
-        {
-            SetAbility(i);
-        }
+        if (flyweight?.kataCombos != null)
+            for (int i = 0; i < Mathf.Clamp(flyweight.kataCombos.Length, 0, katas.Count); i++)
+            {
+                SetWeaponKata(i);
+            }
+
+        if (flyweight?.abilities != null)
+            for (int i = 0; i < Mathf.Clamp(flyweight.abilities.Length, 0, abilities.Count); i++)
+            {
+                SetAbility(i);
+            }
+
+        if (flyweight?.combos != null)
+            for (int i = 0; i < Mathf.Clamp(flyweight.combos.Length, 0, combos.Count); i++)
+            {
+                SetCombo(i);
+            }
     }
 
     public void Init()

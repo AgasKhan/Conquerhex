@@ -285,6 +285,9 @@ MonoBehaviour:
   <caster>k__BackingField: {fileID: 0}
   <move>k__BackingField: {fileID: 0}
   <aiming>k__BackingField: {fileID: 0}
+  <actualCombo>k__BackingField: -2
+  nextCombo: -1
+  deltaTimeCombo: 0.3
   stunBar:
     rid: 1000
   iaOn: 1
@@ -362,7 +365,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
-  katasCombo:
+  katas:
     list:
     - isModifiable: 1
       _indexEquipedItem: -1
@@ -395,6 +398,114 @@ MonoBehaviour:
     <indexer>k__BackingField: 0
   abilities:
     list:
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    <indexer>k__BackingField: 0
+  combos:
+    list:
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
     - isModifiable: 1
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
@@ -740,8 +851,9 @@ MonoBehaviour:
     <dot>k__BackingField: 0
     <maxDetects>k__BackingField: 0
     <minDetects>k__BackingField: 0
-  track: {fileID: 0}
+  _objectivePosition: {x: 0, y: 0, z: 0}
   _aimingToObj: {x: 0, y: 0, z: 0}
+  offsetView: {x: 0, y: 0, z: 0}
   _mode: 0
 --- !u!1 &6295448972246985919
 GameObject:
