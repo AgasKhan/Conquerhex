@@ -1206,8 +1206,8 @@ MonoBehaviour:
   - dialog: "Veo que si te has desplazado hasta mi, es que debes de saber usar tus
       piernas, tu nuevo cerebelo deber\xEDa de facilitarte el movimiento.\n\nPongamos
       a prueba tus capacidades b\xE1sicas, mu\xE9vete por el escenario intentando
-      alejarte lo mas posible de mi."
-    objective: "-Al\xE9jate del npc moviendote con WASD."
+      alejarte lo mas posible de mi hasta el limite."
+    objective: "-Al\xE9jate del npc hasta tocar las murallas moviendote con WASD."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -1344,8 +1344,8 @@ MonoBehaviour:
   - dialog: "En el mundo al que te transladaremos <color=#F6CB30>cada lado es un
       portal</color> que se conecta a otro permiti\xE9ndote acceder a otras parcelas
       o la \xA1misma!\n\nPor lo que puedes observar, los portales tienen un color
-      especifico. Reconfigurare el mapa para que puedas acceder a otros biomas. Vuelve
-      a fijarte en su color."
+      especifico. Reconfigurare el mapa para que puedas acceder a otros biomas. Encuentralos
+      y regresa."
     objective: "-Explora los 2 nuevos biomas <color=#F6CB30>des\xE9rtico</color>
       y <color=#00ffffff>nevado</color>."
     logicActive:
@@ -1393,8 +1393,9 @@ MonoBehaviour:
       de tu <color=#0000FF>base</color>.
 
 
-      Esto te servira cuando te encuentres
-      en peligro real.'
+      Si te encuentras perdido en este
+      laberinto, observa los colores asi reconoceras el camino facilmente, luego
+      tus lobulos occipitales haran el trabajo.'
     objective: Terminar el entrenamiento basico interactuando con el npc.
     logicActive:
       m_PersistentCalls:
@@ -1438,7 +1439,7 @@ MonoBehaviour:
   goal: {fileID: 964256223}
   player: {fileID: 1410456220}
   NPC: {fileID: 8611411229211826767}
-  maxDist: 20
+  maxDist: 15
   newBorders:
   - {fileID: 1439043835}
   - {fileID: 1439043835}
@@ -5457,17 +5458,17 @@ PrefabInstance:
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -19668,7 +19669,7 @@ PrefabInstance:
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: lenght
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -31316,17 +31317,17 @@ PrefabInstance:
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -45517,7 +45518,7 @@ PrefabInstance:
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: lenght
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -54270,7 +54271,7 @@ PrefabInstance:
     - target: {fileID: 71350857104891687, guid: c4e149bb0e8104b4a931b5a03002856c,
         type: 3}
       propertyPath: scale
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 71350857104891687, guid: c4e149bb0e8104b4a931b5a03002856c,
         type: 3}
@@ -61492,17 +61493,17 @@ PrefabInstance:
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.02
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.02
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.02
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
@@ -62584,17 +62585,17 @@ PrefabInstance:
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -69475,7 +69476,7 @@ PrefabInstance:
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: lenght
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
