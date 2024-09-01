@@ -24,6 +24,10 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
             return;
         }
 
+        Aiming2D = dir;
+
+        FeedBackReference?.Area(FinalMaxRange).Angle(Angle).Direction(AimingXZ);
+
         Detect();
 
         Cast();

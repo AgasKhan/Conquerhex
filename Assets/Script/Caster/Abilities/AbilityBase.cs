@@ -265,7 +265,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public virtual Vector3 AimingXZ => aiming.AimingToObjectiveXZ;
 
-    public Vector2 Aiming2D { set => aiming.AimingToObjective2D = value; }
+    public Vector2 Aiming2D { set => aiming.AimingToObjective2D = value; get => aiming.AimingToObjective2D; }
 
     public virtual Vector3 ObjectiveToAim
     {

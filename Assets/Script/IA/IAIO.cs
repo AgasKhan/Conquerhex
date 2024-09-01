@@ -452,12 +452,16 @@ public class IAIO : IAFather
         else if(character.actualCombo >= 0)
             number += 5;
 
+        character.aiming.AimingToObjective2D = arg1;
+
         character.ComboAttack(number);
     }
 
     private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
     {
         womboIndex = 0;
+
+        character.aiming.AimingToObjective2D = arg1;
 
         for (int i = 0; i < comboRapido.Length; i++)
         {
@@ -476,6 +480,8 @@ public class IAIO : IAFather
 
     private void AbilityEventMediator_eventDown(Vector2 arg1, float arg2)
     {
+        character.aiming.AimingToObjective2D = arg1;
+
         for (int i = 0; i < comboRapido.Length; i++)
         {
             if (comboRapido[i] == lastCombo)
@@ -528,12 +534,14 @@ public class IAIO : IAFather
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
+        character.aiming.AimingToObjective2D = arg1;
         lastInteractuable.Interact(character);
         UI.Interfaz.instance.interactButton.Play("InteractAccept");
     }
 
     private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
     {
+        character.aiming.AimingToObjective2D = arg1;
         character.AlternateAbility();
     }
     private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)

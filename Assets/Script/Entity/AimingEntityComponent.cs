@@ -62,6 +62,7 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
     /// </summary>
     public Vector2 AimingToObjective2D
     {
+        get => AimingToObjective.Vect3To2XZ();
         set
         {
             ObjectivePosition = (transform.position + offsetView) + value.Vect2To3XZ(0);

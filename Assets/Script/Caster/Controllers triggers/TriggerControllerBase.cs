@@ -117,7 +117,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
         ability.onCast += param.CastEvent;
 
-        ability.ControllerDown(Vector2.zero, 0);
+        ability.ControllerDown(ability.Aiming2D, 0);
     }
 
 
@@ -190,7 +190,7 @@ public interface IAbilityComponent : IAbilityStats
 
     public Vector3 ObjectiveToAim { get; set; }
 
-    public Vector2 Aiming2D { set; } 
+    public Vector2 Aiming2D { set;} 
 
     public  bool DontExecuteCast { get; }
 
