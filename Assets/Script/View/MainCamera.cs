@@ -83,6 +83,14 @@ public class MainCamera : SingletonMono<MainCamera>
 
         float distanceToObjective;
 
+        Vector3 ToTrackPosition => toTrack.position + offsetToTrack;
+
+        Vector3 offsetToTrack;
+
+        Transform toTrack;
+
+        RaycastHit hitInfo;
+
         public void OnCharacterSelected(Character character)
         {
             if (this.character != null)
@@ -140,15 +148,8 @@ public class MainCamera : SingletonMono<MainCamera>
                 rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
             }
 
-            if(character.aiming.mode == AimingEntityComponent.Mode.perspective || Input.GetKey(KeyCode.LeftControl))
+            if (character.aiming.mode == AimingEntityComponent.Mode.perspective || Input.GetKey(KeyCode.LeftControl))
                 rotationEulerPerspective.y += arg1.x;
-
-
-            setRotationPerspective = Quaternion.Euler(rotationEulerPerspective);
-
-            prevRotationPerspective = Quaternion.Euler(prevRotationPerspective.eulerAngles.x, rotationEulerPerspective.y, prevRotationPerspective.eulerAngles.z);
-
-            rotationPerspective = setRotationPerspective;
         }
 
         Quaternion RotationCamera()
@@ -161,13 +162,11 @@ public class MainCamera : SingletonMono<MainCamera>
             if (character.aiming.mode != AimingEntityComponent.Mode.perspective)
             {
                 return RotationCamera();
-            }
-
-            Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
+            }          
 
             //Debug.DrawRay(ray.origin,ray.direction, Color.red);
                
-            if(Physics.Raycast(ray, out RaycastHit hitInfo, float.PositiveInfinity, Physics.AllLayers  & ~(1<<15) , QueryTriggerInteraction.Ignore))
+            if(hitInfo.transform!=null)
             {
                 Vector3 aux = hitInfo.point - character.transform.position;
 
@@ -188,10 +187,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public void Update()
         {
+
             if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
                 return;
 
-            if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out RaycastHit hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
             {
                 vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective.normalized * (hitInfo.distance-0.1f), Time.deltaTime* smoothColision);
             }
@@ -199,6 +199,33 @@ public class MainCamera : SingletonMono<MainCamera>
             {
                 vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective, Time.deltaTime * smoothColision);
             }
+
+            Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
+
+            if(Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore))
+            {
+                if (Input.GetKeyDown(KeyCode.LeftControl)) //seteo del trackeo
+                {
+                    if (toTrack != null)
+                    {
+                        toTrack = null;
+                    }
+                    else
+                    {
+                        toTrack = hitInfo.transform;
+                        offsetToTrack = hitInfo.point - hitInfo.transform.position;
+                    }
+                }
+            }
+
+            if(toTrack != null)//trackeo
+                rotationEulerPerspective = Quaternion.LookRotation(ToTrackPosition - CameraPosition).eulerAngles;
+
+            setRotationPerspective = Quaternion.Euler(rotationEulerPerspective);
+
+            prevRotationPerspective = Quaternion.Euler(prevRotationPerspective.eulerAngles.x, rotationEulerPerspective.y, prevRotationPerspective.eulerAngles.z);
+
+            rotationPerspective = setRotationPerspective;
         }
 
         public void Init()
