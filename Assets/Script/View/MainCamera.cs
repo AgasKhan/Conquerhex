@@ -191,10 +191,10 @@ public class MainCamera : SingletonMono<MainCamera>
             //if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
             //  return;
 
-            if (!transitionsSet.Chck)
+            if (!transitionsSet.Chck && character != null)
                 return;
 
-            if (!transitionsSet.Chck && character != null && character.aiming.mode == AimingEntityComponent.Mode.perspective)
+            if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
             {
                 if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
                 {
