@@ -20,6 +20,8 @@ public class UIE_SlotButton : VisualElement
         slotText.text = text;
         auxAct = action;
 
+        tooltip = text + " descripción";
+
         slotImage.RegisterCallback<ClickEvent>(buttonEvent);
     }
 
@@ -31,6 +33,12 @@ public class UIE_SlotButton : VisualElement
         slotText.AddToClassList("slotTextClicked");
 
         auxAct.Invoke();
+    }
+
+    public void RegisterMouseEvents(EventCallback<MouseEnterEvent> onEnter, EventCallback<MouseLeaveEvent> onLeave)
+    {
+        slotImage.RegisterCallback<MouseEnterEvent>(onEnter);
+        slotImage.RegisterCallback<MouseLeaveEvent>(onLeave);
     }
 
     public UIE_SlotButton() { }
