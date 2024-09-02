@@ -7895,80 +7895,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 331299223}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &338733423
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5507341918820118517, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_Name
-      value: UIE_Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 910.56396
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 566.391
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -975.5936
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5965052078263098672, guid: cad7289ceabc0bb4c99898a98d168980,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cad7289ceabc0bb4c99898a98d168980, type: 3}
---- !u!1 &338733424 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 508589152949102767, guid: cad7289ceabc0bb4c99898a98d168980,
-    type: 3}
-  m_PrefabInstance: {fileID: 338733423}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &354444780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42517,21 +42443,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -50
       objectReference: {fileID: 0}
-    - target: {fileID: 4241346766244645278, guid: 626138fc60cd2014095952742520b9a1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4611217117134479641, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5372609862399637378, guid: 626138fc60cd2014095952742520b9a1,
-        type: 3}
-      propertyPath: newMenu
-      value: 
-      objectReference: {fileID: 338733424}
     - target: {fileID: 5458618359837411875, guid: 626138fc60cd2014095952742520b9a1,
         type: 3}
       propertyPath: m_IsActive
@@ -48463,8 +48379,9 @@ MonoBehaviour:
     timeToCallEvent: 0
   - dialog: "Oops, era otra palanca. \nTen presente que gracias a las modificaciones
       que te sometiste, tendr\xE1s la oportunidad de <color=green>regenerar tu salud</color>.\n\nPara
-      que puedas entenderlo hemos dise\xF1ado una UI que facilitar\xE1 tu compresi\xF3n.
-      Mientras tanto espera a regenerarte."
+      que puedas entenderlo hemos dise\xF1ado una UI que facilitar\xE1 tu compresi\xF3n,
+      puede parecerte extra\xF1a pero si prestas atenci\xF3n te acostumbrar\xE1s.
+      \n\r\nEspera unos segundos para regenerarte y vuelve a hablar conmigo.\r"
     objective: -Espera para que la salud se regenere
     logicActive:
       m_PersistentCalls:
@@ -48482,9 +48399,10 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     timeToCallEvent: 0
-  - dialog: "Como has visto hemos dividido la salud en 2 componentes, tu <color=#F6CB30>Integridad</color>
-      y tu <color=#F6CB30>regeneraci\xF3n</color>.\n\nSi se vac\xEDan ambas mueres.
-      F\xE1cil \xBFNo?"
+  - dialog: "\xBFTienes dudas?\nBueno, como has visto hemos dividido la salud en
+      2 componentes, tu <color=#F6CB30>Integridad</color> y tu capacidad regenerativa
+      o <color=#F6CB30>regeneraci\xF3n</color>\n\n\n\xBFQue sigues con dudas?\n\nSi
+      se vac\xEDan ambas mueres.\nF\xE1cil \xBFNo?"
     objective: "-T\xF3mate un respiro de tanta informaci\xF3n"
     logicActive:
       m_PersistentCalls:
@@ -48503,9 +48421,9 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 10
   - dialog: "Bien, ahora te dar\xE9 un arma, equ\xEDpatela para poder practicar la
-      mejor defensa que existe, un ataque frontal.\n\r\nPuedes revisar tu equipamiento
-      e inventario presionando la <color=#2899BC>tecla Tab</color>. Despu\xE9s vuelve
-      a hablar conmigo.\r"
+      mejor defensa que existe, un ataque frontal.\r\nPuedes revisar tu equipamiento
+      e inventario presionando la <color=#2899BC>tecla Tab</color>. \nDespu\xE9s
+      vuelve a hablar conmigo.\r"
     objective: "-Equ\xEDpate el arma"
     logicActive:
       m_PersistentCalls:
@@ -48580,10 +48498,13 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 1.2
   - dialog: "Est\xE1s listo para usar tu brazal anti-entr\xF3pico, cortes\xEDa de
-      los \xC1ngeles. \xA1El cual te permitir\xE1 hacer cosas realmente incre\xEDbles!\n\nDepende
-      de donde est\xE9n equipadas, podr\xE1s usar distintas teclas para ejecutarlas.
-      Recuerda que podr\xE1s conseguir m\xE1s a lo largo de tu misi\xF3n. Prueba
-      combinarlos!"
+      los \xC1ngeles.\n\xA1El cual te permitir\xE1 hacer cosas realmente incre\xEDbles!\n\nLe
+      hemos equipado de serie con las siguientes habilidades: \n<color=#F6CB30>Dash
+      Simple</color>\t<color=#F6CB30>Parry b\xE1sico</color>\n<color=#F6CB30>Casteo
+      de se\xF1ales</color>\t<color=#F6CB30>Destrucci\xF3n de se\xF1ales</color>\n\n\nDepende
+      de donde est\xE9n equipadas, podr\xE1s usar distintas teclas para ejecutarlas.\n\n\nRecuerda
+      que podr\xE1s conseguir m\xE1s a lo largo de tu misi\xF3n.\n\n\nPru\xE9balos
+      en combinaci\xF3n con tu arma sobre estos enemigos."
     objective: "-Ejecuta <color=#F6CB30>Parry b\xE1sico</color> con ClickDer\n-Ejecuta
       <color=#F6CB30>Dash Simple</color> con LeftShift\n-Ejecuta <color=#F6CB30>Casteo
       de se\xF1ales</color> con \u2192\u2192 + ClickDer\n-Ejecuta <color=#F6CB30>Destruccion
@@ -48713,10 +48634,12 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 8
   - dialog: "Desde aqu\xED ya no te acompa\xF1ar\xE9 en tu aventura.\nHe abierto
-      las puertas para que explores la zona, simulando tu misi\xF3n real. Si te pierdes
-      podr\xE1s volver al inicio con la <color=#2899BC>tecla Y</color>\n\nRecuerda
+      las puertas para que explores la zona, simulando tu misi\xF3n real.\n\nSi te
+      pierdes podr\xE1s volver al inicio con la <color=#2899BC>tecla Y</color>\n\n\nRecuerda
       que tu misi\xF3n es adentrate en zona enemigo y abatir los <color=#F6CB30>\xE1rboles
-      sangrantes</color>.. \n\n<align=\"center\"><i>Ten cuidado</i></align>\r"
+      sangrantes</color>.\n\r\n<color=red>Este ya no es tu mundo...</color> \nhasta
+      un inocente cordero podr\xEDa ser tu perdici\xF3n. \n\n<align=\"center\"><i>Ten
+      cuidado</i></align>\r"
     objective: "-Busca el \xE1rbol para salir de la simulaci\xF3n. <align=\"center\"><size=75><sprite=\"NewBloodTree\"
       index=0></size></align>"
     logicActive:
@@ -48761,8 +48684,6 @@ MonoBehaviour:
     timeToCallEvent: 0
   goal: {fileID: 568904324}
   player: {fileID: 523263258}
-  NPC: {fileID: 0}
-  maxDist: 10
   newBorders:
   - {fileID: 0}
   - {fileID: 0}
@@ -48830,7 +48751,6 @@ MonoBehaviour:
   myObjects: []
   leverCorderito: {fileID: 0}
   minion: {fileID: 0}
-  newMenu: {fileID: 0}
   interComp: {fileID: 0}
 --- !u!1 &1191327059
 GameObject:
@@ -104504,4 +104424,3 @@ SceneRoots:
   - {fileID: 1291990222}
   - {fileID: 1650641881}
   - {fileID: 1505786010}
-  - {fileID: 338733423}

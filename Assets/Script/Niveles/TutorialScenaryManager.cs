@@ -60,6 +60,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         HexagonsManager.SetRenders(firstHexagon);
     }
 
+    #region DISTANCE ULTRA HARDCODEADO
     public void NPCDistance()
     {
         float dist = Vector3.Distance(player.transform.position, NPC.position);
@@ -69,6 +70,23 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             NextDialog();
             distanceCheck = false;
         }
+    }
+
+    #endregion
+
+    public void ChangeColorToLocked()
+    {
+        HexagonsManager.SetColorHexagone(firstHexagon, Color.red);
+    }
+
+    public void ChangeColorToFortress()
+    {
+        HexagonsManager.SetColorHexagone(firstHexagon, Color.yellow);
+    }
+
+    public void ChangeColorToBase()
+    {
+        HexagonsManager.SetColorHexagone(firstHexagon, Color.blue);
     }
 
     public void DistanceBoolSet(bool e) => distanceCheck = e;
@@ -160,9 +178,19 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     void Teleport2(Hexagone arg1, int arg2)
     {
         if (arg1.biomes.nameDisplay == "Nieve")
+        {
             nieve = true;
+
+            interfaz.CompleteObjective(1);
+        }
+
         if (arg1.biomes.nameDisplay == "Desierto")
+        {
             desierto = true;
+            string obj = allDialogs[currentDialog].objective;
+
+            interfaz.CompleteObjective(0);
+        }
 
         if (nieve && desierto)
         {
