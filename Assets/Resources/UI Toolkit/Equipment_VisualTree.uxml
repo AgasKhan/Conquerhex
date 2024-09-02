@@ -35,7 +35,7 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="Banner" style="flex-grow: 0; flex-shrink: 0; width: 45%; height: 100%; justify-content: center;">
-                        <ui:VisualElement style="flex-grow: 0; background-image: url(&quot;project://database/Assets/3DMesh/CharacterMenu.png?fileID=21300000&amp;guid=a04acbf206e5eeb48a193f292c6b9455&amp;type=3#CharacterMenu&quot;); flex-shrink: 0; height: 788px; -unity-background-scale-mode: scale-to-fit;" />
+                        <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;UI Toolkit/CharacterInUI&apos;); flex-shrink: 0; height: 635px; -unity-background-scale-mode: scale-to-fit; width: 435px;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 85%; justify-content: space-between;">
                         <ui:Instance template="KataComboButtom" name="KataComboButtom" />
@@ -47,9 +47,9 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="RightBox" class="padding20 verticalContainer" style="width: 50%; flex-grow: 1;">
-            <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0;">
-                <ui:Label tabindex="-1" text="ESTADISTICAS" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(190, 148, 101); font-size: 40px; -unity-text-align: upper-center;" />
-                <ui:Label tabindex="-1" text="DAÑO POR LANZA-----------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0&#10;DAÑO POR LANZA------------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statistics" class="padding20" style="color: rgb(118, 85, 61); font-size: 24px; -unity-text-align: upper-center;" />
+            <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0; justify-content: center;">
+                <ui:Label tabindex="-1" text="ESTADISTICAS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticTitle" style="color: rgb(190, 148, 101); font-size: 40px; -unity-text-align: upper-center;" />
+                <ui:Label tabindex="-1" text="DAÑO POR LANZA-----------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticsLabel" class="padding20" style="color: rgb(118, 85, 61); font-size: 24px; -unity-text-align: upper-left;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:Button text="Cerrar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="closeButton" class="closeButton" />

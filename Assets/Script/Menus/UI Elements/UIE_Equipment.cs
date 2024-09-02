@@ -9,6 +9,8 @@ public class UIE_Equipment : UIE_BaseMenu
     VisualElement abilitiesButtons;
     VisualElement katasButtons;
 
+    Label statisticsLabel;
+
     public Sprite defaultWeaponImage;
     public string defaultWeaponText;
 
@@ -30,6 +32,7 @@ public class UIE_Equipment : UIE_BaseMenu
         basicsButtons = ui.Q<VisualElement>("Basics");
         abilitiesButtons = ui.Q<VisualElement>("Abilities");
         katasButtons = ui.Q<VisualElement>("Katas");
+        statisticsLabel = ui.Q<Label>("statisticsLabel");
 
         onClose += () => manager.DisableMenu(gameObject.name);
     }
@@ -42,6 +45,13 @@ public class UIE_Equipment : UIE_BaseMenu
         CreateBasicsButtons();
         CreateEquipamentAbilities();
         CreateEquipamentKatas();
+
+        SetStatistics();
+    }
+
+    void SetStatistics()
+    {
+        statisticsLabel.text = character.flyweight.GetFlyWeight<BodyBase>().GetStatistics();
     }
 
     Texture2D GetImage(ItemEquipable itemEquiped)

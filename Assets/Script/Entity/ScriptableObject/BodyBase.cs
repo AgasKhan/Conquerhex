@@ -20,6 +20,15 @@ public class BodyBase : FlyWeight<EntityBase>
     public float defenseRegenSpeed;
 
     public float defenseRegenAmount;
+
+    public string GetStatistics()
+    {
+        return
+            "Velocidad..................................." + velocity + "\n" +
+            "Capacidad de carga.........................." + weightCapacity + "\n" +
+            "Tiempo stuneado............................." + stunTime + "\n" +
+            "Defensa....................................." + maxDefense;
+    }
 }
 
 
