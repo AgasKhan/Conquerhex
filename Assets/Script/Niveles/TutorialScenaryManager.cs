@@ -178,9 +178,19 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     void Teleport2(Hexagone arg1, int arg2)
     {
         if (arg1.biomes.nameDisplay == "Nieve")
+        {
             nieve = true;
+
+            interfaz.CompleteObjective(1);
+        }
+
         if (arg1.biomes.nameDisplay == "Desierto")
+        {
             desierto = true;
+            string obj = allDialogs[currentDialog].objective;
+
+            interfaz.CompleteObjective(0);
+        }
 
         if (nieve && desierto)
         {

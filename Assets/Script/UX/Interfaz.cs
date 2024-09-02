@@ -83,6 +83,11 @@ namespace UI
             objectiveText.CompleteEffect();
         }
 
+        public string GetObjective(int index)
+        {
+            return _objectivesToShow[index];
+        }
+
         public void ModifyObjective(int index, string str)
         {
             _objectivesToShow[index] = str;
