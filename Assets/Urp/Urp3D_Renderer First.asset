@@ -107,6 +107,24 @@ MonoBehaviour:
   bindDepthStencilAttachment: 0
   m_Version: 1
   MainCamera: 0
+--- !u!114 &-2090841522375780783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b81f67e4a45804d842133a7ef91889, type: 3}
+  m_Name: RenderToTextureFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  layerToRender:
+    serializedVersion: 2
+    m_Bits: 32768
+  renderTexture: {fileID: 8400000, guid: 7a36e601a38520f408b2028f6c848669, type: 2}
+  cam: {fileID: 0}
 --- !u!114 &-266832351515254742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,9 +190,10 @@ MonoBehaviour:
   - {fileID: -3850841579667572443}
   - {fileID: 2135540002385118812}
   - {fileID: 4545446371477908154}
+  - {fileID: -2090841522375780783}
   - {fileID: 5114080054119581445}
   - {fileID: -266832351515254742}
-  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0f5b34bb6d6e9aad325399c65fc0f8fca5c46cd4d51f6a21dba6a875d64ab143f0547b5b2b6dcf8462ae059d963054cfc
+  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0f5b34bb6d6e9aad325399c65fc0f8fca5c46cd4d51f6a21dba6a875d64ab143f51962791b6d6fbe20547b5b2b6dcf8462ae059d963054cfc
   m_UseNativeRenderPass: 1
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
