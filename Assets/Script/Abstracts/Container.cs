@@ -50,7 +50,7 @@ namespace ComponentsAndContainers
 
         protected override void Config()
         {
-            MyAwakes += MyAwake;
+            MyAwake();
 
             MyOnDestroys += MyDestroy;
 
@@ -70,10 +70,14 @@ namespace ComponentsAndContainers
                 //_container.Add(component.GetType(), component);
             }
 
+            MyAwakes?.Invoke();
+
             foreach (var component in componentsInCointainer)
             {
                 component.OnEnterState(container);
             }
+
+            MyAwakes = null;
         }
 
         private void MyDestroy()

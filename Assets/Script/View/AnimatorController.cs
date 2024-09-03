@@ -5,7 +5,6 @@ using ComponentsAndContainers;
 
 public partial class AnimatorController : ComponentOfContainer<Entity>
 {
-
     [System.Serializable]
     public class AnimationData
     {
@@ -46,12 +45,18 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     string strLoopAction => loopAction ? "ActionLoop1" : "ActionLoop2";
 
+    MoveEntityComponent move;
+
+    Vector3 forward;
+
     private void Ia_onMove(Vector3 obj)
     {
         controller.SetBool("Move", true);
 
-        if (obj != Vector3.zero)
-            controller.transform.forward = Vector3.Slerp(controller.transform.forward, obj, Time.fixedDeltaTime*10);
+        if (obj != Vector3.zero )
+            forward = Vector3.Slerp(forward, obj, Time.fixedDeltaTime*10);
+
+        enabled = true;
     }
 
     private void Ia_onIdle()
@@ -61,15 +66,14 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void Ia_onAiming(Vector3 obj)
     {
-        Vector3 vector3;
         if (obj != Vector3.zero)
-            vector3 = Vector3.Slerp(controller.transform.forward, obj, Time.deltaTime * 10);
+            forward =  obj;
         else
             return;
 
-        vector3.y = 0;
+        forward.y = 0;
 
-        controller.transform.forward = vector3;
+        enabled = true;
     }
 
     private void Ia_PreCast(Ability ability)
@@ -224,7 +228,14 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             aiming.onAimingXZ += Ia_onAiming;
         }
 
-        if (container.TryGetInContainer<MoveEntityComponent>(out var move))
+        if(container is Character character)
+        {
+            character.moveStateCharacter.OnActionEnter += MoveStateCharacter_OnActionEnter;
+            character.moveStateCharacter.OnActionExit += MoveStateCharacter_OnActionExit;
+            move = character.move;
+            MoveStateCharacter_OnActionEnter();
+        }
+        else if (container.TryGetInContainer<MoveEntityComponent>(out move))
         {
             move.onIdle += Ia_onIdle;
             move.onMove += Ia_onMove;
@@ -233,9 +244,31 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         container.health.death += Ia_onDeath;
     }
 
+
+    private void MoveStateCharacter_OnActionEnter()
+    {
+        move.onIdle += Ia_onIdle;
+        move.onMove += Ia_onMove;
+    }
+
+
+    private void MoveStateCharacter_OnActionExit()
+    {
+        move.onIdle -= Ia_onIdle;
+        move.onMove -= Ia_onMove;
+    }
+
+
+    private void Update()
+    {
+        controller.transform.forward = Vector3.Slerp(controller.transform.forward, forward, Time.deltaTime * 10);
+        if ((controller.transform.forward - forward).sqrMagnitude < 0.01f)
+            enabled = false;
+    }
+
     public override void OnStayState(Entity param)
     {
-        //throw new System.NotImplementedException();
+        //controller.transform.forward = Vector3.Slerp(controller.transform.forward, forward, Time.deltaTime * 10);
     }
 
     public override void OnExitState(Entity param)

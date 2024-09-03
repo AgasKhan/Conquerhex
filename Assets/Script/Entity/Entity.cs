@@ -277,8 +277,8 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
 
     protected override void Config()
     {
+        MyAwakes +=  MyAwake;
         base.Config();
-        MyAwakes = MyAwakes + MyAwake;
 
         //MyUpdates += Entity_MyUpdates;
     }

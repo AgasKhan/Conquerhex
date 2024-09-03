@@ -244,11 +244,11 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     protected override void Config()
     {
-        base.Config();
         MyAwakes += MyAwake;
         MyStarts += MyStart;
         MyOnEnables += MyEnables;
         MyOnDisables += MyDisables;
+        base.Config();
     }
 
     void IAUpdateEnable(bool value)
