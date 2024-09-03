@@ -371,6 +371,8 @@ namespace FSMGameManagerLibrary
             {
                 if (GameManager.eventQueueLoad.TryDequeue(out var action))
                     action();
+                else
+                    break;
 
             } while (GameManager.eventQueueLoad.Count > 0 && !GameManager.SlowFrameRate);
         }

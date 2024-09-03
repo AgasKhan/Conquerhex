@@ -295,7 +295,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         aux.isDefault = flyweight.combos[index].isDefault;
 
-        aux.CreateCopy(out int otherindex);
+        aux = aux.CreateCopy(out int otherindex);
 
         combos.actual.indexEquipedItem = otherindex;
 
