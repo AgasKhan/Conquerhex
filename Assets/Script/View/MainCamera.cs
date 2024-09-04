@@ -192,7 +192,7 @@ public class MainCamera : SingletonMono<MainCamera>
             //if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
             //  return;
 
-            if (!transitionsSet.Chck || character != null)
+            if (!transitionsSet.Chck || character == null)
                 return;
 
             if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
