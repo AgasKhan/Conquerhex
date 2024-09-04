@@ -361,6 +361,7 @@ GameObject:
   - component: {fileID: 4660629127224764075}
   - component: {fileID: 8374503059299788059}
   - component: {fileID: 7652112461761767538}
+  - component: {fileID: 5126356378860369220}
   m_Layer: 7
   m_Name: pj
   m_TagString: Player
@@ -995,6 +996,26 @@ MonoBehaviour:
   _aimingToObj: {x: 0, y: 0, z: 0}
   offsetView: {x: 0, y: 0, z: 0}
   _mode: 0
+--- !u!114 &5126356378860369220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295448971589143386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5ca2881c1872b4fa1ac91e438accd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whereToEquip:
+    pictionaries:
+    - key: Attack
+      value:
+        offset: {x: 0.1, y: 0.01, z: -0.04}
+        forwardRotation: {x: 0, y: 90, z: -180}
+        transform: {fileID: 2973094534947700787}
+  showInModel: 1
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0
@@ -3212,6 +3233,12 @@ SkinnedMeshRenderer:
 --- !u!137 &2284859282373799244 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -6577767712331143607, guid: 392e672692341e34e8b851476407d990,
+    type: 3}
+  m_PrefabInstance: {fileID: 4252067053362678533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2973094534947700787 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1315312563766266678, guid: 392e672692341e34e8b851476407d990,
     type: 3}
   m_PrefabInstance: {fileID: 4252067053362678533}
   m_PrefabAsset: {fileID: 0}
