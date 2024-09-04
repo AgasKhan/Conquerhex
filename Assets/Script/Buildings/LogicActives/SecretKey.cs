@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class SecretKey : MonoBehaviour
 {
     [SerializeField]
@@ -22,7 +21,7 @@ public class SecretKey : MonoBehaviour
     public GameObject newMenu;
 
     public EventControllerMediator escapeEventMediator;
-    
+
     private void Awake()
     {
         if(minion!=null)
@@ -54,11 +53,12 @@ public class SecretKey : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Comma) && leverCorderito != null)
         {
             leverCorderito.SetActive(true);
         }
-        /*
+        
         if (Input.GetKeyDown(KeyCode.Alpha0) && myObjects != null)
         {
             for (int i = 0; i < myObjects.Length; i++)
@@ -107,6 +107,19 @@ public class SecretKey : MonoBehaviour
             }
         }
         */
+
+        if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.instance.Load("DummyPractice");
+        }
+
+
+        if (SceneManager.GetActiveScene().name == "DummyPractice" && Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.instance.Load("MainMenu");
+        }
+        
+
     }
 
     public void ReviveMinion()
