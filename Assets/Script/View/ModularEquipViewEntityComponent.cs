@@ -20,9 +20,9 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         public Vector3 Up => Rotation * Vector3.up;
     }
 
-    public Data this[string str]
+    public WeaponEquip this[WeaponEquip reference]
     {
-        get => _whereToEquip[str];
+        get => equipedsWeapon[reference.name].reference;
     }
 
     [SerializeField]
@@ -33,15 +33,140 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
     [SerializeField]
     bool showInModel = true;
 
+
+    /*
+    
+    hash => el slot y que slotList tengo (si es un combo, kata, arma)
+
+    WeaponEquip => el modelo del arma
+
+    -No deseo modelo de armas repetidos
+    -Deseo borrar las armas que ya no utilizo
+
+    */
+
+    Dictionary<string,(int cantidad, WeaponEquip reference)> equipedsWeapon = new();
+    Dictionary<int, WeaponEquip> relation = new();
+
+
+    Data GetPart(string str) => _whereToEquip[str];
+
+    private void OnWeaponEquipInSlot(int arg1, MeleeWeapon arg2)
+    {
+        var model = arg2?.itemBase.weaponModel;
+        WeaponEquip previus;
+
+        if (relation.ContainsKey(arg1))//si ya habia configurado algo en ese slot
+        {
+            previus = relation[arg1];
+
+            if (model.Equals(previus))
+                return;
+
+            //quiero quitar el viejo
+
+            var previusRef = equipedsWeapon[previus.name];
+
+            previusRef.cantidad--; //reduzco su cantidad
+
+            if (previusRef.cantidad <= 0)//si ya no tengo mas, quiero quitarlo
+            {
+                previus.Destroy();
+                equipedsWeapon.Remove(previus.name);
+            }
+            else
+            {
+                equipedsWeapon[previus.name] = previusRef;
+            }
+        }
+        else
+            relation.Add(arg1, null);
+
+        //agrego arma
+
+        if (model == null)
+            return;
+
+        if (equipedsWeapon.ContainsKey(model.name))
+        {
+            var actual = equipedsWeapon[model.name];
+            actual.cantidad++;
+            model = actual.reference;
+            equipedsWeapon[model.name] = actual;
+        }
+        else
+        {
+            var partBody = GetPart("RightAttack");
+            model = model.Create(partBody.Position, partBody.Rotation, partBody.transform);            
+            equipedsWeapon.Add(model.name, (1, model));
+        }
+
+        relation[arg1] = model;
+    }
+
+    private void OnPreCast(Ability obj)
+    {
+        if(obj is WeaponKata kata)
+        {
+            switch (kata.state)
+            {
+                case Ability.State.middle:
+                    break;
+
+                case Ability.State.start:
+                    if(kata.Weapon?.itemBase.weaponModel!=null)
+                        this[kata.Weapon.itemBase.weaponModel].Spawn();
+                    break;
+
+                case Ability.State.end:
+                    if (kata.Weapon?.itemBase.weaponModel != null)
+                        this[kata.Weapon.itemBase.weaponModel].Despawn();
+                    break;
+            }
+        }
+    }
+
     public override void OnEnterState(Entity param)
     {
         _whereToEquip = whereToEquip.ToDictionary();
         //whereToEquip.Clear();
 
+        if(param.TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onEquipInSlotWeapon += OnWeaponEquipInSlot;
+            caster.onPreCast += OnPreCast;
+
+            for (int i = 0; i < caster.weapons.Count; i++)
+            {
+                if (caster.weapons[i].equiped != null)
+                    OnWeaponEquipInSlot((caster.weapons, i).GetHashCode(), caster.weapons[i].equiped);
+            }
+
+            for (int i = 0; i < caster.katas.Count; i++)
+            {
+                if(caster.katas[i].equiped!=null)
+                    OnWeaponEquipInSlot((caster.katas, i).GetHashCode(), caster.katas[i].equiped.Weapon);
+            }
+
+            for (int i = 0; i < caster.combos.Count; i++)
+            {
+                if(caster.combos[i].equiped != null && caster.combos[i].equiped is WeaponKata kata)
+                {
+                    OnWeaponEquipInSlot((caster.combos, i).GetHashCode(), kata.Weapon);
+                }
+            }
+        }
     }
+
+
 
     public override void OnExitState(Entity param)
     {
+        if (param.TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onEquipInSlotWeapon -= OnWeaponEquipInSlot;
+            caster.onPreCast -= OnPreCast;
+        }
     }
 
     public override void OnStayState(Entity param)

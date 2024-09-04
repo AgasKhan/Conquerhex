@@ -37,6 +37,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     public event System.Action<(float, float, float)> energyUpdate;
     public event System.Action<float> leftEnergyUpdate;
     public event System.Action<float> rightEnergyUpdate;
+    
+    public event System.Action<int, MeleeWeapon> onEquipInSlotWeapon; 
 
     InventoryEntityComponent inventoryEntity;
 
@@ -318,6 +320,21 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         }
     }
 
+    void TriggerOnEquipMediator<T>(SlotItemList<T> SlotItemList, int indexSlot , int indexItem, T item) where T : ItemEquipable 
+    {
+        if(item is MeleeWeapon weapon)
+        {
+            onEquipInSlotWeapon?.Invoke((SlotItemList, indexSlot).GetHashCode(), weapon);
+        }
+        else if(item is WeaponKata Kata)
+        {
+            Kata.onEquipedWeapon += (w) =>
+            {
+                onEquipInSlotWeapon?.Invoke((SlotItemList, indexSlot).GetHashCode(), w);
+            };
+        }
+    }
+
     public void SetAbility(AttackBase.AbilityToEquip abilityToEquip)
     {
         if (abilityToEquip == null || abilityToEquip.indexToEquip > abilities.Count || abilities.Actual(abilityToEquip.indexToEquip).equiped != null)
@@ -359,10 +376,10 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         inventoryEntity = param.GetInContainer<InventoryEntityComponent>();
         aimingSystem = param.GetInContainer<AimingEntityComponent>();
 
-        weapons.Init(inventoryEntity);
-        abilities.Init(inventoryEntity);
-        katas.Init(inventoryEntity);
-        combos.Init(inventoryEntity);
+        weapons.Init(inventoryEntity, TriggerOnEquipMediator);
+        abilities.Init(inventoryEntity, TriggerOnEquipMediator);
+        katas.Init(inventoryEntity, TriggerOnEquipMediator);
+        combos.Init(inventoryEntity, TriggerOnEquipMediator);
         //abilitiesCombo.Init(inventoryEntity);
 
         additiveDamage = new DamageContainer(() => flyweight?.additiveDamage);
