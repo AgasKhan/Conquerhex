@@ -152,8 +152,6 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
 
             data = settings.cameraToRender[index];
 
-            //Debug.Log(renderingData.cameraData.camera.name + $" Entro a ejecucion: {settings.mat != null} {data.Set}");
-
             if (settings.materialBlitter != null && data.Set)
             {
                 //Debug.Log(renderingData.cameraData.camera.name + " Se ejecuto el blit");
@@ -174,8 +172,6 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
 
             cmd.SetRenderTarget(settings.renderTexturePlayer);
             cmd.ClearRenderTarget(true, true, Color.clear);
-            context.ExecuteCommandBuffer(cmd);
-            cmd.Clear();
 
             DrawingSettings drawingSettings = CreateDrawingSettings(new ShaderTagId("UniversalForward"), ref renderingData, SortingCriteria.CommonOpaque);
             FilteringSettings filteringSettings = new(RenderQueueRange.all, settings.targetLayer);

@@ -149,7 +149,7 @@ namespace Controllers
     {
         public float timePressed;
 
-        public bool enable = true;
+        public bool enable;
 
         protected override void MyEnable()
         {
