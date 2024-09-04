@@ -116,6 +116,7 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
         foreach (var item in keys)
         {
             item.Destroy();
+            item.enable = true;
         }
     }
 
