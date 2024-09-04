@@ -25,7 +25,7 @@ public class UIE_CombosButton : VisualElement
     UnityAction mainAct;
     UnityAction auxAct;
 
-    public void SetEquipOrAbility(Texture2D image, string text, UnityAction action)
+    public void SetEquipOrAbility(Sprite image, string text, UnityAction action)
     {
         equipOrAbilityCombo.RemoveFromClassList("displayHidden");
         abilityImage.style.backgroundImage = new StyleBackground(image);
@@ -35,7 +35,7 @@ public class UIE_CombosButton : VisualElement
         abilityButton.RegisterCallback<ClickEvent>(mainButtonEvent);
     }
 
-    public void SetKata(Texture2D image, string text, UnityAction kataAction, UnityAction weaponAction)
+    public void SetKata(Sprite image, string text, UnityAction kataAction, UnityAction weaponAction)
     {
         kataCombo.RemoveFromClassList("displayHidden");
         kataImage.style.backgroundImage = new StyleBackground(image);

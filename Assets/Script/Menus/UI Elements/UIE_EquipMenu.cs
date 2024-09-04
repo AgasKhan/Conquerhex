@@ -136,7 +136,7 @@ public class UIE_EquipMenu : UIE_BaseMenu
 
             //Debug.Log("List container is null = " + (listContainer == null));
             listContainer.Add(button);
-            button.Init(item.image.texture, item.nameDisplay, item.GetType().ToString(), "Cortante", true, action, changeAction, changeText);
+            button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "Cortante", true, action, changeAction, changeText);
 
             buttonsList.Add(button);
         }

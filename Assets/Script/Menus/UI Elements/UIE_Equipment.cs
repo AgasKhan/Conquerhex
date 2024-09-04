@@ -61,23 +61,23 @@ public class UIE_Equipment : UIE_BaseMenu
         statisticsLabel.text = character.flyweight.GetFlyWeight<BodyBase>().GetStatistics();
     }
 
-    protected Texture2D GetImage(ItemEquipable itemEquiped)
+    protected Sprite GetImage(ItemEquipable itemEquiped)
     {
         if (itemEquiped != null)
-            return itemEquiped.image.texture;
+            return itemEquiped.image;
         /*else if(itemEquiped is MeleeWeapon)
             return defaultWeaponImage.texture;*/
         else
-            return defaultAbilityImage.texture;
+            return defaultAbilityImage;
     }
-    protected Texture2D GetImage(SlotItem itemEquiped)
+    protected Sprite GetImage(SlotItem itemEquiped)
     {
         if (itemEquiped.equiped != null)
-            return itemEquiped.equiped.image.texture;
+            return itemEquiped.equiped.image;
         else if(itemEquiped.equiped is MeleeWeapon)
-            return defaultWeaponImage.texture;
+            return defaultWeaponImage;
         else
-            return defaultAbilityImage.texture;
+            return defaultAbilityImage;
     }
 
     protected string GetText(ItemEquipable itemEquiped)

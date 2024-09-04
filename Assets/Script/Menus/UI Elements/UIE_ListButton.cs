@@ -19,7 +19,7 @@ public class UIE_ListButton : VisualElement
     System.Action<ClickEvent> mainAction;
     System.Action<ClickEvent> changeAction;
 
-    public void Init(Texture2D _itemImage, string _itemName, string _typeItem, string _specialityItem, bool changeButtonVisible, System.Action<ClickEvent> _mainAction, System.Action<ClickEvent> _changeAction, string changeText)
+    public void Init(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, bool changeButtonVisible, System.Action<ClickEvent> _mainAction, System.Action<ClickEvent> _changeAction, string changeText)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);
@@ -67,7 +67,7 @@ public class UIE_ListButton : VisualElement
         changeAction?.Invoke(clEvent);
     }
 
-    public void InitOnlyName(Texture2D _itemImage, string _itemName, System.Action<ClickEvent> _mainAction)
+    public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action<ClickEvent> _mainAction)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);

@@ -147,7 +147,7 @@ public class UIE_CombosMenu : UIE_Equipment
 
             UIE_ListButton button = new UIE_ListButton();
             listItems.Add(button);
-            button.InitOnlyName(character.inventory[itemIndex].image.texture, character.inventory[itemIndex].nameDisplay, changeAction);
+            button.InitOnlyName(character.inventory[itemIndex].image, character.inventory[itemIndex].nameDisplay, changeAction);
 
             listEquipableItems.Add(button);
         }
