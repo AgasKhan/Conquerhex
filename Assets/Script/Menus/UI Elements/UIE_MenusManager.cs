@@ -16,6 +16,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
 
     public static Dictionary<string, VisualTreeAsset> treeAsset = new Dictionary<string, VisualTreeAsset>();
 
+    public bool isInMenu = false;
     protected override void Awake()
     {
         base.Awake();
@@ -40,6 +41,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
 
     public void EnableMenu(string name)
     {
+        isInMenu = true;
         GameManager.instance.Menu(true);
         currentMenu = name;
         menuList[name].EnableMenu();
@@ -47,9 +49,15 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
 
     public void DisableMenu(string name)
     {
+        isInMenu = false;
         GameManager.instance.Menu(false);
         lastMenu = name;
         menuList[name].DisableMenu();
+    }
+
+    public void TriggerOnClose()
+    {
+        menuList[currentMenu].TriggerOnClose(default);
     }
 
     public void BackLastMenu()

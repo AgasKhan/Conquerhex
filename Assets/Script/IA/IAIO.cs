@@ -546,7 +546,10 @@ public class IAIO : IAFather
     }
     private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
     {
-        UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+        if (!UIE_MenusManager.instance.isInMenu)
+            UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+        else
+            UIE_MenusManager.instance.TriggerOnClose();
     }
 
 
