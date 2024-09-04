@@ -234,8 +234,22 @@ public class MainCamera : SingletonMono<MainCamera>
             rotationPerspective = setRotationPerspective;
         }
 
+        void EnterMenu()
+        {
+
+        }
+
+        void ExitMenu()
+        {
+
+        }
+
         public void Init()
         {
+            GameManager.onEnterMenuUnityEvent.AddListener(EnterMenu);
+
+            GameManager.onExitMenuUnityEvent.AddListener(ExitMenu);
+
             transitionsSet = TimersManager.Create(velocityTransition, () =>
             {
                 if (character == null)

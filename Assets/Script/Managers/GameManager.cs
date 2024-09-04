@@ -33,6 +33,10 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
+    public static UnityEvent onEnterMenuUnityEvent => instance?.fsmGameMaganer?.menu.onEnterMenuUnityEvent;
+
+    public static UnityEvent onExitMenuUnityEvent => instance?.fsmGameMaganer?.menu.onExitMenuUnityEvent;
+
     public static Queue<System.Action> eventQueueGamePlay = new Queue<System.Action>();
 
     public static Queue<System.Action> eventQueueLoad = new Queue<System.Action>();
