@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FSMCharacterAndStates;
+using UnityEngine.EventSystems;
+using System;
 
 [RequireComponent(typeof(CasterEntityComponent))]
 [RequireComponent(typeof(AimingEntityComponent))]
@@ -32,7 +34,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     /// Boton movimiento
     /// </summary>
     public EventControllerMediator moveEventMediator = new EventControllerMediator();
-    
+
     IState<Character> _ia;
 
     FSMCharacter fsmCharacter;
@@ -58,9 +60,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public int actualCombo { get; private set; } = -2;
 
     [SerializeField]
-    int nextCombo=-1;
+    int nextCombo = -1;
     [SerializeField]
-    float deltaTimeCombo=0.3f;
+    float deltaTimeCombo = 0.3f;
 
     float timeComboSet;
 
@@ -69,7 +71,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     [SerializeField]
     bool iaOn = true;
-    
+
 
     /// <summary>
     /// estado de la IA actual
@@ -137,6 +139,22 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
+    // public void ExecuteGeneralAbility<T>(int index, Func<int, T> OnGetEquipped, EventControllerMediator eventMediator, Action<T> updateState) where T : class
+    // {
+    //     if (index != 0)
+    //         index += 1;
+
+    //     T action = OnGetEquipped(index);
+
+    //     if (castingActionCharacter.stateWithEnd == action) return;
+
+    //     castingActionCharacter.OnEnter += () => eventMediator += caster.abilityControllerMediator;
+    //     castingActionCharacter.OnExit += () => eventMediator -= caster.abilityControllerMediator;
+
+    //     castingActionCharacter.stateWithEnd = (IStateWithEnd<CasterEntityComponent>)action;
+    //     updateState(action);
+    // }
+
 
     public void Attack(int i)
     {
@@ -154,7 +172,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         if (castingActionCharacter.stateWithEnd == weaponKata)
             return;
 
-        castingActionCharacter.OnEnter+= () => attackEventMediator += caster.abilityControllerMediator;
+        castingActionCharacter.OnEnter += () => attackEventMediator += caster.abilityControllerMediator;
         castingActionCharacter.OnExit += () => attackEventMediator -= caster.abilityControllerMediator;
 
         castingActionCharacter.stateWithEnd = weaponKata;
@@ -162,6 +180,11 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         Action = castingActionCharacter;
 
         actualCombo = -1;
+
+        // ExecuteGeneralAbility(i, index => index == 0 ? caster.actualWeapon : caster.katas.Actual(index - 1).equiped,
+        // attackEventMediator, a => Action = castingActionCharacter);
+
+        // actualCombo = -1;
     }
 
     public void Ability(int i)
@@ -184,6 +207,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         castingActionCharacter.stateWithEnd = weaponKata;
 
         Action = castingActionCharacter;
+
+        // ExecuteGeneralAbility(i, i => i != 0 ? caster.abilities.Actual(i + 1).equiped, abilityEventMediator,
+        //  a => Action = castingActionCharacter);
 
     }
 
@@ -304,7 +330,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     void MyAwake()
     {
-        actualCombo  = -2;
+        actualCombo = -2;
 
         _ia = GetComponent<IState<Character>>();
 
@@ -323,7 +349,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
         stunBar.InitStunBar(this);
 
-        MyUpdates += fsmCharacter.UpdateState;       
+        MyUpdates += fsmCharacter.UpdateState;
     }
 }
 
@@ -369,7 +395,7 @@ public class StunBar
 
         CurrentDefense -= damage;
 
-        //Debug.Log($"Daño: {damage} queda: {CurrentDefense}");
+        //Debug.Log($"Daï¿½o: {damage} queda: {CurrentDefense}");
 
         regenTim.Stop();
 
@@ -389,7 +415,7 @@ public class StunBar
     {
         if (dmg.typeInstance.target == DamageTypes.Target.defense)
         {
-            //Debug.Log("Se daño la defensa de: " + gameObject.name);
+            //Debug.Log("Se daï¿½o la defensa de: " + gameObject.name);
             ReceiveStunDamage(dmg.amount);
         }
     }
@@ -476,7 +502,7 @@ namespace FSMCharacterAndStates
             get => _stateWithEnd;
             set
             {
-                if (_stateWithEnd!=null)
+                if (_stateWithEnd != null)
                 {
                     //Debug.Log($"ExitAction: {_stateWithEnd.GetType().Name}-------------------------------------------------------------------");
 
@@ -599,19 +625,20 @@ namespace FSMCharacterAndStates
             {
                 //_OnEnter = _OnEnter.AddUniqueExecution(value);
 
-                System.Action action = null;
+                // System.Action action = null;
 
-                action = () =>
-                {
-                    value();
-                    //_OnEnter -= value;
-                    _OnEnter -= action;
-                };
+                // action = () =>
+                // {
+                //     value();
+                //     //_OnEnter -= value;
+                //     //_OnEnter -= action;
+                // };
 
-                _OnEnter += action;
+                _OnEnter += value;
             }
             remove
             {
+                _OnEnter -= value;
             }
         }
 
@@ -619,19 +646,20 @@ namespace FSMCharacterAndStates
         {
             add
             {
-                System.Action action = null;
+                // System.Action action = null;
 
-                action = () =>
-                {
-                    value();
-                    //_OnExit -= value;
-                    _OnExit -= action;
-                };
+                // action = () =>
+                // {
+                //     value();
+                //     //_OnExit -= value;
+                //     _OnExit -= action;
+                // };
 
-                _OnExit += action;
+                _OnExit += value;
             }
             remove
             {
+                _OnExit -= value;
             }
         }
 
@@ -641,16 +669,14 @@ namespace FSMCharacterAndStates
 
             set
             {
-                if (param != null)
+                if (param != null && stateWithEnd != null)
                 {
                     stateWithEnd.OnExitState(param.context.caster);
-
                     _OnExit?.Invoke();
 
                     _stateWithEnd = value;
 
                     _OnEnter?.Invoke();
-
                     stateWithEnd?.OnEnterState(param.context.caster);
                 }
                 else
@@ -676,11 +702,11 @@ namespace FSMCharacterAndStates
         {
             _stateWithEnd?.OnExitState(param.context.caster);
 
+            _OnExit?.Invoke();
+
             this.param = null;
 
             _stateWithEnd = null;
-
-            _OnExit?.Invoke();
         }
     }
 
