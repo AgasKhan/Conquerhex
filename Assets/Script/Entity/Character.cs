@@ -618,48 +618,55 @@ namespace FSMCharacterAndStates
          */
 
         //public bool End => stateWithEnd == null ? true : false;
-
+        /// <summary>
+        /// Evento que se ejecuta al comenzar el casteo <br/>
+        /// No debe de ser utilizado para realizar transiciones
+        /// </summary>
         public event System.Action OnEnter
         {
             add
             {
                 //_OnEnter = _OnEnter.AddUniqueExecution(value);
 
-                // System.Action action = null;
+                System.Action action = null;
 
-                // action = () =>
-                // {
-                //     value();
-                //     //_OnEnter -= value;
-                //     //_OnEnter -= action;
-                // };
+                action = () =>
+                {
+                    value();
+                    //_OnEnter -= value;
+                    _OnEnter -= action;
+                };
 
-                _OnEnter += value;
+                _OnEnter += action;
             }
             remove
             {
-                _OnEnter -= value;
+                Debug.LogError("No podes desuscribirte manualmente de el evento de desuscripcion automatica");
             }
         }
 
+        /// <summary>
+        /// Evento que se ejecuta al finalizar el casteo <br/>
+        /// No debe de ser utilizado para realizar transiciones
+        /// </summary>
         public event System.Action OnExit
         {
             add
             {
-                // System.Action action = null;
+                System.Action action = null;
 
-                // action = () =>
-                // {
-                //     value();
-                //     //_OnExit -= value;
-                //     _OnExit -= action;
-                // };
+                action = () =>
+                {
+                    value();
+                    //_OnExit -= value;
+                    _OnExit -= action;
+                };
 
-                _OnExit += value;
+                _OnExit += action;
             }
             remove
             {
-                _OnExit -= value;
+                Debug.LogError("No podes desuscribirte manualmente de el evento de desuscripcion automatica");
             }
         }
 
@@ -669,7 +676,7 @@ namespace FSMCharacterAndStates
 
             set
             {
-                if (param != null && stateWithEnd != null)
+                if (param != null)
                 {
                     stateWithEnd.OnExitState(param.context.caster);
                     _OnExit?.Invoke();

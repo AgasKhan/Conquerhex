@@ -58,25 +58,27 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
         if (relation.ContainsKey(arg1))//si ya habia configurado algo en ese slot
         {
+            //quiero quitar el viejo
             previus = relation[arg1];
 
-            if (model.Equals(previus))
-                return;
-
-            //quiero quitar el viejo
-
-            var previusRef = equipedsWeapon[previus.name];
-
-            previusRef.cantidad--; //reduzco su cantidad
-
-            if (previusRef.cantidad <= 0)//si ya no tengo mas, quiero quitarlo
+            if (previus != null)
             {
-                previus.Destroy();
-                equipedsWeapon.Remove(previus.name);
-            }
-            else
-            {
-                equipedsWeapon[previus.name] = previusRef;
+                if (previus.Equals(model))
+                    return;
+
+                var previusRef = equipedsWeapon[previus.name];
+
+                previusRef.cantidad--; //reduzco su cantidad
+
+                if (previusRef.cantidad <= 0)//si ya no tengo mas, quiero quitarlo
+                {
+                    previus.Destroy();
+                    equipedsWeapon.Remove(previus.name);
+                }
+                else
+                {
+                    equipedsWeapon[previus.name] = previusRef;
+                }
             }
         }
         else
