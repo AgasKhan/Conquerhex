@@ -9,7 +9,7 @@ public class RenderToCameraFeature : FullScreenPassRendererFeature
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        bool mainCamera = renderingData.cameraData.camera.CompareTag("MainCamera");
+        bool mainCamera = renderingData.cameraData.camera.gameObject.layer == 16;
 
         if ((MainCamera && mainCamera) || ( !mainCamera && !MainCamera))
             base.AddRenderPasses(renderer, ref renderingData);

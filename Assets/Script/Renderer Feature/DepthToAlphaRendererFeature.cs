@@ -8,24 +8,13 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
     [System.Serializable]
     public class Settings
     {
-        public LayerMask targetLayer = 1; // Puedes ajustar el valor predeterminado según tus necesidades
-        public RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingSkybox;
-        public Material materialBlitter;
-        public int pass;
-        public Material materialCombined;
-
-        public int width = 1920, height = 1080;
-
-        [HideInInspector]
-        public Pictionarys<string, Data> cameraToRender = new Pictionarys<string, Data>();
-
         [System.Serializable]
         public class Data
         {
             public string name;
 
             public RTHandle rtTarget;
-            
+
             /// <summary>
             /// destinado a donde va a ser copiada la textura procesada de las camaras
             /// </summary>
@@ -40,7 +29,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
 
             public void Configure(Settings settings, RenderTextureDescriptor desc, Material updateRef)
             {
-                if(target!=null)
+                if (target != null)
                 {
                     // Verifica si el tamaño actual es diferente al nuevo tamaño
                     if (settings.width != target.width || settings.height != target.height)
@@ -55,7 +44,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
 
                         target.Create();
 
-                        Debug.Log(settings.width + " "+ target.width  + "-" + settings.height + " " + target.height);
+                        Debug.Log(settings.width + " " + target.width + "-" + settings.height + " " + target.height);
                     }
                 }
                 else
@@ -75,6 +64,23 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
                 this.name = name;
             }
         }
+
+        [Header("Camera to texture")]
+        [Tooltip("Target layer pj")]
+        public LayerMask targetLayer = 1; // Puedes ajustar el valor predeterminado según tus necesidades
+        [Tooltip("Render texture to ui Player")]
+        public RenderTexture renderTexturePlayer;
+
+        [Header("Depth to alpha")]
+        public RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingSkybox;
+        public Material materialBlitter;
+        public int pass;
+        public Material materialCombined;
+
+        public int width = 1920, height = 1080;
+
+        [HideInInspector]
+        public Pictionarys<string, Data> cameraToRender = new Pictionarys<string, Data>();
     }
     class CustomRenderPass : ScriptableRenderPass
     {
@@ -157,6 +163,25 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
                 
                 cmd.Blit(null, data.rtTarget, settings.materialBlitter, settings.pass);
             }
+
+            context.ExecuteCommandBuffer(cmd);
+
+
+            cmd.Clear();
+
+            if (!renderingData.cameraData.camera.gameObject.CompareTag("MainCamera") || settings.renderTexturePlayer==null)
+                return;
+
+            cmd.SetRenderTarget(settings.renderTexturePlayer);
+            cmd.ClearRenderTarget(true, true, Color.clear);
+            context.ExecuteCommandBuffer(cmd);
+            cmd.Clear();
+
+            DrawingSettings drawingSettings = CreateDrawingSettings(new ShaderTagId("UniversalForward"), ref renderingData, SortingCriteria.CommonOpaque);
+            FilteringSettings filteringSettings = new(RenderQueueRange.all, settings.targetLayer);
+
+
+            context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
 
             context.ExecuteCommandBuffer(cmd);
 

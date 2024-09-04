@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,8 +20,8 @@ public class IAIO : IAFather
     [SerializeField]
     UnityEvent effectBackToBaseEnd;
 
-    [Header("Player sets"),SerializeField]
-    string playerTag="Player";
+    [Header("Player sets"), SerializeField]
+    string playerTag = "Player";
     string originalTag;
 
     [SerializeField]
@@ -31,7 +31,7 @@ public class IAIO : IAFather
     [SerializeField]
     Controllers.TriggerAxis cameraTrigger;
 
-    string[] comboRapido = new string[] { "↑↑","→→", "←←" , "↓↓" };
+    string[] comboRapido = new string[] { "↑↑", "→→", "←←", "↓↓" };
 
     char[] womboCOMBO = new char[] { '↑', '→', '←', '↓' };
 
@@ -42,7 +42,7 @@ public class IAIO : IAFather
     InteractEntityComponent lastInteractuable;
 
     DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)> interactEvent;
-    
+
     TripleEvent<(float, float, float), float, float> energyEvent;
 
     SingleEvent<Character> characterEvent;
@@ -59,7 +59,7 @@ public class IAIO : IAFather
 
     EventControllerMediator inventoryEventMediator;
 
-    
+
     public override void OnStayState(Character param)
     {
         base.OnStayState(param);
@@ -330,7 +330,7 @@ public class IAIO : IAFather
         });
     }
 
-  
+
 
     void SuscribeUI()
     {
@@ -417,13 +417,13 @@ public class IAIO : IAFather
             }
         }
     }
- 
+
     private void AttackComboEventMediator_eventDown(Vector2 arg1, float arg2)
     {
         if (character.actualCombo == -2)
             return;
 
-        int number=-1;
+        int number = -1;
 
         if (lastCombo.IsEmpty())
         {
@@ -434,7 +434,7 @@ public class IAIO : IAFather
             {
                 if (lastCombo[^1] == womboCOMBO[i])
                 {
-                    number=(i + 1 + womboIndex*5);
+                    number = (i + 1 + womboIndex * 5);
                     break;
                 }
             }
@@ -449,7 +449,7 @@ public class IAIO : IAFather
 
         if (character.actualCombo >= 5 && character.actualCombo < 10)
             number += 10;
-        else if(character.actualCombo >= 0)
+        else if (character.actualCombo >= 0)
             number += 5;
 
         character.aiming.AimingToObjective2D = arg1;
@@ -474,7 +474,7 @@ public class IAIO : IAFather
             }
         }
 
-        if(character.actualCombo==-2)
+        if (character.actualCombo == -2)
             character.Attack(0);
     }
 
@@ -563,7 +563,7 @@ public class IAIO : IAFather
         {
             for (int i = 0; i < obj.ladosArray.Length; i++)
             {
-                if(obj.ladosArray[i].id == HexagonsManager.idMaxLevel)
+                if (obj.ladosArray[i].id == HexagonsManager.idMaxLevel)
                 {
                     UI.Interfaz.instance?["Titulo secundario"].ShowMsg("Fortaleza cercana en los alrededores");
                 }
@@ -576,7 +576,7 @@ public class IAIO : IAFather
         healthEvent.delegato?.Invoke(obj);
     }
 
-    private void EnergyUpdate((float,float,float) obj)
+    private void EnergyUpdate((float, float, float) obj)
     {
         energyEvent.delegato?.Invoke(obj);
     }
@@ -593,7 +593,7 @@ public class IAIO : IAFather
 
     private void OnCharacterSelected(Character chara)
     {
-        if(character!=null)
+        if (character != null)
             character.CurrentState = character.GetComponent<IAFather>();
 
         chara.CurrentState = this;
@@ -618,7 +618,7 @@ public class IAIO : IAFather
     }
 
     private void Awake()
-    { 
+    {
         comboReset = TimersManager.Create(0.5f, () => lastCombo = string.Empty);
         characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
@@ -654,8 +654,8 @@ public class IAIO : IAFather
         {
             characterEvent.delegato += OnCharacterSelected;
             //VirtualControllers.Principal.eventDown += NoCharacterSelected;
-            NoCharacterSelected(Vector2.zero , 0);
-        },100);
+            NoCharacterSelected(Vector2.zero, 0);
+        }, 100);
     }
 }
 
