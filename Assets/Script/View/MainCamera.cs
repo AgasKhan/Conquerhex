@@ -9,7 +9,7 @@ public class MainCamera : SingletonMono<MainCamera>
     public class MapTransform
     {
         public Camera[] cameras = new Camera[6];
-       
+
         public int RealLength => cameras.Length;
 
         public int Length => RealLength - offsetIndex;
@@ -28,7 +28,7 @@ public class MainCamera : SingletonMono<MainCamera>
         {
             get
             {
-                return cameras[index+ offsetIndex].transform;
+                return cameras[index + offsetIndex].transform;
             }
         }
     }
@@ -40,11 +40,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public Vector3 rotationEulerPerspective;
 
-        public Vector3 offsetObjPosition ; 
+        public Vector3 offsetObjPosition;
 
-        public Quaternion rotationPerspective ; 
+        public Quaternion rotationPerspective;
 
-        public Vector3 vectorPerspective ; 
+        public Vector3 vectorPerspective;
 
         [SerializeField]
         float velocityTransition = 1;
@@ -162,11 +162,11 @@ public class MainCamera : SingletonMono<MainCamera>
             if (character.aiming.mode != AimingEntityComponent.Mode.perspective)
             {
                 return RotationCamera();
-            }          
+            }
 
             //Debug.DrawRay(ray.origin,ray.direction, Color.red);
-               
-            if(hitInfo.transform!=null)
+
+            if (hitInfo.transform != null)
             {
                 Vector3 aux = hitInfo.point - character.transform.position;
 
@@ -181,6 +181,7 @@ public class MainCamera : SingletonMono<MainCamera>
                 return Quaternion.AngleAxis(-angleY, Vector3.forward);
             }
 
+            character.aiming.ObjectivePosition = (rotationPerspective * Vector3.forward * 100) + CameraPosition;
 
             return RotationCamera();
         }
@@ -345,7 +346,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
     void ShakeStart(Health health)
     {
-        shake.Execute(1 - (health.actualLife/health.maxLife));
+        shake.Execute(1 - (health.actualLife / health.maxLife));
     }
 
     private void Shake_position(Vector3 obj)
@@ -364,7 +365,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         _points2 = new Vector3[pointsInScreen.Length];
 
-       
+
         for (int i = -2; i < rendersOverlay.Length; i++)
         {
             rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
@@ -384,7 +385,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
             _points2[i] = ray.GetPoint(distance) - main.transform.position;
         }
-   
+
     }
 
     private void OnValidate()
@@ -411,7 +412,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += tracker.OnCharacterSelected;
 
-        pointsInWorld = new Vector3[rendersOverlay.cameras.Length];       
+        pointsInWorld = new Vector3[rendersOverlay.cameras.Length];
 
         LoadSystem.AddPostLoadCorutine(() =>
         {
@@ -443,7 +444,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
             rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
 
-            rendersOverlay.cameras[i+2].fieldOfView = tracker.Fov;
+            rendersOverlay.cameras[i + 2].fieldOfView = tracker.Fov;
         }
 
         for (int i = 0; i < pointsInScreen.Length; i++)
@@ -484,7 +485,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = 0; i < rendersOverlay.cameras.Length; i++)
         {
-            pointsInWorld[i] = rendersOverlay.cameras[i].ViewportToWorldPoint(new Vector3(0.5f,0.5f,1));
+            pointsInWorld[i] = rendersOverlay.cameras[i].ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1));
 
             Ray ray = new Ray(rendersOverlay.cameras[i].transform.position, pointsInWorld[i] - rendersOverlay.cameras[i].transform.position);
 
