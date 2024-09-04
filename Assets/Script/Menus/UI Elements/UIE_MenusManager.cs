@@ -7,6 +7,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
 {
     public string EquipItemMenu = "EquipItem_UIDoc";
     public string EquipmentMenu = "Equipment_UIDoc";
+    public string CombosMenu = "Combos_UIDoc";
 
     public Pictionarys<string, UIE_BaseMenu> menuList = new Pictionarys<string, UIE_BaseMenu>();
 

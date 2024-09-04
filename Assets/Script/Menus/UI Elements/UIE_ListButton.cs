@@ -14,6 +14,7 @@ public class UIE_ListButton : VisualElement
     private Label specialityItem => this.Q<Label>("SpecialityText");
     private Label changeLabel => this.Q<Label>("ChangeButton");
     private VisualElement changeButton => this.Q<VisualElement>("ChangeButton");
+    private VisualElement buttonContainer => this.Q<VisualElement>("buttonContainer");
 
     System.Action<ClickEvent> mainAction;
     System.Action<ClickEvent> changeAction;
@@ -64,6 +65,22 @@ public class UIE_ListButton : VisualElement
     void changeEvent(ClickEvent clEvent)
     {
         changeAction?.Invoke(clEvent);
+    }
+
+    public void InitOnlyName(Texture2D _itemImage, string _itemName, System.Action<ClickEvent> _mainAction)
+    {
+        VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
+        asset.CloneTree(this);
+
+        typeItem.AddToClassList("displayHidden");
+        specialityItem.AddToClassList("displayHidden");
+        buttonContainer.AddToClassList("displayHidden");
+
+        itemImage.style.backgroundImage = new StyleBackground(_itemImage);
+        itemName.text = _itemName;
+
+        mainAction = _mainAction;
+        SetMainButtonAct();
     }
 
     public UIE_ListButton() { }

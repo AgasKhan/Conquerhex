@@ -1,0 +1,86 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ComboButton" src="project://database/Assets/Resources/UI%20Toolkit/ComboButton.uxml?fileID=9197481963319205126&amp;guid=b3e6c95533b356245a8e876fdf1d6fb9&amp;type=3#ComboButton" />
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
+    <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/HUD/fonditoMenu.png?fileID=2800000&amp;guid=b6f0377ebb4eb8843a41b5cacd86a1fc&amp;type=3#fonditoMenu&quot;); -unity-background-image-tint-color: rgba(240, 255, 0, 0.14); background-color: rgb(67, 58, 57);">
+        <ui:VisualElement name="NavBar" style="flex-grow: 0; height: 120px; padding-top: 20px; padding-bottom: 20px;">
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/linea.png?fileID=21300000&amp;guid=1f077dab981f5e844a06a9a5fcc698b0&amp;type=3#linea&quot;); -unity-background-image-tint-color: rgb(0, 0, 0); flex-direction: row; padding-left: 105px; padding-right: 105px;">
+                <ui:Button text="EQUIPAMIENTO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipmentButton" class="NavBarButtonStyle" />
+                <ui:Button text="COMBOS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NavBarButton" class="NavBarButtonStyle" style="color: rgb(212, 171, 141);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="CombosAndCharacter" style="flex-grow: 0; height: 60%;">
+            <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; width: 100%; height: 100%; flex-direction: row;">
+                <ui:VisualElement style="flex-grow: 0; width: 75%;">
+                    <ui:VisualElement class="horizontalContainer" style="flex-grow: 0; flex-shrink: 0; height: 15%; width: 85%; position: absolute; top: 110px; right: 0;">
+                        <ui:VisualElement style="flex-grow: 0; width: 80px; height: 80px; flex-shrink: 0; align-self: center; background-color: rgb(135, 112, 107); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(21, 20, 20); border-right-color: rgb(21, 20, 20); border-top-color: rgb(21, 20, 20); border-bottom-color: rgb(21, 20, 20);" />
+                        <ui:VisualElement style="flex-grow: 0; width: 80px; height: 80px; flex-shrink: 0; align-self: center; background-color: rgb(135, 112, 107); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(21, 20, 20); border-right-color: rgb(21, 20, 20); border-top-color: rgb(21, 20, 20); border-bottom-color: rgb(21, 20, 20);" />
+                        <ui:VisualElement style="flex-grow: 0; width: 80px; height: 80px; flex-shrink: 0; align-self: center; background-color: rgb(135, 112, 107); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(21, 20, 20); border-right-color: rgb(21, 20, 20); border-top-color: rgb(21, 20, 20); border-bottom-color: rgb(21, 20, 20);" />
+                        <ui:VisualElement style="flex-grow: 0; width: 80px; height: 80px; flex-shrink: 0; align-self: center; background-color: rgb(135, 112, 107); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(21, 20, 20); border-right-color: rgb(21, 20, 20); border-top-color: rgb(21, 20, 20); border-bottom-color: rgb(21, 20, 20);" />
+                        <ui:VisualElement style="flex-grow: 0; width: 80px; height: 80px; flex-shrink: 0; align-self: center; background-color: rgb(135, 112, 107); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(21, 20, 20); border-right-color: rgb(21, 20, 20); border-top-color: rgb(21, 20, 20); border-bottom-color: rgb(21, 20, 20);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="verticalContainer" style="flex-grow: 0; flex-shrink: 0; width: 15%; height: 68%; position: absolute; bottom: 0; left: 0;">
+                        <ui:VisualElement class="comboIndicator">
+                            <ui:Label tabindex="-1" text="Primer Combo" parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotTextStyle" style="align-self: center; justify-content: center; align-items: center; font-size: 20px; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); text-shadow: 0 0 43.2px rgb(0, 0, 0);" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="comboIndicator">
+                            <ui:Label tabindex="-1" text="Segundo Combo" parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotTextStyle" style="align-self: center; justify-content: center; align-items: center; font-size: 20px; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); text-shadow: 0 0 43.2px rgb(0, 0, 0);" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="comboIndicator">
+                            <ui:Label tabindex="-1" text="Tercer Combo" parse-escape-sequences="true" display-tooltip-when-elided="true" class="slotTextStyle" style="align-self: center; justify-content: center; align-items: center; font-size: 20px; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); text-shadow: 0 0 43.2px rgb(0, 0, 0);" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="comboButtons" class="horizontalContainer" style="flex-grow: 0; flex-shrink: 0; width: 85%; height: 68%; position: absolute; bottom: 0; right: 0; justify-content: space-between; align-items: center; align-self: center; flex-wrap: wrap; flex-direction: row;">
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                        <ui:Instance template="ComboButton" name="ComboButton" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 0; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px; width: 25%; flex-shrink: 0; height: 100%; position: absolute; right: 0; top: 80px;">
+                    <ui:VisualElement style="flex-grow: 1; -unity-background-scale-mode: scale-and-crop; background-image: url(&quot;project://database/Assets/Urp/renders%20textures/RENUI.renderTexture?fileID=8400000&amp;guid=7a36e601a38520f408b2028f6c848669&amp;type=2#RENUI&quot;); scale: 1 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="detailsWindow" class="padding20 opacityHidden" style="flex-grow: 1; width: 75%; transition-duration: 0.3s; transition-timing-function: ease; transition-delay: 0;">
+            <ui:VisualElement class="padding20" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; height: 50%;">
+                <ui:VisualElement name="itemImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/Default%20Weapon.png?fileID=21300000&amp;guid=fe126f528f2475c45acba7da868df363&amp;type=3#Default Weapon&quot;); width: 70px; height: 70px; flex-shrink: 0; justify-content: center; align-self: center; margin-right: 15px;" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="itemName" class="detailsTitle" style="justify-content: center; align-self: center; font-size: 35px;" />
+            </ui:VisualElement>
+            <ui:VisualElement class="padding20" style="flex-grow: 1; flex-direction: row; transition-duration: 0.5s;">
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="itemDescription" class="detailsContent" style="width: 50%; font-size: 14px; text-overflow: ellipsis; white-space: normal; overflow: hidden;" />
+                <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="itemDetails" class="detailsContent" style="width: 50%; font-size: 20px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; flex-shrink: 0; width: 220px; display: none;">
+        <ui:VisualElement name="ListItemButton">
+            <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
+            <ui:VisualElement name="MainButton" class="horizontalContainer ListItemButton" style="justify-content: flex-start; height: 32px;">
+                <ui:VisualElement class="horizontalContainer" style="flex-grow: 1; width: 25%; padding-left: 5px;">
+                    <ui:VisualElement name="ItemImage" style="flex-grow: 0; flex-shrink: 0; width: 20px; height: 20px; background-image: url(&quot;project://database/Assets/Sprites/Weapons-Tools/Full%20Sheet%201.png?fileID=1578609456&amp;guid=17d90ad2b19afdb409c147bd3ff6fd9b&amp;type=3#Full Sheet 1_0&quot;); align-self: center;" />
+                    <ui:Label tabindex="-1" text="Dash concatenado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemName" class="listItemText" style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="MainButton" class="horizontalContainer ListItemButton" style="justify-content: flex-start; height: 32px;">
+                <ui:VisualElement class="horizontalContainer" style="flex-grow: 1; width: 25%; padding-left: 5px;">
+                    <ui:VisualElement name="ItemImage" style="flex-grow: 0; flex-shrink: 0; width: 20px; height: 20px; background-image: url(&quot;project://database/Assets/Sprites/Weapons-Tools/Full%20Sheet%201.png?fileID=1578609456&amp;guid=17d90ad2b19afdb409c147bd3ff6fd9b&amp;type=3#Full Sheet 1_0&quot;); align-self: center;" />
+                    <ui:Label tabindex="-1" text="Dash concatenado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemName" class="listItemText" style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Button text="Cerrar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="closeButton" class="closeButton" />
+    <ui:VisualElement name="noClickPanel" class="displayHidden" style="flex-grow: 1; position: absolute; flex-shrink: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2);" />
+    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="listItems" class="popUpList" style="position: absolute;" />
+</ui:UXML>

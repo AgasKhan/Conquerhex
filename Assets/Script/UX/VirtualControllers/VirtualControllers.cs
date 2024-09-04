@@ -85,6 +85,22 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     bool _eneable;
 
+    public void DisableExceptTab()
+    {
+        foreach (var item in keys)
+        {
+            if (item != _inventory)
+                item.enable = false;
+        }
+    }
+    public void EnableAll()
+    {
+        foreach (var item in keys)
+        {
+            item.enable = true;
+        }
+    }
+
     #region unity functions
 
     public void MyUpdate()
