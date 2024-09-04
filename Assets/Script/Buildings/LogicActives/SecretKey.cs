@@ -118,7 +118,14 @@ public class SecretKey : MonoBehaviour
         {
             GameManager.instance.Load("MainMenu");
         }
-        
+
+        if (SceneManager.GetActiveScene().name != "MainMenu" && UIE_MenusManager.instance != null && Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (!UIE_MenusManager.instance.isInMenu)
+                UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+            else
+                UIE_MenusManager.instance.TriggerOnClose();
+        }
 
     }
 

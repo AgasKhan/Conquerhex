@@ -477,8 +477,8 @@ MonoBehaviour:
           m_Calls:
           - m_Target: {fileID: 11400000, guid: 79d7085e7b1db054d9cefc9718c0011e, type: 2}
             m_TargetAssemblyTypeName: VirtualControllers, Assembly-CSharp
-            m_MethodName: EnableAll
-            m_Mode: 1
+            m_MethodName: set_eneable
+            m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -492,8 +492,8 @@ MonoBehaviour:
           m_Calls:
           - m_Target: {fileID: 11400000, guid: 79d7085e7b1db054d9cefc9718c0011e, type: 2}
             m_TargetAssemblyTypeName: VirtualControllers, Assembly-CSharp
-            m_MethodName: DisableExceptTab
-            m_Mode: 1
+            m_MethodName: set_eneable
+            m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
