@@ -172,12 +172,13 @@ namespace Controllers
         [SerializeField]
         protected Vector2 dir;
 
+        /*
         [SerializeField, Tooltip("En caso de estar activo, se agregara a la lista de los triggers a detectar, en caso que no, no se ejecutara de forma automatica")]
         bool active = true;
-
+        */
         protected virtual void OnEnable()
         {
-            if(active)
+            //if(active)
                 VirtualControllers.triggers.Add(this);
         }
 

@@ -101,9 +101,9 @@ public class GameManager : SingletonMono<GameManager>
     #region carga
     public void Load(string scn)
     {
-        StartCoroutine(loadSystem.ExitCoroutine(scn, true));
-
         fsmGameMaganer.CurrentState = fsmGameMaganer.load;
+
+        StartCoroutine(loadSystem.ExitCoroutine(scn, true));
     }
 
     [CheatCommandsPrompt.Command(name: "Reload", description:"Te Re-Carga")]
