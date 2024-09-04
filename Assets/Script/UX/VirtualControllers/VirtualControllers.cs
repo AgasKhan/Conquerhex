@@ -89,9 +89,6 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     public void MyUpdate()
     {
-        if (!eneable)
-            return;
-
         foreach (var item in triggersArray)
         {
             item.Update();
