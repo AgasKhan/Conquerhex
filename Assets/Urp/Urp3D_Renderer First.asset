@@ -16,7 +16,9 @@ MonoBehaviour:
   settings:
     targetLayer:
       serializedVersion: 2
-      m_Bits: 8192
+      m_Bits: 32768
+    renderTexturePlayer: {fileID: 8400000, guid: 7a36e601a38520f408b2028f6c848669,
+      type: 2}
     renderPassEvent: 1000
     materialBlitter: {fileID: 2100000, guid: cf096d8b32535d346aa55ab3faa52d55, type: 2}
     pass: -1
@@ -119,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b81f67e4a45804d842133a7ef91889, type: 3}
   m_Name: RenderToTextureFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   layerToRender:
     serializedVersion: 2
     m_Bits: 32768

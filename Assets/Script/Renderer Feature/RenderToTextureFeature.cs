@@ -54,7 +54,7 @@ public class RenderToTextureFeature : ScriptableRendererFeature
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        if (renderingData.cameraData.camera.CompareTag("MainCamera")) return;
+        if (!renderingData.cameraData.camera.CompareTag("MainCamera")) return;
 
         renderer.EnqueuePass(renderToTexturePass);
     }
