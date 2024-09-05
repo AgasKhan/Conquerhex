@@ -173,6 +173,10 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
             cmd.SetRenderTarget(settings.renderTexturePlayer);
             cmd.ClearRenderTarget(true, true, Color.clear);
 
+            //Al final si era necesario
+            context.ExecuteCommandBuffer(cmd);
+            cmd.Clear();
+
             DrawingSettings drawingSettings = CreateDrawingSettings(new ShaderTagId("UniversalForward"), ref renderingData, SortingCriteria.CommonOpaque);
             FilteringSettings filteringSettings = new(RenderQueueRange.all, settings.targetLayer);
 
