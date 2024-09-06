@@ -9,20 +9,24 @@ namespace Controllers
     {
         [SerializeField]
         string button;
-
-        /*
-        [SerializeField, Tooltip("en caso de ser falso leera el axis ingresado\nen caso de ser verdadero utilizara la posicion del mouse")]
-        bool mouseOrMovement = true;
-        */
+        
+        [SerializeField, Tooltip("En caso de ser verdadero, leera el ultimo input registrado, en caso de ser falso leera el input del frame")]
+        bool LastOrFrameDirect = true;        
 
         [SerializeField]
         ButtonAxis movementDetect;
 
-        public override void Update()
+        protected override void InternalUpdate()
         {
             //UpdateAxis();
             if(movementDetect!=null)
-                dir = movementDetect.dir;
+            {
+                if(LastOrFrameDirect)
+                    dir = movementDetect.LastDir;
+                else
+                    dir = movementDetect.FrameDir;
+            }
+                
 
             if (Input.GetButtonDown(button))
             {

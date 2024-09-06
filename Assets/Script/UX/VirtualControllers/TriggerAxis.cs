@@ -68,7 +68,7 @@ namespace Controllers
 
 
         // Update is called once per frame
-        public override void Update()
+        protected override void InternalUpdate()
         {
             if (vecPressed.sqrMagnitude > 0 && !press)
             {

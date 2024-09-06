@@ -29,7 +29,9 @@ public class IAIO : IAFather
     LayerMask originalLayerMask;
 
     [SerializeField]
-    Controllers.TriggerAxis cameraTrigger;
+    Controllers.TriggerAxis cameraJoystickMouse;
+    [SerializeField]
+    Controllers.TriggerAxis cameraPositionMouse;
 
     string[] comboRapido = new string[] { "↑↑", "→→", "←←", "↓↓" };
 
@@ -193,6 +195,7 @@ public class IAIO : IAFather
         param.caster.energyUpdate -= EnergyUpdate;
         param.caster.leftEnergyUpdate -= LeftEnergyUpdate;
         param.caster.rightEnergyUpdate -= RightEnergyUpdate;
+        param.aiming.onMode -= Aiming_onMode;
         //param.onTakeDamage -= OnTakeDamage;
 
         attackEventMediator.eventDown -= AttackEventMediator_eventDown;
@@ -496,34 +499,54 @@ public class IAIO : IAFather
         character.Ability(0);
     }
 
+    private void PerspectiveConfigAndCameraBlockOEnter(Vector2 arg1, float arg2)
+    {
+        cameraJoystickMouse.enable = false;
+        cameraPositionMouse.enable = true;
+
+        Cursor.visible = false;
+
+        VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
+
+        VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
+
+        VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+    }
+
+    private void TopdownConfigAndCameraBlockOnExit(Vector2 arg1, float arg2)
+    {
+        cameraJoystickMouse.enable = true;
+        cameraPositionMouse.enable = false;
+
+        Cursor.visible = true;
+
+        VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
+
+        VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
+
+        VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+    }
+
     private void Aiming_onMode(AimingEntityComponent.Mode obj)
     {
+        VirtualControllers.CameraBlock.eventDown -= PerspectiveConfigAndCameraBlockOEnter;
+        VirtualControllers.CameraBlock.eventUp -= TopdownConfigAndCameraBlockOnExit;
+
         switch (obj)
         {
             case AimingEntityComponent.Mode.topdown:
 
-                cameraTrigger.mouseOverride = true;
-                Cursor.visible = true;
+                TopdownConfigAndCameraBlockOnExit(Vector2.zero, 0);
 
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+                VirtualControllers.CameraBlock.eventDown += PerspectiveConfigAndCameraBlockOEnter;
+                VirtualControllers.CameraBlock.eventUp += TopdownConfigAndCameraBlockOnExit;
 
                 break;
 
 
             case AimingEntityComponent.Mode.perspective:
 
-                cameraTrigger.mouseOverride = false;
-                Cursor.visible = false;
-
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+                PerspectiveConfigAndCameraBlockOEnter(Vector2.zero, 0);
 
                 break;
 
@@ -533,6 +556,8 @@ public class IAIO : IAFather
                 break;
         }
     }
+
+   
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {

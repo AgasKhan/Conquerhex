@@ -119,17 +119,39 @@ public class MainCamera : SingletonMono<MainCamera>
 
             this.character.dashEventMediator.quaternionOffset = RotationCamera;
 
-
             this.character.attackEventMediator.quaternionOffset = CameraAiming;
 
             this.character.abilityEventMediator.quaternionOffset = CameraAiming;
 
-
-            this.character.aimingEventMediator.eventPress += AimingEventMediatorEventPress;
+            
 
             this.character.aiming.onMode += Aiming_onMode;
 
             Aiming_onMode(this.character.aiming.mode);
+        }
+
+        private void CameraBlockPerspectiveDown(Vector2 arg1, float arg2)
+        {
+            if (!transitionsSet.Chck)
+                return;
+
+            if (toTrack != null)
+            {
+                toTrack = null;
+            }
+            else if (hitInfo.transform != null)
+            {
+                toTrack = hitInfo.transform;
+                offsetToTrack = hitInfo.point - hitInfo.transform.position;
+            }
+        }
+
+        private void CameraBlockTopDownStay(Vector2 arg1, float arg2)
+        {
+            if (!transitionsSet.Chck)
+                return;
+
+            rotationEulerPerspective.y += arg1.x;
         }
 
         private void Aiming_onMode(AimingEntityComponent.Mode obj)
@@ -139,22 +161,49 @@ public class MainCamera : SingletonMono<MainCamera>
             cameraSet = (int)obj;
 
             transitionsSet.Reset();
+
+            VirtualControllers.CameraBlock.eventPress -= CameraBlockTopDownStay;
+            VirtualControllers.CameraBlock.eventDown -= CameraBlockPerspectiveDown;
+            this.character.aimingEventMediator.eventPress -= AimingEventMediatorEventPress;
+
+            switch (obj)
+            {
+                case AimingEntityComponent.Mode.topdown:
+
+                    VirtualControllers.CameraBlock.eventPress += CameraBlockTopDownStay;
+
+                    break;
+
+
+                case AimingEntityComponent.Mode.perspective:
+
+                    VirtualControllers.CameraBlock.eventDown += CameraBlockPerspectiveDown;
+
+                    this.character.aimingEventMediator.eventPress += AimingEventMediatorEventPress;
+
+                    break;
+
+                case AimingEntityComponent.Mode.focus:
+
+                    break;
+
+                default:
+                    break;
+            }
         }
+
+       
 
         private void AimingEventMediatorEventPress(Vector2 arg1, float arg2)
         {
             if (!transitionsSet.Chck)
                 return;
 
-            if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
-            {
-                rotationEulerPerspective.x -= arg1.y;
+            rotationEulerPerspective.x -= arg1.y;
 
-                rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
-            }
+            rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
 
-            if (character.aiming.mode == AimingEntityComponent.Mode.perspective || Input.GetKey(KeyCode.LeftControl))
-                rotationEulerPerspective.y += arg1.x;
+            rotationEulerPerspective.y += arg1.x;
         }
 
         Quaternion RotationCamera()
@@ -213,24 +262,20 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
 
-                if (Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore))
-                {
-                    if (Input.GetKeyDown(KeyCode.LeftControl)) //seteo del trackeo
-                    {
-                        if (toTrack != null)
-                        {
-                            toTrack = null;
-                        }
-                        else
-                        {
-                            toTrack = hitInfo.transform;
-                            offsetToTrack = hitInfo.point - hitInfo.transform.position;
-                        }
-                    }
-                }
+                Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore);
 
                 if (toTrack != null)//trackeo
-                    rotationEulerPerspective = Quaternion.LookRotation(ToTrackPosition - CameraPosition).eulerAngles;
+                {
+                    if(hitInfo.distance>25)//distancia limite hardcodeada
+                    {
+                        toTrack = null;
+                    }
+                    else
+                    {
+                        rotationEulerPerspective = Quaternion.LookRotation(ToTrackPosition - CameraPosition).eulerAngles;
+                        rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 20);
+                    }
+                }
             }
 
             setRotationPerspective = Quaternion.Euler(rotationEulerPerspective);

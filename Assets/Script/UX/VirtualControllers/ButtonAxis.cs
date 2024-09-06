@@ -22,8 +22,25 @@ namespace Controllers
 
         public event Action<ButtonAxis> onSwitchGetDir;
 
-        [field: SerializeField]
-        public Vector2 dir { get; private set; }
+        public Vector2 LastDir { get=> _dir; }
+
+        public Vector2 FrameDir
+        {
+            get => _frameDir;
+            private set
+            {
+                _frameDir = value;
+                if(value != Vector2.zero)
+                {
+                    _dir = _frameDir;
+                }
+            }
+        }
+
+        Vector2 _frameDir;
+
+        Vector2 _dir;
+
 
         public override void Destroy()
         {
@@ -41,8 +58,11 @@ namespace Controllers
         {
             if (!enable || !VirtualControllers.eneable)
                 return;
+
             timePressed = 0;
-            //dir = param;
+
+            FrameDir = param;
+
             eventDown?.Invoke(param, timePressed);
         }
 
@@ -50,16 +70,21 @@ namespace Controllers
         {
             if (!enable || !VirtualControllers.eneable)
                 return;
+
             timePressed += Time.deltaTime;
-            dir = param;
+
+            FrameDir = param;
+
             eventPress?.Invoke(param, timePressed);
         }
 
         public void OnExitState(Vector2 param)
         {
             eventUp?.Invoke(param, timePressed);
+
             timePressed = 0;
-            //dir = Vector2.zero;
+
+            FrameDir = Vector2.zero;
         }
 
         public void SuscribeController(IControllerDir controllerDir)
