@@ -38,9 +38,13 @@ public class SecretKey : MonoBehaviour
 
     private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
     {
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+            return;
+
+
         MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-               .SetWindow("", "¿Seguro que deseas cerrar el juego?")
-               .AddButton("Si", Application.Quit)
+               .SetWindow("", "¿Deseas volver al menu principal?")
+               .AddButton("Si", ()=> GameManager.instance.Load("MainMenu"))
                .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
     }
 
