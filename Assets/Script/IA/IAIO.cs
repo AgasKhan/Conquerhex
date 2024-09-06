@@ -629,6 +629,10 @@ public class IAIO : IAFather
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
         healthEvent = eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all);
 
+        //Cursor Hardcodeado
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+
         energyEvent = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
 
         for (int i = 0; i < equipedEvents.Length; i++)

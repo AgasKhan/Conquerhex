@@ -46,6 +46,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public Vector3 vectorPerspective;
 
+        public float Dist = 5;
+
+        Vector3 lastPos;
+        Quaternion lastRot;
+
         [SerializeField]
         float velocityTransition = 1;
 
@@ -237,12 +242,25 @@ public class MainCamera : SingletonMono<MainCamera>
 
         void EnterMenu()
         {
+            lastPos = offsetObjPosition;
+            lastRot = rotationPerspective;
 
+            var p = obj.position + obj.forward * 10;
+            rotationEulerPerspective = new(4, Mathf.Atan2(p.x, p.z) * Mathf.Rad2Deg, 0);
+            rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         void ExitMenu()
         {
+            offsetObjPosition = lastPos;
+            rotationPerspective = lastRot;
+            rotationEulerPerspective = rotationPerspective.eulerAngles;
 
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
         }
 
         public void Init()
