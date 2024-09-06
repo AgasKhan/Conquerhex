@@ -123,7 +123,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
             this.character.abilityEventMediator.quaternionOffset = CameraAiming;
 
-            
+
 
             this.character.aiming.onMode += Aiming_onMode;
 
@@ -192,7 +192,7 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         }
 
-       
+
 
         private void AimingEventMediatorEventPress(Vector2 arg1, float arg2)
         {
@@ -266,7 +266,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 if (toTrack != null)//trackeo
                 {
-                    if(hitInfo.distance>25)//distancia limite hardcodeada
+                    if (hitInfo.distance > 25)//distancia limite hardcodeada
                     {
                         toTrack = null;
                     }
@@ -290,10 +290,10 @@ public class MainCamera : SingletonMono<MainCamera>
             lastVectorPers = vectorPerspective;
             lastRot = rotationPerspective;
             lastVectorObjOffset = offsetObjPosition;
-
-            var p = obj.position - (character.aiming.AimingToObjectiveXZ.normalized * Dist);
-            vectorPerspective = new(0, .85f, -3.7f);
+            
             offsetObjPosition = Vector3.zero;
+            var p = Position - (character.aiming.AimingToObjectiveXZ.normalized * Dist);
+            vectorPerspective = new(0, .85f, -3.7f);
             rotationEulerPerspective = new(4, Mathf.Atan2(p.x, p.z) * Mathf.Rad2Deg, 0);
             rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
 
