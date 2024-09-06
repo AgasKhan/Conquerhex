@@ -46,9 +46,9 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public Vector3 vectorPerspective;
 
-        public float Dist = 5;
+        public float Dist = 10;
 
-        Vector3 lastPos;
+        Vector3 lastVectorPers, lastVectorObjOffset;
         Quaternion lastRot;
 
         [SerializeField]
@@ -287,24 +287,25 @@ public class MainCamera : SingletonMono<MainCamera>
 
         void EnterMenu()
         {
-            lastPos = offsetObjPosition;
+            lastVectorPers = vectorPerspective;
             lastRot = rotationPerspective;
+            lastVectorObjOffset = offsetObjPosition;
 
-            var p = obj.position + obj.forward * 10;
+            var p = obj.position - (character.aiming.AimingToObjectiveXZ.normalized * Dist);
+            vectorPerspective = new(0, .85f, -3.7f);
+            offsetObjPosition = Vector3.zero;
             rotationEulerPerspective = new(4, Mathf.Atan2(p.x, p.z) * Mathf.Rad2Deg, 0);
             rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
 
-            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
 
         void ExitMenu()
         {
-            offsetObjPosition = lastPos;
+            vectorPerspective = lastVectorPers;
             rotationPerspective = lastRot;
+            offsetObjPosition = lastVectorObjOffset;
             rotationEulerPerspective = rotationPerspective.eulerAngles;
-
-            Cursor.lockState = CursorLockMode.Confined;
         }
 
         public void Init()
