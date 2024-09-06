@@ -25,12 +25,15 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     bool nieve = false;
     bool desierto = false;
 
+    public float damageGivenByExplosion = 25;
+
     [Header("Combat")]
     public DestructibleObjects dummy;
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
     public List<AbilityToEquip> abilitiesForPlayer = new List<AbilityToEquip>();
     bool weaponGive = false;
+    
 
     bool ability0 = false;
     bool ability1 = false;
@@ -99,7 +102,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void SpawnExplotion(Transform lever)
     {
-        Damage dmg = Damage.Create<DamageTypes.Perforation>(40);
+        Damage dmg = Damage.Create<DamageTypes.Perforation>(damageGivenByExplosion);
 
         player.TakeDamage(dmg);
 
