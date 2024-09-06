@@ -10479,17 +10479,17 @@ PrefabInstance:
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -24675,7 +24675,7 @@ PrefabInstance:
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: lenght
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -33987,6 +33987,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
@@ -48368,7 +48383,7 @@ PrefabInstance:
         type: 3}
       propertyPath: objects.pictionaries.Array.data[0].key
       value: 
-      objectReference: {fileID: 7826366853568280377, guid: 46f95a2b88150f04896a10c98b733e8c,
+      objectReference: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
     - target: {fileID: 4924985478151482378, guid: e710c0e659cce824ead55ccc34dbabf6,
         type: 3}
@@ -48442,9 +48457,8 @@ MonoBehaviour:
   allDialogs:
   - dialog: "Ahora necesitas aprender a defenderte, as\xED que practicar\xE1s con
       un mu\xF1eco de entrenamiento. \n\nAc\xE9rcate a la <color=#F6CB30>palanca
-      y acci\xF3nala</color> presionando la <color=#2899BC>tecla F</color> para que
-      aparezca el mu\xF1eco."
-    objective: -Interacciona con la palanca
+      y acci\xF3nala</color>."
+    objective: -Interacciona con la palanca presionando la <color=#2899BC>tecla F</color>.
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -48461,10 +48475,9 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
     timeToCallEvent: 0
-  - dialog: "Oops, era otra palanca. \nTen presente que gracias a las modificaciones
-      que te sometiste, tendr\xE1s la oportunidad de <color=green>regenerar tu salud</color>.\n\nPara
-      que puedas entenderlo hemos dise\xF1ado una UI que facilitar\xE1 tu compresi\xF3n.
-      Mientras tanto espera a regenerarte."
+  - dialog: "Oops, era otra palanca. \nPor suerte, ahora puedes probar el <color=green>regenerar
+      tu salud</color>.\n\nPara que puedas entenderlo hemos dise\xF1ado una UI que
+      facilitar\xE1 tu compresi\xF3n."
     objective: -Espera para que la salud se regenere
     logicActive:
       m_PersistentCalls:
@@ -48503,10 +48516,10 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 10
   - dialog: "Bien, ahora te dar\xE9 un arma, equ\xEDpatela para poder practicar la
-      mejor defensa que existe, un ataque frontal.\n\r\nPuedes revisar tu equipamiento
-      e inventario presionando la <color=#2899BC>tecla Tab</color>. Despu\xE9s vuelve
-      a hablar conmigo.\r"
-    objective: "-Equ\xEDpate el arma"
+      mejor defensa que existe, un ataque frontal.\n\nDespu\xE9s vuelve a hablar
+      conmigo.\r"
+    objective: "-Equ\xEDpate el arma presionando la <color=#2899BC>tecla Tab</color>
+      para abrir el inventario."
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -48535,10 +48548,9 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
     timeToCallEvent: 0
-  - dialog: "Ahora s\xED, encend\xED el mu\xF1eco de pruebas, as\xED que intenta
-      atacarlo con el <color=#2899BC>Click Izquierdo</color> para familiarizarte
-      con tu nueva arma. \r"
-    objective: -Ataca el objetivo
+  - dialog: "Ahora s\xED, encend\xED el mu\xF1eco de pruebas, intenta atacarlo para
+      familiarizarte con tu nueva arma. \r"
+    objective: -Ataca el objetivo con el <color=#2899BC>Click Izquierdo</color>.
     logicActive:
       m_PersistentCalls:
         m_Calls:
@@ -48579,11 +48591,9 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     timeToCallEvent: 1.2
-  - dialog: "Est\xE1s listo para usar tu brazal anti-entr\xF3pico, cortes\xEDa de
-      los \xC1ngeles. \xA1El cual te permitir\xE1 hacer cosas realmente incre\xEDbles!\n\nDepende
-      de donde est\xE9n equipadas, podr\xE1s usar distintas teclas para ejecutarlas.
-      Recuerda que podr\xE1s conseguir m\xE1s a lo largo de tu misi\xF3n. Prueba
-      combinarlos!"
+  - dialog: "Est\xE1s listo para usar tu brazal anti-entr\xF3pico para materializar
+      objetos.\n\nDepende de donde est\xE9n equipadas, podr\xE1s usar distintas acciones
+      para ejecutarlas. Prueba combinar armas."
     objective: "-Ejecuta <color=#F6CB30>Parry b\xE1sico</color> con ClickDer\n-Ejecuta
       <color=#F6CB30>Dash Simple</color> con LeftShift\n-Ejecuta <color=#F6CB30>Casteo
       de se\xF1ales</color> con \u2192\u2192 + ClickDer\n-Ejecuta <color=#F6CB30>Destruccion
@@ -48713,10 +48723,9 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 8
   - dialog: "Desde aqu\xED ya no te acompa\xF1ar\xE9 en tu aventura.\nHe abierto
-      las puertas para que explores la zona, simulando tu misi\xF3n real. Si te pierdes
-      podr\xE1s volver al inicio con la <color=#2899BC>tecla Y</color>\n\nRecuerda
-      que tu misi\xF3n es adentrate en zona enemigo y abatir los <color=#F6CB30>\xE1rboles
-      sangrantes</color>.. \n\n<align=\"center\"><i>Ten cuidado</i></align>\r"
+      las puertas para que explores la zona y termines el objetivo actual.\n\n\nSi
+      te pierdes podr\xE1s volver al inicio con la <color=#2899BC>tecla Y</color>.\n\n\n<align=\"center\"><i>Ten
+      cuidado</i></align>\r"
     objective: "-Busca el \xE1rbol para salir de la simulaci\xF3n. <align=\"center\"><size=75><sprite=\"NewBloodTree\"
       index=0></size></align>"
     logicActive:
@@ -48772,6 +48781,7 @@ MonoBehaviour:
   - {fileID: 0}
   firstHexagon: {fileID: 0}
   tpsCounter: 0
+  damageGivenByExplosion: 15
   dummy: {fileID: 65195433}
   attacksCounter: 0
   weaponForPlayer:
@@ -49423,17 +49433,17 @@ PrefabInstance:
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -56294,7 +56304,7 @@ PrefabInstance:
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: lenght
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -59820,7 +59830,7 @@ PrefabInstance:
     - target: {fileID: 71350857104891687, guid: c4e149bb0e8104b4a931b5a03002856c,
         type: 3}
       propertyPath: scale
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 71350857104891687, guid: c4e149bb0e8104b4a931b5a03002856c,
         type: 3}
@@ -67751,7 +67761,7 @@ PrefabInstance:
         type: 3}
       propertyPath: objects.pictionaries.Array.data[0].key
       value: 
-      objectReference: {fileID: 7826366853568280377, guid: 46f95a2b88150f04896a10c98b733e8c,
+      objectReference: {fileID: 8121943635083756471, guid: 3c2d187b078d73449886767f2e23b4cd,
         type: 3}
     - target: {fileID: 4924985478151482378, guid: e710c0e659cce824ead55ccc34dbabf6,
         type: 3}
@@ -74036,17 +74046,17 @@ PrefabInstance:
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 988257799917268728, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -88242,7 +88252,7 @@ PrefabInstance:
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: lenght
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
