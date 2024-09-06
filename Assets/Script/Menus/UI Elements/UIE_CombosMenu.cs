@@ -67,10 +67,16 @@ public class UIE_CombosMenu : UIE_Equipment
             comboButtonsList.Add(aux);
 
             int myIndex = i;
+            /*
+            if(character.caster.combos[myIndex].equiped is WeaponKata)
+                aux.SetKata(GetImage(character.caster.combos[myIndex]), 
+                    GetText(character.caster.combos[myIndex]), 
+                    () => GetAction(myIndex), 
+                    GetImage((WeaponKata)character.caster.combos[myIndex].equiped.),()=> );
+            else
+                aux.SetEquipOrAbility(GetImage(character.caster.combos[myIndex]), GetText(character.caster.combos[myIndex]), ()=> GetAction(myIndex));
 
-            aux.SetEquipOrAbility(GetImage(character.caster.combos[myIndex]), GetText(character.caster.combos[myIndex]), ()=> GetAction(myIndex));
-
-            comboButtons.Add(aux);
+            comboButtons.Add(aux);*/
         }
     }
 
@@ -160,6 +166,11 @@ public class UIE_CombosMenu : UIE_Equipment
         }
 
         return;
+    }
+
+    void GetWeaponAction()
+    {
+
     }
 
     void SetDetailsWindow(Sprite _sprite, string _title, string _description, string _details)

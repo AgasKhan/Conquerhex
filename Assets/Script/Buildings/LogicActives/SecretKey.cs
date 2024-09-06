@@ -38,17 +38,10 @@ public class SecretKey : MonoBehaviour
 
     private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
     {
-        if(submenuRef.activeSelf)
-        {
-            statisticsSubMenu.TriggerMyOnClose();
-        }
-        else
-        {
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-                .SetWindow("", "¿Seguro que deseas cerrar el juego?")
-                .AddButton("Si", Application.Quit)
-                .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
-        }
+        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+               .SetWindow("", "¿Seguro que deseas cerrar el juego?")
+               .AddButton("Si", Application.Quit)
+               .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
     }
 
     void Update()
@@ -115,6 +108,16 @@ public class SecretKey : MonoBehaviour
 
 
         if (SceneManager.GetActiveScene().name == "DummyPractice" && Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.instance.Load("MainMenu");
+        }
+
+        if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.O))
+        {
+            GameManager.instance.Load("Test_arte");
+        }
+
+        if (SceneManager.GetActiveScene().name == "Test_arte" && Input.GetKeyDown(KeyCode.O))
         {
             GameManager.instance.Load("MainMenu");
         }

@@ -35,7 +35,7 @@ public class UIE_CombosButton : VisualElement
         abilityButton.RegisterCallback<ClickEvent>(mainButtonEvent);
     }
 
-    public void SetKata(Sprite image, string text, UnityAction kataAction, UnityAction weaponAction)
+    public void SetKata(Sprite image, string text, UnityAction kataAction, Sprite weaponImage, UnityAction weaponAction)
     {
         kataCombo.RemoveFromClassList("displayHidden");
         kataImage.style.backgroundImage = new StyleBackground(image);
@@ -45,6 +45,8 @@ public class UIE_CombosButton : VisualElement
         auxAct = weaponAction;
 
         kataButton.RegisterCallback<ClickEvent>(mainButtonEvent);
+
+        weaponButton.style.backgroundImage = new StyleBackground(weaponImage);
         weaponButton.RegisterCallback<ClickEvent>(auxButtonEvent);
     }
 

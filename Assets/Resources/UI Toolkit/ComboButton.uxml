@@ -1,13 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
     <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-shrink: 0; width: 100%; height: 100%; min-width: 225px; min-height: 155px; justify-content: center; align-self: center; align-items: center;">
-        <ui:VisualElement name="equipOrAbilityCombo" style="flex-grow: 0; width: 100%; height: 100%; flex-shrink: 0; flex-direction: row; align-self: center; justify-content: center;">
+        <ui:VisualElement name="equipOrAbilityCombo" class="displayHidden" style="flex-grow: 0; width: 100%; height: 100%; flex-shrink: 0; flex-direction: row; align-self: center; justify-content: center;">
             <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="abilityButton" class="comboButton">
                 <ui:VisualElement name="abilityImage" style="flex-grow: 0; flex-shrink: 0; width: 40px; height: 40px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
                 <ui:Label tabindex="-1" text="Dash Concatenado Doble" parse-escape-sequences="true" display-tooltip-when-elided="true" name="abilityText" class="slotTextStyle" style="font-size: 14px; height: 40%; flex-grow: 0;" />
             </ui:Button>
         </ui:VisualElement>
-        <ui:VisualElement name="kataCombo" class="displayHidden" style="flex-grow: 0; width: 100%; height: 100%; flex-shrink: 0; flex-direction: column; align-self: center; justify-content: center;">
+        <ui:VisualElement name="kataCombo" style="flex-grow: 0; width: 100%; height: 100%; flex-shrink: 0; flex-direction: column; align-self: center; justify-content: center;">
             <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="kataButton" class="comboButtonStyle comboButton">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center; height: 60%;">
                     <ui:VisualElement name="kataImage" style="flex-grow: 0; flex-shrink: 0; width: 40px; height: 40px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;); align-self: center; margin-right: 20px;" />
