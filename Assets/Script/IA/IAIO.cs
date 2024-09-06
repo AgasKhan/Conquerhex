@@ -503,6 +503,7 @@ public class IAIO : IAFather
             case AimingEntityComponent.Mode.topdown:
 
                 cameraTrigger.mouseOverride = true;
+                Cursor.visible = true;
 
                 VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
 
@@ -516,6 +517,7 @@ public class IAIO : IAFather
             case AimingEntityComponent.Mode.perspective:
 
                 cameraTrigger.mouseOverride = false;
+                Cursor.visible = false;
 
                 VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
 
@@ -631,7 +633,6 @@ public class IAIO : IAFather
 
         //Cursor Hardcodeado
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
 
         energyEvent = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
 

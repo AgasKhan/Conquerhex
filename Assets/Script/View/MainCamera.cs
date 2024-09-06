@@ -260,7 +260,6 @@ public class MainCamera : SingletonMono<MainCamera>
             rotationEulerPerspective = rotationPerspective.eulerAngles;
 
             Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = false;
         }
 
         public void Init()
