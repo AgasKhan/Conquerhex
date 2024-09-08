@@ -8,6 +8,7 @@ public class UIE_CombosButton : VisualElement
     public new class UxmlFactory : UxmlFactory<UIE_CombosButton, UxmlTraits> { }
 
     public int index = -1;
+    public Ability interAbility = null;
 
     private VisualElement equipOrAbilityCombo => this.Q<VisualElement>("equipOrAbilityCombo");
     private VisualElement kataCombo => this.Q<VisualElement>("kataCombo");
@@ -24,10 +25,21 @@ public class UIE_CombosButton : VisualElement
 
     UnityAction mainAct;
     UnityAction auxAct;
-
+    void HideKata()
+    {
+        if(!kataCombo.ClassListContains("displayHidden"))
+            kataCombo.AddToClassList("displayHidden");
+    }
+    void HideAbility()
+    {
+        if (!equipOrAbilityCombo.ClassListContains("displayHidden"))
+            equipOrAbilityCombo.AddToClassList("displayHidden");
+    }
     public void SetEquipOrAbility(Sprite image, string text, UnityAction action)
     {
         equipOrAbilityCombo.RemoveFromClassList("displayHidden");
+        HideKata();
+
         abilityImage.style.backgroundImage = new StyleBackground(image);
         abilityText.text = text;
 
@@ -38,6 +50,8 @@ public class UIE_CombosButton : VisualElement
     public void SetKata(Sprite image, string text, UnityAction kataAction, Sprite weaponImage, UnityAction weaponAction)
     {
         kataCombo.RemoveFromClassList("displayHidden");
+        HideAbility();
+
         kataImage.style.backgroundImage = new StyleBackground(image);
         kataText.text = text;
 
@@ -50,10 +64,13 @@ public class UIE_CombosButton : VisualElement
         weaponButton.RegisterCallback<ClickEvent>(auxButtonEvent);
     }
 
-    public void Init()
+    public void Init(Ability _ability, int slotIndex)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ComboButton"];
         asset.CloneTree(this);
+
+        interAbility = _ability;
+        index = slotIndex;
     }
 
     void mainButtonEvent(ClickEvent clEvent)
