@@ -9,6 +9,8 @@ public class MatrizRenderFeature : ScriptableRendererFeature
     {
         Data data;
 
+        Vector3 deltaPosition;
+
         public MatrizDeCamaraPruebas(Data data)
         {
             this.data = data;
@@ -25,32 +27,45 @@ public class MatrizRenderFeature : ScriptableRendererFeature
             data._view = renderingData.cameraData.camera.worldToCameraMatrix;
             data._proj = renderingData.cameraData.camera.projectionMatrix;
 
-            Debug.Log(data._view);
-            Debug.Log(renderingData.cameraData.camera.cullingMatrix);
-            Debug.Log("///////////////////////////");
+
+
+            if (!renderingData.cameraData.camera.TryGetCullingParameters(out var originalCullingParams))
+            {
+                Debug.LogWarning("No se puedo obtener el cullingParameter");
+            }
+
+            //Debug.Log(data._view);
+            //Debug.Log(renderingData.cameraData.camera.cullingMatrix);
+            //Debug.Log("///////////////////////////");
 
             //for (int i = 0; i < _renderTextures.Length; i++)
             {
+                deltaPosition = data._position - renderingData.cameraData.camera.transform.position;
+
+                deltaPosition *= -1;
+                
+                var cullingParams = originalCullingParams;
+
+                for (int i = 0; i < cullingParams.cullingPlaneCount; i++)
+                {
+                    var plane = cullingParams.GetCullingPlane(i);
+                    plane.Translate(deltaPosition);
+                    cullingParams.SetCullingPlane(i, plane);
+                }
+
+                data._view = data._view * Matrix4x4.TRS(deltaPosition, data._rotation, data._scale);
+
+                var cullResults = context.Cull(ref cullingParams);
+
                 cmd.SetRenderTarget(data._renderTextures[0]);
                 cmd.ClearRenderTarget(true, true, Color.clear);
-                data._view = GetModifiedViewMatrix(0, renderingData.cameraData.camera.transform.position);
-
-
-                Debug.Log(data._view);
+               
 
                 cmd.SetViewProjectionMatrices(data._view, data._proj);
 
-                renderingData.cameraData.camera.TryGetCullingParameters(out var scriptableCullingParameters);
-
-                scriptableCullingParameters.origin = data._position;
-
-                var cullResults = context.Cull(ref scriptableCullingParameters);
 
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
-                //Debug.Log(data._view);
-
-               
 
                 DrawingSettings drawingSettings = CreateDrawingSettings(new ShaderTagId("UniversalForward"), ref renderingData, SortingCriteria.CommonOpaque);
                 FilteringSettings filteringSettings = new(RenderQueueRange.all, renderingData.cameraData.camera.cullingMask);
@@ -62,32 +77,7 @@ public class MatrizRenderFeature : ScriptableRendererFeature
                 cmd.Clear();
             }
 
-            
-
-
             CommandBufferPool.Release(cmd);
-        }
-
-        //projection: perspective or orthogonal
-        //
-
-        Matrix4x4 GetModifiedViewMatrix(int index, Vector3 pos)
-        {
-            //Ver de cambiar la posicion de la camara o cambiar el codigo... Temporal
-            //Vector3 positionOffset = new Vector3(index * 2, index * 2, 0);
-
-            //Matrix4x4.TRS(_position, _rotation, Vector3.one);
-
-            //Hay que cambiar la posicion de translate de camara con la posicion deseada
-
-            Vector3 deltaPosition = (pos - data._position);
-
-            deltaPosition.x *= -1;
-            deltaPosition.y *= -1;
-
-            Matrix4x4 m = data._view * Matrix4x4.TRS(deltaPosition, data._rotation, data._scale);
-
-            return m;
         }
     }
 
