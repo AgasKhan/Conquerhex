@@ -25,12 +25,15 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     bool nieve = false;
     bool desierto = false;
 
+    public float damageGivenByExplosion = 25;
+
     [Header("Combat")]
     public DestructibleObjects dummy;
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
     public List<AttackBase.AbilityToEquip> abilitiesForPlayer = new List<AttackBase.AbilityToEquip>();
     bool weaponGive = false;
+    
 
     bool ability0 = false;
     bool ability1 = false;
@@ -99,7 +102,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void SpawnExplotion(Transform lever)
     {
-        Damage dmg = Damage.Create<DamageTypes.Perforation>(40);
+        Damage dmg = Damage.Create<DamageTypes.Perforation>(damageGivenByExplosion);
 
         player.TakeDamage(dmg);
 
@@ -225,8 +228,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         player.caster.abilities[0].equiped.onCast += EquipedOnCast0;
         player.caster.abilities[1].equiped.onCast += EquipedOnCast1;
-        player.caster.abilities[3].equiped.onCast += EquipedOnCast3;
-        player.caster.abilities[4].equiped.onCast += EquipedOnCast4;
+        //player.caster.abilities[3].equiped.onCast += EquipedOnCast3;
+        //player.caster.abilities[4].equiped.onCast += EquipedOnCast4;
     }
 
     private void EquipedOnCast0(Ability ability)
@@ -236,7 +239,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         interfaz.CompleteObjective(0);
 
-        if (ability0 && ability1 && ability3 && ability4)
+        if (ability0 && ability1/* && ability3 && ability4 */)
             NextDialog();
     }
 
@@ -247,7 +250,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         interfaz.CompleteObjective(1);
 
-        if (ability0 && ability1 && ability3 && ability4)
+        if (ability0 && ability1/* && ability3 && ability4 */)
             NextDialog();
     }
     private void EquipedOnCast3(Ability ability)

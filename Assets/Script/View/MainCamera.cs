@@ -9,7 +9,7 @@ public class MainCamera : SingletonMono<MainCamera>
     public class MapTransform
     {
         public Camera[] cameras = new Camera[6];
-       
+
         public int RealLength => cameras.Length;
 
         public int Length => RealLength - offsetIndex;
@@ -28,7 +28,7 @@ public class MainCamera : SingletonMono<MainCamera>
         {
             get
             {
-                return cameras[index+ offsetIndex].transform;
+                return cameras[index + offsetIndex].transform;
             }
         }
     }
@@ -40,11 +40,16 @@ public class MainCamera : SingletonMono<MainCamera>
 
         public Vector3 rotationEulerPerspective;
 
-        public Vector3 offsetObjPosition ; 
+        public Vector3 offsetObjPosition;
 
-        public Quaternion rotationPerspective ; 
+        public Quaternion rotationPerspective;
 
-        public Vector3 vectorPerspective ; 
+        public Vector3 vectorPerspective;
+
+        public float Dist = 10;
+
+        Vector3 lastVectorPers, lastVectorObjOffset;
+        Quaternion lastRot;
 
         [SerializeField]
         float velocityTransition = 1;
@@ -114,17 +119,39 @@ public class MainCamera : SingletonMono<MainCamera>
 
             this.character.dashEventMediator.quaternionOffset = RotationCamera;
 
-
             this.character.attackEventMediator.quaternionOffset = CameraAiming;
 
             this.character.abilityEventMediator.quaternionOffset = CameraAiming;
 
 
-            this.character.aimingEventMediator.eventPress += AimingEventMediatorEventPress;
 
             this.character.aiming.onMode += Aiming_onMode;
 
             Aiming_onMode(this.character.aiming.mode);
+        }
+
+        private void CameraBlockPerspectiveDown(Vector2 arg1, float arg2)
+        {
+            if (!transitionsSet.Chck)
+                return;
+
+            if (toTrack != null)
+            {
+                toTrack = null;
+            }
+            else if (hitInfo.transform != null)
+            {
+                toTrack = hitInfo.transform;
+                offsetToTrack = hitInfo.point - hitInfo.transform.position;
+            }
+        }
+
+        private void CameraBlockTopDownStay(Vector2 arg1, float arg2)
+        {
+            if (!transitionsSet.Chck)
+                return;
+
+            rotationEulerPerspective.y += arg1.x;
         }
 
         private void Aiming_onMode(AimingEntityComponent.Mode obj)
@@ -134,22 +161,49 @@ public class MainCamera : SingletonMono<MainCamera>
             cameraSet = (int)obj;
 
             transitionsSet.Reset();
+
+            VirtualControllers.CameraBlock.eventPress -= CameraBlockTopDownStay;
+            VirtualControllers.CameraBlock.eventDown -= CameraBlockPerspectiveDown;
+            this.character.aimingEventMediator.eventPress -= AimingEventMediatorEventPress;
+
+            switch (obj)
+            {
+                case AimingEntityComponent.Mode.topdown:
+
+                    VirtualControllers.CameraBlock.eventPress += CameraBlockTopDownStay;
+
+                    break;
+
+
+                case AimingEntityComponent.Mode.perspective:
+
+                    VirtualControllers.CameraBlock.eventDown += CameraBlockPerspectiveDown;
+
+                    this.character.aimingEventMediator.eventPress += AimingEventMediatorEventPress;
+
+                    break;
+
+                case AimingEntityComponent.Mode.focus:
+
+                    break;
+
+                default:
+                    break;
+            }
         }
+
+
 
         private void AimingEventMediatorEventPress(Vector2 arg1, float arg2)
         {
             if (!transitionsSet.Chck)
                 return;
 
-            if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
-            {
-                rotationEulerPerspective.x -= arg1.y;
+            rotationEulerPerspective.x -= arg1.y;
 
-                rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
-            }
+            rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
 
-            if (character.aiming.mode == AimingEntityComponent.Mode.perspective || Input.GetKey(KeyCode.LeftControl))
-                rotationEulerPerspective.y += arg1.x;
+            rotationEulerPerspective.y += arg1.x;
         }
 
         Quaternion RotationCamera()
@@ -162,11 +216,11 @@ public class MainCamera : SingletonMono<MainCamera>
             if (character.aiming.mode != AimingEntityComponent.Mode.perspective)
             {
                 return RotationCamera();
-            }          
+            }
 
             //Debug.DrawRay(ray.origin,ray.direction, Color.red);
-               
-            if(hitInfo.transform!=null)
+
+            if (hitInfo.transform != null)
             {
                 Vector3 aux = hitInfo.point - character.transform.position;
 
@@ -181,6 +235,7 @@ public class MainCamera : SingletonMono<MainCamera>
                 return Quaternion.AngleAxis(-angleY, Vector3.forward);
             }
 
+            character.aiming.ObjectivePosition = (rotationPerspective * Vector3.forward * 100) + CameraPosition;
 
             return RotationCamera();
         }
@@ -191,7 +246,7 @@ public class MainCamera : SingletonMono<MainCamera>
             //if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
             //  return;
 
-            if (!transitionsSet.Chck && character != null)
+            if (!transitionsSet.Chck || character == null)
                 return;
 
             if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
@@ -207,24 +262,20 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
 
-                if (Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore))
-                {
-                    if (Input.GetKeyDown(KeyCode.LeftControl)) //seteo del trackeo
-                    {
-                        if (toTrack != null)
-                        {
-                            toTrack = null;
-                        }
-                        else
-                        {
-                            toTrack = hitInfo.transform;
-                            offsetToTrack = hitInfo.point - hitInfo.transform.position;
-                        }
-                    }
-                }
+                Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore);
 
                 if (toTrack != null)//trackeo
-                    rotationEulerPerspective = Quaternion.LookRotation(ToTrackPosition - CameraPosition).eulerAngles;
+                {
+                    if (hitInfo.distance > 25)//distancia limite hardcodeada
+                    {
+                        toTrack = null;
+                    }
+                    else
+                    {
+                        rotationEulerPerspective = Quaternion.LookRotation(ToTrackPosition - CameraPosition).eulerAngles;
+                        rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 20);
+                    }
+                }
             }
 
             setRotationPerspective = Quaternion.Euler(rotationEulerPerspective);
@@ -234,8 +285,35 @@ public class MainCamera : SingletonMono<MainCamera>
             rotationPerspective = setRotationPerspective;
         }
 
+        void EnterMenu()
+        {
+            lastVectorPers = vectorPerspective;
+            lastRot = rotationPerspective;
+            lastVectorObjOffset = offsetObjPosition;
+            
+            offsetObjPosition = Vector3.zero;
+            var p = Position - (character.aiming.AimingToObjectiveXZ.normalized * Dist);
+            vectorPerspective = new(0, .85f, -3.7f);
+            rotationEulerPerspective = new(4, Mathf.Atan2(p.x, p.z) * Mathf.Rad2Deg, 0);
+            rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
+
+            Cursor.visible = true;
+        }
+
+        void ExitMenu()
+        {
+            vectorPerspective = lastVectorPers;
+            rotationPerspective = lastRot;
+            offsetObjPosition = lastVectorObjOffset;
+            rotationEulerPerspective = rotationPerspective.eulerAngles;
+        }
+
         public void Init()
         {
+            GameManager.onEnterMenuUnityEvent.AddListener(EnterMenu);
+
+            GameManager.onExitMenuUnityEvent.AddListener(ExitMenu);
+
             transitionsSet = TimersManager.Create(velocityTransition, () =>
             {
                 if (character == null)
@@ -331,7 +409,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
     void ShakeStart(Health health)
     {
-        shake.Execute(1 - (health.actualLife/health.maxLife));
+        shake.Execute(1 - (health.actualLife / health.maxLife));
     }
 
     private void Shake_position(Vector3 obj)
@@ -350,7 +428,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         _points2 = new Vector3[pointsInScreen.Length];
 
-       
+
         for (int i = -2; i < rendersOverlay.Length; i++)
         {
             rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
@@ -370,7 +448,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
             _points2[i] = ray.GetPoint(distance) - main.transform.position;
         }
-   
+
     }
 
     private void OnValidate()
@@ -397,7 +475,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += tracker.OnCharacterSelected;
 
-        pointsInWorld = new Vector3[rendersOverlay.cameras.Length];       
+        pointsInWorld = new Vector3[rendersOverlay.cameras.Length];
 
         LoadSystem.AddPostLoadCorutine(() =>
         {
@@ -429,7 +507,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
             rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
 
-            rendersOverlay.cameras[i+2].fieldOfView = tracker.Fov;
+            rendersOverlay.cameras[i + 2].fieldOfView = tracker.Fov;
         }
 
         for (int i = 0; i < pointsInScreen.Length; i++)
@@ -470,7 +548,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = 0; i < rendersOverlay.cameras.Length; i++)
         {
-            pointsInWorld[i] = rendersOverlay.cameras[i].ViewportToWorldPoint(new Vector3(0.5f,0.5f,1));
+            pointsInWorld[i] = rendersOverlay.cameras[i].ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1));
 
             Ray ray = new Ray(rendersOverlay.cameras[i].transform.position, pointsInWorld[i] - rendersOverlay.cameras[i].transform.position);
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class SecretKey : MonoBehaviour
 {
     [SerializeField]
@@ -22,7 +21,7 @@ public class SecretKey : MonoBehaviour
     public GameObject newMenu;
 
     public EventControllerMediator escapeEventMediator;
-    
+
     private void Awake()
     {
         if(minion!=null)
@@ -39,26 +38,24 @@ public class SecretKey : MonoBehaviour
 
     private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
     {
-        if(submenuRef.activeSelf)
-        {
-            statisticsSubMenu.TriggerMyOnClose();
-        }
-        else
-        {
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-                .SetWindow("", "¿Seguro que deseas cerrar el juego?")
-                .AddButton("Si", Application.Quit)
-                .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
-        }
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+            return;
+
+
+        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+               .SetWindow("", "¿Deseas volver al menu principal?")
+               .AddButton("Si", ()=> GameManager.instance.Load("MainMenu"))
+               .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
     }
 
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Comma) && leverCorderito != null)
         {
             leverCorderito.SetActive(true);
         }
-        /*
+        
         if (Input.GetKeyDown(KeyCode.Alpha0) && myObjects != null)
         {
             for (int i = 0; i < myObjects.Length; i++)
@@ -107,6 +104,36 @@ public class SecretKey : MonoBehaviour
             }
         }
         */
+
+        if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.instance.Load("DummyPractice");
+        }
+
+
+        if (SceneManager.GetActiveScene().name == "DummyPractice" && Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.instance.Load("MainMenu");
+        }
+
+        if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.O))
+        {
+            GameManager.instance.Load("Test_arte");
+        }
+
+        if (SceneManager.GetActiveScene().name == "Test_arte" && Input.GetKeyDown(KeyCode.O))
+        {
+            GameManager.instance.Load("MainMenu");
+        }
+
+        if (SceneManager.GetActiveScene().name != "MainMenu" && UIE_MenusManager.instance != null && Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (!UIE_MenusManager.instance.isInMenu)
+                UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+            else
+                UIE_MenusManager.instance.TriggerOnClose();
+        }
+
     }
 
     public void ReviveMinion()

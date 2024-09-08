@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb6d13d31200ae4681f7709fbafd9ac, type: 3}
+  m_Name: TriggerCameraMouseJoystick
+  m_EditorClassIdentifier: 
+  axis: {fileID: 11400000, guid: f103d6539f165f349a9ef6be1cf82abb, type: 2}
+  dir: {x: 0.37773055, y: -0.013250833}
+  active: 1
+  vertical: Mouse Y
+  horizontal: Mouse X
+  velocity: 20
+  isSmooth: 1
+  smoothVelocity: 0.35
+  mouseOverride: 1

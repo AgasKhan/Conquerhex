@@ -14,6 +14,7 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
     static public HashSet<TriggerDetection> triggers = new HashSet<TriggerDetection>();
     static public ButtonAxis Movement { get => instance._movement; }
     static public ButtonAxis Camera { get => instance._camera; }
+    static public ButtonAxis CameraBlock { get => instance._cameraBlock; }
     static public ButtonAxis Principal { get => instance._principal; }
     static public ButtonAxis Secondary { get => instance._secondary; }
     static public ButtonAxis Terciary { get => instance._terciary; }
@@ -32,6 +33,9 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     [SerializeField]
     ButtonAxis _camera;
+
+    [SerializeField]
+    ButtonAxis _cameraBlock;
 
     [SerializeField]
     ButtonAxis _principal;
@@ -85,13 +89,26 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
 
     bool _eneable;
 
+    public void DisableExceptTab()
+    {
+        foreach (var item in keys)
+        {
+            if (item != _inventory)
+                item.enable = false;
+        }
+    }
+    public void EnableAll()
+    {
+        foreach (var item in keys)
+        {
+            item.enable = true;
+        }
+    }
+
     #region unity functions
 
     public void MyUpdate()
     {
-        if (!eneable)
-            return;
-
         foreach (var item in triggersArray)
         {
             item.Update();
@@ -103,6 +120,7 @@ public class VirtualControllers : SingletonScript<VirtualControllers>
         foreach (var item in keys)
         {
             item.Destroy();
+            item.enable = true;
         }
     }
 
@@ -135,7 +153,7 @@ namespace Controllers
     {
         public float timePressed;
 
-        public bool enable = true;
+        public bool enable;
 
         protected override void MyEnable()
         {
@@ -158,16 +176,23 @@ namespace Controllers
         [SerializeField]
         protected Vector2 dir;
 
-        [SerializeField, Tooltip("En caso de estar activo, se agregara a la lista de los triggers a detectar, en caso que no, no se ejecutara de forma automatica")]
-        bool active = true;
-
+        
+        [SerializeField, Tooltip("En caso de estar activo, ejecutara su update, en caso que no, no")]
+        public bool enable = true;
+        
         protected virtual void OnEnable()
         {
-            if(active)
+            //if(active)
                 VirtualControllers.triggers.Add(this);
         }
 
-        public abstract void Update();
+        public void Update()
+        {
+            if (enable)
+                InternalUpdate();
+        }
+
+        protected abstract void InternalUpdate();
     }
     #endregion
 }

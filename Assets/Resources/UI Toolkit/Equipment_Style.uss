@@ -182,8 +182,8 @@
 .closeButton {
     position: absolute;
     transform-origin: right bottom;
-    top: 1012px;
-    left: 1765px;
+    top: auto;
+    left: auto;
     width: 120px;
     background-color: rgb(21, 20, 20);
     color: rgb(255, 255, 255);
@@ -201,6 +201,8 @@
     border-left-width: 3px;
     font-size: 20px;
     height: 45px;
+    bottom: 15px;
+    right: 15px;
 }
 
 .slotButtonClicked {
@@ -285,4 +287,115 @@
     border-right-color: rgb(221, 194, 145);
     border-top-color: rgb(221, 194, 145);
     border-bottom-color: rgb(221, 194, 145);
+}
+
+.displayHidden {
+    display: none;
+}
+
+.comboIndicator {
+    flex-grow: 0;
+    width: 182px;
+    height: 50px;
+    flex-shrink: 0;
+    background-color: rgb(135, 112, 107);
+    align-self: center;
+    border-left-color: rgb(21, 20, 20);
+    border-right-color: rgb(21, 20, 20);
+    border-top-color: rgb(21, 20, 20);
+    border-bottom-color: rgb(21, 20, 20);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    -unity-text-align: middle-center;
+    justify-content: center;
+}
+
+.NavBarButtonStyle {
+    width: 300px;
+    background-color: rgba(188, 188, 188, 0);
+    color: rgb(185, 129, 87);
+    font-size: 32px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.NavBarButtonStyle:hover {
+    color: rgb(212, 171, 141);
+}
+
+.detailsTitle {
+    flex-grow: 0;
+    font-size: 25px;
+    height: 38px;
+    justify-content: center;
+    -unity-text-align: middle-left;
+    align-self: flex-start;
+    width: 100%;
+    align-items: flex-start;
+    flex-shrink: 1;
+    color: rgb(169, 148, 86);
+}
+
+.detailsContent {
+    flex-grow: 1;
+    color: rgb(255, 255, 255);
+}
+
+.comboButton {
+    flex-direction: column;
+    height: 62%;
+    width: 85%;
+    align-self: center;
+    border-left-color: rgb(112, 81, 57);
+    border-right-color: rgb(112, 81, 57);
+    border-top-color: rgb(112, 81, 57);
+    border-bottom-color: rgb(112, 81, 57);
+    background-color: rgb(21, 20, 20);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comboButton:hover {
+    border-left-color: rgb(255, 218, 150);
+    border-right-color: rgb(255, 218, 150);
+    border-top-color: rgb(255, 218, 150);
+    border-bottom-color: rgb(255, 218, 150);
+    background-color: rgb(36, 36, 36);
+}
+
+.popUpList {
+    position: absolute;
+    height: auto;
+    max-height: 200px;
+    width: 225px;
+    background-color: rgb(21, 20, 20);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(112, 81, 57);
+    border-right-color: rgb(112, 81, 57);
+    border-top-color: rgb(112, 81, 57);
+    border-bottom-color: rgb(112, 81, 57);
+    transition-duration: 0.2s;
 }

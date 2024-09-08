@@ -719,6 +719,12 @@ public static class Extensions
         return team != toCheck && toCheck != Team.noTeam;
     }
 
+    static public bool IsGenericChildOf<T>(this object obj)
+    {
+        Debug.LogError("No implementado");
+        return typeof(T).IsAssignableFrom(obj.GetType());
+    }
+
     static public bool IsChildOf<T>(this object obj)
     {
         return typeof(T).IsAssignableFrom(obj.GetType());

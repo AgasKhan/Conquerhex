@@ -15,7 +15,7 @@ public class UIE_BaseMenu : MyScripts
 
     public event System.Action onClose;
 
-    VisualElement closeButtons;
+    VisualElement closeButton;
 
     protected override void Config()
     {
@@ -26,15 +26,15 @@ public class UIE_BaseMenu : MyScripts
     {
         ui = GetComponent<UIDocument>().rootVisualElement;
         manager = GetComponentInParent<UIE_MenusManager>();
-        closeButtons = ui.Q<VisualElement>("closeButton");
+        closeButton = ui.Q<VisualElement>("closeButton");
 
-        closeButtons.RegisterCallback<ClickEvent>(TriggerOnClose);
+        closeButton.RegisterCallback<ClickEvent>(TriggerOnClose);
 
         ui.style.display = DisplayStyle.None;
         ui.AddToClassList("opacityHidden");
     }
 
-    protected void TriggerOnClose(ClickEvent clickEvent)
+    public void TriggerOnClose(ClickEvent clickEvent)
     {
         onClose.Invoke();
     }

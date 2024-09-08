@@ -123,7 +123,7 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
 
 
 [System.Serializable]
-public class SlotItemList<T> where T : ItemEquipable
+public class SlotItemList<T> : IEnumerable<T> where T : ItemEquipable
 {
     [SerializeField]
     SlotItem<T>[] list;
@@ -208,13 +208,30 @@ public class SlotItemList<T> where T : ItemEquipable
         while (actual.equiped == null && !empty);
     }
 
-    public void Init(InventoryEntityComponent inventoryEntityComponent)
+    public void Init(InventoryEntityComponent inventoryEntityComponent, System.Action<SlotItemList<T>, int, int, T> toChangeEquipament = null)
     {
         for (int i = 0; i < Count; i++)
         {
+            int slot = i;
             list[i] = new SlotItem<T>(i);
             list[i].inventoryComponent = inventoryEntityComponent;
+
+            if (toChangeEquipament != null)
+                list[i].toChange += (indexItem, item)=> toChangeEquipament(this,slot,indexItem,item);
         }
+    }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        foreach (var item in list)
+        {
+            yield return item.equiped;
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     public SlotItemList(int number)

@@ -33,6 +33,10 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
+    public static UnityEvent onEnterMenuUnityEvent => instance?.fsmGameMaganer?.menu.onEnterMenuUnityEvent;
+
+    public static UnityEvent onExitMenuUnityEvent => instance?.fsmGameMaganer?.menu.onExitMenuUnityEvent;
+
     public static Queue<System.Action> eventQueueGamePlay = new Queue<System.Action>();
 
     public static Queue<System.Action> eventQueueLoad = new Queue<System.Action>();
@@ -97,9 +101,9 @@ public class GameManager : SingletonMono<GameManager>
     #region carga
     public void Load(string scn)
     {
-        StartCoroutine(loadSystem.ExitCoroutine(scn, true));
-
         fsmGameMaganer.CurrentState = fsmGameMaganer.load;
+
+        StartCoroutine(loadSystem.ExitCoroutine(scn, true));
     }
 
     [CheatCommandsPrompt.Command(name: "Reload", description:"Te Re-Carga")]
@@ -320,6 +324,8 @@ namespace FSMGameManagerLibrary
             {
                 if (GameManager.eventQueueGamePlay.TryDequeue(out var action))
                     action();
+                else
+                    break;
 
             } while (GameManager.eventQueueGamePlay.Count > 0 && !GameManager.HightFrameRate);
         }

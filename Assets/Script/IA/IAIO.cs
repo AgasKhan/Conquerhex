@@ -29,7 +29,9 @@ public class IAIO : IAFather
     LayerMask originalLayerMask;
 
     [SerializeField]
-    Controllers.TriggerAxis cameraTrigger;
+    Controllers.TriggerAxis cameraJoystickMouse;
+    [SerializeField]
+    Controllers.TriggerAxis cameraPositionMouse;
 
     string[] comboRapido = new string[] { "↑↑", "→→", "←←", "↓↓" };
 
@@ -193,6 +195,7 @@ public class IAIO : IAFather
         param.caster.energyUpdate -= EnergyUpdate;
         param.caster.leftEnergyUpdate -= LeftEnergyUpdate;
         param.caster.rightEnergyUpdate -= RightEnergyUpdate;
+        param.aiming.onMode -= Aiming_onMode;
         //param.onTakeDamage -= OnTakeDamage;
 
         attackEventMediator.eventDown -= AttackEventMediator_eventDown;
@@ -496,32 +499,54 @@ public class IAIO : IAFather
         character.Ability(0);
     }
 
+    private void PerspectiveConfigAndCameraBlockOEnter(Vector2 arg1, float arg2)
+    {
+        cameraJoystickMouse.enable = false;
+        cameraPositionMouse.enable = true;
+
+        Cursor.visible = false;
+
+        VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
+
+        VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
+
+        VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+    }
+
+    private void TopdownConfigAndCameraBlockOnExit(Vector2 arg1, float arg2)
+    {
+        cameraJoystickMouse.enable = true;
+        cameraPositionMouse.enable = false;
+
+        Cursor.visible = true;
+
+        VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
+
+        VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
+
+        VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+    }
+
     private void Aiming_onMode(AimingEntityComponent.Mode obj)
     {
+        VirtualControllers.CameraBlock.eventDown -= PerspectiveConfigAndCameraBlockOEnter;
+        VirtualControllers.CameraBlock.eventUp -= TopdownConfigAndCameraBlockOnExit;
+
         switch (obj)
         {
             case AimingEntityComponent.Mode.topdown:
 
-                cameraTrigger.mouseOverride = true;
+                TopdownConfigAndCameraBlockOnExit(Vector2.zero, 0);
 
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+                VirtualControllers.CameraBlock.eventDown += PerspectiveConfigAndCameraBlockOEnter;
+                VirtualControllers.CameraBlock.eventUp += TopdownConfigAndCameraBlockOnExit;
 
                 break;
 
 
             case AimingEntityComponent.Mode.perspective:
 
-                cameraTrigger.mouseOverride = false;
-
-                VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
-
-                VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+                PerspectiveConfigAndCameraBlockOEnter(Vector2.zero, 0);
 
                 break;
 
@@ -531,6 +556,8 @@ public class IAIO : IAFather
                 break;
         }
     }
+
+   
 
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
@@ -546,7 +573,12 @@ public class IAIO : IAFather
     }
     private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
     {
-        UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+        /*
+        if (!UIE_MenusManager.instance.isInMenu)
+            UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
+        else
+            UIE_MenusManager.instance.TriggerOnClose();
+        */
     }
 
 
@@ -623,6 +655,9 @@ public class IAIO : IAFather
         characterEvent = eventsManager.events.SearchOrCreate<SingleEvent<Character>>("Character");
         interactEvent = eventsManager.events.SearchOrCreate<DoubleEvent<(IGetPercentage, float), (bool, bool, Sprite)>>("Interact");
         healthEvent = eventsManager.events.SearchOrCreate<SingleEvent<Health>>(LifeType.all);
+
+        //Cursor Hardcodeado
+        Cursor.lockState = CursorLockMode.Confined;
 
         energyEvent = eventsManager.events.SearchOrCreate<TripleEvent<(float, float, float), float, float>>("EnergyUpdate");
 

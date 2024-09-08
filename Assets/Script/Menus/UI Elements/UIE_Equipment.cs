@@ -19,6 +19,8 @@ public class UIE_Equipment : UIE_BaseMenu
 
     public UIE_EquipMenu equipMenu;
 
+
+    VisualElement combosButton;
     protected override void Config()
     {
         base.Config();
@@ -27,13 +29,18 @@ public class UIE_Equipment : UIE_BaseMenu
 
     void myAwake()
     {
-        onEnableMenu += myEnableMenu;
+        if(gameObject.name == manager.EquipmentMenu)
+        {
+            onEnableMenu += myEnableMenu;
 
-        basicsButtons = ui.Q<VisualElement>("Basics");
-        abilitiesButtons = ui.Q<VisualElement>("Abilities");
-        katasButtons = ui.Q<VisualElement>("Katas");
-        statisticsLabel = ui.Q<Label>("statisticsLabel");
+            basicsButtons = ui.Q<VisualElement>("Basics");
+            abilitiesButtons = ui.Q<VisualElement>("Abilities");
+            katasButtons = ui.Q<VisualElement>("Katas");
+            statisticsLabel = ui.Q<Label>("statisticsLabel");
+            combosButton = ui.Q<VisualElement>("combosButton");
 
+            combosButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.CombosMenu));
+        }
         onClose += () => manager.DisableMenu(gameObject.name);
     }
     void myEnableMenu()
@@ -54,26 +61,26 @@ public class UIE_Equipment : UIE_BaseMenu
         statisticsLabel.text = character.flyweight.GetFlyWeight<BodyBase>().GetStatistics();
     }
 
-    Texture2D GetImage(ItemEquipable itemEquiped)
+    protected Sprite GetImage(ItemEquipable itemEquiped)
     {
         if (itemEquiped != null)
-            return itemEquiped.image.texture;
+            return itemEquiped.image;
         /*else if(itemEquiped is MeleeWeapon)
             return defaultWeaponImage.texture;*/
         else
-            return defaultAbilityImage.texture;
+            return defaultAbilityImage;
     }
-    Texture2D GetImage(SlotItem itemEquiped)
+    protected Sprite GetImage(SlotItem itemEquiped)
     {
         if (itemEquiped.equiped != null)
-            return itemEquiped.equiped.image.texture;
+            return itemEquiped.equiped.image;
         else if(itemEquiped.equiped is MeleeWeapon)
-            return defaultWeaponImage.texture;
+            return defaultWeaponImage;
         else
-            return defaultAbilityImage.texture;
+            return defaultAbilityImage;
     }
 
-    string GetText(ItemEquipable itemEquiped)
+    protected string GetText(ItemEquipable itemEquiped)
     {
         if (itemEquiped != null)
             return itemEquiped.nameDisplay;
@@ -83,7 +90,7 @@ public class UIE_Equipment : UIE_BaseMenu
             return defaultAbilityText;
     }
 
-    string GetText(SlotItem itemEquiped)
+    protected string GetText(SlotItem itemEquiped)
     {
         if (itemEquiped.equiped != null)
             return itemEquiped.equiped.nameDisplay;

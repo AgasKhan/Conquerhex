@@ -311,7 +311,10 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 32768
-  cameraTrigger: {fileID: 11400000, guid: 1cdcf73cfadf1104d88a9f1050be3491, type: 2}
+  cameraJoystickMouse: {fileID: 11400000, guid: 165a128358a0eaf49b8c5a8bdb1ab8a7,
+    type: 2}
+  cameraPositionMouse: {fileID: 11400000, guid: 1cdcf73cfadf1104d88a9f1050be3491,
+    type: 2}
 --- !u!114 &3167585331265613088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +461,19 @@ MonoBehaviour:
           m_Calls: []
       onFinishLoad:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_MethodName: SetActive
+            m_Mode: 6
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
     gamePlay:
       onEnterGamePlayUnityEvent:
         m_PersistentCalls:

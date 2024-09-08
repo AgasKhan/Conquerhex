@@ -10,7 +10,7 @@ public class UIE_SlotButton : VisualElement
     private VisualElement slotImage => this.Q<VisualElement>("slotImage");
     private Label slotText => this.Q<Label>("slotText");
 
-    public void Init(Texture2D image, string text, UnityAction action)
+    public void Init(Sprite image, string text, UnityAction action)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
         asset.CloneTree(this);

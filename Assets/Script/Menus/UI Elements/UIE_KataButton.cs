@@ -12,7 +12,7 @@ public class UIE_KataButton : VisualElement
     private Label kataText => this.Q<Label>("kataText");
     private VisualElement weaponConteiner => this.Q<VisualElement>("weaponContainer");
 
-    public void Init(Texture2D _kataImage, string _kataText, UnityAction _kataAction, Texture2D _weaponImage, string _weaponText, UnityAction _weaponAction)
+    public void Init(Sprite _kataImage, string _kataText, UnityAction _kataAction, Sprite _weaponImage, string _weaponText, UnityAction _weaponAction)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["KataComboButtom"];
         asset.CloneTree(this);
