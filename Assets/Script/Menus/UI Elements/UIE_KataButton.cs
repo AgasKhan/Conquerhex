@@ -33,6 +33,12 @@ public class UIE_KataButton : VisualElement
 
     }
 
+    public void InitTooltip(string _title, string _content, Sprite _sprite)
+    {
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite));
+        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
+    }
+
     UnityAction auxAct;
 
     void buttonEvent(ClickEvent clEvent)

@@ -3,12 +3,16 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine.Events;
 
-public class UIE_SlotButton : VisualElement
+public class UIE_SlotButton : VisualElement, ITooltip
 {
     [UnityEngine.Scripting.Preserve]
     public new class UxmlFactory : UxmlFactory<UIE_SlotButton, UxmlTraits> { }
     private VisualElement slotImage => this.Q<VisualElement>("slotImage");
     private Label slotText => this.Q<Label>("slotText");
+
+    public string toolTitle { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public string toolDescription { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public Sprite toolImagine { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public void Init(Sprite image, string text, UnityAction action)
     {
@@ -20,10 +24,30 @@ public class UIE_SlotButton : VisualElement
         slotText.text = text;
         auxAct = action;
 
-        tooltip = text + " descripción";
-
         slotImage.RegisterCallback<ClickEvent>(buttonEvent);
     }
+
+    public void InitTooltip(string _title, string _content, Sprite _sprite)
+    {
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite));
+        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
+    }
+
+    public void Init(Item _item, UnityAction action)
+    {
+        VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
+        asset.CloneTree(this);
+
+        slotImage.style.backgroundImage = new StyleBackground(_item.image);
+        slotText.text = _item.nameDisplay;
+        auxAct = action;
+
+        slotImage.RegisterCallback<ClickEvent>(buttonEvent);
+
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_item.nameDisplay, _item.GetDetails().ToString(), _item.image));
+        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
+    }
+
 
     UnityAction auxAct;
 
@@ -40,6 +64,7 @@ public class UIE_SlotButton : VisualElement
         slotImage.RegisterCallback<MouseEnterEvent>(onEnter);
         slotImage.RegisterCallback<MouseLeaveEvent>(onLeave);
     }
+
 
     public UIE_SlotButton() { }
 }

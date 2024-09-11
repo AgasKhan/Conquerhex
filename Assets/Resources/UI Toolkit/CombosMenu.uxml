@@ -83,4 +83,5 @@
     <ui:Button text="Cerrar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="closeButton" class="closeButton" />
     <ui:VisualElement name="noClickPanel" class="displayHidden" style="flex-grow: 1; position: absolute; flex-shrink: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2);" />
     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="listItems" class="popUpList" style="position: absolute;" />
+    <UIE_Tooltip name="UIE_Tooltip" style="position: absolute; flex-grow: 1; flex-shrink: 0; align-items: flex-start; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
 </ui:UXML>

@@ -25,19 +25,18 @@ public class UIE_CombosButton : VisualElement
 
     UnityAction mainAct;
     UnityAction auxAct;
+
     void HideKata()
     {
-        if(!kataCombo.ClassListContains("displayHidden"))
-            kataCombo.AddToClassList("displayHidden");
+        kataCombo.HideInUIE();
     }
     void HideAbility()
     {
-        if (!equipOrAbilityCombo.ClassListContains("displayHidden"))
-            equipOrAbilityCombo.AddToClassList("displayHidden");
+        equipOrAbilityCombo.HideInUIE();
     }
     public void SetEquipOrAbility(Sprite image, string text, UnityAction action)
     {
-        equipOrAbilityCombo.RemoveFromClassList("displayHidden");
+        equipOrAbilityCombo.ShowInUIE();
         HideKata();
 
         abilityImage.style.backgroundImage = new StyleBackground(image);
@@ -49,7 +48,7 @@ public class UIE_CombosButton : VisualElement
 
     public void SetKata(Sprite image, string text, UnityAction kataAction, Sprite weaponImage, UnityAction weaponAction)
     {
-        kataCombo.RemoveFromClassList("displayHidden");
+        kataCombo.ShowInUIE();
         HideAbility();
 
         kataImage.style.backgroundImage = new StyleBackground(image);
@@ -71,6 +70,12 @@ public class UIE_CombosButton : VisualElement
 
         interAbility = _ability;
         index = slotIndex;
+    }
+
+    public void InitTooltip(string _title, string _content, Sprite _sprite)
+    {
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite));
+        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
     }
 
     void mainButtonEvent(ClickEvent clEvent)

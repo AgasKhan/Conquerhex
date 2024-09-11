@@ -607,6 +607,16 @@ public static class Extensions
         return dic;
     }
 
+    static public void HideInUIE(this UnityEngine.UIElements.VisualElement _visualElement)
+    {
+        if(!_visualElement.ClassListContains("displayHidden"))
+            _visualElement.AddToClassList("displayHidden");
+    }
+    static public void ShowInUIE(this UnityEngine.UIElements.VisualElement _visualElement)
+    {
+        _visualElement.RemoveFromClassList("displayHidden");
+    }
+
     static public void CreateOrSave<K, V>(this Dictionary<K, V> pictionary, K key, V value)
     {
         if (pictionary.ContainsKey(key))

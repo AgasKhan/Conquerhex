@@ -18,7 +18,7 @@
                         <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-shrink: 1; height: 80%; width: 50px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Weapon.png?fileID=21300000&amp;guid=fe126f528f2475c45acba7da868df363&amp;type=3#Default Weapon&quot;); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
                         <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-shrink: 1; height: 80%; width: 50px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Weapon.png?fileID=21300000&amp;guid=fe126f528f2475c45acba7da868df363&amp;type=3#Default Weapon&quot;); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="searchBar" class="horizontalContainer ListItemButton" style="flex-grow: 0; height: 42px; width: 100%; align-self: center;">
+                    <ui:VisualElement name="searchBar" class="horizontalContainer" style="flex-grow: 0; height: 42px; width: 100%; align-self: center;">
                         <ui:Label tabindex="-1" text="NOMBRE" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
                         <ui:Label tabindex="-1" text="TIPO" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
                         <ui:Label tabindex="-1" text="ESPECIALIDAD" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
@@ -56,5 +56,6 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:Button text="Cerrar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="closeButton" class="closeButton" />
+        <UIE_Tooltip name="UIE_Tooltip" style="position: absolute; flex-grow: 1; flex-shrink: 0; align-items: flex-start; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
     </ui:VisualElement>
 </ui:UXML>

@@ -1,7 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
     <ui:VisualElement name="slotContainer" class="slotContainerStyle">
         <ui:VisualElement name="slotImage" class="slotButton" />
         <ui:Label tabindex="-1" text="Dash concatenado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="slotText" class="slotTextStyle" />
+        <ui:VisualElement name="instructionImage" style="flex-grow: 0; position: absolute; flex-shrink: 0; width: 50px; height: 50px; right: -30px; top: -35px;" />
     </ui:VisualElement>
 </ui:UXML>

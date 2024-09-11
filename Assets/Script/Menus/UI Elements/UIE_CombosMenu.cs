@@ -69,10 +69,13 @@ public class UIE_CombosMenu : UIE_Equipment
                     GetImage((auxAbility as WeaponKata).Weapon),
                     () => GetWeaponAction(aux.index, auxAbility as WeaponKata)
                 );
+
+            aux.InitTooltip("Movimiento numero " + (aux.index + 1).ToString(), GetText(character.caster.combos[indexSlot].equiped), null);
         }
         else
         {
             aux.SetEquipOrAbility(GetImage(auxAbility), GetText(auxAbility), () => GetAction(aux.index));
+            aux.InitTooltip("Movimiento numero " + (aux.index + 1).ToString(), GetText(character.caster.combos[indexSlot].equiped), null);
         }
     }
 
@@ -108,6 +111,7 @@ public class UIE_CombosMenu : UIE_Equipment
             
             int myIndex = i;
             aux.Init(character.caster.combos[myIndex].equiped, myIndex);
+            aux.InitTooltip("Movimiento numero " + i, GetText(character.caster.combos[myIndex].equiped), null);
 
             comboButtonsList.Add(aux);
             comboButtons.Add(aux);
@@ -189,7 +193,7 @@ public class UIE_CombosMenu : UIE_Equipment
                     button.InitOnlyName(null, "Desequipar", (clEvent) =>
                     {
                         kata.TakeOutWeapon();
-                        SetComboButton(kata, index);
+                        SetComboButton(character.caster.combos[index].equiped, index);
                         HiddeItemList();
                     });
 
@@ -224,7 +228,7 @@ public class UIE_CombosMenu : UIE_Equipment
             {
                 kata.ChangeWeapon(character.inventory[itemIndex]);
 
-                SetComboButton(kata, index);
+                SetComboButton(character.caster.combos[index].equiped, index);
                 HiddeItemList();
             };
 

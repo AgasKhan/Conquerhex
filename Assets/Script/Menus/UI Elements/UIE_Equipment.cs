@@ -106,14 +106,17 @@ public class UIE_Equipment : UIE_BaseMenu
 
         basicsButtons.Add(basicButton);
         basicButton.Init(GetImage(character.caster.weapons[0]), GetText(character.caster.weapons[0]), WeaponAction(character.caster.weapons[0]));
+        basicButton.InitTooltip("Arma Básica", "Utiliza click izquierdo para accionarla", null);
 
         basicButton = new UIE_SlotButton();
         basicsButtons.Add(basicButton);
         basicButton.Init(GetImage(character.caster.abilities[0]), GetText(character.caster.abilities[0]), AbilityAction(character.caster.abilities[0]));
+        basicButton.InitTooltip("Habilidad Básica", "Utiliza click derecho para accionarla", null);
 
         basicButton = new UIE_SlotButton();
         basicsButtons.Add(basicButton);
         basicButton.Init(GetImage(character.caster.abilities[1]), GetText(character.caster.abilities[1]), AbilityAction(character.caster.abilities[1]));
+        basicButton.InitTooltip("Habilidad Alternativa", "Utiliza shift izquierdo para accionarla", null);
     }
 
     void CreateEquipamentAbilities()
@@ -123,6 +126,7 @@ public class UIE_Equipment : UIE_BaseMenu
             UIE_SlotButton abilityButton = new UIE_SlotButton();
             abilitiesButtons.Add(abilityButton);
             abilityButton.Init(GetImage(character.caster.abilities[i]), GetText(character.caster.abilities[i]), AbilityAction(character.caster.abilities[i]));
+            abilityButton.InitTooltip("Habilidad numero " + (i + 1).ToString(), "Se acciona presionando dos veces una tecla de movimiento y el click derecho", null);
         }
     }
     
@@ -135,6 +139,8 @@ public class UIE_Equipment : UIE_BaseMenu
             katasButtons.Add(kataButton);
             kataButton.Init(GetImage(character.caster.katas[i]), GetText(character.caster.katas[i]), KataAction(character.caster.katas[i])
                 , GetImage(character.caster.katas[i].equiped?.Weapon), GetText(character.caster.katas[i].equiped?.Weapon), WeaponOfKataAction(character.caster.katas[i]));
+            
+            kataButton.InitTooltip("Kata numero " + (i + 1).ToString(), "Se acciona presionando dos veces una tecla de movimiento y el click izquierdo", null);
         }
     }
     
