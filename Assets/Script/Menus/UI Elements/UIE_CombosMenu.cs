@@ -315,7 +315,8 @@ public class UIE_CombosMenu : UIE_Equipment
 
             changeAction = (clEvent) => 
             {
-                character.caster.combos[index].indexEquipedItem = itemIndex;
+                ((Ability)character.inventory[itemIndex]).CreateCopy(out int indexCopy);
+                character.caster.combos[index].indexEquipedItem = indexCopy;
                 SetComboButton(character.caster.combos[index].equiped, index);
                 HiddeItemList();
             };

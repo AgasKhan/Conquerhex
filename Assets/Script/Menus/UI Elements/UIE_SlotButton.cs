@@ -3,16 +3,12 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine.Events;
 
-public class UIE_SlotButton : VisualElement, ITooltip
+public class UIE_SlotButton : VisualElement
 {
     [UnityEngine.Scripting.Preserve]
     public new class UxmlFactory : UxmlFactory<UIE_SlotButton, UxmlTraits> { }
     private VisualElement slotImage => this.Q<VisualElement>("slotImage");
     private Label slotText => this.Q<Label>("slotText");
-
-    public string toolTitle { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public string toolDescription { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public Sprite toolImagine { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public void Init(Sprite image, string text, UnityAction action)
     {
@@ -68,23 +64,3 @@ public class UIE_SlotButton : VisualElement, ITooltip
 
     public UIE_SlotButton() { }
 }
-
-/*
-
-string text;
-    
-    public new class UxmlFactory : UxmlFactory<UIE_SlotButton, UxmlTraits> { }
-    public new class UxmlTraits : BindableElement.UxmlTraits
-    {
-        UxmlStringAttributeDescription m_Text = new UxmlStringAttributeDescription { name = "text", defaultValue = "Button" };
-
-        public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-        {
-            base.Init(ve, bag, cc);
-            var bar = ve as UIE_SlotButton;
-
-            bar.text = m_Text.GetValueFromBag(bag, cc);
-        }
-    }
-
-*/

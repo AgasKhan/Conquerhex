@@ -145,7 +145,7 @@ public class UIE_Equipment : UIE_BaseMenu
     }
     
 
-    UnityAction WeaponAction(SlotItem<MeleeWeapon> item)
+    UnityAction WeaponAction(SlotItem<MeleeWeapon> slotItem)
     {
         Action<SlotItem, int> equipAction = (_slotItem, _index) =>
         {
@@ -155,7 +155,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu<MeleeWeapon>(item, typeof(MeleeWeapon), equipAction);
+            equipMenu.SetEquipMenu<MeleeWeapon>(slotItem, typeof(MeleeWeapon), equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
@@ -166,7 +166,7 @@ public class UIE_Equipment : UIE_BaseMenu
         {
             var abilityCopy = ((AbilityExtCast)_slotItem.inventoryComponent[_index]).CreateCopy(out int indexCopy);
             _slotItem.indexEquipedItem = indexCopy;
-            TriggerOnClose(default);
+            //TriggerOnClose(default);
         };
 
         return () =>
@@ -181,7 +181,7 @@ public class UIE_Equipment : UIE_BaseMenu
         Action<SlotItem, int> equipAction = (_slotItem, _index) =>
         {
             (_slotItem as SlotItem<WeaponKata>).equiped.ChangeWeapon(_slotItem.inventoryComponent[_index]);
-            TriggerOnClose(default);
+            //TriggerOnClose(default);
         };
 
         return () =>

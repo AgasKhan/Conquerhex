@@ -56,12 +56,3 @@ public class UIE_Tooltip : VisualElement
 
     public UIE_Tooltip() { }
 }
-
-public interface ITooltip
-{
-    public string toolTitle { get; set; }
-    public string toolDescription { get; set; }
-    public Sprite toolImagine { get; set; }
-
-    //public void ShowTooltip(MouseEnterEvent mouseEvent);
-}
