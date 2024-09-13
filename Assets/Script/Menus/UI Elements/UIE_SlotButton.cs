@@ -10,7 +10,7 @@ public class UIE_SlotButton : VisualElement
     private VisualElement slotImage => this.Q<VisualElement>("slotImage");
     private Label slotText => this.Q<Label>("slotText");
 
-    public void Init(Sprite image, string text, UnityAction action)
+    public void Init(Sprite image, string text, UnityAction action, System.Type _type)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
         asset.CloneTree(this);
@@ -20,13 +20,30 @@ public class UIE_SlotButton : VisualElement
         slotText.text = text;
         auxAct = action;
 
+        if (_type != typeof(MeleeWeapon))
+        {
+            slotImage.AddToClassList("abilityBorder");
+        }
+
         slotImage.RegisterCallback<ClickEvent>(buttonEvent);
     }
 
     public void InitTooltip(string _title, string _content, Sprite _sprite)
     {
-        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite));
-        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
+        RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+        });
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) => 
+        {
+            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+        });
+    }
+
+    public void InitImageTooltip(Sprite _sprite)
+    {
+
     }
 
     public void Init(Item _item, UnityAction action)
@@ -49,8 +66,8 @@ public class UIE_SlotButton : VisualElement
 
     void buttonEvent(ClickEvent clEvent)
     {
-        slotImage.AddToClassList("slotButtonClicked");
-        slotText.AddToClassList("slotTextClicked");
+        //slotImage.AddToClassList("slotButtonClicked");
+        //slotText.AddToClassList("slotTextClicked");
 
         auxAct.Invoke();
     }

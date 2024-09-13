@@ -31,6 +31,11 @@ public class ShowDetails : ScriptableObject, IShowDetails
         return new Pictionarys<string, string>() { { "Descripción".RichText("color", "#f6f1c2"), _details } };
     }
 
+    public virtual string GetTooltip()
+    {
+        return _details;
+    }
+
     private void OnEnable()
     {
         MyEnable();

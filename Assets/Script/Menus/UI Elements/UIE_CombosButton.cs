@@ -26,6 +26,7 @@ public class UIE_CombosButton : VisualElement
     UnityAction mainAct;
     UnityAction auxAct;
 
+
     void HideKata()
     {
         kataCombo.HideInUIE();
@@ -34,7 +35,7 @@ public class UIE_CombosButton : VisualElement
     {
         equipOrAbilityCombo.HideInUIE();
     }
-    public void SetEquipOrAbility(Sprite image, string text, UnityAction action)
+    public void SetEquipOrAbility(Sprite image, string text, UnityAction action, System.Type _type)
     {
         equipOrAbilityCombo.ShowInUIE();
         HideKata();
@@ -43,6 +44,16 @@ public class UIE_CombosButton : VisualElement
         abilityText.text = text;
 
         mainAct = action;
+        
+        if (text!="Equipar")
+        {
+            abilityButton.AddToClassList("abilityBorder");
+        }
+        else
+        {
+            abilityButton.RemoveFromClassList("abilityBorder");
+        }
+        
         abilityButton.RegisterCallback<ClickEvent>(mainButtonEvent);
     }
 
@@ -57,25 +68,34 @@ public class UIE_CombosButton : VisualElement
         mainAct = kataAction;
         auxAct = weaponAction;
 
+        kataButton.AddToClassList("kataBorder");
+
         kataButton.RegisterCallback<ClickEvent>(mainButtonEvent);
 
         weaponButton.style.backgroundImage = new StyleBackground(weaponImage);
         weaponButton.RegisterCallback<ClickEvent>(auxButtonEvent);
     }
 
-    public void Init(Ability _ability, int slotIndex)
+    public void Init(Ability _ability, int slotIndex, System.Type _type)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ComboButton"];
         asset.CloneTree(this);
-
+        
         interAbility = _ability;
         index = slotIndex;
     }
 
     public void InitTooltip(string _title, string _content, Sprite _sprite)
     {
-        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite));
-        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
+        RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+        });
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+        });
     }
 
     void mainButtonEvent(ClickEvent clEvent)

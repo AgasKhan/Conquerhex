@@ -26,6 +26,15 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="AuxContainer" style="flex-grow: 1; flex-wrap: wrap; height: 85%; justify-content: space-around;">
+                        <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 85%; justify-content: space-between;">
+                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
+                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
+                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
+                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Banner" style="flex-grow: 0; flex-shrink: 0; width: 45%; height: 100%; justify-content: center;">
+                            <ui:VisualElement style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Urp/renders%20textures/RENUI.renderTexture?fileID=8400000&amp;guid=7a36e601a38520f408b2028f6c848669&amp;type=2#RENUI&quot;); flex-shrink: 0; height: 635px; -unity-background-scale-mode: scale-and-crop; width: 435px; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-slice-scale: 4.1px; scale: 1 1;" />
+                        </ui:VisualElement>
                         <ui:VisualElement name="Abilities" style="flex-grow: 0; flex-shrink: 0; width: 25%; height: 522px; justify-content: space-between; align-self: center; align-items: center;">
                             <ui:VisualElement name="slotContainer" class="slotContainerStyle">
                                 <ui:VisualElement name="AbilityButton2" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Menu/21ae3d0ffb602ef2035864c42cd9d7aa.jpg?fileID=1625422272&amp;guid=b12f87e42dbf70f41978da397e9d83cf&amp;type=3#21ae3d0ffb602ef2035864c42cd9d7aa_90&quot;);" />
@@ -39,15 +48,6 @@
                                 <ui:VisualElement name="AbilityButton4" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;);" />
                                 <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText4" class="slotTextStyle" />
                             </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement name="Banner" style="flex-grow: 0; flex-shrink: 0; width: 45%; height: 100%; justify-content: center;">
-                            <ui:VisualElement style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Urp/renders%20textures/RENUI.renderTexture?fileID=8400000&amp;guid=7a36e601a38520f408b2028f6c848669&amp;type=2#RENUI&quot;); flex-shrink: 0; height: 635px; -unity-background-scale-mode: scale-and-crop; width: 435px; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-slice-scale: 4.1px; scale: 1 1;" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 85%; justify-content: space-between;">
-                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
-                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
-                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
-                            <ui:Instance template="KataComboButtom" name="KataComboButtom" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>

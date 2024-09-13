@@ -100,6 +100,14 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
         return aux;
     }
 
+    public override string GetTooltip()
+    {
+        var aux = base.GetTooltip();
+        aux += "\n\n" + (costExecution == 0? "No consume energía".RichText("color", "#FFFFFF") : costExecution > 0 ? ("Consume " + costExecution.ToString() + " de energía roja").RichText("color", "#ea925e") : ("Consume " + costExecution.ToString() + " de energía azul").RichText("color", "#5afdf7"));
+
+        return aux;
+    }
+
     protected override void CreateButtonsAcctions()
     {
         //base.CreateButtonsAcctions();

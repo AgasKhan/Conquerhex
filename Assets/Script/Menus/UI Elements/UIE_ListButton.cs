@@ -67,7 +67,7 @@ public class UIE_ListButton : VisualElement
         changeAction?.Invoke(clEvent);
     }
 
-    public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action<ClickEvent> _mainAction)
+    public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action<ClickEvent> _mainAction, System.Type _type)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);
@@ -75,6 +75,15 @@ public class UIE_ListButton : VisualElement
         typeItem.AddToClassList("displayHidden");
         specialityItem.AddToClassList("displayHidden");
         buttonContainer.AddToClassList("displayHidden");
+
+        if(_type == typeof(WeaponKata))
+        {
+            itemImage.AddToClassList("kataBorder");
+        }
+        else if(_itemName != "Desequipar" && _type != typeof(MeleeWeapon))
+        {
+            itemImage.AddToClassList("abilityBorder");
+        }
 
         itemImage.style.backgroundImage = new StyleBackground(_itemImage);
         itemName.text = _itemName;

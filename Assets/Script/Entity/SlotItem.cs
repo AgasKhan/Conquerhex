@@ -75,6 +75,11 @@ public class SlotItem
         defaultItem = _item;
     }
 
+    public virtual System.Type GetSlottype()
+    {
+        return typeof(ItemEquipable);
+    }
+
     protected virtual void EquipedOnDrop()
     {
         _equiped.onDrop -= EquipedOnDrop;
@@ -109,6 +114,11 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
     {
         base.EquipedOnDrop();
         toChange?.Invoke(-1, null);
+    }
+
+    public override System.Type GetSlottype()
+    {
+        return typeof(T);
     }
 
     public SlotItem()

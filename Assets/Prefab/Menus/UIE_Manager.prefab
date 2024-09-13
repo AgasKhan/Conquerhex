@@ -63,11 +63,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultWeaponImage: {fileID: 21300000, guid: fe126f528f2475c45acba7da868df363, type: 3}
-  defaultWeaponText: Equipar
+  defaultWeaponText: Equipar Arma
   defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
     type: 3}
-  defaultAbilityText: Equipar
+  defaultAbilityText: Equipar Habilidad
+  defaultKataImage: {fileID: 21300000, guid: 0196f0a0b2c60d04daf23de995f88c1b, type: 3}
+  defaultKataText: Equipar Kata
   equipMenu: {fileID: 2110480652936732313}
+  basicsKeys:
+  - {fileID: 21300000, guid: 70b9875e03dd1d14992340557b08dd69, type: 3}
+  - {fileID: 21300000, guid: 224c9d6eaeaa77a449d7264ee6c62a74, type: 3}
+  - {fileID: 21300000, guid: 69185da084d899c4598716da8e554ce0, type: 3}
+  abilitiesKeys:
+  - {fileID: 21300000, guid: 0201a62df2a77f149a559dfe5370b8c2, type: 3}
+  - {fileID: 21300000, guid: 60288ada16cba784aa244026226d4f48, type: 3}
+  - {fileID: 21300000, guid: dc19dda75836426419d3d3174cb43a44, type: 3}
+  - {fileID: 21300000, guid: 74f2733c0eb077e48b475d76827b58d3, type: 3}
+  katasKeys:
+  - {fileID: 21300000, guid: 199cf7f830ef4c54d819b8320373d8ae, type: 3}
+  - {fileID: 21300000, guid: 6bdba85637a5dc14cb681f6748cfd483, type: 3}
+  - {fileID: 21300000, guid: 20c0cb3092f465a43ada0af0706d69d2, type: 3}
+  - {fileID: 21300000, guid: 16a9705516beb2540adc6d0396c0c02f, type: 3}
 --- !u!1 &1279907672048343825
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +151,12 @@ MonoBehaviour:
   defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
     type: 3}
   defaultAbilityText: Equipar
+  defaultKataImage: {fileID: 0}
+  defaultKataText: 
   equipMenu: {fileID: 2110480652936732313}
+  basicsKeys: []
+  abilitiesKeys: []
+  katasKeys: []
 --- !u!1 &5507341918820118517
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +216,7 @@ MonoBehaviour:
     - key: Combos_UIDoc
       value: {fileID: 394520618175240633}
   isInMenu: 0
-  timeToTooltip: 1.1
+  timeToTooltip: 0.8
   tooltipTimer:
     _total: 0
     _current: 0

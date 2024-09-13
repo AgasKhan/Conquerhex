@@ -21,12 +21,13 @@ public class UIE_KataButton : VisualElement
         kataText.text = _kataText;
         auxAct = _kataAction;
 
-        tooltip = _kataText + " descripción";
-
         var weaponButton = new UIE_SlotButton();
 
         weaponConteiner.Add(weaponButton);
-        weaponButton.Init(_weaponImage, _weaponText, _weaponAction);
+        weaponButton.Init(_weaponImage, _weaponText, _weaponAction, typeof(MeleeWeapon));
+
+        if(_kataText != "Equipar Kata")
+            kataButton.AddToClassList("kataBorder");
 
         kataButton.RegisterCallback<ClickEvent>(buttonEvent);
         //weaponButton.RegisterMouseEvents(EnterWeaponButton, LeaveWeaponButton);
@@ -35,8 +36,15 @@ public class UIE_KataButton : VisualElement
 
     public void InitTooltip(string _title, string _content, Sprite _sprite)
     {
-        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite));
-        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
+        RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+        });
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+        });
     }
 
     UnityAction auxAct;

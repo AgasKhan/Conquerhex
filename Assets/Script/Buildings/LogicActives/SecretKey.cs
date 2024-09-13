@@ -9,7 +9,7 @@ public class SecretKey : MonoBehaviour
     StatisticsSubMenu statisticsSubMenu;
     [SerializeField]
     GameObject submenuRef;
-    bool isInStatistics = false;
+    //bool isInStatistics = false;
 
     public GameObject[] myObjects;
     public GameObject leverCorderito;

@@ -399,3 +399,58 @@
     border-bottom-color: rgb(112, 81, 57);
     transition-duration: 0.2s;
 }
+
+.abilityBorder {
+    border-left-color: rgb(241, 112, 217);
+    border-right-color: rgb(241, 112, 217);
+    border-top-color: rgb(241, 112, 217);
+    border-bottom-color: rgb(241, 112, 217);
+}
+
+.abilityBorder:hover {
+    border-left-color: rgb(241, 201, 233);
+    border-right-color: rgb(241, 201, 233);
+    border-top-color: rgb(241, 201, 233);
+    border-bottom-color: rgb(241, 201, 233);
+}
+
+.kataBorder {
+    border-left-color: rgb(241, 203, 62);
+    border-right-color: rgb(241, 203, 62);
+    border-top-color: rgb(241, 203, 62);
+    border-bottom-color: rgb(241, 203, 62);
+}
+
+.kataBorder:hover {
+    border-left-color: rgb(250, 231, 162);
+    border-right-color: rgb(250, 231, 162);
+    border-top-color: rgb(250, 231, 162);
+    border-bottom-color: rgb(250, 231, 162);
+}
+
+.ShowComboStyle {
+    flex-grow: 0;
+    width: 136px;
+    height: 80px;
+    flex-shrink: 0;
+    align-self: center;
+    background-color: rgb(135, 112, 107);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(21, 20, 20);
+    border-right-color: rgb(21, 20, 20);
+    border-top-color: rgb(21, 20, 20);
+    border-bottom-color: rgb(21, 20, 20);
+    background-image: url("project://database/Assets/Sprites/left-click-icon-2.png?fileID=21300000&guid=99be1eaa89708e84ea6fbc41325fbcde&type=3#left-click-icon-2");
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-slice-top: 8;
+    -unity-slice-right: 8;
+    -unity-slice-bottom: 8;
+    -unity-slice-left: 8;
+}

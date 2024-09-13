@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
     <ui:VisualElement tooltip="tooltip" style="flex-grow: 0; flex-shrink: 0; width: 230px; align-self: center;">
-        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="kataButton" class="kataButton" style="justify-content: flex-start;">
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="kataButton" class="kataButton" style="justify-content: flex-start; background-color: rgb(94, 90, 81);">
             <ui:VisualElement class="slotContainerStyle" style="flex-grow: 0; width: 105px; align-self: flex-start;">
                 <ui:VisualElement name="kataImage" style="flex-grow: 0; width: 70px; height: 70px; background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=2800000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;); align-self: center; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" />
                 <ui:Label tabindex="-1" text="Golpe Continuo" parse-escape-sequences="true" display-tooltip-when-elided="true" name="kataText" class="slotTextStyle" />
