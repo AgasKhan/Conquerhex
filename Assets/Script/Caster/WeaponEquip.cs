@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class WeaponEquip : MonoBehaviour
 {
     [SerializeField]
@@ -15,10 +16,31 @@ public class WeaponEquip : MonoBehaviour
     [SerializeField]
     UnityEvent onDespawn;
 
-    public WeaponEquip Create(Vector3 position, Quaternion rotation ,Transform parent)
+    public Texture2D positionsPCache, normalsPCache;
+    public int countPCache;
+
+    /*
+    #if UNITY_EDITOR
+
+    [SerializeField]
+    UnityEditor.Experimental.VFX.Utility.PointCacheAsset pointCache;
+
+    private void OnValidate()
+    {
+        if(pointCache!=null)
+        {
+            positionsPCache = pointCache.surfaces[0];
+            normalsPCache = pointCache.surfaces[1];
+            countPCache = pointCache.PointCount;
+        }
+    }
+
+    #endif
+    */
+    public WeaponEquip Create(Vector3 position, Quaternion rotation, Transform parent)
     {
         var aux = Instantiate(this);
-        
+
         aux.transform.SetParent(parent);
         aux.transform.position = position;
         aux.transform.rotation = rotation;
@@ -62,6 +84,6 @@ public class WeaponEquip : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        Gizmos.DrawWireSphere(transform.position+ transform.TransformDirection(offset), 0.1f);
+        Gizmos.DrawWireSphere(transform.position + transform.TransformDirection(offset), 0.1f);
     }
 }

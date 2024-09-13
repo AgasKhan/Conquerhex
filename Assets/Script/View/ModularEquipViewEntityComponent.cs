@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using ComponentsAndContainers;
 public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 {
@@ -20,6 +21,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         public Vector3 Up => Rotation * Vector3.up;
     }
 
+
     public WeaponEquip this[WeaponEquip reference]
     {
         get => equipedsWeapon[reference.name].reference;
@@ -33,7 +35,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
     [SerializeField]
     bool showInModel = true;
 
-
+    [SerializeField]
+    VisualEffect visualEffect;
     /*
     
     hash => el slot y que slotList tengo (si es un combo, kata, arma)
@@ -117,12 +120,34 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
                 case Ability.State.start:
                     if(kata.Weapon?.itemBase.weaponModel!=null)
-                        this[kata.Weapon.itemBase.weaponModel].Spawn();
+                    {
+                        var weapon = this[kata.Weapon.itemBase.weaponModel];
+                        weapon.Spawn();
+
+                        visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
+                        visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
+                        visualEffect.SetInt("CountPCache", weapon.countPCache);
+                        visualEffect.SetBool("SpawnDespawn", true);
+                        visualEffect.Play();
+
+                        //visualEffect.visualEffectAsset=
+                    }
+                        
+
+
                     break;
 
                 case Ability.State.end:
                     if (kata.Weapon?.itemBase.weaponModel != null)
+                    {
                         this[kata.Weapon.itemBase.weaponModel].Despawn();
+
+                        visualEffect.SetBool("SpawnDespawn", false);
+                        visualEffect.Play();
+                    }
+                        
+
+
                     break;
             }
         }
