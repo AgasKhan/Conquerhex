@@ -123,7 +123,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                     {
                         var weapon = this[kata.Weapon.itemBase.weaponModel];
                         weapon.Spawn();
-
+                        visualEffect.Stop();
                         visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
                         visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
                         visualEffect.SetInt("CountPCache", weapon.countPCache);
@@ -141,7 +141,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                     if (kata.Weapon?.itemBase.weaponModel != null)
                     {
                         this[kata.Weapon.itemBase.weaponModel].Despawn();
-
+                        visualEffect.Stop();
                         visualEffect.SetBool("SpawnDespawn", false);
                         visualEffect.Play();
                     }
