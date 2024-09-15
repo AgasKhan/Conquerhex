@@ -159,7 +159,7 @@ public class WeaponKata : Ability
         if (WeaponEnabled == null)
             return new Entity[0];
 
-        var totalDamage = Damage.Combine(Damage.AdditiveFusion, WeaponEnabled.itemBase.damages, caster.additiveDamage.content);
+        var totalDamage = Damage.Combine(Damage.AdditiveFusion, WeaponEnabled.itemBase.damages, additiveDamage.content);
 
         totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, multiplyDamage.content);
 

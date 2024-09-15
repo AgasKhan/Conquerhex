@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using System.Reflection;
 
 
@@ -140,8 +139,6 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
             _cachedStopTimeFieldInfo ??= subValue.GetType().GetField("stopTime", BindingFlags.Public | BindingFlags.Instance);
 
             _cachedCurrentTimeFieldInfo ??= subValue.GetType().GetField("currentTime", BindingFlags.Public | BindingFlags.Instance);
-
-            subValue.GetType().GetField("currentTime ", BindingFlags.Public | BindingFlags.Instance);
 
             if (_cachedStopTimeFieldInfo == null) return;
 

@@ -201,7 +201,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public CasterEntityComponent caster { get; private set;}
 
-
+    public DamageContainer additiveDamage { get; private set; }
 
     [SerializeReference]
     public Ability original;
@@ -218,6 +218,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     FadeColorAttack _feedBackReference;
 
     AbilityModificator abilityModificator = new AbilityModificator();
+
+    
 
     public bool IsCopy => original != null;
 
@@ -492,18 +494,6 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
         abilityModificator.Init(this);
 
-
-        if (!container.TryGetInContainer(out CasterEntityComponent caster))
-        {
-            return;
-        }
-
-        this.caster = caster;
-
-        audio = caster.GetInContainer<AudioEntityComponent>();
-
-        aiming = caster.GetInContainer<AimingEntityComponent>();
-
         SetCooldown();
 
         trigger?.Set();
@@ -550,8 +540,21 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         up(dir, tim);
     }
 
-    public void OnEnterState(CasterEntityComponent param)
+    public bool PayExecution(float cost)
     {
+        return !cooldown.Chck || DontExecuteCast || (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost));
+    }
+
+    public virtual void OnEnterState(CasterEntityComponent param)
+    {   
+        this.caster = param;
+
+        additiveDamage = caster.additiveDamage;
+
+        audio = caster.GetInContainer<AudioEntityComponent>();
+
+        aiming = caster.GetInContainer<AimingEntityComponent>();
+
         if (PayExecution(CostExecution))
         {
             End = true;
@@ -564,12 +567,9 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         onEnter?.Invoke();
     }
 
-    public bool PayExecution(float cost)
-    {
-        return !cooldown.Chck || DontExecuteCast || (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost));
-    }
 
-    public void OnStayState(CasterEntityComponent param)
+
+    public virtual void OnStayState(CasterEntityComponent param)
     {
         if (DontExecuteCast)
         {
@@ -580,7 +580,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         trigger.OnStayState(param);
     }
 
-    public void OnExitState(CasterEntityComponent param)
+    public virtual void OnExitState(CasterEntityComponent param)
     {
         state = State.end;
         onPreCast?.Invoke(this);

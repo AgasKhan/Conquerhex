@@ -141,8 +141,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                     if (kata.Weapon?.itemBase.weaponModel != null)
                     {
                         this[kata.Weapon.itemBase.weaponModel].Despawn();
-                        visualEffect.Stop();
                         visualEffect.SetBool("SpawnDespawn", false);
+                        visualEffect.Stop();
                         visualEffect.Play();
                     }
                         

@@ -47,14 +47,16 @@ public class CastingParry : CastingAction<CastingParryBase>
             failureCastingAction = castingActionBase.failureCastingAction.Create();
             failureCastingAction.Init(ability);
         }
-
-        caster.onTakeDamage += TriggerTakeDamage;
     }
 
-    public override void Destroy()
+    public override void OnEnterState(CasterEntityComponent param)
     {
-        caster.onTakeDamage -= TriggerTakeDamage;
-        base.Destroy();
+        param.onTakeDamage += TriggerTakeDamage;
+    }
+
+    public override void OnExitState(CasterEntityComponent param)
+    {
+        param.onTakeDamage -= TriggerTakeDamage;
     }
 
     private void TriggerTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)

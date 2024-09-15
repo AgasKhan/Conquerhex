@@ -139,94 +139,28 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
-    // public void ExecuteGeneralAbility<T>(int index, Func<int, T> OnGetEquipped, EventControllerMediator eventMediator, Action<T> updateState) where T : class
-    // {
-    //     if (index != 0)
-    //         index += 1;
-
-    //     T action = OnGetEquipped(index);
-
-    //     if (castingActionCharacter.stateWithEnd == action) return;
-
-    //     castingActionCharacter.OnEnter += () => eventMediator += caster.abilityControllerMediator;
-    //     castingActionCharacter.OnExit += () => eventMediator -= caster.abilityControllerMediator;
-
-    //     castingActionCharacter.stateWithEnd = (IStateWithEnd<CasterEntityComponent>)action;
-    //     updateState(action);
-    // }
-
-
-    public void Attack(int i)
+    public void Attack(int i, Vector2 dir)
     {
-        WeaponKata weaponKata;
-
-        if (i == 0)
-        {
-            weaponKata = caster.actualWeapon;
-        }
-        else
-        {
-            weaponKata = caster.katas.Actual(i - 1).equiped;
-        }
-
-        if (castingActionCharacter.stateWithEnd == weaponKata)
-            return;
-
-        castingActionCharacter.OnEnter += () => attackEventMediator += caster.abilityControllerMediator;
-        castingActionCharacter.OnExit += () => attackEventMediator -= caster.abilityControllerMediator;
-
-        castingActionCharacter.stateWithEnd = weaponKata;
-
+        caster.OnEnterCasting += () => attackEventMediator += caster.abilityControllerMediator;
+        caster.Attack(i, dir);
+        caster.OnExitCasting += () => attackEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
-
         actualCombo = -1;
-
-        // ExecuteGeneralAbility(i, index => index == 0 ? caster.actualWeapon : caster.katas.Actual(index - 1).equiped,
-        // attackEventMediator, a => Action = castingActionCharacter);
-
-        // actualCombo = -1;
     }
 
-    public void Ability(int i)
+    public void Ability(int i, Vector2 dir)
     {
-        if (i != 0)
-        {
-            i += 1;
-        }
-
-        AbilityExtCast weaponKata;
-
-        weaponKata = caster.abilities.Actual(i).equiped;
-
-        if (castingActionCharacter.stateWithEnd == weaponKata)
-            return;
-
-        castingActionCharacter.OnEnter += () => abilityEventMediator += caster.abilityControllerMediator;
-        castingActionCharacter.OnExit += () => abilityEventMediator -= caster.abilityControllerMediator;
-
-        castingActionCharacter.stateWithEnd = weaponKata;
-
+        caster.OnEnterCasting += () => abilityEventMediator += caster.abilityControllerMediator;
+        caster.Ability(i, dir);
+        caster.OnExitCasting += () => abilityEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
-
-        // ExecuteGeneralAbility(i, i => i != 0 ? caster.abilities.Actual(i + 1).equiped, abilityEventMediator,
-        //  a => Action = castingActionCharacter);
-
     }
 
-    public void AlternateAbility()
+    public void AlternateAbility(Vector2 dir)
     {
-        AbilityExtCast weaponKata;
-
-        weaponKata = caster.abilities.Actual(1).equiped;
-
-        if (castingActionCharacter.stateWithEnd == weaponKata)
-            return;
-
-        castingActionCharacter.OnEnter += () => dashEventMediator += caster.abilityControllerMediator;
-        castingActionCharacter.OnExit += () => dashEventMediator -= caster.abilityControllerMediator;
-
-        castingActionCharacter.stateWithEnd = weaponKata;
-
+        caster.OnEnterCasting += () => dashEventMediator += caster.abilityControllerMediator;
+        caster.AlternateAbility(dir);
+        caster.OnExitCasting += () => dashEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
     }
 
@@ -249,18 +183,19 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
             return;
         }
 
-        Debug.Log($"{Time.realtimeSinceStartup} - {timeComboSet} = {Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo}");
 
         actualCombo = nextCombo;
 
-        timeComboSet = 0;
 
-        castingActionCharacter.OnEnter += () => attackEventMediator += caster.abilityControllerMediator;
-        castingActionCharacter.OnExit += () => attackEventMediator -= caster.abilityControllerMediator;
-
-        Ability ability = caster.combos.Actual(actualCombo).equiped;
-        castingActionCharacter.stateWithEnd = ability;
+        Debug.Log($"Combo Nº{(actualCombo/5)+1}\nReal index:{actualCombo} \n{Time.realtimeSinceStartup} - {timeComboSet} = {Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo}");
+        caster.OnEnterCasting += () => attackEventMediator += caster.abilityControllerMediator;
+        caster.ComboAttack(actualCombo);
+        caster.OnExitCasting += () => attackEventMediator -= caster.abilityControllerMediator;
+        
         Action = castingActionCharacter;
+
+        timeComboSet = 0;
+        nextCombo = -1;
     }
 
     private void Health_death()
@@ -578,142 +513,24 @@ namespace FSMCharacterAndStates
     /// </summary>
     public class CastingActionCharacter : IStateWithEnd<FSMAutomaticEnd<Character>>
     {
-        IStateWithEnd<CasterEntityComponent> _stateWithEnd;
+        CasterEntityComponent caster;
 
-        FSMAutomaticEnd<Character> param; //propia action
-
-        System.Action _OnEnter;
-
-        System.Action _OnExit;
-
-        public bool End => stateWithEnd?.End ?? true;
-
-        /*
-         public bool End  
-        {
-            get
-            {
-                if(stateWithEnd==null) //si no poseo estado
-                    return true;
-                
-                if (!stateWithEnd.End) //si no termine
-                    return false;
-
-                if (stateWithEnd.IsChildOf<IStateWithEndWithNext<CasterEntityComponent>>())
-                {
-                    var state = ((IStateWithEndWithNext<CasterEntityComponent>)stateWithEnd);
-
-                    if (state.Next != null)
-                    {
-                        stateWithEnd = state.Next;
-                        return false;
-                    }
-                    else
-                        return true;
-                }
-                else
-                    return true;
-            }
-        }
-         */
-
-        //public bool End => stateWithEnd == null ? true : false;
-        /// <summary>
-        /// Evento que se ejecuta al comenzar el casteo <br/>
-        /// No debe de ser utilizado para realizar transiciones
-        /// </summary>
-        public event System.Action OnEnter
-        {
-            add
-            {
-                //_OnEnter = _OnEnter.AddUniqueExecution(value);
-
-                System.Action action = null;
-
-                action = () =>
-                {
-                    value();
-                    //_OnEnter -= value;
-                    _OnEnter -= action;
-                };
-
-                _OnEnter += action;
-            }
-            remove
-            {
-                Debug.LogError("No podes desuscribirte manualmente de el evento de desuscripcion automatica");
-            }
-        }
-
-        /// <summary>
-        /// Evento que se ejecuta al finalizar el casteo <br/>
-        /// No debe de ser utilizado para realizar transiciones
-        /// </summary>
-        public event System.Action OnExit
-        {
-            add
-            {
-                System.Action action = null;
-
-                action = () =>
-                {
-                    value();
-                    //_OnExit -= value;
-                    _OnExit -= action;
-                };
-
-                _OnExit += action;
-            }
-            remove
-            {
-                Debug.LogError("No podes desuscribirte manualmente de el evento de desuscripcion automatica");
-            }
-        }
-
-        public IStateWithEnd<CasterEntityComponent> stateWithEnd
-        {
-            get => _stateWithEnd;
-
-            set
-            {
-                if (param != null)
-                {
-                    stateWithEnd.OnExitState(param.context.caster);
-                    _OnExit?.Invoke();
-
-                    _stateWithEnd = value;
-
-                    _OnEnter?.Invoke();
-                    stateWithEnd?.OnEnterState(param.context.caster);
-                }
-                else
-                    _stateWithEnd = value;
-            }
-        }
+        public bool End => caster?.End ?? true;
 
         public void OnEnterState(FSMAutomaticEnd<Character> param)
         {
-            this.param = param;
-
-            _OnEnter?.Invoke();
-
-            stateWithEnd?.OnEnterState(param.context.caster);
+            caster = param.context.caster;
         }
 
         public void OnStayState(FSMAutomaticEnd<Character> param)
         {
-            stateWithEnd?.OnStayState(param.context.caster);
+            caster.abilityCasting.OnStayState(caster);
         }
 
         public void OnExitState(FSMAutomaticEnd<Character> param)
         {
-            _stateWithEnd?.OnExitState(param.context.caster);
-
-            _OnExit?.Invoke();
-
-            this.param = null;
-
-            _stateWithEnd = null;
+            caster.abilityCasting = null;
+            caster = null;
         }
     }
 

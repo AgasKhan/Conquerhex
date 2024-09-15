@@ -14,6 +14,7 @@ public abstract class TriggerControllerBase : ShowDetails
     }
 
     protected abstract System.Type SetItemType();
+
 }
 
 public abstract class TriggerController : IControllerDir, IAbilityComponent
@@ -109,15 +110,11 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
         ability.state = Ability.State.start;
 
-        param.abilityControllerMediator += ability;
-
         caster.onTakeDamage += Caster_onTakeDamage;
 
         ability.onPreCast += param.PreCastEvent;
 
         ability.onCast += param.CastEvent;
-
-        ability.ControllerDown(ability.Aiming2D, 0);
     }
 
 
@@ -131,7 +128,6 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         //Debug.Log("sali");
         //ability.StopCast();
         caster.onTakeDamage -= Caster_onTakeDamage;
-        param.abilityControllerMediator -= ability;
         ability.onCast -= param.CastEvent;
         ability.onPreCast -= param.PreCastEvent;
     }
@@ -174,7 +170,7 @@ public interface IAbilityStats
     public float Auxiliar { get; }
 }
 
-public interface IAbilityComponent : IAbilityStats
+public interface IAbilityComponent : IAbilityStats, IState<CasterEntityComponent>
 {
     /// <summary>
     /// Variable dedicada a senializar el fin de la habilidad<br/>

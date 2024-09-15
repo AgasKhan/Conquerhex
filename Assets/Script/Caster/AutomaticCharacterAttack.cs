@@ -133,7 +133,7 @@ public class AutomaticCharacterAttack
         if (ability == null || timerChargeAttack == null || !timerChargeAttack.Chck)
             return;
 
-        Cast();
+        //Cast();
 
         timerChargeAttack.Reset();
     }
@@ -172,7 +172,7 @@ public class AutomaticCharacterAttack
 
             eventControllerMediator = owner.attackEventMediator;
 
-            Cast = () => owner.Attack(index + 1);
+            //Cast = () => owner.Attack(index + 1);
         }
         else if (typeof(AbilityExtCast).IsAssignableFrom(typeof(T)))
         {
@@ -181,12 +181,12 @@ public class AutomaticCharacterAttack
 
             if (index == 1)
             {
-                Cast = owner.AlternateAbility;
+                //Cast = owner.AlternateAbility;
                 eventControllerMediator = owner.dashEventMediator;
             }
             else
             {
-                Cast = () => owner.Ability(index);
+                //Cast = () => owner.Ability(index);
                 eventControllerMediator = owner.abilityEventMediator;
             }
         }
@@ -198,7 +198,7 @@ public class AutomaticCharacterAttack
 
             index = 0;
 
-            Cast = () => owner.Attack(0);
+            //Cast = () => owner.Attack(0);
         }
     }
 

@@ -58,10 +58,6 @@ public abstract class CastingAction : IAbilityComponent
 
     public float Auxiliar => (ability).Auxiliar;
 
-    
-
-
-
     /// <summary>
     /// Ejecuta el casteo personalizado de las AbilityExtCast
     /// </summary>
@@ -82,6 +78,31 @@ public abstract class CastingAction : IAbilityComponent
     public virtual void Destroy()
     {
         ability = null;
+    }
+
+    /// <summary>
+    /// Al ser una accion de casteo debe de poseer la menor logica posible, ya que los triggers son los que preponderan la logica de trigger
+    /// </summary>
+    /// <param name="param"></param>
+    public virtual void OnEnterState(CasterEntityComponent param)
+    {
+    }
+
+    /// <summary>
+    /// Al ser una accion de casteo debe de poseer la menor logica posible, ya que los triggers son los que preponderan la logica de trigger
+    /// </summary>
+    /// <param name="param"></param>
+
+    public virtual void OnStayState(CasterEntityComponent param)
+    {
+    }
+
+    /// <summary>
+    /// Al ser una accion de casteo debe de poseer la menor logica posible, ya que los triggers son los que preponderan la logica de trigger
+    /// </summary>
+    /// <param name="param"></param>
+    public virtual void OnExitState(CasterEntityComponent param)
+    {
     }
 }
 

@@ -37,8 +37,6 @@ public class IAIO : IAFather
 
     char[] womboCOMBO = new char[] { '↑', '→', '←', '↓' };
 
-    int womboIndex;
-
     Timer comboReset;
 
     InteractEntityComponent lastInteractuable;
@@ -426,18 +424,14 @@ public class IAIO : IAFather
         if (character.actualCombo == -2)
             return;
 
-        int number = -1;
+        int number = 0;
 
-        if (lastCombo.IsEmpty())
-        {
-            number = womboIndex * 5;
-        }
-        else
+        if (!lastCombo.IsEmpty())
             for (int i = 0; i < womboCOMBO.Length; i++)
             {
                 if (lastCombo[^1] == womboCOMBO[i])
                 {
-                    number = (i + 1 + womboIndex * 5);
+                    number = (i);
                     break;
                 }
             }
@@ -447,38 +441,38 @@ public class IAIO : IAFather
         tier 1: 0 a 4 NO SUMO
         tier 2: 5 a 9 debo de sumar 5
         tier 3: del 10 al 14 debo sumar 10
+
+        reinicio el combo si es mayor que 10
         
         */
-
-        if (character.actualCombo >= 5 && character.actualCombo < 10)
-            number += 10;
-        else if (character.actualCombo >= 0)
-            number += 5;
-
-        character.aiming.AimingToObjective2D = arg1;
+        if(character.actualCombo < 10)
+        {
+            if (character.actualCombo >= 5)
+                number += 10;
+            else if (character.actualCombo >= 0)
+                number += 5;
+        }        
 
         character.ComboAttack(number);
+
     }
 
     private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
     {
-        womboIndex = 0;
-
-        character.aiming.AimingToObjective2D = arg1;
-
         for (int i = 0; i < comboRapido.Length; i++)
         {
             if (comboRapido[i] == lastCombo)
             {
-                character.Attack(i + 1);
+                character.Attack(i + 1, arg1);
                 lastCombo = string.Empty;
-                comboReset.Stop();
                 return;
             }
         }
 
         if (character.actualCombo == -2)
-            character.Attack(0);
+        {
+            character.Attack(0, arg1);
+        }
     }
 
     private void AbilityEventMediator_eventDown(Vector2 arg1, float arg2)
@@ -489,14 +483,14 @@ public class IAIO : IAFather
         {
             if (comboRapido[i] == lastCombo)
             {
-                character.Ability(i + 1);
+                character.Ability(i + 1, arg1);
                 lastCombo = string.Empty;
                 comboReset.Stop();
                 return;
             }
         }
 
-        character.Ability(0);
+        character.Ability(0, arg1);
     }
 
     private void PerspectiveConfigAndCameraBlockOEnter(Vector2 arg1, float arg2)
@@ -568,8 +562,7 @@ public class IAIO : IAFather
 
     private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
     {
-        character.aiming.AimingToObjective2D = arg1;
-        character.AlternateAbility();
+        character.AlternateAbility(arg1);
     }
     private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
     {

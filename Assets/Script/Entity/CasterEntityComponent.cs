@@ -19,11 +19,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     [Tooltip("Combos de ataque")]
     public SlotItemList<Ability> combos = new SlotItemList<Ability>(15);
 
-    /*
-    [Tooltip("Habilidades que se efectuaran con el combo de habilidades")]
-    public SlotItemList<AbilityExtCast> abilitiesCombo = new SlotItemList<AbilityExtCast>(4);
-    */
-
     public DamageContainer additiveDamage;
 
     public event System.Action<Ability> onCast;
@@ -43,6 +38,14 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     InventoryEntityComponent inventoryEntity;
 
     AimingEntityComponent aimingSystem;
+
+    Ability _abilityCasting;
+
+    FSMAutomaticEnd<Character> param;
+
+    System.Action _OnEnter;
+
+    System.Action _OnExit;
 
     [SerializeField,Range(-100,100), Tooltip(   "en caso de ser calor (positivo): es el porcentage de cuanta mas energia ganara con frio y cuanta menos energia perdera con calor" +
                                 "\nen caso de ser frio (negativo): es el porcentage de cuanta menos energia ganara con frio y cuanta mas energia perdera con calor")]
@@ -79,6 +82,91 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public float EnergyDefault => flyweight?.energyDefault ?? 0;
 
+    public bool End => abilityCasting?.End ?? true;
+
+    /// <summary>
+    /// Evento que se ejecuta al comenzar el casteo <br/>
+    /// No debe de ser utilizado para realizar transiciones
+    /// </summary>
+    public event System.Action OnEnterCasting
+    {
+        add
+        {
+            //_OnEnter = _OnEnter.AddUniqueExecution(value);
+
+            System.Action action = null;
+
+            action = () =>
+            {
+                value();
+                //_OnEnter -= value;
+                _OnEnter -= action;
+            };
+
+            _OnEnter += action;
+        }
+        remove
+        {
+            Debug.LogError("No podes desuscribirte manualmente de el evento de desuscripcion automatica");
+        }
+    }
+
+    /// <summary>
+    /// Evento que se ejecuta al finalizar el casteo <br/>
+    /// No debe de ser utilizado para realizar transiciones
+    /// </summary>
+    public event System.Action OnExitCasting
+    {
+        add
+        {
+            System.Action action = null;
+
+            action = () =>
+            {
+                value();
+                //_OnExit -= value;
+                _OnExit -= action;
+            };
+
+            _OnExit += action;
+        }
+        remove
+        {
+            Debug.LogError("No podes desuscribirte manualmente de el evento de desuscripcion automatica");
+        }
+    }
+
+    public Ability abilityCasting
+    {
+        get => _abilityCasting;
+
+        set
+        {
+            if (_abilityCasting != null)
+            {
+                abilityCasting.OnExitState(this);
+                abilityControllerMediator -= _abilityCasting;
+                _OnExit.Invoke();
+
+                _abilityCasting = value;
+
+                if (value == null)
+                    return;
+
+                abilityCasting?.OnEnterState(this);
+                abilityControllerMediator += abilityCasting;
+                _OnEnter?.Invoke();
+            }
+            else if(value != null)
+            {
+                _abilityCasting = value;
+                _abilityCasting.OnEnterState(this);
+                abilityControllerMediator += _abilityCasting;
+                _OnEnter?.Invoke();
+            }
+
+        }
+    }
 
     [Tooltip("Representa la parte llena de la barra")]
     public float positiveEnergy
@@ -187,7 +275,50 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         return true;
     }
-    
+
+
+    public void Attack(int i, Vector2 dir)
+    {
+        if (i == 0)
+        {
+            abilityCasting = actualWeapon;
+        }
+        else
+        {
+            abilityCasting = katas.Actual(i - 1).equiped;
+        }
+
+        abilityCasting?.ControllerDown(dir, 0);
+    }
+
+    public void Ability(int i, Vector2 dir)
+    {
+        if (i != 0)
+        {
+            i += 1;
+        }
+
+        abilityCasting = abilities.Actual(i).equiped;
+
+
+        abilityCasting?.ControllerDown(dir,0);
+    }
+
+    public void AlternateAbility(Vector2 dir)
+    {
+        abilityCasting = abilities.Actual(1).equiped;
+
+        abilityCasting?.ControllerDown(dir,0);
+
+    }
+
+    public void ComboAttack(int i)
+    {
+        abilityCasting = combos.Actual(i).equiped; 
+
+        abilityCasting?.ControllerDown(abilityControllerMediator.dir, 0);
+    }
+
     void EnergyUpdate()
     {
         if (EnergyStatic || (EnergyDefault * MaxEnergy) == positiveEnergy)
@@ -356,6 +487,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     }
 
 
+    #region seteo de la entidad
 
     public override void OnStayState(Entity param)
     {
@@ -412,6 +544,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
                 SetCombo(i);
             }
     }
+
+    #endregion
 
     public void Init()
     {
