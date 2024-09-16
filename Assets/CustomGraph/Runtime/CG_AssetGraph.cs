@@ -46,18 +46,6 @@ namespace CustomGraph
             }
         }
 
-        public CG_Node GetStartNode()
-        {
-            ND_StartNode[] startNodes = Nodes.OfType<ND_StartNode>().ToArray();
-
-            if (startNodes.Length == 0)
-            {
-                Debug.LogError("El nodo inicial es nulo!");
-                return null;
-            }
-            return startNodes[0];
-        }
-
         public CG_Node GetNode(string nextNode)
         {
             if (_nodeDict.TryGetValue(nextNode, out CG_Node node))
@@ -66,16 +54,44 @@ namespace CustomGraph
             return null;
         }
 
-        /// <summary>
-        /// Ejecuta la cadena de acciones empezando por el o los nodos iniciales.
-        /// </summary>
-        public void Execute()
+        public CG_Node GetNode(CG_Node[] nodes)
         {
-            //Cambiarlo para que obtenga otros nodos. Unicamente obtiene el nodo start y llama a su siguiente nodo en output
+            if (nodes.Length == 0)
+            {
+                Debug.LogError("El nodo es nulo");
+                return null;
+            }
 
-            CG_Node startNode = GetStartNode();
+            return nodes[0];
+        }
+
+        /// <summary>
+        /// Ejecuta la cadena de acciones con el nodo Start.
+        /// </summary>
+        public void OnStart()
+        {
+            CG_Node startNode = GetNode(Nodes.OfType<ND_OnStart>().ToArray());
             NextNode(startNode);
         }
+
+        /// <summary>
+        /// Ejecuta la cadena de acciones con el nodo Update
+        /// </summary>
+        public void OnUpdate()
+        {
+            CG_Node update = GetNode(Nodes.OfType<ND_OnUpdate>().ToArray());
+            NextNode(update);
+        }
+
+        /// <summary>
+        /// Ejecuta la cadena de acciones con el nodo Exit
+        /// </summary>
+        public void OnExit()
+        {
+            CG_Node exit = GetNode(Nodes.OfType<ND_OnExit>().ToArray());
+            NextNode(exit);
+        }
+
 
         /// <summary>
         /// Metodo para pasar al siguiente nodo. Este metodo hace recursion hasta llegar al nodo final.
