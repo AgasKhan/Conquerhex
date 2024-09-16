@@ -17,7 +17,7 @@ public class AnimationEventMediator : MonoBehaviour
               return;
 
          //Debug.Log("AnimEvent: " + str);
-            reference?.animationEventMediator[str]?.Invoke();
+            //reference?.animationEventMediator[str]?.Invoke();
         }
     }
 

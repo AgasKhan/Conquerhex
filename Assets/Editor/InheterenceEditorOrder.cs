@@ -279,7 +279,7 @@ namespace CustomEulerEditor
 
             if (property!=null)
             {
-                onSelectedItem.Invoke(property.GetValue<object>());
+                onSelectedItem?.Invoke(property.GetValue<object>());
 
                 /*
                 if (property.propertyType == SerializedPropertyType.Generic)

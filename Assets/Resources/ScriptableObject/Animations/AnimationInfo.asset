@@ -13,17 +13,24 @@ MonoBehaviour:
   m_Name: AnimationInfo
   m_EditorClassIdentifier: 
   animClips:
-  - animationClip: {fileID: 1827226128182048838, guid: 74b1d6afd0f280445bf73189e21cdfb3,
-      type: 3}
-    inLoop: 0
-    offsetTime: 0
-  - animationClip: {fileID: 6641085478485924818, guid: 01514c4f3ee3ec4448ece24717ca26a1,
-      type: 3}
-    inLoop: 0
-    offsetTime: 0.6250005
-  events:
     pictionaries:
-    - key: 0.34383953
-      value: Cast
-    - key: 1.0416671
-      value: Cast
+    - key: 
+      value:
+        animationClip: {fileID: 1827226128182048838, guid: 02db2be0a74e43d4ba7ee94a7d6cc3b7,
+          type: 3}
+        inLoop: 0
+        offsetTime: 0
+        events:
+          pictionaries:
+          - key: cast
+            value: 0.33475015
+    - key: 
+      value:
+        animationClip: {fileID: 1827226128182048838, guid: 835dffdb0598c3b4cbd55a31b4ba08f6,
+          type: 3}
+        inLoop: 0
+        offsetTime: 0.833333
+        events:
+          pictionaries:
+          - key: cast
+            value: 0.2716525
