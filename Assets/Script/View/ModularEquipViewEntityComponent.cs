@@ -111,6 +111,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     private void OnPreCast(Ability obj)
     {
+        /*
         if(obj is WeaponKata kata)
         {
             switch (kata.state)
@@ -151,6 +152,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                     break;
             }
         }
+        */
     }
 
     public override void OnEnterState(Entity param)

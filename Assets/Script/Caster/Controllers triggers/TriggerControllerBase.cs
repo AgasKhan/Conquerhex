@@ -108,7 +108,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     {
         ability.End = false;
 
-        ability.state = Ability.State.start;
+        //ability.state = Ability.State.start;
 
         caster.onTakeDamage += Caster_onTakeDamage;
 

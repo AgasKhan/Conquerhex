@@ -7,12 +7,26 @@ using Object = UnityEngine.Object;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using CustomEulerEditor;
+using System.Linq;
 
 [CustomEditor(typeof(Object), true)]
 [CanEditMultipleObjects]
 public class InheterenceEditorOrder : Editor
 {
     InheterenceOrder inheterenceOrder;
+
+    protected event System.Action<object> onSelectedItem
+    {
+        add
+        {
+            inheterenceOrder.onSelectedItem += value;
+        }
+        remove
+        {
+            inheterenceOrder.onSelectedItem -= value;
+        }
+    }
+        
 
     public override VisualElement CreateInspectorGUI()
     {
@@ -44,6 +58,8 @@ namespace CustomEulerEditor
 {
     public class InheterenceOrder
     {
+        public System.Action<object> onSelectedItem;
+
         private bool showInheritedPropertiesInverted = false; // Configuración para mostrar propiedades heredadas abajo
         private bool showClassTitles = false; // Configuración para mostrar títulos de clase
         private bool showClassAllTitles = false; // Configuración para mostrar títulos de clase
@@ -237,6 +253,68 @@ namespace CustomEulerEditor
                 var propertyField = new PropertyField();
                 propertyField.BindProperty(properties[i]);
                 container.Add(propertyField);
+
+                EventCallback<ClickEvent> aux = null;
+                
+                aux = (ClickEvent evt) =>
+                {
+                    Debug.Log("Clickeado: " + evt.currentTarget);
+
+
+                    ///Debug.Log($"{propertyField.label} Posee hijos: {propertyField.childCount}");
+                    ///
+
+                    HasCollection(propertyField);
+
+                    propertyField.UnregisterCallback(aux);
+                };
+
+                propertyField.RegisterCallback(aux);
+            }
+        }
+
+        private void List_selectionChanged(IEnumerable<object> obj)
+        {
+            var property = (obj.FirstOrDefault() as SerializedProperty);
+
+            if (property!=null)
+            {
+                onSelectedItem.Invoke(property.GetValue<object>());
+
+                /*
+                if (property.propertyType == SerializedPropertyType.Generic)
+                {
+                    var targetObject = property.serializedObject.targetObject;
+                    var targetObjectClassType = targetObject.GetType();
+                    var field = targetObjectClassType.GetField(property.propertyPath);
+
+                    if (field != null)
+                    {
+                        var value = field.GetValue(targetObject);
+                        Debug.Log(value);
+
+                        onSelectedItem.Invoke(value);
+                    }
+                }
+                else
+                {
+                    onSelectedItem.Invoke(property.boxedValue);
+                }
+                */
+            }
+        }
+
+        private void HasCollection(VisualElement propertyField)
+        {
+            foreach (var propertyChild in propertyField.Children())
+            {
+                if (propertyChild is BaseVerticalCollectionView list)
+                {
+                    list.selectionChanged += List_selectionChanged;
+                    List_selectionChanged(list.selectedItems);
+                }
+                
+                HasCollection(propertyChild);
             }
         }
     }

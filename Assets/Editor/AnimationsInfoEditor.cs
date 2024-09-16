@@ -11,7 +11,7 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
 {
     AnimationInfo info;
 
-    AnimationClip clip = null;
+    AnimationInfo.AnimationData data = null;
 
     Editor editorAnim;
 
@@ -22,12 +22,6 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
     public override VisualElement CreateInspectorGUI()
     {
         info = target as AnimationInfo;
-
-        if (editorAnim == null || clip != info.animationClip)
-        {
-            clip = info.animationClip;
-            editorAnim = CreateEditor(clip);
-        }
 
         var container = base.CreateInspectorGUI();
 
@@ -50,7 +44,7 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
 
         var buttonEvent = new Button(()=> 
         {
-            info.events.CreateOrSave(currentTimeProperty.value, nameEvent.value);
+            data?.events.CreateOrSave(nameEvent.value, currentTimeProperty.value);
         });
 
         buttonEvent.text = "AddEvent";
@@ -58,7 +52,6 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
         //buttonEvent.style.width = new Length(25, LengthUnit.Percent);
 
         //buttonEvent.style.marginRight = new Length(5, LengthUnit.Percent);
-
 
 
         var subContainer = new VisualElement();
@@ -75,17 +68,37 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
 
         subContainer.Add(buttonEvent);
 
-
         container.Add(subContainer);
+
+
+
+        onSelectedItem += AnimationsInfoEditor_onSelectedItem;
+
 
         return container;
     }
 
+    private void AnimationsInfoEditor_onSelectedItem(object obj)
+    {
+        Debug.Log(obj);
+
+        if(obj is Internal.Pictionary<string, AnimationInfo.AnimationData> data)
+        {
+            if (editorAnim == null || (this.data != data.value))
+            {
+                this.data = data.value;
+
+                if(this.data?.animationClip != null)
+                    editorAnim = CreateEditor(this.data.animationClip);
+            }
+        }
+    }
 
     public override bool HasPreviewGUI()
     {
         return editorAnim?.HasPreviewGUI() ?? false;
     }
+
     public override void OnPreviewSettings()
     {
         editorAnim?.OnPreviewSettings();
@@ -107,16 +120,16 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
 
     private void FixPreviewEditorForAnimation(Editor editor)
     {
-        //if (!(editor.target is AnimationClip clip)) return;
-
+        if (data?.animationClip == null)
+            return;
 
         if (_cachedAvatarPreviewFieldInfo != null && _cachedTimeControlFieldInfo != null && _cachedStopTimeFieldInfo != null)
         {
             var value = _cachedAvatarPreviewFieldInfo.GetValue(editor);
             var subValue = _cachedTimeControlFieldInfo.GetValue(value);
-            _cachedStopTimeFieldInfo.SetValue(subValue, clip.length);
+            _cachedStopTimeFieldInfo.SetValue(subValue, data.animationClip.length);
 
-            currentTimeProperty.value = (float)_cachedCurrentTimeFieldInfo.GetValue(subValue);
+            currentTimeProperty.value = /*data.offsetTime +*/ (float)_cachedCurrentTimeFieldInfo.GetValue(subValue);
         }
         else
         {
@@ -142,7 +155,7 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
 
             if (_cachedStopTimeFieldInfo == null) return;
 
-            _cachedStopTimeFieldInfo.SetValue(subValue, clip.length);
+            _cachedStopTimeFieldInfo.SetValue(subValue, data.animationClip.length);
         }
     }
 }

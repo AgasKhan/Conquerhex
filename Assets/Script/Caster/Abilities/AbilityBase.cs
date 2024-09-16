@@ -26,6 +26,8 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 
     public AnimationClip animationCastExit;
 
+    public Pictionarys<string, AnimationInfo> animations = new Pictionarys<string, AnimationInfo>();
+
     public PoolGameObjectSpawnProperty inPlaceAffected = new PoolGameObjectSpawnProperty() { index = Vector2Int.one*-1};
 
     public PoolGameObjectSpawnProperty inPlaceOwner = new PoolGameObjectSpawnProperty() { index = Vector2Int.one * -1 };
@@ -175,23 +177,13 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 [System.Serializable]
 public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
 {
-    public enum State
-    {
-        start,
-        middle,
-        end
-    }
-
-    /// <summary>
-    /// Estado de la habilidad, controlado por el trigger/casteo, para asi saber que sucede por fuera de este, util para feedback
-    /// </summary>
-    public State state = State.start;
-
     public event System.Action<Ability> onCast;
 
     System.Action _onInternalCast;
 
     public event System.Action<Ability> onPreCast;
+
+    public event System.Action<AnimationInfo> onAnimation;
 
     public event System.Action onEnter;
 
@@ -218,8 +210,6 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     FadeColorAttack _feedBackReference;
 
     AbilityModificator abilityModificator = new AbilityModificator();
-
-    
 
     public bool IsCopy => original != null;
 
@@ -295,9 +285,6 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public override bool visible => !IsCopy && !isDefault;
 
-    
-
-
     public FadeColorAttack FeedBackReference
     {
         get
@@ -357,12 +344,22 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         End = true;
     }
 
+    public void PlayAnimation(string name)
+    {
+        onAnimation?.Invoke(itemBase.animations[name]);
+    }
+
     public virtual void PlaySound(string name)
     {
         if (audio == null)
             return;
 
         audio.Play($"{itemBase.name}-{name}");
+    }
+
+    private void OnAnimation(AnimationInfo obj)
+    {
+        
     }
 
     public IEnumerable<Entity> ApplyCast(IEnumerable<Entity> entities, bool showParticleInPos = true, bool showParticleDamaged=true)
@@ -497,7 +494,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         SetCooldown();
 
         trigger?.Set();
+
+        onAnimation += OnAnimation;
     }
+
+
 
     public void ControllerDown(Vector2 dir, float tim)
     {
@@ -582,7 +583,6 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public virtual void OnExitState(CasterEntityComponent param)
     {
-        state = State.end;
         onPreCast?.Invoke(this);
 
         if (!DontExecuteCast)

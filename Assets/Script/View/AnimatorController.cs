@@ -24,16 +24,11 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     Pictionarys<string, AnimationData> animations = new Pictionarys<string, AnimationData>();
 
     [SerializeField]
-    string action1Name, 
-        action2Name, 
+    string action1Name,
+        action2Name,
+        actionLoop1NameMiddle,
+        actionLoop2NameMiddle;
 
-        actionLoop1NameStart, 
-        actionLoop1NameMiddle, 
-        actionLoop1NameEnd, 
-
-        actionLoop2NameStart, 
-        actionLoop2NameMiddle, 
-        actionLoop2NameEnd;
 
     AnimatorOverrideController animatorOverrideController;
 
@@ -78,6 +73,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void Ia_PreCast(Ability ability)
     {
+        /*
         switch (ability.state)
         {
             case Ability.State.middle:
@@ -90,20 +86,17 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
                 if (ability.animationCastMiddle == null && ability.animationCastExit == null)
                 {
-                    ChangeActionAnimation(ability.animationCastStart);
 
                     if(ability.WaitAnimations)
                         animationEventMediator["Cast"] = ()=> ability.Cast();
                     else
                         animationEventMediator["Cast"] = null;
 
-                    controller.SetTrigger(strAction);
-
+                    ChangeActionAnimation(ability.animationCastStart);
                 }
                 else
                 {
                     ChangeLoopActionAnimation(ability.animationCastStart, ability.animationCastMiddle, ability.animationCastExit);
-                    controller.SetBool(strLoopAction, true);
                 }
                 break;
 
@@ -119,6 +112,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
                 }
                 break;
         }
+        */
     }
 
     private void Ia_onDeath()
@@ -130,18 +124,21 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     {
         if (loopAction)
         {
-            ChangeAnimation(actionLoop2NameStart, newClipStart);
+            ChangeActionAnimation(newClipStart);
             ChangeAnimation(actionLoop2NameMiddle, newClipMiddle);
-            ChangeAnimation(actionLoop2NameEnd, newClipEnd);
+            ChangeActionAnimation(newClipEnd);
+
         }
         else
         {
-            ChangeAnimation(actionLoop1NameStart, newClipStart);
+            ChangeActionAnimation(newClipStart);
             ChangeAnimation(actionLoop1NameMiddle, newClipMiddle);
-            ChangeAnimation(actionLoop1NameEnd, newClipEnd);
+            ChangeActionAnimation(newClipEnd);
         }
 
         loopAction = !loopAction;
+
+        controller.SetBool(strLoopAction, true);
     }
 
     void ChangeActionAnimation(AnimationClip newClip)
@@ -157,6 +154,8 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         }
 
         action = !action;
+
+        controller.SetTrigger(strAction);
     }
 
     void ChangeAnimation(string name, AnimationClip newClip)

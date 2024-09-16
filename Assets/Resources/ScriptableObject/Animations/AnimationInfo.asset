@@ -12,9 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da78a40eeae658844b6a31b470676073, type: 3}
   m_Name: AnimationInfo
   m_EditorClassIdentifier: 
-  animationClip: {fileID: -998496362607748373, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
-    type: 3}
+  animClips:
+  - animationClip: {fileID: 1827226128182048838, guid: 74b1d6afd0f280445bf73189e21cdfb3,
+      type: 3}
+    inLoop: 0
+    offsetTime: 0
+  - animationClip: {fileID: 6641085478485924818, guid: 01514c4f3ee3ec4448ece24717ca26a1,
+      type: 3}
+    inLoop: 0
+    offsetTime: 0.6250005
   events:
     pictionaries:
-    - key: 0.16273957
+    - key: 0.34383953
+      value: Cast
+    - key: 1.0416671
       value: Cast
