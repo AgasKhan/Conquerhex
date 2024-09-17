@@ -67,6 +67,11 @@ public class CastingDash : CastingAction<CastingDashBase>
         }        
     }
 
+    public override void OnEnterState(CasterEntityComponent param)
+    {
+        ability.PlayAction("Charge");
+    }
+
     public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
     {
         showParticleInPos = false;
@@ -83,6 +88,8 @@ public class CastingDash : CastingAction<CastingDashBase>
                 affected = startDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out showParticleInPos, out showParticleDamaged);
                 ability.PlaySound("StartCast");
             }
+
+            ability.PlayAction("Middle");
         }
 
         //ability.state = Ability.State.middle;
@@ -145,7 +152,9 @@ public class CastingDash : CastingAction<CastingDashBase>
             ability.ApplyCast(endDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
             ability.PlaySound("EndCast");
         }
-            
+
+        ability.PlayAction("End");
+
 
         End = true;
     }
