@@ -49,11 +49,11 @@ public class AutomaticCharacterAttack
     {
         add
         {
-            _ability.onCast += value;
+            _ability.onApplyCast += value;
         }
         remove
         {
-            _ability.onCast -= value;
+            _ability.onApplyCast -= value;
         }
     }
     public bool cooldown => ability != null ? ability.onCooldownTime && timerChargeAttack.Chck : false;

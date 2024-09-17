@@ -226,8 +226,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
             SetPlayerAbility(abilitiesForPlayer[i]);
         }
 
-        player.caster.abilities[0].equiped.onCast += EquipedOnCast0;
-        player.caster.abilities[1].equiped.onCast += EquipedOnCast1;
+        player.caster.abilities[0].equiped.onApplyCast += EquipedOnCast0;
+        player.caster.abilities[1].equiped.onApplyCast += EquipedOnCast1;
         //player.caster.abilities[3].equiped.onCast += EquipedOnCast3;
         //player.caster.abilities[4].equiped.onCast += EquipedOnCast4;
     }
@@ -235,7 +235,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void EquipedOnCast0(Ability ability)
     {
         ability0 = true;
-        player.caster.abilities[0].equiped.onCast -= EquipedOnCast0;
+        player.caster.abilities[0].equiped.onApplyCast -= EquipedOnCast0;
 
         interfaz.CompleteObjective(0);
 
@@ -246,7 +246,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void EquipedOnCast1(Ability ability)
     {
         ability1 = true;
-        player.caster.abilities[1].equiped.onCast -= EquipedOnCast1;
+        player.caster.abilities[1].equiped.onApplyCast -= EquipedOnCast1;
 
         interfaz.CompleteObjective(1);
 
@@ -256,7 +256,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void EquipedOnCast3(Ability ability)
     {
         ability3 = true;
-        player.caster.abilities[3].equiped.onCast -= EquipedOnCast3;
+        player.caster.abilities[3].equiped.onApplyCast -= EquipedOnCast3;
 
         interfaz.CompleteObjective(2);
 
@@ -266,7 +266,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void EquipedOnCast4(Ability ability)
     {
         ability4 = true;
-        player.caster.abilities[4].equiped.onCast -= EquipedOnCast4;
+        player.caster.abilities[4].equiped.onApplyCast -= EquipedOnCast4;
 
         interfaz.CompleteObjective(3);
 

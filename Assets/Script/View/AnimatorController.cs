@@ -6,7 +6,7 @@ using ComponentsAndContainers;
 public partial class AnimatorController : ComponentOfContainer<Entity>
 {
     [System.Serializable]
-    public class AnimationData
+    public class Data
     {
         public bool canChange = true;
         public AnimationClip clip;
@@ -15,13 +15,19 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     [System.Serializable]
     public enum DefaultActions
     {
-        Cast=0,
+        NoDefault = -1,
+        Cast = 0,
         Attack=0,
-        SpecialCast=1,
-        SpecialAttack=1,
-        DashMiddle=3,
-        DashMiddle2 = 2,
+        SpecialCast1=1,
+        SpecialAttack1=1,
+        SpecialCast2 = 3,
+        SpecialAttack2 = 3,
+        SpecialCast3 = 2,
+        SpecialAttack3 = 2,
     }
+
+    public event System.Action<AnimatorStateInfo> onEnterAnim;
+    public event System.Action<AnimatorStateInfo> onExitAnim;
 
     [SerializeField]
     bool active = true;
@@ -30,7 +36,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     public Animator controller;
 
     [SerializeField]
-    Pictionarys<string, AnimationData> animations = new Pictionarys<string, AnimationData>();
+    Pictionarys<string, Data> animations = new Pictionarys<string, Data>();
 
     [SerializeField]
     string[] actionsName;
@@ -104,76 +110,16 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         enabled = true;
     }
 
-    private void Ia_PreCast(Ability ability)
+    private void OnCasterAnimation(AnimationInfo.Data obj)
     {
-        /*
-        switch (ability.state)
-        {
-            case Ability.State.middle:
-
-                break;
-
-            case Ability.State.start:
-
-                controller.SetBool(strLoopAction, false);
-
-                if (ability.animationCastMiddle == null && ability.animationCastExit == null)
-                {
-
-                    if(ability.WaitAnimations)
-                        animationEventMediator["Cast"] = ()=> ability.Cast();
-                    else
-                        animationEventMediator["Cast"] = null;
-
-                    ChangeActionAnimation(ability.animationCastStart);
-                }
-                else
-                {
-                    ChangeLoopActionAnimation(ability.animationCastStart, ability.animationCastMiddle, ability.animationCastExit);
-                }
-                break;
-
-            case Ability.State.end:
-
-                if (ability.animationCastMiddle == null && ability.animationCastExit == null)
-                {
-
-                }
-                else
-                {
-                    controller.SetBool(strLoopAction, false);
-                }
-                break;
-        }
-        */
+        ChangeActionAnimation(obj);
     }
 
     private void Ia_onDeath()
     {
          controller.SetTrigger("Death");
     }
-    /*
-    void ChangeLoopActionAnimation(AnimationClip newClipStart, AnimationClip newClipMiddle, AnimationClip newClipEnd)
-    {
-        if (loopAction)
-        {
-            ChangeActionAnimation(newClipStart);
-            ChangeAnimation(actionLoop2NameMiddle, newClipMiddle);
-            ChangeActionAnimation(newClipEnd);
-
-        }
-        else
-        {
-            ChangeActionAnimation(newClipStart);
-            ChangeAnimation(actionLoop1NameMiddle, newClipMiddle);
-            ChangeActionAnimation(newClipEnd);
-        }
-
-        loopAction = !loopAction;
-
-        controller.SetBool(strLoopAction, true);
-    }*/
-
+    
     void CancelAllAnimations()
     {
         for (int i = 0; i < maxActions; i++)
@@ -181,7 +127,12 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             controller.ResetTrigger(strAction);
         }
 
-        controller.SetBool("wait", false);
+        controller.SetBool("Wait", false);
+    }
+
+    void ChangeActionAnimation(AnimationInfo.Data data)
+    {
+        ChangeActionAnimation(data.animationClip, data.defaultAction, data.inLoop);
     }
 
     void ChangeActionAnimation(AnimationClip newClip, bool inLoop)
@@ -191,7 +142,16 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     void ChangeActionAnimation(AnimationClip newClip, DefaultActions action, bool inLoop = false)
     {
-        ChangeActionAnimation(newClip, actionsName[(int)action], inLoop);
+        string name = null;
+
+        int index = (int)action;
+
+
+        if (index != -1)
+            name = actionsName[index];            
+
+
+        ChangeActionAnimation(newClip, name, inLoop);
     }
 
     void ChangeActionAnimation(AnimationClip newClip, string name = null, bool inLoop = false)
@@ -249,13 +209,15 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void OnAnimExitAction(AnimatorStateInfo obj)
     {
-        
+        onExitAnim?.Invoke(obj);
     }
 
     private void OnAnimStartAction(AnimatorStateInfo obj)
     {
         if(!loopAction)
             timerEndAnimationTransition.Set(obj.length);
+
+        onEnterAnim?.Invoke(obj);
     }
 
     private void TimerEndAnimation()
@@ -273,7 +235,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             {
                 if (!animations.ContainsKey(clip.name, out int index))
                 {
-                    animations.Add(clip.name, new AnimationData() { clip = clip, canChange = true });
+                    animations.Add(clip.name, new Data() { clip = clip, canChange = true });
                     //index = animations.Count - 1;
                 }
             }
@@ -306,7 +268,8 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
         if(container.TryGetInContainer<CasterEntityComponent>(out var caster))
         {
-            caster.onPreCast += Ia_PreCast;
+            caster.onAnimation += OnCasterAnimation;
+            caster.onExitCasting += OnExitCasting;
         }
 
         if (container.TryGetInContainer<AimingEntityComponent>(out var aiming))
@@ -330,6 +293,10 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         container.health.death += Ia_onDeath;
     }
 
+    private void OnExitCasting(Ability obj)
+    {
+        CancelAllAnimations();
+    }
 
     private void MoveStateCharacter_OnActionEnter()
     {

@@ -9,23 +9,33 @@ using UnityEngine;
 public class AnimationInfo : ScriptableObject
 {
     [System.Serializable]
-    public class AnimationData
+    public class Data
     {
+        public AnimatorController.DefaultActions defaultAction;
         public AnimationClip animationClip;
         public bool inLoop;
-        public float offsetTime;
+        //public float offsetTime;
         //public int previusIndexAnim=-1;
         public float Length => animationClip.length;
 
         public Pictionarys<string, float> events = new();
+
+        public void SetTimers(Dictionary<string, Timer> timers)
+        {
+            timers["End"].Set(Length);
+
+            foreach (var item in events)
+            {
+                timers[item.key].Set(item.value);
+            }
+        }
     }
 
-    public Pictionarys<string, AnimationData> animClips = new();
-
-    
+    public Pictionarys<string, Data> animClips = new();
 
     private void OnValidate()
     {
+        /*
         if (animClips.Count > 0)
         {
             animClips[0].offsetTime = 0;
@@ -37,24 +47,29 @@ public class AnimationInfo : ScriptableObject
             //animClips[i].offsetTime = animClips[animClips[i].previusIndexAnim].Length;
             animClips[i].offsetTime = animClips[i-1].Length;
         }
+        */
     }
 
     [ContextMenu("Bake anims events")]
     void Bake()
     {
 
-        AnimationClip prev = null;
+        //AnimationClip prev = null;
         foreach (var clip in animClips)
         {
             clip.value.events.Clear();
 
             foreach (var evnt in clip.value.animationClip.events)
             {
-                float timeOffset = prev != null ? prev.length : 0;
-                clip.value.events.CreateOrSave(evnt.stringParameter , evnt.time + timeOffset);
+                string name = evnt.stringParameter;
+                //float timeOffset = prev != null ? prev.length : 0;
+                if (name == "Cast")
+                    name = "Action";
+
+                clip.value.events.CreateOrSave(name, evnt.time /*+ timeOffset*/);
             }
 
-            prev = clip.value.animationClip;
+            //prev = clip.value.animationClip;
         }
     }
 

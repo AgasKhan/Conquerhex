@@ -24,11 +24,7 @@ public class MeleeWeaponBase : ItemCrafteable
 
     public WeaponEquip weaponModel;
 
-    public AnimationClip animationCastStart;
-
-    public AnimationClip animationCastMiddle;
-
-    public AnimationClip animationCastExit;
+    public AnimationInfo animations;
 
     public PoolGameObjectSpawnProperty inPlaceOwner=new() { index = Vector2Int.one*-1 };
 
@@ -105,12 +101,6 @@ public class MeleeWeapon : ItemEquipable<MeleeWeaponBase>, IGetPercentage
     public Damage[] damages => itemBase.damages;
 
     public event System.Action off;
-
-    public AnimationClip animationCastStart => itemBase.animationCastStart;
-
-    public AnimationClip animationCastMiddle => itemBase.animationCastMiddle;
-
-    public AnimationClip animationCastExit => itemBase.animationCastExit;
 
     public virtual IEnumerable<Entity> ApplyDamage(Ability ability, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
     {

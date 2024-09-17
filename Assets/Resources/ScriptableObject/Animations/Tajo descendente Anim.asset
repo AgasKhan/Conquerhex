@@ -10,27 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da78a40eeae658844b6a31b470676073, type: 3}
-  m_Name: AnimationInfo
+  m_Name: Tajo descendente Anim
   m_EditorClassIdentifier: 
   animClips:
     pictionaries:
-    - key: 
+    - key: Cast
       value:
-        animationClip: {fileID: 1827226128182048838, guid: 02db2be0a74e43d4ba7ee94a7d6cc3b7,
+        defaultAction: 0
+        animationClip: {fileID: 1827226128182048838, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
           type: 3}
         inLoop: 0
-        offsetTime: 0
         events:
           pictionaries:
-          - key: cast
-            value: 0.33475015
-    - key: 
-      value:
-        animationClip: {fileID: 1827226128182048838, guid: 835dffdb0598c3b4cbd55a31b4ba08f6,
-          type: 3}
-        inLoop: 0
-        offsetTime: 0.833333
-        events:
-          pictionaries:
-          - key: cast
-            value: 0.2716525
+          - key: Action
+            value: 0.1937349

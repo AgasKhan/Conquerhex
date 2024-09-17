@@ -21,8 +21,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public DamageContainer additiveDamage;
 
-    public event System.Action<Ability> onCast;
-    public event System.Action<Ability> onPreCast;
+    public event System.Action<Ability> onApplyCast;
+    
+    public event System.Action<AnimationInfo.Data> onAnimation;
 
     public event System.Action<(Damage dmg, int weightAction, Vector3? origin)> onTakeDamage;
 
@@ -43,9 +44,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     FSMAutomaticEnd<Character> param;
 
-    System.Action _OnEnter;
+    System.Action<Ability> _OnEnter;
 
-    System.Action _OnExit;
+    System.Action<Ability> _OnExit;
 
     [SerializeField,Range(-100,100), Tooltip(   "en caso de ser calor (positivo): es el porcentage de cuanta mas energia ganara con frio y cuanta menos energia perdera con calor" +
                                 "\nen caso de ser frio (negativo): es el porcentage de cuanta menos energia ganara con frio y cuanta mas energia perdera con calor")]
@@ -84,19 +85,23 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public bool End => abilityCasting?.End ?? true;
 
+    public event System.Action<Ability> onEnterCasting;
+
+    public event System.Action<Ability> onExitCasting;
+
     /// <summary>
     /// Evento que se ejecuta al comenzar el casteo <br/>
     /// No debe de ser utilizado para realizar transiciones
     /// </summary>
-    public event System.Action OnEnterCasting
+    public event System.Action OnEnterCastingOnlyOne
     {
         add
         {
             //_OnEnter = _OnEnter.AddUniqueExecution(value);
 
-            System.Action action = null;
+            System.Action<Ability> action = null;
 
-            action = () =>
+            action = (a) =>
             {
                 value();
                 //_OnEnter -= value;
@@ -115,13 +120,13 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     /// Evento que se ejecuta al finalizar el casteo <br/>
     /// No debe de ser utilizado para realizar transiciones
     /// </summary>
-    public event System.Action OnExitCasting
+    public event System.Action OnExitCastingOnlyOne
     {
         add
         {
-            System.Action action = null;
+            System.Action<Ability> action = null;
 
-            action = () =>
+            action = (a) =>
             {
                 value();
                 //_OnExit -= value;
@@ -146,7 +151,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
             {
                 abilityCasting.OnExitState(this);
                 abilityControllerMediator -= _abilityCasting;
-                _OnExit.Invoke();
+                _OnExit.Invoke(abilityCasting);
 
                 _abilityCasting = value;
 
@@ -155,14 +160,14 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
                 abilityCasting?.OnEnterState(this);
                 abilityControllerMediator += abilityCasting;
-                _OnEnter?.Invoke();
+                _OnEnter?.Invoke(abilityCasting);
             }
             else if(value != null)
             {
                 _abilityCasting = value;
                 _abilityCasting.OnEnterState(this);
                 abilityControllerMediator += _abilityCasting;
-                _OnEnter?.Invoke();
+                _OnEnter?.Invoke(abilityCasting);
             }
 
         }
@@ -201,12 +206,22 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void CastEvent(Ability ability)
     {
-        onCast?.Invoke(ability);
+        onApplyCast?.Invoke(ability);
     }
 
-    public void PreCastEvent(Ability ability)
+    public void OnAnimation(AnimationInfo.Data data)
     {
-        onPreCast?.Invoke(ability);
+        onAnimation?.Invoke(data);
+    }
+
+    public void OnEnter(Ability ability)
+    {
+        onEnterCasting?.Invoke(ability);
+    }
+
+    public void OnExit(Ability ability)
+    {
+        onExitCasting?.Invoke(ability);
     }
 
     /// <summary>

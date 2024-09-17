@@ -11,7 +11,7 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
 {
     AnimationInfo info;
 
-    AnimationInfo.AnimationData data = null;
+    AnimationInfo.Data data = null;
 
     Editor editorAnim;
 
@@ -82,7 +82,7 @@ public class AnimationsInfoEditor : InheterenceEditorOrder
     {
         Debug.Log(obj);
 
-        if(obj is Internal.Pictionary<string, AnimationInfo.AnimationData> data)
+        if(obj is Internal.Pictionary<string, AnimationInfo.Data> data)
         {
             if (editorAnim == null || (this.data != data.value))
             {

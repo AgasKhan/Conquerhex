@@ -141,26 +141,26 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     public void Attack(int i, Vector2 dir)
     {
-        caster.OnEnterCasting += () => attackEventMediator += caster.abilityControllerMediator;
+        caster.OnEnterCastingOnlyOne += () => attackEventMediator += caster.abilityControllerMediator;
         caster.Attack(i, dir);
-        caster.OnExitCasting += () => attackEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => attackEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
         actualCombo = -1;
     }
 
     public void Ability(int i, Vector2 dir)
     {
-        caster.OnEnterCasting += () => abilityEventMediator += caster.abilityControllerMediator;
+        caster.OnEnterCastingOnlyOne += () => abilityEventMediator += caster.abilityControllerMediator;
         caster.Ability(i, dir);
-        caster.OnExitCasting += () => abilityEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => abilityEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
     }
 
     public void AlternateAbility(Vector2 dir)
     {
-        caster.OnEnterCasting += () => dashEventMediator += caster.abilityControllerMediator;
+        caster.OnEnterCastingOnlyOne += () => dashEventMediator += caster.abilityControllerMediator;
         caster.AlternateAbility(dir);
-        caster.OnExitCasting += () => dashEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => dashEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
     }
 
@@ -188,9 +188,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
 
         Debug.Log($"Combo Nº{(actualCombo/5)+1}\nReal index:{actualCombo} \n{Time.realtimeSinceStartup} - {timeComboSet} = {Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo}");
-        caster.OnEnterCasting += () => attackEventMediator += caster.abilityControllerMediator;
+        caster.OnEnterCastingOnlyOne += () => attackEventMediator += caster.abilityControllerMediator;
         caster.ComboAttack(actualCombo);
-        caster.OnExitCasting += () => attackEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => attackEventMediator -= caster.abilityControllerMediator;
         
         Action = castingActionCharacter;
 

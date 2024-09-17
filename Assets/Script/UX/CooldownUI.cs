@@ -53,6 +53,21 @@ namespace UI
         {
             imageFill.fillAmount = getPercentage.Percentage();                
         }
+        private void Caster_onExitCasting(Ability obj)
+        {
+            if (ability == null || ability != obj)
+                return;
+
+            AbilityOnEnter();
+        }
+
+        private void Caster_onEnterCasting(Ability obj)
+        {
+            if (ability == null || ability != obj)
+                return;
+
+            AbilityOnExit();
+        }
 
         private void AbilityOnExit()
         {
@@ -127,8 +142,8 @@ namespace UI
         {
             if (ability != null)
             {
-                ability.onExit -= AbilityOnExit;
-                ability.onEnter -= AbilityOnEnter;
+                //ability.onExit -= AbilityOnExit;
+                //ability.onEnter -= AbilityOnEnter;
                 timer.onChange -= FillAmount;
                 caster.energyUpdate -= AbilityDisponibility;
                 imageFrame.SetActiveGameObject(false);
@@ -137,8 +152,8 @@ namespace UI
             if (param != null)
             {
                 ability = param;
-                ability.onEnter += AbilityOnEnter;
-                ability.onExit += AbilityOnExit;
+                //ability.onEnter += AbilityOnEnter;
+                //ability.onExit += AbilityOnExit;
 
                 timer = param.cooldown;
                 timer.onChange += FillAmount;
@@ -160,9 +175,16 @@ namespace UI
 
         public void SetCaster(Character character)
         {
-            this.caster = character.caster;
-        }
+            if(caster!=null)
+            {
+                caster.onEnterCasting -= Caster_onEnterCasting;
+                caster.onExitCasting -= Caster_onExitCasting;
+            }
 
+            caster = character.caster;
+            caster.onEnterCasting += Caster_onEnterCasting;
+            caster.onExitCasting += Caster_onExitCasting;
+        }       
 
         private void Awake()
         {
