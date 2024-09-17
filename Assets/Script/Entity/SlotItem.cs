@@ -20,7 +20,7 @@ public class SlotItem
     ItemEquipable _equiped;
 
     [SerializeReference]
-    ItemEquipable defaultItem;
+    public ItemEquipable defaultItem;
 
     public ItemEquipable equiped
     {

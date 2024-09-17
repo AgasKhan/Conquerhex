@@ -10,20 +10,37 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public string CombosMenu = "Combos_UIDoc";
 
     public Pictionarys<string, UIE_BaseMenu> menuList = new Pictionarys<string, UIE_BaseMenu>();
-
-    string currentMenu = "";
-    string lastMenu;
-
     public static Dictionary<string, VisualTreeAsset> treeAsset = new Dictionary<string, VisualTreeAsset>();
 
     public bool isInMenu = false;
     public float timeToTooltip = 1.1f;
+    public float timeToLeaveTooltip = 0.2f;
 
     public TimedAction tooltipTimer;
+    public TimedAction tooltipLeaveTimer;
+
+    public Sprite defaultWeaponImage;
+    public string defaultWeaponText;
+
+    public Sprite defaultAbilityImage;
+    public string defaultAbilityText;
+
+    public Sprite defaultKataImage;
+    public string defaultKataText;
+
+
+    string currentMenu = "";
+    string lastMenu;
 
     string tooltTile = "";
     string tooltContent = "";
     Sprite tooltSprite = null;
+
+    /*
+    public List<Sprite> basicsKeys = new List<Sprite>();
+    public List<Sprite> abilitiesKeys = new List<Sprite>();
+    public List<Sprite> katasKeys = new List<Sprite>();
+    */
 
     protected override void Awake()
     {
@@ -31,11 +48,14 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         if(treeAsset.Count == 0)
             LoadSystem.AddPostLoadCorutine(ChargeResources);
 
-        tooltipTimer = TimersManager.Create(timeToTooltip, () => { ShowTooltip(); });
+        tooltipTimer = TimersManager.Create(timeToTooltip, ShowTooltip);
         tooltipTimer.Stop();
         tooltipTimer.SetUnscaled(true);
-    }
 
+        tooltipLeaveTimer = TimersManager.Create(timeToLeaveTooltip, HideTooltip);
+        tooltipLeaveTimer.Stop();
+        tooltipLeaveTimer.SetUnscaled(true);
+    }
 
     void ShowTooltip()
     {
@@ -61,13 +81,17 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         tooltSprite = _image;
     }
 
-    public void HideTooltip(MouseLeaveEvent mouseEvent)
+    public void StartHideTooltip(MouseLeaveEvent mouseEvent)
     {
         tooltipTimer.Stop();
-        menuList[currentMenu].tooltip.HideTooltip();
-        Debug.Log("HideTooltip");
+        tooltipLeaveTimer.Reset();
     }
 
+    void HideTooltip()
+    {
+        tooltipLeaveTimer.Stop();
+        menuList[currentMenu].tooltip.HideTooltip();
+    }
 
     void ChargeResources()
     {
@@ -83,6 +107,10 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     {
         DisableMenu(currentMenu);
         EnableMenu(menuToGo);
+
+        tooltipTimer.Stop();
+        tooltipLeaveTimer.Stop();
+        HideTooltip();
     }
 
     public void EnableMenu(string name)

@@ -5,9 +5,11 @@ using UnityEngine.UIElements;
 using System;
 using System.Linq;
 
-public class UIE_EquipMenu : UIE_BaseMenu
+public class UIE_EquipMenu : UIE_Equipment
 {
     public VisualElement listContainer;
+
+    Label equipTitle;
 
     //Details Window
     VisualElement containerDW;
@@ -19,12 +21,13 @@ public class UIE_EquipMenu : UIE_BaseMenu
     VisualElement originalButton;
     VisualElement changeButton;
 
-    Action<SlotItem, int> auxAction;
+    Action<int> auxAction;
     SlotItem slotItem;
     Type filterType;
+    ItemEquipable itemEquiped;
 
     List<UIE_ListButton> buttonsList = new List<UIE_ListButton>();
-
+    int itemToChangeIndex = -1;
     protected override void Config()
     {
         base.Config();
@@ -37,6 +40,7 @@ public class UIE_EquipMenu : UIE_BaseMenu
         onEnableMenu += myOnEnable;
         onDisableMenu += myOnDisable;
 
+        equipTitle = ui.Q<Label>("equipTitle");
         listContainer = ui.Q<VisualElement>("listContainer");
         titleDW = ui.Q<Label>("titleDW");
         descriptionDW = ui.Q<Label>("descriptionDW");
@@ -51,6 +55,8 @@ public class UIE_EquipMenu : UIE_BaseMenu
     private void myOnEnable()
     {
         listContainer.Clear();
+        buttonsList.Clear();
+        equipTitle.text = GetText(null, filterType);
         CreateListItems();
     }
     private void myOnDisable()
@@ -59,39 +65,57 @@ public class UIE_EquipMenu : UIE_BaseMenu
         slotItem = null;
         filterType = null;
 
-        SetChangeButton(null);
-
         ShowItemDetails("", "", null);
         containerDW.AddToClassList("opacityHidden");
 
-        originalButton.style.display = DisplayStyle.None;
-        originalButton.style.backgroundImage = default;
+        itemToChangeIndex = -1;
+
+        originalButton.HideInUIE();
+        changeButton.HideInUIE();
     }
 
-    public void SetEquipMenu<T>(SlotItem _slotItem, Type _type, Action<SlotItem, int> _action) where T : Item
+    public void SetEquipMenu(SlotItem _slotItem, Type _type, Action<int> _action)
     {
         auxAction = _action;
         slotItem = _slotItem;
         filterType = _type;
 
-        if(_slotItem.equiped != null)
-        {
-            originalButton.style.display = DisplayStyle.Flex;
-            originalButton.style.backgroundImage = new StyleBackground(_slotItem.equiped.image);
-        }
-    }
-    void SetChangeButton(Sprite _sprite)
-    {
-        if(_sprite!=null)
-            changeButton.style.display = DisplayStyle.Flex;
+        if(slotItem.GetSlottype() == typeof(WeaponKata) && _type != typeof(WeaponKata))
+            itemEquiped = (_slotItem.equiped as WeaponKata).Weapon;
         else
-            changeButton.style.display = DisplayStyle.None;
+            itemEquiped = _slotItem.equiped;
 
+
+        originalButton.ShowInUIE();
+
+        if(_slotItem.GetSlottype() == typeof(WeaponKata) && _type == typeof(MeleeWeapon))
+            originalButton.style.backgroundImage = new StyleBackground(GetImage((_slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)));
+        else
+            originalButton.style.backgroundImage = new StyleBackground(GetImage(_slotItem));
+    }
+
+    void SetChangeButton(Sprite _sprite, int _itemIndex)
+    {
+        changeButton.ShowInUIE();
         changeButton.style.backgroundImage = new StyleBackground(_sprite);
+        itemToChangeIndex = _itemIndex;
+    }
+
+    Sprite GetImage()
+    {
+        return GetImage(itemEquiped, filterType);
+    }
+
+    string GetText()
+    {
+        return GetText(itemEquiped, filterType);
     }
 
     void CreateListItems()
     {
+        List<int> buffer = new List<int>();
+
+        //Filtrar inventario
         for (int i = 0; i < character.inventory.Count; i++)
         {
             if (filterType != null && !filterType.IsAssignableFrom(character.inventory[i].GetType()))
@@ -101,50 +125,118 @@ public class UIE_EquipMenu : UIE_BaseMenu
                 continue;
 
             var index = i;
+            buffer.Add(index);
+        }
+
+        Action changeAction = () =>
+        {
+            auxAction.Invoke(itemToChangeIndex);
+            ResetList();
+        };
+
+        Action hoverAct = () =>
+        {
+            ShowItemDetails("Equipar", "Selecciona un item para equipar", GetImage());
+            SetChangeButton(GetImage(), -1);
+        };
+
+        foreach (var index in buffer)
+        {
+            UIE_ListButton button = new UIE_ListButton();
+            listContainer.Add(button);
+            buttonsList.Add(button);
+            button.AddToClassList("itemToChange");
+
+            if (itemEquiped == null)
+            {
+                button.Init(GetImage(), GetText(), "", "", changeAction);
+                button.SetEquipText("Desequipar");
+                button.SetHoverAction(hoverAct);
+                break;
+            }
 
             var item = character.inventory[index];
 
-            var changeText = "Equipar";
-
-            System.Action<ClickEvent> action =
-               (clEvent) =>
-               {
-                   ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
-                   SetChangeButton(item.image);
-               };
-
-            System.Action<ClickEvent> changeAction = null;
-            if (slotItem != null)
+            if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == slotItem.equiped.nameDisplay)
             {
-                if (slotItem.equiped != default && item.GetItemBase().nameDisplay == slotItem.equiped.GetItemBase().nameDisplay)
-                {
-                    changeText = "Desequipar";
-                    changeAction = (clEvent) =>
-                    {
-                        slotItem.indexEquipedItem = -1;
-                        TriggerOnClose(default);
-                    };
-                }
-                else
-                {
-                    changeText = "Equipar";
-                    changeAction = (clEvent) => { auxAction.Invoke(slotItem, index); TriggerOnClose(default); };
-                }
+                button.Init(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "Item por defecto", "", changeAction);
+                button.SetEquipText("Desequipar");
+                button.SetHoverAction(hoverAct);
+                break;
             }
 
+            if (itemEquiped is Ability)
+            {
+                if (itemEquiped.nameDisplay != item.nameDisplay)
+                    continue;
+            }
+            else if (!item.Equals(itemEquiped))
+            {
+                continue;
+            }
+
+            hoverAct = () =>
+            {
+                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                SetChangeButton(item.image, -1);
+            };
+
+            button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "-", changeAction);
+            button.SetHoverAction(hoverAct);
+            button.SetEquipText("Desequipar");
+
+            buffer.Remove(index);
+
+            break;
+        }
+
+        //Agregar botones de los items restantes
+        foreach (var index in buffer)
+        {
+            var item = character.inventory[index];
+
             UIE_ListButton button = new UIE_ListButton();
-
-            //Debug.Log("List container is null = " + (listContainer == null));
             listContainer.Add(button);
-            button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "Cortante", true, action, changeAction, changeText);
-
             buttonsList.Add(button);
+
+            hoverAct = () =>
+            {
+                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                SetChangeButton(item.image, index);
+                Debug.Log(item.nameDisplay + "  index: " + index);
+            };
+
+            button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "-", changeAction);
+            button.SetHoverAction(hoverAct);
+            button.SetEquipText("Equipar");
         }
 
         if (buttonsList.Count == 0)
             ShowItemDetails("No tienes nada para equipar", "", null);
+    }
 
-        filterType = null;
+    void ResetList()
+    {
+        itemToChangeIndex = -1;
+
+        originalButton.HideInUIE();
+        //changeButton.HideInUIE();
+
+        SetEquipMenu(slotItem, filterType, auxAction);
+
+        if (slotItem.equiped != null)
+        {
+            if (slotItem.GetSlottype() == typeof(WeaponKata) && filterType != typeof(WeaponKata) && (slotItem.equiped as WeaponKata).Weapon != null)
+                ShowItemDetails(GetText((slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)), (slotItem.equiped as WeaponKata).Weapon.GetDetails().ToString("\n") + "\n" + GetDamageDetails(slotItem.equiped, slotItem), GetImage((slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)));
+            else
+                ShowItemDetails(slotItem.equiped.nameDisplay, slotItem.equiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(slotItem.equiped, slotItem), slotItem.equiped.image);
+        }
+        else
+            containerDW.AddToClassList("opacityHidden");
+
+        listContainer.Clear();
+        buttonsList.Clear();
+        CreateListItems();
     }
 
     void ShowItemDetails(string nameDisplay, string details, Sprite Image)
@@ -181,7 +273,7 @@ public class UIE_EquipMenu : UIE_BaseMenu
         var characterDmgs = character.caster.additiveDamage.content.SortBy(weaponDmgs, 0).ToArray();
         var kataDmgs = _weapon.defaultKata.multiplyDamage.content.SortBy(characterDmgs, 1).ToArray();
 
-        var titulos = new CustomColumns("Arma", "Jugador", "Kata (default)", "Final/Resultado");
+        var titulos = new CustomColumns("Arma", "Jugador", "Kata (Por defecto)", "Final/Resultado");
         mainText += titulos.ToString().RichText("color", "#ddacb4");
 
         var resultDmgs = Damage.CalcDamage(_weapon, character.caster, _weapon.defaultKata).SortBy(kataDmgs, 0).ToArray();
@@ -279,9 +371,9 @@ public class UIE_EquipMenu : UIE_BaseMenu
 
         mainText += new CustomColumns(weaponDmgs.ToString(": ", "\n"), characterDmgs.ToString(": +", "\n"), kataDmgs.ToString(": x", "\n"), resultDmgs.ToString(": ", "\n")).ToString();
 
-        if (slotItem?.equiped != null)
+        if (_kata.Weapon != null)
         {
-            var equipedWeapon = ((WeaponKata)slotItem.equiped).Weapon;
+            var equipedWeapon = _kata.Weapon;
 
             var resultequipedDmgs = Damage.CalcDamage(equipedWeapon, character.caster, _kata).SortBy(resultDmgs, 0).ToArray();
 

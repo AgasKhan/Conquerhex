@@ -47,6 +47,8 @@ public class UIE_CombosMenu : UIE_Equipment
         
         noClickPanel.RegisterCallback<ClickEvent>((cleEvent)=> HiddeItemList());
         equipmentButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.EquipmentMenu));
+
+        onClose += () => manager.DisableMenu(gameObject.name);
     }
 
     private void myOnDisable()
@@ -191,7 +193,7 @@ public class UIE_CombosMenu : UIE_Equipment
                     UIE_ListButton button = new UIE_ListButton();
 
                     listItems.Add(button);
-                    button.InitOnlyName(null, "Desequipar", (clEvent) =>
+                    button.InitOnlyName(null, "Desequipar", () =>
                     {
                         kata.TakeOutWeapon();
                         SetComboButton(character.caster.combos[index].equiped, index);
@@ -223,9 +225,9 @@ public class UIE_CombosMenu : UIE_Equipment
                     continue;
             }
 
-            System.Action<ClickEvent> changeAction = null;
+            System.Action changeAction = null;
 
-            changeAction = (clEvent) =>
+            changeAction = () =>
             {
                 kata.ChangeWeapon(character.inventory[itemIndex]);
 
@@ -284,7 +286,7 @@ public class UIE_CombosMenu : UIE_Equipment
                     UIE_ListButton button = new UIE_ListButton();
 
                     listItems.Add(button);
-                    button.InitOnlyName(null, "Desequipar", (clEvent) =>
+                    button.InitOnlyName(null, "Desequipar", () =>
                     {
                         character.caster.combos[index].indexEquipedItem = -1;
                         SetComboButton(character.caster.combos[index].equiped, index);
@@ -312,9 +314,9 @@ public class UIE_CombosMenu : UIE_Equipment
             if (character.caster.combos[index].equiped != default && character.inventory[itemIndex].GetItemBase().nameDisplay == character.caster.combos[index].equiped.GetItemBase().nameDisplay)
                 continue;
 
-            System.Action<ClickEvent> changeAction = null;
+            System.Action changeAction = null;
 
-            changeAction = (clEvent) => 
+            changeAction = () => 
             {
                 ((Ability)character.inventory[itemIndex]).CreateCopy(out int indexCopy);
                 character.caster.combos[index].indexEquipedItem = indexCopy;

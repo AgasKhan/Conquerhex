@@ -4,5 +4,8 @@
         <ui:VisualElement name="slotImage" class="slotButton" />
         <ui:Label tabindex="-1" text="Dash concatenado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="slotText" class="slotTextStyle" />
         <ui:VisualElement name="instructionImage" style="flex-grow: 0; position: absolute; flex-shrink: 0; width: 50px; height: 50px; right: -30px; top: -35px;" />
+        <ui:VisualElement name="blocker" class="blocker displayHidden" style="border-left-color: rgb(190, 186, 130); border-right-color: rgb(190, 186, 130); border-top-color: rgb(190, 186, 130); border-bottom-color: rgb(190, 186, 130); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; scale: 1.05 1.05;">
+            <ui:Label tabindex="-1" text="Bloqueado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="blockerText" class="blockerText" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

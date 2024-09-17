@@ -94,7 +94,7 @@ public class UIE_CombosButton : VisualElement
 
         RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
         });
     }
 

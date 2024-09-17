@@ -17,6 +17,9 @@ public class UIE_Tooltip : VisualElement
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["Tooltip"];
         asset.CloneTree(this);
+
+        RegisterCallback<MouseEnterEvent>((clEvent) => { UIE_MenusManager.instance.tooltipLeaveTimer.Stop(); });
+        RegisterCallback<MouseLeaveEvent>((clEvent) => { UIE_MenusManager.instance.tooltipLeaveTimer.Reset(); });
     }
 
 

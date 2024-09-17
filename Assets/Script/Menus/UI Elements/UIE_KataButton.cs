@@ -11,6 +11,8 @@ public class UIE_KataButton : VisualElement
     private VisualElement kataImage => this.Q<VisualElement>("kataImage");
     private Label kataText => this.Q<Label>("kataText");
     private VisualElement weaponConteiner => this.Q<VisualElement>("weaponContainer");
+    private VisualElement blocker => this.Q<VisualElement>("blocker");
+    private Label blockerText => this.Q<Label>("blockerText");
 
     public void Init(Sprite _kataImage, string _kataText, UnityAction _kataAction, Sprite _weaponImage, string _weaponText, UnityAction _weaponAction)
     {
@@ -43,7 +45,19 @@ public class UIE_KataButton : VisualElement
 
         RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
+        });
+    }
+    public void InitWeaponTooltip(string _title, string _content, Sprite _sprite)
+    {
+        weaponConteiner.RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+        });
+
+        weaponConteiner.RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
         });
     }
 
@@ -65,6 +79,14 @@ public class UIE_KataButton : VisualElement
     {
 
     }
-
+    public void Block()
+    {
+        blocker.ShowInUIE();
+    }
+    public void Block(string _text)
+    {
+        blockerText.text = _text;
+        Block();
+    }
     public UIE_KataButton() { }
 }
