@@ -6,56 +6,56 @@ using System.Reflection;
 using Object = UnityEngine.Object;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using CustomEulerEditor;
 using System.Linq;
-
-[CustomEditor(typeof(Object), true)]
-[CanEditMultipleObjects]
-public class InheterenceEditorOrder : Editor
-{
-    InheterenceOrder inheterenceOrder;
-
-    protected event System.Action<object> onSelectedItem
-    {
-        add
-        {
-            inheterenceOrder.onSelectedItem += value;
-        }
-        remove
-        {
-            inheterenceOrder.onSelectedItem -= value;
-        }
-    }
-        
-
-    public override VisualElement CreateInspectorGUI()
-    {
-        var main = new VisualElement();
-
-        var serialized = serializedObject.GetIterator();
-
-        // Mostrar propiedad m_Script primero y como no modificable
-        SerializedProperty scriptProperty = serializedObject.FindProperty("m_Script");
-        if (scriptProperty != null)
-        {
-            var scriptField = new PropertyField(scriptProperty, "Script");
-            scriptField.SetEnabled(false);
-            main.Add(scriptField);
-        }
-
-        if(serialized.NextVisible(true))
-        {
-            inheterenceOrder = new InheterenceOrder(target.GetType(), serialized);
-            inheterenceOrder.CreateGUI(main);
-        }
-        
-
-        return main;
-    }
-}
 
 namespace CustomEulerEditor
 {
+    [CustomEditor(typeof(Object), true)]
+    [CanEditMultipleObjects]
+    public class InheterenceEditorOrder : Editor
+    {
+        InheterenceOrder inheterenceOrder;
+
+        protected event System.Action<object> onSelectedItem
+        {
+            add
+            {
+                inheterenceOrder.onSelectedItem += value;
+            }
+            remove
+            {
+                inheterenceOrder.onSelectedItem -= value;
+            }
+        }
+        
+
+        public override VisualElement CreateInspectorGUI()
+        {
+            var main = new VisualElement();
+
+            var serialized = serializedObject.GetIterator();
+
+            // Mostrar propiedad m_Script primero y como no modificable
+            SerializedProperty scriptProperty = serializedObject.FindProperty("m_Script");
+            if (scriptProperty != null)
+            {
+                var scriptField = new PropertyField(scriptProperty, "Script");
+                scriptField.SetEnabled(false);
+                main.Add(scriptField);
+            }
+
+            if(serialized.NextVisible(true))
+            {
+                inheterenceOrder = new InheterenceOrder(target.GetType(), serialized);
+                inheterenceOrder.CreateGUI(main);
+            }
+        
+
+            return main;
+        }
+    }
+
+
     public class InheterenceOrder
     {
         public System.Action<object> onSelectedItem;
@@ -258,7 +258,7 @@ namespace CustomEulerEditor
                 
                 aux = (ClickEvent evt) =>
                 {
-                    Debug.Log("Clickeado: " + evt.currentTarget);
+                    //Debug.Log("Clickeado: " + evt.currentTarget);
 
 
                     ///Debug.Log($"{propertyField.label} Posee hijos: {propertyField.childCount}");
