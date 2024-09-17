@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde25aed05b97bc40a0845167af918c7, type: 3}
+  m_Name: ExampleGraph
+  m_EditorClassIdentifier: 
+  _nodes:
+  - rid: 8686240095002951837
+  - rid: 8686240095002951838
+  _connections:
+  - Input:
+      ID: f55622de-ba0d-4a37-8b61-8924246f70c0
+      PortIndex: 1
+    Output:
+      ID: 742583a1-4662-407f-857d-3dfb9c52288c
+      PortIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8686240095002951837
+      type: {class: ND_AnimationExecute, ns: , asm: CustomGraph}
+      data:
+        _guid: f55622de-ba0d-4a37-8b61-8924246f70c0
+        _position:
+          serializedVersion: 2
+          x: 877
+          y: 314
+          width: 265
+          height: 98
+        TypeName: ND_AnimationExecute, CustomGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        animationInfo: {fileID: 0}
+    - rid: 8686240095002951838
+      type: {class: ND_OnStart, ns: CustomGraph, asm: CustomGraph}
+      data:
+        _guid: 742583a1-4662-407f-857d-3dfb9c52288c
+        _position:
+          serializedVersion: 2
+          x: 720
+          y: 325
+          width: 0
+          height: 0
+        TypeName: CustomGraph.ND_OnStart, CustomGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
