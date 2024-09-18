@@ -10,7 +10,7 @@ namespace CustomGraph
     {
         public override string OnProcess(CG_AssetGraph graph)
         {
-            return base.OnProcess(graph);
+            return base.GetNextNode(graph);
         }
     }
 
@@ -19,7 +19,7 @@ namespace CustomGraph
     {
         public override string OnProcess(CG_AssetGraph graph)
         {
-            return base.OnProcess(graph);
+            return base.GetNextNode(graph);
         }
     }
 
@@ -28,7 +28,7 @@ namespace CustomGraph
     {
         public override string OnProcess(CG_AssetGraph graph)
         {
-            return base.OnProcess(graph);
+            return base.GetNextNode(graph);
         }
     }
 }

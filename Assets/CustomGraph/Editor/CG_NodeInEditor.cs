@@ -7,7 +7,7 @@ using UnityEditor.UIElements;
 
 namespace CustomGraph.Editor
 {
-    public class CG_NodeInEditor : Node
+    public class CG_NodeInEditor : UnityEditor.Experimental.GraphView.Node
     {
         CG_Node _node;
         Port _output;

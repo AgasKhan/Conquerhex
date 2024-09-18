@@ -14,7 +14,7 @@ namespace CustomGraph
         public override string OnProcess(CG_AssetGraph graph)
         {
             Debug.Log(message);
-            return base.OnProcess(graph);
+            return base.GetNextNode(graph);
         }
     }
 }

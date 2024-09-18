@@ -15,6 +15,7 @@ MonoBehaviour:
   _nodes:
   - rid: 8686240095002951837
   - rid: 8686240095002951838
+  - rid: 8686240095002951839
   _connections:
   - Input:
       ID: f55622de-ba0d-4a37-8b61-8924246f70c0
@@ -31,13 +32,28 @@ MonoBehaviour:
         _guid: f55622de-ba0d-4a37-8b61-8924246f70c0
         _position:
           serializedVersion: 2
-          x: 877
+          x: 878
           y: 314
-          width: 265
-          height: 98
+          width: 248
+          height: 4097
         TypeName: ND_AnimationExecute, CustomGraph, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-        animationInfo: {fileID: 0}
+        s:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 6295448971589143386, guid: 9982472369f0d9b439b39b8f4172c71d,
+                type: 3}
+              m_TargetAssemblyTypeName: 
+              m_MethodName: 
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: 
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
     - rid: 8686240095002951838
       type: {class: ND_OnStart, ns: CustomGraph, asm: CustomGraph}
       data:
@@ -50,3 +66,15 @@ MonoBehaviour:
           height: 0
         TypeName: CustomGraph.ND_OnStart, CustomGraph, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
+    - rid: 8686240095002951839
+      type: {class: ND_Timer, ns: , asm: CustomGraph}
+      data:
+        _guid: 6ab8c87f-5e74-4e1e-b8a7-b5e7020de694
+        _position:
+          serializedVersion: 2
+          x: 1169
+          y: 354
+          width: 151
+          height: 97
+        TypeName: ND_Timer, CustomGraph, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        time: 8

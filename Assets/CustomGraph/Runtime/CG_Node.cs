@@ -13,9 +13,14 @@ namespace CustomGraph
         [SerializeField]
         Rect _position;
 
+        protected bool _canTransition;
+
+        public bool CanTransition => _canTransition;
+
         public string TypeName;
         public string ID => _guid;
         public Rect NodePosition => _position;
+
 
         public CG_Node()
         {
@@ -37,13 +42,23 @@ namespace CustomGraph
         /// </summary>
         /// <param name="graph">Referencia del grafo</param>
         /// <returns>Devuelve el siguiente nodo o un string vacio</returns>
-        public virtual string OnProcess(CG_AssetGraph graph)
+        public virtual string GetNextNode(CG_AssetGraph graph)
         {
             CG_Node nextNode = graph.GetNodeFromOutput(_guid, 0);
 
             if (nextNode != null) return nextNode.ID;
 
             return string.Empty;
+        }
+
+        public virtual void Update()
+        {
+            
+        }
+
+        public virtual void Exit()
+        {
+
         }
     }
 }

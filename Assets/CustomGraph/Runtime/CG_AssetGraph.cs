@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -68,28 +69,28 @@ namespace CustomGraph
         /// <summary>
         /// Ejecuta la cadena de acciones con el nodo Start.
         /// </summary>
-        public void OnStart()
+        public IEnumerator OnStart()
         {
             CG_Node startNode = GetNode(Nodes.OfType<ND_OnStart>().ToArray());
-            NextNode(startNode);
+            yield return NextNode(startNode);
         }
 
         /// <summary>
         /// Ejecuta la cadena de acciones con el nodo Update
         /// </summary>
-        public void OnUpdate()
+        public IEnumerator OnUpdate()
         {
             CG_Node update = GetNode(Nodes.OfType<ND_OnUpdate>().ToArray());
-            NextNode(update);
+            yield return NextNode(update);
         }
 
         /// <summary>
         /// Ejecuta la cadena de acciones con el nodo Exit
         /// </summary>
-        public void OnExit()
+        public IEnumerator OnExit()
         {
             CG_Node exit = GetNode(Nodes.OfType<ND_OnExit>().ToArray());
-            NextNode(exit);
+            yield return NextNode(exit);
         }
 
 
@@ -97,13 +98,21 @@ namespace CustomGraph
         /// Metodo para pasar al siguiente nodo. Este metodo hace recursion hasta llegar al nodo final.
         /// </summary>
         /// <param name="currentNode">El nodo actual</param>
-        void NextNode(CG_Node currentNode)
+        IEnumerator NextNode(CG_Node currentNode)
         {
-            string nextNode = currentNode.OnProcess(this);
+            string nextNode = currentNode.GetNextNode(this);
 
             if (!string.IsNullOrEmpty(nextNode))
             {
                 CG_Node node = GetNode(nextNode);
+
+                while (!node.CanTransition)
+                {
+                    node.Update();
+                    yield return null;
+                }
+                    
+                node.Exit();
                 NextNode(node);
             }
         }
