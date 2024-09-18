@@ -481,7 +481,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         multiplyDamage = new DamageContainer(() => itemBase.damagesMultiply);
 
         timers.Add("Action",TimersManager.Create(1, () => onAction?.Invoke(this)).Stop());
-        timers.Add("End", TimersManager.Create(1, () => onEndAction?.Invoke(this)).Stop());
+        timers.Add("End", TimersManager.Create(1, () =>
+        {
+            onEndAction?.Invoke(this);
+            onEndAction = null;
+        }).Stop());
 
         trigger = itemBase.trigger?.Create();
 

@@ -75,6 +75,8 @@ public class CastingParry : CastingAction<CastingParryBase>
 
         parryTime.Reset();
 
+        ability.onEndAction += (a)=> a.PlayAction("Middle");
+
         End = false;
 
         successParry = false;
@@ -113,7 +115,9 @@ public class CastingParry : CastingAction<CastingParryBase>
         {
             caster.positiveEnergy = 75;
         }
-                       
-        End = true;
+
+        ability.PlayAction("End");
+
+        ability.onEndAction += (a) => End = true;
     }
 }
