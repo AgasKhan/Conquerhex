@@ -353,21 +353,29 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     void SetWeapon(int index)
     {
-        if (flyweight.weaponToEquip.weapon == null /*|| indexToEquip > katas.Count */ || weapons.Actual(0).equiped != null)
+        //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"
+        weapons.Actual(0).isBlocked = flyweight.weaponToEquip.isBlocked;
+        //Fin de cambios
+
+        if (flyweight.weaponToEquip?.weapon == null /*|| indexToEquip > katas.Count */ || weapons.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
             return;
 
         var aux2 = (MeleeWeapon)flyweight.weaponToEquip.weapon.Create();
         int indexInventory = aux2.Init(inventoryEntity);
         aux2.isDefault = flyweight.weaponToEquip.isDefault;
         weapons.actual.indexEquipedItem = indexInventory;
-        weapons.actual.isBlocked = flyweight.weaponToEquip.isBlocked;
     }
 
     void SetWeaponKata(int index)
     {
         var indexToEquip = flyweight.kataCombos[index].indexToEquip == -1 ? index : flyweight.kataCombos[index].indexToEquip;
 
-        if (flyweight.kataCombos[index].kata == null || indexToEquip > katas.Count || katas.Actual(indexToEquip).equiped != null)
+        //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"
+        katas.Actual(indexToEquip).isModifiable = flyweight.kataCombos[index].isModifiable;
+        katas.actual.isBlocked = flyweight.kataCombos[index].isBlocked;
+        //Fin de cambios
+
+        if (flyweight.kataCombos[index]?.kata == null || indexToEquip > katas.Count || katas.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
             return;
 
         var aux = flyweight.kataCombos[index].kata.Create();
@@ -384,8 +392,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         ((WeaponKata)aux).CreateCopy(out int otherindex);
 
-        katas.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
-        katas.actual.isBlocked = flyweight.kataCombos[index].isBlocked;
         katas.actual.indexEquipedItem = otherindex;
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
@@ -398,7 +404,12 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     {
         var indexToEquip = flyweight.abilities[index].indexToEquip == -1 ? index : flyweight.abilities[index].indexToEquip;
 
-        if (flyweight.abilities[index] == null || indexToEquip > abilities.Count || abilities.Actual(indexToEquip).equiped != null)
+        //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"
+        abilities.Actual(indexToEquip).isModifiable = flyweight.abilities[index].isModifiable;
+        abilities.actual.isBlocked = flyweight.abilities[index].isBlocked;
+        //Fin de cambios
+
+        if (flyweight.abilities[index]?.ability == null || indexToEquip > abilities.Count || abilities.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
             return;
 
         var aux = flyweight.abilities[index].ability.Create();
@@ -411,8 +422,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         ((AbilityExtCast)aux).CreateCopy(out int otherindex);
 
-        abilities.actual.isModifiable = flyweight.abilities[index].isModifiable;
-        abilities.actual.isBlocked = flyweight.abilities[index].isBlocked;
         abilities.actual.indexEquipedItem = otherindex;
     }
 
@@ -420,7 +429,12 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     {
         var indexToEquip = flyweight.combos[index].indexToEquip == -1 ? index : flyweight.combos[index].indexToEquip;
 
-        if (flyweight.combos[index].ability == null || indexToEquip > combos.Count || combos.Actual(indexToEquip).equiped != null)
+        //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"
+        combos.Actual(indexToEquip).isModifiable = flyweight.kataCombos[index].isModifiable;
+        combos.actual.isBlocked = flyweight.kataCombos[index].isBlocked;
+        //Fin de cambios
+
+        if (flyweight.combos[index]?.ability == null || indexToEquip > combos.Count || combos.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
             return;
 
         Ability aux = (Ability)flyweight.combos[index].ability.Create();
@@ -432,8 +446,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         aux = aux.CreateCopy(out int otherindex);
 
         combos.actual.indexEquipedItem = otherindex;
-        combos.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
-        combos.actual.isBlocked = flyweight.kataCombos[index].isBlocked;
         //
 
 
