@@ -115,6 +115,7 @@ public class UIE_CombosMenu : UIE_Equipment
             int myIndex = i;
             aux.Init(character.caster.combos[myIndex].equiped, myIndex, character.caster.combos[myIndex].equiped?.GetType());
             aux.InitTooltip(GetText(character.caster.combos[myIndex]), "Puedes equiparte en este movimiento una kata o habilidad", null);
+            aux.Block(character.caster.combos[myIndex].isBlocked);
 
             comboButtonsList.Add(aux);
             comboButtons.Add(aux);

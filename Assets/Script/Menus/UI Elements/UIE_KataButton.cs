@@ -11,7 +11,7 @@ public class UIE_KataButton : VisualElement
     private VisualElement kataImage => this.Q<VisualElement>("kataImage");
     private Label kataText => this.Q<Label>("kataText");
     private VisualElement weaponConteiner => this.Q<VisualElement>("weaponContainer");
-    private VisualElement blocker => this.Q<VisualElement>("blocker");
+    private VisualElement blockerKata => this.Q<VisualElement>("blockerKata");
     private Label blockerText => this.Q<Label>("blockerText");
 
     bool isOnWeapon = false;
@@ -80,9 +80,9 @@ public class UIE_KataButton : VisualElement
     {
         isBlocked = _condition;
         if (_condition)
-            blocker.ShowInUIE();
+            blockerKata.ShowInUIE();
         else
-            blocker.HideInUIE();
+            blockerKata.HideInUIE();
     }
     public void Block(string _text)
     {
