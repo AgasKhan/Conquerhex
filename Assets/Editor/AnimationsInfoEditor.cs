@@ -16,6 +16,8 @@ namespace CustomEulerEditor
 
         AnimationInfo.Data data = null;
 
+        AnimationClip clip;
+
         Editor editorAnim;
 
         FloatField currentTimeProperty;
@@ -75,8 +77,6 @@ namespace CustomEulerEditor
             //buttonEvent.style.marginRight = new Length(5, LengthUnit.Percent);
 
 
-
-
             rightInspector.Add(currentTimeProperty);
 
             rightInspector.Add(nameEvent);
@@ -97,8 +97,15 @@ namespace CustomEulerEditor
 
         private void AnimationsInfoEditor_onChangeValue(object obj)
         {
-            if(data?.animationClip != null)
-                editorAnim = CreateEditor(data.animationClip);
+            if(data?.animationClip != null && clip != data?.animationClip && editorAnim!=null)
+            {
+                currentTimeProperty.value *= -1;
+
+                clip = this.data.animationClip;
+
+                editorAnim = CreateEditor(clip);
+            }
+                
         }
 
         private void AnimationsInfoEditor_onSelectedItem(object obj)
@@ -109,8 +116,10 @@ namespace CustomEulerEditor
                 {
                     this.data = data.value;
 
+                    clip = this.data.animationClip;
+
                     if (this.data?.animationClip != null)
-                        editorAnim = CreateEditor(this.data.animationClip);
+                        editorAnim = CreateEditor(clip);
                 }
             }
         }
@@ -135,6 +144,7 @@ namespace CustomEulerEditor
         //https://discussions.unity.com/t/unity-custom-editor-window-with-animation-clip-preview/857336
 
         private static FieldInfo _cachedAvatarPreviewFieldInfo;
+        //private static FieldInfo _cachedTargetClipPreviewFieldInfo;
         private static FieldInfo _cachedTimeControlFieldInfo;
         private static FieldInfo _cachedStopTimeFieldInfo;
         private static FieldInfo _cachedCurrentTimeFieldInfo;
@@ -150,10 +160,15 @@ namespace CustomEulerEditor
                 var subValue = _cachedTimeControlFieldInfo.GetValue(value);
                 _cachedStopTimeFieldInfo.SetValue(subValue, data.animationClip.length);
 
+                if(currentTimeProperty.value<0)
+                    _cachedCurrentTimeFieldInfo.SetValue(subValue, currentTimeProperty.value*-1);
+                
                 currentTimeProperty.value = /*data.offsetTime +*/ (float)_cachedCurrentTimeFieldInfo.GetValue(subValue);
             }
             else
             {
+                //_cachedTargetClipPreviewFieldInfo ??= editor.GetType().GetField("m_Clips", BindingFlags.NonPublic | BindingFlags.Instance);
+
                 _cachedAvatarPreviewFieldInfo ??= editor.GetType().GetField("m_AvatarPreview", BindingFlags.NonPublic | BindingFlags.Instance);
 
                 if (_cachedAvatarPreviewFieldInfo == null) return;
@@ -177,6 +192,8 @@ namespace CustomEulerEditor
                 if (_cachedStopTimeFieldInfo == null) return;
 
                 _cachedStopTimeFieldInfo.SetValue(subValue, data.animationClip.length);
+
+               
             }
         }
     }
