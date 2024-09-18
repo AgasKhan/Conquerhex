@@ -16,8 +16,69 @@ MonoBehaviour:
   chargeEnergy: 5
   energyStatic: 0
   energyDefault: 0.5
-  kataCombos: []
-  abilities: []
+  weaponToEquip:
+    indexToEquip: -1
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+  kataCombos:
+  - indexToEquip: 0
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 1
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  abilities:
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 4
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 5
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 1
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 0
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  combos: []
   additiveDamage:
   - name: Perforation
     amount: 2
