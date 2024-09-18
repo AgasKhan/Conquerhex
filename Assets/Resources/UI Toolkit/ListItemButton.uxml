@@ -7,8 +7,9 @@
         </ui:VisualElement>
         <ui:Label tabindex="-1" text="Kata combo" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TypeText" class="textListItem listItemText" />
         <ui:Label tabindex="-1" text="Cortante" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SpecialityText" class="listItemText" />
-        <ui:VisualElement name="buttonContainer" style="flex-grow: 0; width: 25%;">
-            <ui:Button text="Intercambiar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ChangeButton" class="changeButton" />
+        <ui:VisualElement name="buttonContainer" style="flex-grow: 0; width: 25%; justify-content: center;">
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ChangeButton" class="changeButton displayHidden" style="background-image: url(&quot;project://database/Assets/Sprites/Exchange%20Symbol.png?fileID=21300000&amp;guid=8dd86f1cdaa1df44ea93c9d6c983f77e&amp;type=3#Exchange Symbol&quot;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(236, 223, 186); width: 50px; -unity-slice-left: 0; -unity-slice-top: 2; -unity-slice-right: 0; -unity-slice-bottom: 2;" />
+            <ui:Label tabindex="-1" text="Equipar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipText" class="listItemText" style="width: 100%;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

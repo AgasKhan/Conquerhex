@@ -11,7 +11,11 @@ public class UIE_KataButton : VisualElement
     private VisualElement kataImage => this.Q<VisualElement>("kataImage");
     private Label kataText => this.Q<Label>("kataText");
     private VisualElement weaponConteiner => this.Q<VisualElement>("weaponContainer");
+    private VisualElement blockerKata => this.Q<VisualElement>("blockerKata");
+    private Label blockerText => this.Q<Label>("blockerText");
 
+    bool isOnWeapon = false;
+    bool isBlocked = false;
     public void Init(Sprite _kataImage, string _kataText, UnityAction _kataAction, Sprite _weaponImage, string _weaponText, UnityAction _weaponAction)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["KataComboButtom"];
@@ -33,17 +37,32 @@ public class UIE_KataButton : VisualElement
         //weaponButton.RegisterMouseEvents(EnterWeaponButton, LeaveWeaponButton);
 
     }
-
+    
     public void InitTooltip(string _title, string _content, Sprite _sprite)
     {
-        RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        RegisterCallback<MouseOverEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+            if(!isOnWeapon && !isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
         });
-
         RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
+        });
+    }
+    public void InitWeaponTooltip(string _title, string _content, Sprite _sprite)
+    {
+        weaponConteiner.RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        {
+            isOnWeapon = true;
+            if (!isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+        });
+
+        weaponConteiner.RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
+        {
+            isOnWeapon = false;
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
         });
     }
 
@@ -57,14 +76,18 @@ public class UIE_KataButton : VisualElement
         auxAct.Invoke();
     }
 
-    void EnterWeaponButton(MouseEnterEvent clEvent)
+    public void Block(bool _condition)
     {
-        kataButton.SetEnabled(false);
+        isBlocked = _condition;
+        if (_condition)
+            blockerKata.ShowInUIE();
+        else
+            blockerKata.HideInUIE();
     }
-    void LeaveWeaponButton(MouseLeaveEvent clEvent)
+    public void Block(string _text)
     {
-
+        blockerText.text = _text;
+        Block(true);
     }
-
     public UIE_KataButton() { }
 }

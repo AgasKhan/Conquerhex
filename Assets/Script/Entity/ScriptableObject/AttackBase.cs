@@ -13,6 +13,8 @@ public class AttackBase : FlyWeight<EntityBase>
         public bool isModifiable = true;
 
         public bool isDefault = false;
+
+        public bool isBlocked = false;
     }
 
     [System.Serializable]

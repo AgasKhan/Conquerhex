@@ -9,7 +9,10 @@ public class UIE_SlotButton : VisualElement
     public new class UxmlFactory : UxmlFactory<UIE_SlotButton, UxmlTraits> { }
     private VisualElement slotImage => this.Q<VisualElement>("slotImage");
     private Label slotText => this.Q<Label>("slotText");
+    private VisualElement blocker => this.Q<VisualElement>("blocker");
+    private Label blockerText => this.Q<Label>("blockerText");
 
+    bool isBlocked = false;
     public void Init(Sprite image, string text, UnityAction action, System.Type _type)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
@@ -32,18 +35,33 @@ public class UIE_SlotButton : VisualElement
     {
         RegisterCallback<MouseEnterEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+            if (!isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
         });
 
         RegisterCallback<MouseLeaveEvent>((mouseEvent) => 
         {
-            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
         });
     }
 
     public void InitImageTooltip(Sprite _sprite)
     {
 
+    }
+
+    public void Block(bool _condition)
+    {
+        isBlocked = _condition;
+        if (_condition)
+            blocker.ShowInUIE();
+        else
+            blocker.HideInUIE();
+    }
+    public void Block(string _text)
+    {
+        blockerText.text = _text;
+        Block(true);
     }
 
     public void Init(Item _item, UnityAction action)
@@ -58,7 +76,7 @@ public class UIE_SlotButton : VisualElement
         slotImage.RegisterCallback<ClickEvent>(buttonEvent);
 
         RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_item.nameDisplay, _item.GetDetails().ToString(), _item.image));
-        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.HideTooltip);
+        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.StartHideTooltip);
     }
 
 
@@ -71,13 +89,6 @@ public class UIE_SlotButton : VisualElement
 
         auxAct.Invoke();
     }
-
-    public void RegisterMouseEvents(EventCallback<MouseEnterEvent> onEnter, EventCallback<MouseLeaveEvent> onLeave)
-    {
-        slotImage.RegisterCallback<MouseEnterEvent>(onEnter);
-        slotImage.RegisterCallback<MouseLeaveEvent>(onLeave);
-    }
-
 
     public UIE_SlotButton() { }
 }

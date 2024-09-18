@@ -20,7 +20,7 @@ public class SlotItem
     ItemEquipable _equiped;
 
     [SerializeReference]
-    ItemEquipable defaultItem;
+    public ItemEquipable defaultItem;
 
     public ItemEquipable equiped
     {
@@ -92,6 +92,8 @@ public class SlotItem
 public class SlotItem<T> : SlotItem where T : ItemEquipable
 {
     public event System.Action<int, T> toChange;
+
+    public bool isBlocked = false;
 
     public new T equiped
     {

@@ -62,13 +62,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d3c201a45a6f142bbcafa4798cf86d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWeaponImage: {fileID: 21300000, guid: fe126f528f2475c45acba7da868df363, type: 3}
-  defaultWeaponText: Equipar Arma
-  defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
-    type: 3}
-  defaultAbilityText: Equipar Habilidad
-  defaultKataImage: {fileID: 21300000, guid: 0196f0a0b2c60d04daf23de995f88c1b, type: 3}
-  defaultKataText: Equipar Kata
   equipMenu: {fileID: 2110480652936732313}
   basicsKeys:
   - {fileID: 21300000, guid: 70b9875e03dd1d14992340557b08dd69, type: 3}
@@ -146,13 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8860cc2f3a952544e934f26fb60b0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWeaponImage: {fileID: 21300000, guid: fe126f528f2475c45acba7da868df363, type: 3}
-  defaultWeaponText: Equipar
-  defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
-    type: 3}
-  defaultAbilityText: Equipar
-  defaultKataImage: {fileID: 0}
-  defaultKataText: 
   equipMenu: {fileID: 2110480652936732313}
   basicsKeys: []
   abilitiesKeys: []
@@ -220,6 +206,13 @@ MonoBehaviour:
   tooltipTimer:
     _total: 0
     _current: 0
+  defaultWeaponImage: {fileID: 21300000, guid: fe126f528f2475c45acba7da868df363, type: 3}
+  defaultWeaponText: Equipar Arma
+  defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
+    type: 3}
+  defaultAbilityText: Equipar Habilidad
+  defaultKataImage: {fileID: 21300000, guid: 0196f0a0b2c60d04daf23de995f88c1b, type: 3}
+  defaultKataText: Equipar Kata
 --- !u!1 &5512052894714495535
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,3 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd31134bc4a2f14598b2410d701b3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipMenu: {fileID: 0}
+  basicsKeys: []
+  abilitiesKeys: []
+  katasKeys: []

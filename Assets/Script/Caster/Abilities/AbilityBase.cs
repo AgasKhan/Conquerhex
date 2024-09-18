@@ -90,7 +90,7 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
         if (damagesMultiply.Length > 0)
             aux.Add("Modificadores".RichText("color", "#f6f1c2"), damagesMultiply.ToString(": x", "\n"));
 
-        aux.Add("Cooldown".RichText("color", "#f6f1c2"), velocity.ToString() + " segundos");
+        aux.Add("Tiempo de espera".RichText("color", "#f6f1c2"), velocity.ToString() + " segundos");
 
         if(costExecution!=0)
             aux.Add("Costo de energía".RichText("color", "#f6f1c2"), costExecution > 0 ? ("-" + costExecution.ToString()).RichText("color", "#ea925e") : ("+" + costExecution.ToString()).RichText("color", "#5afdf7"));

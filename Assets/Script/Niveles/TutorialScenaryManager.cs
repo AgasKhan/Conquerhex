@@ -205,6 +205,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public void GiveToPlayer()
     {
         GiveToPlayer(weaponForPlayer.Item, weaponForPlayer.Amount);
+        
     }
 
     public void GiveToPlayer(ItemBase item, int amount)
@@ -223,6 +224,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         for (int i = 0; i < abilitiesForPlayer.Count; i++)
         {
+            abilitiesForPlayer[i].isBlocked = false;
             SetPlayerAbility(abilitiesForPlayer[i]);
         }
 

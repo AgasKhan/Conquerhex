@@ -12,71 +12,58 @@ public class UIE_ListButton : VisualElement
     private Label itemName => this.Query<Label>("ItemName").First();
     private Label typeItem => this.Query<Label>("TypeText").First();
     private Label specialityItem => this.Q<Label>("SpecialityText");
-    private Label changeLabel => this.Q<Label>("ChangeButton");
+    private Label equipText => this.Q<Label>("equipText");
     private VisualElement changeButton => this.Q<VisualElement>("ChangeButton");
     private VisualElement buttonContainer => this.Q<VisualElement>("buttonContainer");
 
     System.Action<ClickEvent> mainAction;
     System.Action<ClickEvent> changeAction;
 
-    public void Init(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, bool changeButtonVisible, System.Action<ClickEvent> _mainAction, System.Action<ClickEvent> _changeAction, string changeText)
+    public void Init(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, System.Action _mainAction)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);
-        /*
-        Debug.Log("itemImage is null = " + (itemImage == null));
-        Debug.Log("itemName is null = " + (itemName == null));
-        Debug.Log("typeItem is null = " + (typeItem == null));
-        Debug.Log("specialityItem is null = " + (specialityItem == null));
-        Debug.Log("changeButton is null = " + (changeButton == null));
-        */
+
         itemImage.style.backgroundImage = new StyleBackground(_itemImage);
         itemName.text = _itemName;
         typeItem.text = _typeItem;
         specialityItem.text = _specialityItem;
 
-        changeButton.visible = changeButtonVisible;
-        //changeLabel.text = changeText;
+        //changeButton.visible = changeButtonVisible;
 
-        mainAction = _mainAction;
-        SetMainButtonAct();
-
+        RegisterCallback<ClickEvent>((clEvent)=>_mainAction.Invoke());
+        /*
         if(_changeAction!=null)
         {
             changeAction = _changeAction;
             SetChangeButtonAct();
         }
+        */
     }
 
-    public void SetMainButtonAct()
+    public void SetHoverAction(System.Action _action)
     {
-        this.RegisterCallback<ClickEvent>(myEvent);
+        RegisterCallback<MouseEnterEvent>((clEvent) =>_action.Invoke());
     }
 
-    public void SetChangeButtonAct()
+    public void SetEquipText(string _text)
     {
-        changeButton.RegisterCallback<ClickEvent>(changeEvent);
+        equipText.text = _text;
+
+        RegisterCallback<MouseEnterEvent>((clEvent) => equipText.AddToClassList("listItemTextHover"));
+        RegisterCallback<MouseLeaveEvent>((clEvent) => equipText.RemoveFromClassList("listItemTextHover"));
     }
 
-    void myEvent(ClickEvent clEvent)
-    {
-        mainAction?.Invoke(clEvent);
-    }
-    void changeEvent(ClickEvent clEvent)
-    {
-        changeAction?.Invoke(clEvent);
-    }
-
-    public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action<ClickEvent> _mainAction, System.Type _type)
+    public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action _mainAction, System.Type _type)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);
 
-        typeItem.AddToClassList("displayHidden");
-        specialityItem.AddToClassList("displayHidden");
-        buttonContainer.AddToClassList("displayHidden");
+        typeItem.HideInUIE();
+        specialityItem.HideInUIE();
+        buttonContainer.HideInUIE();
 
-        if(_type == typeof(WeaponKata))
+        if (_type == typeof(WeaponKata))
         {
             itemImage.AddToClassList("kataBorder");
         }
@@ -88,8 +75,7 @@ public class UIE_ListButton : VisualElement
         itemImage.style.backgroundImage = new StyleBackground(_itemImage);
         itemName.text = _itemName;
 
-        mainAction = _mainAction;
-        SetMainButtonAct();
+        RegisterCallback<ClickEvent>((clEvent) => _mainAction.Invoke());
     }
 
     public UIE_ListButton() { }

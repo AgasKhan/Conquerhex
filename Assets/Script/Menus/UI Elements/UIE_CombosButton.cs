@@ -23,10 +23,15 @@ public class UIE_CombosButton : VisualElement
     private Label kataText => this.Q<Label>("kataText");
     private VisualElement weaponButton => this.Q<VisualElement>("weaponButton");
 
+    private VisualElement blockerCombo => this.Q<VisualElement>("blockerCombo");
+    //private VisualElement blockerKata => this.Q<VisualElement>("blockerKata");
+
+    private Label blockerText => this.Q<Label>("blockerText");
+
     UnityAction mainAct;
     UnityAction auxAct;
 
-
+    bool isBlocked = false;
     void HideKata()
     {
         kataCombo.HideInUIE();
@@ -89,13 +94,28 @@ public class UIE_CombosButton : VisualElement
     {
         RegisterCallback<MouseEnterEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+            if(!isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
         });
 
         RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.HideTooltip(mouseEvent);
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
         });
+    }
+
+    public void Block(bool _condition)
+    {
+        isBlocked = _condition;
+        if (_condition)
+            blockerCombo.ShowInUIE();
+        else
+            blockerCombo.HideInUIE();
+    }
+    public void Block(string _text)
+    {
+        blockerText.text = _text;
+        Block(true);
     }
 
     void mainButtonEvent(ClickEvent clEvent)
@@ -111,12 +131,6 @@ public class UIE_CombosButton : VisualElement
         //kataText.AddToClassList("slotTextClicked");
 
         auxAct.Invoke();
-    }
-
-    void ResetButton()
-    {
-        abilityImage.RemoveFromClassList("slotButtonClicked");
-        abilityText.RemoveFromClassList("slotTextClicked");
     }
 
     public UIE_CombosButton() { }
