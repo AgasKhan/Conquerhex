@@ -58,7 +58,7 @@ namespace UI
             if (ability == null || ability != obj)
                 return;
 
-            AbilityOnEnter();
+            AbilityOnExit();
         }
 
         private void Caster_onEnterCasting(Ability obj)
@@ -66,7 +66,7 @@ namespace UI
             if (ability == null || ability != obj)
                 return;
 
-            AbilityOnExit();
+            AbilityOnEnter();
         }
 
         private void AbilityOnExit()

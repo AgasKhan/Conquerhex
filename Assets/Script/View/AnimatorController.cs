@@ -124,7 +124,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     {
         for (int i = 0; i < maxActions; i++)
         {
-            controller.ResetTrigger(strAction);
+            controller.ResetTrigger($"Action{(i + 1)}");
         }
 
         controller.SetBool("Wait", false);
@@ -244,7 +244,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     #endif
 
-    public override void OnEnterState(Entity param)
+    public override void OnEnterState(Entity entity)
     {
         if (controller == null || !active)
         {
@@ -266,31 +266,32 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         eventMediator.reference = this;
         /////////
 
-        if(container.TryGetInContainer<CasterEntityComponent>(out var caster))
+        if(entity.TryGetInContainer<CasterEntityComponent>(out var caster))
         {
             caster.onAnimation += OnCasterAnimation;
             caster.onExitCasting += OnExitCasting;
         }
 
-        if (container.TryGetInContainer<AimingEntityComponent>(out var aiming))
+        if (entity.TryGetInContainer<AimingEntityComponent>(out var aiming))
         {
             aiming.onAimingXZ += Ia_onAiming;
         }
 
-        if(container is Character character)
+        if(entity is Character character)
         {
             character.moveStateCharacter.OnActionEnter += MoveStateCharacter_OnActionEnter;
             character.moveStateCharacter.OnActionExit += MoveStateCharacter_OnActionExit;
             move = character.move;
+            move.onIdle += Ia_onIdle;
             MoveStateCharacter_OnActionEnter();
         }
-        else if (container.TryGetInContainer<MoveEntityComponent>(out move))
+        else if (entity.TryGetInContainer<MoveEntityComponent>(out move))
         {
             move.onIdle += Ia_onIdle;
             move.onMove += Ia_onMove;
         }
 
-        container.health.death += Ia_onDeath;
+        entity.health.death += Ia_onDeath;
     }
 
     private void OnExitCasting(Ability obj)
@@ -300,15 +301,15 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void MoveStateCharacter_OnActionEnter()
     {
-        move.onIdle += Ia_onIdle;
+        //move.onIdle += Ia_onIdle;
         move.onMove += Ia_onMove;
     }
 
     private void MoveStateCharacter_OnActionExit()
     {
-        move.onIdle -= Ia_onIdle;
+        //move.onIdle -= Ia_onIdle;
         move.onMove -= Ia_onMove;
-        Ia_onIdle();
+        //Ia_onIdle();
     }
 
 
@@ -324,8 +325,33 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         //controller.transform.forward = Vector3.Slerp(controller.transform.forward, forward, Time.deltaTime * 10);
     }
 
-    public override void OnExitState(Entity param)
+    public override void OnExitState(Entity entity)
     {
+        if (entity.TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onAnimation -= OnCasterAnimation;
+            caster.onExitCasting -= OnExitCasting;
+        }
 
+        if (entity.TryGetInContainer<AimingEntityComponent>(out var aiming))
+        {
+            aiming.onAimingXZ -= Ia_onAiming;
+        }
+
+        if (entity is Character character)
+        {
+            character.moveStateCharacter.OnActionEnter -= MoveStateCharacter_OnActionEnter;
+            character.moveStateCharacter.OnActionExit -= MoveStateCharacter_OnActionExit;
+            move = character.move;
+            move.onIdle -= Ia_onIdle;
+            MoveStateCharacter_OnActionExit();
+        }
+        else if (entity.TryGetInContainer<MoveEntityComponent>(out move))
+        {
+            move.onIdle -= Ia_onIdle;
+            move.onMove -= Ia_onMove;
+        }
+
+        entity.health.death -= Ia_onDeath;
     }
 }

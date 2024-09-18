@@ -76,7 +76,7 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public void Cast(System.Action actionOnCast = null)
     {
-        ability.onAction += (a) => ability.Cast(actionOnCast);
+        ability.onAction = (a) => ability.Cast(actionOnCast);
         PlayAction("Cast");
     }
 

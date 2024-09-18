@@ -67,9 +67,32 @@ public class CastingDash : CastingAction<CastingDashBase>
         }        
     }
 
+    private void Move_onIdle()
+    {
+        if(moveEntity.VectorVelocity.sqrMagnitude==0)
+        {
+            ability.PlayAction("Charge");
+            moveEntity.onIdle -= Move_onIdle;
+        }
+    }
+
     public override void OnEnterState(CasterEntityComponent param)
     {
-        ability.PlayAction("Charge");
+        if(param.TryGetInContainer<MoveEntityComponent>(out moveEntity))
+        {
+            moveEntity.onIdle += Move_onIdle;
+        }
+    }
+
+    public override void OnExitState(CasterEntityComponent param)
+    {
+        if (moveEntity!=null)
+        {
+            moveEntity.onIdle -= Move_onIdle;
+        }
+
+        timerToCastUpdate?.Stop();
+        dashInTime.Stop();
     }
 
     public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
@@ -79,8 +102,9 @@ public class CastingDash : CastingAction<CastingDashBase>
 
         IEnumerable<Entity> affected = Utilitys.VoidEnumerable<Entity>();
 
-        if (caster.TryGetInContainer(out moveEntity))
+        if (moveEntity!=null)
         {
+            moveEntity.onIdle -= Move_onIdle;
             dashInTime.Reset();
             affected = null;
             if(startDashCastingAction!=null)
@@ -153,10 +177,9 @@ public class CastingDash : CastingAction<CastingDashBase>
             ability.PlaySound("EndCast");
         }
 
-        ability.PlayAction("End");
-
-
         End = true;
+
+        ability.PlayAction("End");
     }
 
     public override void Destroy()

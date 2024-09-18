@@ -184,7 +184,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     /// <summary>
     /// Evento que ejecutara en el momento preciso de la animacion
     /// </summary>
-    public event System.Action<Ability> onAction;
+    public System.Action<Ability> onAction;
 
     public event System.Action<Ability> onEndAction;
 
@@ -585,6 +585,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         onInternalCastEvent = null;
 
         onAction = null;
+
+        onEndAction = null;
 
         if (!DontExecuteCast)
         {
