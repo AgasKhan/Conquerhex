@@ -27,7 +27,19 @@ namespace CustomEulerEditor
                 inheterenceOrder.onSelectedItem -= value;
             }
         }
-        
+
+        protected event System.Action<object> onChangeValue
+        {
+            add
+            {
+                inheterenceOrder.onChangeValue += value;
+            }
+            remove
+            {
+                inheterenceOrder.onChangeValue -= value;
+            }
+        }
+
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -59,6 +71,8 @@ namespace CustomEulerEditor
     public class InheterenceOrder
     {
         public System.Action<object> onSelectedItem;
+
+        public System.Action<object> onChangeValue;
 
         private bool showInheritedPropertiesInverted = false; // Configuración para mostrar propiedades heredadas abajo
         private bool showClassTitles = false; // Configuración para mostrar títulos de clase
@@ -100,32 +114,56 @@ namespace CustomEulerEditor
 
             //configContainer.style.marginBottom = 10;
 
-            var showInheritedToggle = new Button(() =>
+            var showInheritedToggle = new Button() { text = "Invert Inheterence"};
             {
-                showInheritedPropertiesInverted = !showInheritedPropertiesInverted;
-                AddPropertiesToContainer();
-            }) { text = "Invert Inheterence"};
+                var originalColor = showInheritedToggle.style.backgroundColor;
 
-            var showClassAllTitlesToggle = new Button(() =>
+                showInheritedToggle.clicked += () =>
+                {
+                    showInheritedPropertiesInverted = !showInheritedPropertiesInverted;
+
+                    showInheritedToggle.style.backgroundColor = showInheritedPropertiesInverted ? (Color.white *0.25f).ChangeAlphaCopy(1) : originalColor;
+
+                    AddPropertiesToContainer();
+                };
+            }
+
+            var showClassAllTitlesToggle = new Button() { text = "Show All"};
             {
-                showClassAllTitles = !showClassAllTitles;
-                AddPropertiesToContainer();
-            }) { text = "Show All"};
+                var originalColor = showClassAllTitlesToggle.style.backgroundColor;
+
+                showClassAllTitlesToggle.clicked += () =>
+                {
+                    showClassAllTitles = !showClassAllTitles;
+
+                    showClassAllTitlesToggle.style.backgroundColor = showClassAllTitles ? (Color.white * 0.25f).ChangeAlphaCopy(1) : originalColor;
+
+                    AddPropertiesToContainer();
+                };
+            }
             
 
-            var showClassTitlesToggle = new Button(() =>
+            var showClassTitlesToggle = new Button() { text = "Show Classes"};
             {
-                showClassTitles = !showClassTitles;
-                if (showClassTitles)
+                var originalColor = showClassTitlesToggle.style.backgroundColor;
+
+                showClassTitlesToggle.clicked += () =>
                 {
-                    showClassAllTitlesToggle.SetEnabled(true);
-                }
-                else
-                {
-                    showClassAllTitlesToggle.SetEnabled(false);
-                }
-                AddPropertiesToContainer();
-            }) { text = "Show Classes"};
+                    showClassTitles = !showClassTitles;
+                    if (showClassTitles)
+                    {
+                        showClassAllTitlesToggle.SetEnabled(true);
+                    }
+                    else
+                    {
+                        showClassAllTitlesToggle.SetEnabled(false);
+                    }
+
+                    showClassTitlesToggle.style.backgroundColor = showClassTitles ? (Color.white * 0.25f).ChangeAlphaCopy(1) : originalColor;
+
+                    AddPropertiesToContainer();
+                };
+            }
 
             showClassAllTitlesToggle.SetEnabled(showClassTitles);
 
@@ -255,7 +293,9 @@ namespace CustomEulerEditor
                 container.Add(propertyField);
 
                 EventCallback<ClickEvent> aux = null;
-                
+
+                propertyField.RegisterValueChangeCallback(OnChangeValue);
+
                 aux = (ClickEvent evt) =>
                 {
                     //Debug.Log("Clickeado: " + evt.currentTarget);
@@ -316,6 +356,11 @@ namespace CustomEulerEditor
                 
                 HasCollection(propertyChild);
             }
+        }
+
+        private void OnChangeValue(SerializedPropertyChangeEvent propertyChangeEvent)
+        {
+            onChangeValue?.Invoke(propertyChangeEvent.changedProperty.GetValue<object>());
         }
     }
 

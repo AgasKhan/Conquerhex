@@ -26,21 +26,39 @@ namespace CustomEulerEditor
         {
             info = target as AnimationInfo;
 
-            var container = base.CreateInspectorGUI();
+            var container = new VisualElement();
+
+            container.style.flexDirection = FlexDirection.Row;
+
+            container.style.justifyContent = Justify.SpaceBetween;
+
+            container.style.height = new Length(400, LengthUnit.Pixel);
+
+            var leftInspector = new ScrollView();
+
+            leftInspector.style.width = new Length(66, LengthUnit.Percent);
+
+            leftInspector.Add(base.CreateInspectorGUI());
+
+            var rightInspector = new VisualElement();
+
+            rightInspector.style.marginTop = 15;
+
+            rightInspector.style.width = new Length(33, LengthUnit.Percent);
 
 
             currentTimeProperty = new FloatField("Current Time");
 
             currentTimeProperty.SetEnabled(false);
 
-            currentTimeProperty.style.width = new Length(25, LengthUnit.Percent);
+            //currentTimeProperty.style.width = new Length(25, LengthUnit.Percent);
 
             //currentTimeProperty.style.marginRight = new Length(5, LengthUnit.Percent);
 
 
             nameEvent = new TextField("Name of event");
 
-            nameEvent.style.width = new Length(33, LengthUnit.Percent);
+            //nameEvent.style.width = new Length(33, LengthUnit.Percent);
 
             //nameEvent.style.marginRight = new Length(5, LengthUnit.Percent);
 
@@ -57,34 +75,34 @@ namespace CustomEulerEditor
             //buttonEvent.style.marginRight = new Length(5, LengthUnit.Percent);
 
 
-            var subContainer = new VisualElement();
-
-            subContainer.style.marginTop = 15;
-
-            subContainer.style.flexDirection = FlexDirection.Row;
-
-            subContainer.style.justifyContent = Justify.SpaceBetween;
-
-            subContainer.Add(currentTimeProperty);
-
-            subContainer.Add(nameEvent);
-
-            subContainer.Add(buttonEvent);
-
-            container.Add(subContainer);
 
 
+            rightInspector.Add(currentTimeProperty);
+
+            rightInspector.Add(nameEvent);
+
+            rightInspector.Add(buttonEvent);
+
+            container.Add(leftInspector);
+
+            container.Add(rightInspector);
 
             onSelectedItem += AnimationsInfoEditor_onSelectedItem;
+
+            onChangeValue += AnimationsInfoEditor_onChangeValue;
 
 
             return container;
         }
 
+        private void AnimationsInfoEditor_onChangeValue(object obj)
+        {
+            if(data?.animationClip != null)
+                editorAnim = CreateEditor(data.animationClip);
+        }
+
         private void AnimationsInfoEditor_onSelectedItem(object obj)
         {
-            Debug.Log(obj);
-
             if (obj is Internal.Pictionary<string, AnimationInfo.Data> data)
             {
                 if (editorAnim == null || (this.data != data.value))
