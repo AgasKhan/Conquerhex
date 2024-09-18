@@ -48,12 +48,12 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     */
 
-    bool ShowWeapon;
-
     Dictionary<string,(int cantidad, WeaponEquip reference)> equipedsWeapon = new();
     Dictionary<int, WeaponEquip> relation = new();
 
     System.Action onExitAnimation;
+
+    AnimatorController animController;
 
     Data GetPart(string str) => _whereToEquip[str];
 
@@ -114,36 +114,50 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     private void OnEnterCasting(Ability obj)
     {
+        
         if (obj is WeaponKata kata)
 
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
                 var weapon = this[kata.Weapon.itemBase.weaponModel];
-                weapon.Spawn();
-                visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
-                visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
-                visualEffect.SetInt("CountPCache", weapon.countPCache);
-                visualEffect.SetBool("SpawnDespawn", true);
-                visualEffect.Play();
-                ShowWeapon = true;
+                if(weapon.Spawn())
+                {
+                    visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
+                    visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
+                    visualEffect.SetInt("CountPCache", weapon.countPCache);
+                    visualEffect.SetBool("SpawnDespawn", true);
+                    visualEffect.Play();
+                }
             }
     }
 
     private void OnExitCasting(Ability obj)
-    {
-        if(ShowWeapon)
-            onExitAnimation = () =>
+    {        
+        if (obj is WeaponKata kata)
+            if (kata.Weapon?.itemBase.weaponModel != null)
             {
-                if (obj is WeaponKata kata)
-                    if (kata.Weapon?.itemBase.weaponModel != null)
+                if(animController?.isPlaying ?? false)
+                {
+                    onExitAnimation = () =>
                     {
-                        this[kata.Weapon.itemBase.weaponModel].Despawn();
+                        if(this[kata.Weapon.itemBase.weaponModel].Despawn())
+                        {
+                            visualEffect.SetBool("SpawnDespawn", false);
+                            visualEffect.Play();
+                        }
+                        
+                        onExitAnimation = null;
+                    };
+                }
+                else
+                {
+                    if (this[kata.Weapon.itemBase.weaponModel].Despawn())
+                    {
                         visualEffect.SetBool("SpawnDespawn", false);
                         visualEffect.Play();
-                        onExitAnimation = null;
-                        ShowWeapon = false;
                     }
-            };
+                }
+            }
     }
 
     private void OnExitAnim(AnimatorStateInfo obj)
@@ -163,9 +177,10 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
             caster.onEnterCasting += OnEnterCasting;
             caster.onExitCasting += OnExitCasting;
 
-            if(param.TryGetInContainer<AnimatorController>(out var animController))
+            if(param.TryGetInContainer<AnimatorController>(out animController))
             {
                 animController.onExitAnim += OnExitAnim;
+            
             }
 
             for (int i = 0; i < caster.weapons.Count; i++)
@@ -189,7 +204,6 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
             }
         }
     }
-
 
     public override void OnExitState(Entity param)
     {

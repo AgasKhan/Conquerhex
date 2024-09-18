@@ -29,11 +29,16 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     public event System.Action<AnimatorStateInfo> onEnterAnim;
     public event System.Action<AnimatorStateInfo> onExitAnim;
 
+    public bool isPlaying { get; private set; }
+
+    public Vector3 forwardModel => controller.transform.forward;
+    public Quaternion rotationModel => controller.transform.rotation;
+
     [SerializeField]
     bool active = true;
 
     [SerializeField]
-    public Animator controller;
+    Animator controller;
 
     [SerializeField]
     Pictionarys<string, Data> animations = new Pictionarys<string, Data>();
@@ -41,8 +46,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     [SerializeField]
     string[] actionsName;
 
-    [SerializeField]
-    AnimationClip animatorClipTest;
+
 
     AnimatorOverrideController animatorOverrideController;
 
@@ -50,7 +54,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     MoveEntityComponent move;
 
-    Vector3 forward;
+    Vector3 forwardObj;
 
     Timer timerEndAnimationTransition;
 
@@ -64,6 +68,10 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     string strAction => "Action" + (_index+1);
 
+    #region Test
+
+    [SerializeField]
+    AnimationClip animatorClipTest;
 
     [ContextMenu("Test")]
     void Test()
@@ -83,12 +91,14 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         ChangeActionAnimation(animatorClipTest, DefaultActions.Cast);
     }
 
+    #endregion
+
     private void Ia_onMove(Vector3 obj)
     {
         controller.SetBool("Move", true);
 
         if (obj != Vector3.zero )
-            forward = Vector3.Slerp(forward, obj, Time.fixedDeltaTime*10);
+            forwardObj = Vector3.Slerp(forwardObj, obj, Time.fixedDeltaTime*10);
 
         enabled = true;
     }
@@ -101,11 +111,11 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     private void Ia_onAiming(Vector3 obj)
     {
         if (obj != Vector3.zero)
-            forward =  obj;
+            forwardObj =  obj;
         else
             return;
 
-        forward.y = 0;
+        forwardObj.y = 0;
 
         enabled = true;
     }
@@ -132,6 +142,8 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     void ChangeActionAnimation(AnimationInfo.Data data)
     {
+        controller.SetBool("Mirror", data.mirror);
+        controller.SetFloat("ActionMultiply", data.velocity);
         ChangeActionAnimation(data.animationClip, data.defaultAction, data.inLoop);
     }
 
@@ -209,12 +221,15 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void OnAnimExitAction(AnimatorStateInfo obj)
     {
+        isPlaying = false;
         onExitAnim?.Invoke(obj);
     }
 
     private void OnAnimStartAction(AnimatorStateInfo obj)
     {
-        if(!loopAction)
+        isPlaying = true;
+
+        if (!loopAction)
             timerEndAnimationTransition.Set(obj.length);
 
         onEnterAnim?.Invoke(obj);
@@ -315,14 +330,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void Update()
     {
-        controller.transform.forward = Vector3.Slerp(controller.transform.forward, forward, Time.deltaTime * 10);
-        if ((controller.transform.forward - forward).sqrMagnitude < 0.01f)
+        controller.transform.forward = Vector3.Slerp(controller.transform.forward, forwardObj, Time.deltaTime * 10);
+        if ((controller.transform.forward - forwardObj).sqrMagnitude < 0.01f)
             enabled = false;
     }
 
     public override void OnStayState(Entity param)
     {
-        //controller.transform.forward = Vector3.Slerp(controller.transform.forward, forward, Time.deltaTime * 10);
     }
 
     public override void OnExitState(Entity entity)

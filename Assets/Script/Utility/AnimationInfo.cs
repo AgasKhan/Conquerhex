@@ -8,12 +8,24 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptables/Animation", fileName = "new AnimationInfo")]
 public class AnimationInfo : ScriptableObject
 {
+    enum MirrorState
+    {
+        NoMirror,
+        Mirror,
+        Random
+    }
+
     [System.Serializable]
     public class Data
     {
         public AnimatorController.DefaultActions defaultAction;
         public AnimationClip animationClip;
         public bool inLoop;
+        public float velocity = 1;
+        [SerializeField]
+        MirrorState mirrorType;
+
+        public bool mirror => mirrorType == MirrorState.NoMirror ? false : (mirrorType == MirrorState.Mirror ? true : Random.Range(0, 2) == 0);
         //public float offsetTime;
         //public int previusIndexAnim=-1;
         public float Length => animationClip.length;

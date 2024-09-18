@@ -55,16 +55,28 @@ public class WeaponEquip : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void Spawn()
+    public bool Spawn()
     {
-        onSpawn?.Invoke();
-        weapon.SetActive(true);
+        if(!weapon.activeSelf)
+        {
+            onSpawn?.Invoke();
+            weapon.SetActive(true);
+            return true;
+        }
+
+        return false;
     }
 
-    public void Despawn()
+    public bool Despawn()
     {
-        onDespawn?.Invoke();
-        weapon.SetActive(false);
+        if (weapon.activeSelf)
+        {
+            onDespawn?.Invoke();
+            weapon.SetActive(false);
+            return true;
+        }
+
+        return false;
     }
 
     public override bool Equals(object other)
