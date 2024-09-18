@@ -62,12 +62,14 @@ public class AutomaticCharacterAttack
     {
         get
         {
+            /*
             if (ability != null && ability.FeedBackReference != null)
             {
                 _ability.FeedbackDetect();
 
                 return _ability.FeedBackReference;
             }
+            */
 
             return null;
         }
