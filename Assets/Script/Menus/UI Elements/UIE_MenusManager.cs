@@ -59,6 +59,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
 
     void ShowTooltip()
     {
+        tooltipLeaveTimer.Stop();
         menuList[currentMenu].tooltip.SetParams(tooltTile, tooltContent, tooltSprite);
         menuList[currentMenu].tooltip.BringToFront();
 
@@ -74,6 +75,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     {
         Debug.Log("ShowTooltip");
 
+        tooltipLeaveTimer.Stop();
         tooltipTimer.Reset();
 
         tooltTile = _title;

@@ -93,6 +93,8 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
 {
     public event System.Action<int, T> toChange;
 
+    public bool isBlocked = false;
+
     public new T equiped
     {
         get

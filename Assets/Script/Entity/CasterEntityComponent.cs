@@ -360,6 +360,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         int indexInventory = aux2.Init(inventoryEntity);
         aux2.isDefault = flyweight.weaponToEquip.isDefault;
         weapons.actual.indexEquipedItem = indexInventory;
+        weapons.actual.isBlocked = flyweight.weaponToEquip.isBlocked;
     }
 
     void SetWeaponKata(int index)
@@ -384,7 +385,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         ((WeaponKata)aux).CreateCopy(out int otherindex);
 
         katas.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
-
+        katas.actual.isBlocked = flyweight.kataCombos[index].isBlocked;
         katas.actual.indexEquipedItem = otherindex;
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
@@ -411,7 +412,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         ((AbilityExtCast)aux).CreateCopy(out int otherindex);
 
         abilities.actual.isModifiable = flyweight.abilities[index].isModifiable;
-
+        abilities.actual.isBlocked = flyweight.abilities[index].isBlocked;
         abilities.actual.indexEquipedItem = otherindex;
     }
 
@@ -431,8 +432,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         aux = aux.CreateCopy(out int otherindex);
 
         combos.actual.indexEquipedItem = otherindex;
-
         combos.actual.isModifiable = flyweight.kataCombos[index].isModifiable;
+        combos.actual.isBlocked = flyweight.kataCombos[index].isBlocked;
         //
 
 
@@ -482,7 +483,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         ((AbilityExtCast)aux).CreateCopy(out int otherindex);
 
         abilities.actual.isModifiable = abilityToEquip.isModifiable;
-
+        abilities.actual.isBlocked = abilityToEquip.isBlocked;
         abilities.actual.indexEquipedItem = otherindex;
     }
 

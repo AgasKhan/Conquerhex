@@ -108,16 +108,19 @@ public class UIE_Equipment : UIE_BaseMenu
         basicsButtons.Add(basicButton);
         basicButton.Init(GetImage(character.caster.weapons[0]), GetText(character.caster.weapons[0]), WeaponAction(character.caster.weapons[0]), character.caster.weapons[0].GetSlottype());
         SetButtonTooltip(basicButton, character.caster.weapons[0], basicsKeys[0]);
+        basicButton.Block(character.caster.weapons[0].isBlocked);
 
         basicButton = new UIE_SlotButton();
         basicsButtons.Add(basicButton);
         basicButton.Init(GetImage(character.caster.abilities[0]), GetText(character.caster.abilities[0]), AbilityAction(character.caster.abilities[0]), character.caster.abilities[0].GetSlottype());
         SetButtonTooltip(basicButton, character.caster.abilities[0], basicsKeys[1]);
+        basicButton.Block(character.caster.abilities[0].isBlocked);
 
         basicButton = new UIE_SlotButton();
         basicsButtons.Add(basicButton);
         basicButton.Init(GetImage(character.caster.abilities[1]), GetText(character.caster.abilities[1]), AbilityAction(character.caster.abilities[1]), character.caster.abilities[1].GetSlottype());
         SetButtonTooltip(basicButton, character.caster.abilities[1], basicsKeys[2]);
+        basicButton.Block(character.caster.abilities[1].isBlocked);
     }
 
     void CreateEquipamentAbilities()
@@ -127,7 +130,7 @@ public class UIE_Equipment : UIE_BaseMenu
             UIE_SlotButton abilityButton = new UIE_SlotButton();
             abilitiesButtons.Add(abilityButton);
             abilityButton.Init(GetImage(character.caster.abilities[i]), GetText(character.caster.abilities[i]), AbilityAction(character.caster.abilities[i]), character.caster.abilities[i].GetSlottype());
-            abilityButton.Block();
+            abilityButton.Block(character.caster.abilities[i].isBlocked);
 
             SetButtonTooltip(abilityButton, character.caster.abilities[i-2], abilitiesKeys[i-2]);
         }
@@ -142,8 +145,8 @@ public class UIE_Equipment : UIE_BaseMenu
             katasButtons.Add(kataButton);
             kataButton.Init(GetImage(character.caster.katas[i]), GetText(character.caster.katas[i]), KataAction(character.caster.katas[i])
                 , GetImage(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), GetText(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), character.caster.katas[i].equiped == null? ()=> { } : WeaponOfKataAction(character.caster.katas[i]));
-            
-            
+            kataButton.Block(character.caster.katas[i].isBlocked);
+
             var aux = character.caster.katas[i].equiped;
             if(aux!=null)
             {
@@ -151,12 +154,12 @@ public class UIE_Equipment : UIE_BaseMenu
                 if(aux.Weapon!=null)
                     kataButton.InitWeaponTooltip(aux.Weapon.nameDisplay, aux.Weapon.itemBase.GetTooltip(), null);
                 else
-                    kataButton.InitTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
+                    kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
             }
             else
             {
                 kataButton.InitTooltip("Kata", "Movimiento marcial\n\n" + ("Requiere de equipar un arma en la casilla contigua".RichText("color", "#c9ba5d")), null);
-                kataButton.InitTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
+                kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
             }
         }
     }

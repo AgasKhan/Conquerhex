@@ -12,7 +12,7 @@ public class UIE_SlotButton : VisualElement
     private VisualElement blocker => this.Q<VisualElement>("blocker");
     private Label blockerText => this.Q<Label>("blockerText");
 
-
+    bool isBlocked = false;
     public void Init(Sprite image, string text, UnityAction action, System.Type _type)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
@@ -35,7 +35,8 @@ public class UIE_SlotButton : VisualElement
     {
         RegisterCallback<MouseEnterEvent>((mouseEvent) =>
         {
-            UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+            if (!isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
         });
 
         RegisterCallback<MouseLeaveEvent>((mouseEvent) => 
@@ -49,14 +50,18 @@ public class UIE_SlotButton : VisualElement
 
     }
 
-    public void Block()
+    public void Block(bool _condition)
     {
-        blocker.ShowInUIE();
+        isBlocked = _condition;
+        if (_condition)
+            blocker.ShowInUIE();
+        else
+            blocker.HideInUIE();
     }
     public void Block(string _text)
     {
         blockerText.text = _text;
-        Block();
+        Block(true);
     }
 
     public void Init(Item _item, UnityAction action)
@@ -84,13 +89,6 @@ public class UIE_SlotButton : VisualElement
 
         auxAct.Invoke();
     }
-
-    public void RegisterMouseEvents(EventCallback<MouseEnterEvent> onEnter, EventCallback<MouseLeaveEvent> onLeave)
-    {
-        slotImage.RegisterCallback<MouseEnterEvent>(onEnter);
-        slotImage.RegisterCallback<MouseLeaveEvent>(onLeave);
-    }
-
 
     public UIE_SlotButton() { }
 }

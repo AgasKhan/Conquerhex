@@ -26,7 +26,6 @@ public class UIE_CombosButton : VisualElement
     UnityAction mainAct;
     UnityAction auxAct;
 
-
     void HideKata()
     {
         kataCombo.HideInUIE();
@@ -111,12 +110,6 @@ public class UIE_CombosButton : VisualElement
         //kataText.AddToClassList("slotTextClicked");
 
         auxAct.Invoke();
-    }
-
-    void ResetButton()
-    {
-        abilityImage.RemoveFromClassList("slotButtonClicked");
-        abilityText.RemoveFromClassList("slotTextClicked");
     }
 
     public UIE_CombosButton() { }
