@@ -482,15 +482,30 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     void TriggerOnEquipMediator<T>(SlotItemList<T> SlotItemList, int indexSlot , int indexItem, T item) where T : ItemEquipable 
     {
+        int indexSlotType = -1;
+
+        if (typeof(SlotItemList<MeleeWeapon>) == typeof(SlotItemList<T>))
+        {
+            indexSlotType = 0;
+        }
+        else if(typeof(SlotItemList<WeaponKata>) == typeof(SlotItemList<T>))
+        {
+            indexSlotType = 1;
+        }
+        else if(typeof(SlotItemList<Ability>) == typeof(SlotItemList<T>))
+        {
+            indexSlotType = 2;
+        }
+
         if(item is MeleeWeapon weapon)
         {
-            onEquipInSlotWeapon?.Invoke((SlotItemList, indexSlot).GetHashCode(), weapon);
+            onEquipInSlotWeapon?.Invoke((indexSlotType, indexSlot).GetHashCode(), weapon);
         }
         else if(item is WeaponKata Kata)
         {
             Kata.onEquipedWeapon += (w) =>
             {
-                onEquipInSlotWeapon?.Invoke((SlotItemList, indexSlot).GetHashCode(), w);
+                onEquipInSlotWeapon?.Invoke((indexSlotType, indexSlot).GetHashCode(), w);
             };
         }
     }
