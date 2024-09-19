@@ -125,7 +125,11 @@ public class UIE_Equipment : UIE_BaseMenu
 
         basicButton.Init(GetImage(slotInCaster), GetText(slotInCaster), equipedAction, typeof(T));
         SetButtonTooltip(basicButton, slotInCaster, sprite);
-        basicButton.Block(slotInCaster.isBlocked);
+
+        if(character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(slotInCaster.equiped))
+            basicButton.Block("En uso");
+        else
+            basicButton.Block(slotInCaster.isBlocked);
 
         return basicButton;
     }
@@ -166,7 +170,12 @@ public class UIE_Equipment : UIE_BaseMenu
             katasButtons.Add(kataButton);
             kataButton.Init(GetImage(character.caster.katas[i]), GetText(character.caster.katas[i]), KataAction(character.caster.katas[i])
                 , GetImage(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), GetText(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), character.caster.katas[i].equiped == null? ()=> { } : WeaponOfKataAction(character.caster.katas[i]));
-            kataButton.Block(character.caster.katas[i].isBlocked);
+
+            if (character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(character.caster.katas[i].equiped))
+                kataButton.Block("En uso");
+            else
+                kataButton.Block(character.caster.katas[i].isBlocked);
+
 
             var aux = character.caster.katas[i].equiped;
             if(aux!=null)

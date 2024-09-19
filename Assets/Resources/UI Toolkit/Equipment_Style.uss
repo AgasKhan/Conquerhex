@@ -116,9 +116,10 @@
 
 .slotContainerStyle {
     flex-grow: 0;
-    width: 110px;
-    flex-shrink: 0;
-    height: 120px;
+    flex-shrink: 1;
+    max-width: 110px;
+    min-width: 70px;
+    align-self: flex-start;
 }
 
 .slotTextStyle {
@@ -299,10 +300,10 @@
     border-right-color: rgb(21, 20, 20);
     border-top-color: rgb(21, 20, 20);
     border-bottom-color: rgb(21, 20, 20);
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
@@ -434,10 +435,10 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
     border-left-color: rgb(21, 20, 20);
     border-right-color: rgb(21, 20, 20);
     border-top-color: rgb(21, 20, 20);
