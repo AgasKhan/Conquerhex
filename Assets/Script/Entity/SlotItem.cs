@@ -7,6 +7,8 @@ public class SlotItem
     [SerializeField]
     public bool isModifiable = true;
 
+    public bool isBlocked = false;
+
     [System.NonSerialized]
     public InventoryEntityComponent inventoryComponent;
 
@@ -93,7 +95,6 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
 {
     public event System.Action<int, T> toChange;
 
-    public bool isBlocked = false;
 
     public new T equiped
     {
