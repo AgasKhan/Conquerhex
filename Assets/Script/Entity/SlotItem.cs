@@ -77,7 +77,7 @@ public class SlotItem
         defaultItem = _item;
     }
 
-    public virtual System.Type GetSlottype()
+    public virtual System.Type GetSlotType()
     {
         return typeof(ItemEquipable);
     }
@@ -119,7 +119,7 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
         toChange?.Invoke(-1, null);
     }
 
-    public override System.Type GetSlottype()
+    public override System.Type GetSlotType()
     {
         return typeof(T);
     }
