@@ -80,7 +80,7 @@ public class UIE_EquipMenu : UIE_Equipment
         slotItem = _slotItem;
         filterType = _type;
 
-        if(slotItem.GetSlottype() == typeof(WeaponKata) && _type != typeof(WeaponKata))
+        if(slotItem.GetSlotType() == typeof(WeaponKata) && _type != typeof(WeaponKata))
             itemEquiped = (_slotItem.equiped as WeaponKata).Weapon;
         else
             itemEquiped = _slotItem.equiped;
@@ -88,7 +88,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
         originalButton.ShowInUIE();
 
-        if(_slotItem.GetSlottype() == typeof(WeaponKata) && _type == typeof(MeleeWeapon))
+        if(_slotItem.GetSlotType() == typeof(WeaponKata) && _type == typeof(MeleeWeapon))
             originalButton.style.backgroundImage = new StyleBackground(GetImage((_slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)));
         else
             originalButton.style.backgroundImage = new StyleBackground(GetImage(_slotItem));
@@ -226,7 +226,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
         if (slotItem.equiped != null)
         {
-            if (slotItem.GetSlottype() == typeof(WeaponKata) && filterType != typeof(WeaponKata) && (slotItem.equiped as WeaponKata).Weapon != null)
+            if (slotItem.GetSlotType() == typeof(WeaponKata) && filterType != typeof(WeaponKata) && (slotItem.equiped as WeaponKata).Weapon != null)
                 ShowItemDetails(GetText((slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)), (slotItem.equiped as WeaponKata).Weapon.GetDetails().ToString("\n") + "\n" + GetDamageDetails(slotItem.equiped, slotItem), GetImage((slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)));
             else
                 ShowItemDetails(slotItem.equiped.nameDisplay, slotItem.equiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(slotItem.equiped, slotItem), slotItem.equiped.image);
