@@ -144,7 +144,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     void HealthEvent2(Health obj)
     {
-        if (obj.actualLife == obj.maxLife && obj.actualRegen == obj.maxRegen)
+        if (obj.actualLife >= obj.maxLife && obj.actualRegen >= obj.maxRegen)
         {
             healthEvent = null;
             NextDialog();
