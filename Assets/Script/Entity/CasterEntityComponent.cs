@@ -55,6 +55,17 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     [SerializeField]
     float _energy;
 
+    [field: SerializeField]
+    bool activeHasCoolDown = true;
+
+    bool _hasCooldown = true;
+
+
+    [field: SerializeField]
+    bool activeHasEnergyConsuption = true;
+
+    bool _hasEnergyConsuption = true;
+
     float energy
     {
         get => _energy;
@@ -85,11 +96,36 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public bool End => abilityCasting?.End ?? true;
 
-    [field: SerializeField]
-    public bool hasCooldown { get; private set; } = true;
+    public bool HasCooldown
+    {
+        get => _hasCooldown;
+        private set
+        {
+            if(activeHasCoolDown)
+            {
+                _hasCooldown = value;
+            }
+        }
+    }
 
-    [field: SerializeField]
-    public bool hasEnergyConsuption { get; private set; } = true;
+
+
+
+    public bool HasEnergyConsuption
+    { 
+        get => _hasEnergyConsuption; 
+        private set
+        {
+            if(activeHasEnergyConsuption)
+            {
+                _hasEnergyConsuption = value;
+            }
+        }
+    }
+
+
+
+
 
     public event System.Action<Ability> onEnterCasting;
 
@@ -300,7 +336,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void Attack(int i, Vector2 dir)
     {
-        hasCooldown = true;
+        HasCooldown = true;
 
         if (i == 0)
         {
@@ -316,8 +352,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void Ability(int i, Vector2 dir)
     {
-        hasCooldown = true;
-        hasEnergyConsuption = true;
+        HasCooldown = true;
+        HasEnergyConsuption = true;
 
         if (i != 0)
         {
@@ -332,8 +368,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void AlternateAbility(Vector2 dir)
     {
-        hasCooldown = true;
-        hasEnergyConsuption = true;
+        HasCooldown = true;
+        HasEnergyConsuption = true;
 
         abilityCasting = abilities.Actual(1).equiped;
 
@@ -343,7 +379,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void ComboAttack(int i)
     {
-        hasCooldown = false;
+        HasCooldown = false;
 
         abilityCasting = combos.Actual(i).equiped; 
 

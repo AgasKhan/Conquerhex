@@ -276,7 +276,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     }
 
 
-    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeInHierarchy || (!onCooldownTime && caster.hasCooldown);
+    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeInHierarchy || (!onCooldownTime && caster.HasCooldown);
 
     public virtual float CostExecution => itemBase.costExecution;
 
@@ -545,7 +545,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public bool PayExecution(float cost)
     {
-        return DontExecuteCast || (caster.hasEnergyConsuption && (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost)));
+        return DontExecuteCast || (caster.HasEnergyConsuption && (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost)));
     }
 
     public virtual void OnEnterState(CasterEntityComponent param)
