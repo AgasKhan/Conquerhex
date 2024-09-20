@@ -157,10 +157,10 @@ public class UIE_EquipMenu : UIE_Equipment
 
             var item = character.inventory[index];
 
-            if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == slotItem.equiped.nameDisplay)
+            if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == slotItem.equiped.nameDisplay && !(itemEquiped is MeleeWeapon))
             {
                 button.Init(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "Item por defecto", "", changeAction);
-                button.SetEquipText("Desequipar");
+                button.SetEquipText("");
                 button.SetHoverAction(hoverAct);
                 break;
             }

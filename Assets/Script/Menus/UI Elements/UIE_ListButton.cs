@@ -29,16 +29,8 @@ public class UIE_ListButton : VisualElement
         typeItem.text = _typeItem;
         specialityItem.text = _specialityItem;
 
-        //changeButton.visible = changeButtonVisible;
 
         RegisterCallback<ClickEvent>((clEvent)=>_mainAction.Invoke());
-        /*
-        if(_changeAction!=null)
-        {
-            changeAction = _changeAction;
-            SetChangeButtonAct();
-        }
-        */
     }
 
     public void SetHoverAction(System.Action _action)
@@ -67,10 +59,14 @@ public class UIE_ListButton : VisualElement
         {
             itemImage.AddToClassList("kataBorder");
         }
+        else if(_type == typeof(AbilityExtCast))
+        {
+            itemImage.AddToClassList("abilityBorder");
+        }/*
         else if(_itemName != "Desequipar" && _type != typeof(MeleeWeapon))
         {
             itemImage.AddToClassList("abilityBorder");
-        }
+        }*/
 
         itemImage.style.backgroundImage = new StyleBackground(_itemImage);
         itemName.text = _itemName;

@@ -7,8 +7,7 @@ public class UIE_CombosButton : VisualElement
     [UnityEngine.Scripting.Preserve]
     public new class UxmlFactory : UxmlFactory<UIE_CombosButton, UxmlTraits> { }
 
-    public int index = -1;
-    public Ability interAbility = null;
+    public int indexSlot = -1;
 
     private VisualElement equipOrAbilityCombo => this.Q<VisualElement>("equipOrAbilityCombo");
     private VisualElement kataCombo => this.Q<VisualElement>("kataCombo");
@@ -50,7 +49,7 @@ public class UIE_CombosButton : VisualElement
 
         mainAct = action;
         
-        if (text!="Equipar")
+        if (_type == typeof(AbilityExtCast))
         {
             abilityButton.AddToClassList("abilityBorder");
         }
@@ -81,13 +80,12 @@ public class UIE_CombosButton : VisualElement
         weaponButton.RegisterCallback<ClickEvent>(auxButtonEvent);
     }
 
-    public void Init(Ability _ability, int slotIndex, System.Type _type)
+    public void Init(int slotIndex)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ComboButton"];
         asset.CloneTree(this);
         
-        interAbility = _ability;
-        index = slotIndex;
+        indexSlot = slotIndex;
     }
 
     public void InitTooltip(string _title, string _content, Sprite _sprite)

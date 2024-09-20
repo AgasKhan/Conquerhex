@@ -57,9 +57,11 @@ public class UIE_CombosMenu : UIE_Equipment
         comboButtonsList.Clear();
     }
 
-    void SetComboButton<T>(T auxAbility, int indexSlot) where T:Ability
+    void SetComboButton<T>(T auxAbility, int indexSlot) where T : Ability
     {
         var aux = comboButtonsList[indexSlot];
+
+        Debug.Log("Al setear el ComboButton, su indice de combos es: " + aux.indexSlot);
 
         if (auxAbility is WeaponKata)
         {
@@ -67,42 +69,20 @@ public class UIE_CombosMenu : UIE_Equipment
                 (
                     GetImage(auxAbility, typeof(T)),
                     GetText(auxAbility, typeof(T)),
-                    () => GetAction(aux.index),
+                    () => GetAction(aux.indexSlot),
                     GetImage((auxAbility as WeaponKata).Weapon, typeof(MeleeWeapon)),
-                    () => GetWeaponAction(aux.index, auxAbility as WeaponKata)
+                    () => GetWeaponAction(aux.indexSlot, auxAbility as WeaponKata)
                 );
 
             aux.InitTooltip(auxAbility.nameDisplay, "Puedes intercambiar este movimiento por otra kata o habilidad", null);
         }
         else
         {
-            aux.SetEquipOrAbility(GetImage(auxAbility, typeof(T)), GetText(auxAbility, typeof(T)), () => GetAction(aux.index), typeof(T));
+            aux.SetEquipOrAbility(GetImage(auxAbility, typeof(T)), GetText(auxAbility, typeof(T)), () => GetAction(aux.indexSlot), typeof(T));
             aux.InitTooltip(GetText(character.caster.combos[indexSlot]), "Puedes equiparte en este movimiento una kata o habilidad", null);
         }
     }
 
-    /*
-    void SetComboButton(UIE_CombosButton _button)
-    {
-        var aux = _button.index;
-        var auxAbility = _button.interAbility;
-        if (auxAbility is WeaponKata)
-        {
-            _button.SetKata
-                (
-                    GetImage(auxAbility),
-                    GetText(auxAbility),
-                    () => GetAction(aux),
-                    GetImage((auxAbility as WeaponKata).Weapon),
-                    () => GetWeaponAction(aux, auxAbility as WeaponKata)
-                );
-        }
-        else
-        {
-            _button.SetEquipOrAbility(GetImage(auxAbility), GetText(auxAbility), () => GetAction(aux));
-        }
-    }
-    */
     void myEnableMenu()
     {
         comboButtons.Clear();
@@ -111,101 +91,62 @@ public class UIE_CombosMenu : UIE_Equipment
         for (int i = 0; i < character.caster.combos.Count; i++)
         {
             UIE_CombosButton aux = new UIE_CombosButton();
-            
+            comboButtonsList.Add(aux);
+            comboButtons.Add(aux);
+
             int myIndex = i;
-            aux.Init(character.caster.combos[myIndex].equiped, myIndex, character.caster.combos[myIndex].equiped?.GetType());
+            aux.Init(myIndex);
             aux.InitTooltip(GetText(character.caster.combos[myIndex]), "Puedes equiparte en este movimiento una kata o habilidad", null);
+            SetComboButton(character.caster.combos[myIndex].equiped, myIndex);
 
             if (character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(character.caster.combos[myIndex].equiped))
                 aux.Block("En uso");
             else
                 aux.Block(character.caster.combos[myIndex].isBlocked);
-
-            comboButtonsList.Add(aux);
-            comboButtons.Add(aux);
         }
-
-        for (int i = 0; i < comboButtonsList.Count; i++)
-        {
-            int myIndex = i;
-            var auxAbility = character.caster.combos[myIndex].equiped;
-
-            SetComboButton(auxAbility, myIndex);
-        }
-
-        /*
-        for (int i = 0; i < character.caster.combos.Count; i++)
-        {
-            UIE_CombosButton aux = new UIE_CombosButton();
-            aux.Init();
-
-            comboButtonsList.Add(aux);
-
-            int myIndex = i;
-
-            var auxAbility = character.caster.combos[myIndex].equiped;
-
-
-            if (auxAbility is WeaponKata)
-                aux.SetKata(GetImage(character.caster.combos[myIndex]), 
-                    GetText(character.caster.combos[myIndex]), 
-                    () => GetAction(myIndex), 
-                    GetImage(((WeaponKata)auxAbility).Weapon),()=> GetWeaponAction(myIndex, (WeaponKata)auxAbility));
-            else
-                aux.SetEquipOrAbility(GetImage(character.caster.combos[myIndex]), GetText(character.caster.combos[myIndex]), ()=> GetAction(myIndex));
-            
-            
-            //aux.SetEquipOrAbility(GetImage(character.caster.combos[myIndex]), GetText(character.caster.combos[myIndex]), () => GetAction(myIndex));
-
-            comboButtons.Add(aux);
-        }
-        */
     }
 
     void GetWeaponAction(int index, WeaponKata kata)
     {
-        listItems.RemoveFromClassList("displayHidden");
-        noClickPanel.RemoveFromClassList("displayHidden");
+        ShowListItem();
 
-        Vector2 pos = Input.mousePosition.Vect3To2();
+        List<int> buffer = new List<int>();
 
-        pos = listItems.WorldToLocal(pos);
+        //Filtrar inventario
+        for (int i = 0; i < character.inventory.Count; i++)
+        {
+            int itemIndex = i;
 
-        listItems.style.top = Screen.height - pos.y;
-        listItems.style.left = pos.x;
+            if (!(character.inventory[itemIndex] is MeleeWeapon))
+                continue;
 
+            buffer.Add(itemIndex);
+        }
+
+        //Crear botón deesequipar
         var weaponEquiped = kata.Weapon;
 
-        //listItems.position
+        UIE_ListButton initButton = new UIE_ListButton();
 
-        //Debug.Log("INDEX: " + index);
+        listItems.Add(initButton);
 
         if (weaponEquiped != null)
         {
             SetDetailsWindow(GetImage(weaponEquiped, typeof(MeleeWeapon)), GetText(weaponEquiped, typeof(MeleeWeapon)), "", "");
-            for (int i = 0; i < character.inventory.Count; i++)
+
+            foreach (var itemIndex in buffer)
             {
-                int itemIndex = i;
-
-                if (!(character.inventory[itemIndex] is MeleeWeapon))
-                    continue;
-                /*
-                if (!((Ability)character.inventory[itemIndex]).visible)
-                    continue;
-                */
-                if (character.inventory[itemIndex].GetItemBase().nameDisplay == weaponEquiped.nameDisplay)
+                if (character.inventory[itemIndex].Equals(weaponEquiped))
                 {
-                    UIE_ListButton button = new UIE_ListButton();
-
-                    listItems.Add(button);
-                    button.InitOnlyName(null, "Desequipar", () =>
+                    initButton.InitOnlyName(null, "Desequipar", () =>
                     {
                         kata.TakeOutWeapon();
                         SetComboButton(character.caster.combos[index].equiped, index);
                         HiddeItemList();
                     }, null);
 
-                    listEquipableItems.Add(button);
+                    listEquipableItems.Add(initButton);
+                    buffer.Remove(itemIndex);
                     break;
                 }
             }
@@ -215,24 +156,10 @@ public class UIE_CombosMenu : UIE_Equipment
             detailsWindow.AddToClassList("opacityHidden");
         }
 
-        for (int i = 0; i < character.inventory.Count; i++)
+        //Crear otros botones
+        foreach (var itemIndex in buffer)
         {
-            int itemIndex = i;
-            if (!(character.inventory[itemIndex] is MeleeWeapon))
-                continue;
-            /*
-            if (!((Ability)character.inventory[itemIndex]).visible)
-                continue;
-            */
-            if(weaponEquiped!=null)
-            {
-                if (character.inventory[itemIndex].GetItemBase().nameDisplay == weaponEquiped.nameDisplay)
-                    continue;
-            }
-
-            System.Action changeAction = null;
-
-            changeAction = () =>
+            System.Action changeAction = () =>
             {
                 kata.ChangeWeapon(character.inventory[itemIndex]);
 
@@ -242,16 +169,15 @@ public class UIE_CombosMenu : UIE_Equipment
 
             UIE_ListButton button = new UIE_ListButton();
             listItems.Add(button);
-            button.InitOnlyName(character.inventory[itemIndex].image, character.inventory[itemIndex].nameDisplay, changeAction, character.inventory[itemIndex].GetType());
+
+            button.InitOnlyName(character.inventory[itemIndex].image, character.inventory[itemIndex].nameDisplay, changeAction, typeof(MeleeWeapon));
 
             listEquipableItems.Add(button);
         }
 
         if (listEquipableItems.Count == 0)
         {
-            UIE_ListButton button = new UIE_ListButton();
-            listItems.Add(button);
-            button.InitOnlyName(null, "No tienes nada para equipar", null, null);
+            initButton.InitOnlyName(null, "No tienes nada para equipar", null, null);
         }
 
         return;
@@ -259,34 +185,30 @@ public class UIE_CombosMenu : UIE_Equipment
 
     void GetAction(int index)
     {
-        listItems.RemoveFromClassList("displayHidden");
-        noClickPanel.RemoveFromClassList("displayHidden");
+        ShowListItem();
 
-        Vector2 pos = Input.mousePosition.Vect3To2();
+        List<int> buffer = new List<int>();
 
-        pos = listItems.WorldToLocal(pos);
+        for (int i = 0; i < character.inventory.Count; i++)
+        {
+            int itemIndex = i;
 
-        listItems.style.top = Screen.height - pos.y;
-        listItems.style.left = pos.x;
+            if (!(character.inventory[itemIndex] is Ability))
+                continue;
 
-        //listItems.position
+            if (!((Ability)character.inventory[itemIndex]).visible)
+                continue;
 
-        //Debug.Log("INDEX: " + index);
-        if (character.caster.combos[index].equiped != default)
+            buffer.Add(itemIndex);
+        }
+
+        if (character.caster.combos[index].equiped != default(ItemEquipable))
         {
             SetDetailsWindow(character.caster.combos[index].equiped.image, character.caster.combos[index].equiped.nameDisplay, ((ShowDetails)character.caster.combos[index].equiped.GetItemBase()).GetDetails().ToString(), "");
 
-            for (int i = 0; i < character.inventory.Count; i++)
+            foreach (var itemIndex in buffer)
             {
-                int itemIndex = i;
-
-                if (!(character.inventory[itemIndex] is Ability))
-                    continue;
-
-                if (!((Ability)character.inventory[itemIndex]).visible)
-                    continue;
-
-                if (character.inventory[itemIndex].GetItemBase().nameDisplay == character.caster.combos[index].equiped.GetItemBase().nameDisplay)
+                if (character.inventory[itemIndex].nameDisplay == character.caster.combos[index].equiped.nameDisplay)
                 {
                     UIE_ListButton button = new UIE_ListButton();
 
@@ -299,6 +221,7 @@ public class UIE_CombosMenu : UIE_Equipment
                     }, null);
 
                     listEquipableItems.Add(button);
+                    buffer.Remove(itemIndex);
                     break;
                 }
             }
@@ -307,31 +230,25 @@ public class UIE_CombosMenu : UIE_Equipment
         {
             detailsWindow.AddToClassList("opacityHidden");
         }
-        for (int i = 0; i < character.inventory.Count; i++)
+
+        foreach (var itemIndex in buffer)
         {
-            int itemIndex = i;
-            if (!(character.inventory[itemIndex] is Ability))
-                continue;
+            Ability auxAbility = (Ability)character.inventory[itemIndex];
 
-            if (!((Ability)character.inventory[itemIndex]).visible)
-                continue;
-
-            if (character.caster.combos[index].equiped != default && character.inventory[itemIndex].GetItemBase().nameDisplay == character.caster.combos[index].equiped.GetItemBase().nameDisplay)
-                continue;
-
-            System.Action changeAction = null;
-
-            changeAction = () => 
+            System.Action changeAction =  () =>
             {
-                ((Ability)character.inventory[itemIndex]).CreateCopy(out int indexCopy);
+                auxAbility.CreateCopy(out int indexCopy);
                 character.caster.combos[index].indexEquipedItem = indexCopy;
+
+                Debug.Log("Indice de la copia creada: " + indexCopy);
+                Debug.Log("Copia equipada en el slot: " + index);
                 SetComboButton(character.caster.combos[index].equiped, index);
                 HiddeItemList();
             };
 
             UIE_ListButton button = new UIE_ListButton();
             listItems.Add(button);
-            button.InitOnlyName(character.inventory[itemIndex].image, character.inventory[itemIndex].nameDisplay, changeAction, character.inventory[itemIndex].GetType());
+            button.InitOnlyName(auxAbility.image, auxAbility.nameDisplay, changeAction, character.caster.combos[index].equiped?.GetType());
 
             listEquipableItems.Add(button);
         }
@@ -344,6 +261,21 @@ public class UIE_CombosMenu : UIE_Equipment
         }
 
         return;
+    }
+
+    void ShowListItem()
+    {
+        manager.HideTooltip();
+
+        var mousePosition = Input.mousePosition;
+        Vector2 mousePositionCorrected = new Vector2(mousePosition.x, Screen.height - mousePosition.y);
+        mousePositionCorrected = RuntimePanelUtils.ScreenToPanel(manager.GetCurrentMenu().ui.panel, mousePositionCorrected);
+
+        listItems.style.top = mousePositionCorrected.y;
+        listItems.style.left = mousePositionCorrected.x;
+
+        listItems.ShowInUIE();
+        noClickPanel.ShowInUIE();
     }
 
     void SetDetailsWindow(Sprite _sprite, string _title, string _description, string _details)
