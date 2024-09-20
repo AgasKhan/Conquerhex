@@ -74,15 +74,13 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public float Auxiliar => ((IAbilityStats)ability).Auxiliar;
 
-
-
     public void Cast(System.Action actionOnCast = null)
     {
-        if (ability.WaitAnimations)
-            ability.PreCast(actionOnCast);
-        else
-            ability.Cast(actionOnCast);
+        ability.onAction = (a) => ability.Cast(actionOnCast);
+        PlayAction("Cast");
     }
+
+    public void PlayAction(string name) => ability.PlayAction(name);
 
     public List<Entity> Detect(Entity caster, Vector3 pos)
         => ability.Detect(caster, pos);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
@@ -108,13 +106,13 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     {
         ability.End = false;
 
-        ability.state = Ability.State.start;
+        //ability.state = Ability.State.start;
 
         caster.onTakeDamage += Caster_onTakeDamage;
 
-        ability.onPreCast += param.PreCastEvent;
+        ability.onAnimation += param.OnAnimation;
 
-        ability.onCast += param.CastEvent;
+        ability.onApplyCast += param.CastEvent;
     }
 
 
@@ -128,8 +126,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         //Debug.Log("sali");
         //ability.StopCast();
         caster.onTakeDamage -= Caster_onTakeDamage;
-        ability.onCast -= param.CastEvent;
-        ability.onPreCast -= param.PreCastEvent;
+        ability.onApplyCast -= param.CastEvent;
+        ability.onAnimation -= param.OnAnimation;
     }
 
     private void Caster_onTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)

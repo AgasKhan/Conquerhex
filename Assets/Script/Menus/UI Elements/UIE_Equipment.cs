@@ -73,7 +73,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
     protected Sprite GetImage(SlotItem itemEquiped)
     {
-        return GetImage(itemEquiped.equiped, itemEquiped.GetSlottype());
+        return GetImage(itemEquiped.equiped, itemEquiped.GetSlotType());
     }
 
     protected string GetText(ItemEquipable itemEquiped, Type _type)
@@ -90,7 +90,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
     protected string GetText(SlotItem itemEquiped)
     {
-        return GetText(itemEquiped.equiped, itemEquiped.GetSlottype());
+        return GetText(itemEquiped.equiped, itemEquiped.GetSlotType());
 
         /*
         if (itemEquiped.equiped != null)
@@ -101,26 +101,51 @@ public class UIE_Equipment : UIE_BaseMenu
             return defaultAbilityText;*/
     }
 
+    /*
+    UIE_KataButton CreateKataSlotButton(SlotItem<WeaponKata> slotItem, )
+    {
+        
+    }
+    */
+
+    UIE_SlotButton CreateSlotButton<T>(SlotItem<T> slotInCaster, Sprite sprite) where T : ItemEquipable
+    {
+        UIE_SlotButton basicButton = new UIE_SlotButton();
+
+        UnityAction equipedAction;
+
+        if(typeof(MeleeWeapon) == typeof(T))
+        {
+            equipedAction = WeaponAction(slotInCaster);
+        }
+        else
+        {
+            equipedAction = AbilityAction(slotInCaster as SlotItem<WeaponKata>);
+        }
+
+        basicButton.Init(GetImage(slotInCaster), GetText(slotInCaster), equipedAction, typeof(T));
+        SetButtonTooltip(basicButton, slotInCaster, sprite);
+
+        if(character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(slotInCaster.equiped))
+            basicButton.Block("En uso");
+        else
+            basicButton.Block(slotInCaster.isBlocked);
+
+        return basicButton;
+    }
+
     void CreateBasicsButtons()
     {
         UIE_SlotButton basicButton = new UIE_SlotButton();
 
-        basicsButtons.Add(basicButton);
-        basicButton.Init(GetImage(character.caster.weapons[0]), GetText(character.caster.weapons[0]), WeaponAction(character.caster.weapons[0]), character.caster.weapons[0].GetSlottype());
-        SetButtonTooltip(basicButton, character.caster.weapons[0], basicsKeys[0]);
-        basicButton.Block(character.caster.weapons[0].isBlocked);
+        //character.caster.weapons[0], basicsKeys[0]
+        basicsButtons.Add(CreateSlotButton(character.caster.weapons[0], basicsKeys[0]));
 
-        basicButton = new UIE_SlotButton();
-        basicsButtons.Add(basicButton);
-        basicButton.Init(GetImage(character.caster.abilities[0]), GetText(character.caster.abilities[0]), AbilityAction(character.caster.abilities[0]), character.caster.abilities[0].GetSlottype());
-        SetButtonTooltip(basicButton, character.caster.abilities[0], basicsKeys[1]);
-        basicButton.Block(character.caster.abilities[0].isBlocked);
+        // character.caster.abilities[0], basicsKeys[1]
+        basicsButtons.Add(CreateSlotButton(character.caster.abilities[0], basicsKeys[1]));
 
-        basicButton = new UIE_SlotButton();
-        basicsButtons.Add(basicButton);
-        basicButton.Init(GetImage(character.caster.abilities[1]), GetText(character.caster.abilities[1]), AbilityAction(character.caster.abilities[1]), character.caster.abilities[1].GetSlottype());
-        SetButtonTooltip(basicButton, character.caster.abilities[1], basicsKeys[2]);
-        basicButton.Block(character.caster.abilities[1].isBlocked);
+        // character.caster.abilities[1], basicsKeys[2]
+        basicsButtons.Add(CreateSlotButton(character.caster.abilities[1], basicsKeys[2]));
     }
 
     void CreateEquipamentAbilities()
@@ -129,7 +154,7 @@ public class UIE_Equipment : UIE_BaseMenu
         {
             UIE_SlotButton abilityButton = new UIE_SlotButton();
             abilitiesButtons.Add(abilityButton);
-            abilityButton.Init(GetImage(character.caster.abilities[i]), GetText(character.caster.abilities[i]), AbilityAction(character.caster.abilities[i]), character.caster.abilities[i].GetSlottype());
+            abilityButton.Init(GetImage(character.caster.abilities[i]), GetText(character.caster.abilities[i]), AbilityAction(character.caster.abilities[i]), character.caster.abilities[i].GetSlotType());
             abilityButton.Block(character.caster.abilities[i].isBlocked);
 
             SetButtonTooltip(abilityButton, character.caster.abilities[i-2], abilitiesKeys[i-2]);
@@ -145,7 +170,12 @@ public class UIE_Equipment : UIE_BaseMenu
             katasButtons.Add(kataButton);
             kataButton.Init(GetImage(character.caster.katas[i]), GetText(character.caster.katas[i]), KataAction(character.caster.katas[i])
                 , GetImage(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), GetText(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), character.caster.katas[i].equiped == null? ()=> { } : WeaponOfKataAction(character.caster.katas[i]));
-            kataButton.Block(character.caster.katas[i].isBlocked);
+
+            if (character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(character.caster.katas[i].equiped))
+                kataButton.Block("En uso");
+            else
+                kataButton.Block(character.caster.katas[i].isBlocked);
+
 
             var aux = character.caster.katas[i].equiped;
             if(aux!=null)
@@ -172,7 +202,7 @@ public class UIE_Equipment : UIE_BaseMenu
         {
             _slotButton.InitTooltip(aux.nameDisplay, aux.GetItemBase().GetTooltip(), _sprite);
         }
-        else if(_slotItem.GetSlottype() == typeof(MeleeWeapon))
+        else if(_slotItem.GetSlotType() == typeof(MeleeWeapon))
         {
             _slotButton.InitTooltip("Arma", "Herramienta usada tanto para atacar como para recolectar recursos\n\n" + "Primer ataque de combo".RichText("color", "#c9ba5d"), _sprite);
         }
@@ -182,7 +212,7 @@ public class UIE_Equipment : UIE_BaseMenu
         }
     }
 
-    UnityAction WeaponAction(SlotItem<MeleeWeapon> slotItem)
+    UnityAction WeaponAction(SlotItem slotItem)
     {
         Action<int> equipAction = (_index) =>
         {
@@ -196,7 +226,7 @@ public class UIE_Equipment : UIE_BaseMenu
         };
     }
 
-    UnityAction AbilityAction<T>(SlotItem<T> slotItem) where T : ItemEquipable
+    UnityAction AbilityAction(SlotItem slotItem)
     {
         Action<int> equipAction = (_index) =>
         {
@@ -212,7 +242,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(slotItem, typeof(T), equipAction);
+            equipMenu.SetEquipMenu(slotItem, typeof(AbilityExtCast), equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }

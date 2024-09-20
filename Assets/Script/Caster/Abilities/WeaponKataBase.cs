@@ -41,11 +41,7 @@ public class WeaponKata : Ability
 
     new public WeaponKataBase itemBase => (WeaponKataBase)base.itemBase;
 
-    public override AnimationClip animationCastStart =>  equipedWeapon.animationCastStart == null ?  base.animationCastStart : equipedWeapon.animationCastStart;
-
-    public override AnimationClip animationCastMiddle => equipedWeapon.animationCastMiddle == null ? base.animationCastMiddle : equipedWeapon.animationCastMiddle;
-
-    public override AnimationClip animationCastExit => equipedWeapon.animationCastExit == null ? base.animationCastExit : equipedWeapon.animationCastExit;
+    //public override AnimationClip animationCastStart =>  equipedWeapon.animationCastStart == null ?  base.animationCastStart : equipedWeapon.animationCastStart;
 
     public override float FinalVelocity => base.FinalVelocity * (WeaponEnabled?.itemBase.velocity ?? 1);
 
@@ -141,6 +137,16 @@ public class WeaponKata : Ability
         equipedWeapon.onDrop -= WeaponDesequiped;
         onDesEquipedWeapon?.Invoke(equipedWeapon);
         equipedWeapon = null;
+    }
+
+    public override void PlayAction(string name)
+    {
+        if(equipedWeapon.itemBase.animations!= null && equipedWeapon.itemBase.animations.animClips.ContainsKey(name, out int index))
+        {
+            PlayAction(equipedWeapon.itemBase.animations.animClips[index]);
+        }
+        else
+            base.PlayAction(name);
     }
 
     public override void PlaySound(string name)

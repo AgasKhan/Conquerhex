@@ -49,11 +49,11 @@ public class AutomaticCharacterAttack
     {
         add
         {
-            _ability.onCast += value;
+            _ability.onApplyCast += value;
         }
         remove
         {
-            _ability.onCast -= value;
+            _ability.onApplyCast -= value;
         }
     }
     public bool cooldown => ability != null ? ability.onCooldownTime && timerChargeAttack.Chck : false;
@@ -62,12 +62,14 @@ public class AutomaticCharacterAttack
     {
         get
         {
+            /*
             if (ability != null && ability.FeedBackReference != null)
             {
                 _ability.FeedbackDetect();
 
                 return _ability.FeedBackReference;
             }
+            */
 
             return null;
         }

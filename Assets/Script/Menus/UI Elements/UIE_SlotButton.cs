@@ -53,8 +53,12 @@ public class UIE_SlotButton : VisualElement
     public void Block(bool _condition)
     {
         isBlocked = _condition;
+
         if (_condition)
+        {
             blocker.ShowInUIE();
+            slotText.HideInUIE();
+        }
         else
             blocker.HideInUIE();
     }

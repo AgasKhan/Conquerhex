@@ -61,8 +61,12 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     [SerializeField]
     int nextCombo = -1;
-    [SerializeField]
+
+    [field: SerializeField]
     float deltaTimeCombo = 0.3f;
+
+    [field: SerializeField]
+    public float nextTimeCombo { get; private set; } = 0.15f;
 
     float timeComboSet;
 
@@ -141,26 +145,26 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     public void Attack(int i, Vector2 dir)
     {
-        caster.OnEnterCasting += () => attackEventMediator += caster.abilityControllerMediator;
+        caster.OnEnterCastingOnlyOne += () => attackEventMediator += caster.abilityControllerMediator;
         caster.Attack(i, dir);
-        caster.OnExitCasting += () => attackEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => attackEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
         actualCombo = -1;
     }
 
     public void Ability(int i, Vector2 dir)
     {
-        caster.OnEnterCasting += () => abilityEventMediator += caster.abilityControllerMediator;
+        caster.OnEnterCastingOnlyOne += () => abilityEventMediator += caster.abilityControllerMediator;
         caster.Ability(i, dir);
-        caster.OnExitCasting += () => abilityEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => abilityEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
     }
 
     public void AlternateAbility(Vector2 dir)
     {
-        caster.OnEnterCasting += () => dashEventMediator += caster.abilityControllerMediator;
+        caster.OnEnterCastingOnlyOne += () => dashEventMediator += caster.abilityControllerMediator;
         caster.AlternateAbility(dir);
-        caster.OnExitCasting += () => dashEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => dashEventMediator -= caster.abilityControllerMediator;
         Action = castingActionCharacter;
     }
 
@@ -172,25 +176,27 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     public void ComboAttack()
     {
-        actualCombo = -2;
-
         if (nextCombo < 0)
+        {
+            actualCombo = -2;
+
             return;
+        }
 
         if (Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo)
         {
             nextCombo = -1;
+            actualCombo = -2;
+
             return;
         }
 
-
         actualCombo = nextCombo;
 
-
-        Debug.Log($"Combo Nº{(actualCombo/5)+1}\nReal index:{actualCombo} \n{Time.realtimeSinceStartup} - {timeComboSet} = {Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo}");
-        caster.OnEnterCasting += () => attackEventMediator += caster.abilityControllerMediator;
+        //Debug.Log($"Combo Nº{(actualCombo/5)+1}\nReal index:{actualCombo} \n{Time.realtimeSinceStartup} - {timeComboSet} = {Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo}");
+        caster.OnEnterCastingOnlyOne += () => attackEventMediator += caster.abilityControllerMediator;
         caster.ComboAttack(actualCombo);
-        caster.OnExitCasting += () => attackEventMediator -= caster.abilityControllerMediator;
+        caster.OnExitCastingOnlyOne += () => attackEventMediator -= caster.abilityControllerMediator;
         
         Action = castingActionCharacter;
 
@@ -261,8 +267,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         moveEventMediator.Enabled = true;
     }
 
-
-
     void MyAwake()
     {
         actualCombo = -2;
@@ -274,7 +278,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         aiming = GetInContainer<AimingEntityComponent>();
         caster = GetInContainer<CasterEntityComponent>();
 
-        moveStateCharacter = new MoveStateCharacter();
+        moveStateCharacter = new MoveStateCharacter(this);
         actionStateCharacter = new ActionStateCharacter(this);
 
         castingActionCharacter = new CastingActionCharacter();
@@ -407,13 +411,15 @@ namespace FSMCharacterAndStates
 
         public event System.Action OnActionExit;
 
+        Timer timerCombo;
+
         public void OnEnterState(FSMCharacter param)
         {
             param.context.moveEventMediator += param.context.move;
 
             OnActionEnter?.Invoke();
 
-            param.context.ComboAttack();
+            timerCombo.Set(param.context.nextTimeCombo);
         }
 
         public void OnExitState(FSMCharacter param)
@@ -422,8 +428,14 @@ namespace FSMCharacterAndStates
 
             OnActionExit?.Invoke();
         }
+
         public void OnStayState(FSMCharacter param)
         {
+        }
+
+        public MoveStateCharacter(Character character)
+        {
+            timerCombo = TimersManager.Create(character.nextTimeCombo, character.ComboAttack).Stop();
         }
     }
 

@@ -18,26 +18,6 @@ namespace CustomEulerEditor
         Button toggleButton;
         ObjectField objectField;
 
-        private System.Type GetObjectType(SerializedProperty property)
-        {
-            var fieldType = fieldInfo.FieldType;
-
-            //if(property.isArray || property.isFixedBuffer)
-            if (fieldType.IsArray)
-            {
-                return fieldType.GetElementType();
-            }
-            else if (fieldType.IsGenericType && typeof(System.Collections.IEnumerable).IsAssignableFrom(fieldType))
-            {
-                // Assume that we want the first generic argument type
-                return fieldType.GetGenericArguments()[0];
-            }
-
-
-            // Otherwise, return the field type itself
-            return fieldType;
-        }
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.ObjectField(position, property, label);
@@ -55,7 +35,7 @@ namespace CustomEulerEditor
 
             objectField = new ObjectField(property.displayName)
             {
-                objectType = GetObjectType(property),
+                objectType = fieldInfo.GetObjectType(),
                 value = property.objectReferenceValue,
                 bindingPath = property.propertyPath
             };

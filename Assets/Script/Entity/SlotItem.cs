@@ -7,6 +7,8 @@ public class SlotItem
     [SerializeField]
     public bool isModifiable = true;
 
+    public bool isBlocked = false;
+
     [System.NonSerialized]
     public InventoryEntityComponent inventoryComponent;
 
@@ -37,10 +39,10 @@ public class SlotItem
     {
         set
         {  
-            if (equiped != default)
+            if (equiped != default(ItemEquipable))
             {
                 equiped.onDrop -= EquipedOnDrop;
-                equiped.equipedSlot = default;
+                equiped.equipedSlot = default(SlotItem);
                 equiped.Unequip();
             }
 
@@ -75,7 +77,7 @@ public class SlotItem
         defaultItem = _item;
     }
 
-    public virtual System.Type GetSlottype()
+    public virtual System.Type GetSlotType()
     {
         return typeof(ItemEquipable);
     }
@@ -93,7 +95,6 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
 {
     public event System.Action<int, T> toChange;
 
-    public bool isBlocked = false;
 
     public new T equiped
     {
@@ -118,7 +119,7 @@ public class SlotItem<T> : SlotItem where T : ItemEquipable
         toChange?.Invoke(-1, null);
     }
 
-    public override System.Type GetSlottype()
+    public override System.Type GetSlotType()
     {
         return typeof(T);
     }
