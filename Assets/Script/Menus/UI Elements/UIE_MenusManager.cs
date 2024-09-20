@@ -73,7 +73,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     
     public void SetTooltipTimer(string _title, string _content, Sprite _image)
     {
-        Debug.Log("ShowTooltip");
+        //Debug.Log("ShowTooltip");
 
         tooltipLeaveTimer.Stop();
         tooltipTimer.Reset();
@@ -89,7 +89,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         tooltipLeaveTimer.Reset();
     }
 
-    void HideTooltip()
+    public void HideTooltip()
     {
         tooltipLeaveTimer.Stop();
         menuList[currentMenu].tooltip.HideTooltip();
@@ -104,6 +104,10 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         }
     }
 
+    public UIE_BaseMenu GetCurrentMenu()
+    {
+        return menuList[currentMenu];
+    }
 
     public void SwitchMenu(string menuToGo)
     {
