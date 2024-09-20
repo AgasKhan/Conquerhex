@@ -85,6 +85,12 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public bool End => abilityCasting?.End ?? true;
 
+    [field: SerializeField]
+    public bool hasCooldown { get; private set; } = true;
+
+    [field: SerializeField]
+    public bool hasEnergyConsuption { get; private set; } = true;
+
     public event System.Action<Ability> onEnterCasting;
 
     public event System.Action<Ability> onExitCasting;
@@ -294,6 +300,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void Attack(int i, Vector2 dir)
     {
+        hasCooldown = true;
+
         if (i == 0)
         {
             abilityCasting = actualWeapon;
@@ -308,6 +316,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void Ability(int i, Vector2 dir)
     {
+        hasCooldown = true;
+        hasEnergyConsuption = true;
+
         if (i != 0)
         {
             i += 1;
@@ -321,6 +332,9 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void AlternateAbility(Vector2 dir)
     {
+        hasCooldown = true;
+        hasEnergyConsuption = true;
+
         abilityCasting = abilities.Actual(1).equiped;
 
         abilityCasting?.ControllerDown(dir,0);
@@ -329,6 +343,8 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     public void ComboAttack(int i)
     {
+        hasCooldown = false;
+
         abilityCasting = combos.Actual(i).equiped; 
 
         abilityCasting?.ControllerDown(abilityControllerMediator.dir, 0);
@@ -497,9 +513,13 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
             indexSlotType = 2;
         }
 
-        if(item is MeleeWeapon weapon)
+        indexSlotType *= 1000;
+
+        indexSlotType += indexSlot;
+
+        if (item is MeleeWeapon weapon)
         {
-            onEquipInSlotWeapon?.Invoke((indexSlotType, indexSlot).GetHashCode(), weapon);
+            onEquipInSlotWeapon?.Invoke(indexSlotType, weapon);
         }
         else if(item is WeaponKata Kata)
         {

@@ -18,12 +18,6 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
 
     public override void ControllerDown(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
         Aiming2D = dir;
 
         FeedBackReference?.Area(FinalMaxRange).Angle(Angle).Direction(AimingXZ);
@@ -40,19 +34,9 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
 
     public override void ControllerPressed(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
     }
 
     public override void ControllerUp(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
     }
 }

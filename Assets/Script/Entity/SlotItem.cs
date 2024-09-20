@@ -39,10 +39,10 @@ public class SlotItem
     {
         set
         {  
-            if (equiped != default)
+            if (equiped != default(ItemEquipable))
             {
                 equiped.onDrop -= EquipedOnDrop;
-                equiped.equipedSlot = default;
+                equiped.equipedSlot = default(SlotItem);
                 equiped.Unequip();
             }
 

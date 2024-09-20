@@ -50,26 +50,9 @@ public class UpTrggrCtrllr : TriggerController
         base.OnExitState(param);
     }
 
-    public override void ControllerDown(Vector2 dir, float button)
-    {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
-        //FeedBackReference?.Area(out originalScale);
-    }
-
     //Durante, al mantener y moverlo
     public override void ControllerPressed(Vector2 dir, float button)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
         //Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime*10);
         if(!(triggerBase?.aimingToMove ?? false))
             Aiming2D = dir;            
@@ -82,12 +65,6 @@ public class UpTrggrCtrllr : TriggerController
     //Despues, al sotarlo
     public override void ControllerUp(Vector2 dir, float button)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
         //comienza a bajar el cooldown
 
         Cast();
@@ -96,6 +73,10 @@ public class UpTrggrCtrllr : TriggerController
             ObjectiveToAim = affected[0].transform.position;
 
         caster.abilityControllerMediator -= this;
+    }
+
+    public override void ControllerDown(Vector2 dir, float tim)
+    {
     }
 }
 

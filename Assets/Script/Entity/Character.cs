@@ -63,7 +63,10 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     int nextCombo = -1;
 
     [field: SerializeField]
-    public float deltaTimeCombo { get; private set; } = 0.3f;
+    float deltaTimeCombo = 0.3f;
+
+    [field: SerializeField]
+    public float nextTimeCombo { get; private set; } = 0.15f;
 
     float timeComboSet;
 
@@ -408,7 +411,7 @@ namespace FSMCharacterAndStates
 
         public event System.Action OnActionExit;
 
-        Timer timer;
+        Timer timerCombo;
 
         public void OnEnterState(FSMCharacter param)
         {
@@ -416,7 +419,7 @@ namespace FSMCharacterAndStates
 
             OnActionEnter?.Invoke();
 
-            timer.Reset();
+            timerCombo.Set(param.context.nextTimeCombo);
         }
 
         public void OnExitState(FSMCharacter param)
@@ -432,7 +435,7 @@ namespace FSMCharacterAndStates
 
         public MoveStateCharacter(Character character)
         {
-            timer = TimersManager.Create(character.deltaTimeCombo, character.ComboAttack).Stop();
+            timerCombo = TimersManager.Create(character.nextTimeCombo, character.ComboAttack).Stop();
         }
     }
 
