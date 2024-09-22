@@ -41,6 +41,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public List<Sprite> abilitiesKeys = new List<Sprite>();
     public List<Sprite> katasKeys = new List<Sprite>();
     */
+    EventControllerMediator escapeEventMediator;
 
     protected override void Awake()
     {
@@ -55,6 +56,24 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         tooltipLeaveTimer = TimersManager.Create(timeToLeaveTooltip, HideTooltip);
         tooltipLeaveTimer.Stop();
         tooltipLeaveTimer.SetUnscaled(true);
+
+        escapeEventMediator = new EventControllerMediator();
+        escapeEventMediator.eventDown += EscapeEventMediator_eventDown;
+
+        VirtualControllers.Escape.SuscribeController(escapeEventMediator);
+    }
+
+    private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
+            return;
+
+        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+               .SetWindow("", "¿Deseas volver al menu principal?")
+               .AddButton("Si", () => GameManager.instance.Load("MainMenu"))
+               .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
+
+        VirtualControllers.Escape.SuscribeController(escapeEventMediator);
     }
 
     void ShowTooltip()

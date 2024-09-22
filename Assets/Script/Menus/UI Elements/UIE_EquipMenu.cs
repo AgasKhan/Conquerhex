@@ -64,6 +64,7 @@ public class UIE_EquipMenu : UIE_Equipment
         auxAction = null;
         slotItem = null;
         filterType = null;
+        itemEquiped = null;
 
         ShowItemDetails("", "", null);
         containerDW.AddToClassList("opacityHidden");
@@ -72,6 +73,18 @@ public class UIE_EquipMenu : UIE_Equipment
 
         originalButton.HideInUIE();
         changeButton.HideInUIE();
+    }
+
+    public void SetEquipMenu(SlotItem _slotItem, Action<int> _action)
+    {
+        itemEquiped = _slotItem.equiped;
+        auxAction = _action;
+        slotItem = _slotItem;
+        
+        filterType = itemEquiped?.GetType() == null ? _slotItem.GetSlotType() : itemEquiped.GetType();
+        
+        originalButton.ShowInUIE();
+        originalButton.style.backgroundImage = new StyleBackground(GetImage(itemEquiped, filterType));
     }
 
     public void SetEquipMenu(SlotItem _slotItem, Type _type, Action<int> _action)
@@ -222,7 +235,7 @@ public class UIE_EquipMenu : UIE_Equipment
         originalButton.HideInUIE();
         //changeButton.HideInUIE();
 
-        SetEquipMenu(slotItem, filterType, auxAction);
+        SetEquipMenu(slotItem, auxAction);
 
         if (slotItem.equiped != null)
         {

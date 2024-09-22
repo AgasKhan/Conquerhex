@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A-ExplosiveEnemy
   m_EditorClassIdentifier: 
   _nameDisplay: Enemigo explosivo
-  _image: {fileID: 1545782741, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 21300000, guid: 38f3785acd460a542a8c3ccffb1647ab, type: 3}
   _details: "El jugador golpea a un enemigo cercano empuj\xE1ndolo logrando utilizarlo
     como un proyectil da\xF1\xE1ndose a \xE9l mismo en caso de chocar y a los enemigos
     que choca\r"
@@ -32,11 +32,11 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
-  waitAnimations: 0
   animationCastStart: {fileID: -998496362607748373, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
     type: 3}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
+  animations: {fileID: 0}
   inPlaceAffected:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0

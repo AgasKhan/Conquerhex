@@ -20,32 +20,13 @@ public class SecretKey : MonoBehaviour
 
     public GameObject newMenu;
 
-    public EventControllerMediator escapeEventMediator;
-
     private void Awake()
     {
         if(minion!=null)
             originalMinionPos = minion.transform.position;
 
-        escapeEventMediator = new EventControllerMediator();
-        escapeEventMediator.eventDown += EscapeEventMediator_eventDown;
-
-        VirtualControllers.Escape.SuscribeController(escapeEventMediator);
-        
 
         //var timeToOff = TimersManager.Create(0.1f, () => gameObject.SetActive(false));
-    }
-
-    private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        if (SceneManager.GetActiveScene().name == "MainMenu")
-            return;
-
-
-        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-               .SetWindow("", "¿Deseas volver al menu principal?")
-               .AddButton("Si", ()=> GameManager.instance.Load("MainMenu"))
-               .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
     }
 
     void Update()
@@ -108,6 +89,10 @@ public class SecretKey : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.P))
         {
             GameManager.instance.Load("DummyPractice");
+        }
+        if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.I))
+        {
+            GameManager.instance.Load("Tutorial_Combate_Fixed");
         }
 
 
