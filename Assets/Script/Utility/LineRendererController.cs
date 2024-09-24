@@ -8,7 +8,7 @@ public class LineRendererController : MonoBehaviour
     LineRenderer myLineRenderer;
 
     [SerializeField]
-    List<Transform> myPoints = new List<Transform>();
+    List<Transform> dynamicPoints = new List<Transform>();
 
     private void Awake()
     {
@@ -16,15 +16,15 @@ public class LineRendererController : MonoBehaviour
     }
     void Update()
     {
-        for (int i = 0; i < myPoints.Count; i++)
+        for (int i = 0; i < dynamicPoints.Count; i++)
         {
-            myLineRenderer.SetPosition(i, myPoints[i].position);
+            myLineRenderer.SetPosition(i, dynamicPoints[i].position);
         }
     }
     void SetLine(List<Transform> _points)
     {
         myLineRenderer.positionCount = _points.Count;
-        myPoints = _points;
+        dynamicPoints = _points;
     }
 
 }
