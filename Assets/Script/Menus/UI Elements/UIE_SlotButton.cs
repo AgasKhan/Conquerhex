@@ -23,7 +23,7 @@ public class UIE_SlotButton : VisualElement
         slotText.text = text;
         auxAct = action;
 
-        if (_type != typeof(MeleeWeapon))
+        if (_type == typeof(AbilityExtCast))
         {
             slotImage.AddToClassList("abilityBorder");
         }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A-CraterInTheGround
   m_EditorClassIdentifier: 
   _nameDisplay: Crater en el suelo
-  _image: {fileID: -1492565138, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 21300000, guid: 15058e8427e698f4d8398dc6b8a32ccd, type: 3}
   _details: "Da\xF1a a todos los enemigos que est\xE9n en un \xE1rea determinada
     (mayor a un \xE1rea m\xEDnima, pero menor a una m\xE1xima) alrededor del jugador
     y los atrae hacia \xE9l."
@@ -34,11 +34,11 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
-  waitAnimations: 1
   animationCastStart: {fileID: 3060872287085348379, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
     type: 3}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
+  animations: {fileID: 0}
   inPlaceAffected:
     prefabToSpawn: {fileID: 8863688557425813847, guid: 36f18e5daf19ca04fb9f9b736eb4391d,
       type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A-DashConcatKata
   m_EditorClassIdentifier: 
   _nameDisplay: Dash Concatenado
-  _image: {fileID: -361927801, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 21300000, guid: 8de51176ef4ec444d83cc192516fc191, type: 3}
   _details: " El jugador embiste hacia el enemigo m\xE1s cercano, castea la habilidad
     de la casilla a su izquierda de forma instant\xE1nea, apunta al siguiente enemigo
     m\xE1s cercano y hace lo mismo, repetidas veces.\r"
@@ -34,13 +34,13 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
-  waitAnimations: 0
   animationCastStart: {fileID: 1827226128182048838, guid: 647e2970723402e4da8e2d3065574bff,
     type: 3}
   animationCastMiddle: {fileID: 9067093048684652814, guid: 647e2970723402e4da8e2d3065574bff,
     type: 3}
   animationCastExit: {fileID: -8481709605947105597, guid: 647e2970723402e4da8e2d3065574bff,
     type: 3}
+  animations: {fileID: 0}
   inPlaceAffected:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0

@@ -120,7 +120,7 @@ public class UIE_Equipment : UIE_BaseMenu
         }
         else
         {
-            equipedAction = AbilityAction(slotInCaster as SlotItem<WeaponKata>);
+            equipedAction = AbilityAction(slotInCaster as SlotItem<AbilityExtCast>);
         }
 
         basicButton.Init(GetImage(slotInCaster), GetText(slotInCaster), equipedAction, typeof(T));
@@ -154,7 +154,7 @@ public class UIE_Equipment : UIE_BaseMenu
         {
             UIE_SlotButton abilityButton = new UIE_SlotButton();
             abilitiesButtons.Add(abilityButton);
-            abilityButton.Init(GetImage(character.caster.abilities[i]), GetText(character.caster.abilities[i]), AbilityAction(character.caster.abilities[i]), character.caster.abilities[i].GetSlotType());
+            abilityButton.Init(GetImage(character.caster.abilities[i]), GetText(character.caster.abilities[i]), AbilityAction(character.caster.abilities[i]), character.caster.abilities[i].equiped?.GetType());
             abilityButton.Block(character.caster.abilities[i].isBlocked);
 
             SetButtonTooltip(abilityButton, character.caster.abilities[i-2], abilitiesKeys[i-2]);
@@ -221,7 +221,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(slotItem, typeof(MeleeWeapon), equipAction);
+            equipMenu.SetEquipMenu(slotItem, equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
@@ -242,7 +242,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(slotItem, typeof(AbilityExtCast), equipAction);
+            equipMenu.SetEquipMenu(slotItem, equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
@@ -261,7 +261,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(item, typeof(MeleeWeapon), equipAction);
+            equipMenu.SetEquipMenu(item, equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
@@ -282,7 +282,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(slotItem, typeof(WeaponKata), equipAction);
+            equipMenu.SetEquipMenu(slotItem, equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
