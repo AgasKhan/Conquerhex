@@ -32,9 +32,6 @@ public class PressTrggrCtrllr : TriggerController
 
     public override void ControllerDown(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-            return;
-
         Aiming2D = dir;
 
         ability.FeedbackDetect();
@@ -51,12 +48,6 @@ public class PressTrggrCtrllr : TriggerController
 
     public override void ControllerPressed(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
         Aiming2D = dir;
 
         ability.FeedbackDetect();
@@ -83,9 +74,6 @@ public class PressTrggrCtrllr : TriggerController
 
     public override void ControllerUp(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-            return;
-
         pressCooldown.Reset();
         End = true;
 
