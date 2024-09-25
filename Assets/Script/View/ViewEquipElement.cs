@@ -1,8 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-
-public class WeaponEquip : MonoBehaviour
+public class ViewEquipElement<TChild> : MonoBehaviour where TChild : ViewEquipElement<TChild>
 {
     [SerializeField]
     GameObject weapon;
@@ -16,30 +17,9 @@ public class WeaponEquip : MonoBehaviour
     [SerializeField]
     UnityEvent onDespawn;
 
-    public Texture2D positionsPCache, normalsPCache;
-    public int countPCache;
-
-    /*
-    #if UNITY_EDITOR
-
-    [SerializeField]
-    UnityEditor.Experimental.VFX.Utility.PointCacheAsset pointCache;
-
-    private void OnValidate()
+    public TChild Create(Vector3 position, Quaternion rotation, Transform parent) 
     {
-        if(pointCache!=null)
-        {
-            positionsPCache = pointCache.surfaces[0];
-            normalsPCache = pointCache.surfaces[1];
-            countPCache = pointCache.PointCount;
-        }
-    }
-
-    #endif
-    */
-    public WeaponEquip Create(Vector3 position, Quaternion rotation, Transform parent)
-    {
-        var aux = Instantiate(this);
+        var aux = (TChild)Instantiate(this);
 
         aux.transform.SetParent(parent);
         aux.transform.position = position;
@@ -57,7 +37,7 @@ public class WeaponEquip : MonoBehaviour
 
     public bool Spawn()
     {
-        if(!weapon.activeSelf)
+        if (!weapon.activeSelf)
         {
             onSpawn?.Invoke();
             weapon.SetActive(true);
@@ -81,7 +61,7 @@ public class WeaponEquip : MonoBehaviour
 
     public override bool Equals(object other)
     {
-        if (other is WeaponEquip weapon)
+        if (other is ViewEquipWeapon weapon)
             return weapon.name.Equals(name);
         else
             return base.Equals(other);

@@ -14534,24 +14534,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6071383779342381580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7918f031948cb3e479ed693dea8f92cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 8db03239417cabe4a9ccb092129fe622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 5464708504950422370}
-  offset: {x: 0, y: 0.18, z: 0}
+  offset: {x: 0, y: 0, z: 0}
   onSpawn:
     m_PersistentCalls:
       m_Calls: []
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
+  animations: {fileID: 11400000, guid: 93da970f1c23d9e439adad1c614999a0, type: 2}
   positionsPCache: {fileID: 6918954641851045129, guid: 3bc8ac072daf11a4aadfd0eaf13f6f57,
     type: 3}
   normalsPCache: {fileID: 8714772487333450258, guid: 3bc8ac072daf11a4aadfd0eaf13f6f57,
     type: 3}
   countPCache: 4096
-  pointCache: {fileID: -3256353808211938606, guid: 3bc8ac072daf11a4aadfd0eaf13f6f57,
-    type: 3}
 --- !u!1 &7519301995759638954
 GameObject:
   m_ObjectHideFlags: 0

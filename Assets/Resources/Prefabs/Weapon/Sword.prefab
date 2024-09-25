@@ -42,24 +42,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8263300623103072480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7918f031948cb3e479ed693dea8f92cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 8db03239417cabe4a9ccb092129fe622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 2065735301591136829}
-  offset: {x: 0, y: 0.12, z: 0}
+  offset: {x: 0, y: 0.13, z: 0}
   onSpawn:
     m_PersistentCalls:
       m_Calls: []
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
+  animations: {fileID: 0}
   positionsPCache: {fileID: 6918954641851045129, guid: 423f266779193474cab10e75c8b4e797,
     type: 3}
   normalsPCache: {fileID: 8714772487333450258, guid: 423f266779193474cab10e75c8b4e797,
     type: 3}
   countPCache: 4096
-  pointCache: {fileID: -3256353808211938606, guid: 423f266779193474cab10e75c8b4e797,
-    type: 3}
 --- !u!1001 &1183213728680626028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106,7 +105,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 041f6c639a7d8364a9753ce4c85e0be3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -1
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 041f6c639a7d8364a9753ce4c85e0be3,
         type: 3}
@@ -116,7 +115,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 041f6c639a7d8364a9753ce4c85e0be3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 041f6c639a7d8364a9753ce4c85e0be3,
         type: 3}
@@ -146,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 041f6c639a7d8364a9753ce4c85e0be3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
