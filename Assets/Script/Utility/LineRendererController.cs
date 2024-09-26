@@ -12,8 +12,9 @@ public class LineRendererController : MonoBehaviour
 
     private void Awake()
     {
-        myLineRenderer = GetComponent<LineRenderer>();
+        //myLineRenderer = GetComponent<LineRenderer>();
     }
+
     void Update()
     {
         for (int i = 0; i < dynamicPoints.Count; i++)
