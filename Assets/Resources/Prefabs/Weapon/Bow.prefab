@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 753089178390385710}
   - component: {fileID: 7389360221315798171}
+  - component: {fileID: 3875497167545588056}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -84,12 +85,30 @@ MonoBehaviour:
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
-  animations: {fileID: 0}
+  leftOffset: {x: 0, y: 0.84, z: -0.03}
+  animations: {fileID: 11400000, guid: 1788340130182ef46930c2bac9186230, type: 2}
   positionsPCache: {fileID: 6918954641851045129, guid: b7161522a04abbb46afd716a54afa750,
     type: 3}
   normalsPCache: {fileID: 8714772487333450258, guid: b7161522a04abbb46afd716a54afa750,
     type: 3}
   countPCache: 4096
+  nailedPoint: {fileID: 0}
+  animation: {fileID: 3875497167545588056}
+--- !u!111 &3875497167545588056
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2325065727338215218}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &4973003750172451277
 GameObject:
   m_ObjectHideFlags: 0

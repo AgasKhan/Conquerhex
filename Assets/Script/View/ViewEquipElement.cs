@@ -72,7 +72,7 @@ public class ViewEquipElement<TChild> : MonoBehaviour where TChild : ViewEquipEl
         return name.GetHashCode();
     }
 
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
 

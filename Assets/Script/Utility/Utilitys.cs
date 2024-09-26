@@ -127,6 +127,10 @@ public static class Utilitys
         Gizmos.DrawRay((position + dir), Quaternion.Euler(0, 0, 30) * (dir*-1)/10);
 
         Gizmos.DrawRay((position + dir), Quaternion.Euler(0, 0, -30) * (dir * -1)/10);
+
+        Gizmos.DrawRay((position + dir), Quaternion.Euler(30, 0, 0) * (dir * -1) / 10);
+
+        Gizmos.DrawRay((position + dir), Quaternion.Euler(-30, 0, 0) * (dir * -1) / 10);
     }
 
     public static void DrawArrowLine(Vector3 position, Vector3 to)

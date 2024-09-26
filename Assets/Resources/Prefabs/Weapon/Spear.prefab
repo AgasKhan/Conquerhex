@@ -14523,6 +14523,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4655978478755144152}
+  - {fileID: 4021172726564121123}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6629239271384822175
@@ -14545,12 +14546,15 @@ MonoBehaviour:
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
-  animations: {fileID: 11400000, guid: 93da970f1c23d9e439adad1c614999a0, type: 2}
+  leftOffset: {x: 0, y: 0.19, z: 0}
   positionsPCache: {fileID: 6918954641851045129, guid: 3bc8ac072daf11a4aadfd0eaf13f6f57,
     type: 3}
   normalsPCache: {fileID: 8714772487333450258, guid: 3bc8ac072daf11a4aadfd0eaf13f6f57,
     type: 3}
   countPCache: 4096
+  nailedPoint: {fileID: 4021172726564121123}
+  animations: {fileID: 11400000, guid: 93da970f1c23d9e439adad1c614999a0, type: 2}
+  animation: {fileID: 0}
 --- !u!1 &7519301995759638954
 GameObject:
   m_ObjectHideFlags: 0
@@ -24270,6 +24274,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &8995673167712456226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4021172726564121123}
+  m_Layer: 0
+  m_Name: nailedPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4021172726564121123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995673167712456226}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.348, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6384081902350153692}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5122812413047801395
 PrefabInstance:
   m_ObjectHideFlags: 0

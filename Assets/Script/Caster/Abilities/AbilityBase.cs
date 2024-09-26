@@ -190,6 +190,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public event System.Action<AnimationInfo.Data> onAnimation;
 
+    public event System.Action<string> onAnimationPlayed;
+
     //public event System.Action onEnter;
 
     //public event System.Action onExit;
@@ -345,10 +347,16 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public virtual void PlayAction(string name)
     {
-        PlayAction(itemBase.animations.animClips[name]);
+        PlayEventAction(name);
+        PlayDataAction(itemBase.animations.animClips[name]);
     }
 
-    public void PlayAction(AnimationInfo.Data data)
+    protected void PlayEventAction(string name)
+    {
+        onAnimationPlayed?.Invoke(name);
+    }
+
+    protected void PlayDataAction(AnimationInfo.Data data)
     {
         onAnimation?.Invoke(data);
     }
