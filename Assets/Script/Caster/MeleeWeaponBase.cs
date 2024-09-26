@@ -22,7 +22,7 @@ public class MeleeWeaponBase : ItemCrafteable
 
     public float durability;
 
-    public WeaponEquip weaponModel;
+    public ViewEquipWeapon weaponModel;
 
     public AnimationInfo animations;
 

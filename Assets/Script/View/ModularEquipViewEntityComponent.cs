@@ -22,7 +22,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
     }
 
 
-    public WeaponEquip this[WeaponEquip reference]
+    public ViewEquipWeapon this[ViewEquipWeapon reference]
     {
         get => equipedsWeapon[reference.name].reference;
     }
@@ -48,8 +48,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     */
 
-    Dictionary<string,(int cantidad, WeaponEquip reference)> equipedsWeapon = new();
-    Dictionary<int, WeaponEquip> relation = new();
+    Dictionary<string,(int cantidad, ViewEquipWeapon reference)> equipedsWeapon = new();
+    Dictionary<int, ViewEquipWeapon> relation = new();
 
     System.Action onExitAnimation;
 
@@ -60,7 +60,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
     private void OnWeaponEquipInSlot(int arg1, MeleeWeapon arg2)
     {
         var model = arg2?.itemBase.weaponModel;
-        WeaponEquip previus;
+        ViewEquipWeapon previus;
 
         if (relation.ContainsKey(arg1))//si ya habia configurado algo en ese slot
         {

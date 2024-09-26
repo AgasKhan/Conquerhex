@@ -20,13 +20,18 @@ public class SecretKey : MonoBehaviour
 
     public GameObject newMenu;
 
+    public Proyectile flechita;
+    public Damage[] damageFlechita;
+    public Entity ownerFlechita;
+
+    public Transform chartacterPos;
+
     private void Awake()
     {
         if(minion!=null)
             originalMinionPos = minion.transform.position;
 
-
-        //var timeToOff = TimersManager.Create(0.1f, () => gameObject.SetActive(false));
+        var timeToOff = TimersManager.Create(1f, () => ShootArrow()).SetLoop(true).Reset();
     }
 
     void Update()
@@ -133,6 +138,23 @@ public class SecretKey : MonoBehaviour
 
     GenericSubMenu genMenu;
     public InteractEntityComponent interComp;
+
+
+    public Vector2Int prefabBullet;
+    public Transform spawn;
+    [ContextMenu("ShootArrow")]
+    public void ShootArrow()
+    {
+        //flechita.Throw(ownerFlechita, damageFlechita, new Vector3(1, flechita.transform.position.y, flechita.transform.position.z));
+
+        Vector3 aim = chartacterPos.position - spawn.position;
+
+        aim += Vector3.up * 0.3f;
+
+        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, spawn.position, Quaternion.identity, null, false);
+
+        proyectile.Throw(ownerFlechita, damageFlechita, aim);
+    }
 
     [ContextMenu("TestMenu")]
     public void TestMenus()
