@@ -19,8 +19,62 @@ public static class Extensions
         return number.ToString("N"+num);
     }
 
-    #endregion
+    /// <summary>
+    /// number          ---->   relative<br/>
+    /// numberToCompare ---->   ?
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>Direct relation</returns>
+    public static float ThirdSimpleRule(this float number, float relative ,float numberToCompare)
+    {
+        /*
+        number          ---->   100%
+        numberToCompare ---->   ?
+        */
+        return numberToCompare * number / relative;
+    }
 
+    /// <summary>
+    /// number          ---->   relative<br/>
+    /// numberToCompare ---->   ?
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>Inverse relation</returns>
+    public static float ThirdInverseSimpleRule(this float number, float relative, float numberToCompare)
+    {
+        /*
+        number          ---->   100%
+        numberToCompare ---->   ?
+        */
+        return  number * relative/ numberToCompare;
+    }
+
+    /// <summary>
+    /// equivalent number to percentage
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>equivalent number to percentage</returns>
+    public static float Percentage(this float number, float percentageToApply)
+    {
+        return percentageToApply * number;
+    }
+
+    /// <summary>
+    /// Que porcentaje representa el numero dado
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>equivalent number to percentage</returns>
+    public static float RelativePercentage(this float number, float numberToCompare)
+    {
+        return numberToCompare / number;
+    }
+
+
+    #endregion
 
     #region Vectors
     /// <summary>
