@@ -253,14 +253,12 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         if (dummy.health.actualLife >= dummy.health.maxLife) return;
         player.caster.abilities[0].equiped.onApplyCast -= SetParry;
-        interfaz.CompleteObjective(0);
         NextDialog();
     }
 
     void SetDash(Ability a)
     {
         player.caster.abilities[1].equiped.onApplyCast -= SetDash;
-        interfaz.CompleteObjective(1);
         NextDialog();
     }
 
