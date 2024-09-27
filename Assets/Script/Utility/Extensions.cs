@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Internal;
 using System.Linq;
+using System;
+using System.Reflection;
+using Random = UnityEngine.Random;
 
 public static class Extensions
 {
@@ -28,10 +31,6 @@ public static class Extensions
     /// <returns>Direct relation</returns>
     public static float ThirdSimpleRule(this float number, float relative ,float numberToCompare)
     {
-        /*
-        number          ---->   100%
-        numberToCompare ---->   ?
-        */
         return numberToCompare * number / relative;
     }
 
@@ -44,10 +43,6 @@ public static class Extensions
     /// <returns>Inverse relation</returns>
     public static float ThirdInverseSimpleRule(this float number, float relative, float numberToCompare)
     {
-        /*
-        number          ---->   100%
-        numberToCompare ---->   ?
-        */
         return  number * relative/ numberToCompare;
     }
 
@@ -506,23 +501,45 @@ public static class Extensions
     #endregion
 
 
-    static public T AddUniqueExecution<T>(this T evento, T toAdd) where T : System.Delegate
+
+
+    public static T AddWithAutoUnsubscribe<T>(this T evento, T toAdd) where T : Delegate
     {
-        System.Action action = null;
-        //System.Func<System.Action> func = () => action;
+        // Guardamos el delegado original
+        var original = evento;
 
-        evento = (T)System.Delegate.Combine(evento, toAdd);
+        // Definimos un Delegate que actuará como wrapper
+        Delegate wrapper = null;
 
-        action = ()=>
+        // Definimos el comportamiento del wrapper
+        wrapper = new Action<object[]>((args) =>
         {
-            evento = (T)System.Delegate.RemoveAll(evento, toAdd);
-            evento = (T)System.Delegate.RemoveAll(evento, action);
-        };
+            // Ejecutamos el delegado original con los parámetros necesarios
+            toAdd.DynamicInvoke(args);
 
-        evento = (T)System.Delegate.Combine(evento, action);
+            evento = (T)Delegate.Remove(evento, wrapper);
+        });
+
+        // Combinamos el evento con el wrapper que se desuscribe automáticamente
+        evento = (T)Delegate.Combine(evento, CreateDelegateWrapper(wrapper, toAdd));
 
         return evento;
     }
+
+    private static Delegate CreateDelegateWrapper(Delegate wrapper, Delegate toAdd)
+    {
+        // Obtenemos los tipos de parámetros del delegado original (toAdd)
+        var parameterTypes = toAdd.Method.GetParameters().Select(p => p.ParameterType).ToArray();
+
+        // Creamos un nuevo tipo de delegado basado en los tipos de los parámetros
+        var delegateType = typeof(Action<>).MakeGenericType(parameterTypes);
+
+        // Retornamos el wrapper convertido en un delegado del tipo correcto
+        return Delegate.CreateDelegate(delegateType, wrapper.Target, wrapper.Method);
+    }
+
+
+
 
     /// <summary>
     /// Añade o inserta en una lista dependiendo de la posicion deseada

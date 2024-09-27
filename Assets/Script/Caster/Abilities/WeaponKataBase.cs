@@ -143,7 +143,8 @@ public class WeaponKata : Ability
     {
         if(equipedWeapon.itemBase.animations!= null && equipedWeapon.itemBase.animations.animClips.ContainsKey(name, out int index))
         {
-            PlayAction(equipedWeapon.itemBase.animations.animClips[index]);
+            PlayEventAction(name);
+            PlayDataAction(equipedWeapon.itemBase.animations.animClips[index]);
         }
         else
             base.PlayAction(name);

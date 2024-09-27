@@ -184,12 +184,12 @@ public class UIE_Equipment : UIE_BaseMenu
                 if(aux.Weapon!=null)
                     kataButton.InitWeaponTooltip(aux.Weapon.nameDisplay, aux.Weapon.itemBase.GetTooltip(), null);
                 else
-                    kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
+                    kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daÃ±o de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
             }
             else
             {
                 kataButton.InitTooltip("Kata", "Movimiento marcial\n\n" + ("Requiere de equipar un arma en la casilla contigua".RichText("color", "#c9ba5d")), null);
-                kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
+                kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daÃ±o de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
             }
         }
     }
@@ -208,7 +208,7 @@ public class UIE_Equipment : UIE_BaseMenu
         }
         else
         {
-            _slotButton.InitTooltip("Habilidad", "Utilizas la energía de tu alrededor para materializarla en daño", _sprite);
+            _slotButton.InitTooltip("Habilidad", "Utilizas la energÃ­a de tu alrededor para materializarla en daÃ±o", _sprite);
         }
     }
 
@@ -261,7 +261,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(item, typeof(MeleeWeapon), equipAction);
+            equipMenu.SetEquipMenu(item, typeof(MeleeWeapon),equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
