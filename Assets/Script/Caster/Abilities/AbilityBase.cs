@@ -348,7 +348,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public virtual void PlayAction(string name)
     {
         PlayEventAction(name);
-        PlayDataAction(itemBase.animations.animClips[name]);
+
+        if (itemBase.animations.animClips.ContainsKey(name, out int index))
+            PlayDataAction(itemBase.animations.animClips[index]);
+        else
+            Debug.LogWarning("No existe el key de accion: " + name);
     }
 
     protected void PlayEventAction(string name)
@@ -576,6 +580,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         abilityModificator.OnEnterState(param);
         trigger.OnEnterState(param);
         caster.OnEnter(this);
+
+        PlayAction("Start");
         //onEnter?.Invoke();
     }
 
