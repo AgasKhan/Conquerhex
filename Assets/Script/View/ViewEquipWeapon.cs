@@ -40,7 +40,7 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
     public void PlayAction(string name)
     {
         if(animation!=null)
-            animation.Play(name);
+            animation.Play(name, PlayMode.StopAll);
     }
 
     protected override void OnDrawGizmosSelected()
