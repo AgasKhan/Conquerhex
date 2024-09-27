@@ -234,7 +234,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
         originalButton.HideInUIE();
         //changeButton.HideInUIE();
-
+        
         if(filterType == typeof(MeleeWeapon))
             SetEquipMenu(slotItem, typeof(MeleeWeapon), auxAction);
         else
@@ -283,7 +283,7 @@ public class UIE_EquipMenu : UIE_Equipment
     }
     string BaseWeaponDamages(MeleeWeapon _weapon)
     {
-        string mainText = "Daños detallados\n".RichText("color", "#f6f1c2");
+        string mainText = "DaÃ±os detallados\n".RichText("color", "#f6f1c2");
 
         var weaponDmgs = _weapon.damages;
         var characterDmgs = character.caster.additiveDamage.content.SortBy(weaponDmgs, 0).ToArray();
@@ -304,8 +304,8 @@ public class UIE_EquipMenu : UIE_Equipment
 
             var resultequipedDmgs = Damage.CalcDamage(equipedWeapon, character.caster, equipedWeapon.defaultKata).ToArray();
 
-            mainText += "Comparación con el arma equipada:\n".RichText("color", "#f6f1c2");
-            mainText += new CustomColumns("Daño de arma equipada".RichText("color", "#d4aaa9"), "Daño de arma actual".RichText("color", "#d4aaa9")).ToString();
+            mainText += "ComparaciÃ³n con el arma equipada:\n".RichText("color", "#f6f1c2");
+            mainText += new CustomColumns("DaÃ±o de arma equipada".RichText("color", "#d4aaa9"), "DaÃ±o de arma actual".RichText("color", "#d4aaa9")).ToString();
             mainText += new CustomColumns(resultequipedDmgs.ToString(": ", "\n"), resultDmgs.ToString(": ", "\n")).ToString();
         }
 
@@ -313,7 +313,7 @@ public class UIE_EquipMenu : UIE_Equipment
     }
     string AbilityDamages(AbilityExtCast _ability)
     {
-        string mainText = "Daños detallados\n".RichText("color", "#f6f1c2");
+        string mainText = "DaÃ±os detallados\n".RichText("color", "#f6f1c2");
 
         if (!(_ability.castingAction.GetCastActionBase() is CastingDamageBase))
             return "";
@@ -336,12 +336,12 @@ public class UIE_EquipMenu : UIE_Equipment
         {
             var aux = ((AbilityExtCast)slotItem.equiped).castingAction.GetCastActionBase();
             if (!(aux is CastingDamageBase))
-                return "La habilidad equipada no produce daño";
+                return "La habilidad equipada no produce daÃ±o";
 
             var resultequipedDmgs = Damage.CalcDamage(((CastingDamageBase)aux).damages, character.caster.additiveDamage.content, ((AbilityExtCast)slotItem.equiped).multiplyDamage.content).ToArray();
 
-            mainText += "Comparación con la habilidad equipada:\n".RichText("color", "#f6f1c2");
-            mainText += new CustomColumns("Daño de habilidad equipada".RichText("color", "#d4aaa9"), "Daño de habilidad actual".RichText("color", "#d4aaa9")).ToString();
+            mainText += "ComparaciÃ³n con la habilidad equipada:\n".RichText("color", "#f6f1c2");
+            mainText += new CustomColumns("DaÃ±o de habilidad equipada".RichText("color", "#d4aaa9"), "DaÃ±o de habilidad actual".RichText("color", "#d4aaa9")).ToString();
             mainText += new CustomColumns(resultequipedDmgs.ToString(": ", "\n"), resultDmgs.ToString(": ", "\n")).ToString();
         }
 
@@ -350,7 +350,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
     string KataDamages(WeaponKata _kata)
     {
-        string mainText = "Daños detallados\n".RichText("color", "#f6f1c2");
+        string mainText = "DaÃ±os detallados\n".RichText("color", "#f6f1c2");
 
         var characterDmgs = character.caster.additiveDamage.content.ToArray();
         var kataDmgs = _kata.multiplyDamage.content.SortBy(characterDmgs, 1).ToArray();
@@ -364,7 +364,7 @@ public class UIE_EquipMenu : UIE_Equipment
         {
             var resultequipedDmgs = ((WeaponKata)slotItem.equiped).multiplyDamage.content.SortBy(kataDmgs, 0).ToArray();
 
-            mainText += "Comparación con la kata equipada:\n".RichText("color", "#f6f1c2");
+            mainText += "ComparaciÃ³n con la kata equipada:\n".RichText("color", "#f6f1c2");
             mainText += new CustomColumns("Multiplicador de kata equipada".RichText("color", "#d4aaa9"), "Multiplicador de kata actual".RichText("color", "#d4aaa9")).ToString();
             mainText += new CustomColumns(resultequipedDmgs.ToString(": x", "\n"), kataDmgs.SortBy(resultequipedDmgs, 0).ToArray().ToString(": x", "\n")).ToString();
         }
@@ -374,7 +374,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
     string KataWeaponDamages(MeleeWeapon _weaponKata, WeaponKata _kata)
     {
-        string mainText = "Daños detallados\n".RichText("color", "#f6f1c2");
+        string mainText = "DaÃ±os detallados\n".RichText("color", "#f6f1c2");
 
         var weaponDmgs = _weaponKata.itemBase.damages;
         var characterDmgs = character.caster.additiveDamage.content.SortBy(weaponDmgs, 0).ToArray();
@@ -393,8 +393,8 @@ public class UIE_EquipMenu : UIE_Equipment
 
             var resultequipedDmgs = Damage.CalcDamage(equipedWeapon, character.caster, _kata).SortBy(resultDmgs, 0).ToArray();
 
-            mainText += "Comparación con el arma equipada en la Kata:\n".RichText("color", "#f6f1c2");
-            mainText += new CustomColumns($"Daño de arma equipada ({equipedWeapon.nameDisplay})".RichText("color", "#d4aaa9"), $"Daño de {_weaponKata.nameDisplay}".RichText("color", "#d4aaa9")).ToString();
+            mainText += "ComparaciÃ³n con el arma equipada en la Kata:\n".RichText("color", "#f6f1c2");
+            mainText += new CustomColumns($"DaÃ±o de arma equipada ({equipedWeapon.nameDisplay})".RichText("color", "#d4aaa9"), $"DaÃ±o de {_weaponKata.nameDisplay}".RichText("color", "#d4aaa9")).ToString();
             mainText += new CustomColumns(resultequipedDmgs.ToString(": ", "\n"), resultDmgs.SortBy(resultequipedDmgs, 0).ToArray().ToString(": ", "\n")).ToString();
         }
 

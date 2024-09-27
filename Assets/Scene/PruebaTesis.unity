@@ -10411,6 +10411,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pj
       objectReference: {fileID: 0}
+    - target: {fileID: 7462436732038856524, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: deaac98f5ae9f484ba4bb42ab576e3fd,
+        type: 3}
+    - target: {fileID: 7462436732038856524, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.44705883
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10576,18 +10587,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1925647503}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1307366872 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6259230563897308393, guid: f07391353fe17824382b76400b2440d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 368667596}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36a11365eea590f4e8768a85bf1bca2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1320054775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14535,6 +14534,12 @@ PrefabInstance:
       propertyPath: categoriesOfPool.Array.data[0].objectPool.Array.data[2].parent
       value: 
       objectReference: {fileID: 416689507}
+    - target: {fileID: 7739652029663223112, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: categoriesOfPool.Array.data[1].objectPool.Array.data[22].prefab
+      value: 
+      objectReference: {fileID: 8450903998597384575, guid: b22250cd2adf89543bb727d81ca730b5,
+        type: 3}
     - target: {fileID: 7739652029663223114, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
       propertyPath: playerCharacter
@@ -16167,7 +16172,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 8e2c062f38b3b614da0324376548e302, type: 3}
+  - {fileID: 2100000, guid: fae2c1c26d94aad4fa3f56ebb83591b5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22990,29 +22995,7 @@ MonoBehaviour:
   leverCorderito: {fileID: 1164883791995491824}
   minion: {fileID: 1316060942165891030}
   newMenu: {fileID: 0}
-  flechita: {fileID: 0}
-  damageFlechita:
-  - name: 
-    amount: 50
-    knockBack: 0
-    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  - name: 
-    amount: 50
-    knockBack: 0
-    typeInstance: {fileID: 11400000, guid: c009cbd2158dfa2459b9e4d53f42d386, type: 2}
-  - name: 
-    amount: 50
-    knockBack: 0
-    typeInstance: {fileID: 11400000, guid: 42bb75e6d24117a4d9438ad3b5095639, type: 2}
-  - name: 
-    amount: 50
-    knockBack: 0
-    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
-  ownerFlechita: {fileID: 1307366872}
-  chartacterPos: {fileID: 1189518870}
   interComp: {fileID: 6066462352577609410}
-  prefabBullet: {x: 2, y: 0}
-  spawn: {fileID: 23766641}
 --- !u!4 &3046630907088124315 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6773200482067112401, guid: 6de59a37bbcb9c143b9bd567cd2be427,
@@ -25212,4 +25195,5 @@ SceneRoots:
   - {fileID: 336480019}
   - {fileID: 1186383199}
   - {fileID: 428201231}
-
+  - {fileID: 368667596}
+  - {fileID: 460521827}

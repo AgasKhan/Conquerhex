@@ -20,18 +20,18 @@ public class SecretKey : MonoBehaviour
 
     public GameObject newMenu;
 
-    public Proyectile flechita;
-    public Damage[] damageFlechita;
-    public Entity ownerFlechita;
+    // public Proyectile flechita;
+    // public Damage[] damageFlechita;
+    // public Entity ownerFlechita;
 
-    public Transform chartacterPos;
+    // public Transform chartacterPos;
 
     private void Awake()
     {
-        if(minion!=null)
+        if (minion != null)
             originalMinionPos = minion.transform.position;
 
-        var timeToOff = TimersManager.Create(1f, () => ShootArrow()).SetLoop(true).Reset();
+        //var timeToOff = TimersManager.Create(1f, () => ShootArrow()).SetLoop(true).Reset();
     }
 
     void Update()
@@ -54,7 +54,7 @@ public class SecretKey : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-                .SetWindow("", "¿Seguro que deseas cerrar el juego?")
+                .SetWindow("", "ï¿½Seguro que deseas cerrar el juego?")
                 .AddButton("Si", Application.Quit)
                 .AddButton("No", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
         }
@@ -140,21 +140,21 @@ public class SecretKey : MonoBehaviour
     public InteractEntityComponent interComp;
 
 
-    public Vector2Int prefabBullet;
-    public Transform spawn;
-    [ContextMenu("ShootArrow")]
-    public void ShootArrow()
-    {
-        //flechita.Throw(ownerFlechita, damageFlechita, new Vector3(1, flechita.transform.position.y, flechita.transform.position.z));
+    // public Vector2Int prefabBullet;
+    // public Transform spawn;
+    //[ContextMenu("ShootArrow")]
+    // public void ShootArrow()
+    // {
+    //     //flechita.Throw(ownerFlechita, damageFlechita, new Vector3(1, flechita.transform.position.y, flechita.transform.position.z));
 
-        Vector3 aim = chartacterPos.position - spawn.position;
+    //     Vector3 aim = chartacterPos.position - spawn.position;
 
-        aim += Vector3.up * 0.3f;
+    //     aim += Vector3.up * 0.3f;
 
-        PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, spawn.position, Quaternion.identity, null, false);
+    //     PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, spawn.position, Quaternion.identity, null, false);
 
-        proyectile.Throw(ownerFlechita, damageFlechita, aim);
-    }
+    //     proyectile.Throw(ownerFlechita, damageFlechita, aim);
+    // }
 
     [ContextMenu("TestMenu")]
     public void TestMenus()
@@ -166,7 +166,7 @@ public class SecretKey : MonoBehaviour
             subMenu.CreateSection(0, 20);
             subMenu.AddComponent<ListNavBarModule>();
             //subMenu.CreateChildrenSection<ScrollRect>();
-            //subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
+            //subMenu.AddComponent<DetailsWindow>().SetTexts("Bï¿½sicos", "Ataque bï¿½sico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
 
             //subMenu.CreateSection(4, 6);
             //subMenu.CreateChildrenSection<ScrollRect>();
@@ -174,13 +174,13 @@ public class SecretKey : MonoBehaviour
 
             //subMenu.CreateSection(4, 5);
             //subMenu.CreateChildrenSection<ScrollRect>();
-            //subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinación de teclas (movimiento) +  Click der");
-            
+            //subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinaciï¿½n de teclas (movimiento) +  Click der");
+
 
             //subMenu.CreateSection(5, 6);
             //subMenu.CreateChildrenSection<ScrollRect>();
             //subMenu.AddComponent<DetailsWindow>().SetTexts("(Katas) Movimientos ofensivos", "Combinacion de teclas (movimiento) +  Click izq");
-            
+
 
             //subMenu.OnClose += Exit;
         };

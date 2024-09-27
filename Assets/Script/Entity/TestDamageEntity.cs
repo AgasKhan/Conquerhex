@@ -61,4 +61,6 @@ public class TestDamageEntity : MonoBehaviour
             timerDamage.Stop();
         }
     }
+
+    public void StopTimer() => timerDamage.Stop();
 }

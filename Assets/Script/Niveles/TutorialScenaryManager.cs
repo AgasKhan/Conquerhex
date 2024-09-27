@@ -33,7 +33,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Ingredient weaponForPlayer;
     public List<AttackBase.AbilityToEquip> abilitiesForPlayer = new List<AttackBase.AbilityToEquip>();
     bool weaponGive = false;
-    
+
 
     bool ability0 = false;
     bool ability1 = false;
@@ -205,7 +205,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public void GiveToPlayer()
     {
         GiveToPlayer(weaponForPlayer.Item, weaponForPlayer.Amount);
-        
+
     }
 
     public void GiveToPlayer(ItemBase item, int amount)
@@ -232,6 +232,36 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         player.caster.abilities[1].equiped.onApplyCast += EquipedOnCast1;
         //player.caster.abilities[3].equiped.onCast += EquipedOnCast3;
         //player.caster.abilities[4].equiped.onCast += EquipedOnCast4;
+    }
+
+    public void SetParryAbility()
+    {
+        abilitiesForPlayer[0].isBlocked = false;
+        SetPlayerAbility(abilitiesForPlayer[0]);
+        player.caster.abilities[0].equiped.onApplyCast += SetParry;
+
+    }
+
+    public void SetDashAbility()
+    {
+        abilitiesForPlayer[1].isBlocked = false;
+        SetPlayerAbility(abilitiesForPlayer[1]);
+        player.caster.abilities[1].equiped.onApplyCast += SetDash;
+    }
+
+    void SetParry(Ability a)
+    {
+        if (dummy.health.actualLife >= dummy.health.maxLife) return;
+        player.caster.abilities[0].equiped.onApplyCast -= SetParry;
+        interfaz.CompleteObjective(0);
+        NextDialog();
+    }
+
+    void SetDash(Ability a)
+    {
+        player.caster.abilities[1].equiped.onApplyCast -= SetDash;
+        interfaz.CompleteObjective(1);
+        NextDialog();
     }
 
     private void EquipedOnCast0(Ability ability)
