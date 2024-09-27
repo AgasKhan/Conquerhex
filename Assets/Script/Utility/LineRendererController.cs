@@ -10,11 +10,6 @@ public class LineRendererController : MonoBehaviour
     [SerializeField]
     List<Transform> dynamicPoints = new List<Transform>();
 
-    private void Awake()
-    {
-        //myLineRenderer = GetComponent<LineRenderer>();
-    }
-
     void Update()
     {
         for (int i = 0; i < dynamicPoints.Count; i++)
