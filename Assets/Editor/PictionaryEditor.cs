@@ -57,10 +57,12 @@ namespace CustomEulerEditor
                 margin.AddToClassList("unity-foldout__content");
 
                 property.Next(true);
-                while (property.Next(false) && property.depth >= depth)
+                do
                 {
                     margin.Add(new PropertyField(property));
                 }
+                while (property.Next(false) && property.depth >= depth);
+
                 container.Add(new IMGUIContainer(() => EditorGUILayout.LabelField("", GUI.skin.horizontalSlider)));
             }
             else
