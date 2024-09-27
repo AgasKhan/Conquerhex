@@ -31,8 +31,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     public bool isPlaying { get; private set; }
 
-    public Vector3 forwardModel => controller.transform.forward;
-    public Quaternion rotationModel => controller.transform.rotation;
+    public Transform transformModel => controller?.transform;
 
     [SerializeField]
     bool active = true;

@@ -379,7 +379,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         _feedBackReference?.Attack();
 
         if (showParticleInPos)
-            InternalParticleSpawnToPosition(caster.transform, Vector3.one * FinalMaxRange);
+            InternalParticleSpawnToPosition(caster.GetInContainer<AnimatorController>().transformModel, Vector3.one * FinalMaxRange);
 
         if (entities != null)
             foreach (var dmgEntity in entities)

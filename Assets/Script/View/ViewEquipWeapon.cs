@@ -30,7 +30,8 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
 
     public void PlayAction(string name)
     {
-        animation?.Play(name);
+        if(animation!=null)
+            animation.Play(name);
     }
 
     protected override void OnDrawGizmosSelected()
@@ -52,8 +53,7 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
         Utilitys.DrawArrowRay(nailedPoint.position, nailedPoint.up*0.5f);
     }
 
-#if UNITY_EDITOR
-
+    #if UNITY_EDITOR
     private void OnValidate()
     {
         if(animation != null && animations != null && animations.animClips.Count != animation.GetClipCount())
@@ -61,7 +61,6 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
             //DestroyImmediate(animation, true);
 
             //animation = gameObject.AddComponent<Animation>();
-            
 
             foreach (var animClip in animations.animClips)
             {
@@ -69,8 +68,5 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
             }
         }
     }
-
     #endif
-    
-   
 }
