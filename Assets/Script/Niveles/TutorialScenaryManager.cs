@@ -239,6 +239,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         abilitiesForPlayer[0].isBlocked = false;
         SetPlayerAbility(abilitiesForPlayer[0]);
         player.caster.abilities[0].equiped.onApplyCast += SetParry;
+
     }
 
     public void SetDashAbility()
@@ -250,6 +251,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     void SetParry(Ability a)
     {
+        if (dummy.health.actualLife >= dummy.health.maxLife) return;
         player.caster.abilities[0].equiped.onApplyCast -= SetParry;
         interfaz.CompleteObjective(0);
         NextDialog();
