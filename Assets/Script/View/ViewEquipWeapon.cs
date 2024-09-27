@@ -70,10 +70,14 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
 
             //animation = gameObject.AddComponent<Animation>();
 
+            //animation.RemoveClip();
+
+            /*
             foreach (var animClip in animations.animClips)
             {
                 animation.AddClip(animClip.value.animationClip, animClip.key, 0, (int)(animClip.value.animationClip.frameRate * animClip.value.animationClip.length), animClip.value.inLoop);
             }
+            */
         }
     }
     #endif
