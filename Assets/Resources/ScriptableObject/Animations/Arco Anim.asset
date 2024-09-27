@@ -17,10 +17,32 @@ MonoBehaviour:
     - key: Cast
       value:
         defaultAction: 0
-        animationClip: {fileID: 1827226128182048838, guid: 74b1d6afd0f280445bf73189e21cdfb3,
+        animationClip: {fileID: 9067093048684652814, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
           type: 3}
         inLoop: 0
+        velocity: 1
+        mirrorType: 0
         events:
           pictionaries:
           - key: Action
-            value: 0.34383953
+            value: 0
+    - key: StartCast
+      value:
+        defaultAction: 0
+        animationClip: {fileID: 1827226128182048838, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+          type: 3}
+        inLoop: 0
+        velocity: 1
+        mirrorType: 0
+        events:
+          pictionaries: []
+    - key: MiddleCast
+      value:
+        defaultAction: 0
+        animationClip: {fileID: 1827226128182048838, guid: db67b6f2444f15a46beecda8d9ad4c80,
+          type: 3}
+        inLoop: 1
+        velocity: 0.5
+        mirrorType: 0
+        events:
+          pictionaries: []

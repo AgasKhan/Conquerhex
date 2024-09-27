@@ -13,4 +13,24 @@ MonoBehaviour:
   m_Name: Bow Anim
   m_EditorClassIdentifier: 
   animClips:
-    pictionaries: []
+    pictionaries:
+    - key: Cast
+      value:
+        defaultAction: 0
+        animationClip: {fileID: 1827226128182048838, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+          type: 3}
+        inLoop: 0
+        velocity: 1
+        mirrorType: 0
+        events:
+          pictionaries: []
+    - key: ApplyCast
+      value:
+        defaultAction: 0
+        animationClip: {fileID: 9067093048684652814, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+          type: 3}
+        inLoop: 0
+        velocity: 1
+        mirrorType: 0
+        events:
+          pictionaries: []
