@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
@@ -70,14 +71,27 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
 
             //animation = gameObject.AddComponent<Animation>();
 
-            //animation.RemoveClip();
+            //Quito todas las animaciones
+            {
+                List<AnimationClip> anims = new();
 
-            /*
+                foreach (AnimationState state in animation)
+                {
+                    anims.Add(state.clip);
+                }
+
+                foreach (var item in anims)
+                {
+                    animation.RemoveClip(item);
+                }
+            }
+            
+            //Agrego de nuevo las animaciones pero bien configuradas
             foreach (var animClip in animations.animClips)
             {
                 animation.AddClip(animClip.value.animationClip, animClip.key, 0, (int)(animClip.value.animationClip.frameRate * animClip.value.animationClip.length), animClip.value.inLoop);
             }
-            */
+            
         }
     }
     #endif
