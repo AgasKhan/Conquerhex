@@ -295,6 +295,9 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         {
             character.moveStateCharacter.OnActionEnter += MoveStateCharacter_OnActionEnter;
             character.moveStateCharacter.OnActionExit += MoveStateCharacter_OnActionExit;
+
+            character.onTakeDamage += CharacterOnTakeDamage;
+
             move = character.move;
             move.onIdle += Ia_onIdle;
             MoveStateCharacter_OnActionEnter();
@@ -306,6 +309,11 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         }
 
         entity.health.death += Ia_onDeath;
+    }
+
+    private void CharacterOnTakeDamage(Damage obj)
+    {
+        controller.SetTrigger("Hurt");
     }
 
     private void OnExitCasting(Ability obj)
