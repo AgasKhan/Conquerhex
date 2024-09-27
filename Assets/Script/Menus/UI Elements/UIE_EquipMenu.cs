@@ -235,7 +235,10 @@ public class UIE_EquipMenu : UIE_Equipment
         originalButton.HideInUIE();
         //changeButton.HideInUIE();
 
-        SetEquipMenu(slotItem, auxAction);
+        if(filterType == typeof(MeleeWeapon))
+            SetEquipMenu(slotItem, typeof(MeleeWeapon), auxAction);
+        else
+            SetEquipMenu(slotItem, auxAction);
 
         if (slotItem.equiped != null)
         {
