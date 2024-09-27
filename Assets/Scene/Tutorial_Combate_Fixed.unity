@@ -33253,6 +33253,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6295448971589143362, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: <objectiveVelocity>k__BackingField
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_RootOrder
@@ -36298,6 +36303,60 @@ BoxCollider:
     type: 3}
   m_PrefabInstance: {fileID: 1266599769}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &626602651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626602642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  controller: {fileID: 1830987372}
+  animations:
+    pictionaries:
+    - key: anim_idle
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
+          type: 3}
+    - key: anim_meleeATK
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
+          type: 3}
+    - key: anim_Running
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
+          type: 3}
+    - key: anim_death
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
+          type: 3}
+    - key: anim_meleeATK_2
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 79bd63c2c5e56504c9147bfe0a879fe5,
+          type: 3}
+    - key: anim_dash_middle
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 43d6634ac08e2ac4e80613d1e3fe4934,
+          type: 3}
+    - key: anim_dash2_middle
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 14486a6fa79234b49acfb7194d40fd14,
+          type: 3}
+  actionsName: []
+  animatorClipTest: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
+    type: 3}
 --- !u!1001 &628706175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48615,25 +48674,61 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
     timeToCallEvent: 1.2
-  - dialog: "Est\xE1s listo para usar tu brazal anti-entr\xF3pico para materializar
-      objetos.\n\nDepende de donde est\xE9n equipadas, podr\xE1s usar distintas acciones
-      para ejecutarlas.\n\nPruebalas con el mu\xF1eco, y con enemigos reales."
-    objective: "-Ejecuta <color=#F6CB30>Parry b\xE1sico</color> con ClickDer\n-Ejecuta
-      <color=#F6CB30>Dash Simple</color> con LeftShift\n-Ejecuta un <color=#F6CB30>Ataque
-      Combo</color> presionando <color=#2899BC>Click Izquierdo</color> repetidas
-      veces.\n\n"
+  - dialog: "Los enemigos no se quedaran quietos esperando tu golpe. Puedes anticiparlos
+      y ejecutar la habilidad llamada parry.\n\nPruebala con el mu\xF1eco de pruebas,
+      ahora te atacara."
+    objective: "-Anticipa el ataque del mu\xF1eco y ejecuta el <color=#F6CB30>Parry
+      b\xE1sico</color> con Click Derecho."
     logicActive:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1190209571}
           m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
-          m_MethodName: SetPlayerAbility
+          m_MethodName: SetParryAbility
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 626602646}
+          m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    timeToCallEvent: 0
+  - dialog: 'Y por ultimo, si tu compostura fisica no es la mejor, puede usar el
+      dash para salir de apuros o explorar el mapa con facilidad.
+
+
+      Pruebalo
+      esquivando enemigos reales.'
+    objective: '-Ejecuta <color=#F6CB30>Dash Simple</color> con LeftShift
+
+
+'
+    logicActive:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1190209571}
+          m_TargetAssemblyTypeName: TutorialScenaryManager, Assembly-CSharp
+          m_MethodName: SetDashAbility
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 25
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -48744,18 +48839,6 @@ MonoBehaviour:
             m_FloatArgument: 25
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 626602646}
-          m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 25
-            m_StringArgument: 
-            m_BoolArgument: 1
           m_CallState: 2
     timeToCallEvent: 4
   - dialog: "Desde aqu\xED ya no te acompa\xF1ar\xE9 en tu aventura.\nHe abierto
@@ -59605,60 +59688,89 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dummy3D
       objectReference: {fileID: 0}
+    - target: {fileID: 341199005646114504, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208490713627816140, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208490713627816140, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208490713627816140, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.87
+      value: 7.3749924
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.320001
+      value: -6.0850315
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.00000018626451
+      value: -0.00000004656613
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.50000083
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: -0.50000083
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.49999914
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.49999914
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
         type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901543418962490828, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818987131008072154, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 341199005646114504, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 626602651}
   m_SourcePrefab: {fileID: 100100000, guid: baec8a1976812384ba93267be2e3d9dc, type: 3}
 --- !u!1 &1266956336
 GameObject:
@@ -97238,6 +97350,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8622903360778750034, guid: 9c3d0d9f46b09c34e91fbe949c53c0f0,
     type: 3}
   m_PrefabInstance: {fileID: 1825205681}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1830987372 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6929066415529030121, guid: baec8a1976812384ba93267be2e3d9dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1266599769}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1831032647
 PrefabInstance:
