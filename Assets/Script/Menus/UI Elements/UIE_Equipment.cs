@@ -221,7 +221,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(slotItem, equipAction);
+            equipMenu.SetEquipMenu(slotItem, typeof(MeleeWeapon), equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
@@ -261,7 +261,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         return () =>
         {
-            equipMenu.SetEquipMenu(item, equipAction);
+            equipMenu.SetEquipMenu(item, typeof(MeleeWeapon), equipAction);
             manager.SwitchMenu(manager.EquipItemMenu);
         };
     }
