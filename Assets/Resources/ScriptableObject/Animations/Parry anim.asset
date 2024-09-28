@@ -21,11 +21,12 @@ MonoBehaviour:
           type: 3}
         inLoop: 0
         velocity: 1
+        next: -1
         mirrorType: 0
         events:
           pictionaries:
           - key: Action
-            value: 0.13210575
+            value: 0
     - key: Middle
       value:
         defaultAction: 0
@@ -33,6 +34,7 @@ MonoBehaviour:
           type: 3}
         inLoop: 1
         velocity: 1
+        next: -1
         mirrorType: 0
         events:
           pictionaries: []
@@ -43,6 +45,7 @@ MonoBehaviour:
           type: 3}
         inLoop: 0
         velocity: 1
+        next: -1
         mirrorType: 0
         events:
           pictionaries: []

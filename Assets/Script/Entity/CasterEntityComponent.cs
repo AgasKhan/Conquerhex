@@ -132,37 +132,10 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     public event System.Action<Ability> onExitCasting;
 
     /// <summary>
-    /// Evento que se ejecuta al comenzar el casteo <br/>
-    /// No debe de ser utilizado para realizar transiciones
-    /// </summary>
-    public event System.Action OnEnterCastingOnlyOne
-    {
-        add
-        {
-            //_OnEnter = _OnEnter.AddUniqueExecution(value);
-
-            System.Action<Ability> action = null;
-
-            action = (a) =>
-            {
-                value();
-                //_OnEnter -= value;
-                _OnEnter -= action;
-            };
-
-            _OnEnter += action;
-        }
-        remove
-        {
-            Debug.LogError("No podes desuscribirte manualmente de el evento de desuscripcion automatica");
-        }
-    }
-
-    /// <summary>
     /// Evento que se ejecuta al finalizar el casteo <br/>
     /// No debe de ser utilizado para realizar transiciones
     /// </summary>
-    public event System.Action OnExitCastingOnlyOne
+    event System.Action OnExitCastingOnlyOne
     {
         add
         {
@@ -183,36 +156,13 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public Ability abilityCasting
     {
         get => _abilityCasting;
-
-        set
-        {
-            if (_abilityCasting != null)
-            {
-                abilityCasting.OnExitState(this);
-                abilityControllerMediator -= _abilityCasting;
-                _OnExit.Invoke(abilityCasting);
-
-                _abilityCasting = value;
-
-                if (value == null)
-                    return;
-
-                abilityCasting?.OnEnterState(this);
-                abilityControllerMediator += abilityCasting;
-                _OnEnter?.Invoke(abilityCasting);
-            }
-            else if(value != null)
-            {
-                _abilityCasting = value;
-                _abilityCasting.OnEnterState(this);
-                abilityControllerMediator += _abilityCasting;
-                _OnEnter?.Invoke(abilityCasting);
-            }
-
-        }
+        set => SwitchAbilty(value);
     }
 
     [Tooltip("Representa la parte llena de la barra")]
@@ -294,7 +244,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
             return energyBuff <= negativeEnergy;
         }
     }
-
     
     /// <summary>
     /// Genera un consumo positivo de energia (pierdo energia)
@@ -313,7 +262,6 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
         return true;
     }
-
 
     /// <summary>
     /// Genero un consumo negativo de energia (gano energia)
@@ -334,23 +282,28 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     }
 
 
-    public void Attack(int i, Vector2 dir)
+    public void Attack(int i, Vector2 dir, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
     {
         HasCooldown = true;
+        HasEnergyConsuption = true;
+
+        Ability ability;
 
         if (i == 0)
         {
-            abilityCasting = actualWeapon;
+            ability = actualWeapon;
         }
         else
         {
-            abilityCasting = katas.Actual(i - 1).equiped;
+            ability = katas.Actual(i - 1).equiped;
         }
+
+        SwitchAbilty(ability, onAbilityEnter, onAbilityExit);
 
         abilityCasting?.ControllerDown(dir, 0);
     }
 
-    public void Ability(int i, Vector2 dir)
+    public void Ability(int i, Vector2 dir, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
     {
         HasCooldown = true;
         HasEnergyConsuption = true;
@@ -360,30 +313,69 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
             i += 1;
         }
 
-        abilityCasting = abilities.Actual(i).equiped;
-
+        SwitchAbilty(abilities.Actual(i).equiped, onAbilityEnter, onAbilityExit);
 
         abilityCasting?.ControllerDown(dir,0);
     }
 
-    public void AlternateAbility(Vector2 dir)
+    public void AlternateAbility(Vector2 dir, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
     {
         HasCooldown = true;
         HasEnergyConsuption = true;
 
-        abilityCasting = abilities.Actual(1).equiped;
+        SwitchAbilty(abilities.Actual(1).equiped, onAbilityEnter, onAbilityExit);
 
         abilityCasting?.ControllerDown(dir,0);
-
     }
 
-    public void ComboAttack(int i)
+    public void ComboAttack(int i, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
     {
         HasCooldown = false;
 
-        abilityCasting = combos.Actual(i).equiped; 
+        SwitchAbilty(combos.Actual(i).equiped, onAbilityEnter, onAbilityExit);
 
         abilityCasting?.ControllerDown(abilityControllerMediator.dir, 0);
+    }
+
+    /// <summary>
+    /// Se encarga de realizar los cambios de habilidad
+    /// </summary>
+    /// <param name="ability"></param>
+    /// <param name="onAbilityEnter"></param>
+    /// <param name="onAbilityExit"></param>
+    void SwitchAbilty(Ability ability, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
+    {
+        if (_abilityCasting != null)
+        {
+            abilityCasting.OnExitState(this);
+            abilityControllerMediator -= _abilityCasting;
+            _OnExit.Invoke(abilityCasting);
+
+            _abilityCasting = ability;
+
+            if (ability == null)
+                return;
+
+            if(onAbilityExit!=null)
+                OnExitCastingOnlyOne += onAbilityExit;
+            
+            abilityCasting?.OnEnterState(this);
+            abilityControllerMediator += abilityCasting;
+            _OnEnter?.Invoke(abilityCasting);
+            onAbilityEnter?.Invoke();
+        }
+        else if (ability != null)
+        {
+            _abilityCasting = ability;
+
+            if (onAbilityExit != null)
+                OnExitCastingOnlyOne += onAbilityExit;
+
+            _abilityCasting.OnEnterState(this);
+            abilityControllerMediator += _abilityCasting;
+            _OnEnter?.Invoke(abilityCasting);
+            onAbilityEnter?.Invoke();
+        }
     }
 
     void EnergyUpdate()
