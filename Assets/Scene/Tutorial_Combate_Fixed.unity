@@ -36303,72 +36303,6 @@ BoxCollider:
     type: 3}
   m_PrefabInstance: {fileID: 1266599769}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &626602649 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8852661266200992574, guid: baec8a1976812384ba93267be2e3d9dc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1266599769}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626602642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf4a2e6075a56134fa2c30057ac2e8b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &626602651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626602642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e0b08b8061780c43973d64aec447ec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  controller: {fileID: 1830987372}
-  animations:
-    pictionaries:
-    - key: anim_idle
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 096b7e9bad013254888718cef11037ed,
-          type: 3}
-    - key: anim_meleeATK
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
-          type: 3}
-    - key: anim_Running
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 439bab9151262b6469ab837f9364e75f,
-          type: 3}
-    - key: anim_death
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 7fb698551e77b5b4a855563bb0460dd3,
-          type: 3}
-    - key: anim_meleeATK_2
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 79bd63c2c5e56504c9147bfe0a879fe5,
-          type: 3}
-    - key: anim_dash_middle
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 43d6634ac08e2ac4e80613d1e3fe4934,
-          type: 3}
-    - key: anim_dash2_middle
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 14486a6fa79234b49acfb7194d40fd14,
-          type: 3}
-  actionsName: []
-  animatorClipTest: {fileID: 1827226128182048838, guid: f2d670d7b2910d04a992c09b219d8feb,
-    type: 3}
 --- !u!1001 &628706175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48743,22 +48677,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 626602646}
-          m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
-          m_MethodName: set_enabled
+        - m_Target: {fileID: 626602642}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
           m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 25
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 626602649}
-          m_TargetAssemblyTypeName: TestDamageEntity, Assembly-CSharp
-          m_MethodName: StopTimer
-          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -59707,11 +59629,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 341199005646114504, guid: baec8a1976812384ba93267be2e3d9dc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 626602651}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baec8a1976812384ba93267be2e3d9dc, type: 3}
 --- !u!1 &1266956336
 GameObject:
@@ -97292,12 +97210,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1825205681}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1830987372 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6929066415529030121, guid: baec8a1976812384ba93267be2e3d9dc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1266599769}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1831032647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105524,6 +105436,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1190209572}
   - {fileID: 1399861128}
   - {fileID: 929021569}
   - {fileID: 960573115}
@@ -105535,7 +105448,6 @@ SceneRoots:
   - {fileID: 3319386644274913768}
   - {fileID: 537275454}
   - {fileID: 654565700}
-  - {fileID: 1190209572}
   - {fileID: 1291990222}
   - {fileID: 1650641881}
   - {fileID: 1505786010}

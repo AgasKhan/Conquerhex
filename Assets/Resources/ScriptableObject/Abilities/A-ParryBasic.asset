@@ -56,9 +56,9 @@ MonoBehaviour:
     prefabToSpawn: {fileID: 8450903998597384575, guid: b22250cd2adf89543bb727d81ca730b5,
       type: 3}
     spawnInLocal: 1
-    offsetPositionX: 0.1
+    offsetPositionX: 0
     offsetPositionY: 1.3
-    offsetPositionZ: 0.66
+    offsetPositionZ: 0.29
     offsetRotationX: 0
     offsetRotationY: 0
     offsetRotationZ: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
     randomRotationY: 0
     randomRotationZ: 0
     radius: 0
-    offsetPosition: {x: 0.1, y: 1.3, z: 0.66}
+    offsetPosition: {x: 0, y: 1.3, z: 0.29}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
     index: {x: 1, y: 22}
     category: Particles
@@ -115,7 +115,7 @@ MonoBehaviour:
         minDistance: 1
         loop: 0
         onAwake: 0
-  velocity: 0
+  velocity: 0.1
   costExecution: 0
   costHandle: 0
   weightAction: 1000

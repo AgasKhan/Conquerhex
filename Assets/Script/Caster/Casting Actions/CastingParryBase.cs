@@ -94,6 +94,7 @@ public class CastingParry : CastingAction<CastingParryBase>
         { 
             ability.ApplyCast(successCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool shPos, out bool shDmg), shPos, shDmg);
             ability.PlaySound("Succes");
+            End = false;
         }
     }
 
@@ -106,7 +107,10 @@ public class CastingParry : CastingAction<CastingParryBase>
         if (!successParry)
         {
             if(failureCastingAction!=null)
+            {
                 ability.ApplyCast(failureCastingAction.InternalCastOfExternalCasting(null, out bool shPos, out bool shDmg), shPos, shDmg);
+                End = false;
+            }
 
             caster.positiveEnergy = 0;
             ability.PlaySound("Fail");

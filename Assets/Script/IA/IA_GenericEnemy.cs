@@ -228,7 +228,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         DetectEnemy();
 
-        param.context.attack.onAttack += Attack_onAttack;
+        //param.context.attack.onAttack += Attack_onAttack;
 
         evadeTimer.Set(param.context.timeToEvade, false).SetInitCurrent(0);
 

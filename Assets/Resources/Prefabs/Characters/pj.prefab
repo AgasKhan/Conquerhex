@@ -1150,6 +1150,11 @@ MonoBehaviour:
         offset: {x: 0.1, y: 0.01, z: -0.04}
         forwardRotation: {x: 0, y: 90, z: -180}
         transform: {fileID: 2973094534947700787}
+    - key: LeftAttack
+      value:
+        offset: {x: -0.11, y: 0.01, z: 0.03}
+        forwardRotation: {x: 180, y: 90, z: 180}
+        transform: {fileID: 68864729583777360}
   showInModel: 1
   visualEffect: {fileID: 7277665740410538963}
 --- !u!1 &6295448972246985919
@@ -3340,6 +3345,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2774565211130453462}
   m_SourcePrefab: {fileID: 100100000, guid: 392e672692341e34e8b851476407d990, type: 3}
+--- !u!4 &68864729583777360 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4902510762247324331, guid: 392e672692341e34e8b851476407d990,
+    type: 3}
+  m_PrefabInstance: {fileID: 4252067053362678533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &171111587887864395 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5089760950902238898, guid: 392e672692341e34e8b851476407d990,

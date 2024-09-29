@@ -197,7 +197,6 @@ public class IAIO : IAFather
         //param.onTakeDamage -= OnTakeDamage;
 
         attackEventMediator.eventDown -= AttackEventMediator_eventDown;
-        attackEventMediator.eventDown -= AttackComboEventMediator_eventDown;
 
         abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
 
@@ -278,7 +277,6 @@ public class IAIO : IAFather
 
         TriggerUI();
 
-        attackEventMediator.eventDown += AttackComboEventMediator_eventDown;
         attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
 
@@ -419,44 +417,6 @@ public class IAIO : IAFather
         }
     }
 
-    private void AttackComboEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        if (character.actualCombo == -2)
-            return;
-
-        int number = 0;
-
-        if (!lastCombo.IsEmpty())
-            for (int i = 0; i < womboCOMBO.Length; i++)
-            {
-                if (lastCombo[^1] == womboCOMBO[i])
-                {
-                    number = (i);
-                    break;
-                }
-            }
-
-        /*
-        
-        tier 1: 0 a 4 NO SUMO
-        tier 2: 5 a 9 debo de sumar 5
-        tier 3: del 10 al 14 debo sumar 10
-
-        reinicio el combo si es mayor que 10
-        
-        */
-        if(character.actualCombo < 10)
-        {
-            if (character.actualCombo >= 5)
-                number += 10;
-            else if (character.actualCombo >= 0)
-                number += 5;
-        }        
-
-        character.ComboAttack(number);
-
-    }
-
     private void AttackEventMediator_eventDown(Vector2 arg1, float arg2)
     {
         for (int i = 0; i < comboRapido.Length; i++)
@@ -473,24 +433,68 @@ public class IAIO : IAFather
         {
             character.Attack(0, arg1);
         }
+        else
+        {
+            int number = 0;
+
+            if (!lastCombo.IsEmpty())
+                for (int i = 0; i < womboCOMBO.Length; i++)
+                {
+                    if (lastCombo[^1] == womboCOMBO[i])
+                    {
+                        number = (i);
+                        break;
+                    }
+                }
+
+            /*
+            tier 1: 0 a 4 NO SUMO
+            tier 2: 5 a 9 debo de sumar 5
+            tier 3: del 10 al 14 debo sumar 10
+
+            reinicio el combo si es mayor que 10
+            */
+
+            if (character.actualCombo < 10)
+            {
+                if (character.actualCombo >= 5)
+                    number += 10;
+                else if (character.actualCombo >= 0)
+                    number += 5;
+            }
+
+            character.ComboAttack(number);
+        }
     }
 
     private void AbilityEventMediator_eventDown(Vector2 arg1, float arg2)
     {
+        System.Action onEnter = () => abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
+        System.Action onExit = () =>  abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
+
         character.aiming.AimingToObjective2D = arg1;
 
         for (int i = 0; i < comboRapido.Length; i++)
         {
             if (comboRapido[i] == lastCombo)
             {
-                character.Ability(i + 1, arg1);
+                character.Ability(i + 1, arg1, onEnter, onExit);
                 lastCombo = string.Empty;
                 comboReset.Stop();
                 return;
             }
         }
 
-        character.Ability(0, arg1);
+        character.Ability(0, arg1, onEnter, onExit);
+    }
+
+
+    private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
+    {
+        System.Action onEnter = () => dashEventMediator.eventDown -= DashEventMediator_eventDown;
+        System.Action onExit = () => dashEventMediator.eventDown += DashEventMediator_eventDown;
+
+        character.AlternateAbility(arg1, onEnter, onExit);
     }
 
     private void PerspectiveConfigAndCameraBlockOEnter(Vector2 arg1, float arg2)
@@ -551,8 +555,6 @@ public class IAIO : IAFather
         }
     }
 
-   
-
     private void Interact_eventDown(Vector2 arg1, float arg2)
     {
         character.aiming.AimingToObjective2D = arg1;
@@ -560,10 +562,6 @@ public class IAIO : IAFather
         UI.Interfaz.instance.interactButton.Play("InteractAccept");
     }
 
-    private void DashEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        character.AlternateAbility(arg1);
-    }
     private void InventoryEventMediator_eventDown(Vector2 arg1, float arg2)
     {
         /*

@@ -143,28 +143,40 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
-    public void Attack(int i, Vector2 dir)
+    public void Attack(int i, Vector2 dir, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
     {
-        caster.OnEnterCastingOnlyOne += () => attackEventMediator += caster.abilityControllerMediator;
-        caster.Attack(i, dir);
-        caster.OnExitCastingOnlyOne += () => attackEventMediator -= caster.abilityControllerMediator;
+        onAbilityEnter += () => attackEventMediator += caster.abilityControllerMediator;
+
+        onAbilityExit += () => attackEventMediator -= caster.abilityControllerMediator;
+
+
+        caster.Attack(i, dir, onAbilityEnter, onAbilityExit);
+
         Action = castingActionCharacter;
         actualCombo = -1;
     }
 
-    public void Ability(int i, Vector2 dir)
+    public void Ability(int i, Vector2 dir, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
     {
-        caster.OnEnterCastingOnlyOne += () => abilityEventMediator += caster.abilityControllerMediator;
-        caster.Ability(i, dir);
-        caster.OnExitCastingOnlyOne += () => abilityEventMediator -= caster.abilityControllerMediator;
+        onAbilityEnter += () => abilityEventMediator += caster.abilityControllerMediator;
+
+        onAbilityExit += () => abilityEventMediator -= caster.abilityControllerMediator;
+        
+
+        caster.Ability(i, dir, onAbilityEnter, onAbilityExit);
+
         Action = castingActionCharacter;
     }
 
-    public void AlternateAbility(Vector2 dir)
+    public void AlternateAbility(Vector2 dir, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
     {
-        caster.OnEnterCastingOnlyOne += () => dashEventMediator += caster.abilityControllerMediator;
-        caster.AlternateAbility(dir);
-        caster.OnExitCastingOnlyOne += () => dashEventMediator -= caster.abilityControllerMediator;
+        onAbilityEnter += () => dashEventMediator += caster.abilityControllerMediator;
+
+        onAbilityExit += () => dashEventMediator -= caster.abilityControllerMediator;
+
+
+        caster.AlternateAbility(dir, onAbilityEnter, onAbilityExit);
+
         Action = castingActionCharacter;
     }
 
@@ -194,9 +206,12 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         actualCombo = nextCombo;
 
         //Debug.Log($"Combo Nº{(actualCombo/5)+1}\nReal index:{actualCombo} \n{Time.realtimeSinceStartup} - {timeComboSet} = {Time.realtimeSinceStartup - timeComboSet > deltaTimeCombo}");
-        caster.OnEnterCastingOnlyOne += () => attackEventMediator += caster.abilityControllerMediator;
-        caster.ComboAttack(actualCombo);
-        caster.OnExitCastingOnlyOne += () => attackEventMediator -= caster.abilityControllerMediator;
+
+        System.Action onEnter = () => attackEventMediator += caster.abilityControllerMediator;
+
+        System.Action onExit = () => attackEventMediator -= caster.abilityControllerMediator;
+
+        caster.ComboAttack(actualCombo, onEnter, onExit);
         
         Action = castingActionCharacter;
 

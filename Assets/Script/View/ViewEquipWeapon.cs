@@ -1,8 +1,17 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
 {
+    public enum HandHandling
+    {
+        Normal,
+        Inversed
+    }
+
+    public HandHandling handHandling;
+
     [SerializeField]
     Vector3 leftOffset;
 
@@ -30,7 +39,8 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
 
     public void PlayAction(string name)
     {
-        animation?.Play(name);
+        if(animation!=null)
+            animation.Play(name, PlayMode.StopAll);
     }
 
     protected override void OnDrawGizmosSelected()
@@ -52,8 +62,18 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
         Utilitys.DrawArrowRay(nailedPoint.position, nailedPoint.up*0.5f);
     }
 
-#if UNITY_EDITOR
+    private void Awake()
+    {
+        if (animation != null && animations != null && animations.animClips.Count != animation.GetClipCount())
+            foreach (var animClip in animations.animClips)
+            {
+                animation.AddClip(animClip.value.animationClip, animClip.key, 0, (int)(animClip.value.animationClip.frameRate * animClip.value.animationClip.length), animClip.value.inLoop);
+            }
+    }
 
+    /*
+
+#if UNITY_EDITOR
     private void OnValidate()
     {
         if(animation != null && animations != null && animations.animClips.Count != animation.GetClipCount())
@@ -61,16 +81,28 @@ public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
             //DestroyImmediate(animation, true);
 
             //animation = gameObject.AddComponent<Animation>();
-            
 
-            foreach (var animClip in animations.animClips)
+            //Quito todas las animaciones
             {
-                animation.AddClip(animClip.value.animationClip, animClip.key, 0, (int)(animClip.value.animationClip.frameRate * animClip.value.animationClip.length), animClip.value.inLoop);
+                List<AnimationClip> anims = new();
+
+                foreach (AnimationState state in animation)
+                {
+                    anims.Add(state.clip);
+                }
+
+                foreach (var item in anims)
+                {
+                    animation.RemoveClip(item);
+                }
             }
+            
+            //Agrego de nuevo las animaciones pero bien configuradas
+
+            
         }
     }
-
     #endif
-    
-   
+
+    */
 }

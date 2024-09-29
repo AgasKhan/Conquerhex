@@ -31,8 +31,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     public bool isPlaying { get; private set; }
 
-    public Vector3 forwardModel => controller.transform.forward;
-    public Quaternion rotationModel => controller.transform.rotation;
+    public Transform transformModel => controller?.transform;
 
     [SerializeField]
     bool active = true;
@@ -296,6 +295,9 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         {
             character.moveStateCharacter.OnActionEnter += MoveStateCharacter_OnActionEnter;
             character.moveStateCharacter.OnActionExit += MoveStateCharacter_OnActionExit;
+
+            character.onTakeDamage += CharacterOnTakeDamage;
+
             move = character.move;
             move.onIdle += Ia_onIdle;
             MoveStateCharacter_OnActionEnter();
@@ -307,6 +309,11 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         }
 
         entity.health.death += Ia_onDeath;
+    }
+
+    private void CharacterOnTakeDamage(Damage obj)
+    {
+        controller.SetTrigger("Hurt");
     }
 
     private void OnExitCasting(Ability obj)
@@ -356,6 +363,9 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         {
             character.moveStateCharacter.OnActionEnter -= MoveStateCharacter_OnActionEnter;
             character.moveStateCharacter.OnActionExit -= MoveStateCharacter_OnActionExit;
+
+            character.onTakeDamage -= CharacterOnTakeDamage;
+
             move = character.move;
             move.onIdle -= Ia_onIdle;
             MoveStateCharacter_OnActionExit();

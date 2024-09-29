@@ -139,10 +139,10 @@ public class MainCamera : SingletonMono<MainCamera>
             {
                 toTrack = null;
             }
-            else if (hitInfo.transform != null)
+            else if (hitInfo.transform != null && hitInfo.transform.TryGetComponent<Entity>(out var entity))
             {
-                toTrack = hitInfo.transform;
-                offsetToTrack = hitInfo.point - hitInfo.transform.position;
+                toTrack = entity.transform;
+                offsetToTrack = hitInfo.point - entity.transform.position;
             }
         }
 
@@ -266,7 +266,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 if (toTrack != null)//trackeo
                 {
-                    if (hitInfo.distance > 25)//distancia limite hardcodeada
+                    if (hitInfo.distance > 25 || !toTrack.gameObject.activeInHierarchy)//distancia limite hardcodeada
                     {
                         toTrack = null;
                     }

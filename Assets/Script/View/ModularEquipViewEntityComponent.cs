@@ -57,6 +57,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     Data GetPart(string str) => _whereToEquip[str];
 
+    string GetHand(ViewEquipWeapon.HandHandling handHandling) => handHandling == ViewEquipWeapon.HandHandling.Normal ? "RightAttack" : "LeftAttack";
+
     private void OnWeaponEquipInSlot(int arg1, MeleeWeapon arg2)
     {
         var model = arg2?.itemBase.weaponModel;
@@ -104,7 +106,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         }
         else
         {
-            var partBody = GetPart("RightAttack");
+            var partBody = GetPart(GetHand(model.handHandling));
             model = model.Create(partBody.Position, partBody.Rotation, partBody.transform);            
             equipedsWeapon.Add(model.name, (1, model));
         }

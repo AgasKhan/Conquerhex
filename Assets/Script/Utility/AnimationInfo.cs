@@ -22,6 +22,8 @@ public class AnimationInfo : ScriptableObject
         public AnimationClip animationClip;
         public bool inLoop;
         public float velocity = 1;
+        public int next = -1;
+
         [SerializeField]
         MirrorState mirrorType;
 
