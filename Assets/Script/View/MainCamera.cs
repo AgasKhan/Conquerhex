@@ -340,6 +340,9 @@ public class MainCamera : SingletonMono<MainCamera>
             }).Stop();
         }
     }
+    static public Camera Main => instance?._main;
+
+    static Plane plane;
 
     [Header("Configuracion general")]
 
@@ -347,14 +350,13 @@ public class MainCamera : SingletonMono<MainCamera>
 
     public Vector3[] pointsInWorld;
 
-
     [SerializeField]
     Tracker tracker = new Tracker();
 
     [Header("Configuracion interna")]
 
     [SerializeField]
-    Camera main;
+    Camera _main;
 
     [SerializeField]
     EventManager eventManager;
@@ -381,19 +383,28 @@ public class MainCamera : SingletonMono<MainCamera>
 
     Vector3[] _points2;
 
-    Plane plane;
 
     Vector3 centerPoint;
 
     bool[] camerasEdge = new bool[6];
 
+    public static Vector3 GetScreenToWorld(Vector3 point)
+    {
+        var ray = Main.ScreenPointToRay(point);
+
+        //ray.direction *= -1;
+
+        plane.Raycast(ray, out float enter);
+
+        return ray.GetPoint(enter);
+    }
 
     public void SetProyections(Hexagone hexagone)
     {
         if (hexagone == null)
             return;
 
-        hexagone.SetProyections(main.transform.parent, rendersOverlay.Parents);
+        hexagone.SetProyections(Main.transform.parent, rendersOverlay.Parents);
 
         centerPoint = hexagone.transform.position;
     }
@@ -419,7 +430,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
     void Refresh()
     {
-        if (main == null)
+        if (Main == null)
             return;
 
         points = new Vector3[pointsInScreen.Length];
@@ -440,13 +451,13 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = 0; i < pointsInScreen.Length; i++)
         {
-            _points[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, main.nearClipPlane));
+            _points[i] = Main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, Main.nearClipPlane));
 
-            Ray ray = new Ray(main.transform.position, _points[i] - main.transform.position);
+            Ray ray = new Ray(Main.transform.position, _points[i] - Main.transform.position);
 
             plane.Raycast(ray, out float distance);
 
-            _points2[i] = ray.GetPoint(distance) - main.transform.position;
+            _points2[i] = ray.GetPoint(distance) - Main.transform.position;
         }
 
     }
@@ -512,13 +523,13 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = 0; i < pointsInScreen.Length; i++)
         {
-            _points[i] = main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, main.nearClipPlane));
+            _points[i] = Main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, Main.nearClipPlane));
 
-            Ray ray = new Ray(main.transform.position, _points[i] - main.transform.position);
+            Ray ray = new Ray(Main.transform.position, _points[i] - Main.transform.position);
 
             plane.Raycast(ray, out float distance);
 
-            _points2[i] = ray.GetPoint(distance) - main.transform.position;
+            _points2[i] = ray.GetPoint(distance) - Main.transform.position;
         }
 
         if (HexagonsManager.instance == null)
@@ -528,7 +539,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = 0; i < points.Length; i++)
         {
-            points[i] = _points2[i] + main.transform.position;
+            points[i] = _points2[i] + Main.transform.position;
 
             var translatedPoint = (points[i] - centerPoint).Vect3To2XZ();
 
