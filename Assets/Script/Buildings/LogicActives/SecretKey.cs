@@ -36,61 +36,6 @@ public class SecretKey : MonoBehaviour
 
     void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Comma) && leverCorderito != null)
-        {
-            leverCorderito.SetActive(true);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Alpha0) && myObjects != null)
-        {
-            for (int i = 0; i < myObjects.Length; i++)
-            {
-                myObjects[i].SetActive(true);
-            }
-        }
-        */
-        /*
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-                .SetWindow("", "�Seguro que deseas cerrar el juego?")
-                .AddButton("Si", Application.Quit)
-                .AddButton("No", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (!submenuRef.activeSelf && !isInStatistics)
-            {
-                statisticsSubMenu.Create(MenuManager.instance.character);
-                isInStatistics = true;
-            }
-            else if (isInStatistics)
-            {
-                statisticsSubMenu.TriggerMyOnClose();
-            }
-        }
-
-        if (isInStatistics && !submenuRef.activeSelf)
-            isInStatistics = false;
-
-        if (Input.GetKeyDown(KeyCode.P))
-            GameManager.instance.Reload();
-
-        if(Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            if (SceneManager.GetActiveScene().name == "Hexagonos test")
-            {
-                GameManager.instance.Load("PruebaTesis");
-            }
-            else
-            {
-                GameManager.instance.Load("Hexagonos test");
-            }
-        }
-        */
-
         if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.P))
         {
             GameManager.instance.Load("DummyPractice");
@@ -116,13 +61,14 @@ public class SecretKey : MonoBehaviour
             GameManager.instance.Load("MainMenu");
         }
 
+        /*
         if (SceneManager.GetActiveScene().name != "MainMenu" && UIE_MenusManager.instance != null && Input.GetKeyDown(KeyCode.Tab))
         {
             if (!UIE_MenusManager.instance.isInMenu)
                 UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
             else
                 UIE_MenusManager.instance.TriggerOnClose();
-        }
+        }*/
 
     }
 

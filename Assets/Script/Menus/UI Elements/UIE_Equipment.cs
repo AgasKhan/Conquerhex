@@ -91,24 +91,10 @@ public class UIE_Equipment : UIE_BaseMenu
     protected string GetText(SlotItem itemEquiped)
     {
         return GetText(itemEquiped.equiped, itemEquiped.GetSlotType());
-
-        /*
-        if (itemEquiped.equiped != null)
-            return itemEquiped.equiped.nameDisplay;
-        else if (itemEquiped.equiped is MeleeWeapon)
-            return defaultWeaponText;
-        else
-            return defaultAbilityText;*/
     }
 
-    /*
-    UIE_KataButton CreateKataSlotButton(SlotItem<WeaponKata> slotItem, )
-    {
-        
-    }
-    */
 
-    UIE_SlotButton CreateSlotButton<T>(SlotItem<T> slotInCaster, Sprite sprite) where T : ItemEquipable
+    UIE_SlotButton CreateSlotButton<T>(SlotItem<T> slotInCaster) where T : ItemEquipable
     {
         UIE_SlotButton basicButton = new UIE_SlotButton();
 
@@ -123,8 +109,7 @@ public class UIE_Equipment : UIE_BaseMenu
             equipedAction = AbilityAction(slotInCaster as SlotItem<AbilityExtCast>);
         }
 
-        basicButton.Init(GetImage(slotInCaster), GetText(slotInCaster), equipedAction, typeof(T));
-        SetButtonTooltip(basicButton, slotInCaster, sprite);
+        basicButton.Init<T>(slotInCaster, equipedAction);
 
         if(character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(slotInCaster.equiped))
             basicButton.Block("En uso");
@@ -136,28 +121,20 @@ public class UIE_Equipment : UIE_BaseMenu
 
     void CreateBasicsButtons()
     {
-        UIE_SlotButton basicButton = new UIE_SlotButton();
+        basicsButtons.Add(CreateSlotButton(character.caster.weapons[0]));
 
-        //character.caster.weapons[0], basicsKeys[0]
-        basicsButtons.Add(CreateSlotButton(character.caster.weapons[0], basicsKeys[0]));
-
-        // character.caster.abilities[0], basicsKeys[1]
-        basicsButtons.Add(CreateSlotButton(character.caster.abilities[0], basicsKeys[1]));
-
-        // character.caster.abilities[1], basicsKeys[2]
-        basicsButtons.Add(CreateSlotButton(character.caster.abilities[1], basicsKeys[2]));
+        basicsButtons.Add(CreateSlotButton(character.caster.abilities[0]));
+        basicsButtons.Add(CreateSlotButton(character.caster.abilities[1]));
     }
 
     void CreateEquipamentAbilities()
     {
         for (int i = 2; i < character.caster.abilities.Count; i++)
         {
-            UIE_SlotButton abilityButton = new UIE_SlotButton();
-            abilitiesButtons.Add(abilityButton);
-            abilityButton.Init(GetImage(character.caster.abilities[i]), GetText(character.caster.abilities[i]), AbilityAction(character.caster.abilities[i]), character.caster.abilities[i].equiped?.GetType());
-            abilityButton.Block(character.caster.abilities[i].isBlocked);
+            UIE_SlotButton abilityButton = CreateSlotButton(character.caster.abilities[i]);
 
-            SetButtonTooltip(abilityButton, character.caster.abilities[i-2], abilitiesKeys[i-2]);
+            abilitiesButtons.Add(abilityButton);
+            abilityButton.Block(character.caster.abilities[i].isBlocked);
         }
     }
     
@@ -166,52 +143,23 @@ public class UIE_Equipment : UIE_BaseMenu
         for (int i = 0; i < character.caster.katas.Count; i++)
         {
             UIE_KataButton kataButton = new UIE_KataButton();
-            
-            katasButtons.Add(kataButton);
+            /*
             kataButton.Init(GetImage(character.caster.katas[i]), GetText(character.caster.katas[i]), KataAction(character.caster.katas[i])
-                , GetImage(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), GetText(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), character.caster.katas[i].equiped == null? ()=> { } : WeaponOfKataAction(character.caster.katas[i]));
+                , GetImage(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), GetText(character.caster.katas[i].equiped?.Weapon, 
+            typeof(MeleeWeapon)), character.caster.katas[i].equiped == null? ()=> { } : WeaponOfKataAction(character.caster.katas[i]));
+            */
+
+            kataButton.Init(character.caster.katas[i], KataAction(character.caster.katas[i]), character.caster.katas[i].equiped == null ? () => { } : WeaponOfKataAction(character.caster.katas[i]));
 
             if (character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(character.caster.katas[i].equiped))
                 kataButton.Block("En uso");
             else
                 kataButton.Block(character.caster.katas[i].isBlocked);
 
-
-            var aux = character.caster.katas[i].equiped;
-            if(aux!=null)
-            {
-                kataButton.InitTooltip(aux.nameDisplay, aux.itemBase.GetTooltip(), katasKeys[i]);
-                if(aux.Weapon!=null)
-                    kataButton.InitWeaponTooltip(aux.Weapon.nameDisplay, aux.Weapon.itemBase.GetTooltip(), null);
-                else
-                    kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
-            }
-            else
-            {
-                kataButton.InitTooltip("Kata", "Movimiento marcial\n\n" + ("Requiere de equipar un arma en la casilla contigua".RichText("color", "#c9ba5d")), null);
-                kataButton.InitWeaponTooltip("Arma de Kata", "Herramienta vital para efectuar el daño de la kata\n\n" + ("Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d")), null);
-            }
+            katasButtons.Add(kataButton);
         }
     }
     
-    void SetButtonTooltip(UIE_SlotButton _slotButton, SlotItem _slotItem, Sprite _sprite)
-    {
-        ItemEquipable aux = _slotItem.equiped;
-
-        if (aux != null)
-        {
-            _slotButton.InitTooltip(aux.nameDisplay, aux.GetItemBase().GetTooltip(), _sprite);
-        }
-        else if(_slotItem.GetSlotType() == typeof(MeleeWeapon))
-        {
-            _slotButton.InitTooltip("Arma", "Herramienta usada tanto para atacar como para recolectar recursos\n\n" + "Primer ataque de combo".RichText("color", "#c9ba5d"), _sprite);
-        }
-        else
-        {
-            _slotButton.InitTooltip("Habilidad", "Utilizas la energía de tu alrededor para materializarla en daño", _sprite);
-        }
-    }
-
     UnityAction WeaponAction(SlotItem slotItem)
     {
         Action<int> equipAction = (_index) =>

@@ -135,11 +135,19 @@ public class UIE_EquipMenu : UIE_Equipment
                 continue;
 
             if (character.inventory[i] is Ability && !((Ability)character.inventory[i]).visible)
+            {
                 continue;
-
+            }
+            
             var index = i;
             buffer.Add(index);
         }
+        Debug.Log("Lista filtrada: -------------------------");
+        foreach (var item in buffer)
+        {
+            Debug.Log(character.inventory[item].nameDisplay + " index: " + item);
+        }
+        Debug.Log("Fin de lista filtrada-------------------------");
 
         Action changeAction = () =>
         {
@@ -170,11 +178,19 @@ public class UIE_EquipMenu : UIE_Equipment
 
             var item = character.inventory[index];
 
-            if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == slotItem.equiped.nameDisplay && !(itemEquiped is MeleeWeapon))
+            if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == item.nameDisplay && !(itemEquiped is MeleeWeapon))
             {
                 button.Init(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "Item por defecto", "", changeAction);
                 button.SetEquipText("");
+
+                hoverAct = () =>
+                {
+                    ShowItemDetails(item.nameDisplay, "Item por defecto, selecciona un item para equipartelo en su lugar", GetImage());
+                    SetChangeButton(GetImage(), -1);
+                };
+
                 button.SetHoverAction(hoverAct);
+                buffer.Remove(index);
                 break;
             }
 
@@ -203,6 +219,13 @@ public class UIE_EquipMenu : UIE_Equipment
             break;
         }
 
+        Debug.Log("Lista filtrada 2: -------------------------");
+        foreach (var item in buffer)
+        {
+            Debug.Log(character.inventory[item].nameDisplay + " index: " + item);
+        }
+        Debug.Log("Fin de lista filtrada 2-------------------------");
+
         //Agregar botones de los items restantes
         foreach (var index in buffer)
         {
@@ -230,6 +253,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
     void ResetList()
     {
+        Debug.Log("Se llamo a Reset List");
         itemToChangeIndex = -1;
 
         originalButton.HideInUIE();

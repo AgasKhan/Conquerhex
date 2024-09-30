@@ -12,8 +12,29 @@ public class UIE_SlotButton : VisualElement
     private VisualElement blocker => this.Q<VisualElement>("blocker");
     private Label blockerText => this.Q<Label>("blockerText");
 
+
+    SlotItem slotItem;
     bool isBlocked = false;
-    public void Init(Sprite image, string text, UnityAction action, System.Type _type)
+
+    public void Init<T>(SlotItem _slotItem, UnityAction action) where T : ItemEquipable
+    {
+        VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
+        asset.CloneTree(this);
+
+        slotItem = _slotItem;
+
+        slotImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<T>(slotItem.equiped));
+        slotText.text = UIE_MenusManager.instance.GetText<T>(slotItem.equiped);
+
+        if (slotItem.equiped?.GetType() == typeof(AbilityExtCast))
+            slotImage.AddToClassList("abilityBorder");
+
+        slotImage.RegisterCallback<ClickEvent>((clevent)=> action.Invoke());
+
+        InitTooltip();
+    }
+    
+    public void Init<T>(Sprite image, string text, UnityAction action) where T : ItemEquipable
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
         asset.CloneTree(this);
@@ -21,33 +42,49 @@ public class UIE_SlotButton : VisualElement
         //Debug.Log("slotImage is null = " + (slotImage == null) + "\nstyle is null= " + (slotImage.style == null) + "\nbackgroundImage is null = " + (slotImage.style.backgroundImage == null)+ "\nSended image is null = "+(image==null));
         slotImage.style.backgroundImage = new StyleBackground(image);
         slotText.text = text;
-        auxAct = action;
 
-        if (_type == typeof(AbilityExtCast))
+        if (typeof(T) == typeof(AbilityExtCast))
         {
             slotImage.AddToClassList("abilityBorder");
         }
 
-        slotImage.RegisterCallback<ClickEvent>(buttonEvent);
+        slotImage.RegisterCallback<ClickEvent>((clevent) => action.Invoke());
     }
-
-    public void InitTooltip(string _title, string _content, Sprite _sprite)
+    
+    void InitTooltip()
     {
+        ItemEquipable aux = slotItem.equiped;
+
+        string _title;
+        string _content;
+
+        if (aux != null)
+        {
+            _title = aux.nameDisplay;
+            _content = aux.GetItemBase().GetTooltip();
+            
+        }
+        else if (slotItem.GetSlotType() == typeof(MeleeWeapon))
+        {
+            _title = "Arma";
+            _content = "Herramienta usada tanto para atacar como para recolectar recursos\n\n" + "Primer ataque de combo".RichText("color", "#c9ba5d");
+        }
+        else
+        {
+            _title = "Habilidad";
+            _content = "Utilizas la energía de tu alrededor para materializarla en daño";
+        }
+
         RegisterCallback<MouseEnterEvent>((mouseEvent) =>
         {
             if (!isBlocked)
-                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, slotItem.GetSlotType().ToString() + slotItem.indexSlot);
         });
 
-        RegisterCallback<MouseLeaveEvent>((mouseEvent) => 
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
         {
             UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
         });
-    }
-
-    public void InitImageTooltip(Sprite _sprite)
-    {
-
     }
 
     public void Block(bool _condition)
@@ -66,32 +103,6 @@ public class UIE_SlotButton : VisualElement
     {
         blockerText.text = _text;
         Block(true);
-    }
-
-    public void Init(Item _item, UnityAction action)
-    {
-        VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
-        asset.CloneTree(this);
-
-        slotImage.style.backgroundImage = new StyleBackground(_item.image);
-        slotText.text = _item.nameDisplay;
-        auxAct = action;
-
-        slotImage.RegisterCallback<ClickEvent>(buttonEvent);
-
-        RegisterCallback<MouseEnterEvent>((mouseEvent) => UIE_MenusManager.instance.SetTooltipTimer(_item.nameDisplay, _item.GetDetails().ToString(), _item.image));
-        RegisterCallback<MouseLeaveEvent>(UIE_MenusManager.instance.StartHideTooltip);
-    }
-
-
-    UnityAction auxAct;
-
-    void buttonEvent(ClickEvent clEvent)
-    {
-        //slotImage.AddToClassList("slotButtonClicked");
-        //slotText.AddToClassList("slotTextClicked");
-
-        auxAct.Invoke();
     }
 
     public UIE_SlotButton() { }

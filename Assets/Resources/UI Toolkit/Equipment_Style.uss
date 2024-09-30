@@ -294,12 +294,12 @@
     width: 182px;
     height: 50px;
     flex-shrink: 0;
-    background-color: rgb(135, 112, 107);
+    background-color: rgb(67, 55, 45);
     align-self: center;
-    border-left-color: rgb(21, 20, 20);
-    border-right-color: rgb(21, 20, 20);
-    border-top-color: rgb(21, 20, 20);
-    border-bottom-color: rgb(21, 20, 20);
+    border-left-color: rgb(129, 105, 63);
+    border-right-color: rgb(129, 105, 63);
+    border-top-color: rgb(129, 105, 63);
+    border-bottom-color: rgb(129, 105, 63);
     border-top-width: 3px;
     border-right-width: 3px;
     border-bottom-width: 3px;
@@ -430,7 +430,7 @@
     height: 80px;
     flex-shrink: 0;
     align-self: center;
-    background-color: rgb(135, 112, 107);
+    background-color: rgb(91, 89, 82);
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
@@ -439,10 +439,10 @@
     border-right-width: 3px;
     border-bottom-width: 3px;
     border-left-width: 3px;
-    border-left-color: rgb(21, 20, 20);
-    border-right-color: rgb(21, 20, 20);
-    border-top-color: rgb(21, 20, 20);
-    border-bottom-color: rgb(21, 20, 20);
+    border-left-color: rgb(148, 145, 102);
+    border-right-color: rgb(148, 145, 102);
+    border-top-color: rgb(148, 145, 102);
+    border-bottom-color: rgb(148, 145, 102);
     background-image: url('project://database/Assets/Sprites/left-click-icon-2.png?fileID=21300000&guid=99be1eaa89708e84ea6fbc41325fbcde&type=3#left-click-icon-2');
     -unity-background-scale-mode: scale-to-fit;
     -unity-slice-top: 8;
@@ -518,4 +518,15 @@
 
 .displayHidden {
     display: none;
+}
+
+.combosIcons {
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color: rgb(237, 225, 219);
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0 0 43.2px rgb(0, 0, 0);
+    padding-top: 27px;
 }

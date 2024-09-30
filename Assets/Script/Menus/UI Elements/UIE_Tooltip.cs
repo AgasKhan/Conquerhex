@@ -12,6 +12,7 @@ public class UIE_Tooltip : VisualElement
     private VisualElement tooltipImage => this.Q<VisualElement>("tooltipImage");
     private Label tooltipTitle => this.Q<Label>("tooltipTitle");
     private Label tooltipDescription => this.Q<Label>("tooltipDescription");
+    private Label tooltipAuxText => this.Q<Label>("tooltipAuxText");
 
     public void Init()
     {
@@ -23,7 +24,7 @@ public class UIE_Tooltip : VisualElement
     }
 
 
-    public void SetParams(string _title, string _content, Sprite _image)
+    public void SetParams(string _title, string _content, Sprite _image, string _auxText)
     {
         tooltipContainer.ShowInUIE();
 
@@ -46,6 +47,13 @@ public class UIE_Tooltip : VisualElement
             tooltipImage.ShowInUIE();
             tooltipImage.style.backgroundImage = new StyleBackground(_image);
         }
+
+        if(_auxText != "")
+        {
+            titlesContainer.ShowInUIE();
+            tooltipAuxText.ShowInUIE();
+            tooltipAuxText.text = _auxText;
+        }
     }
 
     public void HideTooltip()
@@ -55,6 +63,7 @@ public class UIE_Tooltip : VisualElement
         tooltipTitle.HideInUIE();
         tooltipDescription.HideInUIE();
         tooltipImage.HideInUIE();
+        tooltipAuxText.HideInUIE();
     }
 
     public UIE_Tooltip() { }

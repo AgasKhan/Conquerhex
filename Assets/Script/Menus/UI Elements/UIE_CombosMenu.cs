@@ -61,25 +61,15 @@ public class UIE_CombosMenu : UIE_Equipment
     {
         var aux = comboButtonsList[indexSlot];
 
-        Debug.Log("Al setear el ComboButton, su indice de combos es: " + aux.indexSlot);
+        //Debug.Log("Al setear el ComboButton, su indice de combos es: " + aux.indexSlot);
 
         if (auxAbility is WeaponKata)
         {
-            aux.SetKata
-                (
-                    GetImage(auxAbility, typeof(T)),
-                    GetText(auxAbility, typeof(T)),
-                    () => GetAction(aux.indexSlot),
-                    GetImage((auxAbility as WeaponKata).Weapon, typeof(MeleeWeapon)),
-                    () => GetWeaponAction(aux.indexSlot, auxAbility as WeaponKata)
-                );
-
-            aux.InitTooltip(auxAbility.nameDisplay, "Puedes intercambiar este movimiento por otra kata o habilidad", null);
+            aux.SetKata(auxAbility as WeaponKata,() => GetAction(aux.indexSlot),() => GetWeaponAction(aux.indexSlot, auxAbility as WeaponKata));
         }
         else
         {
-            aux.SetEquipOrAbility(GetImage(auxAbility, typeof(T)), GetText(auxAbility, typeof(T)), () => GetAction(aux.indexSlot), typeof(T));
-            aux.InitTooltip(GetText(character.caster.combos[indexSlot]), "Puedes equiparte en este movimiento una kata o habilidad", null);
+            aux.SetEquipOrAbility(auxAbility as AbilityExtCast, () => GetAction(aux.indexSlot));
         }
     }
 
@@ -96,7 +86,7 @@ public class UIE_CombosMenu : UIE_Equipment
 
             int myIndex = i;
             aux.Init(myIndex);
-            aux.InitTooltip(GetText(character.caster.combos[myIndex]), "Puedes equiparte en este movimiento una kata o habilidad", null);
+            //aux.InitTooltip(GetText(character.caster.combos[myIndex]), "Puedes equiparte en este movimiento una kata o habilidad", null);
             SetComboButton(character.caster.combos[myIndex].equiped, myIndex);
 
             if (character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(character.caster.combos[myIndex].equiped))

@@ -27,8 +27,6 @@ public class UIE_CombosButton : VisualElement
 
     private Label blockerText => this.Q<Label>("blockerText");
 
-    UnityAction mainAct;
-    UnityAction auxAct;
 
     bool isBlocked = false;
     void HideKata()
@@ -39,6 +37,7 @@ public class UIE_CombosButton : VisualElement
     {
         equipOrAbilityCombo.HideInUIE();
     }
+    /*
     public void SetEquipOrAbility(Sprite image, string text, UnityAction action, System.Type _type)
     {
         equipOrAbilityCombo.ShowInUIE();
@@ -60,7 +59,26 @@ public class UIE_CombosButton : VisualElement
         
         abilityButton.RegisterCallback<ClickEvent>(mainButtonEvent);
     }
+    */
 
+    public void SetEquipOrAbility(AbilityExtCast _ability, UnityAction _action)
+    {
+        equipOrAbilityCombo.ShowInUIE();
+        HideKata();
+
+        abilityImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<AbilityExtCast>(_ability));
+        abilityText.text = UIE_MenusManager.instance.GetText<AbilityExtCast>(_ability);
+
+        if (_ability != null)
+            abilityButton.AddToClassList("abilityBorder");
+        else
+            abilityButton.RemoveFromClassList("abilityBorder");
+
+        abilityButton.RegisterCallback<ClickEvent>((clEvent) => _action.Invoke());
+
+        InitTooltip(_ability);
+    }
+    /*
     public void SetKata(Sprite image, string text, UnityAction kataAction, Sprite weaponImage, UnityAction weaponAction)
     {
         kataCombo.ShowInUIE();
@@ -79,6 +97,23 @@ public class UIE_CombosButton : VisualElement
         weaponButton.style.backgroundImage = new StyleBackground(weaponImage);
         weaponButton.RegisterCallback<ClickEvent>(auxButtonEvent);
     }
+    */
+    public void SetKata(WeaponKata _kata, UnityAction _kataAction, UnityAction _weaponAction)
+    {
+        kataCombo.ShowInUIE();
+        HideAbility();
+
+        kataImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<WeaponKata>(_kata));
+        kataText.text = UIE_MenusManager.instance.GetText<WeaponKata>(_kata);
+
+        kataButton.AddToClassList("kataBorder");
+        kataButton.RegisterCallback<ClickEvent>((clEvent)=> _kataAction.Invoke());
+
+        weaponButton.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<MeleeWeapon>(_kata.Weapon));
+        weaponButton.RegisterCallback<ClickEvent>((clEvent) => _weaponAction.Invoke());
+
+        InitTooltip(_kata);
+    }
 
     public void Init(int slotIndex)
     {
@@ -87,13 +122,26 @@ public class UIE_CombosButton : VisualElement
         
         indexSlot = slotIndex;
     }
-
-    public void InitTooltip(string _title, string _content, Sprite _sprite)
+    public void InitTooltip(ItemEquipable _item)
     {
+        string _title;
+        string _content;
+
+        if (_item != null)
+        {
+            _title = _item.nameDisplay;
+            _content = "Puedes intercambiar este movimiento por otra kata o habilidad";
+        }
+        else
+        {
+            _title = "Equipar combo";
+            _content = "Puedes equiparte en este movimiento una kata o habilidad";
+        }
+
         RegisterCallback<MouseEnterEvent>((mouseEvent) =>
         {
-            if(!isBlocked)
-                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, _sprite);
+            if (!isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, "");
         });
 
         RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
@@ -101,6 +149,22 @@ public class UIE_CombosButton : VisualElement
             UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
         });
     }
+
+    /*
+    public void InitTooltip(string _title, string _content, Sprite _sprite)
+    {
+        RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        {
+            if(!isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, "");
+        });
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
+        {
+            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
+        });
+    }
+    */
 
     public void Block(bool _condition)
     {
@@ -114,21 +178,6 @@ public class UIE_CombosButton : VisualElement
     {
         blockerText.text = _text;
         Block(true);
-    }
-
-    void mainButtonEvent(ClickEvent clEvent)
-    {
-        //abilityButton.AddToClassList("slotButtonClicked");
-        //abilityText.AddToClassList("slotTextClicked");
-
-        mainAct.Invoke();
-    }
-    void auxButtonEvent(ClickEvent clEvent)
-    {
-        //kataButton.AddToClassList("slotButtonClicked");
-        //kataText.AddToClassList("slotTextClicked");
-
-        auxAct.Invoke();
     }
 
     public UIE_CombosButton() { }
