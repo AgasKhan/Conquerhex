@@ -33,7 +33,7 @@ public class UIE_SlotButton : VisualElement
 
         InitTooltip();
     }
-    
+    UnityAction mainAct;
     public void Init<T>(Sprite image, string text, UnityAction action) where T : ItemEquipable
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
@@ -42,15 +42,23 @@ public class UIE_SlotButton : VisualElement
         //Debug.Log("slotImage is null = " + (slotImage == null) + "\nstyle is null= " + (slotImage.style == null) + "\nbackgroundImage is null = " + (slotImage.style.backgroundImage == null)+ "\nSended image is null = "+(image==null));
         slotImage.style.backgroundImage = new StyleBackground(image);
         slotText.text = text;
+        mainAct = action;
 
         if (typeof(T) == typeof(AbilityExtCast))
         {
             slotImage.AddToClassList("abilityBorder");
         }
 
-        slotImage.RegisterCallback<ClickEvent>((clevent) => action.Invoke());
+        slotImage.RegisterCallback<ClickEvent>((clevent) => MainAction());
     }
     
+    void MainAction()
+    {
+
+
+        mainAct.Invoke();
+    }
+
     void InitTooltip()
     {
         ItemEquipable aux = slotItem.equiped;

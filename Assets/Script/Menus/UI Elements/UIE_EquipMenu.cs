@@ -25,6 +25,7 @@ public class UIE_EquipMenu : UIE_Equipment
     SlotItem slotItem;
     Type filterType;
     ItemEquipable itemEquiped;
+    VisualElement equipedItemContainer;
 
     List<UIE_ListButton> buttonsList = new List<UIE_ListButton>();
     int itemToChangeIndex = -1;
@@ -48,6 +49,7 @@ public class UIE_EquipMenu : UIE_Equipment
         originalButton = ui.Q<VisualElement>("originalButton");
         changeButton = ui.Q<VisualElement>("changeButton");
         containerDW = ui.Q<VisualElement>("containerDW");
+        equipedItemContainer = ui.Q<VisualElement>("equipedItemContainer");
 
         onClose += () => manager.BackLastMenu();
     }
@@ -142,12 +144,12 @@ public class UIE_EquipMenu : UIE_Equipment
             var index = i;
             buffer.Add(index);
         }
-        Debug.Log("Lista filtrada: -------------------------");
+        //Debug.Log("Lista filtrada: -------------------------");
         foreach (var item in buffer)
         {
             Debug.Log(character.inventory[item].nameDisplay + " index: " + item);
         }
-        Debug.Log("Fin de lista filtrada-------------------------");
+        //Debug.Log("Fin de lista filtrada-------------------------");
 
         Action changeAction = () =>
         {
@@ -164,12 +166,13 @@ public class UIE_EquipMenu : UIE_Equipment
         foreach (var index in buffer)
         {
             UIE_ListButton button = new UIE_ListButton();
-            listContainer.Add(button);
-            buttonsList.Add(button);
-            button.AddToClassList("itemToChange");
 
             if (itemEquiped == null)
             {
+                listContainer.Add(button);
+                buttonsList.Add(button);
+                button.AddToClassList("itemToChange");
+
                 button.Init(GetImage(), GetText(), "", "", changeAction);
                 button.SetEquipText("Desequipar");
                 button.SetHoverAction(hoverAct);
@@ -180,6 +183,10 @@ public class UIE_EquipMenu : UIE_Equipment
 
             if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == item.nameDisplay && !(itemEquiped is MeleeWeapon))
             {
+                listContainer.Add(button);
+                buttonsList.Add(button);
+                button.AddToClassList("itemToChange");
+
                 button.Init(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "Item por defecto", "", changeAction);
                 button.SetEquipText("");
 
@@ -210,6 +217,9 @@ public class UIE_EquipMenu : UIE_Equipment
                 SetChangeButton(item.image, -1);
             };
 
+            listContainer.Add(button);
+            buttonsList.Add(button);
+            button.AddToClassList("itemToChange");
             button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "-", changeAction);
             button.SetHoverAction(hoverAct);
             button.SetEquipText("Desequipar");
@@ -219,12 +229,12 @@ public class UIE_EquipMenu : UIE_Equipment
             break;
         }
 
-        Debug.Log("Lista filtrada 2: -------------------------");
+        //Debug.Log("Lista filtrada 2: -------------------------");
         foreach (var item in buffer)
         {
             Debug.Log(character.inventory[item].nameDisplay + " index: " + item);
         }
-        Debug.Log("Fin de lista filtrada 2-------------------------");
+        //Debug.Log("Fin de lista filtrada 2-------------------------");
 
         //Agregar botones de los items restantes
         foreach (var index in buffer)
