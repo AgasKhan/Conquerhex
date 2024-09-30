@@ -29,6 +29,8 @@ public class UIE_CombosButton : VisualElement
 
 
     bool isBlocked = false;
+    UnityAction mainAct;
+    UnityAction auxAct;
     void HideKata()
     {
         kataCombo.HideInUIE();
@@ -68,13 +70,14 @@ public class UIE_CombosButton : VisualElement
 
         abilityImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<AbilityExtCast>(_ability));
         abilityText.text = UIE_MenusManager.instance.GetText<AbilityExtCast>(_ability);
+        mainAct = _action;
 
         if (_ability != null)
             abilityButton.AddToClassList("abilityBorder");
         else
             abilityButton.RemoveFromClassList("abilityBorder");
 
-        abilityButton.RegisterCallback<ClickEvent>((clEvent) => _action.Invoke());
+        abilityButton.RegisterCallback<ClickEvent>((clEvent) => mainAct.Invoke());
 
         InitTooltip(_ability);
     }
@@ -105,12 +108,14 @@ public class UIE_CombosButton : VisualElement
 
         kataImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<WeaponKata>(_kata));
         kataText.text = UIE_MenusManager.instance.GetText<WeaponKata>(_kata);
+        mainAct = _kataAction;
+        auxAct = _weaponAction;
 
         kataButton.AddToClassList("kataBorder");
-        kataButton.RegisterCallback<ClickEvent>((clEvent)=> _kataAction.Invoke());
+        kataButton.RegisterCallback<ClickEvent>((clEvent)=> mainAct.Invoke());
 
         weaponButton.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<MeleeWeapon>(_kata.Weapon));
-        weaponButton.RegisterCallback<ClickEvent>((clEvent) => _weaponAction.Invoke());
+        weaponButton.RegisterCallback<ClickEvent>((clEvent) => auxAct.Invoke());
 
         InitTooltip(_kata);
     }
