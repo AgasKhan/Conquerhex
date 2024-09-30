@@ -15,6 +15,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Character player;
     public Transform NPC;
 
+    public SpriteRenderer npcRenderer;
+
     public float maxDist = 10;
     IState<Character> playerIA;
 
@@ -28,7 +30,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public float damageGivenByExplosion = 25;
 
     [Header("Combat")]
-    public DestructibleObjects dummy;
+    public Entity dummy;
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
     public List<AttackBase.AbilityToEquip> abilitiesForPlayer = new List<AttackBase.AbilityToEquip>();
@@ -66,9 +68,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     #region DISTANCE ULTRA HARDCODEADO
     public void NPCDistance()
     {
-        float dist = Vector3.Distance(player.transform.position, NPC.position);
 
-        if (dist >= maxDist)
+        if ((NPC.position - player.transform.position).sqrMagnitude >= maxDist * maxDist)
         {
             NextDialog();
             distanceCheck = false;
@@ -94,7 +95,17 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void DistanceBoolSet(bool e) => distanceCheck = e;
 
+    public Animator dummyAnim;
+    
+    [ContextMenu("Anim")]
+    public void Test()
+    {
+        var a = dummy.GetComponent<TestDamageEntity>();
 
+        a.UpdateTick += () => dummyAnim.SetTrigger("Attack");
+
+        Debug.Log(a);
+    }
     public void EnableExit()
     {
         goal.SetActive(true);
@@ -108,6 +119,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
         PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity);
+        npcRenderer.enabled = true;
     }
 
     public void WaitToEnableDialog(float time)
@@ -332,6 +344,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         currentDialog++;
 
         interfaz.CompleteAllObjective();
+
+        npcRenderer.enabled = true;
     }
 
     void EndDialog()
@@ -344,6 +358,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         VirtualControllers.Interact.eventDown -= InteractDialog;
         VirtualControllers.Principal.eventDown -= InteractDialog;
+
+        npcRenderer.enabled = false;
     }
 
     /// <summary>
@@ -351,6 +367,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     /// </summary>
     public void ShowDialog()
     {
+        
         if (currentDialog >= allDialogs.Length)
             return;
 
@@ -458,6 +475,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         interfaz = UI.Interfaz.instance;
 
         dialogText.off += EndDialog;
+
+
     }
 
     void Update()
@@ -476,6 +495,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         attacksCounter = 0;
 
         LoadSystem.AddPostLoadCorutine(Init);
+
+
     }
 }
 
