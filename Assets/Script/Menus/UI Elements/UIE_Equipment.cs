@@ -30,6 +30,7 @@ public class UIE_Equipment : UIE_BaseMenu
         if(gameObject.name == manager.EquipmentMenu)
         {
             onEnableMenu += myEnableMenu;
+            onDisableMenu += myDisable;
             onClose += () => manager.DisableMenu(gameObject.name);
 
             basicsButtons = ui.Q<VisualElement>("Basics");
@@ -52,6 +53,11 @@ public class UIE_Equipment : UIE_BaseMenu
         CreateEquipamentKatas();
 
         SetStatistics();
+    }
+
+    void myDisable()
+    {
+        animTimer?.Stop();
     }
 
     void SetStatistics()
@@ -121,10 +127,25 @@ public class UIE_Equipment : UIE_BaseMenu
 
     void CreateBasicsButtons()
     {
-        basicsButtons.Add(CreateSlotButton(character.caster.weapons[0]));
+        var basicWeapon = CreateSlotButton(character.caster.weapons[0]);
+        basicsButtons.Add(basicWeapon);
+        basicWeapon.AddEnterMouseEvent(()=>ShowHideWeaponInMenu(true));
+        basicWeapon.AddLeaveMouseEvent(() => ShowHideWeaponInMenu(false));
 
         basicsButtons.Add(CreateSlotButton(character.caster.abilities[0]));
         basicsButtons.Add(CreateSlotButton(character.caster.abilities[1]));
+    }
+
+    void ShowHideWeaponInMenu(bool _condition)
+    {
+        Debug.Log("ShowHideWeaponInMenu-------------------------------------------");
+        if (character.caster.weapons[0].equiped == null)
+            return;
+        
+        if (_condition)
+            character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(character.caster.weapons[0].equiped.itemBase.weaponModel);
+        else
+            character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon(character.caster.weapons[0].equiped.itemBase.weaponModel);
     }
 
     void CreateEquipamentAbilities()
@@ -143,6 +164,7 @@ public class UIE_Equipment : UIE_BaseMenu
         for (int i = 0; i < character.caster.katas.Count; i++)
         {
             UIE_KataButton kataButton = new UIE_KataButton();
+            int index = i;
             /*
             kataButton.Init(GetImage(character.caster.katas[i]), GetText(character.caster.katas[i]), KataAction(character.caster.katas[i])
                 , GetImage(character.caster.katas[i].equiped?.Weapon, typeof(MeleeWeapon)), GetText(character.caster.katas[i].equiped?.Weapon, 
@@ -150,16 +172,39 @@ public class UIE_Equipment : UIE_BaseMenu
             */
 
             kataButton.Init(character.caster.katas[i], KataAction(character.caster.katas[i]), character.caster.katas[i].equiped == null ? () => { } : WeaponOfKataAction(character.caster.katas[i]));
-
+            
             if (character.caster.abilityCasting != null && character.caster.abilityCasting.Equals(character.caster.katas[i].equiped))
                 kataButton.Block("En uso");
             else
                 kataButton.Block(character.caster.katas[i].isBlocked);
 
+            if(character.caster.katas[index].equiped != null)
+            {
+                animData = character.caster.katas[index].equiped.itemBase.animations.animClips["Cast"];
+                animController = character.GetInContainer<AnimatorController>();
+                animTimer = TimersManager.Create(2, ()=> animController.ChangeActionAnimation(animData)).Stop();
+
+                kataButton.AddEnterMouseEvent(() => ShowAnimation());
+                kataButton.AddLeaveMoususeEvent(() => animTimer.Stop());
+            }
+
             katasButtons.Add(kataButton);
         }
     }
-    
+
+    Timer animTimer;
+    AnimationInfo.Data animData;
+    AnimatorController animController;
+    void ShowAnimation()
+    {
+        animController.ChangeActionAnimation(animData);
+        animTimer.Reset();
+    }
+    void StopAnimation()
+    {
+        //animController.ChangeActionAnimation(manager.idleAnim);
+        animTimer.Stop();
+    }
     UnityAction WeaponAction(SlotItem slotItem)
     {
         Action<int> equipAction = (_index) =>

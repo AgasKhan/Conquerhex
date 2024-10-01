@@ -26,9 +26,13 @@ public class UIE_EquipMenu : UIE_Equipment
     Type filterType;
     ItemEquipable itemEquiped;
     VisualElement equipedItemContainer;
+    UIE_ListButton equipedItemButton;
+    VisualElement acceptButton;
 
     List<UIE_ListButton> buttonsList = new List<UIE_ListButton>();
     int itemToChangeIndex = -1;
+    int definitiveItemToChangeIndex = -1;
+
     protected override void Config()
     {
         base.Config();
@@ -49,16 +53,25 @@ public class UIE_EquipMenu : UIE_Equipment
         originalButton = ui.Q<VisualElement>("originalButton");
         changeButton = ui.Q<VisualElement>("changeButton");
         containerDW = ui.Q<VisualElement>("containerDW");
+        acceptButton = ui.Q<VisualElement>("acceptButton");
         equipedItemContainer = ui.Q<VisualElement>("equipedItemContainer");
 
         onClose += () => manager.BackLastMenu();
+        acceptButton.RegisterCallback<ClickEvent>((clEvent) => AcceptChange());
     }
 
     private void myOnEnable()
     {
+        equipedItemContainer.Clear();
         listContainer.Clear();
         buttonsList.Clear();
         equipTitle.text = GetText(null, filterType);
+
+        equipedItemButton = new UIE_ListButton();
+        equipedItemButton.Init();
+        equipedItemButton.AddToClassList("itemToChange");
+        equipedItemContainer.Add(equipedItemButton);
+
         CreateListItems();
     }
     private void myOnDisable()
@@ -130,6 +143,107 @@ public class UIE_EquipMenu : UIE_Equipment
     {
         List<int> buffer = new List<int>();
 
+        //Filtrar inventario y setear botón equipado
+        for (int i = 0; i < character.inventory.Count; i++)
+        {
+            var index = i;
+            var item = character.inventory[index];
+
+            if (filterType != null && !filterType.IsAssignableFrom(character.inventory[i].GetType()))
+                continue;
+
+            if (item is Ability && !((Ability)item).visible)
+            {
+                continue;
+            }
+            
+            if (itemEquiped is Ability)
+            {
+                if (itemEquiped.nameDisplay == item.nameDisplay)
+                    SetSelectedItem(index);
+            }
+            else if (item.Equals(itemEquiped))
+            {
+                SetSelectedItem(index);
+            }
+
+            buffer.Add(index);
+        }
+
+        if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == itemEquiped.nameDisplay && !(itemEquiped is MeleeWeapon))
+        {
+            equipedItemButton.Set(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "Item por defecto", "", () => { });
+            equipedItemButton.SetEquipText("");
+
+            equipedItemButton.SetHoverAction(() =>
+            {
+                ShowItemDetails(itemEquiped.nameDisplay, "Item por defecto, selecciona un item para equipartelo en su lugar", GetImage());
+                SetChangeButton(GetImage(), -1);
+            });
+        }
+
+        //Crear lista de botones
+        foreach (var index in buffer)
+        {
+            var item = character.inventory[index];
+
+            UIE_ListButton button = new UIE_ListButton();
+            listContainer.Add(button);
+            buttonsList.Add(button);
+
+            button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "-", () => SetSelectedItem(itemToChangeIndex));
+            button.SetHoverAction(() =>
+            {
+                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                SetChangeButton(item.image, index);
+            });
+
+            button.SetEquipText("Equipar");
+        }
+
+        if (buttonsList.Count == 0)
+            ShowItemDetails("No tienes nada para equipar", "", null);
+    }
+
+    void SetSelectedItem(int _index)
+    {
+        //Debug.Log("SET SELECTED ITEM----------------------------------------------------------------");
+        definitiveItemToChangeIndex = _index;
+        var item = _index>=0? character.inventory[_index] : null;
+
+        if (item != null)
+        {
+            equipedItemButton.Set(GetImage(item as ItemEquipable, filterType), GetText(item as ItemEquipable, filterType), "", "", () => SetSelectedItem(-1));
+            equipedItemButton.SetEquipText("Desequipar");
+            equipedItemButton.SetHoverAction(() =>
+            {
+                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                SetChangeButton(item.image, -1);
+            });
+        }
+        else
+        {
+            equipedItemButton.Set(GetImage(null, filterType), GetText(null, filterType), "", "", ()=> { });
+            equipedItemButton.SetEquipText("");
+            equipedItemButton.SetHoverAction(() =>
+            {
+                ShowItemDetails("No tienes nada equipado", "Selecciona un item para equipar", null);
+                SetChangeButton(GetImage(), -1);
+            });
+        }
+            
+    }
+
+    void AcceptChange()
+    {
+        auxAction.Invoke(definitiveItemToChangeIndex);
+        TriggerOnClose(default);
+    }
+    /*
+    void OLDCreateListItems()
+    {
+        List<int> buffer = new List<int>();
+
         //Filtrar inventario
         for (int i = 0; i < character.inventory.Count; i++)
         {
@@ -140,7 +254,7 @@ public class UIE_EquipMenu : UIE_Equipment
             {
                 continue;
             }
-            
+
             var index = i;
             buffer.Add(index);
         }
@@ -288,7 +402,7 @@ public class UIE_EquipMenu : UIE_Equipment
         buttonsList.Clear();
         CreateListItems();
     }
-
+    */
     void ShowItemDetails(string nameDisplay, string details, Sprite Image)
     {
         containerDW.RemoveFromClassList("opacityHidden");

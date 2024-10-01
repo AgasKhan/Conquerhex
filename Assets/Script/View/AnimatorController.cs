@@ -92,6 +92,11 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     #endregion
 
+    public void SetScaleController(AnimatorUpdateMode _mode = AnimatorUpdateMode.Normal)
+    {
+        controller.updateMode = _mode;
+    }
+
     private void Ia_onMove(Vector3 obj)
     {
         controller.SetBool("Move", true);
@@ -139,19 +144,19 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         controller.SetBool("Wait", false);
     }
 
-    void ChangeActionAnimation(AnimationInfo.Data data)
+    public void ChangeActionAnimation(AnimationInfo.Data data)
     {
         controller.SetBool("Mirror", data.mirror);
         controller.SetFloat("ActionMultiply", data.velocity);
         ChangeActionAnimation(data.animationClip, data.defaultAction, data.inLoop);
     }
 
-    void ChangeActionAnimation(AnimationClip newClip, bool inLoop)
+    public void ChangeActionAnimation(AnimationClip newClip, bool inLoop)
     {
         ChangeActionAnimation(newClip, null, inLoop);
     }
 
-    void ChangeActionAnimation(AnimationClip newClip, DefaultActions action, bool inLoop = false)
+    public void ChangeActionAnimation(AnimationClip newClip, DefaultActions action, bool inLoop = false)
     {
         string name = null;
 
@@ -165,7 +170,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         ChangeActionAnimation(newClip, name, inLoop);
     }
 
-    void ChangeActionAnimation(AnimationClip newClip, string name = null, bool inLoop = false)
+    public void ChangeActionAnimation(AnimationClip newClip, string name = null, bool inLoop = false)
     {
         int i = index;
 

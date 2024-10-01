@@ -39,6 +39,9 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     Sprite tooltSprite = null;
     string tooltAuxText = "";
 
+    public AnimationInfo idleAnim;
+    public AnimationInfo showWeaponAnim;
+
     /*
     public List<Sprite> basicsKeys = new List<Sprite>();
     public List<Sprite> abilitiesKeys = new List<Sprite>();
