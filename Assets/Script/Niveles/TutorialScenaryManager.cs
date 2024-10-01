@@ -24,6 +24,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Hexagone[] newBorders = new Hexagone[6];
     public Hexagone firstHexagon;
     public int tpsCounter = 0;
+
     bool nieve = false;
     bool desierto = false;
 
@@ -34,6 +35,10 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
     public List<AttackBase.AbilityToEquip> abilitiesForPlayer = new List<AttackBase.AbilityToEquip>();
+
+    public DestructibleObjects platform;
+
+    byte parryCount;
     bool weaponGive = false;
 
 
@@ -54,7 +59,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     System.Action<Hexagone, int> teleportEvent;
     System.Action<int, MeleeWeapon> weaponEvent;
-    System.Action<Damage> dummyTakeDamageEvent;
+    System.Action<Damage> DummyTakeDamageEvent;
     System.Action<Health> healthEvent;
 
     bool distanceCheck;
@@ -95,16 +100,27 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void DistanceBoolSet(bool e) => distanceCheck = e;
 
-    public Animator dummyAnim;
-    
-    [ContextMenu("Anim")]
-    public void Test()
+    //public Animator dummyAnim;
+
+    // [ContextMenu("Anim")]
+    // public void Test()
+    // {
+    //     var a = dummy.GetComponent<TestDamageEntity>();
+
+    //     a.Init(() =>  Debug.Log("pase por aca 2"), () => { dummyAnim.SetTrigger("Attack"); Debug.Log("pase por aca 2"); });
+
+
+    //     Debug.Log("pase por aca");
+    // }
+
+    public void ExecuteDamageParry()
     {
-        var a = dummy.GetComponent<TestDamageEntity>();
-
-        a.UpdateTick += () => dummyAnim.SetTrigger("Attack");
-
-        Debug.Log(a);
+        var a = platform.GetComponent<TestDamageEntity>();
+        a.Init(null, () =>
+        {
+            var index = PoolManager.SrchInCategory("Particles", "Chispas");
+            PoolManager.SpawnPoolObject(index, player.transform.position, Quaternion.identity);
+        });
     }
     public void EnableExit()
     {
@@ -154,6 +170,11 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         healthEvent = HealthEvent2;
     }
 
+    public void ParryPlatformDialog()
+    {
+        player.caster.abilities[0].equiped.onApplyCast += TakeDamagePlatform;
+    }
+
     void HealthEvent2(Health obj)
     {
         if (obj.actualLife >= obj.maxLife && obj.actualRegen >= obj.maxRegen)
@@ -164,15 +185,37 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     }
 
 
+
+
     public void TakeDamageDummyDialog()
     {
-        dummyTakeDamageEvent = TakeDamageDummy;
+        DummyTakeDamageEvent = TakeDamageDummy;
     }
 
     void TakeDamageDummy(Damage dmg)
     {
         NextDialog();
-        dummyTakeDamageEvent = null;
+        DummyTakeDamageEvent = null;
+    }
+
+    void TakeDamagePlatform(Ability a)
+    {
+        //if (platform.health.actualLife >= platform.health.maxLife) return;
+
+        parryCount++;
+        if (!parryCount.Equals(10)) return;
+
+        interfaz.CompleteObjective(0);
+        platform.GetComponent<TestDamageEntity>().StopTimer();
+        platform.gameObject.SetActive(false);
+
+        var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
+        PoolManager.SpawnPoolObject(index, platform.transform.position, Quaternion.identity);
+
+        player.caster.abilities[0].equiped.onApplyCast -= TakeDamagePlatform;
+
+        parryCount = 0;
+
     }
 
     private void EquipeWeapon(int arg1, MeleeWeapon arg2)
@@ -250,7 +293,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         abilitiesForPlayer[0].isBlocked = false;
         SetPlayerAbility(abilitiesForPlayer[0]);
-        player.caster.abilities[0].equiped.onApplyCast += SetParry;
+        player.caster.abilities[0].equiped.onApplyCast += TakeDamagePlatform;
 
     }
 
@@ -367,7 +410,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     /// </summary>
     public void ShowDialog()
     {
-        
+
         if (currentDialog >= allDialogs.Length)
             return;
 
@@ -426,8 +469,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     private void DummyTakeDamage(Damage obj)
     {
-        dummyTakeDamageEvent?.Invoke(obj);
+        DummyTakeDamageEvent?.Invoke(obj);
     }
+
 
     private void HealthEvent(Health obj)
     {

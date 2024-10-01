@@ -292,9 +292,9 @@ public class MainCamera : SingletonMono<MainCamera>
             lastVectorObjOffset = offsetObjPosition;
             
             offsetObjPosition = Vector3.zero;
-            var p = Position - (character.aiming.AimingToObjectiveXZ.normalized * Dist);
+            var p = character.move.direction * -Dist;
             vectorPerspective = new(0, .85f, -3.7f);
-            rotationEulerPerspective = new(4, Mathf.Atan2(p.x, p.z) * Mathf.Rad2Deg, 0);
+            rotationEulerPerspective = new(3, Mathf.Atan2(p.x, p.z) * Mathf.Rad2Deg, 0);
             rotationPerspective = Quaternion.Euler(rotationEulerPerspective);
 
             Cursor.visible = true;

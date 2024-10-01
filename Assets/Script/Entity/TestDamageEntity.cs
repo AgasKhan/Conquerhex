@@ -33,13 +33,14 @@ public class TestDamageEntity : MonoBehaviour
 
     public System.Action UpdateFeedback, UpdateTick;
 
-    private void Awake()
+    public void Init(System.Action update = null, System.Action tick = null)
     {
-        UpdateFeedback = MyUpdateFeedBack;
-        UpdateTick = MyUpdateTick;
+        UpdateFeedback = update;
+        UpdateFeedback += MyUpdateFeedBack;
+
+        UpdateTick = tick;
+        UpdateTick += MyUpdateTick;
         timerDamage = TimersManager.Create(tickDamage, UpdateFeedback, UpdateTick).SetLoop(true).Stop();
-
-
     }
 
     void MyUpdateTick()
@@ -56,7 +57,7 @@ public class TestDamageEntity : MonoBehaviour
     {
         if (other.TryGetComponent<Entity>(out entity))
         {
-            timerDamage.Reset();
+            timerDamage?.Reset();
         }
     }
 
@@ -64,7 +65,7 @@ public class TestDamageEntity : MonoBehaviour
     {
         if (other.TryGetComponent<Entity>(out entity))
         {
-            timerDamage.Stop();
+            timerDamage?.Stop();
         }
     }
 
