@@ -29,28 +29,35 @@ public class TestDamageEntity : MonoBehaviour
 
     Timer timerDamage;
 
-    Entity entity;    
+    Entity entity;
 
-    private void Awake()
+    public System.Action UpdateFeedback, UpdateTick;
+
+    public void Init(System.Action update = null, System.Action tick = null)
     {
-        timerDamage = TimersManager.Create(tickDamage, MyUpdateFeedBack, MyUpdateTick).SetLoop(true).Stop();
+        UpdateFeedback = update;
+        UpdateFeedback += MyUpdateFeedBack;
+
+        UpdateTick = tick;
+        UpdateTick += MyUpdateTick;
+        timerDamage = TimersManager.Create(tickDamage, UpdateFeedback, UpdateTick).SetLoop(true).Stop();
     }
 
     void MyUpdateTick()
     {
-        entity.TakeDamage(damage, damageWeight, transform.position + offsetPosition);
+        entity?.TakeDamage(damage, damageWeight, transform.position + offsetPosition);
     }
 
     void MyUpdateFeedBack()
     {
-        renderer.material.color = Color.Lerp(notDamageColor, damageColor, (Mathf.RoundToInt(((timerDamage.InversePercentage() + timerDamage.total.RelativePercentage(0.3f)) *10)) / 3) * 3 / 10f);
+        renderer.material.color = Color.Lerp(notDamageColor, damageColor, (Mathf.RoundToInt(((timerDamage.InversePercentage() + timerDamage.total.RelativePercentage(0.3f)) * 10)) / 3) * 3 / 10f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<Entity>(out entity))
+        if (other.TryGetComponent<Entity>(out entity))
         {
-            timerDamage.Reset();
+            timerDamage?.Reset();
         }
     }
 
@@ -58,9 +65,15 @@ public class TestDamageEntity : MonoBehaviour
     {
         if (other.TryGetComponent<Entity>(out entity))
         {
-            timerDamage.Stop();
+            timerDamage?.Stop();
         }
     }
 
     public void StopTimer() => timerDamage.Stop();
+
+    void OnDisable()
+    {
+        UpdateFeedback = null;
+        UpdateTick = null;
+    }
 }
