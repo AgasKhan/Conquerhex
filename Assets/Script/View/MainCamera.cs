@@ -94,17 +94,17 @@ public class MainCamera : SingletonMono<MainCamera>
 
         Transform toTrack;
 
-        RaycastHit hitInfo;
+        RaycastHit hitInfo; 
+        Quaternion RotationCamera()
+        {
+            return Quaternion.Euler(0, 0, -rotationEulerPerspective.y);
+        }
 
         public void OnCharacterSelected(Character character)
         {
             if (this.character != null)
             {
                 this.character.moveEventMediator.quaternionOffset = null;
-                this.character.attackEventMediator.quaternionOffset = null;
-                this.character.dashEventMediator.quaternionOffset = null;
-                this.character.abilityEventMediator.quaternionOffset = null;
-                this.character.aimingEventMediator.eventPress -= AimingEventMediatorEventPress;
                 this.character.aiming.onMode -= Aiming_onMode;
             }
 
@@ -116,15 +116,6 @@ public class MainCamera : SingletonMono<MainCamera>
                 return;
 
             this.character.moveEventMediator.quaternionOffset = RotationCamera;
-
-            this.character.dashEventMediator.quaternionOffset = RotationCamera;
-
-            this.character.attackEventMediator.quaternionOffset = CameraAiming;
-
-            this.character.abilityEventMediator.quaternionOffset = CameraAiming;
-
-
-
             this.character.aiming.onMode += Aiming_onMode;
 
             Aiming_onMode(this.character.aiming.mode);
@@ -152,8 +143,30 @@ public class MainCamera : SingletonMono<MainCamera>
                 return;
 
             rotationEulerPerspective.y += arg1.x;
-        }
 
+            character.aiming.AimingToObjective2D = RotationCamera() * Vector2.up;
+        }
+ 
+        private void AimingEventMediatorEventPress(Vector2 arg1, float arg2)
+        {
+            if (!transitionsSet.Chck)
+                return;
+
+            rotationEulerPerspective.x -= arg1.y;
+
+            rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
+
+            rotationEulerPerspective.y += arg1.x;
+
+            if (hitInfo.transform != null)
+            {
+                character.aiming.ObjectivePosition = hitInfo.point;
+
+                return;
+            }
+
+            character.aiming.ObjectivePosition = (rotationPerspective * Vector3.forward * 100) + CameraPosition;
+        }
         private void Aiming_onMode(AimingEntityComponent.Mode obj)
         {
             prevCameraSet = cameraSet;
@@ -179,7 +192,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
                     VirtualControllers.CameraBlock.eventDown += CameraBlockPerspectiveDown;
 
-                    this.character.aimingEventMediator.eventPress += AimingEventMediatorEventPress;
+                    VirtualControllers.Camera.eventPress += AimingEventMediatorEventPress;
 
                     break;
 
@@ -192,53 +205,6 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         }
 
-
-
-        private void AimingEventMediatorEventPress(Vector2 arg1, float arg2)
-        {
-            if (!transitionsSet.Chck)
-                return;
-
-            rotationEulerPerspective.x -= arg1.y;
-
-            rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
-
-            rotationEulerPerspective.y += arg1.x;
-        }
-
-        Quaternion RotationCamera()
-        {
-            return Quaternion.Euler(0, 0, -rotationEulerPerspective.y);
-        }
-
-        Quaternion CameraAiming()
-        {
-            if (character.aiming.mode != AimingEntityComponent.Mode.perspective)
-            {
-                return RotationCamera();
-            }
-
-            //Debug.DrawRay(ray.origin,ray.direction, Color.red);
-
-            if (hitInfo.transform != null)
-            {
-                Vector3 aux = hitInfo.point - character.transform.position;
-
-                //Debug.DrawRay(character.transform.position, aux, Color.green);
-
-                character.aiming.ObjectivePosition = hitInfo.point;
-
-                aux.y = 0;
-
-                float angleY = Mathf.Atan2(aux.x, aux.z) * Mathf.Rad2Deg;
-
-                return Quaternion.AngleAxis(-angleY, Vector3.forward);
-            }
-
-            character.aiming.ObjectivePosition = (rotationPerspective * Vector3.forward * 100) + CameraPosition;
-
-            return RotationCamera();
-        }
 
         public void Update()
         {

@@ -32,24 +32,17 @@ public class PressTrggrCtrllr : TriggerController
 
     public override void ControllerDown(Vector2 dir, float tim)
     {
-        Aiming2D = dir;
-
         ability.FeedbackDetect();
 
         Detect();
 
         Cast(() => End = false);
-        /*
-        if (affected != null && affected.Count > 0)
-            Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-        */
+
         pressCooldown.Reset();
     }
 
     public override void ControllerPressed(Vector2 dir, float tim)
     {
-        Aiming2D = dir;
-
         ability.FeedbackDetect();
 
         Detect();
@@ -57,18 +50,9 @@ public class PressTrggrCtrllr : TriggerController
         if (pressCooldown.Chck)
         {
             Cast(() => End = false);
-            /*
-            if (affected != null && affected.Count > 0)
-                Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-            */
+
             pressCooldown.Reset();
-            
-            /*
-            if(End)
-            {
-                ControllerUp(dir, tim);
-            }
-            */
+
         }
     }
 
@@ -76,10 +60,5 @@ public class PressTrggrCtrllr : TriggerController
     {
         pressCooldown.Reset();
         End = true;
-
-        /*
-        Cast();
-        FeedBackReference?.Attack();
-        */
     }
 }

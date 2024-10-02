@@ -45,8 +45,6 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     [SerializeField]
     string[] actionsName;
 
-
-
     AnimatorOverrideController animatorOverrideController;
 
     AnimActionBehaviour[] actionBehaviours;
@@ -95,28 +93,11 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     private void Ia_onMove(Vector3 obj)
     {
         controller.SetBool("Move", true);
-
-        if (obj != Vector3.zero )
-            forwardObj = Vector3.Slerp(forwardObj, obj, Time.fixedDeltaTime*10);
-
-        enabled = true;
     }
 
     private void Ia_onIdle()
     {
         controller.SetBool("Move", false);
-    }
-
-    private void Ia_onAiming(Vector3 obj)
-    {
-        if (obj != Vector3.zero)
-            forwardObj =  obj;
-        else
-            return;
-
-        forwardObj.y = 0;
-
-        enabled = true;
     }
 
     private void OnCasterAnimation(AnimationInfo.Data obj)
@@ -258,57 +239,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     #endif
 
-    public override void OnEnterState(Entity entity)
+   
+
+    private void CharacterOnModelView(Vector3 obj)
     {
-        if (controller == null || !active)
-        {
-            controller.SetActiveGameObject(false);
-            return;
-        }
-
-        SuperAnimator();
-
-        timerEndAnimationTransition = TimersManager.Create(1, TimerEndAnimation).Stop();
-
-        /////////
-        ///Se quitara en proximas updates
-        var eventMediator = controller.gameObject.GetComponent<AnimationEventMediator>();
-
-        if(eventMediator == null)
-            eventMediator = controller.gameObject.AddComponent<AnimationEventMediator>();
-
-        eventMediator.reference = this;
-        /////////
-
-        if(entity.TryGetInContainer<CasterEntityComponent>(out var caster))
-        {
-            caster.onAnimation += OnCasterAnimation;
-            caster.onExitCasting += OnExitCasting;
-        }
-
-        if (entity.TryGetInContainer<AimingEntityComponent>(out var aiming))
-        {
-            aiming.onAimingXZ += Ia_onAiming;
-        }
-
-        if(entity is Character character)
-        {
-            character.moveStateCharacter.OnActionEnter += MoveStateCharacter_OnActionEnter;
-            character.moveStateCharacter.OnActionExit += MoveStateCharacter_OnActionExit;
-
-            character.onTakeDamage += CharacterOnTakeDamage;
-
-            move = character.move;
-            move.onIdle += Ia_onIdle;
-            MoveStateCharacter_OnActionEnter();
-        }
-        else if (entity.TryGetInContainer<MoveEntityComponent>(out move))
-        {
-            move.onIdle += Ia_onIdle;
-            move.onMove += Ia_onMove;
-        }
-
-        entity.health.death += Ia_onDeath;
+        obj.y = 0;
+        forwardObj = obj;
+        enabled = true;
     }
 
     private void CharacterOnTakeDamage(Damage obj)
@@ -342,6 +279,56 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             enabled = false;
     }
 
+    public override void OnEnterState(Entity entity)
+    {
+        if (controller == null || !active)
+        {
+            controller.SetActiveGameObject(false);
+            return;
+        }
+
+        SuperAnimator();
+
+        timerEndAnimationTransition = TimersManager.Create(1, TimerEndAnimation).Stop();
+
+        /////////
+        ///Se quitara en proximas updates
+        var eventMediator = controller.gameObject.GetComponent<AnimationEventMediator>();
+
+        if (eventMediator == null)
+            eventMediator = controller.gameObject.AddComponent<AnimationEventMediator>();
+
+        eventMediator.reference = this;
+        /////////
+
+        if (entity.TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onAnimation += OnCasterAnimation;
+            caster.onExitCasting += OnExitCasting;
+        }
+
+        if (entity is Character character)
+        {
+            character.moveStateCharacter.OnActionEnter += MoveStateCharacter_OnActionEnter;
+            character.moveStateCharacter.OnActionExit += MoveStateCharacter_OnActionExit;
+
+            character.onModelView += CharacterOnModelView;
+
+            character.onTakeDamage += CharacterOnTakeDamage;
+
+            move = character.move;
+            move.onIdle += Ia_onIdle;
+            MoveStateCharacter_OnActionEnter();
+        }
+        else if (entity.TryGetInContainer<MoveEntityComponent>(out move))
+        {
+            move.onIdle += Ia_onIdle;
+            move.onMove += Ia_onMove;
+        }
+
+        entity.health.death += Ia_onDeath;
+    }
+
     public override void OnStayState(Entity param)
     {
     }
@@ -354,15 +341,12 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             caster.onExitCasting -= OnExitCasting;
         }
 
-        if (entity.TryGetInContainer<AimingEntityComponent>(out var aiming))
-        {
-            aiming.onAimingXZ -= Ia_onAiming;
-        }
-
         if (entity is Character character)
         {
             character.moveStateCharacter.OnActionEnter -= MoveStateCharacter_OnActionEnter;
             character.moveStateCharacter.OnActionExit -= MoveStateCharacter_OnActionExit;
+
+            character.onModelView -= CharacterOnModelView;
 
             character.onTakeDamage -= CharacterOnTakeDamage;
 

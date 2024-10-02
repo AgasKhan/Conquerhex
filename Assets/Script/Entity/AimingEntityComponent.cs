@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ComponentsAndContainers;
 
-public class AimingEntityComponent : ComponentOfContainer<Entity>
+public class AimingEntityComponent : ComponentOfContainer<Entity>, Controllers.IDir, IControllerDir
 {
     public enum Mode
     {
@@ -54,7 +54,7 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
             _objectivePosition = value;
             _aimingToObj = _objectivePosition - (transform.position + offsetView);
             _aimingToObj.Normalize();
-            onAimingXZ.Invoke(AimingToObjectiveXZ);
+            onAimingXZ?.Invoke(AimingToObjectiveXZ);
         }
     }
 
@@ -97,11 +97,15 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
         }
     }
 
+    public Vector2 LastDir => AimingToObjective2D;
+
+    public Vector2 FrameDir => AimingToObjective2D;
+
     [SerializeField]
     Vector3 _objectivePosition;
 
     [SerializeField]
-    Vector3 _aimingToObj;
+    Vector3 _aimingToObj = Vector3.forward;
 
     [SerializeField]
     Vector3 offsetView;
@@ -119,5 +123,20 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>
 
     public override void OnStayState(Entity param)
     {   
+    }
+
+    public void ControllerDown(Vector2 dir, float tim)
+    {
+        AimingToObjective2D = dir;
+    }
+
+    public void ControllerPressed(Vector2 dir, float tim)
+    {
+        AimingToObjective2D = dir;
+    }
+
+    public void ControllerUp(Vector2 dir, float tim)
+    {
+        AimingToObjective2D = dir;
     }
 }
