@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6384081902350153692}
   - component: {fileID: 6629239271384822175}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +54,7 @@ MonoBehaviour:
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
+  handHandling: 0
   leftOffset: {x: 0, y: 0.19, z: 0}
   positionsPCache: {fileID: 6918954641851045129, guid: 3bc8ac072daf11a4aadfd0eaf13f6f57,
     type: 3}
@@ -72,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4021172726564121123}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: nailedPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,6 +183,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: spear
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3b5edc64c8953734db6e0ab3354f7027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -261,10 +267,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2591608333628802909, guid: dd166d5cefe2e8a49951939aea1b68e3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175126358004009977, guid: dd166d5cefe2e8a49951939aea1b68e3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3616278812644832634, guid: dd166d5cefe2e8a49951939aea1b68e3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5447421996004382476, guid: dd166d5cefe2e8a49951939aea1b68e3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113532855299946549, guid: dd166d5cefe2e8a49951939aea1b68e3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8035489909661105442, guid: dd166d5cefe2e8a49951939aea1b68e3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8237318535892637775, guid: dd166d5cefe2e8a49951939aea1b68e3,
         type: 3}
       propertyPath: m_Name
       value: ParticulaSpear
+      objectReference: {fileID: 0}
+    - target: {fileID: 8237318535892637775, guid: dd166d5cefe2e8a49951939aea1b68e3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

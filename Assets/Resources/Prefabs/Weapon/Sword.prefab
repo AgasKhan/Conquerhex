@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8120939864211251148}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: nailPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2110897577601604105}
   - component: {fileID: 3986954486142213633}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,6 +85,7 @@ MonoBehaviour:
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
+  handHandling: 0
   leftOffset: {x: 0, y: 0, z: 0}
   positionsPCache: {fileID: 6918954641851045129, guid: 423f266779193474cab10e75c8b4e797,
     type: 3}
@@ -179,6 +180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 041f6c639a7d8364a9753ce4c85e0be3,
         type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 041f6c639a7d8364a9753ce4c85e0be3,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -211,6 +217,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1720700390588194951}
     m_Modifications:
+    - target: {fileID: 708850971891453389, guid: ea41807d005ff1c4592a793ae10d63cf,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031776893341548376, guid: ea41807d005ff1c4592a793ae10d63cf,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3031776893341548376, guid: ea41807d005ff1c4592a793ae10d63cf,
         type: 3}
       propertyPath: m_IsActive
@@ -283,6 +299,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5157611534771552611, guid: ea41807d005ff1c4592a793ae10d63cf,
         type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5157611534771552611, guid: ea41807d005ff1c4592a793ae10d63cf,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -293,8 +314,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6163313678574278218, guid: ea41807d005ff1c4592a793ae10d63cf,
         type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6163313678574278218, guid: ea41807d005ff1c4592a793ae10d63cf,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6237144982772419668, guid: ea41807d005ff1c4592a793ae10d63cf,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
