@@ -21,6 +21,8 @@ public class TestDamageEntity : MonoBehaviour
     [SerializeField]
     new Renderer renderer;
 
+    public Renderer Renderer => renderer;
+
     [SerializeField]
     Color notDamageColor;
 
@@ -31,12 +33,13 @@ public class TestDamageEntity : MonoBehaviour
 
     Entity entity;
 
-    public System.Action UpdateFeedback, UpdateTick;
+    public System.Action UpdateFeedback, UpdateTick, ExitAction;
 
     public void Init(System.Action update = null, System.Action tick = null)
     {
         UpdateFeedback = update;
-        UpdateFeedback += MyUpdateFeedBack;
+
+        UpdateFeedback ??= MyUpdateFeedBack;
 
         UpdateTick = tick;
         UpdateTick += MyUpdateTick;
@@ -66,6 +69,7 @@ public class TestDamageEntity : MonoBehaviour
         if (other.TryGetComponent<Entity>(out entity))
         {
             timerDamage?.Stop();
+            ExitAction?.Invoke();
         }
     }
 

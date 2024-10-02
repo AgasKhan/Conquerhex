@@ -113,13 +113,22 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     //     Debug.Log("pase por aca");
     // }
 
+    public Light ElecLight;
+
     public void ExecuteDamageParry()
     {
         var a = platform.GetComponent<TestDamageEntity>();
-        a.Init(null, () =>
+        a.ExitAction = () => ElecLight.intensity = 0;
+
+        a.Init(() =>
+        {
+            ElecLight.intensity += Time.deltaTime * 5;
+        },
+        () =>
         {
             var index = PoolManager.SrchInCategory("Particles", "Chispas");
             PoolManager.SpawnPoolObject(index, player.transform.position, Quaternion.identity);
+            a.ExitAction?.Invoke();
         });
     }
     public void EnableExit()
@@ -213,6 +222,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         PoolManager.SpawnPoolObject(index, platform.transform.position, Quaternion.identity);
 
         player.caster.abilities[0].equiped.onApplyCast -= TakeDamagePlatform;
+        
 
         parryCount = 0;
 
@@ -401,6 +411,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         VirtualControllers.Interact.eventDown -= InteractDialog;
         VirtualControllers.Principal.eventDown -= InteractDialog;
+        VirtualControllers.Inventory.enable = true;
 
         npcRenderer.enabled = false;
     }
@@ -417,6 +428,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         messageToShow = allDialogs[currentDialog].dialog;
 
         interfaz.ClearObjective();
+
+        VirtualControllers.Inventory.enable = false;
 
         foreach (var item in allDialogs[currentDialog].objective.Split('\n'))
         {
