@@ -5,7 +5,7 @@
             <ui:VisualElement name="iconoCentral" style="flex-grow: 0; width: 50%; height: 50%; flex-shrink: 0; background-color: rgb(255, 182, 182);" />
             <ui:VisualElement name="hexMarco" class="hexagon" style="flex-grow: 0; position: absolute; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Sprites/HUD/Hud_botonMarco.png?fileID=2800000&amp;guid=c8ceac2e1b21a1e43ad7624cf0e7da4a&amp;type=3#Hud_botonMarco&quot;); opacity: 1; display: none;" />
         </ui:VisualElement>
-        <ui:Label tabindex="-1" text="Dash concatenado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="slotText" class="slotTextStyle" style="height: 35px; width: 110px;" />
+        <ui:Label tabindex="-1" text="Dash concatenado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="slotText" class="slotTextStyle" style="height: 35px; width: 90px; margin-left: 10px; margin-right: 10px;" />
         <ui:VisualElement name="blocker" class="blocker displayHidden" style="border-left-color: rgb(190, 186, 130); border-right-color: rgb(190, 186, 130); border-top-color: rgb(190, 186, 130); border-bottom-color: rgb(190, 186, 130); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; scale: 1.05 1.05;">
             <ui:Label tabindex="-1" text="Bloqueado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="blockerText" class="blockerText" />
         </ui:VisualElement>

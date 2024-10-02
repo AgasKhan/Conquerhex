@@ -26,7 +26,7 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="AuxContainer" style="flex-grow: 1; flex-wrap: wrap; height: 85%; justify-content: space-around;">
-                        <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 85%; justify-content: space-between;">
+                        <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 70%; justify-content: space-between;">
                             <ui:Instance template="KataComboButtom" name="KataComboButtom" />
                             <ui:Instance template="KataComboButtom" name="KataComboButtom" />
                             <ui:Instance template="KataComboButtom" name="KataComboButtom" />
@@ -53,9 +53,9 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="RightBox" class="padding20 verticalContainer" style="width: 50%; flex-grow: 0; height: 100%; flex-shrink: 0; justify-content: flex-start;">
-                <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0; justify-content: flex-start;">
-                    <ui:Label tabindex="-1" text="ESTADISTICAS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticTitle" style="color: rgb(190, 148, 101); font-size: 40px; -unity-text-align: upper-center;" />
-                    <ui:Label tabindex="-1" text="DAÑO POR LANZA-----------------------------0&#10;DAÑO POR ESPADA----------------------------0&#10;DAÑO POR HACHA-----------------------------0&#10;&#10;&#10;&#10;&#10;AGILIDAD--------------------------------------0&#10;VELOCIDAD------------------------------------0&#10;FUERZA----------------------------------------0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticsLabel" class="padding20" style="color: rgb(118, 85, 61); font-size: 24px; -unity-text-align: upper-left;" />
+                <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Sprites/HUD/Hud_fondoestadisticas.png?fileID=21300000&amp;guid=b781aaefb35a10641bdfcc53bcb37768&amp;type=3#Hud_fondoestadisticas&quot;); padding-top: 100px; padding-right: 50px; padding-left: 50px;">
+                    <ui:Label tabindex="-1" text="ESTADíSTICAS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticTitle" style="color: rgb(190, 148, 101); font-size: 40px; -unity-text-align: upper-center; -unity-font: url(&quot;project://database/Assets/Fonts/Orbitron-VariableFont_wght.ttf?fileID=12800000&amp;guid=6121a580d5235de42aa7a70e958794f4&amp;type=3#Orbitron-VariableFont_wght&quot;); -unity-font-definition: initial;" />
+                    <ui:Label tabindex="-1" text="DAÑO POR LANZA..............................................................................0&#10;DAÑO POR ESPADA...........................................................................0&#10;DAÑO POR HACHA.............................................................................0&#10;&#10;&#10;&#10;&#10;AGILIDAD..............................................................................................0&#10;VELOCIDAD..........................................................................................0&#10;FUERZA..................................................................................................0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticsLabel" class="padding20" style="color: rgb(118, 85, 61); font-size: 21px; -unity-text-align: upper-left; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Bourgeois-Medium.ttf?fileID=12800000&amp;guid=6b37a8dbaa02e344181f5339a3b23dd9&amp;type=3#Bourgeois-Medium&quot;); -unity-font-definition: initial;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
