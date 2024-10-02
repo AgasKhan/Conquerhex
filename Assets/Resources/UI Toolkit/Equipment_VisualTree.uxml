@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Template name="KataComboButtom" src="project://database/Assets/Resources/UI%20Toolkit/KataComboButtom.uxml?fileID=9197481963319205126&amp;guid=62d0515e4e5d00a46ab8a34a597e7dda&amp;type=3#KataComboButtom" />
     <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
-    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-wrap: wrap; background-color: rgb(0, 0, 0); transition-duration: 1s; background-image: url(&quot;project://database/Assets/Sprites/HUD/Hud_fondo.png?fileID=21300000&amp;guid=8b68bfc29219f84439768d37a350cc08&amp;type=3#Hud_fondo&quot;); -unity-background-image-tint-color: rgb(255, 255, 255);">
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-wrap: wrap; background-color: rgb(0, 0, 0); transition-duration: 1s; background-image: url(&quot;project://database/Assets/Sprites/HUD/Hud_fondo.png?fileID=21300000&amp;guid=8b68bfc29219f84439768d37a350cc08&amp;type=3#Hud_fondo&quot;); -unity-background-image-tint-color: rgb(185, 185, 185);">
         <ui:VisualElement name="NavBar" style="flex-grow: 0; height: 120px; padding-top: 20px; padding-bottom: 20px;">
             <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/linea.png?fileID=21300000&amp;guid=1f077dab981f5e844a06a9a5fcc698b0&amp;type=3#linea&quot;); -unity-background-image-tint-color: rgb(0, 0, 0); flex-direction: row; padding-left: 105px; padding-right: 105px;">
                 <ui:Button text="EQUIPAMIENTO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipmentButton" class="NavBarButtonStyle" style="color: rgb(212, 171, 141);" />
@@ -9,7 +9,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-            <ui:VisualElement name="LeftBox" style="flex-grow: 0; width: 50%; height: 100%; flex-shrink: 0; justify-content: center;">
+            <ui:VisualElement name="LeftBox" style="flex-grow: 0; width: 50%; height: 100%; flex-shrink: 0; justify-content: center; left: 0;">
                 <ui:VisualElement name="EquipmentContainer" style="flex-grow: 0; height: 88%; padding-left: 35px; align-self: auto;">
                     <ui:VisualElement name="Basics" class="horizontalContainer" style="width: 539px;">
                         <ui:VisualElement name="slotContainer" class="slotContainerStyle slotButtonClicked">
@@ -26,7 +26,7 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="AuxContainer" style="flex-grow: 1; flex-wrap: wrap; height: 85%; justify-content: space-around;">
-                        <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 70%; justify-content: space-between;">
+                        <ui:VisualElement name="Katas" style="flex-grow: 0; flex-shrink: 0; width: 30%; height: 80%; justify-content: space-between; border-bottom-width: 20px;">
                             <ui:Instance template="KataComboButtom" name="KataComboButtom" />
                             <ui:Instance template="KataComboButtom" name="KataComboButtom" />
                             <ui:Instance template="KataComboButtom" name="KataComboButtom" />
@@ -35,7 +35,7 @@
                         <ui:VisualElement name="Banner" style="flex-grow: 0; flex-shrink: 0; width: 45%; height: 100%; justify-content: center;">
                             <ui:VisualElement style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Urp/renders%20textures/RENUI.renderTexture?fileID=8400000&amp;guid=7a36e601a38520f408b2028f6c848669&amp;type=2#RENUI&quot;); flex-shrink: 0; height: 635px; -unity-background-scale-mode: scale-and-crop; width: 435px; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-slice-scale: 4.1px; scale: 1 1;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="Abilities" style="flex-grow: 0; flex-shrink: 0; width: 25%; height: 522px; justify-content: space-between; align-self: center; align-items: center;">
+                        <ui:VisualElement name="Abilities" style="flex-grow: 0; flex-shrink: 0; width: 25%; height: 550px; justify-content: space-between; align-self: center; align-items: center; border-bottom-width: 20px;">
                             <ui:VisualElement name="slotContainer" class="slotContainerStyle">
                                 <ui:VisualElement name="AbilityButton2" class="slotButton" style="background-image: url(&quot;project://database/Assets/Sprites/Menu/21ae3d0ffb602ef2035864c42cd9d7aa.jpg?fileID=1625422272&amp;guid=b12f87e42dbf70f41978da397e9d83cf&amp;type=3#21ae3d0ffb602ef2035864c42cd9d7aa_90&quot;);" />
                                 <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AbilityText2" class="slotTextStyle" />
@@ -53,7 +53,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="RightBox" class="padding20 verticalContainer" style="width: 50%; flex-grow: 0; height: 100%; flex-shrink: 0; justify-content: flex-start;">
-                <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Sprites/HUD/Hud_fondoestadisticas.png?fileID=21300000&amp;guid=b781aaefb35a10641bdfcc53bcb37768&amp;type=3#Hud_fondoestadisticas&quot;); padding-top: 100px; padding-right: 50px; padding-left: 50px;">
+                <ui:VisualElement class="verticalContainer" style="flex-grow: 0; height: 673px; flex-shrink: 0; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Sprites/HUD/Hud_fondoestadisticas.png?fileID=21300000&amp;guid=b781aaefb35a10641bdfcc53bcb37768&amp;type=3#Hud_fondoestadisticas&quot;); padding-top: 100px; padding-right: 50px; padding-left: 50px; top: 20px;">
                     <ui:Label tabindex="-1" text="ESTADíSTICAS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticTitle" style="color: rgb(190, 148, 101); font-size: 40px; -unity-text-align: upper-center; -unity-font: url(&quot;project://database/Assets/Fonts/Orbitron-VariableFont_wght.ttf?fileID=12800000&amp;guid=6121a580d5235de42aa7a70e958794f4&amp;type=3#Orbitron-VariableFont_wght&quot;); -unity-font-definition: initial;" />
                     <ui:Label tabindex="-1" text="DAÑO POR LANZA..............................................................................0&#10;DAÑO POR ESPADA...........................................................................0&#10;DAÑO POR HACHA.............................................................................0&#10;&#10;&#10;&#10;&#10;AGILIDAD..............................................................................................0&#10;VELOCIDAD..........................................................................................0&#10;FUERZA..................................................................................................0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statisticsLabel" class="padding20" style="color: rgb(118, 85, 61); font-size: 21px; -unity-text-align: upper-left; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/Bourgeois-Medium.ttf?fileID=12800000&amp;guid=6b37a8dbaa02e344181f5339a3b23dd9&amp;type=3#Bourgeois-Medium&quot;); -unity-font-definition: initial;" />
                 </ui:VisualElement>
