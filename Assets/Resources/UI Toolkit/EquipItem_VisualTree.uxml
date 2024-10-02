@@ -1,22 +1,38 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="KataComboButtom" src="project://database/Assets/Resources/UI%20Toolkit/KataComboButtom.uxml?fileID=9197481963319205126&amp;guid=62d0515e4e5d00a46ab8a34a597e7dda&amp;type=3#KataComboButtom" />
     <ui:Template name="ListItemButton" src="project://database/Assets/Resources/UI%20Toolkit/ListItemButton.uxml?fileID=9197481963319205126&amp;guid=6ca4905cc562c4f438b03ee3218a8758&amp;type=3#ListItemButton" />
     <Style src="project://database/Assets/Resources/UI%20Toolkit/Equipment_Style.uss?fileID=7433441132597879392&amp;guid=ede39c2673f7eac4dbd59765f3a3dd3a&amp;type=3#Equipment_Style" />
     <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/HUD/fonditoMenu.png?fileID=21300000&amp;guid=b6f0377ebb4eb8843a41b5cacd86a1fc&amp;type=3#fonditoMenu&quot;); -unity-background-image-tint-color: rgba(255, 255, 255, 0.39); background-color: rgb(0, 0, 0); flex-shrink: 0;">
-        <ui:VisualElement name="BoxTop" style="flex-grow: 0; height: 10%; flex-direction: row;">
-            <ui:Label tabindex="-1" text="EQUIPAR ITEM" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipTitle" class="titleText" />
+        <ui:VisualElement name="BoxTop" style="flex-grow: 0; height: 10%; flex-direction: row; align-self: flex-start; width: 100%; flex-shrink: 0;">
+            <ui:Label tabindex="-1" text="EQUIPAR KATA EN:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipTitle" class="titleText" style="margin-right: 28px;" />
             <ui:VisualElement style="flex-grow: 0; flex-direction: row; justify-content: space-around; width: 315px; left: 46%; flex-shrink: 0; position: absolute; height: 100%; right: auto; align-self: center; top: 22px;">
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="originalButton" class="displayHidden slotButtonWithoutHover" style="overflow: visible;">
                     <ui:Label tabindex="-1" text="Item &#10;Equipado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="slotTextStyle" style="position: absolute; top: 68px; color: rgb(255, 255, 255);" />
                 </ui:Button>
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="changeButton" class="slotButtonWithoutHover displayHidden" style="background-image: url(&quot;project://database/Assets/Sprites/Default%20Ability.png?fileID=21300000&amp;guid=d2ce69a48463d1e4c8d7e8b9b4ac7ff2&amp;type=3#Default Ability&quot;); overflow: visible;">
-                    <ui:Label tabindex="-1" text="Item por&#10;Reemplazar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="slotTextStyle" style="position: absolute; top: 68px; color: rgb(255, 255, 255);" />
+                    <ui:Label tabindex="-1" text="Item &#10;Seleccionado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="slotTextStyle" style="position: absolute; top: 68px; color: rgb(255, 255, 255);" />
                     <ui:VisualElement style="flex-grow: 0; position: absolute; flex-shrink: 0; background-image: url(&quot;project://database/Assets/Sprites/Exchange%20Symbol.png?fileID=21300000&amp;guid=8dd86f1cdaa1df44ea93c9d6c983f77e&amp;type=3#Exchange Symbol&quot;); width: 70px; height: 42.5px; right: 76px; -unity-background-image-tint-color: rgb(232, 221, 192);" />
                 </ui:Button>
             </ui:VisualElement>
+            <ui:Instance template="KataComboButtom" name="KataComboButtom" style="scale: 0.5 0.5; height: 120px;" />
         </ui:VisualElement>
         <ui:VisualElement name="BoxBottom" style="flex-grow: 1; flex-direction: row;">
             <ui:VisualElement style="flex-grow: 1; width: 32%; justify-content: center; align-items: center;">
-                <ui:VisualElement name="Inventory" class="verticalList" style="width: 88%; height: 843px; background-color: rgb(21, 23, 26); background-image: none; align-self: center;">
+                <ui:VisualElement name="selectedItem" class="verticalList" style="width: 88%; height: 133px; background-color: rgb(21, 23, 26); background-image: none; align-self: center;">
+                    <ui:Label tabindex="-1" text="ITEM EQUIPADO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LabeIE" class="subTitle" style="color: rgb(243, 232, 201); margin-left: 9px;" />
+                    <ui:VisualElement name="navBarIE" style="flex-grow: 0; height: 58px; width: 100%; align-self: center; align-items: flex-end; justify-content: flex-end; flex-direction: row; display: none;">
+                        <ui:TextField picking-mode="Ignore" value="a" name="inputTextField" style="width: 38%; color: rgb(173, 144, 91); align-self: center; justify-content: flex-end; height: 32px; font-size: 12px; overflow: hidden; text-overflow: ellipsis;" />
+                        <ui:Button text="Buscar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="searchButton" class="slotButton" style="align-self: center; height: 32px; background-image: none; color: rgb(243, 232, 201);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="searchBarIE" class="horizontalContainer" style="flex-grow: 0; height: 42px; width: 100%; align-self: center;">
+                        <ui:Label tabindex="-1" text="NOMBRE" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                        <ui:Label tabindex="-1" text="TIPO" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                        <ui:Label tabindex="-1" text="ESPECIALIDAD" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(243, 232, 201); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="equipedItemContainer" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Inventory" class="verticalList" style="width: 88%; height: 708px; background-color: rgb(21, 23, 26); background-image: none; align-self: center;">
                     <ui:Label tabindex="-1" text="INVENTARIO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="subTitle" style="color: rgb(243, 232, 201); margin-left: 9px;" />
                     <ui:VisualElement name="navBar" style="flex-grow: 0; height: 58px; width: 100%; align-self: center; align-items: flex-end; justify-content: flex-end; flex-direction: row; display: none;">
                         <ui:TextField picking-mode="Ignore" value="a" name="inputTextField" style="width: 38%; color: rgb(173, 144, 91); align-self: center; justify-content: flex-end; height: 32px; font-size: 12px; overflow: hidden; text-overflow: ellipsis;" />
@@ -29,7 +45,6 @@
                         <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center; width: 25%; -unity-text-align: upper-center;" />
                     </ui:VisualElement>
                     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="listContainer">
-                        <ui:Instance template="ListItemButton" name="ListItemButton" />
                         <ui:Instance template="ListItemButton" name="ListItemButton" />
                         <ui:Instance template="ListItemButton" name="ListItemButton" />
                         <ui:Instance template="ListItemButton" name="ListItemButton" />
@@ -59,7 +74,8 @@
                 <ui:VisualElement style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Urp/renders%20textures/RENUI.renderTexture?fileID=8400000&amp;guid=7a36e601a38520f408b2028f6c848669&amp;type=2#RENUI&quot;); width: 460px; height: 809px; flex-shrink: 0; -unity-background-scale-mode: scale-to-fit;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Button text="Cerrar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="closeButton" class="closeButton" />
+        <ui:Button text="Aceptar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="acceptButton" class="closeButton" style="right: 155px;" />
+        <ui:Button text="Cancelar" parse-escape-sequences="true" display-tooltip-when-elided="true" name="closeButton" class="closeButton" />
         <UIE_Tooltip name="UIE_Tooltip" style="position: absolute; flex-grow: 1; flex-shrink: 0; align-items: flex-start; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
     </ui:VisualElement>
 </ui:UXML>

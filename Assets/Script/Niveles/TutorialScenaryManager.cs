@@ -15,6 +15,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Character player;
     public Transform NPC;
 
+    public SpriteRenderer npcRenderer;
+
     public float maxDist = 10;
     IState<Character> playerIA;
 
@@ -22,16 +24,21 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Hexagone[] newBorders = new Hexagone[6];
     public Hexagone firstHexagon;
     public int tpsCounter = 0;
+
     bool nieve = false;
     bool desierto = false;
 
     public float damageGivenByExplosion = 25;
 
     [Header("Combat")]
-    public DestructibleObjects dummy;
+    public Entity dummy;
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
     public List<AttackBase.AbilityToEquip> abilitiesForPlayer = new List<AttackBase.AbilityToEquip>();
+
+    public DestructibleObjects platform;
+
+    byte parryCount;
     bool weaponGive = false;
 
 
@@ -52,7 +59,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     System.Action<Hexagone, int> teleportEvent;
     System.Action<int, MeleeWeapon> weaponEvent;
-    System.Action<Damage> dummyTakeDamageEvent;
+    System.Action<Damage> DummyTakeDamageEvent;
     System.Action<Health> healthEvent;
 
     bool distanceCheck;
@@ -66,9 +73,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     #region DISTANCE ULTRA HARDCODEADO
     public void NPCDistance()
     {
-        float dist = Vector3.Distance(player.transform.position, NPC.position);
 
-        if (dist >= maxDist)
+        if ((NPC.position - player.transform.position).sqrMagnitude >= maxDist * maxDist)
         {
             NextDialog();
             distanceCheck = false;
@@ -94,7 +100,37 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void DistanceBoolSet(bool e) => distanceCheck = e;
 
+    //public Animator dummyAnim;
 
+    // [ContextMenu("Anim")]
+    // public void Test()
+    // {
+    //     var a = dummy.GetComponent<TestDamageEntity>();
+
+    //     a.Init(() =>  Debug.Log("pase por aca 2"), () => { dummyAnim.SetTrigger("Attack"); Debug.Log("pase por aca 2"); });
+
+
+    //     Debug.Log("pase por aca");
+    // }
+
+    public Light ElecLight;
+
+    public void ExecuteDamageParry()
+    {
+        var a = platform.GetComponent<TestDamageEntity>();
+        a.ExitAction = () => ElecLight.intensity = 0;
+
+        a.Init(() =>
+        {
+            ElecLight.intensity += Time.deltaTime * 5;
+        },
+        () =>
+        {
+            var index = PoolManager.SrchInCategory("Particles", "Chispas");
+            PoolManager.SpawnPoolObject(index, player.transform.position, Quaternion.identity);
+            a.ExitAction?.Invoke();
+        });
+    }
     public void EnableExit()
     {
         goal.SetActive(true);
@@ -108,6 +144,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
         PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity);
+        npcRenderer.enabled = true;
     }
 
     public void WaitToEnableDialog(float time)
@@ -142,6 +179,11 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         healthEvent = HealthEvent2;
     }
 
+    public void ParryPlatformDialog()
+    {
+        player.caster.abilities[0].equiped.onApplyCast += TakeDamagePlatform;
+    }
+
     void HealthEvent2(Health obj)
     {
         if (obj.actualLife >= obj.maxLife && obj.actualRegen >= obj.maxRegen)
@@ -152,15 +194,38 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     }
 
 
+
+
     public void TakeDamageDummyDialog()
     {
-        dummyTakeDamageEvent = TakeDamageDummy;
+        DummyTakeDamageEvent = TakeDamageDummy;
     }
 
     void TakeDamageDummy(Damage dmg)
     {
         NextDialog();
-        dummyTakeDamageEvent = null;
+        DummyTakeDamageEvent = null;
+    }
+
+    void TakeDamagePlatform(Ability a)
+    {
+        //if (platform.health.actualLife >= platform.health.maxLife) return;
+
+        parryCount++;
+        if (!parryCount.Equals(10)) return;
+
+        interfaz.CompleteObjective(0);
+        platform.GetComponent<TestDamageEntity>().StopTimer();
+        platform.gameObject.SetActive(false);
+
+        var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
+        PoolManager.SpawnPoolObject(index, platform.transform.position, Quaternion.identity);
+
+        player.caster.abilities[0].equiped.onApplyCast -= TakeDamagePlatform;
+        
+
+        parryCount = 0;
+
     }
 
     private void EquipeWeapon(int arg1, MeleeWeapon arg2)
@@ -238,7 +303,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         abilitiesForPlayer[0].isBlocked = false;
         SetPlayerAbility(abilitiesForPlayer[0]);
-        player.caster.abilities[0].equiped.onApplyCast += SetParry;
+        player.caster.abilities[0].equiped.onApplyCast += TakeDamagePlatform;
 
     }
 
@@ -332,6 +397,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         currentDialog++;
 
         interfaz.CompleteAllObjective();
+
+        npcRenderer.enabled = true;
     }
 
     void EndDialog()
@@ -344,6 +411,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         VirtualControllers.Interact.eventDown -= InteractDialog;
         VirtualControllers.Principal.eventDown -= InteractDialog;
+        VirtualControllers.Inventory.enable = true;
+
+        npcRenderer.enabled = false;
     }
 
     /// <summary>
@@ -351,12 +421,15 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     /// </summary>
     public void ShowDialog()
     {
+
         if (currentDialog >= allDialogs.Length)
             return;
 
         messageToShow = allDialogs[currentDialog].dialog;
 
         interfaz.ClearObjective();
+
+        VirtualControllers.Inventory.enable = false;
 
         foreach (var item in allDialogs[currentDialog].objective.Split('\n'))
         {
@@ -409,8 +482,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     private void DummyTakeDamage(Damage obj)
     {
-        dummyTakeDamageEvent?.Invoke(obj);
+        DummyTakeDamageEvent?.Invoke(obj);
     }
+
 
     private void HealthEvent(Health obj)
     {
@@ -458,6 +532,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         interfaz = UI.Interfaz.instance;
 
         dialogText.off += EndDialog;
+
+
     }
 
     void Update()
@@ -476,6 +552,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         attacksCounter = 0;
 
         LoadSystem.AddPostLoadCorutine(Init);
+
+
     }
 }
 

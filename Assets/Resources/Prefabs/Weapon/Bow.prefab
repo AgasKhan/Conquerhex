@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 135213955495310998}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Pivot (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 7389360221315798171}
   - component: {fileID: 3875497167545588056}
   - component: {fileID: 5494622583228329028}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2582133277949839284}
   - component: {fileID: 4617282812529801425}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Line Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6739283286921314861}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Pivot (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5622897714408867463}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: TestPoint
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
@@ -405,10 +405,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -38.61
       objectReference: {fileID: 0}
+    - target: {fileID: -4230273169650919716, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: -2797864980895152918, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_Name
       value: Bones
+      objectReference: {fileID: 0}
+    - target: {fileID: -2797864980895152918, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -2008215078821233541, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -1400599304863168664, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
@@ -424,6 +439,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 45.972
+      objectReference: {fileID: 0}
+    - target: {fileID: -1306019092143371944, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -1157563346502857017, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
@@ -445,26 +465,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: Up
       objectReference: {fileID: 0}
+    - target: {fileID: -412989040442181847, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 747875744724966358, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_Name
       value: Bow with bones
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4918753458281921464, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 89.121
       objectReference: {fileID: 0}
+    - target: {fileID: 5401815459303951155, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6264235250530490713, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_Name
       value: Down
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264235250530490713, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6784114365755052097, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fcf11da1ab0dcf14e9b1269094df2c60, type: 2}
+    - target: {fileID: 7238874711695417078, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975497766994720812, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108559422943902843, guid: abfb3466e2ef0804e967072c8e1e4f0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

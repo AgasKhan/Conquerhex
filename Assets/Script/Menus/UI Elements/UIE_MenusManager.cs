@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
 public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
 {
@@ -28,6 +29,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public Sprite defaultKataImage;
     public string defaultKataText;
 
+    public Pictionarys<string, string> shortCuts = new Pictionarys<string, string>();
 
     string currentMenu = "";
     string lastMenu;
@@ -35,6 +37,10 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     string tooltTile = "";
     string tooltContent = "";
     Sprite tooltSprite = null;
+    string tooltAuxText = "";
+
+    public AnimationInfo idleAnim;
+    public AnimationInfo showWeaponAnim;
 
     /*
     public List<Sprite> basicsKeys = new List<Sprite>();
@@ -79,7 +85,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     void ShowTooltip()
     {
         tooltipLeaveTimer.Stop();
-        menuList[currentMenu].tooltip.SetParams(tooltTile, tooltContent, tooltSprite);
+        menuList[currentMenu].tooltip.SetParams(tooltTile, tooltContent, tooltSprite, tooltAuxText);
         menuList[currentMenu].tooltip.BringToFront();
 
         var mousePosition = Input.mousePosition;
@@ -90,16 +96,23 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         menuList[currentMenu].tooltip.style.left = mousePositionCorrected.x;
     }
     
-    public void SetTooltipTimer(string _title, string _content, Sprite _image)
+    public void SetTooltipTimer(string _title, string _content, string _keyAuxText)
     {
-        //Debug.Log("ShowTooltip");
-
         tooltipLeaveTimer.Stop();
         tooltipTimer.Reset();
 
         tooltTile = _title;
         tooltContent = _content;
-        tooltSprite = _image;
+
+        if (_keyAuxText != "")
+            tooltAuxText = shortCuts[_keyAuxText];
+        else
+            tooltAuxText = "";
+    }
+
+    public string GetAuxTooltipText(string _key)
+    {
+        return shortCuts[_key];
     }
 
     public void StartHideTooltip(MouseLeaveEvent mouseEvent)
@@ -112,6 +125,30 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     {
         tooltipLeaveTimer.Stop();
         menuList[currentMenu].tooltip.HideTooltip();
+    }
+
+    public Sprite GetImage<T>(ItemEquipable itemEquiped) where T : ItemEquipable
+    {
+        if (itemEquiped != null)
+            return itemEquiped.image;
+        else if (typeof(T) == typeof(MeleeWeapon))
+            return defaultWeaponImage;
+        else if (typeof(T) == typeof(WeaponKata))
+            return defaultKataImage;
+        else
+            return defaultAbilityImage;
+    }
+
+    public string GetText<T>(ItemEquipable itemEquiped) where T : ItemEquipable
+    {
+        if (itemEquiped != null)
+            return itemEquiped.nameDisplay;
+        else if (typeof(T) == typeof(MeleeWeapon))
+            return defaultWeaponText;
+        else if (typeof(T) == typeof(WeaponKata))
+            return defaultKataText;
+        else
+            return defaultAbilityText;
     }
 
     void ChargeResources()
