@@ -200,5 +200,17 @@ public class UIE_KataButton : VisualElement
         blockerText.text = _text;
         Block(true);
     }
+
+    public void Enable()
+    {
+        kataButton.pickingMode = PickingMode.Position;
+        weaponButton.pickingMode = PickingMode.Position;
+    }
+    public void Disable()
+    {
+        kataButton.pickingMode = PickingMode.Ignore;
+        weaponButton.pickingMode = PickingMode.Ignore;
+    }
+
     public UIE_KataButton() { }
 }

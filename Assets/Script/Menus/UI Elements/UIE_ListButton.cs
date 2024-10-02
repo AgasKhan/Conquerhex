@@ -109,5 +109,14 @@ public class UIE_ListButton : VisualElement
         RegisterCallback<ClickEvent>((clEvent) => _mainAction.Invoke());
     }
 
+    public void Enable()
+    {
+        pickingMode = PickingMode.Position;
+    }
+    public void Disable()
+    {
+        pickingMode = PickingMode.Ignore;
+    }
+
     public UIE_ListButton() { }
 }
