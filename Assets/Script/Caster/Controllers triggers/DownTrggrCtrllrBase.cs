@@ -16,10 +16,15 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
 {
     new DownTrggrCtrllrBase triggerBase => base.triggerBase as DownTrggrCtrllrBase;
 
+    public override void OnStayState(CasterEntityComponent param)
+    {
+        base.OnStayState(param);
+        ability.FeedbackDetect();
+        Detect();
+    }
+
     public override void ControllerDown(Vector2 dir, float tim)
     {
-        ability.FeedbackDetect();
-
         Detect();
 
         Cast();

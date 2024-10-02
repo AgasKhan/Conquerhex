@@ -177,7 +177,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
             VirtualControllers.CameraBlock.eventPress -= CameraBlockTopDownStay;
             VirtualControllers.CameraBlock.eventDown -= CameraBlockPerspectiveDown;
-            this.character.aimingEventMediator.eventPress -= AimingEventMediatorEventPress;
+            VirtualControllers.Camera.eventPress -= AimingEventMediatorEventPress;
 
             switch (obj)
             {
@@ -428,10 +428,12 @@ public class MainCamera : SingletonMono<MainCamera>
 
     }
 
+    /*
     private void OnValidate()
     {
         Refresh();
     }
+    */
 
     private void OnEnable()
     {
