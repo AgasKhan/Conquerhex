@@ -37,7 +37,6 @@ public class UIE_BaseMenu : MyScripts
 
         ui.style.display = DisplayStyle.None;
         ui.AddToClassList("opacityHidden");
-        
 
         /*
         LoadSystem.AddPostLoadCorutine(() => 
@@ -70,6 +69,7 @@ public class UIE_BaseMenu : MyScripts
 
         ui.RemoveFromClassList("opacityHidden");
         //ui.AddToClassList("opacityVisible");
+        character.GetInContainer<AnimatorController>().SetScaleController(AnimatorUpdateMode.UnscaledTime);
 
         onEnableMenu?.Invoke();
     }
@@ -88,8 +88,9 @@ public class UIE_BaseMenu : MyScripts
         ui.style.display = DisplayStyle.None;
 
         //TimersManager.Create(0.2f, () => ui.style.display = DisplayStyle.None);
-        
 
+
+        character.GetInContainer<AnimatorController>().SetScaleController();
         onDisableMenu?.Invoke();
     }
 

@@ -16,6 +16,10 @@ public class UIE_SlotButton : VisualElement
     SlotItem slotItem;
     bool isBlocked = false;
 
+    System.Action mainAct = default;
+    System.Action enterMouseAct = default;
+    System.Action leaveMouseAct = default;
+
     public void Init<T>(SlotItem _slotItem, UnityAction action) where T : ItemEquipable
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
@@ -29,7 +33,12 @@ public class UIE_SlotButton : VisualElement
         if (slotItem.equiped?.GetType() == typeof(AbilityExtCast))
             slotImage.AddToClassList("abilityBorder");
 
-        slotImage.RegisterCallback<ClickEvent>((clevent)=> action.Invoke());
+        mainAct = () => action.Invoke();
+        slotImage.RegisterCallback<ClickEvent>((clevent)=> mainAct.Invoke());
+
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => enterMouseAct.Invoke());
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct.Invoke());
 
         InitTooltip();
     }
@@ -42,15 +51,21 @@ public class UIE_SlotButton : VisualElement
         //Debug.Log("slotImage is null = " + (slotImage == null) + "\nstyle is null= " + (slotImage.style == null) + "\nbackgroundImage is null = " + (slotImage.style.backgroundImage == null)+ "\nSended image is null = "+(image==null));
         slotImage.style.backgroundImage = new StyleBackground(image);
         slotText.text = text;
+        mainAct = ()=> action.Invoke();
 
         if (typeof(T) == typeof(AbilityExtCast))
         {
             slotImage.AddToClassList("abilityBorder");
         }
 
-        slotImage.RegisterCallback<ClickEvent>((clevent) => action.Invoke());
+        slotImage.RegisterCallback<ClickEvent>((clevent) => mainAct.Invoke());
+
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => enterMouseAct.Invoke());
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct.Invoke());
     }
     
+
     void InitTooltip()
     {
         ItemEquipable aux = slotItem.equiped;
@@ -75,16 +90,23 @@ public class UIE_SlotButton : VisualElement
             _content = "Utilizas la energía de tu alrededor para materializarla en daño";
         }
 
-        RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        AddEnterMouseEvent(() =>
         {
             if (!isBlocked)
                 UIE_MenusManager.instance.SetTooltipTimer(_title, _content, slotItem.GetSlotType().ToString() + slotItem.indexSlot);
         });
 
-        RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
-        {
-            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
-        });
+        AddLeaveMouseEvent(()=> UIE_MenusManager.instance.StartHideTooltip(default));
+
+    }
+
+    public void AddEnterMouseEvent(System.Action _action)
+    {
+        enterMouseAct += _action;
+    }
+    public void AddLeaveMouseEvent(System.Action _action)
+    {
+        leaveMouseAct += _action;
     }
 
     public void Block(bool _condition)

@@ -232,8 +232,8 @@ public class UIE_CombosMenu : UIE_Equipment
                     auxAbility.CreateCopy(out int indexCopy);
                     character.caster.combos[index].indexEquipedItem = indexCopy;
 
-                    Debug.Log("Indice de la copia creada: " + indexCopy);
-                    Debug.Log("Copia equipada en el slot: " + index);
+                    //Debug.Log("Indice de la copia creada: " + indexCopy);
+                    //Debug.Log("Copia equipada en el slot: " + index);
                     SetComboButton(character.caster.combos[index].equiped, index);
                     HiddeItemList();
                 };

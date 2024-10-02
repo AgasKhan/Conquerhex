@@ -18,12 +18,21 @@ public class UIE_KataButton : VisualElement
     bool isBlocked = false;
     SlotItem<WeaponKata> slotItem;
 
-    public void Init(SlotItem<WeaponKata> _slotItem, UnityAction action, UnityAction _weaponAction)
+    System.Action mainAct = default;
+    System.Action weaponAct = default;
+    System.Action enterMouseAct = default;
+    System.Action hoverMouseAct = default;
+    System.Action leaveMouseAct = default;
+
+    UIE_SlotButton weaponButton;
+    public void Init(SlotItem<WeaponKata> _slotItem, UnityAction _action, UnityAction _weaponAction)
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["KataComboButtom"];
         asset.CloneTree(this);
 
         slotItem = _slotItem;
+        mainAct = () => _action.Invoke();
+        weaponAct = () => _weaponAction.Invoke();
 
         kataImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<WeaponKata>(slotItem.equiped));
         kataText.text = UIE_MenusManager.instance.GetText<WeaponKata>(slotItem.equiped);
@@ -31,12 +40,16 @@ public class UIE_KataButton : VisualElement
         if (slotItem.equiped != null)
             kataButton.AddToClassList("kataBorder");
 
-        kataButton.RegisterCallback<ClickEvent>((clevent) => action.Invoke());
+        kataButton.RegisterCallback<ClickEvent>((clevent) => mainAct.Invoke());
 
-        var weaponButton = new UIE_SlotButton();
+        weaponButton = new UIE_SlotButton();
 
         weaponConteiner.Add(weaponButton);
-        weaponButton.Init<MeleeWeapon>(UIE_MenusManager.instance.GetImage<MeleeWeapon>(slotItem.equiped?.Weapon), UIE_MenusManager.instance.GetText<MeleeWeapon>(slotItem.equiped?.Weapon), _weaponAction);
+        weaponButton.Init<MeleeWeapon>(UIE_MenusManager.instance.GetImage<MeleeWeapon>(slotItem.equiped?.Weapon), UIE_MenusManager.instance.GetText<MeleeWeapon>(slotItem.equiped?.Weapon), ()=> weaponAct.Invoke());
+
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => enterMouseAct?.Invoke());
+        RegisterCallback<MouseOverEvent>((mouseEvent) => hoverMouseAct?.Invoke());
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct?.Invoke());
 
         InitTooltip();
     }
@@ -66,7 +79,6 @@ public class UIE_KataButton : VisualElement
     void InitTooltip()
     {
         WeaponKata aux = slotItem.equiped;
-
         string _title;
         string _content;
 
@@ -81,40 +93,40 @@ public class UIE_KataButton : VisualElement
             _content = "Movimiento marcial\n\n" + "Requiere de equipar un arma en la casilla contigua".RichText("color", "#c9ba5d");
         }
 
-        RegisterCallback<MouseOverEvent>((mouseEvent) =>
+        AddHoverMouseEvent(() =>
         {
             if (!isOnWeapon && !isBlocked)
                 UIE_MenusManager.instance.SetTooltipTimer(_title, _content, slotItem.GetSlotType().ToString() + slotItem.indexSlot);
         });
-        RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
-        {
-            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
-        });
+
+        AddLeaveMoususeEvent(() =>UIE_MenusManager.instance.StartHideTooltip(default));
 
         MeleeWeapon weapon = slotItem.equiped?.Weapon;
+        string _titleWeapon;
+        string _contentWeapon;
 
         if (weapon != null)
         {
-            _title = weapon.nameDisplay;
-            _content = weapon.GetItemBase().GetTooltip();
+            _titleWeapon = weapon.nameDisplay;
+            _contentWeapon = weapon.GetItemBase().GetTooltip();
         }
         else
         {
-            _title = "Arma de Kata";
-            _content = "Herramienta vital para efectuar el daño de la kata\n\n" + "Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d");
+            _titleWeapon = "Arma de Kata";
+            _contentWeapon = "Herramienta vital para efectuar el daño de la kata\n\n" + "Requiere de equipar una kata en la casilla contigua".RichText("color", "#c9ba5d");
         }
 
-        weaponConteiner.RegisterCallback<MouseEnterEvent>((mouseEvent) =>
+        weaponButton.AddEnterMouseEvent(() =>
         {
             isOnWeapon = true;
             if (!isBlocked)
-                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, slotItem.GetSlotType().ToString() + slotItem.indexSlot);
+                UIE_MenusManager.instance.SetTooltipTimer(_titleWeapon, _contentWeapon, slotItem.GetSlotType().ToString() + slotItem.indexSlot);
         });
 
-        weaponConteiner.RegisterCallback<MouseLeaveEvent>((mouseEvent) =>
+        weaponButton.AddLeaveMouseEvent(() =>
         {
             isOnWeapon = false;
-            UIE_MenusManager.instance.StartHideTooltip(mouseEvent);
+            UIE_MenusManager.instance.StartHideTooltip(default);
         });
     }
     /*
@@ -146,6 +158,19 @@ public class UIE_KataButton : VisualElement
         });
     }
     */
+    public void AddEnterMouseEvent(System.Action _action)
+    {
+        enterMouseAct += _action;
+    }
+    public void AddHoverMouseEvent(System.Action _action)
+    {
+        hoverMouseAct += _action;
+    }
+    public void AddLeaveMoususeEvent(System.Action _action)
+    {
+        leaveMouseAct += _action;
+    }
+
 
     public void SetAuxText(string _auxText)
     {

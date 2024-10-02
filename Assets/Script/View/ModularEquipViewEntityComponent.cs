@@ -59,6 +59,29 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     string GetHand(ViewEquipWeapon.HandHandling handHandling) => handHandling == ViewEquipWeapon.HandHandling.Normal ? "RightAttack" : "LeftAttack";
 
+    public void SpawnWeapon(ViewEquipWeapon _weapon)
+    {
+        var weapon = this[_weapon];
+        if (weapon.Spawn())
+        {
+            visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
+            visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
+            visualEffect.SetInt("CountPCache", weapon.countPCache);
+            visualEffect.SetBool("SpawnDespawn", true);
+            visualEffect.Play();
+        }
+    }
+
+    public void DeSpawnWeapon(ViewEquipWeapon _weapon)
+    {
+        var weapon = this[_weapon];
+        if (weapon.Despawn())
+        {
+            visualEffect.SetBool("SpawnDespawn", false);
+            visualEffect.Play();
+        }
+    }
+
     private void OnWeaponEquipInSlot(int arg1, MeleeWeapon arg2)
     {
         var model = arg2?.itemBase.weaponModel;
