@@ -190,6 +190,8 @@ public class IAIO : IAFather
         param.aiming.onMode -= Aiming_onMode;
         //param.onTakeDamage -= OnTakeDamage;
 
+        DesuscribiUI();
+
         attackEventMediator.eventDown -= AttackEventMediator_eventDown;
 
         abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
