@@ -29,6 +29,7 @@ public class CastingParry : CastingAction<CastingParryBase>
     CastingAction failureCastingAction;
 
     bool successParry = false;
+    public bool Success => successParry;
 
     System.Action<(Damage dmg, int weightAction, Vector3? origin)> takeDamage;
 
@@ -37,7 +38,7 @@ public class CastingParry : CastingAction<CastingParryBase>
         base.Init(ability);
         parryTime = TimersManager.Create(castingActionBase.parryTime, Finish).Stop();
 
-        if(castingActionBase.successCastingAction != null)
+        if (castingActionBase.successCastingAction != null)
         {
             successCastingAction = castingActionBase.successCastingAction.Create();
             successCastingAction.Init(ability);
@@ -75,7 +76,7 @@ public class CastingParry : CastingAction<CastingParryBase>
 
         parryTime.Reset();
 
-        ability.onEndAction += (a)=> a.PlayAction("Middle");
+        ability.onEndAction += (a) => a.PlayAction("Middle");
 
         End = false;
 
@@ -91,7 +92,7 @@ public class CastingParry : CastingAction<CastingParryBase>
 
         successParry = true;
         if (successCastingAction != null)
-        { 
+        {
             ability.ApplyCast(successCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool shPos, out bool shDmg), shPos, shDmg);
             ability.PlaySound("Succes");
             End = false;
@@ -106,7 +107,7 @@ public class CastingParry : CastingAction<CastingParryBase>
 
         if (!successParry)
         {
-            if(failureCastingAction!=null)
+            if (failureCastingAction != null)
             {
                 ability.ApplyCast(failureCastingAction.InternalCastOfExternalCasting(null, out bool shPos, out bool shDmg), shPos, shDmg);
                 End = false;
