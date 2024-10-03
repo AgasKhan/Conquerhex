@@ -205,6 +205,7 @@ public class UIE_KataButton : VisualElement
 
     public void FreezzeButton()
     {
+        mainAct = () => { };
         kataButton.RemoveFromClassList("kataButton");
         kataButton.AddToClassList("kataButtonNoHover");
         AddToClassList("halfScale");

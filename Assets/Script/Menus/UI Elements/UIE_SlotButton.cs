@@ -32,8 +32,6 @@ public class UIE_SlotButton : VisualElement
 
         if (slotItem.equiped?.GetType() == typeof(AbilityExtCast))
             backImage.AddToClassList("abilityBorder");
-        else
-            slotImage.AddToClassList("biggerScale");
 
         mainAct = () => action.Invoke();
         backImage.RegisterCallback<ClickEvent>((clevent)=> mainAct.Invoke());
@@ -69,7 +67,7 @@ public class UIE_SlotButton : VisualElement
     
     public void HideBackImage()
     {
-        backImage.HideInUIE();
+        backImage.AddToClassList("imgOpacityHidden");
     }
     void InitTooltip()
     {
@@ -134,6 +132,7 @@ public class UIE_SlotButton : VisualElement
 
     public void FreezzeButton()
     {
+        mainAct = () => { };
         backImage.RemoveFromClassList("hexagon");
         backImage.AddToClassList("hexagonNoHover");
         AddToClassList("smallerScale");

@@ -85,7 +85,11 @@ public class UIE_EquipMenu : UIE_Equipment
         CreateListItems();
         SetOriginalButton();
 
-        TimersManager.Create(0.1f, () => { character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(); Debug.Log("Timer Termmo"); }).SetUnscaled(true);
+        TimersManager.Create(0.1f, () => 
+        { 
+            if(slotItem.GetSlotType() == typeof(MeleeWeapon))
+                character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(); 
+        }).SetUnscaled(true);
     }
     private void myOnDisable()
     {
@@ -153,6 +157,15 @@ public class UIE_EquipMenu : UIE_Equipment
             _kata.Disable();
             originalItemContainer.Add(_kata);
             _kata.FreezzeButton();
+
+            _kata.AddEnterMouseEvent(() =>
+            {
+                if (itemEquiped != null)
+                    ShowItemDetails(itemEquiped.nameDisplay, itemEquiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(itemEquiped, slotItem), itemEquiped.image);
+                else
+                    ShowItemDetails("No tienes nada equipado", "", null);
+            });
+
             return;
         }
 
@@ -306,8 +319,9 @@ public class UIE_EquipMenu : UIE_Equipment
     {
         if (filterType == typeof(MeleeWeapon) && equipedItemIndex >= 0)
             ShowHideWeaponInMenu(true);
-        else if (filterType == typeof(WeaponKata))
+        else if (filterType == typeof(WeaponKata) && equipedItemIndex >= 0)
             ShowAnimationLoop((character.inventory[equipedItemIndex] as WeaponKata).itemBase.animations.animClips["Cast"]);
+            
     }
 
     void SetStaticItem(int _index)
@@ -321,7 +335,7 @@ public class UIE_EquipMenu : UIE_Equipment
             {
                 EquipOtherItem(-1);
                 changeButton.HideInUIE();
-                ShowItemDetails("No tienes nada equipado", "", null);
+                ShowItemDetails(GetText(null, filterType), "", null);
             });
             equipedItemButton.SetEquipText("Desequipar");
             equipedItemButton.SetHoverAction(() =>
@@ -562,9 +576,29 @@ public class UIE_EquipMenu : UIE_Equipment
     void ShowItemDetails(string nameDisplay, string details, Sprite Image)
     {
         containerDW.RemoveFromClassList("opacityHidden");
-        titleDW.text = nameDisplay;
-        descriptionDW.text = details;
-        imageDW.style.backgroundImage = new StyleBackground(Image);
+        if (nameDisplay == "")
+            titleDW.HideInUIE();
+        else
+        {
+            titleDW.ShowInUIE();
+            titleDW.text = nameDisplay;
+        }
+
+        if (details == "")
+            descriptionDW.HideInUIE();
+        else
+        {
+            descriptionDW.ShowInUIE();
+            descriptionDW.text = details;
+        }
+
+        if (Image == null)
+            imageDW.HideInUIE();
+        else
+        {
+            imageDW.ShowInUIE();
+            imageDW.style.backgroundImage = new StyleBackground(Image);
+        }
     }
 
     string GetDamageDetails(Item item, SlotItem slotItem)
