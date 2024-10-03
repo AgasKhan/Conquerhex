@@ -57,12 +57,16 @@ public class RangeWeapon : MeleeWeapon
         if(ability.isPerspective)
         {
             aim = ability.ObjectiveToAim - sapawnPos;
-            aim = Quaternion.Euler(Random.Range(ability.Angle / -2, ability.Angle / 2), Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (aim);
+
+            var angle = Mathf.Clamp(ability.Angle, 0 , 30);
+
+            aim = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (aim);
         }
         else
         {
+            var angle = Mathf.Clamp(ability.Angle, 0, 60);
             aim = ability.AimingXZ;
-            aim = Quaternion.Euler(0 , Random.Range(ability.Angle / -2, ability.Angle / 2), 0) * (aim);
+            aim = Quaternion.Euler(0 , Random.Range(angle / -2, angle / 2), 0) * (aim);
 
             if (damageables != null)
             {

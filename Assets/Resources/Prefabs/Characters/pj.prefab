@@ -547,10 +547,10 @@ MonoBehaviour:
   <caster>k__BackingField: {fileID: 0}
   <move>k__BackingField: {fileID: 0}
   <aiming>k__BackingField: {fileID: 0}
+  <nextTimeCombo>k__BackingField: 0.15
   <actualCombo>k__BackingField: -2
   nextCombo: -1
   deltaTimeCombo: 0.3
-  <nextTimeCombo>k__BackingField: 0.15
   stunBar:
     rid: 1000
   iaOn: 1
@@ -960,6 +960,11 @@ MonoBehaviour:
         canChange: 1
         clip: {fileID: 1827226128182048838, guid: 14486a6fa79234b49acfb7194d40fd14,
           type: 3}
+    - key: anim_hurt
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: dabc26bb62dd2f64cbb5ee888765da32,
+          type: 3}
   actionsName:
   - anim_meleeATK
   - anim_meleeATK_2
@@ -1098,6 +1103,8 @@ MonoBehaviour:
     rotationPerspective: {x: 0.34202012, y: 0, z: 0, w: 0.9396926}
     vectorPerspective: {x: 0, y: 0, z: -14}
     fov: 30
+    areaFeedBack: 1
+    entitiesOverlay: 1
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0
@@ -1109,6 +1116,8 @@ MonoBehaviour:
     rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0.5, y: 0, z: -3.5}
     fov: 30
+    areaFeedBack: 0
+    entitiesOverlay: 0
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0
@@ -1120,6 +1129,8 @@ MonoBehaviour:
     rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0, y: 0, z: 0}
     fov: 30
+    areaFeedBack: 0
+    entitiesOverlay: 0
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0

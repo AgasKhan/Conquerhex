@@ -22,6 +22,8 @@ public class PressTrggrCtrllr : TriggerController
     public Timer pressCooldown;
 
     new public PressTrggrCtrllrBase triggerBase => (PressTrggrCtrllrBase)base.triggerBase;
+
+    bool inCast;
     public override void Set()
     {
         if (pressCooldown != null)
@@ -36,7 +38,13 @@ public class PressTrggrCtrllr : TriggerController
 
         Detect();
 
-        Cast(() => End = false);
+        inCast = true;
+        
+        Cast(() =>
+        {
+            End = false;
+            inCast = false;
+        });
 
         pressCooldown.Reset();
     }
@@ -49,16 +57,27 @@ public class PressTrggrCtrllr : TriggerController
         
         if (pressCooldown.Chck)
         {
-            Cast(() => End = false);
+            inCast = true;
+
+            Cast(() =>
+            {
+                End = false;
+                inCast = false;
+            });
 
             pressCooldown.Reset();
-
         }
     }
 
     public override void ControllerUp(Vector2 dir, float tim)
     {
-        pressCooldown.Reset();
-        End = true;
+        if(inCast)
+        {
+            ability.onEndAction += (a) => End = true;
+        }
+        else
+            End = true;
+
+        pressCooldown.Stop();
     }
 }

@@ -59,13 +59,18 @@ public class MainCamera : SingletonMono<MainCamera>
 
         Character character;
 
-        Timer transitionsSet;
+        [HideInInspector]
+        public TimedCompleteAction transitionsSet;
 
         [SerializeField]
         int cameraSet;
 
         [SerializeField]
         int prevCameraSet;
+
+        public bool setDetectLayer => character.aiming.sets[cameraSet].areaFeedBack;
+
+        public bool setEntitiesOverlay => character.aiming.sets[cameraSet].entitiesOverlay;
 
         ref Vector3 setOffsetObjPosition => ref character.aiming.sets[cameraSet].offsetObjPosition;
 
@@ -94,7 +99,15 @@ public class MainCamera : SingletonMono<MainCamera>
 
         Transform toTrack;
 
-        RaycastHit hitInfo; 
+        RaycastHit hitInfo;
+
+        System.Action _update;
+
+        public void Destroy()
+        {
+            transitionsSet.Destroy();
+        }
+
         Quaternion RotationCamera()
         {
             return Quaternion.Euler(0, 0, -rotationEulerPerspective.y);
@@ -157,7 +170,10 @@ public class MainCamera : SingletonMono<MainCamera>
             rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
 
             rotationEulerPerspective.y += arg1.x;
+        }
 
+        private void AimingUpdate()
+        {
             if (hitInfo.transform != null)
             {
                 character.aiming.ObjectivePosition = hitInfo.point;
@@ -167,6 +183,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
             character.aiming.ObjectivePosition = (rotationPerspective * Vector3.forward * 100) + CameraPosition;
         }
+
         private void Aiming_onMode(AimingEntityComponent.Mode obj)
         {
             prevCameraSet = cameraSet;
@@ -178,6 +195,7 @@ public class MainCamera : SingletonMono<MainCamera>
             VirtualControllers.CameraBlock.eventPress -= CameraBlockTopDownStay;
             VirtualControllers.CameraBlock.eventDown -= CameraBlockPerspectiveDown;
             VirtualControllers.Camera.eventPress -= AimingEventMediatorEventPress;
+            _update -= AimingUpdate;
 
             switch (obj)
             {
@@ -194,6 +212,8 @@ public class MainCamera : SingletonMono<MainCamera>
 
                     VirtualControllers.Camera.eventPress += AimingEventMediatorEventPress;
 
+                    _update += AimingUpdate;
+
                     break;
 
                 case AimingEntityComponent.Mode.focus:
@@ -205,8 +225,12 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         }
 
-
         public void Update()
+        {
+            _update();
+        }
+
+        void MyUpdate()
         {
 
             //if (!transitionsSet.Chck || character==null || character.aiming.mode != AimingEntityComponent.Mode.perspective)
@@ -280,7 +304,9 @@ public class MainCamera : SingletonMono<MainCamera>
 
             GameManager.onExitMenuUnityEvent.AddListener(ExitMenu);
 
-            transitionsSet = TimersManager.Create(velocityTransition, () =>
+            _update = MyUpdate;
+
+            transitionsSet = (TimedCompleteAction)TimersManager.Create(velocityTransition, () =>
             {
                 if (character == null)
                     return;
@@ -304,6 +330,53 @@ public class MainCamera : SingletonMono<MainCamera>
                 distanceToObjective = vectorPerspective.magnitude;
                 rotationEulerPerspective = rotationPerspective.eulerAngles;
             }).Stop();
+        }
+    }
+
+    [System.Serializable]
+    public class Culling
+    {       
+        public Vector2[] pointsInScreen;
+   
+        public Vector3[] points;
+
+        public Vector3[] _points;
+
+        public Vector3[] _points2;
+
+        public void Refresh()
+        {
+            
+            points = new Vector3[pointsInScreen.Length];
+
+            _points = new Vector3[pointsInScreen.Length];
+
+            _points2 = new Vector3[pointsInScreen.Length];
+
+            for (int i = 0; i < pointsInScreen.Length; i++)
+            {
+                _points[i] = Main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, Main.nearClipPlane));
+
+                Ray ray = new Ray(Main.transform.position, _points[i] - Main.transform.position);
+
+                plane.Raycast(ray, out float distance);
+
+                _points2[i] = ray.GetPoint(distance) - Main.transform.position;
+            }
+        }
+
+        public void Update()
+        {
+            for (int i = 0; i < pointsInScreen.Length; i++)
+            {
+                _points[i] = Main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, Main.nearClipPlane));
+
+                Ray ray = new Ray(Main.transform.position, _points[i] - Main.transform.position);
+
+                plane.Raycast(ray, out float distance);
+
+                _points2[i] = ray.GetPoint(distance) - Main.transform.position;
+            }
         }
     }
     static public Camera Main => instance?._main;
@@ -340,15 +413,10 @@ public class MainCamera : SingletonMono<MainCamera>
     MapTransform rendersOverlay;
 
     [SerializeField]
-    Vector2[] pointsInScreen;
+    Culling culling;
 
     [SerializeField]
-    Vector3[] points;
-
-    Vector3[] _points;
-
-    Vector3[] _points2;
-
+    UnityEngine.Experimental.Rendering.Universal.RenderObjects renderObjects;
 
     Vector3 centerPoint;
 
@@ -394,40 +462,6 @@ public class MainCamera : SingletonMono<MainCamera>
         shakeTr.localPosition = obj;
     }
 
-    void Refresh()
-    {
-        if (Main == null)
-            return;
-
-        points = new Vector3[pointsInScreen.Length];
-
-        _points = new Vector3[pointsInScreen.Length];
-
-        _points2 = new Vector3[pointsInScreen.Length];
-
-
-        for (int i = -2; i < rendersOverlay.Length; i++)
-        {
-            rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
-
-            rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
-
-            rendersOverlay.cameras[i + 2].fieldOfView = tracker.Fov;
-        }
-
-        for (int i = 0; i < pointsInScreen.Length; i++)
-        {
-            _points[i] = Main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, Main.nearClipPlane));
-
-            Ray ray = new Ray(Main.transform.position, _points[i] - Main.transform.position);
-
-            plane.Raycast(ray, out float distance);
-
-            _points2[i] = ray.GetPoint(distance) - Main.transform.position;
-        }
-
-    }
-
     /*
     private void OnValidate()
     {
@@ -437,8 +471,24 @@ public class MainCamera : SingletonMono<MainCamera>
 
     private void OnEnable()
     {
-        Refresh();
+        UpdateRenderers();
+
+        culling.Refresh();
     }
+
+    private void UpdateRenderers()
+    {
+        for (int i = -2; i < rendersOverlay.Length; i++)
+        {
+            rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
+
+            rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
+
+            rendersOverlay.cameras[i + 2].fieldOfView = tracker.Fov;
+        }
+    }
+
+
 
     protected override void Awake()
     {
@@ -456,13 +506,29 @@ public class MainCamera : SingletonMono<MainCamera>
 
         pointsInWorld = new Vector3[rendersOverlay.cameras.Length];
 
+        tracker.transitionsSet.AddToEnd(()=> 
+        {
+            for (int i = -1; i < rendersOverlay.Length; i++)
+            {
+                var originalLayer = rendersOverlay.cameras[i + 2].cullingMask;
+
+                if(tracker.setDetectLayer)
+                    originalLayer |= (1 << 6);
+                else
+                    originalLayer  &= ~(1 << 6);
+
+                rendersOverlay.cameras[i + 2].cullingMask = originalLayer;
+
+                renderObjects.SetActive(tracker.setEntitiesOverlay);
+            }
+        });
+
         LoadSystem.AddPostLoadCorutine(() =>
         {
             if (HexagonsManager.instance != null && HexagonsManager.instance.automaticRender)
                 SetProyections(HexagonsManager.arrHexCreados?[0]);
         });
     }
-
 
     private void LateUpdate()
     {
@@ -480,36 +546,21 @@ public class MainCamera : SingletonMono<MainCamera>
 
         transform.position = tracker.Position;
 
-        for (int i = -2; i < rendersOverlay.Length; i++)
-        {
-            rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
+        UpdateRenderers();
 
-            rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
+        culling.Update();
 
-            rendersOverlay.cameras[i + 2].fieldOfView = tracker.Fov;
-        }
-
-        for (int i = 0; i < pointsInScreen.Length; i++)
-        {
-            _points[i] = Main.ViewportToWorldPoint(new Vector3(pointsInScreen[i].x, pointsInScreen[i].y, Main.nearClipPlane));
-
-            Ray ray = new Ray(Main.transform.position, _points[i] - Main.transform.position);
-
-            plane.Raycast(ray, out float distance);
-
-            _points2[i] = ray.GetPoint(distance) - Main.transform.position;
-        }
 
         if (HexagonsManager.instance == null)
         {
             return;
         }
 
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < culling.points.Length; i++)
         {
-            points[i] = _points2[i] + Main.transform.position;
+            culling.points[i] = culling._points2[i] + Main.transform.position;
 
-            var translatedPoint = (points[i] - centerPoint).Vect3To2XZ();
+            var translatedPoint = (culling.points[i] - centerPoint).Vect3To2XZ();
 
             int lado = HexagonsManager.CalcEdge(translatedPoint);
 
@@ -544,16 +595,17 @@ public class MainCamera : SingletonMono<MainCamera>
         RefreshMaterial(false);
         eventManager.events.SearchOrCreate<SingleEvent<Health>>("Damage").delegato -= ShakeStart;
         eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato -= tracker.OnCharacterSelected;
+        tracker.Destroy();
     }
 
 
     private void OnDrawGizmosSelected()
     {
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < culling.points.Length; i++)
         {
             Gizmos.color = Color.red;
 
-            Gizmos.DrawSphere(points[i], 0.1f);
+            Gizmos.DrawSphere(culling.points[i], 0.1f);
         }
 
         for (int i = 0; i < pointsInWorld.Length; i++)
@@ -563,6 +615,8 @@ public class MainCamera : SingletonMono<MainCamera>
             Gizmos.DrawSphere(pointsInWorld[i], 0.1f);
         }
     }
+
+    
 }
 
 

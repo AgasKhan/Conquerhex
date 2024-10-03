@@ -23,6 +23,9 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>, Controllers.I
         [field:SerializeField, Range(0,179)]
         public float fov;
 
+        public bool areaFeedBack;
+        public bool entitiesOverlay;
+
         [field: SerializeField, Header("Detection")]
         public float maxRadius { get ; set ; }
         [field: SerializeField]

@@ -1091,6 +1091,9 @@ MonoBehaviour:
     Dist: 10
     velocityTransition: 0.75
     smoothColision: 5
+    transitionsSet:
+      _total: 0
+      _current: 0
     cameraSet: 0
     prevCameraSet: 0
   _main: {fileID: 1125739740253471796}
@@ -1118,22 +1121,20 @@ MonoBehaviour:
     - {fileID: 2174288819520640708}
     - {fileID: 863672502243763701}
     offsetIndex: 2
-  pointsInScreen:
-  - {x: 0, y: 0}
-  - {x: 0, y: 1}
-  - {x: 1, y: 0}
-  - {x: 1, y: 1}
-  - {x: 0.5, y: 1}
-  - {x: 0, y: 0.5}
-  - {x: 1, y: 0.5}
-  points:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  culling:
+    pointsInScreen:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0.5, y: 1}
+    - {x: 0, y: 0.5}
+    - {x: 1, y: 0.5}
+    points: []
+    _points: []
+    _points2: []
+  renderObjects: {fileID: 4545446371477908154, guid: 2213d535134026846a1d3cb171d03198,
+    type: 2}
 --- !u!81 &8852253582668569097
 AudioListener:
   m_ObjectHideFlags: 0
