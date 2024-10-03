@@ -15,7 +15,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Character player;
     public Transform NPC;
 
-    public SpriteRenderer npcRenderer;
+    public Animator npcAnim;
 
     public float maxDist = 10;
     IState<Character> playerIA;
@@ -146,7 +146,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
         PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity);
-        npcRenderer.enabled = true;
+        npcAnim.SetBool("IconActive", true);
     }
 
     public void WaitToEnableDialog(float time)
@@ -401,7 +401,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         interfaz.CompleteAllObjective();
 
-        npcRenderer.enabled = true;
+        npcAnim.SetBool("IconActive", true);
     }
 
     void EndDialog()
@@ -415,7 +415,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         VirtualControllers.Interact.eventDown -= InteractDialog;
         VirtualControllers.Principal.eventDown -= InteractDialog;
 
-        npcRenderer.enabled = false;
+        npcAnim.SetBool("IconActive", false);
     }
 
     /// <summary>
@@ -552,6 +552,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         attacksCounter = 0;
 
         LoadSystem.AddPostLoadCorutine(Init);
+
+
 
 
     }

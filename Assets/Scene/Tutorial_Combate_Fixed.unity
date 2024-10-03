@@ -7748,6 +7748,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7372156167283799266, guid: 3870a7e03c3d638439d9d0d3a238ee86,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372156167283799266, guid: 3870a7e03c3d638439d9d0d3a238ee86,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372156167283799266, guid: 3870a7e03c3d638439d9d0d3a238ee86,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372156167283799266, guid: 3870a7e03c3d638439d9d0d3a238ee86,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.87
       objectReference: {fileID: 0}
@@ -7795,6 +7810,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372156167283799266, guid: 3870a7e03c3d638439d9d0d3a238ee86,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33553,17 +33573,17 @@ PrefabInstance:
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.7
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.7
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6295448971589143366, guid: 9982472369f0d9b439b39b8f4172c71d,
         type: 3}
@@ -49571,9 +49591,9 @@ MonoBehaviour:
           m_CallState: 2
     timeToCallEvent: 4
   - dialog: "Veo que recibes mucho da\xF1o seguido, te dare una nueva habilidad que
-      te sera util para cualquier da\xF1o, usala para salir.\n\nUna vez fuera, no
-      te acompa\xF1are, si te pierdes podr\xE1s volver al inicio con la <color=#2899BC>tecla
-      Y</color>.\r"
+      te sera util para cualquier da\xF1o, usala para rebotar el da\xF1o del mecanismo
+      para salir.\n\nUna vez fuera, no te acompa\xF1are, si te pierdes podr\xE1s
+      volver al inicio con la <color=#2899BC>tecla Y</color>.\r"
     objective: "-Ejecuta <color=#F6CB30>Parry b\xE1sico</color> con Click Derecho
       repetidas veces hasta destruir el mecanismo que te obstaculiza.\n\n-Busca el
       \xE1rbol para salir de la simulaci\xF3n. <align=\"center\"><size=75><sprite=\"NewBloodTree\"
@@ -49632,8 +49652,8 @@ MonoBehaviour:
     timeToCallEvent: 0
   goal: {fileID: 568904324}
   player: {fileID: 523263258}
-  NPC: {fileID: 0}
-  npcRenderer: {fileID: 1707345833}
+  NPC: {fileID: 1736813111}
+  npcAnim: {fileID: 1736813112}
   maxDist: 10
   newBorders:
   - {fileID: 0}
@@ -73946,12 +73966,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1704387260}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &1707345833 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8670083481053773399, guid: e54f3005aa05982409651fc4930cd065,
-    type: 3}
-  m_PrefabInstance: {fileID: 1736813110}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1709410928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74951,6 +74965,52 @@ PrefabInstance:
       propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7234054989654364635, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234054989654364635, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234054989654364635, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234054989654364635, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.012
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234054989654364635, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670083481053773399, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 60a9f744442c5c443b92d025edcfd51b,
+        type: 3}
+    - target: {fileID: 8670083481053773399, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670083481053773399, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.868332
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670083481053773399, guid: e54f3005aa05982409651fc4930cd065,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -74959,6 +75019,12 @@ PrefabInstance:
 --- !u!4 &1736813111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3665323422608231053, guid: e54f3005aa05982409651fc4930cd065,
+    type: 3}
+  m_PrefabInstance: {fileID: 1736813110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1736813112 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8431553058060808888, guid: e54f3005aa05982409651fc4930cd065,
     type: 3}
   m_PrefabInstance: {fileID: 1736813110}
   m_PrefabAsset: {fileID: 0}
