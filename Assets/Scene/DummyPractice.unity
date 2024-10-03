@@ -767,6 +767,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6929066415529030121, guid: baec8a1976812384ba93267be2e3d9dc,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b6263de40aa4efb42a9ed7cbba8c342f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17181,6 +17186,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e710c0e659cce824ead55ccc34dbabf6, type: 3}
+--- !u!114 &2092116263 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8852661266200992574, guid: baec8a1976812384ba93267be2e3d9dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 173423824}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4a2e6075a56134fa2c30057ac2e8b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2113374338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22337,6 +22354,7 @@ MonoBehaviour:
   leverCorderito: {fileID: 1164883791995491824}
   minion: {fileID: 1316060942165891030}
   newMenu: {fileID: 0}
+  dummy: {fileID: 2092116263}
   interComp: {fileID: 6066462352577609410}
 --- !u!4 &2803943801518829303
 Transform:
