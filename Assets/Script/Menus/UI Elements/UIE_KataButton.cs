@@ -201,6 +201,13 @@ public class UIE_KataButton : VisualElement
         Block(true);
     }
 
+    public void FreezzeButton()
+    {
+        kataButton.RemoveFromClassList("kataButton");
+        kataButton.AddToClassList("kataButtonNoHover");
+        AddToClassList("halfScale");
+    }
+
     public void Enable()
     {
         kataButton.pickingMode = PickingMode.Position;

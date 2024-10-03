@@ -16,9 +16,10 @@ public class UIE_ListButton : VisualElement
     private Label equipText => this.Q<Label>("equipText");
     private VisualElement changeButton => this.Q<VisualElement>("ChangeButton");
     private VisualElement buttonContainer => this.Q<VisualElement>("buttonContainer");
+    private VisualElement mainButton => this.Q<VisualElement>("MainButton");
 
-    System.Action<ClickEvent> mainAction;
-    System.Action<ClickEvent> changeAction;
+    System.Action mainAction;
+    System.Action copyAction;
 
     System.Action mainAct;
     
@@ -42,20 +43,20 @@ public class UIE_ListButton : VisualElement
         specialityItem.text = _specialityItem;
 
         mainAct = _mainAction;
-        RegisterCallback<ClickEvent>((clEvent) => mainAct.Invoke());
+        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAct.Invoke());
     }
 
     public void SetHoverAction(System.Action _action)
     {
-        RegisterCallback<MouseEnterEvent>((clEvent) =>_action.Invoke());
+        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) =>_action.Invoke());
     }
 
     public void SetEquipText(string _text)
     {
         equipText.text = _text;
 
-        RegisterCallback<MouseEnterEvent>((clEvent) => equipText.AddToClassList("listItemTextHover"));
-        RegisterCallback<MouseLeaveEvent>((clEvent) => equipText.RemoveFromClassList("listItemTextHover"));
+        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) => equipText.AddToClassList("listItemTextHover"));
+        mainButton.RegisterCallback<MouseLeaveEvent>((clEvent) => equipText.RemoveFromClassList("listItemTextHover"));
     }
 
     public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action _mainAction, System.Type _type)
@@ -80,10 +81,13 @@ public class UIE_ListButton : VisualElement
             itemImage.AddToClassList("abilityBorder");
         }*/
 
+        mainAction = _mainAction;
+        copyAction = _mainAction;
+
         itemImage.style.backgroundImage = new StyleBackground(_itemImage);
         itemName.text = _itemName;
 
-        RegisterCallback<ClickEvent>((clEvent) => _mainAction.Invoke());
+        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAction.Invoke());
     }
     public void InitOnlyName<T>(ItemEquipable _item, System.Action _mainAction, System.Type _type) where T:ItemEquipable
     {
@@ -101,21 +105,30 @@ public class UIE_ListButton : VisualElement
 
         itemImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<T>(_item));
 
+        mainAction = _mainAction;
+        copyAction = _mainAction;
+
         if (_item != null)
             itemName.text = _item.nameDisplay;
         else
             itemName.text = "Desequipar";
 
-        RegisterCallback<ClickEvent>((clEvent) => _mainAction.Invoke());
+        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAction.Invoke());
     }
 
     public void Enable()
     {
-        pickingMode = PickingMode.Position;
+        mainAction = copyAction;
+        mainButton.RemoveFromClassList("itemSelected");
+        mainButton.AddToClassList("ListItemButton");
+        SetEquipText("Equipar");
     }
     public void Disable()
     {
-        pickingMode = PickingMode.Ignore;
+        mainAction = () => { };
+        mainButton.AddToClassList("itemSelected");
+        mainButton.RemoveFromClassList("ListItemButton");
+        SetEquipText("");
     }
 
     public UIE_ListButton() { }

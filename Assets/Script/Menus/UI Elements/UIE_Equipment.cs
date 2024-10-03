@@ -40,6 +40,8 @@ public class UIE_Equipment : UIE_BaseMenu
             combosButton = ui.Q<VisualElement>("combosButton");
 
             combosButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.CombosMenu));
+
+            animTimer = TimersManager.Create(5, () => ShowAnimation()).SetLoop(true).Stop().SetUnscaled(true);
         }
     }
     void myEnableMenu()
@@ -53,11 +55,17 @@ public class UIE_Equipment : UIE_BaseMenu
         CreateEquipamentKatas();
 
         SetStatistics();
+
+        animController = character.GetInContainer<AnimatorController>();
+
+        animController.CancelAllAnimations();
+        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
     }
 
     void myDisable()
     {
-        animTimer?.Stop();
+        animTimer.Stop();
+        animController.CancelAllAnimations();
     }
 
     void SetStatistics()
@@ -180,12 +188,8 @@ public class UIE_Equipment : UIE_BaseMenu
 
             if(character.caster.katas[index].equiped != null)
             {
-                animData = character.caster.katas[index].equiped.itemBase.animations.animClips["Cast"];
-                animController = character.GetInContainer<AnimatorController>();
-                animTimer = TimersManager.Create(2, ()=> animController.ChangeActionAnimation(animData)).Stop();
-
-                kataButton.AddEnterMouseEvent(() => ShowAnimation());
-                kataButton.AddLeaveMoususeEvent(() => animTimer.Stop());
+                kataButton.AddEnterMouseEvent(() => HoverKata(index));
+                kataButton.AddLeaveMoususeEvent(() => StopAnimation());
             }
 
             katasButtons.Add(kataButton);
@@ -195,15 +199,22 @@ public class UIE_Equipment : UIE_BaseMenu
     Timer animTimer;
     AnimationInfo.Data animData;
     AnimatorController animController;
+    void HoverKata(int _index)
+    {
+        animData = character.caster.katas[_index].equiped.itemBase.animations.animClips["Cast"];
+
+        ShowAnimation();
+        animTimer.Set(animData.Length + 0.25f).Reset();
+    }
+
     void ShowAnimation()
     {
         animController.ChangeActionAnimation(animData);
-        animTimer.Reset();
     }
     void StopAnimation()
     {
-        //animController.ChangeActionAnimation(manager.idleAnim);
         animTimer.Stop();
+        animController.CancelAllAnimations();
     }
     UnityAction WeaponAction(SlotItem slotItem)
     {

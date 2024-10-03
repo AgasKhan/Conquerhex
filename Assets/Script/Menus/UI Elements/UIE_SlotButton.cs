@@ -32,6 +32,8 @@ public class UIE_SlotButton : VisualElement
 
         if (slotItem.equiped?.GetType() == typeof(AbilityExtCast))
             backImage.AddToClassList("abilityBorder");
+        else
+            slotImage.AddToClassList("biggerScale");
 
         mainAct = () => action.Invoke();
         backImage.RegisterCallback<ClickEvent>((clevent)=> mainAct.Invoke());
@@ -125,6 +127,13 @@ public class UIE_SlotButton : VisualElement
     {
         blockerText.text = _text;
         Block(true);
+    }
+
+    public void FreezzeButton()
+    {
+        backImage.RemoveFromClassList("hexagon");
+        backImage.AddToClassList("hexagonNoHover");
+        AddToClassList("smallerScale");
     }
 
     public void Enable()

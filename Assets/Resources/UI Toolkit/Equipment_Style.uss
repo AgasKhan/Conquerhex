@@ -604,3 +604,80 @@
     text-shadow: 0 0 43.2px rgb(0, 0, 0);
     padding-top: 27px;
 }
+
+.itemSelected {
+    background-color: rgb(99, 91, 67);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-right-color: rgb(21, 23, 26);
+    border-left-color: rgb(21, 23, 26);
+}
+
+.halfScale {
+    scale: 0.6 0.6;
+}
+
+.biggerScale {
+    scale: 1.2 1.2;
+}
+
+.hexagonNoHover {
+    width: 70px;
+    height: 70px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgba(21, 20, 20, 0);
+    border-left-color: rgb(135, 110, 65);
+    border-right-color: rgb(135, 110, 65);
+    border-top-color: rgb(135, 110, 65);
+    border-bottom-color: rgb(135, 110, 65);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition-duration: 0.25s;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=2800000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(101, 74, 53);
+}
+
+.smallerScale {
+    scale: 0.8 0.8;
+    margin-top: 30px;
+}
+
+.kataButtonNoHover {
+    flex-direction: row;
+    width: 230px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left-color: rgba(135, 110, 65, 0);
+    border-right-color: rgba(135, 110, 65, 0);
+    border-top-color: rgba(135, 110, 65, 0);
+    border-bottom-color: rgba(135, 110, 65, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: rgb(67, 55, 45);
+    justify-content: center;
+    align-self: center;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=21300000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(101, 74, 53);
+}

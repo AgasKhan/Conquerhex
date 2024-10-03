@@ -29,7 +29,7 @@ public class UIE_EquipMenu : UIE_Equipment
     UIE_ListButton equipedItemButton;
 
     VisualElement originalItemContainer;
-    VisualElement acceptButton;
+    VisualElement cancelButton;
 
     //List<UIE_ListButton> buttonsList = new List<UIE_ListButton>();
     Dictionary<int, UIE_ListButton> buttonsList = new Dictionary<int, UIE_ListButton>();
@@ -61,16 +61,17 @@ public class UIE_EquipMenu : UIE_Equipment
         containerDW = ui.Q<VisualElement>("containerDW");
         equipedItemContainer = ui.Q<VisualElement>("equipedItemContainer");
         originalItemContainer = ui.Q<VisualElement>("originalItemContainer");
-        acceptButton = ui.Q<VisualElement>("acceptButton");
+        cancelButton = ui.Q<VisualElement>("cancelButton");
 
-        acceptButton.RegisterCallback<ClickEvent>((clEvent) => manager.BackLastMenu());
+        onClose += () => manager.BackLastMenu();
+        cancelButton.RegisterCallback<ClickEvent>((clEvent) => CancelChange());
     }
 
     private void CancelChange()
     {
+        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
         auxAction.Invoke(originalItemIndex);
         manager.BackLastMenu();
-        onClose -= CancelChange;
     }
 
     private void myOnEnable()
@@ -78,7 +79,7 @@ public class UIE_EquipMenu : UIE_Equipment
         equipedItemContainer.Clear();
         listContainer.Clear();
         buttonsList.Clear();
-        equipTitle.text = GetText(null, filterType);
+        equipTitle.text = GetText(null, filterType) + " en: ";
         originalItemContainer.Clear();
 
         equipedItemButton = new UIE_ListButton();
@@ -88,12 +89,11 @@ public class UIE_EquipMenu : UIE_Equipment
 
         CreateListItems();
         SetOriginalButton();
-        onClose += CancelChange;
+
+        EquipOtherItem(originalItemIndex);
     }
     private void myOnDisable()
     {
-        PreviousAnimAction();
-
         auxAction = null;
         slotItem = null;
         filterType = null;
@@ -102,8 +102,9 @@ public class UIE_EquipMenu : UIE_Equipment
         ShowItemDetails("", "", null);
         containerDW.AddToClassList("opacityHidden");
 
-
         itemToChangeIndex = -1;
+        equipedItemIndex = -1;
+        originalItemIndex = -1;
 
         originalButton.HideInUIE();
         changeButton.HideInUIE();
@@ -149,6 +150,7 @@ public class UIE_EquipMenu : UIE_Equipment
             _kata.Init(slotItem as SlotItem<WeaponKata>, null, null);
             _kata.Disable();
             originalItemContainer.Add(_kata);
+            _kata.FreezzeButton();
             return;
         }
 
@@ -167,6 +169,7 @@ public class UIE_EquipMenu : UIE_Equipment
                 ShowItemDetails("No tienes nada equipado", "", null);
         });
         _aux.Disable();
+        _aux.FreezzeButton();
         originalItemContainer.Add(_aux);
     }
 
@@ -266,8 +269,6 @@ public class UIE_EquipMenu : UIE_Equipment
         if (equipedItemIndex < 0)
             return;
 
-        buttonsList[equipedItemIndex].RemoveFromClassList("itemToChange");
-        buttonsList[equipedItemIndex].SetEquipText("Equipar");
         buttonsList[equipedItemIndex].Enable();
     }
     void SetSelectedButton()
@@ -275,8 +276,6 @@ public class UIE_EquipMenu : UIE_Equipment
         if (equipedItemIndex < 0)
             return;
 
-        buttonsList[equipedItemIndex].AddToClassList("itemToChange");
-        buttonsList[equipedItemIndex].SetEquipText("");
         buttonsList[equipedItemIndex].Disable();
     }
 
@@ -297,20 +296,19 @@ public class UIE_EquipMenu : UIE_Equipment
     void PreviousAnimAction()
     {
         if (filterType == typeof(MeleeWeapon) && character.caster.actualWeapon != null)
-        {
-            character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon(character.caster.actualWeapon.Weapon.itemBase.weaponModel);
-        }
+            character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
             
     }
     void PostAnimAction()
     {
         if (filterType == typeof(MeleeWeapon) && equipedItemIndex >= 0)
-            character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(character.caster.actualWeapon.Weapon.itemBase.weaponModel);
+            character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon();
     }
 
     void SetStaticItem(int _index)
     {
         var item = _index >= 0 ? character.inventory[_index] : null;
+        equipedItemIndex = _index;
 
         if (item != null)
         {
