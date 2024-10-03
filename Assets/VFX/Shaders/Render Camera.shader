@@ -83,28 +83,28 @@ Shader "Custom/MultiRenderTexture"
 
         float4 frag(v2f input) : SV_Target
         {
-            float4 color = float4(0, 0, 0, 1);
+            float4 color = tex2D(_MainCamera, input.uv);
 
-            _Texs[0] = _MainCamera;
-            _Texs[1] = _Camera0;
-            _Texs[2] = _Camera1;
-            _Texs[3] = _Camera2;
-            _Texs[4] = _Camera3;
-            _Texs[5] = _Camera4;
-            _Texs[6] = _Camera5;
+            //_Texs[0] = _MainCamera;
+            _Texs[0] = _Camera0;
+            _Texs[1] = _Camera1;
+            _Texs[2] = _Camera2;
+            _Texs[3] = _Camera3;
+            _Texs[4] = _Camera4;
+            _Texs[5] = _Camera5;
 
-            _pos[0] = _position0;
-            _pos[1] = _position1;
-            _pos[2] = _position2;
-            _pos[3] = _position3;
-            _pos[4] = _position4;
-            _pos[5] = _position5;
-            _pos[6] = _position6;
+            //_pos[0] = _position0;
+            _pos[0] = _position1;
+            _pos[1] = _position2;
+            _pos[2] = _position3;
+            _pos[3] = _position4;
+            _pos[4] = _position5;
+            _pos[5] = _position6;
 
-            float depthMax = 0;
+            float depthMax = color.a;
 
             [unroll]
-            for (int index = 0; index < 7; index++)
+            for (int index = 0; index < 6; index++)
             {
                 if (_pos[index] == 1)
                 {
