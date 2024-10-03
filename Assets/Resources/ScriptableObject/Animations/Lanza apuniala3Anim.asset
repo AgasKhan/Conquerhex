@@ -17,13 +17,21 @@ MonoBehaviour:
     - key: Cast
       value:
         defaultAction: 0
+        handHandling: 1
         animationClip: {fileID: 1827226128182048838, guid: 896d31a2afded624f9d45c162b415613,
           type: 3}
         inLoop: 0
         velocity: 1
-        next: -1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
         mirrorType: 1
         events:
           pictionaries:
           - key: Action
-            value: 0.3
+            value: 0.18217394
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

@@ -46,7 +46,8 @@ public class UpTrggrCtrllr : TriggerController
 
             character.moveEventMediator.eventPress += MoveEventMediator_eventPress;
 
-            aiming = character.move.VectorVelocity;
+            aiming = character.moveEventMediator.dir.Vect2To3XZ(0);
+
             if (aiming != Vector3.zero)
                 character.OnModelView(aiming);
 

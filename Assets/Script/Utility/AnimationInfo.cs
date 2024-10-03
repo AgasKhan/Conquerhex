@@ -14,11 +14,19 @@ public class AnimationInfo : ScriptableObject
         Mirror,
         Random
     }
+    public enum HandHandling
+    {
+        Normal,
+        Inversed
+    }
+
+    
 
     [System.Serializable]
     public class Data
     {
         public AnimatorController.DefaultActions defaultAction;
+        public HandHandling handHandling;
         public AnimationClip animationClip;
         public bool inLoop;
         public float velocity = 1;
@@ -57,6 +65,18 @@ public class AnimationInfo : ScriptableObject
             if(item.value.nextIndex >= 0 && item.value.nextIndex < animClips.Count && item.value != animClips[item.value.nextIndex])
             {
                 item.value.nextAnimation = animClips[item.value.nextIndex];
+            }
+
+            foreach (var ev in item.value.events)
+            {
+                if (ev.value > item.value.Length)
+                {
+                    ev.value = item.value.Length;
+                }
+                else if (ev.value < 0)
+                {
+                    ev.value = 0;
+                }
             }
         }
     }
