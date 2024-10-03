@@ -115,16 +115,16 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     //     Debug.Log("pase por aca");
     // }
 
-    public Light ElecLight;
+    public Light[] Lights;
 
     public void ExecuteDamageParry()
     {
         var a = platform.GetComponent<TestDamageEntity>();
-        a.ExitAction = () => ElecLight.intensity = 0;
+        a.ExitAction = () => Lights[0].intensity = 0;
 
         a.Init(() =>
         {
-            ElecLight.intensity += Time.deltaTime * 5;
+            Lights[0].intensity += Time.deltaTime * 5;
         },
         () =>
         {
@@ -216,6 +216,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         if (!parry.Success) return;
 
         parryCount++;
+        Lights[1].intensity = parryCount * 0.35f;
 
         if (parryCount < MaxParryCount) return;
 
