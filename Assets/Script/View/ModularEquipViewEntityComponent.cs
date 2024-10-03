@@ -174,7 +174,17 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
-                var handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
+                AnimationInfo.HandHandling handHandling;
+                
+                if (kata.Weapon.itemBase.animations != null && kata.Weapon.itemBase.animations.animClips.ContainsKey("Cast", out int index))
+                {
+                    handHandling = kata.Weapon.itemBase.animations.animClips[index].handHandling;
+                }
+                else
+                {
+                    handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
+                }
+
                 var weapon = this[kata.Weapon.itemBase.weaponModel];
 
                 side = GetHand(handHandling);
