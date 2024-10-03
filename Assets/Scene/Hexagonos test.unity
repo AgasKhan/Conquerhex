@@ -16092,8 +16092,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - Item: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
-    Amount: 0
+  - Item: {fileID: 11400000, guid: e9bf8e442538832469742b382e4ad678, type: 2}
+    Amount: 1
 --- !u!114 &1425985596 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4228154287597518080, guid: b2503bf7f270dc34e88bd54a22f9df33,
@@ -28418,6 +28418,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5021417744897424921, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: items.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5021417744897424921, guid: 9982472369f0d9b439b39b8f4172c71d,
+        type: 3}
+      propertyPath: items.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: e9bf8e442538832469742b382e4ad678,
+        type: 2}
     - target: {fileID: 8105457832572930, guid: 9982472369f0d9b439b39b8f4172c71d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 9.777029
