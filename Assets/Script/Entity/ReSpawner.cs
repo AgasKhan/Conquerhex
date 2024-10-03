@@ -58,4 +58,9 @@ public class ReSpawner : Spawner
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        respawn?.Destroy();
+    }
 }
