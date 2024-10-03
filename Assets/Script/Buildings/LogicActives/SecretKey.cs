@@ -20,6 +20,8 @@ public class SecretKey : MonoBehaviour
 
     public GameObject newMenu;
 
+    public TestDamageEntity dummy;
+
     // public Proyectile flechita;
     // public Damage[] damageFlechita;
     // public Entity ownerFlechita;
@@ -31,7 +33,15 @@ public class SecretKey : MonoBehaviour
         if (minion != null)
             originalMinionPos = minion.transform.position;
 
-        //var timeToOff = TimersManager.Create(1f, () => ShootArrow()).SetLoop(true).Reset();
+        if (SceneManager.GetActiveScene().name == "DummyPractice")
+        {
+            var anim = dummy.GetComponentInChildren<Animator>();
+
+            dummy.Init(null, () =>
+            {
+                anim.SetTrigger("Action1");
+            });
+        }
     }
 
     void Update()

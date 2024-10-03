@@ -6,6 +6,12 @@ using System;
 
 namespace Controllers
 {
+    public interface IDir
+    {
+        Vector2 LastDir { get; }
+        Vector2 FrameDir { get; }
+    }
+
     /// <summary>
     /// Evento de tecla que puede representar: <br/>
     /// Axis<br/>
@@ -14,15 +20,15 @@ namespace Controllers
     /// Posee eventos para cuando comienza a presionarse/moverse (down) o deja de hacerlo (up), y si se mantiene (pressed)
     /// </summary>
     [CreateAssetMenu(menuName = "Controllers/ButtonAxis")]
-    public class ButtonAxis : FatherKey, IEventController, IState<Vector2>
+    public class ButtonAxis : FatherKey, IEventController, IState<Vector2>, IDir
     {
         public event Action<Vector2, float> eventDown;
         public event Action<Vector2, float> eventPress;
         public event Action<Vector2, float> eventUp;
 
-        public event Action<ButtonAxis> onSwitchGetDir;
+        public event Action<IDir> onSwitchGetDir;
 
-        public Vector2 LastDir { get=> _dir; }
+        public Vector2 LastDir { get=> _lastDir; }
 
         public Vector2 FrameDir
         {
@@ -32,14 +38,14 @@ namespace Controllers
                 _frameDir = value;
                 if(value != Vector2.zero)
                 {
-                    _dir = _frameDir;
+                    _lastDir = _frameDir;
                 }
             }
         }
 
         Vector2 _frameDir;
 
-        Vector2 _dir;
+        Vector2 _lastDir;
 
 
         public override void Destroy()
@@ -49,7 +55,7 @@ namespace Controllers
             eventPress = null;
         }
 
-        public void SwitchGetDir(ButtonAxis axis)
+        public void SwitchGetDir(IDir axis)
         {
             onSwitchGetDir?.Invoke(axis);
         }

@@ -16,15 +16,17 @@ namespace Controllers
         [SerializeField]
         ButtonAxis movementDetect;
 
+        IDir moveDetect;
+
         protected override void InternalUpdate()
         {
             //UpdateAxis();
-            if(movementDetect!=null)
+            if(moveDetect != null)
             {
                 if(LastOrFrameDirect)
-                    dir = movementDetect.LastDir;
+                    dir = moveDetect.LastDir;
                 else
-                    dir = movementDetect.FrameDir;
+                    dir = moveDetect.FrameDir;
             }
                 
 
@@ -46,13 +48,14 @@ namespace Controllers
             }
         }
 
-        private void Axis_onSwitchGetDir(ButtonAxis axis)
+        private void Axis_onSwitchGetDir(IDir axis)
         {
-            movementDetect = axis;
+            moveDetect = axis;
         }
 
         protected override void OnEnable()
         {
+            moveDetect = movementDetect;
             base.OnEnable();
             axis.onSwitchGetDir += Axis_onSwitchGetDir;
         }

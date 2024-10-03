@@ -30,24 +30,31 @@ public class UpTrggrCtrllr : TriggerController
     {
         base.OnEnterState(param);
 
-        if((triggerBase?.aimingToMove ?? false) && param.container is Character)
+        if((triggerBase?.aimingToMove ?? false) && param.container is Character character)
         {
-            var character = ((Character)param.container);
-
             Aiming2D = character.move.direction.Vect3To2XZ();
 
             character.moveEventMediator.eventPress += MoveEventMediator_eventPress;
+
+            character.aimingEventMediator.DesuscribeController(character.aiming);
         }
     }
 
     public override void OnExitState(CasterEntityComponent param)
     {
-        if ((triggerBase?.aimingToMove ?? false) && param.container is Character)
+        if ((triggerBase?.aimingToMove ?? false) && param.container is Character character)
         {
-            ((Character)param.container).moveEventMediator.eventPress -= MoveEventMediator_eventPress;
+            character.moveEventMediator.eventPress -= MoveEventMediator_eventPress;
+
+            character.aimingEventMediator.SuscribeController(character.aiming);
         }
 
         base.OnExitState(param);
+    }
+
+
+    public override void ControllerDown(Vector2 dir, float tim)
+    {
     }
 
     //Durante, al mantener y moverlo
@@ -65,8 +72,6 @@ public class UpTrggrCtrllr : TriggerController
     //Despues, al sotarlo
     public override void ControllerUp(Vector2 dir, float button)
     {
-        //comienza a bajar el cooldown
-
         Cast();
 
         if(affected!=null && affected.Count>0 && !(triggerBase?.aimingToMove ?? false))
@@ -75,8 +80,5 @@ public class UpTrggrCtrllr : TriggerController
         caster.abilityControllerMediator -= this;
     }
 
-    public override void ControllerDown(Vector2 dir, float tim)
-    {
-    }
 }
 

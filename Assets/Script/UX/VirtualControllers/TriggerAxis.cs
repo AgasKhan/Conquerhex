@@ -44,7 +44,16 @@ namespace Controllers
             {
                 if (mouseOverride)
                 {
-                    dir.Set(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2);
+                    if (MainCamera.Main == null)
+                        return;
+
+                    //dir.Set(Input.mousePosition.x, Input.mousePosition.y);
+
+                    Vector3 point = MainCamera.GetScreenToWorld(Input.mousePosition);
+
+                    Vector3 center = MainCamera.GetScreenToWorld(new Vector3(Screen.width/2, Screen.height / 2, 0));
+
+                    dir = (point - center).Vect3To2XZ();
 
                     dir.Normalize();
                 }

@@ -20,21 +20,23 @@ public abstract class MyScripts : MonoBehaviour
     {
         add
         {
+            if (!bUpdate && _update == null)
+            {
+                bUpdate = true;
+                GameManager.GamePlayUpdate += MyUpdate;
+            }
+
             _update += value;
-            if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
         }
         remove
         {
             _update -= value;
 
-            if (_update == null)
+            if (bUpdate && _update == null)
             {
-                RemoveUpdate();
-                //GameManager.eventQueueGamePlay.Enqueue(RemoveUpdate);
+                bUpdate = false;
+                GameManager.GamePlayUpdate -= MyUpdate;
             }
-            else if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
         }
     }
 
@@ -42,22 +44,23 @@ public abstract class MyScripts : MonoBehaviour
     {
         add
         {
+            if (!bFixed && _fixedUpdate == null)
+            {
+                bFixed = true;
+                GameManager.GamePlayFixedUpdate += MyFixedUpdate;
+            }
+
             _fixedUpdate += value;
-            if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
         }
         remove
         {
             _fixedUpdate -= value;
 
-
-            if (_fixedUpdate == null)
+            if (bFixed && _fixedUpdate == null)
             {
-                RemoveFixedUpdate();
-                //GameManager.eventQueueGamePlay.Enqueue(RemoveFixedUpdate);
+                bFixed = false;
+                GameManager.GamePlayFixedUpdate -= MyFixedUpdate;
             }
-            else if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
         }
     }
 
@@ -87,47 +90,55 @@ public abstract class MyScripts : MonoBehaviour
         }
     }
 
-    protected abstract void Config();
-
+    bool bUpdate;
     UnityEngine.Events.UnityAction _update;
-
+    bool bFixed;
     UnityEngine.Events.UnityAction _fixedUpdate;
 
-    bool active=true;
-    bool onPauseSuscribe = false;
+ 
 
-    private void SaveUpdate()
+    void MyUpdate()
     {
-        if(_update!=null)
-            GameManager.update.CreateOrSave(this, _update);
+        _update();
     }
 
-    private void RemoveUpdate()
+    void MyFixedUpdate()
     {
-        GameManager.update.Remove(this);
+        _fixedUpdate();
     }
 
-    private void SaveFixedUpdate()
+    protected abstract void Config();
+
+
+    internal void OnEnable()
     {
-        if (_fixedUpdate != null)
-            GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
+        if (!bUpdate && _update != null)
+        {
+            bUpdate = true;
+            GameManager.GamePlayUpdate += MyUpdate;
+        }
+
+        if (!bFixed && _fixedUpdate != null)
+        {
+            bFixed = true;
+            GameManager.GamePlayFixedUpdate += MyFixedUpdate;
+        }
+
+        MyOnEnables?.Invoke();
     }
 
-    private void RemoveFixedUpdate()
+    internal void OnDisable()
     {
-        GameManager.fixedUpdate.Remove(this);
-    }
+        if (bUpdate)
+            GameManager.GamePlayUpdate -= MyUpdate;
 
-    private void GameManager_onPlay()
-    {
-        enabled = active;
-    }
+        if (bFixed)
+            GameManager.GamePlayFixedUpdate -= MyFixedUpdate;
 
-    private void GameManager_onPause()
-    {
-        active = enabled;
+        bUpdate = false;
+        bFixed = false;
 
-        enabled = false;
+        MyOnDisables?.Invoke();
     }
 
     internal void Awake()
@@ -141,52 +152,17 @@ public abstract class MyScripts : MonoBehaviour
     {
         MyStarts?.Invoke();
     }
-
-    private void OnEnable()
-    {
-        GameManager.eventQueueGamePlay.Enqueue(()=>
-            {
-                MyOnEnables?.Invoke();
-
-                SaveUpdate();
-
-                SaveFixedUpdate();
-
-                if (!onPauseSuscribe)
-                {
-                    GameManager.OnPlay += GameManager_onPlay;
-
-                    GameManager.OnPause += GameManager_onPause;
-
-                    onPauseSuscribe = true;
-                }
-            });
-    }
-
-    private void OnDisable()
-    {
-        GameManager.eventQueueGamePlay.Enqueue(() =>
-        {
-            MyOnDisables?.Invoke();
-            RemoveUpdate();
-            RemoveFixedUpdate();
-            if (gameObject !=null && !gameObject.activeInHierarchy && onPauseSuscribe)
-            {
-                GameManager.OnPlay -= GameManager_onPlay;
-
-                GameManager.OnPause -= GameManager_onPause;
-
-                onPauseSuscribe = false;
-            }
-        });
-    }
+  
     private void OnDestroy()
     {
         MyOnDestroys?.Invoke();
-
-        GameManager.OnPlay -= GameManager_onPlay;
-
-        GameManager.OnPause -= GameManager_onPause;
+        _update = null;
+        _fixedUpdate = null;
+        MyAwakes = null;
+        MyStarts = null;
+        MyOnEnables = null;
+        MyOnDisables = null;
+        MyOnDestroys = null;
     }
 }
 

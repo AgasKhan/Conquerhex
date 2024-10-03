@@ -38,6 +38,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public DestructibleObjects platform;
 
+    public byte MaxParryCount = 5;
+
     byte parryCount;
     bool weaponGive = false;
 
@@ -179,10 +181,11 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         healthEvent = HealthEvent2;
     }
 
-    public void ParryPlatformDialog()
-    {
-        player.caster.abilities[0].equiped.onApplyCast += TakeDamagePlatform;
-    }
+    // public void ParryPlatformDialog()
+    // {
+    //     var r = (CastingParryBase)player.caster.abilities[0].equiped.castingAction.castingActionBase;
+    //     r.onSuccessCastingAction += TakeDamagePlatform;
+    // }
 
     void HealthEvent2(Health obj)
     {
@@ -209,10 +212,12 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     void TakeDamagePlatform(Ability a)
     {
-        //if (platform.health.actualLife >= platform.health.maxLife) return;
+        var parry = (CastingParry)player.caster.abilities[0].equiped.castingAction;
+        if (!parry.Success) return;
 
         parryCount++;
-        if (!parryCount.Equals(10)) return;
+
+        if (parryCount < MaxParryCount) return;
 
         interfaz.CompleteObjective(0);
         platform.GetComponent<TestDamageEntity>().StopTimer();
@@ -220,12 +225,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
         PoolManager.SpawnPoolObject(index, platform.transform.position, Quaternion.identity);
-
         player.caster.abilities[0].equiped.onApplyCast -= TakeDamagePlatform;
-        
 
         parryCount = 0;
-
     }
 
     private void EquipeWeapon(int arg1, MeleeWeapon arg2)
@@ -411,7 +413,6 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         VirtualControllers.Interact.eventDown -= InteractDialog;
         VirtualControllers.Principal.eventDown -= InteractDialog;
-        VirtualControllers.Inventory.enable = true;
 
         npcRenderer.enabled = false;
     }
@@ -428,8 +429,6 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         messageToShow = allDialogs[currentDialog].dialog;
 
         interfaz.ClearObjective();
-
-        VirtualControllers.Inventory.enable = false;
 
         foreach (var item in allDialogs[currentDialog].objective.Split('\n'))
         {

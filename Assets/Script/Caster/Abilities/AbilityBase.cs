@@ -446,12 +446,12 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public void FeedbackDetect()
     {
-        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Angle(Angle).Direction(Aiming);
+        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Angle(Angle).Direction(AimingXZ);
     }
 
-    public List<Entity> Detect(Entity caster, Vector3 pos)
+    public List<Entity> Detect(Entity caster, Vector3 pos, Vector3 aiming)
     {
-        affected = itemBase.Detect(ref affected,caster, pos ,Aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);
+        affected = itemBase.Detect(ref affected,caster, pos , aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);
 
         if (affected != null && itemBase.ShowFeedAffectedEntities)
             foreach (var item in affected)
@@ -464,7 +464,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public List<Entity> Detect()
     {
-        return Detect(caster.container, caster.transform.position);
+        return Detect(caster.container, caster.transform.position, Aiming);
     }
 
     protected void SetCooldown()

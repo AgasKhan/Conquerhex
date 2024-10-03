@@ -82,11 +82,14 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public void PlayAction(string name) => ability.PlayAction(name);
 
-    public List<Entity> Detect(Entity caster, Vector3 pos)
-        => ability.Detect(caster, pos);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+    public List<Entity> Detect(Entity caster, Vector3 pos, Vector3 aiming)
+        => ability.Detect(caster, pos, aiming);
+
+    public List<Entity> Detect(Vector3 aiming)
+    => ability.Detect(caster.container, caster.transform.position, aiming);
 
     public List<Entity> Detect() 
-        => ability.Detect(caster.container, caster.transform.position);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+        => ability.Detect();
 
     public virtual void Init(Ability ability)
     {
