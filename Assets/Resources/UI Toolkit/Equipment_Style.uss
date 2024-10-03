@@ -31,10 +31,10 @@
 .slotButton {
     width: 70px;
     height: 70px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
     background-color: rgb(21, 20, 20);
     border-left-color: rgb(135, 110, 65);
     border-right-color: rgb(135, 110, 65);
@@ -207,7 +207,7 @@
     flex-shrink: 0;
     height: 40px;
     width: 100%;
-    background-color: rgba(25, 29, 35, 0.86);
+    background-color: rgb(21, 23, 26);
     transition-duration: 0.15s;
     transition-timing-function: ease;
 }
@@ -525,10 +525,10 @@
 .slotButtonWithoutHover {
     width: 70px;
     height: 70px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
     background-color: rgb(21, 20, 20);
     border-left-color: rgb(135, 110, 65);
     border-right-color: rgb(135, 110, 65);
