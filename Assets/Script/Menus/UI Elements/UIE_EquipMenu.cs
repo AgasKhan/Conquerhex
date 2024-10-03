@@ -80,6 +80,8 @@ public class UIE_EquipMenu : UIE_Equipment
         equipedItemButton.AddToClassList("itemToChange");
         equipedItemContainer.Add(equipedItemButton);
 
+        animController = character.GetInContainer<AnimatorController>();
+
         CreateListItems();
         SetOriginalButton();
 
@@ -101,6 +103,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
         originalButton.HideInUIE();
         changeButton.HideInUIE();
+        StopAnimation();
     }
     private void CancelChange()
     {
@@ -294,13 +297,17 @@ public class UIE_EquipMenu : UIE_Equipment
 
     void PreviousAnimAction()
     {
-        if (filterType == typeof(MeleeWeapon) && character.caster.actualWeapon != null)
-            character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
+        if (filterType == typeof(MeleeWeapon))
+            ShowHideWeaponInMenu(false);
+        else if (filterType == typeof(WeaponKata))
+            StopAnimation();
     }
     void PostAnimAction()
     {
         if (filterType == typeof(MeleeWeapon) && equipedItemIndex >= 0)
-            character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon();
+            ShowHideWeaponInMenu(true);
+        else if (filterType == typeof(WeaponKata))
+            ShowAnimationLoop((character.inventory[equipedItemIndex] as WeaponKata).itemBase.animations.animClips["Cast"]);
     }
 
     void SetStaticItem(int _index)

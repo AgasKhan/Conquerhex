@@ -67,7 +67,10 @@ public class UIE_SlotButton : VisualElement
         RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct.Invoke());
     }
     
-
+    public void HideBackImage()
+    {
+        backImage.HideInUIE();
+    }
     void InitTooltip()
     {
         ItemEquipable aux = slotItem.equiped;

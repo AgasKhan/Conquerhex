@@ -51,6 +51,8 @@ public class UIE_KataButton : VisualElement
         RegisterCallback<MouseOverEvent>((mouseEvent) => hoverMouseAct?.Invoke());
         RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct?.Invoke());
 
+        weaponButton.HideBackImage();
+
         InitTooltip();
     }
 
@@ -206,6 +208,8 @@ public class UIE_KataButton : VisualElement
         kataButton.RemoveFromClassList("kataButton");
         kataButton.AddToClassList("kataButtonNoHover");
         AddToClassList("halfScale");
+
+        weaponButton.FreezzeButton();
     }
 
     public void Enable()
