@@ -18,11 +18,11 @@ public class UIE_ListButton : VisualElement
     private VisualElement buttonContainer => this.Q<VisualElement>("buttonContainer");
     private VisualElement mainButton => this.Q<VisualElement>("MainButton");
 
-    System.Action mainAction;
+    System.Action mainAct;
     System.Action copyAction;
 
-    System.Action mainAct;
-    
+    System.Action hoverAct;
+
     public void Init(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, System.Action _mainAction)
     {
         Init();
@@ -33,6 +33,8 @@ public class UIE_ListButton : VisualElement
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);
+
+        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAct?.Invoke());
     }
 
     public void Set(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, System.Action _mainAction)
@@ -43,12 +45,13 @@ public class UIE_ListButton : VisualElement
         specialityItem.text = _specialityItem;
 
         mainAct = _mainAction;
-        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAct.Invoke());
+        copyAction = _mainAction;
     }
 
     public void SetHoverAction(System.Action _action)
     {
-        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) =>_action.Invoke());
+        hoverAct = _action;
+        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) => hoverAct.Invoke());
     }
 
     public void SetEquipText(string _text)
@@ -61,8 +64,7 @@ public class UIE_ListButton : VisualElement
 
     public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action _mainAction, System.Type _type)
     {
-        VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
-        asset.CloneTree(this);
+        Init();
 
         typeItem.HideInUIE();
         specialityItem.HideInUIE();
@@ -81,18 +83,15 @@ public class UIE_ListButton : VisualElement
             itemImage.AddToClassList("abilityBorder");
         }*/
 
-        mainAction = _mainAction;
+        mainAct = _mainAction;
         copyAction = _mainAction;
 
         itemImage.style.backgroundImage = new StyleBackground(_itemImage);
         itemName.text = _itemName;
-
-        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAction.Invoke());
     }
     public void InitOnlyName<T>(ItemEquipable _item, System.Action _mainAction, System.Type _type) where T:ItemEquipable
     {
-        VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
-        asset.CloneTree(this);
+        Init();
 
         typeItem.HideInUIE();
         specialityItem.HideInUIE();
@@ -105,27 +104,25 @@ public class UIE_ListButton : VisualElement
 
         itemImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<T>(_item));
 
-        mainAction = _mainAction;
+        mainAct = _mainAction;
         copyAction = _mainAction;
 
         if (_item != null)
             itemName.text = _item.nameDisplay;
         else
             itemName.text = "Desequipar";
-
-        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAction.Invoke());
     }
 
     public void Enable()
     {
-        mainAction = copyAction;
+        mainAct = copyAction;
         mainButton.RemoveFromClassList("itemSelected");
         mainButton.AddToClassList("ListItemButton");
         SetEquipText("Equipar");
     }
     public void Disable()
     {
-        mainAction = () => { };
+        mainAct = () => { };
         mainButton.AddToClassList("itemSelected");
         mainButton.RemoveFromClassList("ListItemButton");
         SetEquipText("");

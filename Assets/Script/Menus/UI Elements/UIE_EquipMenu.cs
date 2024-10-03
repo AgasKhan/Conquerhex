@@ -67,13 +67,6 @@ public class UIE_EquipMenu : UIE_Equipment
         cancelButton.RegisterCallback<ClickEvent>((clEvent) => CancelChange());
     }
 
-    private void CancelChange()
-    {
-        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
-        auxAction.Invoke(originalItemIndex);
-        manager.BackLastMenu();
-    }
-
     private void myOnEnable()
     {
         equipedItemContainer.Clear();
@@ -90,7 +83,7 @@ public class UIE_EquipMenu : UIE_Equipment
         CreateListItems();
         SetOriginalButton();
 
-        EquipOtherItem(originalItemIndex);
+        TimersManager.Create(0.1f, () => { character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(); Debug.Log("Timer Termmo"); }).SetUnscaled(true);
     }
     private void myOnDisable()
     {
@@ -108,6 +101,12 @@ public class UIE_EquipMenu : UIE_Equipment
 
         originalButton.HideInUIE();
         changeButton.HideInUIE();
+    }
+    private void CancelChange()
+    {
+        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
+        auxAction.Invoke(originalItemIndex);
+        manager.BackLastMenu();
     }
 
     public void SetEquipMenu(SlotItem _slotItem, Action<int> _action)
@@ -297,7 +296,6 @@ public class UIE_EquipMenu : UIE_Equipment
     {
         if (filterType == typeof(MeleeWeapon) && character.caster.actualWeapon != null)
             character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
-            
     }
     void PostAnimAction()
     {
@@ -312,12 +310,17 @@ public class UIE_EquipMenu : UIE_Equipment
 
         if (item != null)
         {
-            equipedItemButton.Set(GetImage(item as ItemEquipable, filterType), GetText(item as ItemEquipable, filterType), "", "", () => EquipOtherItem(-1));
+            equipedItemButton.Set(GetImage(item as ItemEquipable, filterType), GetText(item as ItemEquipable, filterType), "", "", () => 
+            {
+                EquipOtherItem(-1);
+                changeButton.HideInUIE();
+                ShowItemDetails("No tienes nada equipado", "", null);
+            });
             equipedItemButton.SetEquipText("Desequipar");
             equipedItemButton.SetHoverAction(() =>
             {
                 ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
-                SetChangeButton(item.image, -1);
+                SetChangeButton(GetImage(item as ItemEquipable, filterType), -1);
             });
         }
         else
@@ -326,8 +329,8 @@ public class UIE_EquipMenu : UIE_Equipment
             equipedItemButton.SetEquipText("");
             equipedItemButton.SetHoverAction(() =>
             {
-                ShowItemDetails("No tienes nada equipado", "Selecciona un item para equipar", null);
-                SetChangeButton(GetImage(), -1);
+                changeButton.HideInUIE();
+                ShowItemDetails("No tienes nada equipado", "", null);
             });
         }
 
