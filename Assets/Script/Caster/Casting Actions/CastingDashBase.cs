@@ -160,13 +160,13 @@ public class CastingDash : CastingAction<CastingDashBase>
     {
         if (castingActionBase.multiplyByArea)
         {
-            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash * FinalMaxRange);
+            moveEntity.Velocity(AimingXZ, castingActionBase.velocityInDash * FinalMaxRange);
 
             //Debug.Log("Velocity: " + FinalMaxRange);
         }
         else
         {
-            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash);
+            moveEntity.Velocity(AimingXZ, castingActionBase.velocityInDash);
         }
     }
 

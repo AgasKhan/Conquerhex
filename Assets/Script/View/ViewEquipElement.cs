@@ -30,6 +30,14 @@ public class ViewEquipElement<TChild> : MonoBehaviour where TChild : ViewEquipEl
         return aux;
     }
 
+    public void SetPosition(Vector3 position, Quaternion rotation, Transform parent)
+    {
+        transform.SetParent(parent);
+        transform.position = position;
+        transform.rotation = rotation;
+        transform.position -= transform.TransformDirection(offset);
+    }
+
     public void Destroy()
     {
         Destroy(gameObject);

@@ -69,7 +69,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             {
                 dashCount--;
 
-                Detect(caster.container, objective.transform.position, Aiming);
+                Detect(caster.container, objective.transform.position, AimingXZ);
                 foreach (var item in affected)
                 {
                     if(!objectivesAttacked.Contains(item))
@@ -100,7 +100,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Direction(Aiming);
+        ability.FeedbackDetect();
 
         Detect();
 
@@ -122,7 +122,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         ObjectiveToAim = objectivesAttacked[0].transform.position;
 
-        moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
+        moveEntity.Velocity(AimingXZ, triggerBase.velocityInDash);
 
         FeedBackReference?.Area( FinalMaxRange,  FinalMinRange);
     }

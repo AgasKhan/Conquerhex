@@ -63,6 +63,8 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     int _index = 0;
 
+    System.Action endAnimation;
+
     string strAction => "Action" + (_index+1);
 
     #region Test
@@ -130,6 +132,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         controller.SetBool("Mirror", data.mirror);
         controller.SetFloat("ActionMultiply", data.velocity);
         ChangeActionAnimation(data.animationClip, data.defaultAction, data.inLoop);
+
+        endAnimation = null;
+
+        if (data.nextAnimation != null)
+        {
+            endAnimation = ()=> ChangeActionAnimation(data.nextAnimation);
+        }
     }
 
     public void ChangeActionAnimation(AnimationClip newClip, bool inLoop)
@@ -223,6 +232,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     private void TimerEndAnimation()
     {
         controller.SetBool("Wait", false);
+        endAnimation?.Invoke();
     }
 
     #if UNITY_EDITOR

@@ -31,9 +31,9 @@ public class RangeWeaponBase : MeleeWeaponBase
 
 public class RangeWeapon : MeleeWeapon
 {
-    public Tim amination;
+    public Tim amunation;
 
-    public Tim dispersion;
+    //public Tim dispersion;
 
     public Vector2Int prefabBullet => ((RangeWeaponBase)itemBase).indexPrefabBullet;
 
@@ -41,7 +41,7 @@ public class RangeWeapon : MeleeWeapon
     {
         base.Init();
 
-        amination = new Tim(((RangeWeaponBase)itemBase).magazine);
+        amunation = new Tim(((RangeWeaponBase)itemBase).magazine);
     }
 
     public override IEnumerable<Entity> ApplyDamage(Ability ability, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
@@ -93,10 +93,10 @@ public class RangeWeapon : MeleeWeapon
 
     public override void Durability(float damageToDurability)
     {
-        if (amination.total == 0)
+        if (amunation.total == 0)
             return;
 
-        if (amination.Substract(1) <= 0)
+        if (amunation.Substract(1) <= 0)
         {
             TriggerOff();
             return;

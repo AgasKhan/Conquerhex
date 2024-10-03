@@ -20,7 +20,9 @@ MonoBehaviour:
         animationClip: {fileID: 7400000, guid: e71b8c125ba2f45449c1d0ae7f73c0d8, type: 2}
         inLoop: 0
         velocity: 1
-        next: -1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
         mirrorType: 0
         events:
           pictionaries: []
@@ -30,7 +32,9 @@ MonoBehaviour:
         animationClip: {fileID: 7400000, guid: d6e0564add89f1742bfb532518164aff, type: 2}
         inLoop: 0
         velocity: 1
-        next: -1
+        nextIndex: 2
+        nextAnimation:
+          rid: 9055861519105130556
         mirrorType: 0
         events:
           pictionaries: []
@@ -40,7 +44,27 @@ MonoBehaviour:
         animationClip: {fileID: 7400000, guid: 71096b084064c1949a2a434bed3cbcf5, type: 2}
         inLoop: 1
         velocity: 1
-        next: -1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
+        mirrorType: 0
+        events:
+          pictionaries: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 9055861519105130556
+      type: {class: AnimationInfo/Data, ns: , asm: Assembly-CSharp}
+      data:
+        defaultAction: 0
+        animationClip: {fileID: 7400000, guid: 71096b084064c1949a2a434bed3cbcf5, type: 2}
+        inLoop: 1
+        velocity: 1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
         mirrorType: 0
         events:
           pictionaries: []
