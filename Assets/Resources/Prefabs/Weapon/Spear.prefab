@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6384081902350153692}
   - component: {fileID: 6629239271384822175}
+  - component: {fileID: 1272475634453901145}
   m_Layer: 15
   m_Name: Spear
   m_TagString: Untagged
@@ -47,14 +48,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 5464708504950422370}
-  offset: {x: 0, y: 0.71, z: 0}
+  offset: {x: 0, y: 0.93, z: 0}
   onSpawn:
     m_PersistentCalls:
       m_Calls: []
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
-  handHandling: 0
+  handHandling: 1
   leftOffset: {x: 0, y: 0.19, z: 0}
   positionsPCache: {fileID: 6918954641851045129, guid: 3bc8ac072daf11a4aadfd0eaf13f6f57,
     type: 3}
@@ -64,6 +65,21 @@ MonoBehaviour:
   nailedPoint: {fileID: 4021172726564121123}
   animations: {fileID: 11400000, guid: 93da970f1c23d9e439adad1c614999a0, type: 2}
   animation: {fileID: 0}
+--- !u!114 &1272475634453901145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6071383779342381580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68503b5165a102e4e8ce843f70b31d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 2949017698129397956}
+  speedThreshold: 5
+  handTransform: {fileID: 0}
 --- !u!1 &8995673167712456226
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +328,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd166d5cefe2e8a49951939aea1b68e3, type: 3}
+--- !u!198 &2949017698129397956 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7431405718899707163, guid: dd166d5cefe2e8a49951939aea1b68e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 5750159768539170271}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6333192994631096569 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1740833263959645478, guid: dd166d5cefe2e8a49951939aea1b68e3,

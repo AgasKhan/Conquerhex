@@ -51,28 +51,6 @@ public class UIE_CombosMenu : UIE_Equipment
         onClose += () => manager.DisableMenu(gameObject.name);
     }
 
-    private void myOnDisable()
-    {
-        HiddeItemList();
-        comboButtonsList.Clear();
-    }
-
-    void SetComboButton<T>(T auxAbility, int indexSlot) where T : Ability
-    {
-        var aux = comboButtonsList[indexSlot];
-
-        //Debug.Log("Al setear el ComboButton, su indice de combos es: " + aux.indexSlot);
-
-        if (auxAbility is WeaponKata)
-        {
-            aux.SetKata(auxAbility as WeaponKata, GetAction(aux.indexSlot), GetWeaponAction(aux.indexSlot, auxAbility as WeaponKata));
-        }
-        else
-        {
-            aux.SetEquipOrAbility(auxAbility as AbilityExtCast, GetAction(aux.indexSlot));
-        }
-    }
-
     void myEnableMenu()
     {
         comboButtons.Clear();
@@ -92,6 +70,30 @@ public class UIE_CombosMenu : UIE_Equipment
                 aux.Block("En uso");
             else
                 aux.Block(character.caster.combos[myIndex].isBlocked);
+        }
+
+        animController = character.GetInContainer<AnimatorController>();
+    }
+
+    private void myOnDisable()
+    {
+        HiddeItemList();
+        comboButtonsList.Clear();
+    }
+
+    void SetComboButton<T>(T auxAbility, int indexSlot) where T : Ability
+    {
+        var aux = comboButtonsList[indexSlot];
+
+        //Debug.Log("Al setear el ComboButton, su indice de combos es: " + aux.indexSlot);
+
+        if (auxAbility is WeaponKata)
+        {
+            aux.SetKata(auxAbility as WeaponKata, GetAction(aux.indexSlot), GetWeaponAction(aux.indexSlot, auxAbility as WeaponKata));
+        }
+        else
+        {
+            aux.SetEquipOrAbility(auxAbility as AbilityExtCast, GetAction(aux.indexSlot));
         }
     }
 

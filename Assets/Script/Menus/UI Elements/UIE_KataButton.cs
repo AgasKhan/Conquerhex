@@ -51,6 +51,8 @@ public class UIE_KataButton : VisualElement
         RegisterCallback<MouseOverEvent>((mouseEvent) => hoverMouseAct?.Invoke());
         RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct?.Invoke());
 
+        weaponButton.HideBackImage();
+
         InitTooltip();
     }
 
@@ -200,5 +202,27 @@ public class UIE_KataButton : VisualElement
         blockerText.text = _text;
         Block(true);
     }
+
+    public void FreezzeButton()
+    {
+        mainAct = () => { };
+        kataButton.RemoveFromClassList("kataButton");
+        kataButton.AddToClassList("kataButtonNoHover");
+        AddToClassList("halfScale");
+
+        weaponButton.FreezzeButton();
+    }
+
+    public void Enable()
+    {
+        kataButton.pickingMode = PickingMode.Position;
+        weaponButton.pickingMode = PickingMode.Position;
+    }
+    public void Disable()
+    {
+        kataButton.pickingMode = PickingMode.Ignore;
+        weaponButton.pickingMode = PickingMode.Ignore;
+    }
+
     public UIE_KataButton() { }
 }

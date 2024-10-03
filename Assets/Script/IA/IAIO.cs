@@ -203,7 +203,9 @@ public class IAIO : IAFather
 
         VirtualControllers.Movement.eventDown -= MoveEventMediator_eventDown;
 
+        inventoryEventMediator.eventDown -= InventoryEventMediator_eventDown;
 
+        DesuscribiUI();
         VirtualControllers.Inventory.DesuscribeController(inventoryEventMediator);
 
         //VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
@@ -217,6 +219,8 @@ public class IAIO : IAFather
         VirtualControllers.Terciary.DesuscribeController(dashEventMediator);
 
         VirtualControllers.Interact.eventDown -= Interact_eventDown;
+
+        VirtualControllers.Inventory.DesuscribeController(inventoryEventMediator);
 
         interactEvent.secondDelegato?.Invoke((false, false, null));
 

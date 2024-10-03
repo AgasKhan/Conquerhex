@@ -115,7 +115,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
          controller.SetTrigger("Death");
     }
     
-    void CancelAllAnimations()
+    public void CancelAllAnimations()
     {
         for (int i = 0; i < maxActions; i++)
         {
