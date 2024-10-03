@@ -20,44 +20,65 @@ public class UpTrggrCtrllr : TriggerController
 {
     new UpTrggrCtrllrBase triggerBase=> base.triggerBase as UpTrggrCtrllrBase;
 
+    Vector3 aiming;
+    Vector3 Aiming() => aiming;
+
+    Character character;
+
     private void MoveEventMediator_eventPress(Vector2 arg1, float arg2)
     {
-        if(arg1!=Vector2.zero)
-            Aiming2D = arg1;
+        if (arg1 != Vector2.zero)
+        {
+            aiming = arg1.Vect2To3XZ(0);
+            character.OnModelView(aiming);
+        }
     }
 
     public override void OnEnterState(CasterEntityComponent param)
     {
         base.OnEnterState(param);
 
-        if((triggerBase?.aimingToMove ?? false) && param.container is Character)
+        if((triggerBase?.aimingToMove ?? false) && param.container is Character character)
         {
-            var character = ((Character)param.container);
+            this.character = character;
 
-            Aiming2D = character.move.direction.Vect3To2XZ();
+            character.aimingEventMediator.DesuscribeController(character.aiming);
 
             character.moveEventMediator.eventPress += MoveEventMediator_eventPress;
+
+            aiming = character.moveEventMediator.dir.Vect2To3XZ(0);
+
+            if (aiming != Vector3.zero)
+                character.OnModelView(aiming);
+
+            ability.alternativeAiming = Aiming;
         }
     }
 
     public override void OnExitState(CasterEntityComponent param)
     {
-        if ((triggerBase?.aimingToMove ?? false) && param.container is Character)
+        if ((triggerBase?.aimingToMove ?? false) && param.container is Character character)
         {
-            ((Character)param.container).moveEventMediator.eventPress -= MoveEventMediator_eventPress;
+            character.aimingEventMediator.SuscribeController(character.aiming);
+
+            character.moveEventMediator.eventPress -= MoveEventMediator_eventPress;
+
+            ability.alternativeAiming = null;
         }
 
         base.OnExitState(param);
     }
 
+
+    public override void ControllerDown(Vector2 dir, float tim)
+    {
+    }
+
     //Durante, al mantener y moverlo
     public override void ControllerPressed(Vector2 dir, float button)
     {
-        //Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime*10);
-        if(!(triggerBase?.aimingToMove ?? false))
-            Aiming2D = dir;            
 
-        FeedBackReference?.Area(FinalMaxRange).Direction(AimingXZ).Angle(Angle);
+        ability.FeedbackDetect();
 
         Detect();
     }
@@ -65,8 +86,6 @@ public class UpTrggrCtrllr : TriggerController
     //Despues, al sotarlo
     public override void ControllerUp(Vector2 dir, float button)
     {
-        //comienza a bajar el cooldown
-
         Cast();
 
         if(affected!=null && affected.Count>0 && !(triggerBase?.aimingToMove ?? false))
@@ -75,8 +94,5 @@ public class UpTrggrCtrllr : TriggerController
         caster.abilityControllerMediator -= this;
     }
 
-    public override void ControllerDown(Vector2 dir, float tim)
-    {
-    }
 }
 

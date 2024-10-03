@@ -14,15 +14,26 @@ public class AnimationInfo : ScriptableObject
         Mirror,
         Random
     }
+    public enum HandHandling
+    {
+        Normal,
+        Inversed
+    }
+
+    
 
     [System.Serializable]
     public class Data
     {
         public AnimatorController.DefaultActions defaultAction;
+        public HandHandling handHandling;
         public AnimationClip animationClip;
         public bool inLoop;
         public float velocity = 1;
-        public int next = -1;
+        public int nextIndex = -1;
+        
+        [SerializeReference]
+        public Data nextAnimation;
 
         [SerializeField]
         MirrorState mirrorType;
@@ -49,19 +60,25 @@ public class AnimationInfo : ScriptableObject
 
     private void OnValidate()
     {
-        /*
-        if (animClips.Count > 0)
+        foreach (var item in animClips)
         {
-            animClips[0].offsetTime = 0;
-            //animClips[0].previusIndexAnim = -1;
-        }   
+            if(item.value.nextIndex >= 0 && item.value.nextIndex < animClips.Count && item.value != animClips[item.value.nextIndex])
+            {
+                item.value.nextAnimation = animClips[item.value.nextIndex];
+            }
 
-        for (int i = 1; i < animClips.Count; i++)
-        {
-            //animClips[i].offsetTime = animClips[animClips[i].previusIndexAnim].Length;
-            animClips[i].offsetTime = animClips[i-1].Length;
+            foreach (var ev in item.value.events)
+            {
+                if (ev.value > item.value.Length)
+                {
+                    ev.value = item.value.Length;
+                }
+                else if (ev.value < 0)
+                {
+                    ev.value = 0;
+                }
+            }
         }
-        */
     }
 
     [ContextMenu("Bake anims events")]

@@ -44,12 +44,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
     public override void ControllerDown(Vector2 dir, float button)
     {
-        
         base.ControllerDown(dir, button);
-        if (End)
-        {
-            return;
-        }
 
         buttonPress = true;
         
@@ -60,12 +55,6 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
     public override void ControllerUp(Vector2 dir, float button)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
         if (affected != null && affected.Count != 0 && caster.TryGetInContainer<MoveEntityComponent>(out moveEntity))
         {
             moveEntity.Velocity((affected[0].transform.position - caster.transform.position).normalized , triggerBase.velocityInDash);
@@ -80,7 +69,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
             {
                 dashCount--;
 
-                Detect(caster.container, objective.transform.position);
+                Detect(caster.container, objective.transform.position, AimingXZ);
                 foreach (var item in affected)
                 {
                     if(!objectivesAttacked.Contains(item))
@@ -111,7 +100,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
         if (buttonPress)
             return;
 
-        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Direction(Aiming);
+        ability.FeedbackDetect();
 
         Detect();
 
@@ -133,7 +122,7 @@ public class DashToEntityUpTrggrCtrllr : UpTrggrCtrllr
 
         ObjectiveToAim = objectivesAttacked[0].transform.position;
 
-        moveEntity.Velocity(Aiming, triggerBase.velocityInDash);
+        moveEntity.Velocity(AimingXZ, triggerBase.velocityInDash);
 
         FeedBackReference?.Area( FinalMaxRange,  FinalMinRange);
     }

@@ -65,6 +65,7 @@ public abstract class SingleZeldaList<T> : IEnumerable<T> where T : class, ISing
         foreach (var item in this)
         {
             FreeItem(item);
+            item.Destroy();
         }
 
         First = null;
@@ -245,6 +246,8 @@ public interface ISingleZeldaElement<T> where T : class, ISingleZeldaElement<T>
     SingleZeldaList<T> Parent { get; set; }
 
     T Next { get; set; }
+
+    void Destroy();
 }
 
 public interface IDoubleZeldaElement<T> : ISingleZeldaElement<T> where T : class, IDoubleZeldaElement<T>

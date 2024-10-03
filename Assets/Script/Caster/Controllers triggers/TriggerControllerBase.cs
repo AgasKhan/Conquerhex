@@ -60,13 +60,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
-    public virtual Vector3 Aiming => ability.Aiming;
-
     public Vector3 AimingXZ => ability.AimingXZ;
 
     public Vector3 ObjectiveToAim { get => ability.ObjectiveToAim; set => ability.ObjectiveToAim = value; }
-
-    public Vector2 Aiming2D { set => ability.Aiming2D = value; }
 
     public int FinalMaxDetects => throw new System.NotImplementedException();
 
@@ -82,11 +78,14 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public void PlayAction(string name) => ability.PlayAction(name);
 
-    public List<Entity> Detect(Entity caster, Vector3 pos)
-        => ability.Detect(caster, pos);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+    public List<Entity> Detect(Entity caster, Vector3 pos, Vector3 aiming)
+        => ability.Detect(caster, pos, aiming);
+
+    public List<Entity> Detect(Vector3 aiming)
+    => ability.Detect(caster.container, caster.transform.position, aiming);
 
     public List<Entity> Detect() 
-        => ability.Detect(caster.container, caster.transform.position);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+        => ability.Detect();
 
     public virtual void Init(Ability ability)
     {
@@ -178,13 +177,9 @@ public interface IAbilityComponent : IAbilityStats, IState<CasterEntityComponent
     /// </summary>
     public bool End { get ; set ; }
 
-    public  Vector3 Aiming { get ; }
-
     public Vector3 AimingXZ { get; }
 
     public Vector3 ObjectiveToAim { get; set; }
-
-    public Vector2 Aiming2D { set;} 
 
     public  bool DontExecuteCast { get; }
 

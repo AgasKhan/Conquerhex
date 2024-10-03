@@ -293,6 +293,12 @@ public class Tim : IGetPercentage
         _onChange(this, value);
     }
 
+    public virtual void Destroy()
+    {
+        _onChange = null;
+        internalSetCurrent = null;
+    }
+
     protected virtual void Create()
     {
     }
@@ -316,6 +322,9 @@ public class Tim : IGetPercentage
 [System.Serializable]
 public class Timer : Tim, IDoubleZeldaElement<Timer>
 {
+    public static int countCreated;
+
+
     protected bool _unscaled;
 
     protected bool loop;
@@ -509,12 +518,13 @@ public class Timer : Tim, IDoubleZeldaElement<Timer>
 
     protected override void Create()
     {
-        //TimersManager.CountCreated++;
+
     }
 
-    protected virtual void Destroy()
+    public override void Destroy()
     {
-        //TimersManager.CountCreated--;
+        base.Destroy();
+        Stop();
     }
 
     /// <summary>
@@ -524,12 +534,13 @@ public class Timer : Tim, IDoubleZeldaElement<Timer>
     /// <param name="m">Modifica el multiplicador del timer, por defecto 0</param>
     public Timer(float totTim) : base(totTim)
     {
+        countCreated++;
         Start();
     }
 
     ~Timer()
     {
-        Destroy();
+        countCreated--;
     }
 }
 
@@ -575,6 +586,12 @@ public class TimedAction : Timer
         this.end -= end;
 
         return this;
+    }
+
+    public override void Destroy()
+    {
+        base.Destroy();
+        end = null;
     }
 
     /// <summary>
@@ -629,6 +646,12 @@ public class TimedCompleteAction : TimedAction
         return this;
     }
 
+    public override void Destroy()
+    {
+        base.Destroy();
+        update = null;
+    }
+
     /// <summary>
     /// crea una rutina que ejecutara una funcion al comenzar/reiniciar, otra en cada frame, y otra al final
     /// </summary>
@@ -670,6 +693,15 @@ public class TimedLerp<T> : TimedCompleteAction
     void End()
     {
         save(final());
+    }
+
+    public override void Destroy()
+    {
+        base.Destroy();
+        original = null;
+        final = null;
+        lerp = null;
+        save= null;
     }
 
 

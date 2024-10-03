@@ -141,12 +141,6 @@ public class IAIO : IAFather
         }
         #endregion
 
-        #region prueba combo Hardcodeado
-
-        //aca pondria mi codigo hardcodeado, sii tuviera uno
-
-        #endregion
-
         var buildings = detectInteractuable.Area(character.transform.position, (edificio) => { return edificio.interactuable; });
 
         if (buildings == null || buildings.Count == 0)
@@ -196,28 +190,27 @@ public class IAIO : IAFather
         param.aiming.onMode -= Aiming_onMode;
         //param.onTakeDamage -= OnTakeDamage;
 
+        DesuscribiUI();
+
         attackEventMediator.eventDown -= AttackEventMediator_eventDown;
 
         abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
-
-        VirtualControllers.Movement.eventDown -= MoveEventMediator_eventDown;
 
         dashEventMediator.eventDown -= DashEventMediator_eventDown;
 
         inventoryEventMediator.eventDown -= InventoryEventMediator_eventDown;
 
-        DesuscribiUI();
 
-        /*
-        VirtualControllers.Alpha1.eventDown -= Alpha1_eventDown;
-        VirtualControllers.Alpha2.eventDown -= Alpha2_eventDown;
-        VirtualControllers.Alpha3.eventDown -= Alpha3_eventDown;
-        VirtualControllers.Alpha4.eventDown -= Alpha4_eventDown;
-        */
+        VirtualControllers.Movement.eventDown -= MoveEventMediator_eventDown;
+
+        inventoryEventMediator.eventDown -= InventoryEventMediator_eventDown;
+
+        DesuscribiUI();
+        VirtualControllers.Inventory.DesuscribeController(inventoryEventMediator);
+
+        //VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
 
         VirtualControllers.Movement.DesuscribeController(moveEventMediator);
-
-        VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
 
         VirtualControllers.Principal.DesuscribeController(attackEventMediator);
 
@@ -281,29 +274,32 @@ public class IAIO : IAFather
 
         TriggerUI();
 
+        
+
         attackEventMediator.eventDown += AttackEventMediator_eventDown;
 
-
         abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
-
-        VirtualControllers.Movement.eventDown += MoveEventMediator_eventDown;
 
         dashEventMediator.eventDown += DashEventMediator_eventDown;
 
         inventoryEventMediator = new EventControllerMediator();
         inventoryEventMediator.eventDown += InventoryEventMediator_eventDown;
 
+
+        VirtualControllers.Movement.eventDown += MoveEventMediator_eventDown;
+
+        VirtualControllers.Principal.SwitchGetDir(character.aiming);
+
+        VirtualControllers.Secondary.SwitchGetDir(character.aiming);
+
+        VirtualControllers.Terciary.SwitchGetDir(character.aiming);
+
+
         VirtualControllers.Inventory.SuscribeController(inventoryEventMediator);
-        /*
-        VirtualControllers.Alpha1.eventDown += Alpha1_eventDown;
-        VirtualControllers.Alpha2.eventDown += Alpha2_eventDown;
-        VirtualControllers.Alpha3.eventDown += Alpha3_eventDown;
-        VirtualControllers.Alpha4.eventDown += Alpha4_eventDown;
-        */
+
+        //VirtualControllers.Camera.SuscribeController(aimingEventMediator);
 
         VirtualControllers.Movement.SuscribeController(moveEventMediator);
-
-        VirtualControllers.Camera.SuscribeController(aimingEventMediator);
 
         VirtualControllers.Principal.SuscribeController(attackEventMediator);
 
@@ -476,8 +472,6 @@ public class IAIO : IAFather
         System.Action onEnter = () => abilityEventMediator.eventDown -= AbilityEventMediator_eventDown;
         System.Action onExit = () =>  abilityEventMediator.eventDown += AbilityEventMediator_eventDown;
 
-        character.aiming.AimingToObjective2D = arg1;
-
         for (int i = 0; i < comboRapido.Length; i++)
         {
             if (comboRapido[i] == lastCombo)
@@ -508,11 +502,8 @@ public class IAIO : IAFather
 
         Cursor.visible = false;
 
-        VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Movement);
-
-        VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Movement);
-
-        VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Movement);
+        VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
+        //aimingEventMediator.DesuscribeController(character.aiming);
     }
 
     private void TopdownConfigAndCameraBlockOnExit(Vector2 arg1, float arg2)
@@ -522,11 +513,8 @@ public class IAIO : IAFather
 
         Cursor.visible = true;
 
-        VirtualControllers.Principal.SwitchGetDir(VirtualControllers.Camera);
-
-        VirtualControllers.Secondary.SwitchGetDir(VirtualControllers.Camera);
-
-        VirtualControllers.Terciary.SwitchGetDir(VirtualControllers.Camera);
+        VirtualControllers.Camera.SuscribeController(aimingEventMediator);
+        //aimingEventMediator.SuscribeController(character.aiming);
     }
 
     private void Aiming_onMode(AimingEntityComponent.Mode obj)

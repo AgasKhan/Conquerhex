@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using System.Linq;
 using ComponentsAndContainers;
 public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 {
@@ -22,9 +23,22 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
     }
 
 
+
     public ViewEquipWeapon this[ViewEquipWeapon reference]
     {
-        get => equipedsWeapon[reference.name].reference;
+        get
+        {
+            try
+            {
+                return equipedsWeapon[reference.name].FirstOrDefault();
+            }
+            catch
+            {
+                Debug.LogWarning("Error de:" + reference.name);
+                return equipedsWeapon.Where((item)=>item.Value != null && item.Value.Count>0).FirstOrDefault().Value.FirstOrDefault();
+            }
+        }
+
     }
 
     [SerializeField]
@@ -36,7 +50,10 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
     bool showInModel = true;
 
     [SerializeField]
-    VisualEffect visualEffect;
+    VisualEffect rightVisualEffect;
+
+    [SerializeField]
+    VisualEffect leftVisualEffect;
     /*
     
     hash => el slot y que slotList tengo (si es un combo, kata, arma)
@@ -47,9 +64,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
     -Deseo borrar las armas que ya no utilizo
 
     */
-
-    Dictionary<string,(int cantidad, ViewEquipWeapon reference)> equipedsWeapon = new();
     Dictionary<int, ViewEquipWeapon> relation = new();
+    Dictionary<string, HashSet<ViewEquipWeapon>> equipedsWeapon = new();
 
     System.Action onExitAnimation;
 
@@ -57,15 +73,17 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     Data GetPart(string str) => _whereToEquip[str];
 
-    string GetHand(ViewEquipWeapon.HandHandling handHandling) => handHandling == ViewEquipWeapon.HandHandling.Normal ? "RightAttack" : "LeftAttack";
+    (string nameSide, VisualEffect visualEffect) side;
 
-    public void SpawnWeapon()
+    (string nameSide, VisualEffect visualEffect) GetHand(AnimationInfo.HandHandling handHandling) => handHandling == AnimationInfo.HandHandling.Normal ? ("RightAttack", rightVisualEffect) : ("LeftAttack", leftVisualEffect);
+
+    public void SpawnWeapon(AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
     {
         Debug.Log("SPAWN-------------------------");
 
         var aux = (container as Character).caster.actualWeapon;
         if(aux != null)
-            SpawnWeapon(aux.Weapon.itemBase.weaponModel);
+            SpawnWeapon(aux.Weapon.itemBase.weaponModel, handHandling);
     }
     public void DeSpawnWeapon()
     {
@@ -76,16 +94,22 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
             DeSpawnWeapon(aux.Weapon.itemBase.weaponModel);
     }
 
-    public void SpawnWeapon(ViewEquipWeapon _weapon)
+    public void SpawnWeapon(ViewEquipWeapon _weapon, AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
     {
         var weapon = this[_weapon];
+
+        side = GetHand(handHandling);
+
+        Data partBody = GetPart(side.nameSide);
+        weapon.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
+
         if (weapon.Spawn())
         {
-            visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
-            visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
-            visualEffect.SetInt("CountPCache", weapon.countPCache);
-            visualEffect.SetBool("SpawnDespawn", true);
-            visualEffect.Play();
+            side.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
+            side.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
+            side.visualEffect.SetInt("CountPCache", weapon.countPCache);
+            side.visualEffect.SetBool("SpawnDespawn", true);
+            side.visualEffect.Play();
         }
     }
 
@@ -94,8 +118,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         var weapon = this[_weapon];
         if (weapon.Despawn())
         {
-            visualEffect.SetBool("SpawnDespawn", false);
-            visualEffect.Play();
+            side.visualEffect.SetBool("SpawnDespawn", false);
+            side.visualEffect.Play();
         }
     }
 
@@ -114,19 +138,9 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                 if (previus.Equals(model))
                     return;
 
-                var previusRef = equipedsWeapon[previus.name];
+                equipedsWeapon[previus.name].Remove(previus);
 
-                previusRef.cantidad--; //reduzco su cantidad
-
-                if (previusRef.cantidad <= 0)//si ya no tengo mas, quiero quitarlo
-                {
-                    previus.Destroy();
-                    equipedsWeapon.Remove(previus.name);
-                }
-                else
-                {
-                    equipedsWeapon[previus.name] = previusRef;
-                }
+                previus.Destroy();
             }
         }
         else
@@ -137,21 +151,20 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         if (model == null)
             return;
 
-        if (equipedsWeapon.ContainsKey(model.name))
+        var partBody = GetPart("RightAttack");
+
+        model = model.Create(partBody.Position, partBody.Rotation, partBody.transform);
+      
+        relation[arg1] = model;
+
+        if(equipedsWeapon.TryGetValue(model.name, out var hashList))
         {
-            var actual = equipedsWeapon[model.name];
-            actual.cantidad++;
-            model = actual.reference;
-            equipedsWeapon[model.name] = actual;
+            hashList.Add(model);
         }
         else
         {
-            var partBody = GetPart(GetHand(model.handHandling));
-            model = model.Create(partBody.Position, partBody.Rotation, partBody.transform);            
-            equipedsWeapon.Add(model.name, (1, model));
+            equipedsWeapon.Add(model.name, new HashSet<ViewEquipWeapon>() { model });
         }
-
-        relation[arg1] = model;
     }
 
     private void OnEnterCasting(Ability obj)
@@ -161,15 +174,31 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
+                AnimationInfo.HandHandling handHandling;
+                
+                if (kata.Weapon.itemBase.animations != null && kata.Weapon.itemBase.animations.animClips.ContainsKey("Cast", out int index))
+                {
+                    handHandling = kata.Weapon.itemBase.animations.animClips[index].handHandling;
+                }
+                else
+                {
+                    handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
+                }
+
                 var weapon = this[kata.Weapon.itemBase.weaponModel];
-                if(weapon.Spawn())
+
+                side = GetHand(handHandling);
+                Data partBody = GetPart(side.nameSide);
+                weapon.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
+
+                if (weapon.Spawn())
                 {
                     obj.onAnimationPlayed += weapon.PlayAction;
-                    visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
-                    visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
-                    visualEffect.SetInt("CountPCache", weapon.countPCache);
-                    visualEffect.SetBool("SpawnDespawn", true);
-                    visualEffect.Play();
+                    side.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
+                    side.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
+                    side.visualEffect.SetInt("CountPCache", weapon.countPCache);
+                    side.visualEffect.SetBool("SpawnDespawn", true);
+                    side.visualEffect.Play();
                 }
             }
     }
@@ -179,7 +208,11 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         if (obj is WeaponKata kata)
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
+                var handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
                 var weapon = this[kata.Weapon.itemBase.weaponModel];
+
+                side = GetHand(handHandling);
+
                 obj.onAnimationPlayed -= weapon.PlayAction;
 
                 if (animController?.isPlaying ?? false)
@@ -188,8 +221,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                     {
                         if(weapon.Despawn())
                         {
-                            visualEffect.SetBool("SpawnDespawn", false);
-                            visualEffect.Play();
+                            side.visualEffect.SetBool("SpawnDespawn", false);
+                            side.visualEffect.Play();
                         }
                         
                         onExitAnimation = null;
@@ -199,8 +232,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                 {
                     if (weapon.Despawn())
                     {
-                        visualEffect.SetBool("SpawnDespawn", false);
-                        visualEffect.Play();
+                        side.visualEffect.SetBool("SpawnDespawn", false);
+                        side.visualEffect.Play();
                     }
                 }
             }

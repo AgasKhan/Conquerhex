@@ -260,13 +260,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public float Auxiliar => abilityModificator.Auxiliar;
 
+    public System.Func<Vector3> alternativeAiming;
+
     public bool isPerspective => aiming.mode != AimingEntityComponent.Mode.topdown;
 
-    public virtual Vector3 Aiming => aiming.AimingToObjective;
-
-    public virtual Vector3 AimingXZ => aiming.AimingToObjectiveXZ;
-
-    public Vector2 Aiming2D { set => aiming.AimingToObjective2D = value; get => aiming.AimingToObjective2D; }
+    public virtual Vector3 AimingXZ => alternativeAiming == null ? aiming.AimingToObjectiveXZ : alternativeAiming();
 
     public virtual Vector3 ObjectiveToAim
     {
@@ -446,12 +444,12 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public void FeedbackDetect()
     {
-        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Angle(Angle).Direction(Aiming);
+        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Angle(Angle).Direction(AimingXZ);
     }
 
-    public List<Entity> Detect(Entity caster, Vector3 pos)
+    public List<Entity> Detect(Entity caster, Vector3 pos, Vector3 aiming)
     {
-        affected = itemBase.Detect(ref affected,caster, pos ,Aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);
+        affected = itemBase.Detect(ref affected,caster, pos , aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);
 
         if (affected != null && itemBase.ShowFeedAffectedEntities)
             foreach (var item in affected)
@@ -464,7 +462,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public List<Entity> Detect()
     {
-        return Detect(caster.container, caster.transform.position);
+        return Detect(caster.container, caster.transform.position, AimingXZ);
     }
 
     protected void SetCooldown()

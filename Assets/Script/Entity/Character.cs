@@ -35,9 +35,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     /// </summary>
     public EventControllerMediator moveEventMediator = new EventControllerMediator();
 
-    IState<Character> _ia;
-
-    FSMCharacter fsmCharacter;
+    public event System.Action<Vector3> onModelView;
 
     [field: SerializeField]
     public InventoryEntityComponent inventory { get; private set; }
@@ -57,6 +55,9 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public StopActionCharacter stopIA { get; private set; }
 
     [field: SerializeField]
+    public float nextTimeCombo { get; private set; } = 0.15f;
+
+    [field: SerializeField]
     public int actualCombo { get; private set; } = -2;
 
     [SerializeField]
@@ -65,9 +66,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     [field: SerializeField]
     float deltaTimeCombo = 0.3f;
 
-    [field: SerializeField]
-    public float nextTimeCombo { get; private set; } = 0.15f;
-
     float timeComboSet;
 
     [SerializeReference]
@@ -75,6 +73,20 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
 
     [SerializeField]
     bool iaOn = true;
+
+    IState<Character> _ia;
+
+    FSMCharacter fsmCharacter;
+
+    public IStateWithEnd<FSMAutomaticEnd<Character>> Action
+    {
+        set
+        {
+            actionStateCharacter.stateWithEnd = value;
+
+            fsmCharacter.CurrentState = actionStateCharacter;
+        }
+    }
 
 
     /// <summary>
@@ -106,6 +118,12 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
+    public void OnModelView(Vector3 vector3)
+    {
+        onModelView?.Invoke(vector3);
+    }
+
+
     public void IAOnOff(bool value)
     {
         if (iaOn == value)
@@ -131,16 +149,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     public void StopIA()
     {
         Action = stopIA;
-    }
-
-    public IStateWithEnd<FSMAutomaticEnd<Character>> Action
-    {
-        set
-        {
-            actionStateCharacter.stateWithEnd = value;
-
-            fsmCharacter.CurrentState = actionStateCharacter;
-        }
     }
 
     public void Attack(int i, Vector2 dir, System.Action onAbilityEnter = null, System.Action onAbilityExit = null)
@@ -293,6 +301,8 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         aiming = GetInContainer<AimingEntityComponent>();
         caster = GetInContainer<CasterEntityComponent>();
 
+        aimingEventMediator.SuscribeController(aiming);
+
         moveStateCharacter = new MoveStateCharacter(this);
         actionStateCharacter = new ActionStateCharacter(this);
 
@@ -435,11 +445,15 @@ namespace FSMCharacterAndStates
             OnActionEnter?.Invoke();
 
             timerCombo.Set(param.context.nextTimeCombo);
+
+            param.context.move.onMove += param.context.OnModelView;
         }
 
         public void OnExitState(FSMCharacter param)
         {
             param.context.moveEventMediator -= param.context.move;
+
+            param.context.move.onMove -= param.context.OnModelView;
 
             OnActionExit?.Invoke();
         }
@@ -486,7 +500,8 @@ namespace FSMCharacterAndStates
         public void OnEnterState(FSMCharacter param)
         {
             InternalCharacterAction.EnterState(stateWithEnd);
-            //Debug.Log($"{param.context.name} EnterAction: {stateWithEnd.GetType().Name}-------------------------------------------------------------------");
+            param.context.aiming.onAimingXZ += param.context.OnModelView;
+            
         }
 
         public void OnStayState(FSMCharacter param)
@@ -499,8 +514,8 @@ namespace FSMCharacterAndStates
         public void OnExitState(FSMCharacter param)
         {
             stateWithEnd.OnExitState(InternalCharacterAction);
-
-            //Debug.Log($"{param.context.name} ExitAction: {stateWithEnd.GetType().Name}-------------------------------------------------------------------");
+            param.context.aiming.onAimingXZ -= param.context.OnModelView;
+            
 
             _stateWithEnd = null;
         }

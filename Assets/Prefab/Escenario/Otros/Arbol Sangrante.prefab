@@ -45,7 +45,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9433962, g: 0.5040179, b: 0.13794944, a: 1}
-  m_Intensity: 0.72
+  m_Intensity: 0.36
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -163,7 +163,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9433962, g: 0.5040179, b: 0.13794944, a: 1}
-  m_Intensity: 0.74
+  m_Intensity: 0.36
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5111,7 +5111,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9433962, g: 0.5040179, b: 0.13794944, a: 1}
-  m_Intensity: 0.94
+  m_Intensity: 0.5
   m_Range: 9.77
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5193,10 +5193,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8138656450231974024}
-  - component: {fileID: 7108029140733822530}
   - component: {fileID: 8736035631374509203}
   - component: {fileID: 2419512466233226370}
   - component: {fileID: 3773164830148050586}
+  - component: {fileID: 1644620356678869249}
   m_Layer: 0
   m_Name: Arbol Sangrante
   m_TagString: Props
@@ -5226,29 +5226,6 @@ Transform:
   - {fileID: 3657258218795913484}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &7108029140733822530
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8138656450231974038}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4682359
-  m_Height: 1.2956059
-  m_Direction: 1
-  m_Center: {x: -0.16587973, y: 0.4089749, z: 0}
 --- !u!114 &8736035631374509203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5322,6 +5299,27 @@ MonoBehaviour:
   action:
     m_PersistentCalls:
       m_Calls: []
+--- !u!65 &1644620356678869249
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138656450231974038}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.91, y: 1, z: 3}
+  m_Center: {x: 0.24, y: 0, z: 0.5}
 --- !u!1 &8585455532766942984
 GameObject:
   m_ObjectHideFlags: 0
@@ -5367,7 +5365,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9433962, g: 0.5040179, b: 0.13794944, a: 1}
-  m_Intensity: 3.07
+  m_Intensity: 1.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

@@ -74,7 +74,7 @@ Camera:
   m_GameObject: {fileID: 427657851005913669}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0.9145849, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -202,7 +202,7 @@ Camera:
   m_GameObject: {fileID: 1125739740253471799}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0.9145849, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -426,7 +426,7 @@ Camera:
   m_GameObject: {fileID: 1860793998037308994}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0.9145849, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -554,7 +554,7 @@ Camera:
   m_GameObject: {fileID: 2237337775372246933}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0.9145849, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -682,7 +682,7 @@ Camera:
   m_GameObject: {fileID: 2846066725918551225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0.9145849, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -810,7 +810,7 @@ Camera:
   m_GameObject: {fileID: 2966386349498636646}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0.9145849, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1088,11 +1088,15 @@ MonoBehaviour:
     offsetObjPosition: {x: 0, y: 0, z: 0}
     rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0, y: 0, z: 0}
+    Dist: 10
     velocityTransition: 0.75
     smoothColision: 5
+    transitionsSet:
+      _total: 0
+      _current: 0
     cameraSet: 0
     prevCameraSet: 0
-  main: {fileID: 8646954649118161720}
+  _main: {fileID: 1125739740253471796}
   eventManager: {fileID: 11400000, guid: 1ee17b273abd50649aa8946eac44f370, type: 2}
   shakeTr: {fileID: 7594496600214237208}
   offsetTr: {fileID: 5303370391014685321}
@@ -1117,22 +1121,20 @@ MonoBehaviour:
     - {fileID: 2174288819520640708}
     - {fileID: 863672502243763701}
     offsetIndex: 2
-  pointsInScreen:
-  - {x: 0, y: 0}
-  - {x: 0, y: 1}
-  - {x: 1, y: 0}
-  - {x: 1, y: 1}
-  - {x: 0.5, y: 1}
-  - {x: 0, y: 0.5}
-  - {x: 1, y: 0.5}
-  points:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  culling:
+    pointsInScreen:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0.5, y: 1}
+    - {x: 0, y: 0.5}
+    - {x: 1, y: 0.5}
+    points: []
+    _points: []
+    _points2: []
+  renderObjects: {fileID: 4545446371477908154, guid: 2213d535134026846a1d3cb171d03198,
+    type: 2}
 --- !u!81 &8852253582668569097
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1343,7 +1345,7 @@ Camera:
   m_GameObject: {fileID: 8348164363718428610}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0.9145849, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
