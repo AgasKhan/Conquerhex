@@ -170,6 +170,23 @@ public class UIE_CombosButton : VisualElement
         });
     }
     */
+    System.Action enterMouseAct;
+    System.Action hoverMouseAct;
+    System.Action leaveMouseAct;
+
+    public void AddEnterMouseEvent(System.Action _action)
+    {
+        enterMouseAct += _action;
+    }
+    public void AddHoverMouseEvent(System.Action _action)
+    {
+        hoverMouseAct += _action;
+    }
+    public void AddLeaveMoususeEvent(System.Action _action)
+    {
+        leaveMouseAct += _action;
+    }
+
 
     public void Block(bool _condition)
     {

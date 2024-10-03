@@ -209,6 +209,7 @@ public class UIE_EquipMenu : UIE_Equipment
     {
         List<int> buffer = new List<int>();
 
+
         //Filtrar inventario y setear botón equipado
         for (int i = 0; i < character.inventory.Count; i++)
         {
@@ -228,7 +229,6 @@ public class UIE_EquipMenu : UIE_Equipment
                     SetStaticItem(index);
                     originalItemIndex = index;
                 }
-                    
             }
             else if (item.Equals(itemEquiped))
             {
@@ -250,6 +250,7 @@ public class UIE_EquipMenu : UIE_Equipment
                 SetChangeButton(GetImage(), -1);
             });
         }
+
 
         //Crear lista de botones
         foreach (var index in buffer)
@@ -333,9 +334,18 @@ public class UIE_EquipMenu : UIE_Equipment
         {
             equipedItemButton.Set(GetImage(item as ItemEquipable, filterType), GetText(item as ItemEquipable, filterType), "", "", () => 
             {
-                EquipOtherItem(-1);
-                changeButton.HideInUIE();
-                ShowItemDetails(GetText(null, filterType), "", null);
+                if(slotItem.defaultItem != null)
+                {
+                    EquipOtherItem(-1);
+                    changeButton.HideInUIE();
+                    ShowItemDetails(slotItem.defaultItem.nameDisplay, slotItem.defaultItem.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), slotItem.defaultItem.image);
+                }
+                else
+                {
+                    EquipOtherItem(-1);
+                    changeButton.HideInUIE();
+                    ShowItemDetails(GetText(null, filterType), "", null);
+                }
             });
             equipedItemButton.SetEquipText("Desequipar");
             equipedItemButton.SetHoverAction(() =>
@@ -346,16 +356,32 @@ public class UIE_EquipMenu : UIE_Equipment
         }
         else
         {
-            equipedItemButton.Set(GetImage(null, filterType), GetText(null, filterType), "", "", () => { });
-            equipedItemButton.SetEquipText("");
-            equipedItemButton.SetHoverAction(() =>
+            if(slotItem.defaultItem!=null)
             {
-                changeButton.HideInUIE();
-                ShowItemDetails("No tienes nada equipado", "", null);
-            });
+                equipedItemButton.Set(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "", "", () => {});
+                equipedItemButton.SetEquipText("");
+                equipedItemButton.SetHoverAction(() =>
+                {
+                    changeButton.HideInUIE();
+                    ShowItemDetails(slotItem.defaultItem.nameDisplay, slotItem.defaultItem.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), slotItem.defaultItem.image);
+                });
+            }
+            else
+            {
+                equipedItemButton.Set(GetImage(null, filterType), GetText(null, filterType), "", "", () => { });
+                equipedItemButton.SetEquipText("");
+                equipedItemButton.SetHoverAction(() =>
+                {
+                    changeButton.HideInUIE();
+                    ShowItemDetails("No tienes nada equipado", "", null);
+                });
+            }
         }
 
-        originalButton.style.backgroundImage = new StyleBackground(GetImage(item as ItemEquipable, filterType));
+        if(slotItem.defaultItem != null)
+            originalButton.style.backgroundImage = new StyleBackground(slotItem.defaultItem.image);
+        else
+            originalButton.style.backgroundImage = new StyleBackground(GetImage(item as ItemEquipable, filterType));
     }
 
 
