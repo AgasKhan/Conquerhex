@@ -16,12 +16,13 @@ public class UIE_ListButton : VisualElement
     private Label equipText => this.Q<Label>("equipText");
     private VisualElement changeButton => this.Q<VisualElement>("ChangeButton");
     private VisualElement buttonContainer => this.Q<VisualElement>("buttonContainer");
-
-    System.Action<ClickEvent> mainAction;
-    System.Action<ClickEvent> changeAction;
+    private VisualElement mainButton => this.Q<VisualElement>("MainButton");
 
     System.Action mainAct;
-    
+    System.Action copyAction;
+
+    System.Action hoverAct;
+
     public void Init(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, System.Action _mainAction)
     {
         Init();
@@ -32,6 +33,8 @@ public class UIE_ListButton : VisualElement
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
         asset.CloneTree(this);
+
+        mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAct?.Invoke());
     }
 
     public void Set(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, System.Action _mainAction)
@@ -42,26 +45,26 @@ public class UIE_ListButton : VisualElement
         specialityItem.text = _specialityItem;
 
         mainAct = _mainAction;
-        RegisterCallback<ClickEvent>((clEvent) => mainAct.Invoke());
+        copyAction = _mainAction;
     }
 
     public void SetHoverAction(System.Action _action)
     {
-        RegisterCallback<MouseEnterEvent>((clEvent) =>_action.Invoke());
+        hoverAct = _action;
+        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) => hoverAct.Invoke());
     }
 
     public void SetEquipText(string _text)
     {
         equipText.text = _text;
 
-        RegisterCallback<MouseEnterEvent>((clEvent) => equipText.AddToClassList("listItemTextHover"));
-        RegisterCallback<MouseLeaveEvent>((clEvent) => equipText.RemoveFromClassList("listItemTextHover"));
+        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) => equipText.AddToClassList("listItemTextHover"));
+        mainButton.RegisterCallback<MouseLeaveEvent>((clEvent) => equipText.RemoveFromClassList("listItemTextHover"));
     }
 
     public void InitOnlyName(Sprite _itemImage, string _itemName, System.Action _mainAction, System.Type _type)
     {
-        VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
-        asset.CloneTree(this);
+        Init();
 
         typeItem.HideInUIE();
         specialityItem.HideInUIE();
@@ -80,15 +83,15 @@ public class UIE_ListButton : VisualElement
             itemImage.AddToClassList("abilityBorder");
         }*/
 
+        mainAct = _mainAction;
+        copyAction = _mainAction;
+
         itemImage.style.backgroundImage = new StyleBackground(_itemImage);
         itemName.text = _itemName;
-
-        RegisterCallback<ClickEvent>((clEvent) => _mainAction.Invoke());
     }
     public void InitOnlyName<T>(ItemEquipable _item, System.Action _mainAction, System.Type _type) where T:ItemEquipable
     {
-        VisualTreeAsset asset = UIE_MenusManager.treeAsset["ListItemButton"];
-        asset.CloneTree(this);
+        Init();
 
         typeItem.HideInUIE();
         specialityItem.HideInUIE();
@@ -101,12 +104,28 @@ public class UIE_ListButton : VisualElement
 
         itemImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<T>(_item));
 
+        mainAct = _mainAction;
+        copyAction = _mainAction;
+
         if (_item != null)
             itemName.text = _item.nameDisplay;
         else
             itemName.text = "Desequipar";
+    }
 
-        RegisterCallback<ClickEvent>((clEvent) => _mainAction.Invoke());
+    public void Enable()
+    {
+        mainAct = copyAction;
+        mainButton.RemoveFromClassList("itemSelected");
+        mainButton.AddToClassList("ListItemButton");
+        SetEquipText("Equipar");
+    }
+    public void Disable()
+    {
+        mainAct = () => { };
+        mainButton.AddToClassList("itemSelected");
+        mainButton.RemoveFromClassList("ListItemButton");
+        SetEquipText("");
     }
 
     public UIE_ListButton() { }

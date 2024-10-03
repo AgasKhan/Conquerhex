@@ -7,12 +7,12 @@ public class UIE_SlotButton : VisualElement
 {
     [UnityEngine.Scripting.Preserve]
     public new class UxmlFactory : UxmlFactory<UIE_SlotButton, UxmlTraits> { }
-    private VisualElement slotImage => this.Q<VisualElement>("slotImage");
+    private VisualElement backImage => this.Q<VisualElement>("slotImage");
+    private VisualElement slotImage => this.Q<VisualElement>("iconoCentral");
     private Label slotText => this.Q<Label>("slotText");
     private VisualElement blocker => this.Q<VisualElement>("blocker");
     private Label blockerText => this.Q<Label>("blockerText");
-
-
+    
     SlotItem slotItem;
     bool isBlocked = false;
 
@@ -31,10 +31,10 @@ public class UIE_SlotButton : VisualElement
         slotText.text = UIE_MenusManager.instance.GetText<T>(slotItem.equiped);
 
         if (slotItem.equiped?.GetType() == typeof(AbilityExtCast))
-            slotImage.AddToClassList("abilityBorder");
+            backImage.AddToClassList("abilityBorder");
 
         mainAct = () => action.Invoke();
-        slotImage.RegisterCallback<ClickEvent>((clevent)=> mainAct.Invoke());
+        backImage.RegisterCallback<ClickEvent>((clevent)=> mainAct.Invoke());
 
         RegisterCallback<MouseEnterEvent>((mouseEvent) => enterMouseAct.Invoke());
 
@@ -55,17 +55,20 @@ public class UIE_SlotButton : VisualElement
 
         if (typeof(T) == typeof(AbilityExtCast))
         {
-            slotImage.AddToClassList("abilityBorder");
+            backImage.AddToClassList("abilityBorder");
         }
 
-        slotImage.RegisterCallback<ClickEvent>((clevent) => mainAct.Invoke());
+        backImage.RegisterCallback<ClickEvent>((clevent) => mainAct.Invoke());
 
         RegisterCallback<MouseEnterEvent>((mouseEvent) => enterMouseAct.Invoke());
 
         RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct.Invoke());
     }
     
-
+    public void HideBackImage()
+    {
+        backImage.AddToClassList("imgOpacityHidden");
+    }
     void InitTooltip()
     {
         ItemEquipable aux = slotItem.equiped;
@@ -125,6 +128,23 @@ public class UIE_SlotButton : VisualElement
     {
         blockerText.text = _text;
         Block(true);
+    }
+
+    public void FreezzeButton()
+    {
+        mainAct = () => { };
+        backImage.RemoveFromClassList("hexagon");
+        backImage.AddToClassList("hexagonNoHover");
+        AddToClassList("smallerScale");
+    }
+
+    public void Enable()
+    {
+        slotImage.pickingMode = PickingMode.Position;
+    }
+    public void Disable()
+    {
+        slotImage.pickingMode = PickingMode.Ignore;
     }
 
     public UIE_SlotButton() { }

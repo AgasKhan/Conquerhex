@@ -204,6 +204,8 @@ public class IAIO : IAFather
 
         dashEventMediator.eventDown -= DashEventMediator_eventDown;
 
+        inventoryEventMediator.eventDown -= InventoryEventMediator_eventDown;
+
         DesuscribiUI();
 
         /*
@@ -224,6 +226,8 @@ public class IAIO : IAFather
         VirtualControllers.Terciary.DesuscribeController(dashEventMediator);
 
         VirtualControllers.Interact.eventDown -= Interact_eventDown;
+
+        VirtualControllers.Inventory.DesuscribeController(inventoryEventMediator);
 
         interactEvent.secondDelegato?.Invoke((false, false, null));
 

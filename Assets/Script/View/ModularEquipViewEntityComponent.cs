@@ -59,6 +59,23 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     string GetHand(ViewEquipWeapon.HandHandling handHandling) => handHandling == ViewEquipWeapon.HandHandling.Normal ? "RightAttack" : "LeftAttack";
 
+    public void SpawnWeapon()
+    {
+        Debug.Log("SPAWN-------------------------");
+
+        var aux = (container as Character).caster.actualWeapon;
+        if(aux != null)
+            SpawnWeapon(aux.Weapon.itemBase.weaponModel);
+    }
+    public void DeSpawnWeapon()
+    {
+        Debug.Log("DESPAWN-------------------------");
+
+        var aux = (container as Character).caster.actualWeapon;
+        if (aux != null)
+            DeSpawnWeapon(aux.Weapon.itemBase.weaponModel);
+    }
+
     public void SpawnWeapon(ViewEquipWeapon _weapon)
     {
         var weapon = this[_weapon];
