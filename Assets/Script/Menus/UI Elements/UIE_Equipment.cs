@@ -66,7 +66,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
         animController = character.GetInContainer<AnimatorController>();
         //animController.CancelAllAnimations();
-        //character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
+        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
         animController.ChangeActionAnimation(manager.idleAnim, true);
     }
 

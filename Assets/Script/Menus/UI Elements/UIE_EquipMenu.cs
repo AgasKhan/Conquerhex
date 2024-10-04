@@ -123,7 +123,6 @@ public class UIE_EquipMenu : UIE_Equipment
     bool isOnWeaponOfKata => filterType == typeof(MeleeWeapon) && slotItem.GetType() == typeof(WeaponKata);
     private void CancelChange()
     {
-        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
         auxAction.Invoke(originalItemIndex);
         manager.BackLastMenu();
     }
