@@ -146,7 +146,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         private void Caster_onEnterCasting(Ability obj)
         {
-            if(obj is WeaponKata kata && kata.Weapon is RangeWeapon)
+            if(obj is WeaponKata kata && kata.Weapon is RangeWeapon && character.aiming.mode == AimingEntityComponent.Mode.perspective)
             {
                 TimersManager.Create(Color.white.ChangeAlphaCopy(0), Color.white, 0.5f, Color.Lerp,(color) => aimingMaterial.SetColor("_Color", color));
                 ability = kata;
