@@ -35,6 +35,9 @@ public class RangeWeapon : MeleeWeapon
 
     //public Tim dispersion;
 
+
+    public event System.Action<float> onDispersionChanged;
+
     public Vector2Int prefabBullet => ((RangeWeaponBase)itemBase).indexPrefabBullet;
 
     protected override void Init()
@@ -57,10 +60,11 @@ public class RangeWeapon : MeleeWeapon
         if(ability.isPerspective)
         {
             aim = ability.ObjectiveToAim - sapawnPos;
-
+            /*
             var angle = Mathf.Clamp(ability.Angle, 0 , 30);
 
             aim = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (aim);
+            */
         }
         else
         {

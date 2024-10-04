@@ -68,6 +68,9 @@ public class MainCamera : SingletonMono<MainCamera>
         [SerializeField]
         int prevCameraSet;
 
+        [SerializeField]
+        Material aimingMaterial;
+
         public bool setDetectLayer => character.aiming.sets[cameraSet].areaFeedBack;
 
         public bool setEntitiesOverlay => character.aiming.sets[cameraSet].entitiesOverlay;
@@ -99,9 +102,11 @@ public class MainCamera : SingletonMono<MainCamera>
 
         Transform toTrack;
 
-        RaycastHit hitInfo;
+        public RaycastHit hitInfo;
 
         System.Action _update;
+
+        Ability ability;
 
         public void Destroy()
         {
@@ -119,6 +124,8 @@ public class MainCamera : SingletonMono<MainCamera>
             {
                 this.character.moveEventMediator.quaternionOffset = null;
                 this.character.aiming.onMode -= Aiming_onMode;
+                this.character.caster.onEnterCasting -= Caster_onEnterCasting;
+                this.character.caster.onExitCasting -= Caster_onExitCasting;
             }
 
             obj = character?.transform;
@@ -128,11 +135,32 @@ public class MainCamera : SingletonMono<MainCamera>
             if (character == null)
                 return;
 
+            character.caster.onEnterCasting += Caster_onEnterCasting;
+            character.caster.onExitCasting += Caster_onExitCasting;
+
             this.character.moveEventMediator.quaternionOffset = RotationCamera;
             this.character.aiming.onMode += Aiming_onMode;
 
             Aiming_onMode(this.character.aiming.mode);
         }
+
+        private void Caster_onEnterCasting(Ability obj)
+        {
+            if(obj is WeaponKata kata && kata.Weapon is RangeWeapon)
+            {
+                TimersManager.Create(Color.white.ChangeAlphaCopy(0), Color.white, 0.5f, Color.Lerp,(color) => aimingMaterial.SetColor("_Color", color));
+                ability = kata;
+            }
+        }
+
+        private void Caster_onExitCasting(Ability obj)
+        {
+            if (ability != null)
+                TimersManager.Create(Color.white, Color.white.ChangeAlphaCopy(0), 0.5f, Color.Lerp, (color) => aimingMaterial.SetColor("_Color", color));
+            ability = null;
+        }
+
+
 
         private void CameraBlockPerspectiveDown(Vector2 arg1, float arg2)
         {
@@ -251,6 +279,15 @@ public class MainCamera : SingletonMono<MainCamera>
                 }
 
                 Ray ray = new Ray(CameraPosition, rotationPerspective * Vector3.forward);
+
+                if(ability!=null)
+                {
+                    var angle = Mathf.Clamp(ability.Angle, 0, 30);
+
+                    aimingMaterial.SetFloat("_Dispersion", ability.Angle*2 +1 );
+
+                    ray.direction = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (ray.direction);
+                }
 
                 Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore);
 
@@ -601,6 +638,10 @@ public class MainCamera : SingletonMono<MainCamera>
 
     private void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawSphere(tracker.hitInfo.point, 0.05f);
+
         for (int i = 0; i < culling.points.Length; i++)
         {
             Gizmos.color = Color.red;
