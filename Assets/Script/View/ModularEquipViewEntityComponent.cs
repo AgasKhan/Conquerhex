@@ -30,7 +30,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         {
             try
             {
-                return equipedsWeapon[reference.name].FirstOrDefault();
+                return equipedsWeapon[reference.name][0];
             }
             catch
             {
@@ -65,7 +65,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     */
     Dictionary<int, ViewEquipWeapon> relation = new();
-    Dictionary<string, HashSet<ViewEquipWeapon>> equipedsWeapon = new();
+    Dictionary<string, List<ViewEquipWeapon>> equipedsWeapon = new();
 
     System.Action onExitAnimation;
 
@@ -162,7 +162,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         }
         else
         {
-            equipedsWeapon.Add(model.name, new HashSet<ViewEquipWeapon>() { model });
+            equipedsWeapon.Add(model.name, new List<ViewEquipWeapon>() { model });
         }
     }
 
