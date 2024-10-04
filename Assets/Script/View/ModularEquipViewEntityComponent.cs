@@ -173,67 +173,74 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
-                AnimationInfo.HandHandling handHandling;
-                
-                if (kata.Weapon.itemBase.animations != null && kata.Weapon.itemBase.animations.animClips.ContainsKey("Cast", out int index))
+                try
                 {
-                    handHandling = kata.Weapon.itemBase.animations.animClips[index].handHandling;
-                }
-                else
-                {
-                    handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
-                }
+                    AnimationInfo.HandHandling handHandling;
 
-                var weapon = this[kata.Weapon.itemBase.weaponModel];
-
-                var side = GetHand(handHandling);
-                this.side = side;
-
-                Data partBody = GetPart(side.nameSide);
-                weapon.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
-
-                if (weapon.Spawn())
-                {
-                    obj.onAnimationPlayed += weapon.PlayAction;
-
-                    System.Action<Ability> parche = null;
-
-                    parche = (a) =>
+                    if (kata.Weapon.itemBase.animations != null && kata.Weapon.itemBase.animations.animClips.ContainsKey("Cast", out int index))
                     {
-                        obj.caster.onExitCasting -= parche;
+                        handHandling = kata.Weapon.itemBase.animations.animClips[index].handHandling;
+                    }
+                    else
+                    {
+                        handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
+                    }
 
-                        obj.onAnimationPlayed -= weapon.PlayAction;
+                    var weapon = this[kata.Weapon.itemBase.weaponModel];
 
-                        if (animController?.isPlaying ?? false)
+                    var side = GetHand(handHandling);
+                    this.side = side;
+
+                    Data partBody = GetPart(side.nameSide);
+                    weapon.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
+
+                    if (weapon.Spawn())
+                    {
+                        obj.onAnimationPlayed += weapon.PlayAction;
+
+                        System.Action<Ability> parche = null;
+
+                        parche = (a) =>
                         {
-                            onExitAnimation = () =>
+                            obj.caster.onExitCasting -= parche;
+
+                            obj.onAnimationPlayed -= weapon.PlayAction;
+
+                            if (animController?.isPlaying ?? false)
+                            {
+                                onExitAnimation = () =>
+                                {
+                                    if (weapon.Despawn())
+                                    {
+                                        side.visualEffect.SetBool("SpawnDespawn", false);
+                                        side.visualEffect.Play();
+                                    }
+
+                                    onExitAnimation = null;
+                                };
+                            }
+                            else
                             {
                                 if (weapon.Despawn())
                                 {
                                     side.visualEffect.SetBool("SpawnDespawn", false);
                                     side.visualEffect.Play();
                                 }
-
-                                onExitAnimation = null;
-                            };
-                        }
-                        else
-                        {
-                            if (weapon.Despawn())
-                            {
-                                side.visualEffect.SetBool("SpawnDespawn", false);
-                                side.visualEffect.Play();
                             }
-                        }
-                    };
+                        };
 
-                    obj.caster.onExitCasting += parche;
+                        obj.caster.onExitCasting += parche;
 
-                    side.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
-                    side.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
-                    side.visualEffect.SetInt("CountPCache", weapon.countPCache);
-                    side.visualEffect.SetBool("SpawnDespawn", true);
-                    side.visualEffect.Play();
+                        side.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
+                        side.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
+                        side.visualEffect.SetInt("CountPCache", weapon.countPCache);
+                        side.visualEffect.SetBool("SpawnDespawn", true);
+                        side.visualEffect.Play();
+                    }
+                }
+                catch
+                {
+
                 }
             }
     }
