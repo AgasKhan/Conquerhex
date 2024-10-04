@@ -27,6 +27,12 @@ MonoBehaviour:
     isModifiable: 1
     isDefault: 0
     isBlocked: 0
+    weapon: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
+    kata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
+  - indexToEquip: 1
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
     weapon: {fileID: 11400000, guid: 00c520bc752f70f45b63631e968637ae, type: 2}
     kata: {fileID: 11400000, guid: 7fb1b94fb8c1cfa4aabf132841e81b4b, type: 2}
   abilities:
@@ -62,12 +68,6 @@ MonoBehaviour:
     isBlocked: 0
     weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
     ability: {fileID: 11400000, guid: 0e7b36b4dc98b824d8a472414070be6b, type: 2}
-  - indexToEquip: 5
-    isModifiable: 1
-    isDefault: 0
-    isBlocked: 0
-    weapon: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
-    ability: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
   additiveDamage:
   - name: Perforation
     amount: 2
