@@ -62,8 +62,10 @@ public class UIE_Equipment : UIE_BaseMenu
 
         SetStatistics();
 
+        character.caster.abilityCasting?.StopCast();
+
         animController = character.GetInContainer<AnimatorController>();
-        animController.CancelAllAnimations();
+        //animController.CancelAllAnimations();
         character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
         animController.ChangeActionAnimation(manager.idleAnim, true);
     }
