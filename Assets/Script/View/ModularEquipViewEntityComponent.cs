@@ -77,11 +77,13 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     (string nameSide, VisualEffect visualEffect) GetHand(AnimationInfo.HandHandling handHandling) => handHandling == AnimationInfo.HandHandling.Normal ? ("RightAttack", rightVisualEffect) : ("LeftAttack", leftVisualEffect);
 
-    public void SpawnWeapon(AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
+    public ViewEquipWeapon SpawnWeapon(AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
     {
         var aux = (container as Character).caster.actualWeapon;
         if (aux != null)
-            SpawnWeapon(aux.Weapon.itemBase.weaponModel);
+            return SpawnWeapon(aux.Weapon.itemBase.weaponModel);
+        else
+            return null;
     }
     public void DeSpawnWeapon()
     {
@@ -90,7 +92,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
             DeSpawnWeapon(aux.Weapon.itemBase.weaponModel);
     }
 
-    public void SpawnWeapon(ViewEquipWeapon _weapon, AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
+    public ViewEquipWeapon SpawnWeapon(ViewEquipWeapon _weapon, AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
     {
         var weapon = this[_weapon];
 
@@ -107,6 +109,7 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
             side.visualEffect.SetBool("SpawnDespawn", true);
             side.visualEffect.Play();
         }
+        return weapon;
     }
 
     public void DeSpawnWeapon(ViewEquipWeapon _weapon)

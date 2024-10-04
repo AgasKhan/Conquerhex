@@ -74,7 +74,7 @@ public class UIE_EquipMenu : UIE_Equipment
             }*/
             manager.BackLastMenu();
         };
-        cancelButton.RegisterCallback<ClickEvent>((clEvent) => CancelChange());
+        
     }
 
     private void myOnEnable()
@@ -94,6 +94,8 @@ public class UIE_EquipMenu : UIE_Equipment
 
         CreateListItems();
         SetOriginalButton();
+
+        cancelButton.RegisterCallback<ClickEvent>(CancelChange);
 
         TimersManager.Create(0.1f, () => 
         { 
@@ -118,10 +120,16 @@ public class UIE_EquipMenu : UIE_Equipment
         originalButton.HideInUIE();
         changeButton.HideInUIE();
         StopAnimation();
+
+        if(spawnedWeapon != null)
+            spawnedWeapon.Despawn();
+
+        spawnedWeapon = null;
     }
 
     bool isOnWeaponOfKata => filterType == typeof(MeleeWeapon) && slotItem.GetType() == typeof(WeaponKata);
-    private void CancelChange()
+
+    private void CancelChange(ClickEvent _clevent)
     {
         auxAction.Invoke(originalItemIndex);
         manager.BackLastMenu();
@@ -320,6 +328,8 @@ public class UIE_EquipMenu : UIE_Equipment
         
     }
 
+    ViewEquipWeapon spawnedWeapon;
+
     void PreviousAnimAction()
     {
         if (filterType == typeof(MeleeWeapon))
@@ -354,7 +364,7 @@ public class UIE_EquipMenu : UIE_Equipment
             }
             else
             {
-                ShowHideWeaponInMenu(true);
+                spawnedWeapon = ShowHideWeaponInMenu(true);
             }
         }
         else if (filterType == typeof(WeaponKata) && equipedItemIndex >= 0)
