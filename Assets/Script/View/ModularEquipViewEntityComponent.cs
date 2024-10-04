@@ -79,16 +79,12 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     public void SpawnWeapon(AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
     {
-        Debug.Log("SPAWN-------------------------");
-
         var aux = (container as Character).caster.actualWeapon;
-        if(aux != null)
-            SpawnWeapon(aux.Weapon.itemBase.weaponModel, handHandling);
+        if (aux != null)
+            SpawnWeapon(aux.Weapon.itemBase.weaponModel);
     }
     public void DeSpawnWeapon()
     {
-        Debug.Log("DESPAWN-------------------------");
-
         var aux = (container as Character).caster.actualWeapon;
         if (aux != null)
             DeSpawnWeapon(aux.Weapon.itemBase.weaponModel);

@@ -63,7 +63,17 @@ public class UIE_EquipMenu : UIE_Equipment
         originalItemContainer = ui.Q<VisualElement>("originalItemContainer");
         cancelButton = ui.Q<VisualElement>("cancelButton");
 
-        onClose += () => manager.BackLastMenu();
+        onClose += () => 
+        {
+            /*
+            if (isOnWeaponOfKata)
+            {
+                var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
+                if (weapon != null)
+                    character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon(weapon.itemBase.weaponModel);
+            }*/
+            manager.BackLastMenu();
+        };
         cancelButton.RegisterCallback<ClickEvent>((clEvent) => CancelChange());
     }
 
@@ -109,6 +119,8 @@ public class UIE_EquipMenu : UIE_Equipment
         changeButton.HideInUIE();
         StopAnimation();
     }
+
+    bool isOnWeaponOfKata => filterType == typeof(MeleeWeapon) && slotItem.GetType() == typeof(WeaponKata);
     private void CancelChange()
     {
         character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
@@ -312,14 +324,40 @@ public class UIE_EquipMenu : UIE_Equipment
     void PreviousAnimAction()
     {
         if (filterType == typeof(MeleeWeapon))
-            ShowHideWeaponInMenu(false);
+        {
+            if(slotItem.GetSlotType() == typeof(WeaponKata))
+            {
+                /*
+                var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
+                if(weapon != null)
+                    ShowHideWeaponInMenu(weapon,false);
+                */
+            }
+            else
+            {
+                ShowHideWeaponInMenu(false);
+            }
+        }
         else if (filterType == typeof(WeaponKata))
             StopAnimation();
     }
     void PostAnimAction()
     {
         if (filterType == typeof(MeleeWeapon) && equipedItemIndex >= 0)
-            ShowHideWeaponInMenu(true);
+        {
+            if (slotItem.GetSlotType() == typeof(WeaponKata))
+            {
+                /*
+                var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
+                if (weapon != null)
+                    ShowHideWeaponInMenu(weapon, true);
+                */
+            }
+            else
+            {
+                ShowHideWeaponInMenu(true);
+            }
+        }
         else if (filterType == typeof(WeaponKata) && equipedItemIndex >= 0)
             ShowAnimationLoop((character.inventory[equipedItemIndex] as WeaponKata).itemBase.animations.animClips["Cast"]);
             

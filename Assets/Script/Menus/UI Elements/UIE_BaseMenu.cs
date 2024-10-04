@@ -80,9 +80,10 @@ public class UIE_BaseMenu : MyScripts
     }
     public void DisableMenu()
     {
+        onDisableMenu?.Invoke();
         //ui.style.opacity = 0;
         //var timeEnabler = TimersManager.Create(100f, 0f, 2, Mathf.Lerp, (save) => ui.style.opacity = save).AddToEnd(()=> ui.style.display = DisplayStyle.None);
-        
+
         //ui.RemoveFromClassList("opacityVisible");
         ui.AddToClassList("opacityHidden");
         ui.style.display = DisplayStyle.None;
@@ -91,7 +92,7 @@ public class UIE_BaseMenu : MyScripts
 
 
         character.GetInContainer<AnimatorController>().SetScaleController();
-        onDisableMenu?.Invoke();
+        
     }
 
 }
