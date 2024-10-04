@@ -186,13 +186,49 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
                 var weapon = this[kata.Weapon.itemBase.weaponModel];
 
-                side = GetHand(handHandling);
+                var side = GetHand(handHandling);
+                this.side = side;
+
                 Data partBody = GetPart(side.nameSide);
                 weapon.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
 
                 if (weapon.Spawn())
                 {
                     obj.onAnimationPlayed += weapon.PlayAction;
+
+                    System.Action<Ability> parche = null;
+
+                    parche = (a) =>
+                    {
+                        obj.caster.onExitCasting -= parche;
+
+                        obj.onAnimationPlayed -= weapon.PlayAction;
+
+                        if (animController?.isPlaying ?? false)
+                        {
+                            onExitAnimation = () =>
+                            {
+                                if (weapon.Despawn())
+                                {
+                                    side.visualEffect.SetBool("SpawnDespawn", false);
+                                    side.visualEffect.Play();
+                                }
+
+                                onExitAnimation = null;
+                            };
+                        }
+                        else
+                        {
+                            if (weapon.Despawn())
+                            {
+                                side.visualEffect.SetBool("SpawnDespawn", false);
+                                side.visualEffect.Play();
+                            }
+                        }
+                    };
+
+                    obj.caster.onExitCasting += parche;
+
                     side.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
                     side.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
                     side.visualEffect.SetInt("CountPCache", weapon.countPCache);
@@ -202,40 +238,18 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
             }
     }
 
+
     private void OnExitCasting(Ability obj)
-    {        
+    {
+        /*
         if (obj is WeaponKata kata)
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
                 var handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
-                var weapon = this[kata.Weapon.itemBase.weaponModel];
 
-                side = GetHand(handHandling);
-
-                obj.onAnimationPlayed -= weapon.PlayAction;
-
-                if (animController?.isPlaying ?? false)
-                {
-                    onExitAnimation = () =>
-                    {
-                        if(weapon.Despawn())
-                        {
-                            side.visualEffect.SetBool("SpawnDespawn", false);
-                            side.visualEffect.Play();
-                        }
-                        
-                        onExitAnimation = null;
-                    };
-                }
-                else
-                {
-                    if (weapon.Despawn())
-                    {
-                        side.visualEffect.SetBool("SpawnDespawn", false);
-                        side.visualEffect.Play();
-                    }
-                }
+                
             }
+        */
     }
 
     private void OnExitAnim(AnimatorStateInfo obj)
