@@ -49,7 +49,7 @@ public class Hexagone : MonoBehaviour, IUpdate
 
     public TerrainManager mapCopado;
 
-    public SpriteRenderer effect;
+    public SpriteRenderer[] effect;
 
     public float velocityTransfer;
 
@@ -108,6 +108,14 @@ public class Hexagone : MonoBehaviour, IUpdate
         childsEntities.Add(entity);
 
         EnterChunk(entity.transform);
+    }
+
+    public void SetPortalColor(Color color)
+    {
+        for (int i = 0; i < effect.Length; i++)
+        {
+            effect[i].color = color;
+        }
     }
 
     public void EnterChunk(Transform tr)

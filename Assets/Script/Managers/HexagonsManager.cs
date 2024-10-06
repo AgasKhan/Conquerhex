@@ -112,21 +112,21 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     {
         if (hex.id == 0)
         {
-            hex.effect.color = ColorBase;
+            hex.SetPortalColor(ColorBase);
         }
         else if (hex.name.Contains("Fortaleza"))
         {
-            hex.effect.color = ColorFortaleza;
+            hex.SetPortalColor(ColorFortaleza);
         }
         else
         {
-            hex.effect.color = ColorDefault;
+            hex.SetPortalColor(ColorDefault);
         }
     }
 
     public static void SetColorHexagone(Hexagone hex, Color color)
     {
-        hex.effect.color = color;
+        hex.SetPortalColor(color);
     }
 
     public static void SetArrayHexagons(int number)
@@ -182,9 +182,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             }
 
             if (allSame)
-                hex.effect.color = ColorEncerrado;
+                hex.SetPortalColor(ColorEncerrado);
             else
-                hex.effect.color = ColorSame;
+                hex.SetPortalColor(ColorSame);
 
         }
 
