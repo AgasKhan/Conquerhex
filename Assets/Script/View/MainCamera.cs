@@ -282,11 +282,13 @@ public class MainCamera : SingletonMono<MainCamera>
 
                 if(ability!=null)
                 {
-                    var angle = Mathf.Clamp(ability.Angle, 0, 30);
+                    var angle = ability.Angle / 2;
+
+                    angle = Mathf.Clamp(angle, 0, 30);
 
                     aimingMaterial.SetFloat("_Dispersion", angle);
 
-                    ray.direction = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (ray.direction);
+                    //ray.direction = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (ray.direction);
                 }
 
                 Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore);
