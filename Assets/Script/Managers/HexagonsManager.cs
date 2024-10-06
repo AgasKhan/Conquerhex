@@ -670,11 +670,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         (character) => 
         {            
-            activeHex.Add(character.hexagoneParent.id, character.hexagoneParent);
+            activeHex.Add(character.HexagoneParent.id, character.HexagoneParent);
 
             //QueueOnOff(character.hexagoneParent, true);
 
-            SetRenders(character.hexagoneParent);
+            SetRenders(character.HexagoneParent);
         };
     }
 

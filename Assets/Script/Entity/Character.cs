@@ -236,8 +236,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     {
         MyAwakes += MyAwake;
         MyStarts += MyStart;
-        MyOnEnables += MyEnables;
-        MyOnDisables += MyDisables;
         base.Config();
     }
 
@@ -253,7 +251,18 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
         }
     }
 
-    void MyDisables()
+    private void OnEnable()
+    {
+        attackEventMediator.Enabled = true;
+
+        abilityEventMediator.Enabled = true;
+
+        dashEventMediator.Enabled = true;
+
+        moveEventMediator.Enabled = true;
+    }
+
+    private void OnDisable()
     {
         attackEventMediator.Enabled = false;
 
@@ -277,17 +286,6 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
             _ia.OnEnterState(this);
             MyUpdates += IAUpdate;
         }
-    }
-
-    void MyEnables()
-    {
-        attackEventMediator.Enabled = true;
-
-        abilityEventMediator.Enabled = true;
-
-        dashEventMediator.Enabled = true;
-
-        moveEventMediator.Enabled = true;
     }
 
     void MyAwake()

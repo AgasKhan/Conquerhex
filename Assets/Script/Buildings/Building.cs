@@ -61,7 +61,7 @@ public class Building : Entity
 
         controller?.OnEnterState(this);
 
-        hexagoneParent = transform.root.GetComponent<Hexagone>();
+        HexagoneParent = transform.root.GetComponent<Hexagone>();
 
         var aux = flyweight?.GetFlyWeight<UpgradeBase>();
         if (aux != null)

@@ -51,12 +51,12 @@ public class BloodTreeBuild : Building
     {
         for (int i = 0; i < encerradoTp.Length; i++)
         {
-            encerradoTp[i] = hexagoneParent;
+            encerradoTp[i] = HexagoneParent;
         }
 
-        hexagoneParent.ladosArray.CopyTo(originalTp, 0);
+        HexagoneParent.ladosArray.CopyTo(originalTp, 0);
 
-        minions = hexagoneParent.gameObject.GetComponentsInChildren<Character>(true).Where((m) => m.team != Team.player).ToArray();
+        minions = HexagoneParent.gameObject.GetComponentsInChildren<Character>(true).Where((m) => m.team != Team.player).ToArray();
 
         for (int i = 0; i < minions.Length; i++)
         {
@@ -69,7 +69,7 @@ public class BloodTreeBuild : Building
     [ContextMenu("Encerrar")]
     public void Encerrar()
     {
-        if (encerrado || GameManager.instance.playerCharacter.hexagoneParent != hexagoneParent)
+        if (encerrado || GameManager.instance.playerCharacter.HexagoneParent != HexagoneParent)
             return;
 
         for (int i = 0; i < minions.Length; i++)
@@ -82,9 +82,9 @@ public class BloodTreeBuild : Building
 
         UI.Interfaz.instance.ProvisionalObjective("-Vence al arbol que te ha encerrado, para poder continuar con tu mision");
 
-        encerradoTp.CopyTo(hexagoneParent.ladosArray, 0);
+        encerradoTp.CopyTo(HexagoneParent.ladosArray, 0);
 
-        GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);
+        GameManager.instance.playerCharacter.move.Teleport(HexagoneParent, 0);
 
         encerrado = true;
     }
@@ -94,9 +94,9 @@ public class BloodTreeBuild : Building
     {
         UI.Interfaz.instance.ClearProvisionalObjective();
 
-        originalTp.CopyTo(hexagoneParent.ladosArray, 0);
+        originalTp.CopyTo(HexagoneParent.ladosArray, 0);
 
-        GameManager.instance.playerCharacter.move.Teleport(hexagoneParent, 0);
+        GameManager.instance.playerCharacter.move.Teleport(HexagoneParent, 0);
 
         UI.Interfaz.instance["Titulo"].ShowMsg("Liberado".RichTextColor(Color.cyan));
     }

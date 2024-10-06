@@ -5,8 +5,9 @@ using UnityEngine.Tilemaps;
 using System.Linq;
 using Unity.Jobs;
 using Unity.Collections;
+using UnityEngine.Events;
 
-public class Hexagone : MonoBehaviour
+public class Hexagone : MonoBehaviour, IUpdate
 {
     public struct WeightTransform: System.IComparable<WeightTransform>
     {
@@ -81,9 +82,12 @@ public class Hexagone : MonoBehaviour
 
     bool on;
 
+    public event UnityAction MyUpdates;
+    public event UnityAction MyFixedUpdates;
+
     public void ExitEntity(Entity entity)
     {
-        entity.hexagoneParent = null;
+        entity.HexagoneParent = null;
         /*
         if (bussy)
             GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Remove(entity)));
@@ -94,8 +98,8 @@ public class Hexagone : MonoBehaviour
 
     public void EnterEntity(Entity entity)
     {
-        entity.hexagoneParent?.ExitEntity(entity);
-        entity.hexagoneParent = this;
+        entity.HexagoneParent?.ExitEntity(entity);
+        entity.HexagoneParent = this;
         //entity.transform.parent = null;
         /*
         if (bussy)
@@ -570,6 +574,27 @@ public class Hexagone : MonoBehaviour
         return resultado;
     }
 
+
+    void MyUpdate()
+    {
+        MyUpdates?.Invoke();
+    }
+    void MyFixedUpdate()
+    {
+        MyFixedUpdates?.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.GamePlayUpdate += MyUpdate;
+        GameManager.GamePlayFixedUpdate += MyFixedUpdate;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GamePlayUpdate -= MyUpdate;
+        GameManager.GamePlayFixedUpdate -= MyFixedUpdate;
+    }
 
     private void Start()
     {

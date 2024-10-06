@@ -53,7 +53,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     MoveEntityComponent move;
 
-    Vector3 forwardObj;
+    Vector3 forwardObj = Vector3.forward;
 
     Timer timerEndAnimationTransition;
 
