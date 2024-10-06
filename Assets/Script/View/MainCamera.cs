@@ -284,7 +284,7 @@ public class MainCamera : SingletonMono<MainCamera>
                 {
                     var angle = Mathf.Clamp(ability.Angle, 0, 30);
 
-                    aimingMaterial.SetFloat("_Dispersion", ability.Angle*2 +1 );
+                    aimingMaterial.SetFloat("_Dispersion", angle);
 
                     ray.direction = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (ray.direction);
                 }
