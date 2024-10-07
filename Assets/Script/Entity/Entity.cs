@@ -18,7 +18,17 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
     
     public Health health;
 
-    public Hexagone hexagoneParent;
+    public Hexagone HexagoneParent
+    {
+        get => hexagoneParent;
+        set
+        {
+            updateManager = value;
+            hexagoneParent = value;
+        }
+    }
+
+    Hexagone hexagoneParent;
 
     public event System.Action<Damage> onTakeDamage;
 

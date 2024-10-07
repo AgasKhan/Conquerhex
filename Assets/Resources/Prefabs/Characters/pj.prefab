@@ -334,8 +334,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 992c7cde39dfdf04fb7074c718132c39, type: 3}
-  m_Color: {r: 0.6039216, g: 0.50980395, b: 0.45882353, a: 1}
+  m_Sprite: {fileID: 21300000, guid: deaac98f5ae9f484ba4bb42ab576e3fd, type: 3}
+  m_Color: {r: 0.6039216, g: 0.50980395, b: 0.45882353, a: 0.4509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemBase: {fileID: 0}
+  itemBase: {fileID: 11400000, guid: 1bd1f7734d5440242bff7b86fe2af13d, type: 2}
   count: 1
   _currentWeight: 0
   flyweight: {fileID: 0}
@@ -983,7 +983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bec8b38ff5d773478172f691199300b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   animator: {fileID: 3132127553594760305}
   attackNameAnim: Attack
   moveNameAnim: Move
@@ -1035,7 +1035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c9cdf4c5d3e774a96b57a6645cb96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - Item: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
+    Amount: 1
 --- !u!54 &4660629127224764075
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3731,7 +3733,7 @@ PrefabInstance:
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.051
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

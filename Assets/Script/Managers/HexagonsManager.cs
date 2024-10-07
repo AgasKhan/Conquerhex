@@ -112,21 +112,21 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
     {
         if (hex.id == 0)
         {
-            hex.effect.color = ColorBase;
+            hex.SetPortalColor(ColorBase);
         }
         else if (hex.name.Contains("Fortaleza"))
         {
-            hex.effect.color = ColorFortaleza;
+            hex.SetPortalColor(ColorFortaleza);
         }
         else
         {
-            hex.effect.color = ColorDefault;
+            hex.SetPortalColor(ColorDefault);
         }
     }
 
     public static void SetColorHexagone(Hexagone hex, Color color)
     {
-        hex.effect.color = color;
+        hex.SetPortalColor(color);
     }
 
     public static void SetArrayHexagons(int number)
@@ -156,10 +156,13 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         if (lado >= 0)
         {
+            Vector3 opuesto = hex.ladosPuntos[LadoOpuesto(lado)];
+            Vector3 actual = hex.ladosPuntos[lado];
+
             MainCamera.instance.transform.position = new Vector3(
-                hex.ladosPuntos[LadoOpuesto(lado), 0] - (hex.ladosPuntos[lado, 0] - MainCamera.instance.transform.position.x),
+                opuesto.x - (actual.x - MainCamera.instance.transform.position.x),
                 MainCamera.instance.transform.position.y,
-                hex.ladosPuntos[LadoOpuesto(lado), 1] - (hex.ladosPuntos[lado, 1] - MainCamera.instance.transform.position.z));    
+                opuesto.z - (actual.z - MainCamera.instance.transform.position.z));
         }
 
 
@@ -182,9 +185,9 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
             }
 
             if (allSame)
-                hex.effect.color = ColorEncerrado;
+                hex.SetPortalColor(ColorEncerrado);
             else
-                hex.effect.color = ColorSame;
+                hex.SetPortalColor(ColorSame);
 
         }
 
@@ -670,11 +673,11 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         (character) => 
         {            
-            activeHex.Add(character.hexagoneParent.id, character.hexagoneParent);
+            activeHex.Add(character.HexagoneParent.id, character.HexagoneParent);
 
             //QueueOnOff(character.hexagoneParent, true);
 
-            SetRenders(character.hexagoneParent);
+            SetRenders(character.HexagoneParent);
         };
     }
 

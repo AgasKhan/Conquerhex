@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using FSMGameManagerLibrary;
 
-public class GameManager : SingletonMono<GameManager>
+public class GameManager : SingletonMono<GameManager>, IUpdate
 {
     public static event UnityAction OnPlay
     {
@@ -56,6 +56,32 @@ public class GameManager : SingletonMono<GameManager>
         remove
         {
             instance.fsmGameMaganer.gamePlay.update -= value;
+        }
+    }
+
+    event UnityAction IUpdate.MyUpdates
+    {
+        add
+        {
+            instance.fsmGameMaganer.gamePlay.update += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.gamePlay.update -= value;
+        }
+    }
+
+    event UnityAction IUpdate.MyFixedUpdates
+    {
+        add
+        {
+            instance.fsmGameMaganer.gamePlay.fixedUpdate += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.gamePlay.fixedUpdate -= value;
         }
     }
 

@@ -47,11 +47,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     AnimatorOverrideController animatorOverrideController;
 
-    AnimActionBehaviour[] actionBehaviours;
+    List<AnimActionBehaviour> actionBehaviours = new();
+
+
 
     MoveEntityComponent move;
 
-    Vector3 forwardObj;
+    Vector3 forwardObj = Vector3.forward;
 
     Timer timerEndAnimationTransition;
 
@@ -192,6 +194,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         }
     }
 
+    public void AddActionBehaviours(AnimActionBehaviour actionBehaviour)
+    {
+        actionBehaviours.Add(actionBehaviour);
+        actionBehaviour.onEnter += OnAnimStartAction;
+        actionBehaviour.onExit += OnAnimExitAction;
+    }
+
     void SuperAnimator()
     {
         animatorOverrideController = new AnimatorOverrideController(controller.runtimeAnimatorController);
@@ -204,6 +213,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             animatorOverrideController[animations.GetPic(index).key] = animations.GetPic(index).value.clip;
         }
 
+        /*
         actionBehaviours = controller.GetBehaviours<AnimActionBehaviour>();
 
         foreach (var item in actionBehaviours)
@@ -211,6 +221,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             item.onEnter += OnAnimStartAction;
             item.onExit += OnAnimExitAction;
         }
+        */
     }
 
     private void OnAnimExitAction(AnimatorStateInfo obj)
@@ -231,6 +242,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void TimerEndAnimation()
     {
+        Debug.Log("Fin timer");
         controller.SetBool("Wait", false);
         endAnimation?.Invoke();
     }

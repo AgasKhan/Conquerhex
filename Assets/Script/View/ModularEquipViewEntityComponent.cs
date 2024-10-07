@@ -22,23 +22,35 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
         public Vector3 Up => Rotation * Vector3.up;
     }
 
+    public struct Side
+    {
+        public string nameSide;
+        public VisualEffect visualEffect;
+    }
 
+    public class Equiped
+    {
+        public ViewEquipWeapon model;
 
-    public ViewEquipWeapon this[ViewEquipWeapon reference]
+        public Side actualSide;
+
+        public HashSet<int> references = new HashSet<int>();
+    }
+
+    public Equiped this[ViewEquipWeapon reference]
     {
         get
         {
             try
             {
-                return equipedsWeapon[reference.name].FirstOrDefault();
+                return equipedsWeapon[reference.name];
             }
             catch
             {
                 Debug.LogWarning("Error de:" + reference.name);
-                return equipedsWeapon.Where((item)=>item.Value != null && item.Value.Count>0).FirstOrDefault().Value.FirstOrDefault();
+                return equipedsWeapon.FirstOrDefault().Value;
             }
         }
-
     }
 
     [SerializeField]
@@ -65,61 +77,75 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
     */
     Dictionary<int, ViewEquipWeapon> relation = new();
-    Dictionary<string, HashSet<ViewEquipWeapon>> equipedsWeapon = new();
+    Dictionary<string, Equiped> equipedsWeapon = new();
 
     System.Action onExitAnimation;
 
     AnimatorController animController;
 
-    Data GetPart(string str) => _whereToEquip[str];
+    Data GetPart(Side side) => _whereToEquip[side.nameSide];
 
-    (string nameSide, VisualEffect visualEffect) side;
-
-    (string nameSide, VisualEffect visualEffect) GetHand(AnimationInfo.HandHandling handHandling) => handHandling == AnimationInfo.HandHandling.Normal ? ("RightAttack", rightVisualEffect) : ("LeftAttack", leftVisualEffect);
-
-    public void SpawnWeapon(AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
+    Side GetHand(AnimationInfo.HandHandling handHandling)
     {
-        Debug.Log("SPAWN-------------------------");
+        var side = new Side();
 
+        if (handHandling == AnimationInfo.HandHandling.Normal)
+        {
+            side.nameSide = "RightAttack";
+            side.visualEffect = rightVisualEffect;
+        }
+        else
+        {
+            side.nameSide = "LeftAttack";
+            side.visualEffect = leftVisualEffect;
+        }
+
+        return side;
+    }
+
+    public ViewEquipWeapon SpawnWeapon(AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
+    {
         var aux = (container as Character).caster.actualWeapon;
-        if(aux != null)
-            SpawnWeapon(aux.Weapon.itemBase.weaponModel, handHandling);
+        if (aux != null)
+            return SpawnWeapon(aux.Weapon.itemBase.weaponModel);
+        else
+            return null;
     }
     public void DeSpawnWeapon()
     {
-        Debug.Log("DESPAWN-------------------------");
-
         var aux = (container as Character).caster.actualWeapon;
         if (aux != null)
             DeSpawnWeapon(aux.Weapon.itemBase.weaponModel);
     }
 
-    public void SpawnWeapon(ViewEquipWeapon _weapon, AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
+    public ViewEquipWeapon SpawnWeapon(ViewEquipWeapon _weapon, AnimationInfo.HandHandling handHandling = AnimationInfo.HandHandling.Normal)
     {
-        var weapon = this[_weapon];
+        var equiped = this[_weapon];
+        var weapon = equiped.model;
+        equiped.actualSide = GetHand(handHandling);
 
-        side = GetHand(handHandling);
-
-        Data partBody = GetPart(side.nameSide);
-        weapon.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
+        Data partBody = GetPart(equiped.actualSide);
+        equiped.model.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
 
         if (weapon.Spawn())
         {
-            side.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
-            side.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
-            side.visualEffect.SetInt("CountPCache", weapon.countPCache);
-            side.visualEffect.SetBool("SpawnDespawn", true);
-            side.visualEffect.Play();
+            equiped.actualSide.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
+            equiped.actualSide.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
+            equiped.actualSide.visualEffect.SetInt("CountPCache", weapon.countPCache);
+            equiped.actualSide.visualEffect.SetBool("SpawnDespawn", true);
+            equiped.actualSide.visualEffect.Play();
         }
+        return weapon;
     }
 
     public void DeSpawnWeapon(ViewEquipWeapon _weapon)
     {
-        var weapon = this[_weapon];
-        if (weapon.Despawn())
+        var equiped = this[_weapon];
+
+        if (equiped.model.Despawn())
         {
-            side.visualEffect.SetBool("SpawnDespawn", false);
-            side.visualEffect.Play();
+            equiped.actualSide.visualEffect.SetBool("SpawnDespawn", false);
+            equiped.actualSide.visualEffect.Play();
         }
     }
 
@@ -138,33 +164,46 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                 if (previus.Equals(model))
                     return;
 
-                equipedsWeapon[previus.name].Remove(previus);
+                equipedsWeapon[previus.name].references.Remove(arg1);
 
-                previus.Destroy();
+                if(equipedsWeapon[previus.name].references.Count==0)
+                {
+                    equipedsWeapon.Remove(previus.name);
+                    previus.Destroy();
+                }
             }
         }
         else
-            relation.Add(arg1, null);
+            relation.Add(arg1,null);
 
         //agrego arma
 
         if (model == null)
             return;
 
-        var partBody = GetPart("RightAttack");
-
-        model = model.Create(partBody.Position, partBody.Rotation, partBody.transform);
-      
-        relation[arg1] = model;
-
-        if(equipedsWeapon.TryGetValue(model.name, out var hashList))
+        if(equipedsWeapon.TryGetValue(model.name, out var equiped))
         {
-            hashList.Add(model);
+            equiped.references.Add(arg1);
+            model = equiped.model;
         }
         else
         {
-            equipedsWeapon.Add(model.name, new HashSet<ViewEquipWeapon>() { model });
+            var partBody = _whereToEquip["RightAttack"];
+
+            model = model.Create(partBody.Position, partBody.Rotation, partBody.transform);
+
+            equiped = new Equiped();
+
+            equiped.model = model;
+
+            equiped.actualSide = new Side() { nameSide = "RightAttack", visualEffect = rightVisualEffect };
+
+            equiped.references.Add(arg1);
+
+            equipedsWeapon.Add(model.name, equiped);
         }
+
+        relation[arg1] = model;
     }
 
     private void OnEnterCasting(Ability obj)
@@ -174,8 +213,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
 
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
-                AnimationInfo.HandHandling handHandling;
-                
+                AnimationInfo.HandHandling handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
+
                 if (kata.Weapon.itemBase.animations != null && kata.Weapon.itemBase.animations.animClips.ContainsKey("Cast", out int index))
                 {
                     handHandling = kata.Weapon.itemBase.animations.animClips[index].handHandling;
@@ -185,33 +224,38 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                     handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
                 }
 
-                var weapon = this[kata.Weapon.itemBase.weaponModel];
+                var equiped = this[kata.Weapon.itemBase.weaponModel];
+                var weapon = equiped.model;
 
-                side = GetHand(handHandling);
-                Data partBody = GetPart(side.nameSide);
+                var side = GetHand(handHandling);
+
+                Data partBody = GetPart(side);
+
                 weapon.SetPosition(partBody.Position, partBody.Rotation, partBody.transform);
 
                 if (weapon.Spawn())
                 {
                     obj.onAnimationPlayed += weapon.PlayAction;
+
                     side.visualEffect.SetTexture("PositionPCache", weapon.positionsPCache);
                     side.visualEffect.SetTexture("NormalPCache", weapon.normalsPCache);
                     side.visualEffect.SetInt("CountPCache", weapon.countPCache);
                     side.visualEffect.SetBool("SpawnDespawn", true);
                     side.visualEffect.Play();
                 }
+
+                equiped.actualSide = side;
             }
     }
 
+
     private void OnExitCasting(Ability obj)
-    {        
+    {
         if (obj is WeaponKata kata)
             if (kata.Weapon?.itemBase.weaponModel != null)
             {
-                var handHandling = kata.itemBase.animations.animClips["Cast"].handHandling;
-                var weapon = this[kata.Weapon.itemBase.weaponModel];
-
-                side = GetHand(handHandling);
+                var equiped = this[kata.Weapon?.itemBase.weaponModel];
+                var weapon = equiped.model;
 
                 obj.onAnimationPlayed -= weapon.PlayAction;
 
@@ -219,12 +263,12 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                 {
                     onExitAnimation = () =>
                     {
-                        if(weapon.Despawn())
+                        if (weapon.Despawn())
                         {
-                            side.visualEffect.SetBool("SpawnDespawn", false);
-                            side.visualEffect.Play();
+                            equiped.actualSide.visualEffect.SetBool("SpawnDespawn", false);
+                            equiped.actualSide.visualEffect.Play();
                         }
-                        
+
                         onExitAnimation = null;
                     };
                 }
@@ -232,8 +276,8 @@ public class ModularEquipViewEntityComponent : ComponentOfContainer<Entity>
                 {
                     if (weapon.Despawn())
                     {
-                        side.visualEffect.SetBool("SpawnDespawn", false);
-                        side.visualEffect.Play();
+                        equiped.actualSide.visualEffect.SetBool("SpawnDespawn", false);
+                        equiped.actualSide.visualEffect.Play();
                     }
                 }
             }

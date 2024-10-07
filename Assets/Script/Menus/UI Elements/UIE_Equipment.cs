@@ -62,9 +62,11 @@ public class UIE_Equipment : UIE_BaseMenu
 
         SetStatistics();
 
+        character.caster.abilityCasting?.StopCast();
+
         animController = character.GetInContainer<AnimatorController>();
-        animController.CancelAllAnimations();
-        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
+        //animController.CancelAllAnimations();
+        //character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
         animController.ChangeActionAnimation(manager.idleAnim, true);
     }
 
@@ -72,6 +74,7 @@ public class UIE_Equipment : UIE_BaseMenu
     {
         animTimer.Stop();
         animController.CancelAllAnimations();
+        equipedWeapon= null;
     }
 
     void SetStatistics()
@@ -143,40 +146,49 @@ public class UIE_Equipment : UIE_BaseMenu
     {
         var basicWeapon = CreateSlotButton(character.caster.weapons[0]);
         basicsButtons.Add(basicWeapon);
-        basicWeapon.AddEnterMouseEvent(()=>ShowHideWeaponInMenu(character.caster.weapons[0].equiped, true));
-        basicWeapon.AddLeaveMouseEvent(() => ShowHideWeaponInMenu(character.caster.weapons[0].equiped, false));
+        //basicWeapon.AddEnterMouseEvent(()=> equipedWeapon = ShowHideWeaponInMenu(character.caster.weapons[0].equiped, true));
+        //basicWeapon.AddLeaveMouseEvent(() => ShowHideWeaponInMenu(character.caster.weapons[0].equiped, false));
 
         basicsButtons.Add(CreateSlotButton(character.caster.abilities[0]));
         basicsButtons.Add(CreateSlotButton(character.caster.abilities[1]));
     }
 
-    protected void ShowHideWeaponInMenu(MeleeWeapon _weapon, bool _condition)
+    ViewEquipWeapon equipedWeapon;
+
+    protected ViewEquipWeapon ShowHideWeaponInMenu(MeleeWeapon _weapon, bool _condition)
     {
         if (_weapon == null)
-            return;
+            return null;
+
+        ViewEquipWeapon weapon;
 
         if (_condition)
         {
-            character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(_weapon.itemBase.weaponModel);
+            weapon = character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(_weapon.itemBase.weaponModel);
             animController.ChangeActionAnimation(manager.showWeaponAnim, true);
+            return weapon;
         }
         else
         {
             character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon(_weapon.itemBase.weaponModel);
             animController.CancelAllAnimations();
+            return null;
         }
     }
-    protected void ShowHideWeaponInMenu(bool _condition)
+    protected ViewEquipWeapon ShowHideWeaponInMenu(bool _condition)
     {
+        ViewEquipWeapon weapon;
         if (_condition)
         {
-            character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon();
+            weapon = character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon();
             animController.ChangeActionAnimation(manager.showWeaponAnim, true);
+            return weapon;
         }
         else
         {
             character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
             animController.CancelAllAnimations();
+            return null;
         }
     }
 

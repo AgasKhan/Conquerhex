@@ -70,11 +70,11 @@ public class IAIO : IAFather
         {
             if (automaticMoveToBase == Vector2.zero)
             {
-                int ladoToGo = character.hexagoneParent.ladoToBase;
+                int ladoToGo = character.HexagoneParent.ladoToBase;
 
                 if (ladoToGo == -1)
                 {
-                    if (character.hexagoneParent.id == 0)
+                    if (character.HexagoneParent.id == 0)
                         UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde desde la base");
                     else
                         UI.Interfaz.instance["Titulo secundario"].ShowMsg("No puedes volver a base desde aqui");
@@ -99,13 +99,13 @@ public class IAIO : IAFather
 
         if (automaticMoveToBase != Vector2.zero)
         {
-            int ladoToGo = character.hexagoneParent.ladoToBase;
+            int ladoToGo = character.HexagoneParent.ladoToBase;
 
-            if (character.hexagoneParent.id == 0 || ladoToGo == -1)
+            if (character.HexagoneParent.id == 0 || ladoToGo == -1)
             {
                 effectBackToBaseEnd.Invoke();
 
-                if (character.hexagoneParent.id == 0)
+                if (character.HexagoneParent.id == 0)
                     UI.Interfaz.instance["Titulo secundario"].ShowMsg("Llegaste a base");
                 else
                     UI.Interfaz.instance["Titulo secundario"].ShowMsg("Se perdio el rumbo");
@@ -116,7 +116,7 @@ public class IAIO : IAFather
                 return;
             }
 
-            Vector2 dir = new Vector2(character.hexagoneParent.ladosPuntos[ladoToGo, 0], character.hexagoneParent.ladosPuntos[ladoToGo, 1]);
+            Vector2 dir = character.HexagoneParent.ladosPuntos[ladoToGo].Vect3To2XZ();
 
             dir -= character.transform.position.Vect3To2XZ();
 

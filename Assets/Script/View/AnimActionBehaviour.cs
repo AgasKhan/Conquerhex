@@ -7,9 +7,17 @@ public class AnimActionBehaviour : StateMachineBehaviour
     public event System.Action<AnimatorStateInfo> onEnter;
     public event System.Action<AnimatorStateInfo> onExit;
 
+    AnimatorController animatorController; 
+
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if(animatorController==null)
+        {
+            animatorController = animator.GetComponentInParent<AnimatorController>();
+            animatorController.AddActionBehaviours(this);
+        }
+
         animator.SetBool("Wait", true);
         onEnter?.Invoke(stateInfo);
     }

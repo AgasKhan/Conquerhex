@@ -159,6 +159,10 @@ MonoBehaviour:
   <caster>k__BackingField: {fileID: 5476637664899224542}
   <move>k__BackingField: {fileID: 4728687904288008135}
   <aiming>k__BackingField: {fileID: 0}
+  <nextTimeCombo>k__BackingField: 0.15
+  <actualCombo>k__BackingField: -2
+  nextCombo: -1
+  deltaTimeCombo: 0.3
   stunBar:
     rid: 5359600277777809776
   iaOn: 1
@@ -213,6 +217,7 @@ MonoBehaviour:
   weapons:
     list:
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -220,6 +225,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -227,6 +233,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -234,6 +241,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -241,6 +249,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -248,9 +257,10 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     <indexer>k__BackingField: 0
-  katasCombo:
+  katas:
     list:
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -258,6 +268,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -265,6 +276,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -272,6 +284,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -282,6 +295,7 @@ MonoBehaviour:
   abilities:
     list:
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -289,6 +303,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -296,6 +311,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -303,6 +319,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -310,6 +327,130 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    <indexer>k__BackingField: 0
+  combos:
+    list:
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
+      _indexEquipedItem: -1
+      <indexSlot>k__BackingField: -1
+      _equiped:
+        rid: -2
+      defaultItem:
+        rid: -2
+    - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -319,6 +460,8 @@ MonoBehaviour:
     <indexer>k__BackingField: 0
   _buffEnergy: 0
   _energy: 0
+  activeHasCoolDown: 1
+  activeHasEnergyConsuption: 1
   <flyweight>k__BackingField: {fileID: 0}
   references:
     version: 2
@@ -519,10 +662,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.33732527
+  m_Height: 1.8910913
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.9455457, z: 0}
 --- !u!54 &1066732738913527284
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -626,14 +769,13 @@ MonoBehaviour:
         canChange: 1
         clip: {fileID: 1827226128182048838, guid: c62e70d8a15d3d14d88163ef834fa5ce,
           type: 3}
-  action1Name: anim_meleeATK
-  action2Name: anim_meleeATK_2
-  actionLoop1NameStart: 
-  actionLoop1NameMiddle: 
-  actionLoop1NameEnd: 
-  actionLoop2NameStart: 
-  actionLoop2NameMiddle: 
-  actionLoop2NameEnd: 
+    - key: anim_hurt
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: dabc26bb62dd2f64cbb5ee888765da32,
+          type: 3}
+  actionsName: []
+  animatorClipTest: {fileID: 0}
 --- !u!114 &4202666183399406402
 MonoBehaviour:
   m_ObjectHideFlags: 0
