@@ -24,6 +24,8 @@ public class UIE_Equipment : UIE_BaseMenu
     protected AnimationInfo.Data animData;
     protected AnimatorController animController;
 
+    protected ViewEquipWeapon currentWeapon;
+
     protected override void Config()
     {
         base.Config();
@@ -65,7 +67,7 @@ public class UIE_Equipment : UIE_BaseMenu
         character.caster.abilityCasting?.StopCast();
 
         animController = character.GetInContainer<AnimatorController>();
-        //animController.CancelAllAnimations();
+        animController.CancelAllAnimations();
         //character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
         animController.ChangeActionAnimation(manager.idleAnim, true);
     }
@@ -146,8 +148,8 @@ public class UIE_Equipment : UIE_BaseMenu
     {
         var basicWeapon = CreateSlotButton(character.caster.weapons[0]);
         basicsButtons.Add(basicWeapon);
-        //basicWeapon.AddEnterMouseEvent(()=> equipedWeapon = ShowHideWeaponInMenu(character.caster.weapons[0].equiped, true));
-        //basicWeapon.AddLeaveMouseEvent(() => ShowHideWeaponInMenu(character.caster.weapons[0].equiped, false));
+        basicWeapon.AddEnterMouseEvent(()=> equipedWeapon = ShowHideWeaponInMenu(character.caster.weapons[0].equiped, true));
+        basicWeapon.AddLeaveMouseEvent(() => ShowHideWeaponInMenu(character.caster.weapons[0].equiped, false));
 
         basicsButtons.Add(CreateSlotButton(character.caster.abilities[0]));
         basicsButtons.Add(CreateSlotButton(character.caster.abilities[1]));
@@ -236,7 +238,7 @@ public class UIE_Equipment : UIE_BaseMenu
         animController.ChangeActionAnimation(animData);
         animTimer.Set(animData.Length + 0.25f).Reset();
     }
-    /*
+    
     public void ShowAnimation()
     {
         ShowAnimation(animData);
@@ -246,7 +248,7 @@ public class UIE_Equipment : UIE_BaseMenu
         animData = _data;
         animController.ChangeActionAnimation(animData);
     }
-    */
+    
     public void StopAnimation()
     {
         animTimer.Stop();
