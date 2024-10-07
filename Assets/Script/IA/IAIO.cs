@@ -116,7 +116,7 @@ public class IAIO : IAFather
                 return;
             }
 
-            Vector2 dir = new Vector2(character.HexagoneParent.ladosPuntos[ladoToGo, 0], character.HexagoneParent.ladosPuntos[ladoToGo, 1]);
+            Vector2 dir = character.HexagoneParent.ladosPuntos[ladoToGo].Vect3To2XZ();
 
             dir -= character.transform.position.Vect3To2XZ();
 

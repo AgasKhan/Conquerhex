@@ -39,7 +39,9 @@ public class Hexagone : MonoBehaviour, IUpdate
     public Hexagone[] ladosArray = new Hexagone[6];//Lo uso para definir A DONDE me voy a teletransportar
 
     //pareja de coordenadas
-    public float[,] ladosPuntos = new float[6, 2];//Lo uso para guardar la coordenadas de cada lado
+    public Vector3[] ladosPuntos = new Vector3[6];//Lo uso para guardar la coordenadas de cada lado
+
+    public Vector3[] aristasPuntos = new Vector3[6];
 
     public Biomes biomes;
 
@@ -84,7 +86,13 @@ public class Hexagone : MonoBehaviour, IUpdate
 
     public event UnityAction MyUpdates;
     public event UnityAction MyFixedUpdates;
-
+    public void SetPortalColor(Color color)
+    {
+        for (int i = 0; i < effect.Length; i++)
+        {
+            effect[i].color = color;
+        }
+    }
     public void ExitEntity(Entity entity)
     {
         entity.HexagoneParent = null;
@@ -108,14 +116,6 @@ public class Hexagone : MonoBehaviour, IUpdate
         childsEntities.Add(entity);
 
         EnterChunk(entity.transform);
-    }
-
-    public void SetPortalColor(Color color)
-    {
-        for (int i = 0; i < effect.Length; i++)
-        {
-            effect[i].color = color;
-        }
     }
 
     public void EnterChunk(Transform tr)
@@ -379,8 +379,14 @@ public class Hexagone : MonoBehaviour, IUpdate
 
     public void SetEdgePoint(int i)
     {
-        this.ladosPuntos[i, 0] = transform.position.x + HexagonsManager.localApotema[i, 0];
-        this.ladosPuntos[i, 1] = transform.position.z + HexagonsManager.localApotema[i, 1];
+        this.ladosPuntos[i] = new Vector3();
+
+        this.ladosPuntos[i].x = transform.position.x + HexagonsManager.localApotema[i, 0];
+        this.ladosPuntos[i].z = transform.position.z + HexagonsManager.localApotema[i, 1];
+
+        this.aristasPuntos[i] = new Vector3();
+        this.aristasPuntos[i].x = transform.position.x + HexagonsManager.localRadio[i, 0];
+        this.aristasPuntos[i].z = transform.position.z + HexagonsManager.localRadio[i, 1];
     }
    
     public void FillPropsPos(bool spawn, bool centro = false)
@@ -582,6 +588,13 @@ public class Hexagone : MonoBehaviour, IUpdate
         return resultado;
     }
 
+    public IEnumerable<Vector3> GetEquivalentPoints(int lado)
+    {
+        for (int i = 0; i < ladosArray[lado].aristasPuntos.Length; i++)
+        {
+            yield return (ladosArray[lado].aristasPuntos[i] - ladosArray[lado].transform.position) + HexagonsManager.apotema * 2 *(ladosPuntos[lado] - transform.position).normalized + transform.position;
+        }
+    }
 
     void MyUpdate()
     {

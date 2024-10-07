@@ -12,13 +12,11 @@ public class TeleportCollider : MonoBehaviour
     Hexagone[] ladosArray => teleport.ladosArray;
 
     //pareja de coordenadas
-    float[,] ladosPuntos => teleport.ladosPuntos;
+    Vector3[] ladosPuntos => teleport.ladosPuntos;
 
     float velocityTransfer => teleport.velocityTransfer;
 
-
-
-    float[] difEspejada = new float[2];//voy a guardar la diferencia para poder espejarlo de forma correcta
+    Vector2 difEspejada;//voy a guardar la diferencia para poder espejarlo de forma correcta
 
     int lado;
 
@@ -52,14 +50,14 @@ public class TeleportCollider : MonoBehaviour
         if
         (anguloVelocidad < 180 && anguloVelocidad > 0)
         {
-            difEspejada[0] = ladosPuntos[lado, 0] - other.transform.position.x;
-            difEspejada[1] = ladosPuntos[lado, 1] - other.transform.position.z;
+            difEspejada[0] = ladosPuntos[lado].x - other.transform.position.x;
+            difEspejada[1] = ladosPuntos[lado].z - other.transform.position.z;
 
             other.gameObject.transform.position =
                 new Vector3(
-                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 0] - difEspejada[0],
+                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado)].x - difEspejada[0],
                     other.transform.position.y,
-                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado), 1] - difEspejada[1]);
+                    arrHexTeleport.ladosPuntos[HexagonsManager.LadoOpuesto(lado)].z - difEspejada[1]);
 
             if(other.CompareTag("Player"))                
                 teleport.SetPortalColor(Color.cyan);

@@ -156,10 +156,13 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
 
         if (lado >= 0)
         {
+            Vector3 opuesto = hex.ladosPuntos[LadoOpuesto(lado)];
+            Vector3 actual = hex.ladosPuntos[lado];
+
             MainCamera.instance.transform.position = new Vector3(
-                hex.ladosPuntos[LadoOpuesto(lado), 0] - (hex.ladosPuntos[lado, 0] - MainCamera.instance.transform.position.x),
+                opuesto.x - (actual.x - MainCamera.instance.transform.position.x),
                 MainCamera.instance.transform.position.y,
-                hex.ladosPuntos[LadoOpuesto(lado), 1] - (hex.ladosPuntos[lado, 1] - MainCamera.instance.transform.position.z));    
+                opuesto.z - (actual.z - MainCamera.instance.transform.position.z));
         }
 
 
