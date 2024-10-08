@@ -97,11 +97,18 @@ public class UIE_EquipMenu : UIE_Equipment
 
         cancelButton.RegisterCallback<ClickEvent>(CancelChange);
 
+        /*
         TimersManager.Create(0.1f, () => 
         { 
             if(slotItem.GetSlotType() == typeof(MeleeWeapon))
                 character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(); 
         }).SetUnscaled(true);
+        */
+        
+        HideWeapon();
+
+        if (filterType == typeof(MeleeWeapon))
+            ShowWeapon();
     }
     private void myOnDisable()
     {
@@ -121,10 +128,8 @@ public class UIE_EquipMenu : UIE_Equipment
         changeButton.HideInUIE();
         StopAnimation();
 
-        if(spawnedWeapon != null)
-            spawnedWeapon.Despawn();
-
-        spawnedWeapon = null;
+        HideWeapon();
+        //currentWeapon = null;
     }
 
     bool isOnWeaponOfKata => filterType == typeof(MeleeWeapon) && slotItem.GetType() == typeof(WeaponKata);
@@ -132,6 +137,7 @@ public class UIE_EquipMenu : UIE_Equipment
     private void CancelChange(ClickEvent _clevent)
     {
         auxAction.Invoke(originalItemIndex);
+        HideWeapon();
         manager.BackLastMenu();
     }
 
@@ -328,24 +334,24 @@ public class UIE_EquipMenu : UIE_Equipment
         
     }
 
-    ViewEquipWeapon spawnedWeapon;
-
     void PreviousAnimAction()
     {
         if (filterType == typeof(MeleeWeapon))
         {
-            if(slotItem.GetSlotType() == typeof(WeaponKata))
+            HideWeapon();
+            /*
+            if (slotItem.GetSlotType() == typeof(WeaponKata))
             {
-                
                 var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
                 if(weapon != null)
-                    ShowHideWeaponInMenu(weapon,false);
+                    HideWeapon();
                 
             }
             else
             {
-                ShowHideWeaponInMenu(false);
+                HideWeapon();
             }
+            */
         }
         else if (filterType == typeof(WeaponKata))
             StopAnimation();
@@ -356,15 +362,13 @@ public class UIE_EquipMenu : UIE_Equipment
         {
             if (slotItem.GetSlotType() == typeof(WeaponKata))
             {
-                
                 var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
                 if (weapon != null)
-                    ShowHideWeaponInMenu(weapon, true);
-                
+                    ShowWeapon(weapon);
             }
             else
             {
-                spawnedWeapon = ShowHideWeaponInMenu(true);
+                ShowWeapon();
             }
         }
         else if (filterType == typeof(WeaponKata) && equipedItemIndex >= 0)
