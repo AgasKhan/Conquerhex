@@ -226,7 +226,7 @@
     transform-origin: right bottom;
     top: auto;
     left: auto;
-    width: 200px;
+    width: 248px;
     background-color: rgba(21, 20, 20, 0);
     color: rgb(135, 110, 65);
     border-top-left-radius: 10px;
@@ -287,7 +287,7 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     align-self: center;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .changeButton:hover {
@@ -590,10 +590,6 @@
     -unity-font: url("project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold");
 }
 
-.displayHidden {
-    display: none;
-}
-
 .combosIcons {
     align-self: center;
     justify-content: center;
@@ -684,4 +680,59 @@
 
 .imgOpacityHidden {
     -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+}
+
+.changeButtonDisable {
+    visibility: visible;
+    border-left-color: rgb(113, 107, 90);
+    border-right-color: rgb(113, 107, 90);
+    border-top-color: rgb(113, 107, 90);
+    border-bottom-color: rgb(113, 107, 90);
+    background-color: rgb(60, 60, 60);
+    color: rgb(142, 137, 124);
+    width: 100px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    align-self: center;
+    font-size: 14px;
+}
+
+.displayHidden {
+    display: none;
+}
+
+.tagButton {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgb(173, 144, 91);
+    border-right-color: rgb(173, 144, 91);
+    border-top-color: rgb(173, 144, 91);
+    border-bottom-color: rgb(173, 144, 91);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: rgb(20, 20, 20);
+    background-image: url("project://database/Assets/Sprites/Default%20Weapon%20original.png?fileID=21300000&guid=a782eadee7cd8be47831cb662ae1f8d3&type=3#Default Weapon original");
+    -unity-background-scale-mode: scale-and-crop;
+    -unity-slice-left: 1;
+    -unity-slice-top: 1;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    margin-top: 0;
+    margin-right: 5px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: center;
 }
