@@ -285,7 +285,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = 0; i < hexagone.ladosArray.Length; i++)
         {
-            camerasEdge[i] = culling.IsInFrustrum(hexagone.GetEquivalentPoints(i));
+            camerasEdge[i] = culling.IsInFrustrum(hexagone.GetEquivalentPoints(i, 20));
         }
 
         RefreshMaterial();
