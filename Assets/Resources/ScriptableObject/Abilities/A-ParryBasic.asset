@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: A-ParryBasic
   m_EditorClassIdentifier: 
   _nameDisplay: Parry Simple
-  _image: {fileID: 264636217, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
-  _details: 
+  _image: {fileID: 21300000, guid: 7924f98c27fea1747ab0efc024ca8f05, type: 3}
+  _details: "Si se ejecuta a la vez que un enemigo te ataca, no recibir\xE1s da\xF1o
+    y aturdir\xE1s al enemigo"
   maxAmount: 1
   weight: 0
   visible: 1
@@ -24,13 +25,13 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 0
-  waitAnimations: 0
   animationCastStart: {fileID: 1827226128182048838, guid: 01514c4f3ee3ec4448ece24717ca26a1,
     type: 3}
   animationCastMiddle: {fileID: 6641085478485924818, guid: 01514c4f3ee3ec4448ece24717ca26a1,
     type: 3}
   animationCastExit: {fileID: 3060872287085348379, guid: 01514c4f3ee3ec4448ece24717ca26a1,
     type: 3}
+  animations: {fileID: 11400000, guid: 88f2e0105c460c44698e9b4f8433a4a5, type: 2}
   inPlaceAffected:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0
@@ -52,12 +53,12 @@ MonoBehaviour:
     index: {x: -1, y: -1}
     category: NoSelection
   inPlaceOwner:
-    prefabToSpawn: {fileID: 8863688557425813847, guid: 36f18e5daf19ca04fb9f9b736eb4391d,
+    prefabToSpawn: {fileID: 8450903998597384575, guid: b22250cd2adf89543bb727d81ca730b5,
       type: 3}
-    spawnInLocal: 0
+    spawnInLocal: 1
     offsetPositionX: 0
-    offsetPositionY: 0.5
-    offsetPositionZ: 0
+    offsetPositionY: 1.3
+    offsetPositionZ: 0.29
     offsetRotationX: 0
     offsetRotationY: 0
     offsetRotationZ: 0
@@ -68,9 +69,9 @@ MonoBehaviour:
     randomRotationY: 0
     randomRotationZ: 0
     radius: 0
-    offsetPosition: {x: 0, y: 0.5, z: 0}
+    offsetPosition: {x: 0, y: 1.3, z: 0.29}
     offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-    index: {x: 1, y: 9}
+    index: {x: 1, y: 22}
     category: Particles
   auxiliarParticles:
     pictionaries: []
@@ -114,8 +115,8 @@ MonoBehaviour:
         minDistance: 1
         loop: 0
         onAwake: 0
-  velocity: 0
-  costExecution: 25
+  velocity: 0.1
+  costExecution: 0
   costHandle: 0
   weightAction: 1000
   damagesMultiply: []

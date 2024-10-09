@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 [CreateAssetMenu(menuName = "Managers/EventManager")]
 public class EventManager : ScriptableObject
@@ -93,6 +94,27 @@ public class EventManager : ScriptableObject
         _events.Clear();
     }
 }
+
+/*
+public class DelegateAutoDesuscription<T> where T : Delegate
+{
+    HashSet<T> listOfDelegates = new HashSet<T>();
+
+    public event T @event
+    {
+        add
+        {
+            listOfDelegates.Add(value);
+        }
+
+        remove
+        {
+            listOfDelegates.Remove(value);
+        }
+    }
+}
+*/
+
 
 public class SingleEvent : Internal.SpecificEvent<UnityAction> { };
 

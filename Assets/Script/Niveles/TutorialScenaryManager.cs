@@ -15,6 +15,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Character player;
     public Transform NPC;
 
+    public Animator npcAnim;
+
     public float maxDist = 10;
     IState<Character> playerIA;
 
@@ -22,18 +24,25 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Hexagone[] newBorders = new Hexagone[6];
     public Hexagone firstHexagon;
     public int tpsCounter = 0;
+
     bool nieve = false;
     bool desierto = false;
 
     public float damageGivenByExplosion = 25;
 
     [Header("Combat")]
-    public DestructibleObjects dummy;
+    public Entity dummy;
     public int attacksCounter = 0;
     public Ingredient weaponForPlayer;
     public List<AttackBase.AbilityToEquip> abilitiesForPlayer = new List<AttackBase.AbilityToEquip>();
+
+    public DestructibleObjects platform;
+
+    public byte MaxParryCount = 5;
+
+    byte parryCount;
     bool weaponGive = false;
-    
+
 
     bool ability0 = false;
     bool ability1 = false;
@@ -52,7 +61,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     System.Action<Hexagone, int> teleportEvent;
     System.Action<int, MeleeWeapon> weaponEvent;
-    System.Action<Damage> dummyTakeDamageEvent;
+    System.Action<Damage> DummyTakeDamageEvent;
     System.Action<Health> healthEvent;
 
     bool distanceCheck;
@@ -66,9 +75,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     #region DISTANCE ULTRA HARDCODEADO
     public void NPCDistance()
     {
-        float dist = Vector3.Distance(player.transform.position, NPC.position);
 
-        if (dist >= maxDist)
+        if ((NPC.position - player.transform.position).sqrMagnitude >= maxDist * maxDist)
         {
             NextDialog();
             distanceCheck = false;
@@ -94,7 +102,37 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     public void DistanceBoolSet(bool e) => distanceCheck = e;
 
+    //public Animator dummyAnim;
 
+    // [ContextMenu("Anim")]
+    // public void Test()
+    // {
+    //     var a = dummy.GetComponent<TestDamageEntity>();
+
+    //     a.Init(() =>  Debug.Log("pase por aca 2"), () => { dummyAnim.SetTrigger("Attack"); Debug.Log("pase por aca 2"); });
+
+
+    //     Debug.Log("pase por aca");
+    // }
+
+    public Light[] Lights;
+
+    public void ExecuteDamageParry()
+    {
+        var a = platform.GetComponent<TestDamageEntity>();
+        a.ExitAction = () => Lights[0].intensity = 0;
+
+        a.Init(() =>
+        {
+            Lights[0].intensity += Time.deltaTime * 5;
+        },
+        () =>
+        {
+            var index = PoolManager.SrchInCategory("Particles", "Chispas");
+            PoolManager.SpawnPoolObject(index, player.transform.position, Quaternion.identity);
+            a.ExitAction?.Invoke();
+        });
+    }
     public void EnableExit()
     {
         goal.SetActive(true);
@@ -108,6 +146,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
         PoolManager.SpawnPoolObject(index, lever.position, Quaternion.identity);
+        npcAnim.SetBool("IconActive", true);
     }
 
     public void WaitToEnableDialog(float time)
@@ -142,9 +181,15 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         healthEvent = HealthEvent2;
     }
 
+    // public void ParryPlatformDialog()
+    // {
+    //     var r = (CastingParryBase)player.caster.abilities[0].equiped.castingAction.castingActionBase;
+    //     r.onSuccessCastingAction += TakeDamagePlatform;
+    // }
+
     void HealthEvent2(Health obj)
     {
-        if (obj.actualLife == obj.maxLife && obj.actualRegen == obj.maxRegen)
+        if (obj.actualLife >= obj.maxLife && obj.actualRegen >= obj.maxRegen)
         {
             healthEvent = null;
             NextDialog();
@@ -152,15 +197,38 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     }
 
 
+
+
     public void TakeDamageDummyDialog()
     {
-        dummyTakeDamageEvent = TakeDamageDummy;
+        DummyTakeDamageEvent = TakeDamageDummy;
     }
 
     void TakeDamageDummy(Damage dmg)
     {
         NextDialog();
-        dummyTakeDamageEvent = null;
+        DummyTakeDamageEvent = null;
+    }
+
+    void TakeDamagePlatform(Ability a)
+    {
+        var parry = (CastingParry)player.caster.abilities[0].equiped.castingAction;
+        if (!parry.Success) return;
+
+        parryCount++;
+        Lights[1].intensity = parryCount * 0.35f;
+
+        if (parryCount < MaxParryCount) return;
+
+        interfaz.CompleteObjective(0);
+        platform.GetComponent<TestDamageEntity>().StopTimer();
+        platform.gameObject.SetActive(false);
+
+        var index = PoolManager.SrchInCategory("Particles", "SmokeyExplosion 2");
+        PoolManager.SpawnPoolObject(index, platform.transform.position, Quaternion.identity);
+        player.caster.abilities[0].equiped.onApplyCast -= TakeDamagePlatform;
+
+        parryCount = 0;
     }
 
     private void EquipeWeapon(int arg1, MeleeWeapon arg2)
@@ -205,6 +273,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public void GiveToPlayer()
     {
         GiveToPlayer(weaponForPlayer.Item, weaponForPlayer.Amount);
+
     }
 
     public void GiveToPlayer(ItemBase item, int amount)
@@ -223,19 +292,48 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     {
         for (int i = 0; i < abilitiesForPlayer.Count; i++)
         {
+            abilitiesForPlayer[i].isBlocked = false;
             SetPlayerAbility(abilitiesForPlayer[i]);
         }
 
-        player.caster.abilities[0].equiped.onCast += EquipedOnCast0;
-        player.caster.abilities[1].equiped.onCast += EquipedOnCast1;
+        player.caster.abilities[0].equiped.onApplyCast += EquipedOnCast0;
+        player.caster.abilities[1].equiped.onApplyCast += EquipedOnCast1;
         //player.caster.abilities[3].equiped.onCast += EquipedOnCast3;
         //player.caster.abilities[4].equiped.onCast += EquipedOnCast4;
+    }
+
+    public void SetParryAbility()
+    {
+        abilitiesForPlayer[0].isBlocked = false;
+        SetPlayerAbility(abilitiesForPlayer[0]);
+        player.caster.abilities[0].equiped.onApplyCast += TakeDamagePlatform;
+
+    }
+
+    public void SetDashAbility()
+    {
+        abilitiesForPlayer[1].isBlocked = false;
+        SetPlayerAbility(abilitiesForPlayer[1]);
+        player.caster.abilities[1].equiped.onApplyCast += SetDash;
+    }
+
+    void SetParry(Ability a)
+    {
+        if (dummy.health.actualLife >= dummy.health.maxLife) return;
+        player.caster.abilities[0].equiped.onApplyCast -= SetParry;
+        NextDialog();
+    }
+
+    void SetDash(Ability a)
+    {
+        player.caster.abilities[1].equiped.onApplyCast -= SetDash;
+        NextDialog();
     }
 
     private void EquipedOnCast0(Ability ability)
     {
         ability0 = true;
-        player.caster.abilities[0].equiped.onCast -= EquipedOnCast0;
+        player.caster.abilities[0].equiped.onApplyCast -= EquipedOnCast0;
 
         interfaz.CompleteObjective(0);
 
@@ -246,7 +344,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void EquipedOnCast1(Ability ability)
     {
         ability1 = true;
-        player.caster.abilities[1].equiped.onCast -= EquipedOnCast1;
+        player.caster.abilities[1].equiped.onApplyCast -= EquipedOnCast1;
 
         interfaz.CompleteObjective(1);
 
@@ -256,7 +354,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void EquipedOnCast3(Ability ability)
     {
         ability3 = true;
-        player.caster.abilities[3].equiped.onCast -= EquipedOnCast3;
+        player.caster.abilities[3].equiped.onApplyCast -= EquipedOnCast3;
 
         interfaz.CompleteObjective(2);
 
@@ -266,7 +364,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     private void EquipedOnCast4(Ability ability)
     {
         ability4 = true;
-        player.caster.abilities[4].equiped.onCast -= EquipedOnCast4;
+        player.caster.abilities[4].equiped.onApplyCast -= EquipedOnCast4;
 
         interfaz.CompleteObjective(3);
 
@@ -302,6 +400,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         currentDialog++;
 
         interfaz.CompleteAllObjective();
+
+        npcAnim.SetBool("IconActive", true);
     }
 
     void EndDialog()
@@ -314,6 +414,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
         VirtualControllers.Interact.eventDown -= InteractDialog;
         VirtualControllers.Principal.eventDown -= InteractDialog;
+
+        npcAnim.SetBool("IconActive", false);
     }
 
     /// <summary>
@@ -321,6 +423,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     /// </summary>
     public void ShowDialog()
     {
+
         if (currentDialog >= allDialogs.Length)
             return;
 
@@ -379,8 +482,9 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
 
     private void DummyTakeDamage(Damage obj)
     {
-        dummyTakeDamageEvent?.Invoke(obj);
+        DummyTakeDamageEvent?.Invoke(obj);
     }
+
 
     private void HealthEvent(Health obj)
     {
@@ -428,6 +532,8 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         interfaz = UI.Interfaz.instance;
 
         dialogText.off += EndDialog;
+
+
     }
 
     void Update()
@@ -446,6 +552,10 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
         attacksCounter = 0;
 
         LoadSystem.AddPostLoadCorutine(Init);
+
+
+
+
     }
 }
 

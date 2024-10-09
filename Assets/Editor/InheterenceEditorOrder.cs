@@ -6,44 +6,74 @@ using System.Reflection;
 using Object = UnityEngine.Object;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using CustomEulerEditor;
-
-[CustomEditor(typeof(Object), true)]
-[CanEditMultipleObjects]
-public class InheterenceEditorOrder : Editor
-{
-    InheterenceOrder inheterenceOrder;
-
-    public override VisualElement CreateInspectorGUI()
-    {
-        var main = new VisualElement();
-
-        var serialized = serializedObject.GetIterator();
-
-        // Mostrar propiedad m_Script primero y como no modificable
-        SerializedProperty scriptProperty = serializedObject.FindProperty("m_Script");
-        if (scriptProperty != null)
-        {
-            var scriptField = new PropertyField(scriptProperty, "Script");
-            scriptField.SetEnabled(false);
-            main.Add(scriptField);
-        }
-
-        if(serialized.NextVisible(true))
-        {
-            inheterenceOrder = new InheterenceOrder(target.GetType(), serialized);
-            inheterenceOrder.CreateGUI(main);
-        }
-        
-
-        return main;
-    }
-}
+using System.Linq;
 
 namespace CustomEulerEditor
 {
+    [CustomEditor(typeof(Object), true)]
+    [CanEditMultipleObjects]
+    public class InheterenceEditorOrder : Editor
+    {
+        InheterenceOrder inheterenceOrder;
+
+        protected event System.Action<object> onSelectedItem
+        {
+            add
+            {
+                inheterenceOrder.onSelectedItem += value;
+            }
+            remove
+            {
+                inheterenceOrder.onSelectedItem -= value;
+            }
+        }
+
+        protected event System.Action<object> onChangeValue
+        {
+            add
+            {
+                inheterenceOrder.onChangeValue += value;
+            }
+            remove
+            {
+                inheterenceOrder.onChangeValue -= value;
+            }
+        }
+
+
+        public override VisualElement CreateInspectorGUI()
+        {
+            var main = new VisualElement();
+
+            var serialized = serializedObject.GetIterator();
+
+            // Mostrar propiedad m_Script primero y como no modificable
+            SerializedProperty scriptProperty = serializedObject.FindProperty("m_Script");
+            if (scriptProperty != null)
+            {
+                var scriptField = new PropertyField(scriptProperty, "Script");
+                scriptField.SetEnabled(false);
+                main.Add(scriptField);
+            }
+
+            if(serialized.NextVisible(true))
+            {
+                inheterenceOrder = new InheterenceOrder(target.GetType(), serialized);
+                inheterenceOrder.CreateGUI(main);
+            }
+        
+
+            return main;
+        }
+    }
+
+
     public class InheterenceOrder
     {
+        public System.Action<object> onSelectedItem;
+
+        public System.Action<object> onChangeValue;
+
         private bool showInheritedPropertiesInverted = false; // Configuración para mostrar propiedades heredadas abajo
         private bool showClassTitles = false; // Configuración para mostrar títulos de clase
         private bool showClassAllTitles = false; // Configuración para mostrar títulos de clase
@@ -84,32 +114,56 @@ namespace CustomEulerEditor
 
             //configContainer.style.marginBottom = 10;
 
-            var showInheritedToggle = new Button(() =>
+            var showInheritedToggle = new Button() { text = "Invert Inheterence"};
             {
-                showInheritedPropertiesInverted = !showInheritedPropertiesInverted;
-                AddPropertiesToContainer();
-            }) { text = "Invert Inheterence"};
+                var originalColor = showInheritedToggle.style.backgroundColor;
 
-            var showClassAllTitlesToggle = new Button(() =>
+                showInheritedToggle.clicked += () =>
+                {
+                    showInheritedPropertiesInverted = !showInheritedPropertiesInverted;
+
+                    showInheritedToggle.style.backgroundColor = showInheritedPropertiesInverted ? (Color.white *0.25f).ChangeAlphaCopy(1) : originalColor;
+
+                    AddPropertiesToContainer();
+                };
+            }
+
+            var showClassAllTitlesToggle = new Button() { text = "Show All"};
             {
-                showClassAllTitles = !showClassAllTitles;
-                AddPropertiesToContainer();
-            }) { text = "Show All"};
+                var originalColor = showClassAllTitlesToggle.style.backgroundColor;
+
+                showClassAllTitlesToggle.clicked += () =>
+                {
+                    showClassAllTitles = !showClassAllTitles;
+
+                    showClassAllTitlesToggle.style.backgroundColor = showClassAllTitles ? (Color.white * 0.25f).ChangeAlphaCopy(1) : originalColor;
+
+                    AddPropertiesToContainer();
+                };
+            }
             
 
-            var showClassTitlesToggle = new Button(() =>
+            var showClassTitlesToggle = new Button() { text = "Show Classes"};
             {
-                showClassTitles = !showClassTitles;
-                if (showClassTitles)
+                var originalColor = showClassTitlesToggle.style.backgroundColor;
+
+                showClassTitlesToggle.clicked += () =>
                 {
-                    showClassAllTitlesToggle.SetEnabled(true);
-                }
-                else
-                {
-                    showClassAllTitlesToggle.SetEnabled(false);
-                }
-                AddPropertiesToContainer();
-            }) { text = "Show Classes"};
+                    showClassTitles = !showClassTitles;
+                    if (showClassTitles)
+                    {
+                        showClassAllTitlesToggle.SetEnabled(true);
+                    }
+                    else
+                    {
+                        showClassAllTitlesToggle.SetEnabled(false);
+                    }
+
+                    showClassTitlesToggle.style.backgroundColor = showClassTitles ? (Color.white * 0.25f).ChangeAlphaCopy(1) : originalColor;
+
+                    AddPropertiesToContainer();
+                };
+            }
 
             showClassAllTitlesToggle.SetEnabled(showClassTitles);
 
@@ -237,7 +291,76 @@ namespace CustomEulerEditor
                 var propertyField = new PropertyField();
                 propertyField.BindProperty(properties[i]);
                 container.Add(propertyField);
+
+                EventCallback<ClickEvent> aux = null;
+
+                propertyField.RegisterValueChangeCallback(OnChangeValue);
+
+                aux = (ClickEvent evt) =>
+                {
+                    //Debug.Log("Clickeado: " + evt.currentTarget);
+
+
+                    ///Debug.Log($"{propertyField.label} Posee hijos: {propertyField.childCount}");
+                    ///
+
+                    HasCollection(propertyField);
+
+                    propertyField.UnregisterCallback(aux);
+                };
+
+                propertyField.RegisterCallback(aux);
             }
+        }
+
+        private void List_selectionChanged(IEnumerable<object> obj)
+        {
+            var property = (obj.FirstOrDefault() as SerializedProperty);
+
+            if (property!=null)
+            {
+                onSelectedItem?.Invoke(property.GetValue<object>());
+
+                /*
+                if (property.propertyType == SerializedPropertyType.Generic)
+                {
+                    var targetObject = property.serializedObject.targetObject;
+                    var targetObjectClassType = targetObject.GetType();
+                    var field = targetObjectClassType.GetField(property.propertyPath);
+
+                    if (field != null)
+                    {
+                        var value = field.GetValue(targetObject);
+                        Debug.Log(value);
+
+                        onSelectedItem.Invoke(value);
+                    }
+                }
+                else
+                {
+                    onSelectedItem.Invoke(property.boxedValue);
+                }
+                */
+            }
+        }
+
+        private void HasCollection(VisualElement propertyField)
+        {
+            foreach (var propertyChild in propertyField.Children())
+            {
+                if (propertyChild is BaseVerticalCollectionView list)
+                {
+                    list.selectionChanged += List_selectionChanged;
+                    List_selectionChanged(list.selectedItems);
+                }
+                
+                HasCollection(propertyChild);
+            }
+        }
+
+        private void OnChangeValue(SerializedPropertyChangeEvent propertyChangeEvent)
+        {
+            onChangeValue?.Invoke(propertyChangeEvent.changedProperty.GetValue<object>());
         }
     }
 

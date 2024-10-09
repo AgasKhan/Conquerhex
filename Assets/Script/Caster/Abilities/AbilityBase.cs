@@ -18,13 +18,13 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 
     public bool ShowFeedAffectedEntities = true;
 
-    public bool waitAnimations = false;
-
     public AnimationClip animationCastStart;
 
     public AnimationClip animationCastMiddle;
 
     public AnimationClip animationCastExit;
+
+    public AnimationInfo animations;
 
     public PoolGameObjectSpawnProperty inPlaceAffected = new PoolGameObjectSpawnProperty() { index = Vector2Int.one*-1};
 
@@ -90,12 +90,20 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
         if (damagesMultiply.Length > 0)
             aux.Add("Modificadores".RichText("color", "#f6f1c2"), damagesMultiply.ToString(": x", "\n"));
 
-        aux.Add("Cooldown".RichText("color", "#f6f1c2"), velocity.ToString() + " segundos");
+        aux.Add("Tiempo de espera".RichText("color", "#f6f1c2"), velocity.ToString() + " segundos");
 
         if(costExecution!=0)
             aux.Add("Costo de energía".RichText("color", "#f6f1c2"), costExecution > 0 ? ("-" + costExecution.ToString()).RichText("color", "#ea925e") : ("+" + costExecution.ToString()).RichText("color", "#5afdf7"));
 
         aux.Add("Área de efecto".RichText("color", "#f6f1c2"), "Ángulo: ".RichText("color", "#f6f1c2") + detection.detect.angle.ToString() +" grados"  +"\nRango máximo: ".RichText("color", "#f6f1c2") + detection.detect.maxRadius + " unidades");
+
+        return aux;
+    }
+
+    public override string GetTooltip()
+    {
+        var aux = base.GetTooltip();
+        aux += "\n\n" + (costExecution == 0? "No consume energía".RichText("color", "#FFFFFF") : costExecution > 0 ? ("Consume " + costExecution.ToString() + " de energía roja").RichText("color", "#ea925e") : ("Consume " + costExecution.ToString() + " de energía azul").RichText("color", "#5afdf7"));
 
         return aux;
     }
@@ -167,33 +175,32 @@ public abstract class AbilityBase : ItemCrafteable, IAbilityStats
 [System.Serializable]
 public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoolDown, IStateWithEnd<CasterEntityComponent>, IAbilityComponent
 {
-    public enum State
-    {
-        start,
-        middle,
-        end
-    }
+    /// <summary>
+    /// Evento que se ejecutara cuando efectivamente haga el casteo
+    /// </summary>
+    public event System.Action<Ability> onApplyCast;
+    public System.Action onInternalCastEvent;
 
     /// <summary>
-    /// Estado de la habilidad, controlado por el trigger/casteo, para asi saber que sucede por fuera de este, util para feedback
+    /// Evento que ejecutara en el momento preciso de la animacion
     /// </summary>
-    public State state = State.start;
+    public System.Action<Ability> onAction;
 
-    public event System.Action<Ability> onCast;
+    public event System.Action<Ability> onEndAction;
 
-    System.Action _onInternalCast;
+    public event System.Action<AnimationInfo.Data> onAnimation;
 
-    public event System.Action<Ability> onPreCast;
+    public event System.Action<string> onAnimationPlayed;
 
-    public event System.Action onEnter;
+    //public event System.Action onEnter;
 
-    public event System.Action onExit;
+    //public event System.Action onExit;
 
     public List<Entity> affected = new List<Entity>();
 
     public CasterEntityComponent caster { get; private set;}
 
-
+    public DamageContainer additiveDamage { get; private set; }
 
     [SerializeReference]
     public Ability original;
@@ -207,6 +214,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     protected AudioEntityComponent audio;
     protected AimingEntityComponent aiming;
 
+    protected Dictionary<string, Timer> timers = new();
+
     FadeColorAttack _feedBackReference;
 
     AbilityModificator abilityModificator = new AbilityModificator();
@@ -218,14 +227,6 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     public DamageContainer multiplyDamage { get; protected set; }
 
     public bool End { get; set; }
-
-    public bool WaitAnimations => itemBase.waitAnimations;
-
-    public virtual AnimationClip animationCastStart => itemBase.animationCastStart;
-
-    public virtual AnimationClip animationCastMiddle => itemBase.animationCastMiddle;
-
-    public virtual AnimationClip animationCastExit => itemBase.animationCastExit;
 
     public int weightAction => itemBase.weightAction;
 
@@ -259,13 +260,11 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public float Auxiliar => abilityModificator.Auxiliar;
 
+    public System.Func<Vector3> alternativeAiming;
+
     public bool isPerspective => aiming.mode != AimingEntityComponent.Mode.topdown;
 
-    public virtual Vector3 Aiming => aiming.AimingToObjective;
-
-    public virtual Vector3 AimingXZ => aiming.AimingToObjectiveXZ;
-
-    public Vector2 Aiming2D { set => aiming.AimingToObjective2D = value; get => aiming.AimingToObjective2D; }
+    public virtual Vector3 AimingXZ => alternativeAiming == null ? aiming.AimingToObjectiveXZ : alternativeAiming();
 
     public virtual Vector3 ObjectiveToAim
     {
@@ -277,16 +276,13 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     }
 
 
-    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeInHierarchy;
+    public virtual bool DontExecuteCast => caster == null || !caster.gameObject.activeInHierarchy || (!onCooldownTime && caster.HasCooldown);
 
     public virtual float CostExecution => itemBase.costExecution;
 
     public virtual float CostHandle => itemBase.costHandle;
 
     public override bool visible => !IsCopy && !isDefault;
-
-    
-
 
     public FadeColorAttack FeedBackReference
     {
@@ -331,7 +327,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
         index = aux.Init(container);
 
-        //Debug.Log("Se creo una copia de " + aux.nameDisplay + " en el indice: " + index + "\nCon los casters: " + (aux.caster != null) + " " + (caster != null));
+        Debug.Log("Se creo una copia de " + aux.nameDisplay + " en el indice: " + index + "\nCon los casters: " + (aux.caster != null) + " " + (caster != null));
 
         return aux;
     }
@@ -347,6 +343,31 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         End = true;
     }
 
+    public virtual void PlayAction(string name)
+    {
+        PlayEventAction(name);
+
+        if (itemBase.animations.animClips.ContainsKey(name, out int index))
+            PlayDataAction(itemBase.animations.animClips[index]);
+        else
+            Debug.LogWarning("No existe el key de accion: " + name);
+    }
+
+    protected void PlayEventAction(string name)
+    {
+        onAnimationPlayed?.Invoke(name);
+    }
+
+    protected void PlayDataAction(AnimationInfo.Data data)
+    {
+        onAnimation?.Invoke(data);
+    }
+
+    private void OnAnimation(AnimationInfo.Data obj)
+    {
+        obj.SetTimers(timers);
+    }
+
     public virtual void PlaySound(string name)
     {
         if (audio == null)
@@ -359,11 +380,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
     {
         _feedBackReference?.Attack();
 
-        if (!WaitAnimations)
-            onPreCast?.Invoke(this);
-
         if (showParticleInPos)
-            InternalParticleSpawnToPosition(caster.GetInContainer<AnimatorController>().controller.transform, Vector3.one * FinalMaxRange);
+            InternalParticleSpawnToPosition(caster.GetInContainer<AnimatorController>().transformModel, Vector3.one * FinalMaxRange);
 
         if (entities != null)
             foreach (var dmgEntity in entities)
@@ -374,21 +392,15 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
         PlaySound("Cast");
 
-        _onInternalCast?.Invoke();
-        onCast?.Invoke(this);
+        onInternalCastEvent?.Invoke();
+        onApplyCast?.Invoke(this);
 
         return entities;
     }
 
-    public void PreCast(System.Action onCastAction)
-    {
-        onPreCast?.Invoke(this);
-        _onInternalCast = onCastAction;
-    }
-
     public IEnumerable<Entity> Cast(System.Action onCastAction)
     {
-        _onInternalCast = onCastAction;
+        onInternalCastEvent = onCastAction;
         return ApplyCast(InternalCast(affected, out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
     }
 
@@ -432,12 +444,12 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public void FeedbackDetect()
     {
-        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Angle(Angle).Direction(Aiming);
+        FeedBackReference?.Area(FinalMaxRange, FinalMinRange).Angle(Angle).Direction(AimingXZ);
     }
 
-    public List<Entity> Detect(Entity caster, Vector3 pos)
+    public List<Entity> Detect(Entity caster, Vector3 pos, Vector3 aiming)
     {
-        affected = itemBase.Detect(ref affected,caster, pos ,Aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);
+        affected = itemBase.Detect(ref affected,caster, pos , aiming, FinalMaxDetects ,FinalMinRange, FinalMaxRange, Dot);
 
         if (affected != null && itemBase.ShowFeedAffectedEntities)
             foreach (var item in affected)
@@ -450,7 +462,7 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
     public List<Entity> Detect()
     {
-        return Detect(caster.container, caster.transform.position);
+        return Detect(caster.container, caster.transform.position, AimingXZ);
     }
 
     protected void SetCooldown()
@@ -478,28 +490,27 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
 
         multiplyDamage = new DamageContainer(() => itemBase.damagesMultiply);
 
+        timers.Add("Action",TimersManager.Create(1, () => onAction?.Invoke(this)).Stop());
+        timers.Add("End", TimersManager.Create(1, () =>
+        {
+            onEndAction?.Invoke(this);
+            onEndAction = null;
+        }).Stop());
+
         trigger = itemBase.trigger?.Create();
 
         trigger?.Init(this);
 
         abilityModificator.Init(this);
 
-
-        if (!container.TryGetInContainer(out CasterEntityComponent caster))
-        {
-            return;
-        }
-
-        this.caster = caster;
-
-        audio = caster.GetInContainer<AudioEntityComponent>();
-
-        aiming = caster.GetInContainer<AimingEntityComponent>();
-
         SetCooldown();
 
         trigger?.Set();
+
+        onAnimation += OnAnimation;
     }
+
+
 
     public void ControllerDown(Vector2 dir, float tim)
     {
@@ -542,8 +553,21 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         up(dir, tim);
     }
 
-    public void OnEnterState(CasterEntityComponent param)
+    public bool PayExecution(float cost)
     {
+        return DontExecuteCast || (caster.HasEnergyConsuption && (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost)));
+    }
+
+    public virtual void OnEnterState(CasterEntityComponent param)
+    {   
+        this.caster = param;
+
+        additiveDamage = caster.additiveDamage;
+
+        audio = caster.GetInContainer<AudioEntityComponent>();
+
+        aiming = caster.GetInContainer<AimingEntityComponent>();
+
         if (PayExecution(CostExecution))
         {
             End = true;
@@ -553,15 +577,15 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         //param.abilityControllerMediator += this;
         abilityModificator.OnEnterState(param);
         trigger.OnEnterState(param);
-        onEnter?.Invoke();
+        caster.OnEnter(this);
+
+        PlayAction("Start");
+        //onEnter?.Invoke();
     }
 
-    public bool PayExecution(float cost)
-    {
-        return !cooldown.Chck || DontExecuteCast || (cost < 0 && !caster.NegativeEnergy(-cost)) || (cost > 0 && !caster.PositiveEnergy(cost));
-    }
 
-    public void OnStayState(CasterEntityComponent param)
+
+    public virtual void OnStayState(CasterEntityComponent param)
     {
         if (DontExecuteCast)
         {
@@ -572,10 +596,13 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
         trigger.OnStayState(param);
     }
 
-    public void OnExitState(CasterEntityComponent param)
+    public virtual void OnExitState(CasterEntityComponent param)
     {
-        state = State.end;
-        onPreCast?.Invoke(this);
+        onInternalCastEvent = null;
+
+        onAction = null;
+
+        onEndAction = null;
 
         if (!DontExecuteCast)
         {
@@ -588,8 +615,8 @@ public abstract class Ability : ItemEquipable<AbilityBase>, IControllerDir, ICoo
             cooldown.Reset();
 
         StopCast();
-
-        onExit?.Invoke();
+        caster.OnExit(this);
+        //onExit?.Invoke();
     }
 
     #endregion

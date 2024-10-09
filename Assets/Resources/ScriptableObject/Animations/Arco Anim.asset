@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78a40eeae658844b6a31b470676073, type: 3}
+  m_Name: Arco Anim
+  m_EditorClassIdentifier: 
+  animClips:
+    pictionaries:
+    - key: Cast
+      value:
+        defaultAction: 0
+        animationClip: {fileID: 9067093048684652814, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+          type: 3}
+        inLoop: 0
+        velocity: 1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
+        mirrorType: 0
+        events:
+          pictionaries:
+          - key: Action
+            value: 0.04639235
+    - key: Middle
+      value:
+        defaultAction: 0
+        animationClip: {fileID: 1827226128182048838, guid: db67b6f2444f15a46beecda8d9ad4c80,
+          type: 3}
+        inLoop: 1
+        velocity: 0.5
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
+        mirrorType: 0
+        events:
+          pictionaries: []
+    - key: Start
+      value:
+        defaultAction: 0
+        animationClip: {fileID: 1827226128182048838, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+          type: 3}
+        inLoop: 0
+        velocity: 1
+        nextIndex: 1
+        nextAnimation:
+          rid: 9055861519105130612
+        mirrorType: 0
+        events:
+          pictionaries: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 9055861519105130612
+      type: {class: AnimationInfo/Data, ns: , asm: Assembly-CSharp}
+      data:
+        defaultAction: 0
+        animationClip: {fileID: 1827226128182048838, guid: db67b6f2444f15a46beecda8d9ad4c80,
+          type: 3}
+        inLoop: 1
+        velocity: 0.5
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
+        mirrorType: 0
+        events:
+          pictionaries: []

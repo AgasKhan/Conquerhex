@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using FSMGameManagerLibrary;
 
-public class GameManager : SingletonMono<GameManager>
+public class GameManager : SingletonMono<GameManager>, IUpdate
 {
     public static event UnityAction OnPlay
     {
@@ -33,6 +33,58 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
+    public static event UnityAction GamePlayFixedUpdate
+    {
+        add
+        {
+            instance.fsmGameMaganer.gamePlay.fixedUpdate += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.gamePlay.fixedUpdate -= value;
+        }
+    }
+
+    public static event UnityAction GamePlayUpdate
+    {
+        add
+        {
+            instance.fsmGameMaganer.gamePlay.update += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.gamePlay.update -= value;
+        }
+    }
+
+    event UnityAction IUpdate.MyUpdates
+    {
+        add
+        {
+            instance.fsmGameMaganer.gamePlay.update += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.gamePlay.update -= value;
+        }
+    }
+
+    event UnityAction IUpdate.MyFixedUpdates
+    {
+        add
+        {
+            instance.fsmGameMaganer.gamePlay.fixedUpdate += value;
+        }
+
+        remove
+        {
+            instance.fsmGameMaganer.gamePlay.fixedUpdate -= value;
+        }
+    }
+
     public static UnityEvent onEnterMenuUnityEvent => instance?.fsmGameMaganer?.menu.onEnterMenuUnityEvent;
 
     public static UnityEvent onExitMenuUnityEvent => instance?.fsmGameMaganer?.menu.onExitMenuUnityEvent;
@@ -40,9 +92,6 @@ public class GameManager : SingletonMono<GameManager>
     public static Queue<System.Action> eventQueueGamePlay = new Queue<System.Action>();
 
     public static Queue<System.Action> eventQueueLoad = new Queue<System.Action>();
-
-    public static Pictionarys<MyScripts, UnityAction> fixedUpdate => instance._fixedUpdate;
-    public static Pictionarys<MyScripts, UnityAction> update => instance._update;
 
     public static bool HightFrameRate => instance.stopwatch.ElapsedMilliseconds > (1000 / 120);
 
@@ -75,9 +124,6 @@ public class GameManager : SingletonMono<GameManager>
 
     public UnityEvent onDestroyUnityEvent;
 
-    Pictionarys<MyScripts, UnityAction> _update = new Pictionarys<MyScripts, UnityAction>();
-
-    Pictionarys<MyScripts, UnityAction> _fixedUpdate = new Pictionarys<MyScripts, UnityAction>();
 
     [SerializeField]
     FSMGameMaganer fsmGameMaganer;
@@ -164,12 +210,7 @@ public class GameManager : SingletonMono<GameManager>
             
         }).SetUnscaled(true);
 
-        /*
-        TimersManager.Create(1f, 0f, 2, Mathf.Lerp, (save) => Time.timeScale = save).AddToEnd(() =>
-        {
-            
-        }).SetUnscaled(true);
-        */
+     
     }
 
     public void Victory()
@@ -184,24 +225,6 @@ public class GameManager : SingletonMono<GameManager>
     void EndGame()
     {
         fsmGameMaganer.CurrentState = fsmGameMaganer.endGame;
-    }
-
-    void MyUpdate(Pictionarys<MyScripts, UnityAction> update)
-    {
-        foreach (var item in update)
-        {
-            item.value();
-        }
-    }
-
-    void MyUpdate()
-    {
-        MyUpdate(_update);
-    }
-
-    void MyFixedUpdate()
-    {
-        MyUpdate(_fixedUpdate);
     }
 
     void StartLoadRoutine()
@@ -226,10 +249,6 @@ public class GameManager : SingletonMono<GameManager>
         fsmGameMaganer.Init(this);
 
         fsmGameMaganer.EnterState(fsmGameMaganer.load);
-
-        updateUnityEvent.AddListener(MyUpdate);
-
-        fixedUpdateUnityEvent.AddListener(MyFixedUpdate);
 
         awakeUnityEvent?.Invoke();
     }
@@ -306,16 +325,35 @@ namespace FSMGameManagerLibrary
 
         public event UnityAction onExitGamePlay;
 
+
+        public event UnityAction update;
+
+        public event UnityAction fixedUpdate;
+
+        void Update()
+        {
+            update?.Invoke();
+        }
+
+        void FixedUpdate()
+        {
+            fixedUpdate?.Invoke();
+        }
+
         public void OnEnterState(FSMGameMaganer param)
         {
             onEnterGamePlayUnityEvent.Invoke();
             onEnterGamePlay?.Invoke();
+            param.context.updateUnityEvent.AddListener(Update);
+            param.context.fixedUpdateUnityEvent.AddListener(FixedUpdate);
         }
 
         public void OnExitState(FSMGameMaganer param)
         {
             onExitGamePlayUnityEvent.Invoke();
             onExitGamePlay?.Invoke();
+            param.context.updateUnityEvent.RemoveListener(Update);
+            param.context.fixedUpdateUnityEvent.RemoveListener(FixedUpdate);
         }
 
         public void OnStayState(FSMGameMaganer param)

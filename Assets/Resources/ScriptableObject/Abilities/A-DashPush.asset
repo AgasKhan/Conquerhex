@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A-DashPush
   m_EditorClassIdentifier: 
   _nameDisplay: Embestida
-  _image: {fileID: -1548720950, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 21300000, guid: 40582ca1cd95c934ba36887ab115c09a, type: 3}
   _details: "El jugador empuja a los enemigos en frente de \xE9l aplic\xE1ndose el
     efecto de stun, a mayor velocidad inicial, mayor el stun generado.\r\r"
   maxAmount: 1
@@ -33,10 +33,10 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 0
-  waitAnimations: 0
   animationCastStart: {fileID: 0}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
+  animations: {fileID: 0}
   inPlaceAffected:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0

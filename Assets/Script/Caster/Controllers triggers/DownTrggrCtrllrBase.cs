@@ -16,18 +16,15 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
 {
     new DownTrggrCtrllrBase triggerBase => base.triggerBase as DownTrggrCtrllrBase;
 
+    public override void OnStayState(CasterEntityComponent param)
+    {
+        base.OnStayState(param);
+        ability.FeedbackDetect();
+        Detect();
+    }
+
     public override void ControllerDown(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
-        Aiming2D = dir;
-
-        FeedBackReference?.Area(FinalMaxRange).Angle(Angle).Direction(AimingXZ);
-
         Detect();
 
         Cast();
@@ -40,19 +37,9 @@ public class DownTrggrCtrllre : UpTrggrCtrllr
 
     public override void ControllerPressed(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
     }
 
     public override void ControllerUp(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
     }
 }

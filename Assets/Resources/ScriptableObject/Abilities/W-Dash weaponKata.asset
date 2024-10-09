@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: W-Dash weaponKata
   m_EditorClassIdentifier: 
   _nameDisplay: "Apu\xF1alamiento"
-  _image: {fileID: 2005273733, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 21300000, guid: b58a0e4c4639ed942ba4842aa42bb752, type: 3}
   _details: "El jugador arremete en contra del enemigo que se encuentre en su \xE1rea
     c\xF3nica causando sangrado y evitando que se regenere por unos cuantos segundos."
   maxAmount: 1
@@ -33,11 +33,11 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
-  waitAnimations: 0
   animationCastStart: {fileID: 1827226128182048838, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
     type: 3}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
+  animations: {fileID: 0}
   inPlaceAffected:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0

@@ -15,6 +15,8 @@ public class CastingDashBase : CastingActionBase
     [Tooltip("multiplica la velocidad del dash por el tamanio del area")]
     public bool multiplyByArea = false;
 
+    public bool Invulnerable;
+
     public CastingActionBase startDashCastingAction;
 
     public CastingActionBase updateDashCastingAction;
@@ -44,27 +46,55 @@ public class CastingDash : CastingAction<CastingDashBase>
     public override void Init(Ability ability)
     {
         base.Init(ability);
-        dashInTime = TimersManager.Create(castingActionBase.dashInTime, Update , Finish);
+        dashInTime = TimersManager.Create(castingActionBase.dashInTime, Update, Finish);
         dashInTime.Stop();
 
-        if(castingActionBase.startDashCastingAction!=null)
+        if (castingActionBase.startDashCastingAction != null)
         {
             startDashCastingAction = castingActionBase.startDashCastingAction.Create();
             startDashCastingAction.Init(ability);
         }
 
-        if(castingActionBase.updateDashCastingAction != null)
+        if (castingActionBase.updateDashCastingAction != null)
         {
             updateDashCastingAction = castingActionBase.updateDashCastingAction.Create();
             updateDashCastingAction.Init(ability);
             timerToCastUpdate = TimersManager.Create(0.2f, ApplyCastUpdate).SetLoop(true).Stop();
         }
 
-        if(castingActionBase.endDashCastingAction!=null)
+        if (castingActionBase.endDashCastingAction != null)
         {
             endDashCastingAction = castingActionBase.endDashCastingAction.Create();
             endDashCastingAction.Init(ability);
-        }        
+        }
+    }
+
+    private void Move_onIdle()
+    {
+        if (moveEntity.VectorVelocity.sqrMagnitude == 0)
+        {
+            ability.PlayAction("Charge");
+            moveEntity.onIdle -= Move_onIdle;
+        }
+    }
+
+    public override void OnEnterState(CasterEntityComponent param)
+    {
+        if (param.TryGetInContainer<MoveEntityComponent>(out moveEntity))
+        {
+            moveEntity.onIdle += Move_onIdle;
+        }
+    }
+
+    public override void OnExitState(CasterEntityComponent param)
+    {
+        if (moveEntity != null)
+        {
+            moveEntity.onIdle -= Move_onIdle;
+        }
+
+        timerToCastUpdate?.Stop();
+        dashInTime.Stop();
     }
 
     public override IEnumerable<Entity> InternalCastOfExternalCasting(List<Entity> entities, out bool showParticleInPos, out bool showParticleDamaged)
@@ -74,15 +104,24 @@ public class CastingDash : CastingAction<CastingDashBase>
 
         IEnumerable<Entity> affected = Utilitys.VoidEnumerable<Entity>();
 
-        if (caster.TryGetInContainer(out moveEntity))
+        if (castingActionBase.Invulnerable)
+            //caster.container.vulnerabilities.Add(Damage.Create<DamageTypes.PureDamage>(0, 0, "NoDamage"));
+            caster.container.GetEntity().gameObject.layer = 14;
+
+
+
+        if (moveEntity != null)
         {
+            moveEntity.onIdle -= Move_onIdle;
             dashInTime.Reset();
             affected = null;
-            if(startDashCastingAction!=null)
+            if (startDashCastingAction != null)
             {
                 affected = startDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out showParticleInPos, out showParticleDamaged);
                 ability.PlaySound("StartCast");
             }
+
+            ability.PlayAction("Middle");
         }
 
         //ability.state = Ability.State.middle;
@@ -124,13 +163,13 @@ public class CastingDash : CastingAction<CastingDashBase>
     {
         if (castingActionBase.multiplyByArea)
         {
-            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash * FinalMaxRange);
+            moveEntity.Velocity(AimingXZ, castingActionBase.velocityInDash * FinalMaxRange);
 
             //Debug.Log("Velocity: " + FinalMaxRange);
         }
         else
         {
-            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash);
+            moveEntity.Velocity(AimingXZ, castingActionBase.velocityInDash);
         }
     }
 
@@ -140,14 +179,20 @@ public class CastingDash : CastingAction<CastingDashBase>
 
         moveEntity.Velocity(moveEntity.direction, moveEntity.objectiveVelocity);
 
-        if(endDashCastingAction!=null)
+        if (castingActionBase.Invulnerable)
+            //caster.container.vulnerabilities.Remove(Damage.Create<DamageTypes.PureDamage>(0, 0, "NoDamage"));
+            caster.container.GetEntity().gameObject.layer = 15;
+            
+
+        if (endDashCastingAction != null)
         {
             ability.ApplyCast(endDashCastingAction.InternalCastOfExternalCasting(ability.Detect(), out bool showParticleInPos, out bool showParticleDamaged), showParticleInPos, showParticleDamaged);
             ability.PlaySound("EndCast");
         }
-            
 
         End = true;
+
+        ability.PlayAction("End");
     }
 
     public override void Destroy()

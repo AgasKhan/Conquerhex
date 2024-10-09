@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Internal;
 using System.Linq;
+using System;
+using System.Reflection;
+using Random = UnityEngine.Random;
 
 public static class Extensions
 {
@@ -19,8 +22,54 @@ public static class Extensions
         return number.ToString("N"+num);
     }
 
-    #endregion
+    /// <summary>
+    /// number          ---->   relative<br/>
+    /// numberToCompare ---->   ?
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>Direct relation</returns>
+    public static float ThirdSimpleRule(this float number, float relative ,float numberToCompare)
+    {
+        return numberToCompare * number / relative;
+    }
 
+    /// <summary>
+    /// number          ---->   relative<br/>
+    /// numberToCompare ---->   ?
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>Inverse relation</returns>
+    public static float ThirdInverseSimpleRule(this float number, float relative, float numberToCompare)
+    {
+        return  number * relative/ numberToCompare;
+    }
+
+    /// <summary>
+    /// equivalent number to percentage
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>equivalent number to percentage</returns>
+    public static float Percentage(this float number, float percentageToApply)
+    {
+        return percentageToApply * number;
+    }
+
+    /// <summary>
+    /// Que porcentaje representa el numero dado
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="numberToCompare"></param>
+    /// <returns>equivalent number to percentage</returns>
+    public static float RelativePercentage(this float number, float numberToCompare)
+    {
+        return numberToCompare / number;
+    }
+
+
+    #endregion
 
     #region Vectors
     /// <summary>
@@ -378,6 +427,217 @@ public static class Extensions
 
     #endregion
 
+    #region LayerMask
+
+    const int MaxLayers = 32;
+
+    /// <summary>
+    /// Obtiene todas las layers que componen una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    public static IEnumerable<int> GetActiveLayers(this LayerMask layerMask)
+    {
+        for (int i = 0; i < MaxLayers; i++)
+        {
+            if ((layerMask.value & (1 << i)) != 0)
+            {
+                yield return i;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Aniade las layers a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, IEnumerable<int> layers)
+    {
+        foreach (var layer in layers)
+        {
+            layerMask |= layer.FromLayerNumber();
+        }
+    }
+
+
+    /// <summary>
+    /// Aniade una layer a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, params int[] layers)
+    {
+        layerMask.AddToMask((IEnumerable<int>)layers);
+    }
+
+
+    /// <summary>
+    /// Aniade las layer de una LayerMask a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, LayerMask layers)
+    {
+        layerMask.AddToMask(layers.GetActiveLayers());
+    }
+
+    /// <summary>
+    /// Aniade una layer a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, params string[] layerName)
+    {
+        layerMask.AddToMask((LayerMask)LayerMask.GetMask(layerName));
+    }
+
+    /// <summary>
+    /// Crea una LayerMask en base a un número de Layer
+    /// </summary>
+    /// <param name="layer"></param>
+    /// <returns>LayerMask que contiene únicamente la capa especificada</returns>
+    static public LayerMask FromLayerNumber(this int layer)
+    {
+        return (1 << layer);
+    }
+
+    /// <summary>
+    /// Convierte un valor entero directamente en una LayerMask
+    /// </summary>
+    /// <param name="maskValue"></param>
+    /// <returns>LayerMask basada en el valor entero</returns>
+    static public LayerMask FromMaskValue(this int maskValue)
+    {
+        return (LayerMask)maskValue;
+    }
+
+    /// <summary>
+    /// Crea una LayerMask en base al nombre de una capa
+    /// </summary>
+    /// <param name="layerName"></param>
+    /// <returns>LayerMask que contiene únicamente la capa especificada por su nombre</returns>
+    static public LayerMask FromLayerName(this string layerName)
+    {
+        int layer = LayerMask.NameToLayer(layerName);
+        if (layer == -1)
+        {
+            Debug.LogWarning($"Layer '{layerName}' no existe.");
+            return 0; // O un comportamiento definido como retornar una máscara vacía
+        }
+        return (1 << layer);
+    }
+
+
+    /// <summary>
+    /// Remueve varias layers de una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layers"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, IEnumerable<int> layers)
+    {
+        foreach (var layer in layers)
+        {
+            layerMask &= ~layer.FromLayerNumber();
+        }
+    }
+
+    /// <summary>
+    /// Remueve varias layers de una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layers"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, params int[] layers)
+    {
+        layerMask.RemoveToMask((IEnumerable<int>)layers);
+    }
+
+    /// <summary>
+    /// Remueve las layers de otra LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layers"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, LayerMask layers)
+    {
+        layerMask.RemoveToMask(layers.GetActiveLayers());
+    }
+
+    /// <summary>
+    /// Remueve varias layers de una LayerMask utilizando nombres
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layerNames"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, params string[] layerNames)
+    {
+        foreach (var layerName in layerNames)
+        {
+            layerMask.RemoveToMask(LayerMask.NameToLayer(layerName));
+        }
+    }
+
+    /// <summary>
+    /// Verifica si una LayerMask posee la siguiente layer
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    static public bool IsInMask(this ref LayerMask layerMask, int layer)
+    {
+        return (layerMask & (1 << layer)) != 0;
+    }
+
+    /// <summary>
+    /// Verifica si una LayerMask posee la siguiente layer
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    static public bool IsInMask(this ref LayerMask layerMask, string layerName)
+    {
+        return layerMask.IsInMask(LayerMask.NameToLayer(layerName));
+    }
+
+    /// <summary>
+    /// Invierte todas las layers en una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    static public void InvertMask(this ref LayerMask layerMask)
+    {
+        layerMask = ~layerMask;
+    }
+
+    /// <summary>
+    /// Verifica si una LayerMask no tiene capas activas
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    static public bool IsEmpty(this LayerMask layerMask)
+    {
+        return layerMask == 0;
+    }
+
+    /// <summary>
+    /// Cuenta cuántas capas están activas en una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    static public int CountActiveLayers(this LayerMask layerMask)
+    {
+        int count = 0;
+        for (int i = 0; i < 32; i++)
+        {
+            if ((layerMask.value & (1 << i)) != 0)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    #endregion
+
 
     #region eventos botones
 
@@ -452,23 +712,45 @@ public static class Extensions
     #endregion
 
 
-    static public T AddUniqueExecution<T>(this T evento, T toAdd) where T : System.Delegate
+
+
+    public static T AddWithAutoUnsubscribe<T>(this T evento, T toAdd) where T : Delegate
     {
-        System.Action action = null;
-        //System.Func<System.Action> func = () => action;
+        // Guardamos el delegado original
+        var original = evento;
 
-        evento = (T)System.Delegate.Combine(evento, toAdd);
+        // Definimos un Delegate que actuará como wrapper
+        Delegate wrapper = null;
 
-        action = ()=>
+        // Definimos el comportamiento del wrapper
+        wrapper = new Action<object[]>((args) =>
         {
-            evento = (T)System.Delegate.RemoveAll(evento, toAdd);
-            evento = (T)System.Delegate.RemoveAll(evento, action);
-        };
+            // Ejecutamos el delegado original con los parámetros necesarios
+            toAdd.DynamicInvoke(args);
 
-        evento = (T)System.Delegate.Combine(evento, action);
+            evento = (T)Delegate.Remove(evento, wrapper);
+        });
+
+        // Combinamos el evento con el wrapper que se desuscribe automáticamente
+        evento = (T)Delegate.Combine(evento, CreateDelegateWrapper(wrapper, toAdd));
 
         return evento;
     }
+
+    private static Delegate CreateDelegateWrapper(Delegate wrapper, Delegate toAdd)
+    {
+        // Obtenemos los tipos de parámetros del delegado original (toAdd)
+        var parameterTypes = toAdd.Method.GetParameters().Select(p => p.ParameterType).ToArray();
+
+        // Creamos un nuevo tipo de delegado basado en los tipos de los parámetros
+        var delegateType = typeof(Action<>).MakeGenericType(parameterTypes);
+
+        // Retornamos el wrapper convertido en un delegado del tipo correcto
+        return Delegate.CreateDelegate(delegateType, wrapper.Target, wrapper.Method);
+    }
+
+
+
 
     /// <summary>
     /// Añade o inserta en una lista dependiendo de la posicion deseada
@@ -607,6 +889,16 @@ public static class Extensions
         return dic;
     }
 
+    static public void HideInUIE(this UnityEngine.UIElements.VisualElement _visualElement)
+    {
+        if(!_visualElement.ClassListContains("displayHidden"))
+            _visualElement.AddToClassList("displayHidden");
+    }
+    static public void ShowInUIE(this UnityEngine.UIElements.VisualElement _visualElement)
+    {
+        _visualElement.RemoveFromClassList("displayHidden");
+    }
+
     static public void CreateOrSave<K, V>(this Dictionary<K, V> pictionary, K key, V value)
     {
         if (pictionary.ContainsKey(key))
@@ -718,6 +1010,8 @@ public static class Extensions
     {
         return team != toCheck && toCheck != Team.noTeam;
     }
+
+   
 
     static public bool IsGenericChildOf<T>(this object obj)
     {

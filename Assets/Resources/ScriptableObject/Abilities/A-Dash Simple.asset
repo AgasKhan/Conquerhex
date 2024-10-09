@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A-Dash Simple
   m_EditorClassIdentifier: 
   _nameDisplay: Dash Simple
-  _image: {fileID: 592779036, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 21300000, guid: 93ba5454591a4bd4dbb211f2c7039f59, type: 3}
   _details: "El jugador embiste hacia adelante con un dash.\r"
   maxAmount: 1
   weight: 0
@@ -30,13 +30,13 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 0
-  waitAnimations: 0
   animationCastStart: {fileID: 1827226128182048838, guid: 647e2970723402e4da8e2d3065574bff,
     type: 3}
   animationCastMiddle: {fileID: 9067093048684652814, guid: 647e2970723402e4da8e2d3065574bff,
     type: 3}
   animationCastExit: {fileID: -8481709605947105597, guid: 647e2970723402e4da8e2d3065574bff,
     type: 3}
+  animations: {fileID: 11400000, guid: f751f22937b3ea64185b688122e44c52, type: 2}
   inPlaceAffected:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0

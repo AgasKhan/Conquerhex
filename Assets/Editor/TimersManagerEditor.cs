@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-
-[CustomEditor(typeof(TimersManager))]
-public class TimersManagerEditor : Editor
+namespace CustomEulerEditor
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(TimersManager))]
+    public class TimersManagerEditor : Editor
     {
-        GUIStyle style = new GUIStyle(GUI.skin.label);
+        public override void OnInspectorGUI()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
 
-        style.richText = true;
+            style.richText = true;
 
-        //TimersManager timersManager = target as TimersManager;
+            //TimersManager timersManager = target as TimersManager;
 
-        //GUILayout.Label(("Cantidad de timers creados: " + TimersManager.CountCreated).RichText("size", "15"), style);
+            GUILayout.Label(("Cantidad de timers creados: " + Timer.countCreated).RichText("size", "15"), style);
 
-        GUILayout.Label(("Cantidad de timers en la lista: " + TimersManager.timersList.Count).RichText("size", "15"), style);
+            GUILayout.Label(("Cantidad de timers en la lista: " + TimersManager.timersList.Count).RichText("size", "15"), style);
 
-        base.OnInspectorGUI();
+            base.OnInspectorGUI();
+        }
     }
 }

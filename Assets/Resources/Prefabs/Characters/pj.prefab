@@ -137,6 +137,130 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &2517678355811924504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5645080360263921819}
+  - component: {fileID: 7277665740410538963}
+  - component: {fileID: 6288695418638702897}
+  m_Layer: 0
+  m_Name: vfx_RightweaponDespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5645080360263921819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517678355811924504}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 10, y: 1, z: -4}
+  m_LocalScale: {x: 100.00002, y: 100.000015, z: 100.000015}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2973094534947700787}
+  m_LocalEulerAnglesHint: {x: -180, y: -90, z: 0}
+--- !u!2083052967 &7277665740410538963
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517678355811924504}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 18a306e60d5c3f24fbd88f69d51b7990, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array:
+      - m_Value: 0
+        m_Name: Turbulance
+        m_Overridden: 1
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array:
+      - m_Value: 4096
+        m_Name: CountPCache
+        m_Overridden: 1
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array:
+      - m_Value: {fileID: 6918954641851045129, guid: 423f266779193474cab10e75c8b4e797,
+          type: 3}
+        m_Name: PositionPCache
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: 276d9e395ae18fe40a9b4988549f2349, type: 3}
+        m_Name: NormalPCache
+        m_Overridden: 1
+    m_Bool:
+      m_Array: []
+--- !u!73398921 &6288695418638702897
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517678355811924504}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &3921375387638892839
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,8 +334,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 992c7cde39dfdf04fb7074c718132c39, type: 3}
-  m_Color: {r: 0.6039216, g: 0.50980395, b: 0.45882353, a: 1}
+  m_Sprite: {fileID: 21300000, guid: deaac98f5ae9f484ba4bb42ab576e3fd, type: 3}
+  m_Color: {r: 0.6039216, g: 0.50980395, b: 0.45882353, a: 0.4509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -423,6 +547,7 @@ MonoBehaviour:
   <caster>k__BackingField: {fileID: 0}
   <move>k__BackingField: {fileID: 0}
   <aiming>k__BackingField: {fileID: 0}
+  <nextTimeCombo>k__BackingField: 0.15
   <actualCombo>k__BackingField: -2
   nextCombo: -1
   deltaTimeCombo: 0.3
@@ -449,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9517393590901448fc73e5eb702aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemBase: {fileID: 0}
+  itemBase: {fileID: 11400000, guid: 1bd1f7734d5440242bff7b86fe2af13d, type: 2}
   count: 1
   _currentWeight: 0
   flyweight: {fileID: 0}
@@ -468,6 +593,7 @@ MonoBehaviour:
   weapons:
     list:
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -475,6 +601,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -482,6 +609,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -489,6 +617,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -496,6 +625,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -506,6 +636,7 @@ MonoBehaviour:
   katas:
     list:
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -513,6 +644,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -520,6 +652,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -527,6 +660,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -537,6 +671,7 @@ MonoBehaviour:
   abilities:
     list:
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -544,6 +679,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -551,6 +687,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -558,6 +695,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -565,6 +703,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -572,6 +711,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -582,6 +722,7 @@ MonoBehaviour:
   combos:
     list:
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -589,6 +730,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -596,6 +738,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -603,6 +746,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -610,6 +754,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -617,6 +762,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -624,6 +770,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -631,6 +778,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -638,6 +786,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -645,6 +794,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -652,6 +802,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -659,6 +810,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -666,6 +818,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -673,6 +826,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -680,6 +834,7 @@ MonoBehaviour:
       defaultItem:
         rid: -2
     - isModifiable: 1
+      isBlocked: 0
       _indexEquipedItem: -1
       <indexSlot>k__BackingField: -1
       _equiped:
@@ -689,6 +844,8 @@ MonoBehaviour:
     <indexer>k__BackingField: 0
   _buffEnergy: 0
   _energy: 0
+  activeHasCoolDown: 1
+  activeHasEnergyConsuption: 1
   <flyweight>k__BackingField: {fileID: 0}
   references:
     version: 2
@@ -773,11 +930,6 @@ MonoBehaviour:
         canChange: 1
         clip: {fileID: 1827226128182048838, guid: 903bc506c11933f4899d4133c016d581,
           type: 3}
-    - key: anim_meleeATK
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
-          type: 3}
     - key: anim_Running
       value:
         canChange: 1
@@ -788,49 +940,37 @@ MonoBehaviour:
         canChange: 1
         clip: {fileID: 1827226128182048838, guid: fb9605c09f9f237458de822e6f652765,
           type: 3}
+    - key: anim_meleeATK
+      value:
+        canChange: 1
+        clip: {fileID: 1827226128182048838, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
+          type: 3}
     - key: anim_meleeATK_2
       value:
         canChange: 1
         clip: {fileID: 1827226128182048838, guid: 79bd63c2c5e56504c9147bfe0a879fe5,
-          type: 3}
-    - key: anim_dash_start
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 2ce829b1d4d99554abef5282049e9437,
           type: 3}
     - key: anim_dash_middle
       value:
         canChange: 1
         clip: {fileID: 1827226128182048838, guid: 43d6634ac08e2ac4e80613d1e3fe4934,
           type: 3}
-    - key: anim_dash_end
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: 7425ca468f6ae634d84f9c2871155ef6,
-          type: 3}
-    - key: anim_dash2_start
-      value:
-        canChange: 1
-        clip: {fileID: 1827226128182048838, guid: b495ed40dc940ab419138d3dff3e8d36,
-          type: 3}
     - key: anim_dash2_middle
       value:
         canChange: 1
         clip: {fileID: 1827226128182048838, guid: 14486a6fa79234b49acfb7194d40fd14,
           type: 3}
-    - key: anim_dash2_end
+    - key: anim_hurt
       value:
         canChange: 1
-        clip: {fileID: 1827226128182048838, guid: c62e70d8a15d3d14d88163ef834fa5ce,
+        clip: {fileID: 1827226128182048838, guid: dabc26bb62dd2f64cbb5ee888765da32,
           type: 3}
-  action1Name: anim_meleeATK
-  action2Name: anim_meleeATK_2
-  actionLoop1NameStart: anim_dash_start
-  actionLoop1NameMiddle: anim_dash_middle
-  actionLoop1NameEnd: anim_dash_end
-  actionLoop2NameStart: anim_dash2_start
-  actionLoop2NameMiddle: anim_dash2_middle
-  actionLoop2NameEnd: anim_dash2_end
+  actionsName:
+  - anim_meleeATK
+  - anim_meleeATK_2
+  - anim_dash2_middle
+  - anim_dash_middle
+  animatorClipTest: {fileID: 0}
 --- !u!114 &5496700682184725288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -843,7 +983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bec8b38ff5d773478172f691199300b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   animator: {fileID: 3132127553594760305}
   attackNameAnim: Attack
   moveNameAnim: Move
@@ -895,7 +1035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c9cdf4c5d3e774a96b57a6645cb96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - Item: {fileID: 11400000, guid: 4c699e70baac756449c7cf87492bd64c, type: 2}
+    Amount: 1
 --- !u!54 &4660629127224764075
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -963,6 +1105,8 @@ MonoBehaviour:
     rotationPerspective: {x: 0.34202012, y: 0, z: 0, w: 0.9396926}
     vectorPerspective: {x: 0, y: 0, z: -14}
     fov: 30
+    areaFeedBack: 1
+    entitiesOverlay: 1
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0
@@ -974,6 +1118,8 @@ MonoBehaviour:
     rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0.5, y: 0, z: -3.5}
     fov: 30
+    areaFeedBack: 0
+    entitiesOverlay: 0
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0
@@ -985,6 +1131,8 @@ MonoBehaviour:
     rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0, y: 0, z: 0}
     fov: 30
+    areaFeedBack: 0
+    entitiesOverlay: 0
     <maxRadius>k__BackingField: 0
     <minRadius>k__BackingField: 0
     <inverse>k__BackingField: 0
@@ -1015,7 +1163,14 @@ MonoBehaviour:
         offset: {x: 0.1, y: 0.01, z: -0.04}
         forwardRotation: {x: 0, y: 90, z: -180}
         transform: {fileID: 2973094534947700787}
+    - key: LeftAttack
+      value:
+        offset: {x: -0.11, y: 0.01, z: 0.03}
+        forwardRotation: {x: 180, y: 90, z: 180}
+        transform: {fileID: 68864729583777360}
   showInModel: 1
+  rightVisualEffect: {fileID: 7277665740410538963}
+  leftVisualEffect: {fileID: 4451590864864209326}
 --- !u!1 &6295448972246985919
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,6 +1253,130 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &9068440830054782245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2716279507382763424}
+  - component: {fileID: 4451590864864209326}
+  - component: {fileID: 7913572170899161107}
+  m_Layer: 0
+  m_Name: vfx_LEftweaponDespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2716279507382763424
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9068440830054782245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -8.8, y: -1, z: 2}
+  m_LocalScale: {x: 100.000015, y: 100.000015, z: 100.00007}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 68864729583777360}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!2083052967 &4451590864864209326
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9068440830054782245}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 18a306e60d5c3f24fbd88f69d51b7990, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array:
+      - m_Value: 0
+        m_Name: Turbulance
+        m_Overridden: 1
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array:
+      - m_Value: 4096
+        m_Name: CountPCache
+        m_Overridden: 1
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array:
+      - m_Value: {fileID: 6918954641851045129, guid: 423f266779193474cab10e75c8b4e797,
+          type: 3}
+        m_Name: PositionPCache
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: 276d9e395ae18fe40a9b4988549f2349, type: 3}
+        m_Name: NormalPCache
+        m_Overridden: 1
+    m_Bool:
+      m_Array: []
+--- !u!73398921 &7913572170899161107
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9068440830054782245}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1001 &134620220844628862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3190,6 +3469,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5510301631189261265}
+    - targetCorrespondingSourceObject: {fileID: -4902510762247324331, guid: 392e672692341e34e8b851476407d990,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2716279507382763424}
+    - targetCorrespondingSourceObject: {fileID: 1315312563766266678, guid: 392e672692341e34e8b851476407d990,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5645080360263921819}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 392e672692341e34e8b851476407d990,
         type: 3}
@@ -3200,6 +3487,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2774565211130453462}
   m_SourcePrefab: {fileID: 100100000, guid: 392e672692341e34e8b851476407d990, type: 3}
+--- !u!4 &68864729583777360 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4902510762247324331, guid: 392e672692341e34e8b851476407d990,
+    type: 3}
+  m_PrefabInstance: {fileID: 4252067053362678533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &171111587887864395 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5089760950902238898, guid: 392e672692341e34e8b851476407d990,
@@ -3440,7 +3733,7 @@ PrefabInstance:
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.051
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515497041664126326, guid: 135a5d7445645394c8a553fdb6e815a0,
         type: 3}

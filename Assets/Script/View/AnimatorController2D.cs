@@ -29,11 +29,12 @@ public class AnimatorController2D : ComponentOfContainer<Entity>
     {
         animator.SetBool(moveNameAnim, false);
     }
-
+    /*
     private void Ia_onAttack(Ability ability)
     {
         animator.SetTrigger(attackNameAnim);
     }
+    */
     private void Ia_onDeath()
     {
         animator.SetTrigger(deathNameAnim);
@@ -47,7 +48,7 @@ public class AnimatorController2D : ComponentOfContainer<Entity>
             return;
         }
 
-        container.GetInContainer<CasterEntityComponent>().onPreCast += Ia_onAttack;
+      //  container.GetInContainer<CasterEntityComponent>().onAnimation += Ia_onAttack;
 
         container.GetInContainer<MoveEntityComponent>().onIdle += Ia_onIdle;
 

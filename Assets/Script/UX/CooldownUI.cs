@@ -41,6 +41,8 @@ namespace UI
 
         Ability ability;
 
+        CasterEntityComponent caster;
+
         bool noDisponibility;
 
         /// <summary>
@@ -50,6 +52,21 @@ namespace UI
         public void FillAmount(IGetPercentage getPercentage,float number)
         {
             imageFill.fillAmount = getPercentage.Percentage();                
+        }
+        private void Caster_onExitCasting(Ability obj)
+        {
+            if (ability == null || ability != obj)
+                return;
+
+            AbilityOnExit();
+        }
+
+        private void Caster_onEnterCasting(Ability obj)
+        {
+            if (ability == null || ability != obj)
+                return;
+
+            AbilityOnEnter();
         }
 
         private void AbilityOnExit()
@@ -97,10 +114,10 @@ namespace UI
 
         private void AbilityDisponibility((float percentage, float diference, float energy) obj)
         {
-            if (!timDisponibility.Chck)
+            if (!timDisponibility.Chck || caster==null)
                 return;
 
-            if(ability.caster.EnergyComprobation(ability.CostExecution, out float energyBuff, out float percentage))
+            if(caster.EnergyComprobation(ability.CostExecution, out float energyBuff, out float percentage))
             {
                 complexColor.Remove(inComplete);
                 if(noDisponibility)
@@ -125,23 +142,23 @@ namespace UI
         {
             if (ability != null)
             {
-                ability.onExit -= AbilityOnExit;
-                ability.onEnter -= AbilityOnEnter;
+                //ability.onExit -= AbilityOnExit;
+                //ability.onEnter -= AbilityOnEnter;
                 timer.onChange -= FillAmount;
-                ability.caster.energyUpdate -= AbilityDisponibility;
+                caster.energyUpdate -= AbilityDisponibility;
                 imageFrame.SetActiveGameObject(false);
             }
 
             if (param != null)
             {
                 ability = param;
-                ability.onEnter += AbilityOnEnter;
-                ability.onExit += AbilityOnExit;
+                //ability.onEnter += AbilityOnEnter;
+                //ability.onExit += AbilityOnExit;
 
                 timer = param.cooldown;
                 timer.onChange += FillAmount;
 
-                ability.caster.energyUpdate += AbilityDisponibility;
+                caster.energyUpdate += AbilityDisponibility;
 
                 imageFrame = param.CostExecution > 0 ? imageFrameRed : (param.CostExecution < 0 ? imageFrameBlue : imageFrameWhite);
 
@@ -156,6 +173,18 @@ namespace UI
             gameObject.SetActive(item != null || param != null);
         }
 
+        public void SetCaster(Character character)
+        {
+            if(caster!=null)
+            {
+                caster.onEnterCasting -= Caster_onEnterCasting;
+                caster.onExitCasting -= Caster_onExitCasting;
+            }
+
+            caster = character.caster;
+            caster.onEnterCasting += Caster_onEnterCasting;
+            caster.onExitCasting += Caster_onExitCasting;
+        }       
 
         private void Awake()
         {

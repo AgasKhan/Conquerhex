@@ -42,6 +42,8 @@ public class EventControllerMediator : IEventController, IControllerDir
     public event Action<Vector2, float> eventPress;
     public event Action<Vector2, float> eventUp;
 
+    public Vector2 dir { get; private set; }
+
     public Func<Quaternion> quaternionOffset
     {
         set
@@ -77,19 +79,29 @@ public class EventControllerMediator : IEventController, IControllerDir
     public void ControllerDown(Vector2 dir, float tim)
     {
         if(Enabled)
-            eventDown?.Invoke(_quaternion() * dir, tim);
+        {
+            this.dir =  dir;
+            eventDown?.Invoke(_quaternion() * this.dir, tim);
+        }
+            
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
         if (Enabled)
-            eventPress?.Invoke(_quaternion() * dir, tim);
+        {
+            this.dir =  dir;
+            eventPress?.Invoke(_quaternion() * this.dir, tim);
+        }
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
         if (Enabled)
-            eventUp?.Invoke(_quaternion() * dir, tim);
+        {
+            this.dir =dir;
+            eventUp?.Invoke(_quaternion() * this.dir, tim);
+        }
     }
 
 

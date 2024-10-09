@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: W-MultiHit No Area
   m_EditorClassIdentifier: 
   _nameDisplay: Golpe Continuo
-  _image: {fileID: 1326865692, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _image: {fileID: 21300000, guid: 93f34280e29128b418a1f366a10c3058, type: 3}
   _details: El jugador golpea de manera contina a  enemigos en un radio alrededor
     suyo mientras se mantenga presionada la habilidad.
   maxAmount: 1
@@ -25,11 +25,11 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 0
   ShowFeedAffectedEntities: 0
-  waitAnimations: 1
   animationCastStart: {fileID: -998496362607748373, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
     type: 3}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
+  animations: {fileID: 11400000, guid: be22f0db325c5554faa30c61f610b757, type: 2}
   inPlaceAffected:
     prefabToSpawn: {fileID: 2317820600058745072, guid: ab836b1ae8c75bd40a0ab561b48e08f1,
       type: 3}

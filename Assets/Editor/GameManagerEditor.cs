@@ -4,56 +4,59 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(GameManager))]
-public class GameManagerEditor : Editor
+namespace CustomEulerEditor
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(GameManager))]
+    public class GameManagerEditor : Editor
     {
-        //en target siempre tenemos lo que queremos analizar en caso de editores
-        GameManager gameManager = target as GameManager;
-
-        string state = gameManager.ActualStringState();
-
-        string tiempo = Time.timeScale.ToString("0.00");
-
-        GUIStyle style = new GUIStyle(GUI.skin.label);
-
-        style.richText = true;
-
-        if (Time.timeScale < 1)
-            tiempo = tiempo.RichTextColor(Color.red);
-        else if (Time.timeScale == 1)
-            tiempo = tiempo.RichTextColor(Color.green);
-        else
-            tiempo = tiempo.RichTextColor(Color.blue);
-
-        switch (state)
+        public override void OnInspectorGUI()
         {
-            case "Load":
-                state = state.RichTextColor(Color.yellow);
-                break;
+            //en target siempre tenemos lo que queremos analizar en caso de editores
+            GameManager gameManager = target as GameManager;
 
-            case "Gameplay":
-                state = state.RichTextColor(Color.green);
-                break;
+            string state = gameManager.ActualStringState();
 
-            case "Pause":
-                state = state.RichTextColor(Color.grey);
-                break;
+            string tiempo = Time.timeScale.ToString("0.00");
 
-            default:
-                state = state.RichTextColor(Color.red);
-                break;
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+
+            style.richText = true;
+
+            if (Time.timeScale < 1)
+                tiempo = tiempo.RichTextColor(Color.red);
+            else if (Time.timeScale == 1)
+                tiempo = tiempo.RichTextColor(Color.green);
+            else
+                tiempo = tiempo.RichTextColor(Color.blue);
+
+            switch (state)
+            {
+                case "Load":
+                    state = state.RichTextColor(Color.yellow);
+                    break;
+
+                case "Gameplay":
+                    state = state.RichTextColor(Color.green);
+                    break;
+
+                case "Pause":
+                    state = state.RichTextColor(Color.grey);
+                    break;
+
+                default:
+                    state = state.RichTextColor(Color.red);
+                    break;
+            }
+
+            GUILayout.Label(("Estado del juego: " + state).RichText("size", "20"), style);
+
+            GUILayout.Space(10);
+
+            GUILayout.Label(("Escala de tiempo: " + tiempo).RichText("size", "20"), style);
+
+            GUILayout.Space(20);
+
+            base.OnInspectorGUI();
         }
-
-        GUILayout.Label(("Estado del juego: " + state).RichText("size", "20"), style);
-
-        GUILayout.Space(10);
-
-        GUILayout.Label(("Escala de tiempo: " + tiempo).RichText("size", "20"), style);
-
-        GUILayout.Space(20);
-
-        base.OnInspectorGUI();
     }
 }

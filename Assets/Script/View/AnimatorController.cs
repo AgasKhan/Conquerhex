@@ -6,57 +6,102 @@ using ComponentsAndContainers;
 public partial class AnimatorController : ComponentOfContainer<Entity>
 {
     [System.Serializable]
-    public class AnimationData
+    public class Data
     {
         public bool canChange = true;
         public AnimationClip clip;
     }
 
-    public Dictionary<string, System.Action> animationEventMediator = new Dictionary<string, System.Action>();
+    [System.Serializable]
+    public enum DefaultActions
+    {
+        NoDefault = -1,
+        Cast = 0,
+        Attack=0,
+        SpecialCast1=1,
+        SpecialAttack1=1,
+        SpecialCast2 = 3,
+        SpecialAttack2 = 3,
+        SpecialCast3 = 2,
+        SpecialAttack3 = 2,
+    }
+
+    public event System.Action<AnimatorStateInfo> onEnterAnim;
+    public event System.Action<AnimatorStateInfo> onExitAnim;
+
+    public bool isPlaying { get; private set; }
+
+    public Transform transformModel => controller?.transform;
 
     [SerializeField]
     bool active = true;
 
     [SerializeField]
-    public Animator controller;
+    Animator controller;
 
     [SerializeField]
-    Pictionarys<string, AnimationData> animations = new Pictionarys<string, AnimationData>();
+    Pictionarys<string, Data> animations = new Pictionarys<string, Data>();
 
     [SerializeField]
-    string action1Name, 
-        action2Name, 
-
-        actionLoop1NameStart, 
-        actionLoop1NameMiddle, 
-        actionLoop1NameEnd, 
-
-        actionLoop2NameStart, 
-        actionLoop2NameMiddle, 
-        actionLoop2NameEnd;
+    string[] actionsName;
 
     AnimatorOverrideController animatorOverrideController;
 
-    bool action = true;
+    List<AnimActionBehaviour> actionBehaviours = new();
 
-    bool loopAction = true;
 
-    string strAction => action ? "Action1" : "Action2";
-
-    string strLoopAction => loopAction ? "ActionLoop1" : "ActionLoop2";
 
     MoveEntityComponent move;
 
-    Vector3 forward;
+    Vector3 forwardObj = Vector3.forward;
+
+    Timer timerEndAnimationTransition;
+
+    bool loopAction = false;
+
+    const int maxActions = 4;
+
+    int index => ++_index > maxActions-1 ? _index = 0 : _index;
+
+    int _index = 0;
+
+    System.Action endAnimation;
+
+    string strAction => "Action" + (_index+1);
+
+    #region Test
+
+    [SerializeField]
+    AnimationClip animatorClipTest;
+
+    [ContextMenu("Test")]
+    void Test()
+    {
+        ChangeActionAnimation(animatorClipTest);
+    }
+
+    [ContextMenu("TestLoop")]
+    void TestLoop()
+    {
+        ChangeActionAnimation(animatorClipTest, true);
+    }
+
+    [ContextMenu("TestDefaultCast")]
+    void TestDefaultCast()
+    {
+        ChangeActionAnimation(animatorClipTest, DefaultActions.Cast);
+    }
+
+    #endregion
+
+    public void SetScaleController(AnimatorUpdateMode _mode = AnimatorUpdateMode.Normal)
+    {
+        controller.updateMode = _mode;
+    }
 
     private void Ia_onMove(Vector3 obj)
     {
         controller.SetBool("Move", true);
-
-        if (obj != Vector3.zero )
-            forward = Vector3.Slerp(forward, obj, Time.fixedDeltaTime*10);
-
-        enabled = true;
     }
 
     private void Ia_onIdle()
@@ -64,113 +109,96 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         controller.SetBool("Move", false);
     }
 
-    private void Ia_onAiming(Vector3 obj)
+    private void OnCasterAnimation(AnimationInfo.Data obj)
     {
-        if (obj != Vector3.zero)
-            forward =  obj;
-        else
-            return;
-
-        forward.y = 0;
-
-        enabled = true;
-    }
-
-    private void Ia_PreCast(Ability ability)
-    {
-        switch (ability.state)
-        {
-            case Ability.State.middle:
-
-                break;
-
-            case Ability.State.start:
-
-                controller.SetBool(strLoopAction, false);
-
-                if (ability.animationCastMiddle == null && ability.animationCastExit == null)
-                {
-                    ChangeActionAnimation(ability.animationCastStart);
-
-                    if(ability.WaitAnimations)
-                        animationEventMediator["Cast"] = ()=> ability.Cast();
-                    else
-                        animationEventMediator["Cast"] = null;
-
-                    controller.SetTrigger(strAction);
-
-                }
-                else
-                {
-                    ChangeLoopActionAnimation(ability.animationCastStart, ability.animationCastMiddle, ability.animationCastExit);
-                    controller.SetBool(strLoopAction, true);
-                }
-                break;
-
-            case Ability.State.end:
-
-                if (ability.animationCastMiddle == null && ability.animationCastExit == null)
-                {
-
-                }
-                else
-                {
-                    controller.SetBool(strLoopAction, false);
-                }
-                break;
-        }
+        ChangeActionAnimation(obj);
     }
 
     private void Ia_onDeath()
     {
          controller.SetTrigger("Death");
     }
-
-    void ChangeLoopActionAnimation(AnimationClip newClipStart, AnimationClip newClipMiddle, AnimationClip newClipEnd)
+    
+    public void CancelAllAnimations()
     {
-        if (loopAction)
+        for (int i = 0; i < maxActions; i++)
         {
-            ChangeAnimation(actionLoop2NameStart, newClipStart);
-            ChangeAnimation(actionLoop2NameMiddle, newClipMiddle);
-            ChangeAnimation(actionLoop2NameEnd, newClipEnd);
-        }
-        else
-        {
-            ChangeAnimation(actionLoop1NameStart, newClipStart);
-            ChangeAnimation(actionLoop1NameMiddle, newClipMiddle);
-            ChangeAnimation(actionLoop1NameEnd, newClipEnd);
+            controller.ResetTrigger($"Action{(i + 1)}");
         }
 
-        loopAction = !loopAction;
+        controller.SetBool("Wait", false);
     }
 
-    void ChangeActionAnimation(AnimationClip newClip)
+    public void ChangeActionAnimation(AnimationInfo.Data data)
     {
-        if (action)
-        {
-            ChangeAnimation(action2Name, newClip);
+        controller.SetBool("Mirror", data.mirror);
+        controller.SetFloat("ActionMultiply", data.velocity);
+        ChangeActionAnimation(data.animationClip, data.defaultAction, data.inLoop);
 
-        }
-        else
-        {
-            ChangeAnimation(action1Name, newClip);
-        }
+        endAnimation = null;
 
-        action = !action;
+        if (data.nextAnimation != null)
+        {
+            endAnimation = ()=> ChangeActionAnimation(data.nextAnimation);
+        }
     }
 
-    void ChangeAnimation(string name, AnimationClip newClip)
+    public void ChangeActionAnimation(AnimationClip newClip, bool inLoop)
     {
-        animations.ContainsKey(name, out int index);
+        ChangeActionAnimation(newClip, null, inLoop);
+    }
 
-        var pic = animations.GetPic(index);
+    public void ChangeActionAnimation(AnimationClip newClip, DefaultActions action, bool inLoop = false)
+    {
+        string name = null;
 
-        if (!pic.value.canChange)
-            return;
+        int index = (int)action;
 
-        animatorOverrideController[pic.key] = newClip;
 
-        pic.value.clip = newClip;
+        if (index != -1)
+            name = actionsName[index];            
+
+
+        ChangeActionAnimation(newClip, name, inLoop);
+    }
+
+    public void ChangeActionAnimation(AnimationClip newClip, string name = null, bool inLoop = false)
+    {
+        int i = index;
+
+        loopAction = inLoop;
+
+        //
+        //ChangeAnimation(actionsName[i],newClip);
+        timerEndAnimationTransition.Stop();
+
+        if(name!=null && animations.ContainsKey(name, out int indexPic))
+        {
+            var pic = animations.GetPic(indexPic);
+
+            if (!pic.value.canChange)
+            {
+                newClip = pic.value.clip;
+            }
+        }
+
+        if(animations.ContainsKey(actionsName[i], out indexPic))
+        {
+            var pic = animations.GetPic(indexPic);
+
+            animatorOverrideController[pic.key] = newClip;
+
+            controller.SetBool("Wait", false);
+
+            controller.SetTrigger(strAction);
+        }
+    }
+
+    public void AddActionBehaviours(AnimActionBehaviour actionBehaviour)
+    {
+        actionBehaviours.Add(actionBehaviour);
+        actionBehaviour.onEnter += OnAnimStartAction;
+        actionBehaviour.onExit += OnAnimExitAction;
     }
 
     void SuperAnimator()
@@ -184,7 +212,42 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
             animatorOverrideController[animations.GetPic(index).key] = animations.GetPic(index).value.clip;
         }
+
+        /*
+        actionBehaviours = controller.GetBehaviours<AnimActionBehaviour>();
+
+        foreach (var item in actionBehaviours)
+        {
+            item.onEnter += OnAnimStartAction;
+            item.onExit += OnAnimExitAction;
+        }
+        */
     }
+
+    private void OnAnimExitAction(AnimatorStateInfo obj)
+    {
+        isPlaying = false;
+        onExitAnim?.Invoke(obj);
+    }
+
+    private void OnAnimStartAction(AnimatorStateInfo obj)
+    {
+        isPlaying = true;
+
+        if (!loopAction)
+            timerEndAnimationTransition.Set(obj.length);
+
+        onEnterAnim?.Invoke(obj);
+    }
+
+    private void TimerEndAnimation()
+    {
+        Debug.Log("Fin timer");
+        controller.SetBool("Wait", false);
+        endAnimation?.Invoke();
+    }
+
+    #if UNITY_EDITOR
 
     private void OnValidate()
     {
@@ -194,14 +257,56 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             {
                 if (!animations.ContainsKey(clip.name, out int index))
                 {
-                    animations.Add(clip.name, new AnimationData() { clip = clip, canChange = true });
+                    animations.Add(clip.name, new Data() { clip = clip, canChange = true });
                     //index = animations.Count - 1;
                 }
             }
         }
     }
 
-    public override void OnEnterState(Entity param)
+    #endif
+
+   
+
+    private void CharacterOnModelView(Vector3 obj)
+    {
+        obj.y = 0;
+        forwardObj = obj;
+        enabled = true;
+    }
+
+    private void CharacterOnTakeDamage(Damage obj)
+    {
+        controller.SetTrigger("Hurt");
+    }
+
+    private void OnExitCasting(Ability obj)
+    {
+        CancelAllAnimations();
+    }
+
+    private void MoveStateCharacter_OnActionEnter()
+    {
+        //move.onIdle += Ia_onIdle;
+        move.onMove += Ia_onMove;
+    }
+
+    private void MoveStateCharacter_OnActionExit()
+    {
+        //move.onIdle -= Ia_onIdle;
+        move.onMove -= Ia_onMove;
+        //Ia_onIdle();
+    }
+
+
+    private void Update()
+    {
+        controller.transform.forward = Vector3.Slerp(controller.transform.forward, forwardObj, Time.deltaTime * 10);
+        if ((controller.transform.forward - forwardObj).sqrMagnitude < 0.01f)
+            enabled = false;
+    }
+
+    public override void OnEnterState(Entity entity)
     {
         if (controller == null || !active)
         {
@@ -211,68 +316,77 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
         SuperAnimator();
 
+        timerEndAnimationTransition = TimersManager.Create(1, TimerEndAnimation).Stop();
+
+        /////////
+        ///Se quitara en proximas updates
         var eventMediator = controller.gameObject.GetComponent<AnimationEventMediator>();
 
-        if(eventMediator == null)
+        if (eventMediator == null)
             eventMediator = controller.gameObject.AddComponent<AnimationEventMediator>();
 
         eventMediator.reference = this;
+        /////////
 
-        if(container.TryGetInContainer<CasterEntityComponent>(out var caster))
+        if (entity.TryGetInContainer<CasterEntityComponent>(out var caster))
         {
-            caster.onPreCast += Ia_PreCast;
+            caster.onAnimation += OnCasterAnimation;
+            caster.onExitCasting += OnExitCasting;
         }
 
-        if (container.TryGetInContainer<AimingEntityComponent>(out var aiming))
-        {
-            aiming.onAimingXZ += Ia_onAiming;
-        }
-
-        if(container is Character character)
+        if (entity is Character character)
         {
             character.moveStateCharacter.OnActionEnter += MoveStateCharacter_OnActionEnter;
             character.moveStateCharacter.OnActionExit += MoveStateCharacter_OnActionExit;
+
+            character.onModelView += CharacterOnModelView;
+
+            character.onTakeDamage += CharacterOnTakeDamage;
+
             move = character.move;
+            move.onIdle += Ia_onIdle;
             MoveStateCharacter_OnActionEnter();
         }
-        else if (container.TryGetInContainer<MoveEntityComponent>(out move))
+        else if (entity.TryGetInContainer<MoveEntityComponent>(out move))
         {
             move.onIdle += Ia_onIdle;
             move.onMove += Ia_onMove;
         }
 
-        container.health.death += Ia_onDeath;
-    }
-
-
-    private void MoveStateCharacter_OnActionEnter()
-    {
-        move.onIdle += Ia_onIdle;
-        move.onMove += Ia_onMove;
-    }
-
-
-    private void MoveStateCharacter_OnActionExit()
-    {
-        move.onIdle -= Ia_onIdle;
-        move.onMove -= Ia_onMove;
-    }
-
-
-    private void Update()
-    {
-        controller.transform.forward = Vector3.Slerp(controller.transform.forward, forward, Time.deltaTime * 10);
-        if ((controller.transform.forward - forward).sqrMagnitude < 0.01f)
-            enabled = false;
+        entity.health.death += Ia_onDeath;
     }
 
     public override void OnStayState(Entity param)
     {
-        //controller.transform.forward = Vector3.Slerp(controller.transform.forward, forward, Time.deltaTime * 10);
     }
 
-    public override void OnExitState(Entity param)
+    public override void OnExitState(Entity entity)
     {
+        if (entity.TryGetInContainer<CasterEntityComponent>(out var caster))
+        {
+            caster.onAnimation -= OnCasterAnimation;
+            caster.onExitCasting -= OnExitCasting;
+        }
 
+        if (entity is Character character)
+        {
+            character.moveStateCharacter.OnActionEnter -= MoveStateCharacter_OnActionEnter;
+            character.moveStateCharacter.OnActionExit -= MoveStateCharacter_OnActionExit;
+
+            character.onModelView -= CharacterOnModelView;
+
+            character.onTakeDamage -= CharacterOnTakeDamage;
+
+            move = character.move;
+            move.onIdle -= Ia_onIdle;
+            MoveStateCharacter_OnActionExit();
+        }
+        else if (entity.TryGetInContainer<MoveEntityComponent>(out move))
+        {
+            move.onIdle -= Ia_onIdle;
+            move.onMove -= Ia_onMove;
+        }
+
+        entity.health.death -= Ia_onDeath;
     }
 }

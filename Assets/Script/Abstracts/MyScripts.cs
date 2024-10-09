@@ -10,9 +10,9 @@ public abstract class MyScripts : MonoBehaviour
 
     protected Action MyStarts;
 
-    protected Action MyOnEnables;
+    //protected Action MyOnEnables;
 
-    protected Action MyOnDisables;
+    //protected Action MyOnDisables;
 
     protected Action MyOnDestroys;
 
@@ -20,21 +20,23 @@ public abstract class MyScripts : MonoBehaviour
     {
         add
         {
+            if (!bUpdate && _update == null)
+            {
+                bUpdate = true;
+                updateManager.MyUpdates += MyUpdate;
+            }
+
             _update += value;
-            if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
         }
         remove
         {
             _update -= value;
 
-            if (_update == null)
+            if (bUpdate && _update == null)
             {
-                RemoveUpdate();
-                //GameManager.eventQueueGamePlay.Enqueue(RemoveUpdate);
+                bUpdate = false;
+                updateManager.MyUpdates -= MyUpdate;
             }
-            else if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveUpdate);
         }
     }
 
@@ -42,22 +44,23 @@ public abstract class MyScripts : MonoBehaviour
     {
         add
         {
+            if (!bFixed && _fixedUpdate == null)
+            {
+                bFixed = true;
+                updateManager.MyFixedUpdates += MyFixedUpdate;
+            }
+
             _fixedUpdate += value;
-            if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
         }
         remove
         {
             _fixedUpdate -= value;
 
-
-            if (_fixedUpdate == null)
+            if (bFixed && _fixedUpdate == null)
             {
-                RemoveFixedUpdate();
-                //GameManager.eventQueueGamePlay.Enqueue(RemoveFixedUpdate);
+                bFixed = false;
+                updateManager.MyFixedUpdates -= MyFixedUpdate;
             }
-            else if (gameObject.activeInHierarchy)
-                GameManager.eventQueueGamePlay.Enqueue(SaveFixedUpdate);
         }
     }
 
@@ -87,51 +90,88 @@ public abstract class MyScripts : MonoBehaviour
         }
     }
 
-    protected abstract void Config();
-
+    bool bUpdate;
     UnityEngine.Events.UnityAction _update;
-
+    bool bFixed;
     UnityEngine.Events.UnityAction _fixedUpdate;
 
-    bool active=true;
-    bool onPauseSuscribe = false;
-
-    private void SaveUpdate()
+    protected IUpdate updateManager
     {
-        if(_update!=null)
-            GameManager.update.CreateOrSave(this, _update);
+        get => _updateManager;
+        set
+        {
+            if (value == null)
+                return;
+
+            if(_updateManager!=null)
+            {
+                if(bUpdate)
+                    _updateManager.MyUpdates -= MyUpdate;
+
+                if (bFixed)
+                    _updateManager.MyFixedUpdates -= MyFixedUpdate;
+            }
+
+            _updateManager = value;
+
+            if (bUpdate)
+                _updateManager.MyUpdates += MyUpdate;
+
+            if(bFixed)
+                _updateManager.MyFixedUpdates += MyFixedUpdate;
+        }
     }
 
-    private void RemoveUpdate()
+    IUpdate _updateManager;
+
+    void MyUpdate()
     {
-        GameManager.update.Remove(this);
+        _update();
     }
 
-    private void SaveFixedUpdate()
+    void MyFixedUpdate()
     {
-        if (_fixedUpdate != null)
-            GameManager.fixedUpdate.CreateOrSave(this, _fixedUpdate);
+        _fixedUpdate();
     }
 
-    private void RemoveFixedUpdate()
+    protected abstract void Config();
+
+    /*
+    internal void OnEnable()
     {
-        GameManager.fixedUpdate.Remove(this);
+        if (!bUpdate && _update != null)
+        {
+            bUpdate = true;
+            GameManager.GamePlayUpdate += MyUpdate;
+        }
+
+        if (!bFixed && _fixedUpdate != null)
+        {
+            bFixed = true;
+            GameManager.GamePlayFixedUpdate += MyFixedUpdate;
+        }
+
+        MyOnEnables?.Invoke();
     }
 
-    private void GameManager_onPlay()
+    internal void OnDisable()
     {
-        enabled = active;
+        if (bUpdate)
+            GameManager.GamePlayUpdate -= MyUpdate;
+
+        if (bFixed)
+            GameManager.GamePlayFixedUpdate -= MyFixedUpdate;
+
+        bUpdate = false;
+        bFixed = false;
+
+        MyOnDisables?.Invoke();
     }
-
-    private void GameManager_onPause()
-    {
-        active = enabled;
-
-        enabled = false;
-    }
-
+    */
     internal void Awake()
     {
+        _updateManager = GameManager.instance;
+
         Config();
 
         MyAwakes?.Invoke();
@@ -141,53 +181,24 @@ public abstract class MyScripts : MonoBehaviour
     {
         MyStarts?.Invoke();
     }
-
-    private void OnEnable()
-    {
-        GameManager.eventQueueGamePlay.Enqueue(()=>
-            {
-                MyOnEnables?.Invoke();
-
-                SaveUpdate();
-
-                SaveFixedUpdate();
-
-                if (!onPauseSuscribe)
-                {
-                    GameManager.OnPlay += GameManager_onPlay;
-
-                    GameManager.OnPause += GameManager_onPause;
-
-                    onPauseSuscribe = true;
-                }
-            });
-    }
-
-    private void OnDisable()
-    {
-        GameManager.eventQueueGamePlay.Enqueue(() =>
-        {
-            MyOnDisables?.Invoke();
-            RemoveUpdate();
-            RemoveFixedUpdate();
-            if (gameObject !=null && !gameObject.activeInHierarchy && onPauseSuscribe)
-            {
-                GameManager.OnPlay -= GameManager_onPlay;
-
-                GameManager.OnPause -= GameManager_onPause;
-
-                onPauseSuscribe = false;
-            }
-        });
-    }
+  
     private void OnDestroy()
     {
         MyOnDestroys?.Invoke();
-
-        GameManager.OnPlay -= GameManager_onPlay;
-
-        GameManager.OnPause -= GameManager_onPause;
+        _update = null;
+        _fixedUpdate = null;
+        MyAwakes = null;
+        MyStarts = null;
+        //MyOnEnables = null;
+        //MyOnDisables = null;
+        MyOnDestroys = null;
     }
 }
 
+
+public interface IUpdate
+{
+    public event UnityEngine.Events.UnityAction MyUpdates;
+    public event UnityEngine.Events.UnityAction MyFixedUpdates;
+}
 

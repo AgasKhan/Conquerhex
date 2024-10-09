@@ -228,7 +228,7 @@ public class GenericChase : IState<GenericEnemyFSM>
 
         DetectEnemy();
 
-        param.context.attack.onAttack += Attack_onAttack;
+        //param.context.attack.onAttack += Attack_onAttack;
 
         evadeTimer.Set(param.context.timeToEvade, false).SetInitCurrent(0);
 
@@ -310,8 +310,9 @@ public class GenericChase : IState<GenericEnemyFSM>
         param.context.steerings["corderitos"].targets.Clear();
 
         //Debug.Log("FSM: " + (param==null) + "\nCharacter: " + (param.context == null) + "\nAttack: " + (param.context.attack==null));
+        /*
         if(param.context.attack != null)
-            param.context.attack.onAttack -= Attack_onAttack;
+            param.context.attack.onAttack -= Attack_onAttack;*/
 
         isPursuing = false;
         isSeeking = false;

@@ -7,10 +7,43 @@ public class UIE_SlotButton : VisualElement
 {
     [UnityEngine.Scripting.Preserve]
     public new class UxmlFactory : UxmlFactory<UIE_SlotButton, UxmlTraits> { }
-    private VisualElement slotImage => this.Q<VisualElement>("slotImage");
+    private VisualElement backImage => this.Q<VisualElement>("slotImage");
+    private VisualElement slotImage => this.Q<VisualElement>("iconoCentral");
     private Label slotText => this.Q<Label>("slotText");
+    private VisualElement blocker => this.Q<VisualElement>("blocker");
+    private Label blockerText => this.Q<Label>("blockerText");
+    
+    SlotItem slotItem;
+    bool isBlocked = false;
 
-    public void Init(Sprite image, string text, UnityAction action)
+    System.Action mainAct = default;
+    System.Action enterMouseAct = default;
+    System.Action leaveMouseAct = default;
+
+    public void Init<T>(SlotItem _slotItem, UnityAction action) where T : ItemEquipable
+    {
+        VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
+        asset.CloneTree(this);
+
+        slotItem = _slotItem;
+
+        slotImage.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<T>(slotItem.equiped));
+        slotText.text = UIE_MenusManager.instance.GetText<T>(slotItem.equiped);
+
+        if (slotItem.equiped?.GetType() == typeof(AbilityExtCast))
+            backImage.AddToClassList("abilityBorder");
+
+        mainAct = () => action.Invoke();
+        backImage.RegisterCallback<ClickEvent>((clevent)=> mainAct.Invoke());
+
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => enterMouseAct.Invoke());
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct.Invoke());
+
+        InitTooltip();
+    }
+    
+    public void Init<T>(Sprite image, string text, UnityAction action) where T : ItemEquipable
     {
         VisualTreeAsset asset = UIE_MenusManager.treeAsset["SlotButton"];
         asset.CloneTree(this);
@@ -18,48 +51,101 @@ public class UIE_SlotButton : VisualElement
         //Debug.Log("slotImage is null = " + (slotImage == null) + "\nstyle is null= " + (slotImage.style == null) + "\nbackgroundImage is null = " + (slotImage.style.backgroundImage == null)+ "\nSended image is null = "+(image==null));
         slotImage.style.backgroundImage = new StyleBackground(image);
         slotText.text = text;
-        auxAct = action;
+        mainAct = ()=> action.Invoke();
 
-        tooltip = text + " descripción";
+        if (typeof(T) == typeof(AbilityExtCast))
+        {
+            backImage.AddToClassList("abilityBorder");
+        }
 
-        slotImage.RegisterCallback<ClickEvent>(buttonEvent);
+        backImage.RegisterCallback<ClickEvent>((clevent) => mainAct.Invoke());
+
+        RegisterCallback<MouseEnterEvent>((mouseEvent) => enterMouseAct.Invoke());
+
+        RegisterCallback<MouseLeaveEvent>((mouseEvent) => leaveMouseAct.Invoke());
+    }
+    
+    public void HideBackImage()
+    {
+        backImage.AddToClassList("imgOpacityHidden");
+    }
+    void InitTooltip()
+    {
+        ItemEquipable aux = slotItem.equiped;
+
+        string _title;
+        string _content;
+
+        if (aux != null)
+        {
+            _title = aux.nameDisplay;
+            _content = aux.GetItemBase().GetTooltip();
+            
+        }
+        else if (slotItem.GetSlotType() == typeof(MeleeWeapon))
+        {
+            _title = "Arma";
+            _content = "Herramienta usada tanto para atacar como para recolectar recursos\n\n" + "Primer ataque de combo".RichText("color", "#c9ba5d");
+        }
+        else
+        {
+            _title = "Habilidad";
+            _content = "Utilizas la energía de tu alrededor para materializarla en daño";
+        }
+
+        AddEnterMouseEvent(() =>
+        {
+            if (!isBlocked)
+                UIE_MenusManager.instance.SetTooltipTimer(_title, _content, slotItem.GetSlotType().ToString() + slotItem.indexSlot);
+        });
+
+        AddLeaveMouseEvent(()=> UIE_MenusManager.instance.StartHideTooltip(default));
+
     }
 
-    UnityAction auxAct;
-
-    void buttonEvent(ClickEvent clEvent)
+    public void AddEnterMouseEvent(System.Action _action)
     {
-        slotImage.AddToClassList("slotButtonClicked");
-        slotText.AddToClassList("slotTextClicked");
-
-        auxAct.Invoke();
+        enterMouseAct += _action;
+    }
+    public void AddLeaveMouseEvent(System.Action _action)
+    {
+        leaveMouseAct += _action;
     }
 
-    public void RegisterMouseEvents(EventCallback<MouseEnterEvent> onEnter, EventCallback<MouseLeaveEvent> onLeave)
+    public void Block(bool _condition)
     {
-        slotImage.RegisterCallback<MouseEnterEvent>(onEnter);
-        slotImage.RegisterCallback<MouseLeaveEvent>(onLeave);
+        isBlocked = _condition;
+
+        if (_condition)
+        {
+            blocker.ShowInUIE();
+            slotText.HideInUIE();
+        }
+        else
+            blocker.HideInUIE();
+    }
+    public void Block(string _text)
+    {
+        blockerText.text = _text;
+        Block(true);
+    }
+
+    public void FreezzeButton()
+    {
+        mainAct = () => { };
+        backImage.RemoveFromClassList("hexagon");
+        backImage.AddToClassList("hexagonNoHover");
+        AddToClassList("smallerScale");
+    }
+
+    public void Enable()
+    {
+        slotImage.pickingMode = PickingMode.Position;
+    }
+    public void Disable()
+    {
+        slotImage.pickingMode = PickingMode.Ignore;
     }
 
     public UIE_SlotButton() { }
 }
-
-/*
-
-string text;
-    
-    public new class UxmlFactory : UxmlFactory<UIE_SlotButton, UxmlTraits> { }
-    public new class UxmlTraits : BindableElement.UxmlTraits
-    {
-        UxmlStringAttributeDescription m_Text = new UxmlStringAttributeDescription { name = "text", defaultValue = "Button" };
-
-        public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-        {
-            base.Init(ve, bag, cc);
-            var bar = ve as UIE_SlotButton;
-
-            bar.text = m_Text.GetValueFromBag(bag, cc);
-        }
-    }
-
-*/

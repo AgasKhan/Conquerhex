@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be7c53cccaa8897418cbc8496304f079, type: 3}
   m_Name: W-Hit WeaponKata
   m_EditorClassIdentifier: 
-  _nameDisplay: Golpe exacto
-  _image: {fileID: 1326865692, guid: b12f87e42dbf70f41978da397e9d83cf, type: 3}
+  _nameDisplay: Golpe Exacto
+  _image: {fileID: 21300000, guid: 6b75af6b68adad840b429e94f6cc1680, type: 3}
   _details: El jugador golpea de manera contina a  enemigos en un radio alrededor
     suyo mientras se mantenga presionada la habilidad.
   maxAmount: 1
@@ -33,11 +33,11 @@ MonoBehaviour:
   joystick: 0
   ShowFeedBackArea: 1
   ShowFeedAffectedEntities: 1
-  waitAnimations: 1
   animationCastStart: {fileID: 1827226128182048838, guid: 2ecc2a6d8064cc84f9b08e7cabdbbfbe,
     type: 3}
   animationCastMiddle: {fileID: 0}
   animationCastExit: {fileID: 0}
+  animations: {fileID: 11400000, guid: 20c6d74efb35916439a121c1164f4ff9, type: 2}
   inPlaceAffected:
     prefabToSpawn: {fileID: 4045377163621132951, guid: 70fab5130edcc7b4d9dde891f1df18e5,
       type: 3}

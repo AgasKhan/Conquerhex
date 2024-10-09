@@ -49,11 +49,11 @@ public class AutomaticCharacterAttack
     {
         add
         {
-            _ability.onCast += value;
+            _ability.onApplyCast += value;
         }
         remove
         {
-            _ability.onCast -= value;
+            _ability.onApplyCast -= value;
         }
     }
     public bool cooldown => ability != null ? ability.onCooldownTime && timerChargeAttack.Chck : false;
@@ -62,12 +62,14 @@ public class AutomaticCharacterAttack
     {
         get
         {
+            /*
             if (ability != null && ability.FeedBackReference != null)
             {
                 _ability.FeedbackDetect();
 
                 return _ability.FeedBackReference;
             }
+            */
 
             return null;
         }
@@ -133,7 +135,7 @@ public class AutomaticCharacterAttack
         if (ability == null || timerChargeAttack == null || !timerChargeAttack.Chck)
             return;
 
-        Cast();
+        //Cast();
 
         timerChargeAttack.Reset();
     }
@@ -172,7 +174,7 @@ public class AutomaticCharacterAttack
 
             eventControllerMediator = owner.attackEventMediator;
 
-            Cast = () => owner.Attack(index + 1);
+            //Cast = () => owner.Attack(index + 1);
         }
         else if (typeof(AbilityExtCast).IsAssignableFrom(typeof(T)))
         {
@@ -181,12 +183,12 @@ public class AutomaticCharacterAttack
 
             if (index == 1)
             {
-                Cast = owner.AlternateAbility;
+                //Cast = owner.AlternateAbility;
                 eventControllerMediator = owner.dashEventMediator;
             }
             else
             {
-                Cast = () => owner.Ability(index);
+                //Cast = () => owner.Ability(index);
                 eventControllerMediator = owner.abilityEventMediator;
             }
         }
@@ -198,7 +200,7 @@ public class AutomaticCharacterAttack
 
             index = 0;
 
-            Cast = () => owner.Attack(0);
+            //Cast = () => owner.Attack(0);
         }
     }
 

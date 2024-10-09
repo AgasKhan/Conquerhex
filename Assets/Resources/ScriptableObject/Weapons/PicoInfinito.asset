@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PicoInfinito
   m_EditorClassIdentifier: 
   _nameDisplay: Pico Infinito
-  _image: {fileID: -413438825, guid: 2dc073ac9dc3a0648b1ac305b66b2115, type: 3}
+  _image: {fileID: -1875964448, guid: 65fa7ba1529a21e4d86a500a6a1fffc4, type: 3}
   _details: La mejor herramienta para recolectar recursos
   maxAmount: 1
   weight: 0
@@ -45,9 +45,9 @@ MonoBehaviour:
     knockBack: 0
     typeInstance: {fileID: 11400000, guid: 10654c72347acf24a9eef81a50d50b53, type: 2}
   durability: 9999
-  animationCastStart: {fileID: 0}
-  animationCastMiddle: {fileID: 0}
-  animationCastExit: {fileID: 0}
+  weaponModel: {fileID: 7291351357773457181, guid: d2b2a0197427deb4a8abca72ef0400ec,
+    type: 3}
+  animations: {fileID: 11400000, guid: 3e7c616e54051ad44b0ce3ae45be22e6, type: 2}
   inPlaceOwner:
     prefabToSpawn: {fileID: 0}
     spawnInLocal: 0

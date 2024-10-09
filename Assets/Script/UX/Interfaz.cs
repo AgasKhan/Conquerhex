@@ -143,6 +143,25 @@ namespace UI
         {
             energyUI.EnergyBarUpdate((ch.caster.positiveEnergy / ch.caster.MaxEnergy, 0,ch.caster.positiveEnergy));
             healthUI.healthBarUpdate(ch.health);
+
+            for (int i = 0; i < basicCooldowns.Length + katasCooldowns.Length + abilitiesCooldowns.Length; i++)
+            {
+                if (i < basicCooldowns.Length)
+                {
+                    var index = i;
+                    basicCooldowns[index].SetCaster(ch);
+                }
+                else if (i < basicCooldowns.Length + katasCooldowns.Length)
+                {
+                    var index = i;
+                    katasCooldowns[index - basicCooldowns.Length].SetCaster(ch);
+                }
+                else
+                {
+                    var index = i;
+                    abilitiesCooldowns[index - basicCooldowns.Length - katasCooldowns.Length].SetCaster(ch);
+                }
+            }
         }
 
         IEnumerator MyCoroutine(System.Action<bool> end, System.Action<string> msg)

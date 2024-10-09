@@ -14,6 +14,7 @@ public abstract class TriggerControllerBase : ShowDetails
     }
 
     protected abstract System.Type SetItemType();
+
 }
 
 public abstract class TriggerController : IControllerDir, IAbilityComponent
@@ -59,13 +60,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
-    public virtual Vector3 Aiming => ability.Aiming;
-
     public Vector3 AimingXZ => ability.AimingXZ;
 
     public Vector3 ObjectiveToAim { get => ability.ObjectiveToAim; set => ability.ObjectiveToAim = value; }
-
-    public Vector2 Aiming2D { set => ability.Aiming2D = value; }
 
     public int FinalMaxDetects => throw new System.NotImplementedException();
 
@@ -73,21 +70,22 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
 
     public float Auxiliar => ((IAbilityStats)ability).Auxiliar;
 
-
-
     public void Cast(System.Action actionOnCast = null)
     {
-        if (ability.WaitAnimations)
-            ability.PreCast(actionOnCast);
-        else
-            ability.Cast(actionOnCast);
+        ability.onAction = (a) => ability.Cast(actionOnCast);
+        PlayAction("Cast");
     }
 
-    public List<Entity> Detect(Entity caster, Vector3 pos)
-        => ability.Detect(caster, pos);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+    public void PlayAction(string name) => ability.PlayAction(name);
+
+    public List<Entity> Detect(Entity caster, Vector3 pos, Vector3 aiming)
+        => ability.Detect(caster, pos, aiming);
+
+    public List<Entity> Detect(Vector3 aiming)
+    => ability.Detect(caster.container, caster.transform.position, aiming);
 
     public List<Entity> Detect() 
-        => ability.Detect(caster.container, caster.transform.position);//tiene invertido el lugar de minRange y maxRange para mantener compatibilidad
+        => ability.Detect();
 
     public virtual void Init(Ability ability)
     {
@@ -107,17 +105,13 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
     {
         ability.End = false;
 
-        ability.state = Ability.State.start;
-
-        param.abilityControllerMediator += ability;
+        //ability.state = Ability.State.start;
 
         caster.onTakeDamage += Caster_onTakeDamage;
 
-        ability.onPreCast += param.PreCastEvent;
+        ability.onAnimation += param.OnAnimation;
 
-        ability.onCast += param.CastEvent;
-
-        ability.ControllerDown(ability.Aiming2D, 0);
+        ability.onApplyCast += param.CastEvent;
     }
 
 
@@ -131,9 +125,8 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         //Debug.Log("sali");
         //ability.StopCast();
         caster.onTakeDamage -= Caster_onTakeDamage;
-        param.abilityControllerMediator -= ability;
-        ability.onCast -= param.CastEvent;
-        ability.onPreCast -= param.PreCastEvent;
+        ability.onApplyCast -= param.CastEvent;
+        ability.onAnimation -= param.OnAnimation;
     }
 
     private void Caster_onTakeDamage((Damage dmg, int weightAction, Vector3? origin) obj)
@@ -174,7 +167,7 @@ public interface IAbilityStats
     public float Auxiliar { get; }
 }
 
-public interface IAbilityComponent : IAbilityStats
+public interface IAbilityComponent : IAbilityStats, IState<CasterEntityComponent>
 {
     /// <summary>
     /// Variable dedicada a senializar el fin de la habilidad<br/>
@@ -184,13 +177,9 @@ public interface IAbilityComponent : IAbilityStats
     /// </summary>
     public bool End { get ; set ; }
 
-    public  Vector3 Aiming { get ; }
-
     public Vector3 AimingXZ { get; }
 
     public Vector3 ObjectiveToAim { get; set; }
-
-    public Vector2 Aiming2D { set;} 
 
     public  bool DontExecuteCast { get; }
 

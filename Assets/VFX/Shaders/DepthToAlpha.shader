@@ -6,8 +6,9 @@ Shader "Unlit/DepthToAlpha"
         _MainDepth("Depth principal 1", 2D) = "white" {}
         //_Color("Color", color) = (1,1,1,1)
         _Numer("Multiplicador", float) = 1
-        _NumerSum("Sumador", float) = 1
-        _NumerMinus("One minus", float) = 1
+        _Dist("Distancia", float) = 1
+        _Potenciador("Potenciador", float) = 1
+        [Toggle(_ZOOM)]_Zoom("Zoom activate", Float) = 0
 
     }
 
@@ -25,6 +26,7 @@ Shader "Unlit/DepthToAlpha"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_fwdbase
+            #pragma shader_feature_fragment _ZOOM
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
@@ -34,8 +36,8 @@ Shader "Unlit/DepthToAlpha"
             sampler2D _MainDepth;
             float4 _Color;
             float _Numer;
-            float _NumerSum; 
-            float _NumerMinus;
+            float _Dist;
+            float _Potenciador;
             //sampler2D _CameraDepthTexture;
            
             struct appdata
@@ -50,6 +52,11 @@ Shader "Unlit/DepthToAlpha"
                 float2 uv : TEXCOORD0;
             };
 
+            void TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2 Out)
+            {
+                Out = UV * Tiling + Offset;
+            }
+
             v2f vert(appdata v)
             {
                 v2f o;
@@ -60,9 +67,29 @@ Shader "Unlit/DepthToAlpha"
 
             float4 frag(v2f i) : SV_Target
             {
-                float4 color = tex2D(_MainTex, i.uv);
+                float depth;
+                float2 uv = i.uv;
+                
+                #if _ZOOM
 
-                float depth = (tex2D(_MainDepth,i.uv).r) * _Numer;
+                    depth = ((tex2D(_MainDepth, uv).r));
+
+                    depth = pow(depth, _Dist);
+
+                    //depth = 1 - depth;
+
+                    depth *= _Potenciador;
+
+                    depth = saturate(depth);
+
+                    TilingAndOffset_float(i.uv, depth, (depth * -0.5f) + 0.5f, uv);
+
+                #endif
+
+                depth = ((tex2D(_MainDepth, uv).r)) * _Numer;
+
+                float4 color = tex2D(_MainTex, uv);
+                //depth = pow(depth, _NumerSum);
 
                 return float4(color.r,color.g,color.b, depth);
             }

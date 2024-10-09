@@ -9,7 +9,7 @@ public class SecretKey : MonoBehaviour
     StatisticsSubMenu statisticsSubMenu;
     [SerializeField]
     GameObject submenuRef;
-    bool isInStatistics = false;
+    //bool isInStatistics = false;
 
     public GameObject[] myObjects;
     public GameObject leverCorderito;
@@ -20,94 +20,39 @@ public class SecretKey : MonoBehaviour
 
     public GameObject newMenu;
 
-    public EventControllerMediator escapeEventMediator;
+    public TestDamageEntity dummy;
+
+    // public Proyectile flechita;
+    // public Damage[] damageFlechita;
+    // public Entity ownerFlechita;
+
+    // public Transform chartacterPos;
 
     private void Awake()
     {
-        if(minion!=null)
+        if (minion != null)
             originalMinionPos = minion.transform.position;
 
-        escapeEventMediator = new EventControllerMediator();
-        escapeEventMediator.eventDown += EscapeEventMediator_eventDown;
+        if (SceneManager.GetActiveScene().name == "DummyPractice")
+        {
+            var anim = dummy.GetComponentInChildren<Animator>();
 
-        VirtualControllers.Escape.SuscribeController(escapeEventMediator);
-        
-
-        //var timeToOff = TimersManager.Create(0.1f, () => gameObject.SetActive(false));
-    }
-
-    private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
-    {
-        if (SceneManager.GetActiveScene().name == "MainMenu")
-            return;
-
-
-        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-               .SetWindow("", "¿Deseas volver al menu principal?")
-               .AddButton("Si", ()=> GameManager.instance.Load("MainMenu"))
-               .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
+            dummy.Init(null, () =>
+            {
+                anim.SetTrigger("Action1");
+            });
+        }
     }
 
     void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Comma) && leverCorderito != null)
-        {
-            leverCorderito.SetActive(true);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Alpha0) && myObjects != null)
-        {
-            for (int i = 0; i < myObjects.Length; i++)
-            {
-                myObjects[i].SetActive(true);
-            }
-        }
-        */
-        /*
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
-                .SetWindow("", "¿Seguro que deseas cerrar el juego?")
-                .AddButton("Si", Application.Quit)
-                .AddButton("No", () => { GameManager.instance.Menu(false); MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (!submenuRef.activeSelf && !isInStatistics)
-            {
-                statisticsSubMenu.Create(MenuManager.instance.character);
-                isInStatistics = true;
-            }
-            else if (isInStatistics)
-            {
-                statisticsSubMenu.TriggerMyOnClose();
-            }
-        }
-
-        if (isInStatistics && !submenuRef.activeSelf)
-            isInStatistics = false;
-
-        if (Input.GetKeyDown(KeyCode.P))
-            GameManager.instance.Reload();
-
-        if(Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            if (SceneManager.GetActiveScene().name == "Hexagonos test")
-            {
-                GameManager.instance.Load("PruebaTesis");
-            }
-            else
-            {
-                GameManager.instance.Load("Hexagonos test");
-            }
-        }
-        */
-
         if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.P))
         {
             GameManager.instance.Load("DummyPractice");
+        }
+        if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.I))
+        {
+            GameManager.instance.Load("Tutorial_Combate_Fixed");
         }
 
 
@@ -126,13 +71,14 @@ public class SecretKey : MonoBehaviour
             GameManager.instance.Load("MainMenu");
         }
 
+        /*
         if (SceneManager.GetActiveScene().name != "MainMenu" && UIE_MenusManager.instance != null && Input.GetKeyDown(KeyCode.Tab))
         {
             if (!UIE_MenusManager.instance.isInMenu)
                 UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.EquipmentMenu);
             else
                 UIE_MenusManager.instance.TriggerOnClose();
-        }
+        }*/
 
     }
 
@@ -149,6 +95,23 @@ public class SecretKey : MonoBehaviour
     GenericSubMenu genMenu;
     public InteractEntityComponent interComp;
 
+
+    // public Vector2Int prefabBullet;
+    // public Transform spawn;
+    //[ContextMenu("ShootArrow")]
+    // public void ShootArrow()
+    // {
+    //     //flechita.Throw(ownerFlechita, damageFlechita, new Vector3(1, flechita.transform.position.y, flechita.transform.position.z));
+
+    //     Vector3 aim = chartacterPos.position - spawn.position;
+
+    //     aim += Vector3.up * 0.3f;
+
+    //     PoolManager.SpawnPoolObject(prefabBullet, out Proyectile proyectile, spawn.position, Quaternion.identity, null, false);
+
+    //     proyectile.Throw(ownerFlechita, damageFlechita, aim);
+    // }
+
     [ContextMenu("TestMenu")]
     public void TestMenus()
     {
@@ -159,7 +122,7 @@ public class SecretKey : MonoBehaviour
             subMenu.CreateSection(0, 20);
             subMenu.AddComponent<ListNavBarModule>();
             //subMenu.CreateChildrenSection<ScrollRect>();
-            //subMenu.AddComponent<DetailsWindow>().SetTexts("Básicos", "Ataque básico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
+            //subMenu.AddComponent<DetailsWindow>().SetTexts("Bï¿½sicos", "Ataque bï¿½sico: click izq \nHabilidad basica: Click der\nHabilidad Alternativa: shift izquierdo\nAlgunas habilidades apuntaran en direccion del mouse y otras dependeran del movimiento");
 
             //subMenu.CreateSection(4, 6);
             //subMenu.CreateChildrenSection<ScrollRect>();
@@ -167,13 +130,13 @@ public class SecretKey : MonoBehaviour
 
             //subMenu.CreateSection(4, 5);
             //subMenu.CreateChildrenSection<ScrollRect>();
-            //subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinación de teclas (movimiento) +  Click der");
-            
+            //subMenu.AddComponent<DetailsWindow>().SetTexts("Habilidades", "Combinaciï¿½n de teclas (movimiento) +  Click der");
+
 
             //subMenu.CreateSection(5, 6);
             //subMenu.CreateChildrenSection<ScrollRect>();
             //subMenu.AddComponent<DetailsWindow>().SetTexts("(Katas) Movimientos ofensivos", "Combinacion de teclas (movimiento) +  Click izq");
-            
+
 
             //subMenu.OnClose += Exit;
         };

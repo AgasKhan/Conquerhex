@@ -1,10 +1,40 @@
-.slotButton {
+.hexagon {
     width: 70px;
     height: 70px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    background-color: rgba(21, 20, 20, 0);
+    border-left-color: rgb(135, 110, 65);
+    border-right-color: rgb(135, 110, 65);
+    border-top-color: rgb(135, 110, 65);
+    border-bottom-color: rgb(135, 110, 65);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition-duration: 0.25s;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=2800000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(101, 74, 53);
+}
+
+.hexagon:hover {
+    background-color: rgba(255, 255, 255, 0);
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonMarco.png?fileID=2800000&guid=c8ceac2e1b21a1e43ad7624cf0e7da4a&type=3#Hud_botonMarco");
+    -unity-background-image-tint-color: rgb(161, 133, 92);
+}
+
+.slotButton {
+    width: 70px;
+    height: 70px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
     background-color: rgb(21, 20, 20);
     border-left-color: rgb(135, 110, 65);
     border-right-color: rgb(135, 110, 65);
@@ -59,6 +89,8 @@
     left: 54px;
     padding-left: 0;
     margin-left: 0;
+    -unity-font-definition: initial;
+    -unity-font: url("project://database/Assets/Fonts/Orbitron-VariableFont_wght.ttf?fileID=12800000&guid=6121a580d5235de42aa7a70e958794f4&type=3#Orbitron-VariableFont_wght");
 }
 
 .verticalContainer {
@@ -116,9 +148,10 @@
 
 .slotContainerStyle {
     flex-grow: 0;
-    width: 110px;
-    flex-shrink: 0;
-    height: 120px;
+    flex-shrink: 1;
+    max-width: 110px;
+    min-width: 70px;
+    align-self: flex-start;
 }
 
 .slotTextStyle {
@@ -137,13 +170,15 @@
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 0;
-    font-size: 15px;
+    font-size: 12px;
     padding-right: 0;
     flex-grow: 1;
     -unity-font-style: normal;
     -unity-text-outline-width: 0.5px;
     -unity-text-outline-color: rgb(135, 110, 65);
     text-shadow: 0 0 43.2px rgb(91, 72, 36);
+    -unity-font-definition: initial;
+    -unity-font: url("project://database/Assets/Fonts/Orbitron-VariableFont_wght.ttf?fileID=12800000&guid=6121a580d5235de42aa7a70e958794f4&type=3#Orbitron-VariableFont_wght");
 }
 
 .listItemText {
@@ -163,6 +198,8 @@
     padding-left: 4px;
     font-size: 12px;
     -unity-text-align: upper-center;
+    -unity-font-definition: initial;
+    -unity-font: url("project://database/Assets/Editor/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=0ef5e77d827ef2949a027019b86ad4c5&type=3#NotInter-Regular");
 }
 
 .ListItemButton {
@@ -170,7 +207,7 @@
     flex-shrink: 0;
     height: 40px;
     width: 100%;
-    background-color: rgba(25, 29, 35, 0.86);
+    background-color: rgb(21, 23, 26);
     transition-duration: 0.15s;
     transition-timing-function: ease;
 }
@@ -179,14 +216,19 @@
     background-color: rgb(57, 65, 75);
 }
 
+.closeButton:hover {
+    -unity-background-image-tint-color: rgb(123, 88, 74);
+    color: rgb(237, 205, 151);
+}
+
 .closeButton {
     position: absolute;
     transform-origin: right bottom;
     top: auto;
     left: auto;
-    width: 120px;
-    background-color: rgb(21, 20, 20);
-    color: rgb(255, 255, 255);
+    width: 200px;
+    background-color: rgba(21, 20, 20, 0);
+    color: rgb(135, 110, 65);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -195,14 +237,20 @@
     border-right-color: rgb(255, 255, 255);
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
-    border-top-width: 3px;
-    border-right-width: 3px;
-    border-bottom-width: 3px;
-    border-left-width: 3px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
     font-size: 20px;
     height: 45px;
     bottom: 15px;
     right: 15px;
+    -unity-font-definition: initial;
+    -unity-font: url("project://database/Assets/Fonts/Orbitron-VariableFont_wght.ttf?fileID=12800000&guid=6121a580d5235de42aa7a70e958794f4&type=3#Orbitron-VariableFont_wght");
+    background-image: url("project://database/Assets/linea.png?fileID=21300000&guid=1f077dab981f5e844a06a9a5fcc698b0&type=3#linea");
+    -unity-background-image-tint-color: rgb(60, 54, 56);
+    -unity-text-outline-width: 0.5px;
+    -unity-text-outline-color: rgb(135, 110, 65);
 }
 
 .slotButtonClicked {
@@ -215,7 +263,6 @@
 }
 
 .slotTextClicked {
-    color: rgb(255, 237, 206);
 }
 
 .opacityVisible {
@@ -260,37 +307,36 @@
     margin-right: 0;
     margin-bottom: 0;
     margin-left: 0;
-    padding-top: 5px;
+    padding-top: 10px;
     padding-right: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     padding-left: 5px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    border-left-color: rgb(135, 110, 65);
-    border-right-color: rgb(135, 110, 65);
-    border-top-color: rgb(135, 110, 65);
-    border-bottom-color: rgb(135, 110, 65);
-    border-top-width: 3px;
-    border-right-width: 3px;
-    border-bottom-width: 3px;
-    border-left-width: 3px;
+    border-left-color: rgba(135, 110, 65, 0);
+    border-right-color: rgba(135, 110, 65, 0);
+    border-top-color: rgba(135, 110, 65, 0);
+    border-bottom-color: rgba(135, 110, 65, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
     background-color: rgb(67, 55, 45);
     justify-content: center;
     align-self: center;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=21300000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(101, 74, 53);
 }
 
 .kataButton:hover {
     background-color: rgb(103, 88, 75);
-    border-left-color: rgb(221, 194, 145);
-    border-right-color: rgb(221, 194, 145);
-    border-top-color: rgb(221, 194, 145);
-    border-bottom-color: rgb(221, 194, 145);
-}
-
-.displayHidden {
-    display: none;
+    border-left-color: rgba(221, 194, 145, 0);
+    border-right-color: rgba(221, 194, 145, 0);
+    border-top-color: rgba(221, 194, 145, 0);
+    border-bottom-color: rgba(221, 194, 145, 0);
+    -unity-background-image-tint-color: rgb(221, 183, 127);
 }
 
 .comboIndicator {
@@ -298,22 +344,24 @@
     width: 182px;
     height: 50px;
     flex-shrink: 0;
-    background-color: rgb(135, 112, 107);
+    background-color: rgba(67, 55, 45, 0);
     align-self: center;
-    border-left-color: rgb(21, 20, 20);
-    border-right-color: rgb(21, 20, 20);
-    border-top-color: rgb(21, 20, 20);
-    border-bottom-color: rgb(21, 20, 20);
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
+    border-left-color: rgb(129, 105, 63);
+    border-right-color: rgb(129, 105, 63);
+    border-top-color: rgb(129, 105, 63);
+    border-bottom-color: rgb(129, 105, 63);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
     -unity-text-align: middle-center;
     justify-content: center;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchicoinvertido.png?fileID=21300000&guid=cae6a9f79bf5c974995a2bd70c2261d9&type=3#Hud_botonchicoinvertido");
+    -unity-background-image-tint-color: rgb(89, 68, 62);
 }
 
 .NavBarButtonStyle {
@@ -325,6 +373,8 @@
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
+    -unity-font: url("project://database/Assets/Fonts/Orbitron-VariableFont_wght.ttf?fileID=12800000&guid=6121a580d5235de42aa7a70e958794f4&type=3#Orbitron-VariableFont_wght");
+    -unity-font-definition: initial;
 }
 
 .NavBarButtonStyle:hover {
@@ -342,11 +392,16 @@
     align-items: flex-start;
     flex-shrink: 1;
     color: rgb(169, 148, 86);
+    -unity-font-definition: initial;
+    -unity-font: url("project://database/Assets/Fonts/Orbitron-VariableFont_wght.ttf?fileID=12800000&guid=6121a580d5235de42aa7a70e958794f4&type=3#Orbitron-VariableFont_wght");
 }
 
 .detailsContent {
     flex-grow: 1;
-    color: rgb(255, 255, 255);
+    color: rgb(187, 166, 140);
+    -unity-font-definition: initial;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Bourgeois-Medium.ttf?fileID=12800000&guid=6b37a8dbaa02e344181f5339a3b23dd9&type=3#Bourgeois-Medium");
+    font-size: 14px;
 }
 
 .comboButton {
@@ -358,17 +413,19 @@
     border-right-color: rgb(112, 81, 57);
     border-top-color: rgb(112, 81, 57);
     border-bottom-color: rgb(112, 81, 57);
-    background-color: rgb(21, 20, 20);
-    border-top-width: 3px;
-    border-right-width: 3px;
-    border-bottom-width: 3px;
-    border-left-width: 3px;
+    background-color: rgba(21, 20, 20, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
     justify-content: space-between;
     align-items: center;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=21300000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(101, 74, 53);
 }
 
 .comboButton:hover {
@@ -376,7 +433,9 @@
     border-right-color: rgb(255, 218, 150);
     border-top-color: rgb(255, 218, 150);
     border-bottom-color: rgb(255, 218, 150);
-    background-color: rgb(36, 36, 36);
+    background-color: rgba(36, 36, 36, 0);
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=21300000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(221, 182, 126);
 }
 
 .popUpList {
@@ -398,4 +457,231 @@
     border-top-color: rgb(112, 81, 57);
     border-bottom-color: rgb(112, 81, 57);
     transition-duration: 0.2s;
+}
+
+.abilityBorder {
+    border-left-color: rgb(241, 112, 217);
+    border-right-color: rgb(241, 112, 217);
+    border-top-color: rgb(241, 112, 217);
+    border-bottom-color: rgb(241, 112, 217);
+}
+
+.abilityBorder:hover {
+    border-left-color: rgb(241, 201, 233);
+    border-right-color: rgb(241, 201, 233);
+    border-top-color: rgb(241, 201, 233);
+    border-bottom-color: rgb(241, 201, 233);
+}
+
+.kataBorder {
+    border-left-color: rgb(241, 203, 62);
+    border-right-color: rgb(241, 203, 62);
+    border-top-color: rgb(241, 203, 62);
+    border-bottom-color: rgb(241, 203, 62);
+}
+
+.kataBorder:hover {
+    border-left-color: rgb(250, 231, 162);
+    border-right-color: rgb(250, 231, 162);
+    border-top-color: rgb(250, 231, 162);
+    border-bottom-color: rgb(250, 231, 162);
+}
+
+.ShowComboStyle {
+    flex-grow: 0;
+    width: 136px;
+    height: 80px;
+    flex-shrink: 0;
+    align-self: center;
+    background-color: rgb(91, 89, 82);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-left-color: rgb(148, 145, 102);
+    border-right-color: rgb(148, 145, 102);
+    border-top-color: rgb(148, 145, 102);
+    border-bottom-color: rgb(148, 145, 102);
+    background-image: url('project://database/Assets/Sprites/left-click-icon-2.png?fileID=21300000&guid=99be1eaa89708e84ea6fbc41325fbcde&type=3#left-click-icon-2');
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-slice-top: 8;
+    -unity-slice-right: 8;
+    -unity-slice-bottom: 8;
+    -unity-slice-left: 8;
+}
+
+.itemToChange {
+    background-color: rgb(238, 205, 111);
+    border-bottom-color: rgb(243, 232, 201);
+    border-bottom-width: 3px;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+.slotButtonWithoutHover {
+    width: 70px;
+    height: 70px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: rgb(21, 20, 20);
+    border-left-color: rgb(135, 110, 65);
+    border-right-color: rgb(135, 110, 65);
+    border-top-color: rgb(135, 110, 65);
+    border-bottom-color: rgb(135, 110, 65);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition-duration: 0.25s;
+    background-image: url("project://database/Assets/Sprites/Default%20Weapon.png?fileID=2800000&guid=fe126f528f2475c45acba7da868df363&type=3#Default Weapon");
+}
+
+.listItemTextHover {
+    width: 25%;
+    justify-content: flex-start;
+    align-self: center;
+    color: rgb(236, 200, 105);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    font-size: 12px;
+    -unity-text-align: upper-center;
+}
+
+.blocker {
+    flex-grow: 0;
+    background-color: rgb(0, 0, 0);
+    justify-content: center;
+    position: absolute;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonMarco.png?fileID=21300000&guid=c8ceac2e1b21a1e43ad7624cf0e7da4a&type=3#Hud_botonMarco");
+    opacity: 0.75;
+    scale: 1.05 1;
+}
+
+.blockerText {
+    align-self: auto;
+    -unity-text-align: upper-center;
+    color: rgb(255, 255, 179);
+    font-size: 25px;
+    display: flex;
+    -unity-font-definition: initial;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold");
+}
+
+.displayHidden {
+    display: none;
+}
+
+.combosIcons {
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color: rgb(237, 225, 219);
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0 0 43.2px rgb(0, 0, 0);
+    padding-top: 27px;
+}
+
+.itemSelected {
+    background-color: rgb(99, 91, 67);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-right-color: rgb(21, 23, 26);
+    border-left-color: rgb(21, 23, 26);
+}
+
+.halfScale {
+    scale: 0.6 0.6;
+}
+
+.biggerScale {
+    scale: 1.2 1.2;
+}
+
+.hexagonNoHover {
+    width: 70px;
+    height: 70px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgba(21, 20, 20, 0);
+    border-left-color: rgb(135, 110, 65);
+    border-right-color: rgb(135, 110, 65);
+    border-top-color: rgb(135, 110, 65);
+    border-bottom-color: rgb(135, 110, 65);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition-duration: 0.25s;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=2800000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(101, 74, 53);
+}
+
+.smallerScale {
+    scale: 0.8 0.8;
+    margin-top: 30px;
+}
+
+.kataButtonNoHover {
+    flex-direction: row;
+    width: 230px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left-color: rgba(135, 110, 65, 0);
+    border-right-color: rgba(135, 110, 65, 0);
+    border-top-color: rgba(135, 110, 65, 0);
+    border-bottom-color: rgba(135, 110, 65, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: rgb(67, 55, 45);
+    justify-content: center;
+    align-self: center;
+    background-image: url("project://database/Assets/Sprites/HUD/Hud_botonchico.png?fileID=21300000&guid=1e02b99690a23bd4ba1c5503a683bccf&type=3#Hud_botonchico");
+    -unity-background-image-tint-color: rgb(101, 74, 53);
+}
+
+.imgOpacityHidden {
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
 }

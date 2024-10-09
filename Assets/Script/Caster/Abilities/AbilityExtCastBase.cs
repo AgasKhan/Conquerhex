@@ -35,6 +35,25 @@ public class AbilityExtCast : Ability
         castingAction.Init(this);
     }
 
+    public override void OnEnterState(CasterEntityComponent param)
+    {
+        base.OnEnterState(param);
+        castingAction.OnEnterState(param);
+    }
+
+    public override void OnStayState(CasterEntityComponent param)
+    {
+        base.OnStayState(param);
+        castingAction.OnStayState(param);
+    }
+
+    public override void OnExitState(CasterEntityComponent param)
+    {
+        base.OnExitState(param);
+        castingAction.OnExitState(param);
+    }
+
+
     public override void Destroy()
     {
         castingAction.Destroy();

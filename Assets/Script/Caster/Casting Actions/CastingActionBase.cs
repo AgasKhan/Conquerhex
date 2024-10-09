@@ -30,11 +30,7 @@ public abstract class CastingAction : IAbilityComponent
 
     public float FinalMinRange => (ability).FinalMinRange;
 
-    public Vector3 Aiming => (ability).Aiming;
-
     public Vector3 AimingXZ => (ability).AimingXZ;
-
-    public Vector2 Aiming2D { set => (ability).Aiming2D = value;}
 
     public Vector3 ObjectiveToAim { get => (ability).ObjectiveToAim; set => (ability).ObjectiveToAim = value; }
 
@@ -58,10 +54,6 @@ public abstract class CastingAction : IAbilityComponent
 
     public float Auxiliar => (ability).Auxiliar;
 
-    
-
-
-
     /// <summary>
     /// Ejecuta el casteo personalizado de las AbilityExtCast
     /// </summary>
@@ -82,6 +74,31 @@ public abstract class CastingAction : IAbilityComponent
     public virtual void Destroy()
     {
         ability = null;
+    }
+
+    /// <summary>
+    /// Al ser una accion de casteo debe de poseer la menor logica posible, ya que los triggers son los que preponderan la logica de trigger
+    /// </summary>
+    /// <param name="param"></param>
+    public virtual void OnEnterState(CasterEntityComponent param)
+    {
+    }
+
+    /// <summary>
+    /// Al ser una accion de casteo debe de poseer la menor logica posible, ya que los triggers son los que preponderan la logica de trigger
+    /// </summary>
+    /// <param name="param"></param>
+
+    public virtual void OnStayState(CasterEntityComponent param)
+    {
+    }
+
+    /// <summary>
+    /// Al ser una accion de casteo debe de poseer la menor logica posible, ya que los triggers son los que preponderan la logica de trigger
+    /// </summary>
+    /// <param name="param"></param>
+    public virtual void OnExitState(CasterEntityComponent param)
+    {
     }
 }
 

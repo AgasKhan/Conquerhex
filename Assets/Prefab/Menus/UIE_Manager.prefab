@@ -62,12 +62,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d3c201a45a6f142bbcafa4798cf86d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWeaponImage: {fileID: 21300000, guid: fe126f528f2475c45acba7da868df363, type: 3}
-  defaultWeaponText: Equipar
-  defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
-    type: 3}
-  defaultAbilityText: Equipar
   equipMenu: {fileID: 2110480652936732313}
+  basicsKeys:
+  - {fileID: 21300000, guid: 70b9875e03dd1d14992340557b08dd69, type: 3}
+  - {fileID: 21300000, guid: 224c9d6eaeaa77a449d7264ee6c62a74, type: 3}
+  - {fileID: 21300000, guid: 69185da084d899c4598716da8e554ce0, type: 3}
+  abilitiesKeys:
+  - {fileID: 21300000, guid: 0201a62df2a77f149a559dfe5370b8c2, type: 3}
+  - {fileID: 21300000, guid: 60288ada16cba784aa244026226d4f48, type: 3}
+  - {fileID: 21300000, guid: dc19dda75836426419d3d3174cb43a44, type: 3}
+  - {fileID: 21300000, guid: 74f2733c0eb077e48b475d76827b58d3, type: 3}
+  katasKeys:
+  - {fileID: 21300000, guid: 199cf7f830ef4c54d819b8320373d8ae, type: 3}
+  - {fileID: 21300000, guid: 6bdba85637a5dc14cb681f6748cfd483, type: 3}
+  - {fileID: 21300000, guid: 20c0cb3092f465a43ada0af0706d69d2, type: 3}
+  - {fileID: 21300000, guid: 16a9705516beb2540adc6d0396c0c02f, type: 3}
 --- !u!1 &1279907672048343825
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,12 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8860cc2f3a952544e934f26fb60b0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWeaponImage: {fileID: 21300000, guid: fe126f528f2475c45acba7da868df363, type: 3}
-  defaultWeaponText: Equipar
-  defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
-    type: 3}
-  defaultAbilityText: Equipar
   equipMenu: {fileID: 2110480652936732313}
+  basicsKeys: []
+  abilitiesKeys: []
+  katasKeys: []
 --- !u!1 &5507341918820118517
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +201,58 @@ MonoBehaviour:
       value: {fileID: 2110480652936732313}
     - key: Combos_UIDoc
       value: {fileID: 394520618175240633}
+  isInMenu: 0
+  timeToTooltip: 0.8
+  timeToLeaveTooltip: 0.2
+  tooltipTimer:
+    _total: 0
+    _current: 0
+  tooltipLeaveTimer:
+    _total: 0
+    _current: 0
+  defaultWeaponImage: {fileID: 21300000, guid: fe126f528f2475c45acba7da868df363, type: 3}
+  defaultWeaponText: Equipar Arma
+  defaultAbilityImage: {fileID: 21300000, guid: d2ce69a48463d1e4c8d7e8b9b4ac7ff2,
+    type: 3}
+  defaultAbilityText: Equipar Habilidad
+  defaultKataImage: {fileID: 21300000, guid: 0196f0a0b2c60d04daf23de995f88c1b, type: 3}
+  defaultKataText: Equipar Kata
+  shortCuts:
+    pictionaries:
+    - key: MeleeWeapon0
+      value: <sprite="KeysIconsText" index=1>
+    - key: AbilityExtCast0
+      value: <sprite="KeysIconsText" index=2>
+    - key: AbilityExtCast1
+      value: <sprite="KeysIconsText" index=0>
+    - key: WeaponKata0
+      value: <sprite="KeysIconsText" index=5> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=5> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=1>
+    - key: WeaponKata1
+      value: '<sprite="KeysIconsText" index=4> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=4> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=1> '
+    - key: WeaponKata2
+      value: '<sprite="KeysIconsText" index=3> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=3> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=1> '
+    - key: WeaponKata3
+      value: '<sprite="KeysIconsText" index=6> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=6> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=1> '
+    - key: AbilityExtCast2
+      value: <sprite="KeysIconsText" index=5> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=5> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=2>
+    - key: AbilityExtCast3
+      value: '<sprite="KeysIconsText" index=4> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=4> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=2> '
+    - key: AbilityExtCast4
+      value: <sprite="KeysIconsText" index=3> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=3> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=2>
+    - key: AbilityExtCast5
+      value: <sprite="KeysIconsText" index=6> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText"
+        index=6> <sprite="KeysIconsText" index=8> <sprite="KeysIconsText" index=2>
+  idleAnim: {fileID: 1827226128182048838, guid: 903bc506c11933f4899d4133c016d581,
+    type: 3}
+  showWeaponAnim: {fileID: 1827226128182048838, guid: 244ec021e3ed36b4bb669eef04f926b7,
+    type: 3}
 --- !u!1 &5512052894714495535
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,3 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd31134bc4a2f14598b2410d701b3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipMenu: {fileID: 0}
+  basicsKeys: []
+  abilitiesKeys: []
+  katasKeys: []

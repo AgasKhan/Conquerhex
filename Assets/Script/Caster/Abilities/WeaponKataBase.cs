@@ -41,11 +41,7 @@ public class WeaponKata : Ability
 
     new public WeaponKataBase itemBase => (WeaponKataBase)base.itemBase;
 
-    public override AnimationClip animationCastStart =>  equipedWeapon.animationCastStart == null ?  base.animationCastStart : equipedWeapon.animationCastStart;
-
-    public override AnimationClip animationCastMiddle => equipedWeapon.animationCastMiddle == null ? base.animationCastMiddle : equipedWeapon.animationCastMiddle;
-
-    public override AnimationClip animationCastExit => equipedWeapon.animationCastExit == null ? base.animationCastExit : equipedWeapon.animationCastExit;
+    //public override AnimationClip animationCastStart =>  equipedWeapon.animationCastStart == null ?  base.animationCastStart : equipedWeapon.animationCastStart;
 
     public override float FinalVelocity => base.FinalVelocity * (WeaponEnabled?.itemBase.velocity ?? 1);
 
@@ -143,6 +139,17 @@ public class WeaponKata : Ability
         equipedWeapon = null;
     }
 
+    public override void PlayAction(string name)
+    {
+        if(equipedWeapon.itemBase.animations!= null && equipedWeapon.itemBase.animations.animClips.ContainsKey(name, out int index))
+        {
+            PlayEventAction(name);
+            PlayDataAction(equipedWeapon.itemBase.animations.animClips[index]);
+        }
+        else
+            base.PlayAction(name);
+    }
+
     public override void PlaySound(string name)
     {
         if (audio == null)
@@ -159,7 +166,7 @@ public class WeaponKata : Ability
         if (WeaponEnabled == null)
             return new Entity[0];
 
-        var totalDamage = Damage.Combine(Damage.AdditiveFusion, WeaponEnabled.itemBase.damages, caster.additiveDamage.content);
+        var totalDamage = Damage.Combine(Damage.AdditiveFusion, WeaponEnabled.itemBase.damages, additiveDamage.content);
 
         totalDamage = Damage.Combine(Damage.MultiplicativeFusion, totalDamage, multiplyDamage.content);
 

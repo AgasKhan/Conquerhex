@@ -22,6 +22,8 @@ public class PressTrggrCtrllr : TriggerController
     public Timer pressCooldown;
 
     new public PressTrggrCtrllrBase triggerBase => (PressTrggrCtrllrBase)base.triggerBase;
+
+    bool inCast;
     public override void Set()
     {
         if (pressCooldown != null)
@@ -32,66 +34,56 @@ public class PressTrggrCtrllr : TriggerController
 
     public override void ControllerDown(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-            return;
-
-        Aiming2D = dir;
-
         ability.FeedbackDetect();
 
         Detect();
 
-        Cast(() => End = false);
-        /*
-        if (affected != null && affected.Count > 0)
-            Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-        */
+        inCast = true;
+        
+        Cast(() =>
+        {
+            End = false;
+            inCast = false;
+        });
+
         pressCooldown.Reset();
     }
 
     public override void ControllerPressed(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-        {
-            End = true;
-            return;
-        }
-
-        Aiming2D = dir;
-
         ability.FeedbackDetect();
 
         Detect();
         
         if (pressCooldown.Chck)
         {
-            Cast(() => End = false);
-            /*
-            if (affected != null && affected.Count > 0)
-                Aiming = (affected[0].transform.position - caster.transform.position).normalized;
-            */
-            pressCooldown.Reset();
-            
-            /*
-            if(End)
+            inCast = true;
+
+            Cast(() =>
             {
-                ControllerUp(dir, tim);
-            }
-            */
+                End = false;
+                inCast = false;
+            });
+
+            pressCooldown.Reset();
         }
     }
 
     public override void ControllerUp(Vector2 dir, float tim)
     {
-        if (!onCooldownTime)
-            return;
+        if(inCast)
+        {
+            ability.onEndAction += (a) => End = true;
+        }
+        else
+            End = true;
 
-        pressCooldown.Reset();
-        End = true;
+        pressCooldown.Stop();
+    }
 
-        /*
-        Cast();
-        FeedBackReference?.Attack();
-        */
+    public override void Destroy()
+    {
+        base.Destroy();
+        pressCooldown.Destroy();
     }
 }
