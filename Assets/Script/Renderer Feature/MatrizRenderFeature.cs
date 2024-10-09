@@ -24,8 +24,8 @@ public class MatrizRenderFeature : ScriptableRendererFeature
             // _view = Matrix4x4.LookAt(cam.transform.position, Character, el up de la camara);
             //_proj = Matrix4x4.Perspective(cam.fieldOfView, cam.aspect, cam.nearClipPlane, cam.farClipPlane);
 
-            data._view = renderingData.cameraData.camera.worldToCameraMatrix;
-            data._proj = renderingData.cameraData.camera.projectionMatrix;
+            data.originalView = renderingData.cameraData.camera.worldToCameraMatrix;
+            data.originalProj = renderingData.cameraData.camera.projectionMatrix;
 
 
 
@@ -40,10 +40,10 @@ public class MatrizRenderFeature : ScriptableRendererFeature
 
             //for (int i = 0; i < _renderTextures.Length; i++)
             {
-                deltaPosition = data._position - renderingData.cameraData.camera.transform.position;
+                deltaPosition = data.position - renderingData.cameraData.camera.transform.position;
 
                 deltaPosition *= -1;
-                
+
                 var cullingParams = originalCullingParams;
 
                 for (int i = 0; i < cullingParams.cullingPlaneCount; i++)
@@ -53,16 +53,15 @@ public class MatrizRenderFeature : ScriptableRendererFeature
                     cullingParams.SetCullingPlane(i, plane);
                 }
 
-                data._view = data._view * Matrix4x4.TRS(deltaPosition, data._rotation, data._scale);
+                data.view = data.originalView * Matrix4x4.TRS(deltaPosition, data.rotation, data.scale);
 
-                var cullResults = context.Cull(ref cullingParams);
+                data.proj = data.originalProj;
 
+                var cullResults = context.Cull(ref cullingParams);//Esto es lo que lo cuelga
+
+                cmd.SetViewProjectionMatrices(data.view, data.proj);
                 cmd.SetRenderTarget(data._renderTextures[0]);
                 cmd.ClearRenderTarget(true, true, Color.clear);
-               
-
-                cmd.SetViewProjectionMatrices(data._view, data._proj);
-
 
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
@@ -89,15 +88,17 @@ public class MatrizRenderFeature : ScriptableRendererFeature
     {
         public RenderTexture[] _renderTextures;
 
+        public Vector3 position;
         
-        public Quaternion _rotation = Quaternion.identity;
+        public Quaternion rotation = Quaternion.identity;
 
-        public Vector3 _scale;
-        
-        public Vector3 _position;
+        public Vector3 scale;
 
-        public Matrix4x4 _view;
-        public Matrix4x4 _proj;
+        public Matrix4x4 originalView;
+        public Matrix4x4 originalProj;
+
+        public Matrix4x4 view;
+        public Matrix4x4 proj;
     }
 
 
@@ -111,7 +112,9 @@ public class MatrizRenderFeature : ScriptableRendererFeature
     }
     public override void Create()
     {
-        _pass = new MatrizDeCamaraPruebas(data);
+        _pass = new MatrizDeCamaraPruebas(data)
+        {
+            renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing
+        };
     }
-
 }
