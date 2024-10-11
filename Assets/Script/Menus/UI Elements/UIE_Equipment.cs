@@ -14,10 +14,6 @@ public class UIE_Equipment : UIE_BaseMenu
 
     public UIE_EquipMenu equipMenu;
 
-    public List<Sprite> basicsKeys = new List<Sprite>();
-    public List<Sprite> abilitiesKeys = new List<Sprite>();
-    public List<Sprite> katasKeys = new List<Sprite>();
-
     VisualElement combosButton;
 
     protected Timer animTimer;

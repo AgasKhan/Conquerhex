@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7324791073229505215}
   - component: {fileID: 3816929757864241773}
   - component: {fileID: 1407724302080057166}
+  - component: {fileID: 3402143665418408502}
   m_Layer: 0
   m_Name: CraftingBuild
   m_TagString: Props
@@ -91,7 +92,6 @@ MonoBehaviour:
       _current: 0
     deathBool: 0
     regenCancelStop: 0
-  hexagoneParent: {fileID: 0}
   <carlitos>k__BackingField: []
   <flyweight>k__BackingField: {fileID: 11400000, guid: 0756ea0cb8293ce40a2a3851e22edbe8,
     type: 2}
@@ -177,7 +177,7 @@ MonoBehaviour:
   interactuable: 1
   _offsetInteractView: {x: 0, y: 0, z: 0}
   Image: {fileID: 0}
-  interactAction: {fileID: 1407724302080057166}
+  interactAction: {fileID: 3402143665418408502}
   genericMenu:
     subMenu: {fileID: 0}
     detailsWindow: {fileID: 0}
@@ -221,6 +221,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myIteractSpecific: {fileID: 8243870061219083652}
+--- !u!114 &3402143665418408502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773200482067112399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9714d7fd21d8cc478c9ed6e2cf3659e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  craftBuild: {fileID: 555880606947407103}
 --- !u!1001 &1729456309766950900
 PrefabInstance:
   m_ObjectHideFlags: 0

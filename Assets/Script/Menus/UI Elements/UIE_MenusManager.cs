@@ -9,6 +9,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public string EquipItemMenu = "EquipItem_UIDoc";
     public string EquipmentMenu = "Equipment_UIDoc";
     public string CombosMenu = "Combos_UIDoc";
+    public string CraftMenu = "Craft_UIDoc";
 
     public Pictionarys<string, UIE_BaseMenu> menuList = new Pictionarys<string, UIE_BaseMenu>();
     public static Dictionary<string, VisualTreeAsset> treeAsset = new Dictionary<string, VisualTreeAsset>();
@@ -181,6 +182,8 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         GameManager.instance.Menu(true);
         currentMenu = name;
         menuList[name].EnableMenu();
+
+        
     }
 
     public void DisableMenu(string name)
@@ -189,6 +192,11 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         GameManager.instance.Menu(false);
         lastMenu = name;
         menuList[name].DisableMenu();
+    }
+
+    public UIE_BaseMenu GetMenu(string name)
+    {
+        return menuList[name];
     }
 
     public void TriggerOnClose()

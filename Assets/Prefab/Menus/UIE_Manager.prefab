@@ -63,20 +63,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipMenu: {fileID: 2110480652936732313}
-  basicsKeys:
-  - {fileID: 21300000, guid: 70b9875e03dd1d14992340557b08dd69, type: 3}
-  - {fileID: 21300000, guid: 224c9d6eaeaa77a449d7264ee6c62a74, type: 3}
-  - {fileID: 21300000, guid: 69185da084d899c4598716da8e554ce0, type: 3}
-  abilitiesKeys:
-  - {fileID: 21300000, guid: 0201a62df2a77f149a559dfe5370b8c2, type: 3}
-  - {fileID: 21300000, guid: 60288ada16cba784aa244026226d4f48, type: 3}
-  - {fileID: 21300000, guid: dc19dda75836426419d3d3174cb43a44, type: 3}
-  - {fileID: 21300000, guid: 74f2733c0eb077e48b475d76827b58d3, type: 3}
-  katasKeys:
-  - {fileID: 21300000, guid: 199cf7f830ef4c54d819b8320373d8ae, type: 3}
-  - {fileID: 21300000, guid: 6bdba85637a5dc14cb681f6748cfd483, type: 3}
-  - {fileID: 21300000, guid: 20c0cb3092f465a43ada0af0706d69d2, type: 3}
-  - {fileID: 21300000, guid: 16a9705516beb2540adc6d0396c0c02f, type: 3}
 --- !u!1 &1279907672048343825
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,9 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipMenu: {fileID: 2110480652936732313}
-  basicsKeys: []
-  abilitiesKeys: []
-  katasKeys: []
 --- !u!1 &5507341918820118517
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +159,7 @@ Transform:
   - {fileID: 4218973187683568368}
   - {fileID: 7009200166513262664}
   - {fileID: 7116155173528042587}
+  - {fileID: 5457161533818471936}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8310235135797555403
@@ -193,6 +177,7 @@ MonoBehaviour:
   EquipItemMenu: EquipItem_UIDoc
   EquipmentMenu: Equipment_UIDoc
   CombosMenu: Combos_UIDoc
+  CraftMenu: Craft_UIDoc
   menuList:
     pictionaries:
     - key: Equipment_UIDoc
@@ -201,6 +186,8 @@ MonoBehaviour:
       value: {fileID: 2110480652936732313}
     - key: Combos_UIDoc
       value: {fileID: 394520618175240633}
+    - key: Craft_UIDoc
+      value: {fileID: 9210274415551073263}
   isInMenu: 0
   timeToTooltip: 0.8
   timeToLeaveTooltip: 0.2
@@ -316,6 +303,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipMenu: {fileID: 0}
-  basicsKeys: []
-  abilitiesKeys: []
-  katasKeys: []
+--- !u!1 &6235672785906551171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5457161533818471936}
+  - component: {fileID: 7765494479945630524}
+  - component: {fileID: 9210274415551073263}
+  m_Layer: 5
+  m_Name: Craft_UIDoc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5457161533818471936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6235672785906551171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5965052078263098672}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7765494479945630524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6235672785906551171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 4725b563d3959d74f83708e76f5fb303, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: de7c470a228cec44585b16ff9b1ff618,
+    type: 3}
+  m_SortingOrder: 0
+--- !u!114 &9210274415551073263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6235672785906551171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf9f6d85de8f1ed4396ab8405964b2d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipMenu: {fileID: 0}
