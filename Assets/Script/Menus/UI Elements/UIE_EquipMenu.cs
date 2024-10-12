@@ -9,7 +9,7 @@ public class UIE_EquipMenu : UIE_Equipment
 {
     protected VisualElement listContainer;
 
-    Label equipTitle;
+    protected Label equipTitle;
 
     //Details Window
     protected VisualElement containerDW;

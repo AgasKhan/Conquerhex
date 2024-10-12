@@ -20,11 +20,11 @@
         <ui:VisualElement name="MiddleBox" style="flex-grow: 1; flex-direction: row;">
             <ui:VisualElement style="flex-grow: 1; width: 32%; justify-content: center; align-items: center;">
                 <ui:VisualElement name="Inventory" class="verticalList" style="width: 88%; height: 88%; background-color: rgb(20, 20, 20); background-image: none; align-self: center; border-left-color: rgb(88, 65, 46); border-right-color: rgb(88, 65, 46); border-top-color: rgb(88, 65, 46); border-bottom-color: rgb(88, 65, 46); border-top-width: 0; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; color: rgb(20, 20, 20); -unity-text-outline-color: rgb(20, 20, 20);">
-                    <ui:Label tabindex="-1" text="LISTA DE ITEMS CRAFTEABLES" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="subTitle" style="color: rgb(243, 232, 201); margin-left: 9px;" />
+                    <ui:Label tabindex="-1" text="LISTA DE ITEMS CRAFTEABLES" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipTitle" class="subTitle" style="color: rgb(243, 232, 201); margin-left: 9px;" />
                     <ui:VisualElement name="TagsBar" class="horizontalContainer" style="flex-grow: 0; height: 42px; width: 100%; justify-content: flex-start; padding-left: 5px;">
                         <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="tagButton" />
                         <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="tagButton" />
-                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="tagButton" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="tagButton tagButtonSelected" />
                         <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" class="tagButton" />
                         <ui:VisualElement class="tagButton" />
                         <ui:VisualElement />

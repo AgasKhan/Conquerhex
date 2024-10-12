@@ -30,6 +30,11 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public Sprite defaultKataImage;
     public string defaultKataText;
 
+    public Sprite defaultNoFilterImage;
+    public Sprite oldDefaultWeaponImage;
+    public Sprite oldDefaultAbilityImage;
+    public Sprite oldDefaultKataImage;
+
     public Pictionarys<string, string> shortCuts = new Pictionarys<string, string>();
 
     string currentMenu = "";
@@ -138,6 +143,15 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
             return defaultKataImage;
         else
             return defaultAbilityImage;
+    }
+    public Sprite GetOldImage<T>() where T : ItemEquipable
+    {
+        if (typeof(T) == typeof(MeleeWeapon))
+            return oldDefaultWeaponImage;
+        else if (typeof(T) == typeof(WeaponKata))
+            return oldDefaultKataImage;
+        else
+            return oldDefaultAbilityImage;
     }
 
     public string GetText<T>(ItemEquipable itemEquiped) where T : ItemEquipable

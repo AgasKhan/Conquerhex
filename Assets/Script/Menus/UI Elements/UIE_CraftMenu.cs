@@ -24,20 +24,19 @@ public class UIE_CraftMenu : UIE_EquipMenu
         onEnableMenu += myOnEnable;
         onDisableMenu += myOnDisable;
 
+        equipTitle = ui.Q<Label>("equipTitle");
         listContainer = ui.Q<VisualElement>("listContainer");
         titleDW = ui.Q<Label>("titleDW");
         descriptionDW = ui.Q<Label>("descriptionDW");
         imageDW = ui.Q<VisualElement>("imageDW");
         containerDW = ui.Q<VisualElement>("containerDW");
         tagsBar = ui.Q<VisualElement>("TagsBar");
-
         onClose += () => manager.DisableMenu(gameObject.name);
     }
 
     private void myOnEnable()
     {
         listContainer.Clear();
-        buttonsList.Clear();
         tagsBar.Clear();
         filterType = null;
 
@@ -57,11 +56,16 @@ public class UIE_CraftMenu : UIE_EquipMenu
     void CreateListRecipes()
     {
         ShowDetails("", "", null);
+        buttonsList.Clear();
+        listContainer.Clear();
 
         for (int i = 0; i < building.currentRecipes.Count; i++)
         {
-            if (filterType != null && !filterType.IsAssignableFrom(building.currentRecipes[i].GetType()))
-                continue;
+            if (filterType != null)
+            {
+                if(!filterType.IsAssignableFrom(building.currentRecipes[i].GetType()) || filterType != building.currentRecipes[i].GetType())
+                    continue;
+            }
 
             AddButton(building.currentRecipes[i]);
         }
@@ -72,13 +76,14 @@ public class UIE_CraftMenu : UIE_EquipMenu
         var aux = new VisualElement();
         tagsBar.Add(aux);
         aux.AddToClassList("tagButton");
-        aux.RegisterCallback<ClickEvent>((clEvent) => 
+        aux.RegisterCallback<ClickEvent>((clEvent) =>
         {
+            Debug.Log("Filter Type: " + typeof(T).ToString());
             filterType = typeof(T);
             CreateListRecipes();
         });
 
-        aux.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetImage<T>(null));
+        aux.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetOldImage<T>());
     }
 
     void AddButton(ItemCrafteable _itemCraft)
@@ -87,9 +92,9 @@ public class UIE_CraftMenu : UIE_EquipMenu
         listContainer.Add(button);
         buttonsList.Add(button);
 
-        button.Init(_itemCraft.image, _itemCraft.nameDisplay, _itemCraft.GetType().ToString(), "-", () =>{});
+        button.Init(_itemCraft.image, _itemCraft.nameDisplay, _itemCraft.GetType().ToString(), "-", () => { });
 
-        button.SetChangeButton(()=>
+        button.SetChangeButton(() =>
         {
             if (character == null || _itemCraft == null)
                 return;
