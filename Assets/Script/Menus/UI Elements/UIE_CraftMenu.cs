@@ -10,8 +10,6 @@ public class UIE_CraftMenu : UIE_EquipMenu
     List<UIE_ListButton> buttonsList = new List<UIE_ListButton>();
     CraftingBuild building;
 
-    VisualElement tagsBar;
-
     protected override void Config()
     {
         base.Config();
@@ -30,8 +28,14 @@ public class UIE_CraftMenu : UIE_EquipMenu
         descriptionDW = ui.Q<Label>("descriptionDW");
         imageDW = ui.Q<VisualElement>("imageDW");
         containerDW = ui.Q<VisualElement>("containerDW");
+
         tagsBar = ui.Q<VisualElement>("TagsBar");
+        inputField= ui.Q<TextField>("inputField");
+        searchButton = ui.Q<VisualElement>("searchButton");
+
         onClose += () => manager.DisableMenu(gameObject.name);
+        searchButton.RegisterCallback<ClickEvent>((clEvent) => CreateListRecipes(inputField.value));
+        inputField.Children().First().AddToClassList("searchBar");
     }
 
     private void myOnEnable()
@@ -39,12 +43,13 @@ public class UIE_CraftMenu : UIE_EquipMenu
         listContainer.Clear();
         tagsBar.Clear();
         filterType = null;
-
+        inputField.value = "";
         //animController = character.GetInContainer<AnimatorController>();
 
-        CreateTagsButtons<MeleeWeapon>();
-        CreateTagsButtons<AbilityExtCast>();
-        CreateTagsButtons<WeaponKata>();
+        CreateTagsButton(()=> CreateListRecipes());
+        CreateTagsButton<MeleeWeapon>(() => CreateListRecipes());
+        CreateTagsButton<AbilityExtCast>(() => CreateListRecipes());
+        CreateTagsButton<WeaponKata>(() => CreateListRecipes());
 
         CreateListRecipes();
     }
@@ -53,7 +58,7 @@ public class UIE_CraftMenu : UIE_EquipMenu
         //filterType = null;
     }
 
-    void CreateListRecipes()
+    void CreateListRecipes(string _filter = "")
     {
         ShowDetails("", "", null);
         buttonsList.Clear();
@@ -61,29 +66,14 @@ public class UIE_CraftMenu : UIE_EquipMenu
 
         for (int i = 0; i < building.currentRecipes.Count; i++)
         {
-            if (filterType != null)
-            {
-                if(!filterType.IsAssignableFrom(building.currentRecipes[i].GetType()) || filterType != building.currentRecipes[i].GetType())
-                    continue;
-            }
+            if (filterType != null && !filterType.IsAssignableFrom(building.currentRecipes[i].GetItemType()))
+                continue;
+
+            if (_filter != "" && !(building.currentRecipes[i].nameDisplay.ToLower().Contains(_filter.ToLower())))
+                continue;
 
             AddButton(building.currentRecipes[i]);
         }
-    }
-
-    void CreateTagsButtons<T>() where T : ItemEquipable
-    {
-        var aux = new VisualElement();
-        tagsBar.Add(aux);
-        aux.AddToClassList("tagButton");
-        aux.RegisterCallback<ClickEvent>((clEvent) =>
-        {
-            Debug.Log("Filter Type: " + typeof(T).ToString());
-            filterType = typeof(T);
-            CreateListRecipes();
-        });
-
-        aux.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetOldImage<T>());
     }
 
     void AddButton(ItemCrafteable _itemCraft)
