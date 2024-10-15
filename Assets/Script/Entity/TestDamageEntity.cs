@@ -31,7 +31,7 @@ public class TestDamageEntity : MonoBehaviour
 
     Timer timerDamage;
 
-    Entity entity;
+    public Entity entity;
 
     public System.Action UpdateFeedback, UpdateTick, ExitAction;
 
@@ -58,7 +58,7 @@ public class TestDamageEntity : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Entity>(out entity))
+        if (other.gameObject.layer == 15)
         {
             timerDamage?.Reset();
         }
@@ -66,7 +66,7 @@ public class TestDamageEntity : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<Entity>(out entity))
+        if (other.gameObject.layer == 15)
         {
             timerDamage?.Stop();
             ExitAction?.Invoke();

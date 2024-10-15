@@ -588,11 +588,16 @@ public class Hexagone : MonoBehaviour, IUpdate
         return resultado;
     }
 
-    public IEnumerable<Vector3> GetEquivalentPoints(int lado)
+    public IEnumerable<Vector3> GetEquivalentPoints(int lado, float y)
     {
         for (int i = 0; i < ladosArray[lado].aristasPuntos.Length; i++)
         {
             yield return (ladosArray[lado].aristasPuntos[i] - ladosArray[lado].transform.position) + HexagonsManager.apotema * 2 *(ladosPuntos[lado] - transform.position).normalized + transform.position;
+        }
+
+        for (int i = 0; i < ladosArray[lado].aristasPuntos.Length; i++)
+        {
+            yield return (ladosArray[lado].aristasPuntos[i] - ladosArray[lado].transform.position) + HexagonsManager.apotema * 2 * (ladosPuntos[lado] - transform.position).normalized + transform.position.Vect3Copy_Y(y);
         }
     }
 

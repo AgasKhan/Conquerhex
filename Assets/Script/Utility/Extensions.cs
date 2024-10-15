@@ -427,6 +427,217 @@ public static class Extensions
 
     #endregion
 
+    #region LayerMask
+
+    const int MaxLayers = 32;
+
+    /// <summary>
+    /// Obtiene todas las layers que componen una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    public static IEnumerable<int> GetActiveLayers(this LayerMask layerMask)
+    {
+        for (int i = 0; i < MaxLayers; i++)
+        {
+            if ((layerMask.value & (1 << i)) != 0)
+            {
+                yield return i;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Aniade las layers a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, IEnumerable<int> layers)
+    {
+        foreach (var layer in layers)
+        {
+            layerMask |= layer.FromLayerNumber();
+        }
+    }
+
+
+    /// <summary>
+    /// Aniade una layer a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, params int[] layers)
+    {
+        layerMask.AddToMask((IEnumerable<int>)layers);
+    }
+
+
+    /// <summary>
+    /// Aniade las layer de una LayerMask a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, LayerMask layers)
+    {
+        layerMask.AddToMask(layers.GetActiveLayers());
+    }
+
+    /// <summary>
+    /// Aniade una layer a una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    static public void AddToMask(this ref LayerMask layerMask, params string[] layerName)
+    {
+        layerMask.AddToMask((LayerMask)LayerMask.GetMask(layerName));
+    }
+
+    /// <summary>
+    /// Crea una LayerMask en base a un número de Layer
+    /// </summary>
+    /// <param name="layer"></param>
+    /// <returns>LayerMask que contiene únicamente la capa especificada</returns>
+    static public LayerMask FromLayerNumber(this int layer)
+    {
+        return (1 << layer);
+    }
+
+    /// <summary>
+    /// Convierte un valor entero directamente en una LayerMask
+    /// </summary>
+    /// <param name="maskValue"></param>
+    /// <returns>LayerMask basada en el valor entero</returns>
+    static public LayerMask FromMaskValue(this int maskValue)
+    {
+        return (LayerMask)maskValue;
+    }
+
+    /// <summary>
+    /// Crea una LayerMask en base al nombre de una capa
+    /// </summary>
+    /// <param name="layerName"></param>
+    /// <returns>LayerMask que contiene únicamente la capa especificada por su nombre</returns>
+    static public LayerMask FromLayerName(this string layerName)
+    {
+        int layer = LayerMask.NameToLayer(layerName);
+        if (layer == -1)
+        {
+            Debug.LogWarning($"Layer '{layerName}' no existe.");
+            return 0; // O un comportamiento definido como retornar una máscara vacía
+        }
+        return (1 << layer);
+    }
+
+
+    /// <summary>
+    /// Remueve varias layers de una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layers"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, IEnumerable<int> layers)
+    {
+        foreach (var layer in layers)
+        {
+            layerMask &= ~layer.FromLayerNumber();
+        }
+    }
+
+    /// <summary>
+    /// Remueve varias layers de una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layers"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, params int[] layers)
+    {
+        layerMask.RemoveToMask((IEnumerable<int>)layers);
+    }
+
+    /// <summary>
+    /// Remueve las layers de otra LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layers"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, LayerMask layers)
+    {
+        layerMask.RemoveToMask(layers.GetActiveLayers());
+    }
+
+    /// <summary>
+    /// Remueve varias layers de una LayerMask utilizando nombres
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layerNames"></param>
+    static public void RemoveToMask(this ref LayerMask layerMask, params string[] layerNames)
+    {
+        foreach (var layerName in layerNames)
+        {
+            layerMask.RemoveToMask(LayerMask.NameToLayer(layerName));
+        }
+    }
+
+    /// <summary>
+    /// Verifica si una LayerMask posee la siguiente layer
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    static public bool IsInMask(this ref LayerMask layerMask, int layer)
+    {
+        return (layerMask & (1 << layer)) != 0;
+    }
+
+    /// <summary>
+    /// Verifica si una LayerMask posee la siguiente layer
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    static public bool IsInMask(this ref LayerMask layerMask, string layerName)
+    {
+        return layerMask.IsInMask(LayerMask.NameToLayer(layerName));
+    }
+
+    /// <summary>
+    /// Invierte todas las layers en una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    static public void InvertMask(this ref LayerMask layerMask)
+    {
+        layerMask = ~layerMask;
+    }
+
+    /// <summary>
+    /// Verifica si una LayerMask no tiene capas activas
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    static public bool IsEmpty(this LayerMask layerMask)
+    {
+        return layerMask == 0;
+    }
+
+    /// <summary>
+    /// Cuenta cuántas capas están activas en una LayerMask
+    /// </summary>
+    /// <param name="layerMask"></param>
+    /// <returns></returns>
+    static public int CountActiveLayers(this LayerMask layerMask)
+    {
+        int count = 0;
+        for (int i = 0; i < 32; i++)
+        {
+            if ((layerMask.value & (1 << i)) != 0)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    #endregion
+
 
     #region eventos botones
 
@@ -799,6 +1010,8 @@ public static class Extensions
     {
         return team != toCheck && toCheck != Team.noTeam;
     }
+
+   
 
     static public bool IsGenericChildOf<T>(this object obj)
     {

@@ -213,8 +213,6 @@ public class MainCamera : SingletonMono<MainCamera>
             rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
 
             rendersOverlay[i].transform.localPosition = tracker.vectorPerspective;
-
-            rendersOverlay.cameras[i + 2].fieldOfView = tracker.Fov;
         }
     }
 
@@ -251,11 +249,21 @@ public class MainCamera : SingletonMono<MainCamera>
             }
         });
 
+        tracker.onFov += TrackerOnFov;
+
         LoadSystem.AddPostLoadCorutine(() =>
         {
             if (HexagonsManager.instance != null && HexagonsManager.instance.automaticRender)
                 SetProyections(HexagonsManager.arrHexCreados?[0]);
         });
+    }
+
+    private void TrackerOnFov(float obj)
+    {
+        for (int i = 0; i < rendersOverlay.Length; i++)
+        {
+            rendersOverlay.cameras[i].fieldOfView = obj;
+        }
     }
 
     private void LateUpdate()
@@ -285,7 +293,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         for (int i = 0; i < hexagone.ladosArray.Length; i++)
         {
-            camerasEdge[i] = culling.IsInFrustrum(hexagone.GetEquivalentPoints(i));
+            camerasEdge[i] = culling.IsInFrustrum(hexagone.GetEquivalentPoints(i, 20));
         }
 
         RefreshMaterial();
@@ -350,6 +358,12 @@ namespace CameraComponents
     {
         public Transform obj;
 
+        [SerializeField]
+        LayerMask maskToAiming;
+
+        [SerializeField]
+        LayerMask maskToCollisionCamera;
+
         public Vector3 rotationEulerPerspective;
 
         public Vector3 offsetObjPosition;
@@ -404,7 +418,7 @@ namespace CameraComponents
 
         public Vector3 Position => (obj.position + offsetObjPosition).Vect3Copy_Y(offsetObjPosition.y);
 
-        public float Fov => character?.aiming.sets[cameraSet].fov ?? 60;
+        public event System.Action<float> onFov;
 
         float distanceToObjective;
 
@@ -581,7 +595,7 @@ namespace CameraComponents
 
             if (character.aiming.mode == AimingEntityComponent.Mode.perspective)
             {
-                if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out hitInfo, distanceToObjective, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                if (Physics.SphereCast(Position, 0.5f, rotationPerspective * setVectorPerspective, out hitInfo, distanceToObjective, maskToCollisionCamera, QueryTriggerInteraction.Ignore))
                 {
                     vectorPerspective = Vector3.Lerp(vectorPerspective, setVectorPerspective.normalized * (hitInfo.distance - 0.1f), Time.deltaTime * smoothColision);
                 }
@@ -603,7 +617,7 @@ namespace CameraComponents
                     //ray.direction = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (ray.direction);
                 }
 
-                Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, Physics.AllLayers & ~(1 << 15), QueryTriggerInteraction.Ignore);
+                Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, maskToAiming, QueryTriggerInteraction.Ignore);
 
                 if (toTrack != null)//trackeo
                 {
@@ -669,6 +683,8 @@ namespace CameraComponents
                 distanceToObjective = vectorPerspective.magnitude;
                 rotationEulerPerspective = rotationPerspective.eulerAngles;
 
+                onFov?.Invoke(Mathf.Lerp(character.aiming.sets[prevCameraSet].fov, character.aiming.sets[cameraSet].fov, transitionsSet.InversePercentage()));
+
             }, () =>
             {
                 if (character == null)
@@ -680,6 +696,8 @@ namespace CameraComponents
 
                 distanceToObjective = vectorPerspective.magnitude;
                 rotationEulerPerspective = rotationPerspective.eulerAngles;
+
+                onFov?.Invoke(character.aiming.sets[cameraSet].fov);
             }).Stop();
         }
     }
