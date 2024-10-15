@@ -37,40 +37,37 @@ namespace Controllers
 
         protected void UpdateAxis(bool b = false)
         {
-            float h = Input.GetAxis(horizontal);
-            float v = Input.GetAxis(vertical);
+            float h = Input.GetAxisRaw(horizontal);
+            float v = Input.GetAxisRaw(vertical);
 
-            if (b || (h != 0 && v != 0))
+            if (mouseOverride)
             {
-                if (mouseOverride)
-                {
-                    if (MainCamera.Main == null)
-                        return;
-
-                    //dir.Set(Input.mousePosition.x, Input.mousePosition.y);
-
-                    Vector3 point = MainCamera.GetScreenToWorld(Input.mousePosition);
-
-                    Vector3 center = MainCamera.GetScreenToWorld(new Vector3(Screen.width/2, Screen.height / 2, 0));
-
-                    dir = (point - center).Vect3To2XZ();
-
-                    dir.Normalize();
-                }
-                else
-                {
-                    dir.Set(h, v);
-                }
-
-                dir *= velocity;
-
-                if (!isSmooth)
+                if (MainCamera.Main == null)
                     return;
 
-                dir.x = Mathf.Lerp(0, dir.x, Time.deltaTime * smoothVelocity);
+                //dir.Set(Input.mousePosition.x, Input.mousePosition.y);
 
-                dir.y = Mathf.Lerp(0, dir.y, Time.deltaTime * smoothVelocity);
+                Vector3 point = MainCamera.GetScreenToWorld(Input.mousePosition);
+
+                Vector3 center = MainCamera.GetScreenToWorld(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+                dir = (point - center).Vect3To2XZ();
+
+                dir.Normalize();
             }
+            else
+            {
+                dir.Set(h, v);
+            }
+
+            dir *= velocity;
+
+            if (!isSmooth)
+                return;
+
+            dir.x = Mathf.Lerp(0, dir.x, Time.deltaTime * smoothVelocity);
+
+            dir.y = Mathf.Lerp(0, dir.y, Time.deltaTime * smoothVelocity);
 
             //if (dir.sqrMagnitude > 1)
         }
