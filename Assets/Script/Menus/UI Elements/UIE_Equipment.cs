@@ -148,12 +148,12 @@ public class UIE_Equipment : UIE_BaseMenu
             return;
 
         currentWeapon = character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(_weapon.itemBase.weaponModel);
-        animController.ChangeActionAnimation(manager.showWeaponAnim, true);
+        animController.ChangeActionAnimation(manager.showWeapon.animClips["Start"]);
     }
     protected void ShowWeapon()
     {
         currentWeapon = character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon();
-        animController.ChangeActionAnimation(manager.showWeaponAnim, true);
+        animController.ChangeActionAnimation(manager.showWeapon.animClips["Start"]);
     }
 
     protected void HideWeapon()
@@ -170,7 +170,7 @@ public class UIE_Equipment : UIE_BaseMenu
         if (_condition)
         {
             currentWeapon = character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(_weapon.itemBase.weaponModel);
-            animController.ChangeActionAnimation(manager.showWeaponAnim, true);
+            animController.ChangeActionAnimation(manager.showWeapon.animClips["Start"]);
             return currentWeapon;
         }
         else
@@ -186,7 +186,7 @@ public class UIE_Equipment : UIE_BaseMenu
         if (_condition)
         {
             currentWeapon = character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon();
-            animController.ChangeActionAnimation(manager.showWeaponAnim, true);
+            animController.ChangeActionAnimation(manager.showWeapon.animClips["Start"]);
             return currentWeapon;
         }
         else

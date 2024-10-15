@@ -69,7 +69,7 @@ public class UIE_BaseMenu : MyScripts
 
         ui.RemoveFromClassList("opacityHidden");
         //ui.AddToClassList("opacityVisible");
-        character.GetInContainer<AnimatorController>().SetScaleController(AnimatorUpdateMode.UnscaledTime);
+        character.GetInContainer<AnimatorController>().SetUnscaleController(true);
 
         onEnableMenu?.Invoke();
     }
@@ -91,7 +91,7 @@ public class UIE_BaseMenu : MyScripts
         //TimersManager.Create(0.2f, () => ui.style.display = DisplayStyle.None);
 
 
-        character.GetInContainer<AnimatorController>().SetScaleController();
+        character.GetInContainer<AnimatorController>().SetUnscaleController(false);
         
     }
 
