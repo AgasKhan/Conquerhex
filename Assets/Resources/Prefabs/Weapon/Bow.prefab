@@ -79,15 +79,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 972091295652294255}
-  offset: {x: 0, y: 0.83, z: 0.16}
+  offset: {x: 0.09, y: 0.83, z: 0.1}
   onSpawn:
     m_PersistentCalls:
       m_Calls: []
   onDespawn:
     m_PersistentCalls:
       m_Calls: []
-  handHandling: 0
-  leftOffset: {x: 0, y: 0.84, z: -0.03}
+  leftOffset: {x: 0.09, y: 0.83, z: 0.1}
   positionsPCache: {fileID: 6918954641851045129, guid: b7161522a04abbb46afd716a54afa750,
     type: 3}
   normalsPCache: {fileID: 8714772487333450258, guid: b7161522a04abbb46afd716a54afa750,
@@ -358,7 +357,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.49999994
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
@@ -368,7 +367,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0.86602545
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
@@ -383,7 +382,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: abfb3466e2ef0804e967072c8e1e4f0a,
         type: 3}
