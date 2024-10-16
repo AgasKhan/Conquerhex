@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2709961027497327093}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.236, z: 0}
+  m_LocalPosition: {x: 0, y: 0.416, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5167,9 +5167,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.06
-  m_Height: 0.33
+  m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0.16, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &7188442674348528769
 GameObject:
   m_ObjectHideFlags: 0
@@ -5195,7 +5195,7 @@ Transform:
   m_GameObject: {fileID: 7188442674348528769}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0.478, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5427,7 +5427,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.28235295}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.15686275}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5491,8 +5491,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.15
-      minScalar: 0.1
+      scalar: 0.1
+      minScalar: 0.07
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10216,6 +10216,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.00034046
       objectReference: {fileID: 0}
+    - target: {fileID: -1147141678313008602, guid: c5fc5872a84ea1045bd6eb8bd41dd042,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4f087f9a031c152448a136693593cc9a, type: 2}
     - target: {fileID: -1131402461454049092, guid: c5fc5872a84ea1045bd6eb8bd41dd042,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -10266,6 +10271,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4f087f9a031c152448a136693593cc9a, type: 2}
+    - target: {fileID: 2940386959550521088, guid: c5fc5872a84ea1045bd6eb8bd41dd042,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4f087f9a031c152448a136693593cc9a, type: 2}
+    - target: {fileID: 6754677652018506386, guid: c5fc5872a84ea1045bd6eb8bd41dd042,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 784fc3c9d2cc23340ba66e983413870f, type: 2}
     - target: {fileID: 9141670574021528374, guid: c5fc5872a84ea1045bd6eb8bd41dd042,
         type: 3}
       propertyPath: m_LocalScale.x
