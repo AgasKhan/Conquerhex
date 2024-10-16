@@ -74,6 +74,14 @@ public class UIE_CraftMenu : UIE_EquipMenu
 
             AddButton(building.currentRecipes[i]);
         }
+
+        if(buttonsList.Count <= 0)
+        {
+            var aux = new Label();
+            listContainer.Add(aux);
+            aux.text = "No se encontro ningun objeto";
+            aux.AddToClassList("notFoundText");
+        }
     }
 
     void AddButton(ItemCrafteable _itemCraft)
