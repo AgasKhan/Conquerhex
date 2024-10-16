@@ -105,7 +105,10 @@ public class CastingDash : CastingAction<CastingDashBase>
         IEnumerable<Entity> affected = Utilitys.VoidEnumerable<Entity>();
 
         if (castingActionBase.Invulnerable)
-            caster.container.vulnerabilities.Add(Damage.Create<DamageTypes.PureDamage>(0, 0, "NoDamage"));
+            //caster.container.vulnerabilities.Add(Damage.Create<DamageTypes.PureDamage>(0, 0, "NoDamage"));
+            caster.container.GetEntity().gameObject.layer = 14;
+
+
 
         if (moveEntity != null)
         {
@@ -160,13 +163,13 @@ public class CastingDash : CastingAction<CastingDashBase>
     {
         if (castingActionBase.multiplyByArea)
         {
-            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash * FinalMaxRange);
+            moveEntity.Velocity(AimingXZ, castingActionBase.velocityInDash * FinalMaxRange);
 
             //Debug.Log("Velocity: " + FinalMaxRange);
         }
         else
         {
-            moveEntity.Velocity(Aiming, castingActionBase.velocityInDash);
+            moveEntity.Velocity(AimingXZ, castingActionBase.velocityInDash);
         }
     }
 
@@ -177,7 +180,9 @@ public class CastingDash : CastingAction<CastingDashBase>
         moveEntity.Velocity(moveEntity.direction, moveEntity.objectiveVelocity);
 
         if (castingActionBase.Invulnerable)
-            caster.container.vulnerabilities.Remove(Damage.Create<DamageTypes.PureDamage>(0, 0, "NoDamage"));
+            //caster.container.vulnerabilities.Remove(Damage.Create<DamageTypes.PureDamage>(0, 0, "NoDamage"));
+            caster.container.GetEntity().gameObject.layer = 15;
+            
 
         if (endDashCastingAction != null)
         {

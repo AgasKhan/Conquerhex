@@ -5,8 +5,9 @@ using UnityEngine.Tilemaps;
 using System.Linq;
 using Unity.Jobs;
 using Unity.Collections;
+using UnityEngine.Events;
 
-public class Hexagone : MonoBehaviour
+public class Hexagone : MonoBehaviour, IUpdate
 {
     public struct WeightTransform: System.IComparable<WeightTransform>
     {
@@ -38,7 +39,9 @@ public class Hexagone : MonoBehaviour
     public Hexagone[] ladosArray = new Hexagone[6];//Lo uso para definir A DONDE me voy a teletransportar
 
     //pareja de coordenadas
-    public float[,] ladosPuntos = new float[6, 2];//Lo uso para guardar la coordenadas de cada lado
+    public Vector3[] ladosPuntos = new Vector3[6];//Lo uso para guardar la coordenadas de cada lado
+
+    public Vector3[] aristasPuntos = new Vector3[6];
 
     public Biomes biomes;
 
@@ -48,7 +51,7 @@ public class Hexagone : MonoBehaviour
 
     public TerrainManager mapCopado;
 
-    public SpriteRenderer effect;
+    public SpriteRenderer[] effect;
 
     public float velocityTransfer;
 
@@ -81,9 +84,18 @@ public class Hexagone : MonoBehaviour
 
     bool on;
 
+    public event UnityAction MyUpdates;
+    public event UnityAction MyFixedUpdates;
+    public void SetPortalColor(Color color)
+    {
+        for (int i = 0; i < effect.Length; i++)
+        {
+            effect[i].color = color;
+        }
+    }
     public void ExitEntity(Entity entity)
     {
-        entity.hexagoneParent = null;
+        entity.HexagoneParent = null;
         /*
         if (bussy)
             GameManager.eventQueueRoutine.Enqueue(Routine(() => childsEntities.Remove(entity)));
@@ -94,8 +106,8 @@ public class Hexagone : MonoBehaviour
 
     public void EnterEntity(Entity entity)
     {
-        entity.hexagoneParent?.ExitEntity(entity);
-        entity.hexagoneParent = this;
+        entity.HexagoneParent?.ExitEntity(entity);
+        entity.HexagoneParent = this;
         //entity.transform.parent = null;
         /*
         if (bussy)
@@ -367,8 +379,14 @@ public class Hexagone : MonoBehaviour
 
     public void SetEdgePoint(int i)
     {
-        this.ladosPuntos[i, 0] = transform.position.x + HexagonsManager.localApotema[i, 0];
-        this.ladosPuntos[i, 1] = transform.position.z + HexagonsManager.localApotema[i, 1];
+        this.ladosPuntos[i] = new Vector3();
+
+        this.ladosPuntos[i].x = transform.position.x + HexagonsManager.localApotema[i, 0];
+        this.ladosPuntos[i].z = transform.position.z + HexagonsManager.localApotema[i, 1];
+
+        this.aristasPuntos[i] = new Vector3();
+        this.aristasPuntos[i].x = transform.position.x + HexagonsManager.localRadio[i, 0];
+        this.aristasPuntos[i].z = transform.position.z + HexagonsManager.localRadio[i, 1];
     }
    
     public void FillPropsPos(bool spawn, bool centro = false)
@@ -570,6 +588,39 @@ public class Hexagone : MonoBehaviour
         return resultado;
     }
 
+    public IEnumerable<Vector3> GetEquivalentPoints(int lado, float y)
+    {
+        for (int i = 0; i < ladosArray[lado].aristasPuntos.Length; i++)
+        {
+            yield return (ladosArray[lado].aristasPuntos[i] - ladosArray[lado].transform.position) + HexagonsManager.apotema * 2 *(ladosPuntos[lado] - transform.position).normalized + transform.position;
+        }
+
+        for (int i = 0; i < ladosArray[lado].aristasPuntos.Length; i++)
+        {
+            yield return (ladosArray[lado].aristasPuntos[i] - ladosArray[lado].transform.position) + HexagonsManager.apotema * 2 * (ladosPuntos[lado] - transform.position).normalized + transform.position.Vect3Copy_Y(y);
+        }
+    }
+
+    void MyUpdate()
+    {
+        MyUpdates?.Invoke();
+    }
+    void MyFixedUpdate()
+    {
+        MyFixedUpdates?.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.GamePlayUpdate += MyUpdate;
+        GameManager.GamePlayFixedUpdate += MyFixedUpdate;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GamePlayUpdate -= MyUpdate;
+        GameManager.GamePlayFixedUpdate -= MyFixedUpdate;
+    }
 
     private void Start()
     {

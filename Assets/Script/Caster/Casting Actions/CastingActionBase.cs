@@ -30,11 +30,7 @@ public abstract class CastingAction : IAbilityComponent
 
     public float FinalMinRange => (ability).FinalMinRange;
 
-    public Vector3 Aiming => (ability).Aiming;
-
     public Vector3 AimingXZ => (ability).AimingXZ;
-
-    public Vector2 Aiming2D { set => (ability).Aiming2D = value;}
 
     public Vector3 ObjectiveToAim { get => (ability).ObjectiveToAim; set => (ability).ObjectiveToAim = value; }
 

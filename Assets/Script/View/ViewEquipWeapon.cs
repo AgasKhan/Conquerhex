@@ -4,14 +4,6 @@ using System.Collections.Generic;
 
 public class ViewEquipWeapon : ViewEquipElement<ViewEquipWeapon>
 {
-    public enum HandHandling
-    {
-        Normal,
-        Inversed
-    }
-
-    public HandHandling handHandling;
-
     [SerializeField]
     Vector3 leftOffset;
 

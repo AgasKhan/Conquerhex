@@ -60,13 +60,9 @@ public abstract class TriggerController : IControllerDir, IAbilityComponent
         }
     }
 
-    public virtual Vector3 Aiming => ability.Aiming;
-
     public Vector3 AimingXZ => ability.AimingXZ;
 
     public Vector3 ObjectiveToAim { get => ability.ObjectiveToAim; set => ability.ObjectiveToAim = value; }
-
-    public Vector2 Aiming2D { set => ability.Aiming2D = value; }
 
     public int FinalMaxDetects => throw new System.NotImplementedException();
 
@@ -181,13 +177,9 @@ public interface IAbilityComponent : IAbilityStats, IState<CasterEntityComponent
     /// </summary>
     public bool End { get ; set ; }
 
-    public  Vector3 Aiming { get ; }
-
     public Vector3 AimingXZ { get; }
 
     public Vector3 ObjectiveToAim { get; set; }
-
-    public Vector2 Aiming2D { set;} 
 
     public  bool DontExecuteCast { get; }
 

@@ -20,10 +20,18 @@ public class UpTrggrCtrllr : TriggerController
 {
     new UpTrggrCtrllrBase triggerBase=> base.triggerBase as UpTrggrCtrllrBase;
 
+    Vector3 aiming;
+    Vector3 Aiming() => aiming;
+
+    Character character;
+
     private void MoveEventMediator_eventPress(Vector2 arg1, float arg2)
     {
-        if(arg1!=Vector2.zero)
-            Aiming2D = arg1;
+        if (arg1 != Vector2.zero)
+        {
+            aiming = arg1.Vect2To3XZ(0);
+            character.OnModelView(aiming);
+        }
     }
 
     public override void OnEnterState(CasterEntityComponent param)
@@ -32,11 +40,18 @@ public class UpTrggrCtrllr : TriggerController
 
         if((triggerBase?.aimingToMove ?? false) && param.container is Character character)
         {
-            Aiming2D = character.move.direction.Vect3To2XZ();
+            this.character = character;
+
+            character.aimingEventMediator.DesuscribeController(character.aiming);
 
             character.moveEventMediator.eventPress += MoveEventMediator_eventPress;
 
-            character.aimingEventMediator.DesuscribeController(character.aiming);
+            aiming = character.moveEventMediator.dir.Vect2To3XZ(0);
+
+            if (aiming != Vector3.zero)
+                character.OnModelView(aiming);
+
+            ability.alternativeAiming = Aiming;
         }
     }
 
@@ -44,9 +59,11 @@ public class UpTrggrCtrllr : TriggerController
     {
         if ((triggerBase?.aimingToMove ?? false) && param.container is Character character)
         {
+            character.aimingEventMediator.SuscribeController(character.aiming);
+
             character.moveEventMediator.eventPress -= MoveEventMediator_eventPress;
 
-            character.aimingEventMediator.SuscribeController(character.aiming);
+            ability.alternativeAiming = null;
         }
 
         base.OnExitState(param);
@@ -60,11 +77,8 @@ public class UpTrggrCtrllr : TriggerController
     //Durante, al mantener y moverlo
     public override void ControllerPressed(Vector2 dir, float button)
     {
-        //Aiming = Vector3.Lerp(Aiming, dir.Vect2To3XZ(0), Time.deltaTime*10);
-        if(!(triggerBase?.aimingToMove ?? false))
-            Aiming2D = dir;            
 
-        FeedBackReference?.Area(FinalMaxRange).Direction(AimingXZ).Angle(Angle);
+        ability.FeedbackDetect();
 
         Detect();
     }

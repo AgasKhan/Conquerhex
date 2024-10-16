@@ -32,7 +32,7 @@ public class DestroyObjec : CastingAction<DestroyObjectBase>
 
         if (obj != null)
         {
-            obj.hexagoneParent?.ExitEntity(obj);
+            obj.HexagoneParent?.ExitEntity(obj);
 
             GameManager.eventQueueGamePlay.Enqueue(()=>GameObject.Destroy(obj.gameObject));
         }

@@ -17,11 +17,14 @@ MonoBehaviour:
     - key: Cast
       value:
         defaultAction: 0
-        animationClip: {fileID: 9067093048684652814, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+        handHandling: 0
+        animationClip: {fileID: -998496362607748373, guid: 8ffd1cab901962945a5970fb583f8d36,
           type: 3}
         inLoop: 0
         velocity: 1
-        next: -1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
         mirrorType: 0
         events:
           pictionaries:
@@ -30,22 +33,48 @@ MonoBehaviour:
     - key: Middle
       value:
         defaultAction: 0
-        animationClip: {fileID: 1827226128182048838, guid: db67b6f2444f15a46beecda8d9ad4c80,
+        handHandling: 0
+        animationClip: {fileID: 3060872287085348379, guid: 8ffd1cab901962945a5970fb583f8d36,
           type: 3}
         inLoop: 1
-        velocity: 0.5
-        next: -1
+        velocity: 0.1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
         mirrorType: 0
         events:
           pictionaries: []
     - key: Start
       value:
         defaultAction: 0
-        animationClip: {fileID: 1827226128182048838, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+        handHandling: 0
+        animationClip: {fileID: 1827226128182048838, guid: 8ffd1cab901962945a5970fb583f8d36,
+          type: 3}
+        inLoop: 0
+        velocity: 0.2
+        nextIndex: 1
+        nextAnimation:
+          rid: 3317646816389103628
+        mirrorType: 0
+        events:
+          pictionaries: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3317646816389103628
+      type: {class: AnimationInfo/Data, ns: , asm: Assembly-CSharp}
+      data:
+        defaultAction: 0
+        handHandling: 0
+        animationClip: {fileID: 3060872287085348379, guid: 8ffd1cab901962945a5970fb583f8d36,
           type: 3}
         inLoop: 1
-        velocity: 1
-        next: -1
+        velocity: 0.1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
         mirrorType: 0
         events:
           pictionaries: []

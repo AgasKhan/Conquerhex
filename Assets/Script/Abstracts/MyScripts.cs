@@ -10,9 +10,9 @@ public abstract class MyScripts : MonoBehaviour
 
     protected Action MyStarts;
 
-    protected Action MyOnEnables;
+    //protected Action MyOnEnables;
 
-    protected Action MyOnDisables;
+    //protected Action MyOnDisables;
 
     protected Action MyOnDestroys;
 
@@ -23,7 +23,7 @@ public abstract class MyScripts : MonoBehaviour
             if (!bUpdate && _update == null)
             {
                 bUpdate = true;
-                GameManager.GamePlayUpdate += MyUpdate;
+                updateManager.MyUpdates += MyUpdate;
             }
 
             _update += value;
@@ -35,7 +35,7 @@ public abstract class MyScripts : MonoBehaviour
             if (bUpdate && _update == null)
             {
                 bUpdate = false;
-                GameManager.GamePlayUpdate -= MyUpdate;
+                updateManager.MyUpdates -= MyUpdate;
             }
         }
     }
@@ -47,7 +47,7 @@ public abstract class MyScripts : MonoBehaviour
             if (!bFixed && _fixedUpdate == null)
             {
                 bFixed = true;
-                GameManager.GamePlayFixedUpdate += MyFixedUpdate;
+                updateManager.MyFixedUpdates += MyFixedUpdate;
             }
 
             _fixedUpdate += value;
@@ -59,7 +59,7 @@ public abstract class MyScripts : MonoBehaviour
             if (bFixed && _fixedUpdate == null)
             {
                 bFixed = false;
-                GameManager.GamePlayFixedUpdate -= MyFixedUpdate;
+                updateManager.MyFixedUpdates -= MyFixedUpdate;
             }
         }
     }
@@ -95,7 +95,34 @@ public abstract class MyScripts : MonoBehaviour
     bool bFixed;
     UnityEngine.Events.UnityAction _fixedUpdate;
 
- 
+    protected IUpdate updateManager
+    {
+        get => _updateManager;
+        set
+        {
+            if (value == null)
+                return;
+
+            if(_updateManager!=null)
+            {
+                if(bUpdate)
+                    _updateManager.MyUpdates -= MyUpdate;
+
+                if (bFixed)
+                    _updateManager.MyFixedUpdates -= MyFixedUpdate;
+            }
+
+            _updateManager = value;
+
+            if (bUpdate)
+                _updateManager.MyUpdates += MyUpdate;
+
+            if(bFixed)
+                _updateManager.MyFixedUpdates += MyFixedUpdate;
+        }
+    }
+
+    IUpdate _updateManager;
 
     void MyUpdate()
     {
@@ -109,7 +136,7 @@ public abstract class MyScripts : MonoBehaviour
 
     protected abstract void Config();
 
-
+    /*
     internal void OnEnable()
     {
         if (!bUpdate && _update != null)
@@ -140,9 +167,11 @@ public abstract class MyScripts : MonoBehaviour
 
         MyOnDisables?.Invoke();
     }
-
+    */
     internal void Awake()
     {
+        _updateManager = GameManager.instance;
+
         Config();
 
         MyAwakes?.Invoke();
@@ -160,10 +189,16 @@ public abstract class MyScripts : MonoBehaviour
         _fixedUpdate = null;
         MyAwakes = null;
         MyStarts = null;
-        MyOnEnables = null;
-        MyOnDisables = null;
+        //MyOnEnables = null;
+        //MyOnDisables = null;
         MyOnDestroys = null;
     }
 }
 
+
+public interface IUpdate
+{
+    public event UnityEngine.Events.UnityAction MyUpdates;
+    public event UnityEngine.Events.UnityAction MyFixedUpdates;
+}
 

@@ -80,4 +80,10 @@ public class PressTrggrCtrllr : TriggerController
 
         pressCooldown.Stop();
     }
+
+    public override void Destroy()
+    {
+        base.Destroy();
+        pressCooldown.Destroy();
+    }
 }

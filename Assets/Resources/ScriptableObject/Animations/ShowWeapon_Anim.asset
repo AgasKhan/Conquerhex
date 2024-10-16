@@ -17,22 +17,48 @@ MonoBehaviour:
     - key: Start
       value:
         defaultAction: 0
-        animationClip: {fileID: 1827226128182048838, guid: 244ec021e3ed36b4bb669eef04f926b7,
+        handHandling: 0
+        animationClip: {fileID: 3060872287085348379, guid: 244ec021e3ed36b4bb669eef04f926b7,
           type: 3}
         inLoop: 0
         velocity: 1
-        next: 0
+        nextIndex: 1
+        nextAnimation:
+          rid: 3317646934573842448
         mirrorType: 0
         events:
           pictionaries: []
     - key: Middle
       value:
         defaultAction: 0
+        handHandling: 0
         animationClip: {fileID: -998496362607748373, guid: 244ec021e3ed36b4bb669eef04f926b7,
           type: 3}
         inLoop: 1
         velocity: 1
-        next: 0
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
+        mirrorType: 0
+        events:
+          pictionaries: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3317646934573842448
+      type: {class: AnimationInfo/Data, ns: , asm: Assembly-CSharp}
+      data:
+        defaultAction: 0
+        handHandling: 0
+        animationClip: {fileID: -998496362607748373, guid: 244ec021e3ed36b4bb669eef04f926b7,
+          type: 3}
+        inLoop: 1
+        velocity: 1
+        nextIndex: -1
+        nextAnimation:
+          rid: -2
         mirrorType: 0
         events:
           pictionaries: []

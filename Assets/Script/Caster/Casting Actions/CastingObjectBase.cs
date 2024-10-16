@@ -56,7 +56,7 @@ public class CastingObject : CastingAction<CastingObjectBase>
                 index = 0;
         }
 
-        obj.Teleport(caster.container.hexagoneParent,0);
+        obj.Teleport(caster.container.HexagoneParent,0);
 
         End = true;
 

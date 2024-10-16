@@ -3,12 +3,12 @@
     <ui:VisualElement name="MainButton" class="horizontalContainer ListItemButton" style="justify-content: flex-start; height: 32px;">
         <ui:VisualElement class="horizontalContainer" style="flex-grow: 1; width: 25%; padding-left: 5px;">
             <ui:VisualElement name="ItemImage" style="flex-grow: 0; flex-shrink: 0; width: 20px; height: 20px; background-image: none; align-self: center; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;" />
-            <ui:Label tabindex="-1" text="No tienes nada equipado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemName" class="listItemText" style="flex-grow: 1;" />
+            <ui:Label tabindex="-1" text="Nada equipado" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemName" class="listItemText" style="flex-grow: 1;" />
         </ui:VisualElement>
         <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TypeText" class="textListItem listItemText" />
         <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SpecialityText" class="listItemText" />
         <ui:VisualElement name="buttonContainer" style="flex-grow: 0; width: 25%; justify-content: center;">
-            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ChangeButton" class="changeButton displayHidden" style="background-image: url(&quot;project://database/Assets/Sprites/Exchange%20Symbol.png?fileID=21300000&amp;guid=8dd86f1cdaa1df44ea93c9d6c983f77e&amp;type=3#Exchange Symbol&quot;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(236, 223, 186); width: 50px; -unity-slice-left: 0; -unity-slice-top: 2; -unity-slice-right: 0; -unity-slice-bottom: 2;" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ChangeButton" text="Craftear" class="changeButton displayHidden" />
             <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipText" class="listItemText" style="width: 100%;" />
         </ui:VisualElement>
     </ui:VisualElement>

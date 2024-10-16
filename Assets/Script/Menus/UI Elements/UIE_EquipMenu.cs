@@ -7,15 +7,22 @@ using System.Linq;
 
 public class UIE_EquipMenu : UIE_Equipment
 {
-    public VisualElement listContainer;
+    protected VisualElement listContainer;
 
-    Label equipTitle;
+    protected Label equipTitle;
 
     //Details Window
-    VisualElement containerDW;
-    Label titleDW;
-    Label descriptionDW;
-    VisualElement imageDW;
+    protected VisualElement containerDW;
+    protected Label titleDW;
+    protected Label descriptionDW;
+    protected VisualElement imageDW;
+
+    //Filters
+    protected VisualElement tagsBar;
+    protected TextField inputField;
+    protected VisualElement searchButton;
+    protected VisualElement lastTagButton;
+    protected Action onSearch;
 
     //Change Buttons
     VisualElement originalButton;
@@ -23,7 +30,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
     Action<int> auxAction;
     SlotItem slotItem;
-    Type filterType;
+    protected Type filterType;
     ItemEquipable itemEquiped;
     VisualElement equipedItemContainer;
     UIE_ListButton equipedItemButton;
@@ -39,6 +46,9 @@ public class UIE_EquipMenu : UIE_Equipment
     int equipedItemIndex = -1;
     int originalItemIndex = -1;
 
+    bool isOnWeaponOfKata => filterType == typeof(MeleeWeapon) && slotItem.GetType() == typeof(WeaponKata);
+
+    #region Config
     protected override void Config()
     {
         base.Config();
@@ -48,32 +58,51 @@ public class UIE_EquipMenu : UIE_Equipment
 
     private void myAwake()
     {
-        onEnableMenu += myOnEnable;
-        onDisableMenu += myOnDisable;
+        if (gameObject.name == manager.EquipItemMenu)
+        {
+            onEnableMenu += myOnEnable;
+            onDisableMenu += myOnDisable;
 
-        equipTitle = ui.Q<Label>("equipTitle");
-        listContainer = ui.Q<VisualElement>("listContainer");
-        titleDW = ui.Q<Label>("titleDW");
-        descriptionDW = ui.Q<Label>("descriptionDW");
-        imageDW = ui.Q<VisualElement>("imageDW");
-        originalButton = ui.Q<VisualElement>("originalButton");
-        changeButton = ui.Q<VisualElement>("changeButton");
-        containerDW = ui.Q<VisualElement>("containerDW");
-        equipedItemContainer = ui.Q<VisualElement>("equipedItemContainer");
-        originalItemContainer = ui.Q<VisualElement>("originalItemContainer");
-        cancelButton = ui.Q<VisualElement>("cancelButton");
+            equipTitle = ui.Q<Label>("equipTitle");
+            listContainer = ui.Q<VisualElement>("listContainer");
+            titleDW = ui.Q<Label>("titleDW");
+            descriptionDW = ui.Q<Label>("descriptionDW");
+            imageDW = ui.Q<VisualElement>("imageDW");
+            originalButton = ui.Q<VisualElement>("originalButton");
+            changeButton = ui.Q<VisualElement>("changeButton");
+            containerDW = ui.Q<VisualElement>("containerDW");
+            equipedItemContainer = ui.Q<VisualElement>("equipedItemContainer");
+            originalItemContainer = ui.Q<VisualElement>("originalItemContainer");
+            cancelButton = ui.Q<VisualElement>("cancelButton");
 
-        onClose += () => manager.BackLastMenu();
-        cancelButton.RegisterCallback<ClickEvent>((clEvent) => CancelChange());
+            tagsBar = ui.Q<VisualElement>("TagsBar");
+            inputField = ui.Q<TextField>("inputField");
+            searchButton = ui.Q<VisualElement>("searchButton");
+
+            onClose += () =>
+            {
+
+                if (isOnWeaponOfKata)
+                {
+                    var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
+                    if (weapon != null)
+                        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon(weapon.itemBase.weaponModel);
+                }
+                manager.BackLastMenu();
+            };
+
+            searchButton.RegisterCallback<ClickEvent>((clEvent) => CreateListItems(inputField.value));
+            inputField.Children().First().AddToClassList("searchBar");
+        }
     }
 
     private void myOnEnable()
     {
         equipedItemContainer.Clear();
-        listContainer.Clear();
-        buttonsList.Clear();
         equipTitle.text = GetText(null, filterType) + " en: ";
         originalItemContainer.Clear();
+        tagsBar.Clear();
+        inputField.value = "";
 
         equipedItemButton = new UIE_ListButton();
         equipedItemButton.Init();
@@ -85,11 +114,28 @@ public class UIE_EquipMenu : UIE_Equipment
         CreateListItems();
         SetOriginalButton();
 
+        cancelButton.RegisterCallback<ClickEvent>(CancelChange);
+
+        /*
+        CreateTagsButton(() => CreateListItems());
+        CreateTagsButton<MeleeWeapon>(() => CreateListItems());
+        CreateTagsButton<AbilityExtCast>(() => CreateListItems());
+        CreateTagsButton<WeaponKata>(() => CreateListItems());
+        */
+
+
+        /*
         TimersManager.Create(0.1f, () => 
         { 
             if(slotItem.GetSlotType() == typeof(MeleeWeapon))
                 character.GetInContainer<ModularEquipViewEntityComponent>().SpawnWeapon(); 
         }).SetUnscaled(true);
+        */
+
+        HideWeapon();
+
+        if (filterType == typeof(MeleeWeapon))
+            ShowWeapon();
     }
     private void myOnDisable()
     {
@@ -98,8 +144,7 @@ public class UIE_EquipMenu : UIE_Equipment
         filterType = null;
         itemEquiped = null;
 
-        ShowItemDetails("", "", null);
-        containerDW.AddToClassList("opacityHidden");
+        ShowDetails("", "", null);
 
         itemToChangeIndex = -1;
         equipedItemIndex = -1;
@@ -108,22 +153,20 @@ public class UIE_EquipMenu : UIE_Equipment
         originalButton.HideInUIE();
         changeButton.HideInUIE();
         StopAnimation();
+
+        HideWeapon();
+        //currentWeapon = null;
     }
-    private void CancelChange()
-    {
-        character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
-        auxAction.Invoke(originalItemIndex);
-        manager.BackLastMenu();
-    }
+    #endregion
 
     public void SetEquipMenu(SlotItem _slotItem, Action<int> _action)
     {
         itemEquiped = _slotItem.equiped;
         auxAction = _action;
         slotItem = _slotItem;
-        
+
         filterType = itemEquiped?.GetType() == null ? _slotItem.GetSlotType() : itemEquiped.GetType();
-        
+
         originalButton.ShowInUIE();
         originalButton.style.backgroundImage = new StyleBackground(GetImage(itemEquiped, filterType));
     }
@@ -134,7 +177,7 @@ public class UIE_EquipMenu : UIE_Equipment
         slotItem = _slotItem;
         filterType = _type;
 
-        if(slotItem.GetSlotType() == typeof(WeaponKata) && _type != typeof(WeaponKata))
+        if (slotItem.GetSlotType() == typeof(WeaponKata) && _type != typeof(WeaponKata))
             itemEquiped = (_slotItem.equiped as WeaponKata).Weapon;
         else
             itemEquiped = _slotItem.equiped;
@@ -142,10 +185,86 @@ public class UIE_EquipMenu : UIE_Equipment
 
         originalButton.ShowInUIE();
 
-        if(_slotItem.GetSlotType() == typeof(WeaponKata) && _type == typeof(MeleeWeapon))
+        if (_slotItem.GetSlotType() == typeof(WeaponKata) && _type == typeof(MeleeWeapon))
             originalButton.style.backgroundImage = new StyleBackground(GetImage((_slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)));
         else
             originalButton.style.backgroundImage = new StyleBackground(GetImage(_slotItem));
+    }
+
+    protected void CreateTagsButton<T>(Action _action) where T : ItemEquipable
+    {
+        var aux = new VisualElement();
+        tagsBar.Add(aux);
+        aux.AddToClassList("tagButton");
+        aux.RegisterCallback<ClickEvent>((clEvent) =>
+        {
+            lastTagButton?.RemoveFromClassList("tagButtonSelected");
+            lastTagButton = aux;
+            aux.AddToClassList("tagButtonSelected");
+            filterType = typeof(T);
+            _action.Invoke();
+        });
+
+        aux.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.GetOldImage<T>());
+    }
+    protected void CreateTagsButton(Action _action)
+    {
+        var aux = new VisualElement();
+        tagsBar.Add(aux);
+        aux.AddToClassList("tagButton");
+        aux.RegisterCallback<ClickEvent>((clEvent) =>
+        {
+            lastTagButton?.RemoveFromClassList("tagButtonSelected");
+            lastTagButton = aux;
+            aux.AddToClassList("tagButtonSelected");
+            filterType = null;
+            _action.Invoke();
+        });
+
+        aux.style.backgroundImage = new StyleBackground(UIE_MenusManager.instance.defaultNoFilterImage);
+    }
+
+    protected void ShowDetails(string nameDisplay, string details, Sprite Image)
+    {
+        if (nameDisplay == "" && details == "" && Image == null)
+        {
+            if(!containerDW.ClassListContains("opacityHidden"))
+                containerDW.AddToClassList("opacityHidden");
+            return;
+        }
+
+        containerDW.RemoveFromClassList("opacityHidden");
+
+        if (nameDisplay == "")
+            titleDW.HideInUIE();
+        else
+        {
+            titleDW.ShowInUIE();
+            titleDW.text = nameDisplay;
+        }
+
+        if (details == "")
+            descriptionDW.HideInUIE();
+        else
+        {
+            descriptionDW.ShowInUIE();
+            descriptionDW.text = details;
+        }
+
+        if (Image == null)
+            imageDW.HideInUIE();
+        else
+        {
+            imageDW.ShowInUIE();
+            imageDW.style.backgroundImage = new StyleBackground(Image);
+        }
+    }
+
+    void CancelChange(ClickEvent _clevent)
+    {
+        auxAction.Invoke(originalItemIndex);
+        HideWeapon();
+        manager.BackLastMenu();
     }
 
     void SetOriginalButton()
@@ -161,9 +280,9 @@ public class UIE_EquipMenu : UIE_Equipment
             _kata.AddEnterMouseEvent(() =>
             {
                 if (itemEquiped != null)
-                    ShowItemDetails(itemEquiped.nameDisplay, itemEquiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(itemEquiped, slotItem), itemEquiped.image);
+                    ShowDetails(itemEquiped.nameDisplay, itemEquiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(itemEquiped, slotItem), itemEquiped.image);
                 else
-                    ShowItemDetails("No tienes nada equipado", "", null);
+                    ShowDetails("No tienes nada equipado", "", null);
             });
 
             return;
@@ -179,9 +298,9 @@ public class UIE_EquipMenu : UIE_Equipment
         _aux.AddEnterMouseEvent(()=>
         {
             if (itemEquiped != null)
-                ShowItemDetails(itemEquiped.nameDisplay, itemEquiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(itemEquiped, slotItem), itemEquiped.image);
+                ShowDetails(itemEquiped.nameDisplay, itemEquiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(itemEquiped, slotItem), itemEquiped.image);
             else
-                ShowItemDetails("No tienes nada equipado", "", null);
+                ShowDetails("No tienes nada equipado", "", null);
         });
         _aux.Disable();
         _aux.FreezzeButton();
@@ -205,8 +324,12 @@ public class UIE_EquipMenu : UIE_Equipment
         return GetText(itemEquiped, filterType);
     }
 
-    void CreateListItems()
+    void CreateListItems(string _filter = "")
     {
+        ShowDetails("", "", null);
+        buttonsList.Clear();
+        listContainer.Clear();
+
         List<int> buffer = new List<int>();
 
         //Filtrar inventario y setear botón equipado
@@ -220,7 +343,10 @@ public class UIE_EquipMenu : UIE_Equipment
 
             if (item is Ability && !((Ability)item).visible)
                 continue;
-            
+
+            if (_filter != ""  && !(character.inventory[i].nameDisplay.ToLower().Contains(_filter.ToLower())))
+                continue;
+
             if (itemEquiped is Ability)
             {
                 if (itemEquiped.nameDisplay == item.nameDisplay)
@@ -228,7 +354,6 @@ public class UIE_EquipMenu : UIE_Equipment
                     SetStaticItem(index);
                     originalItemIndex = index;
                 }
-                    
             }
             else if (item.Equals(itemEquiped))
             {
@@ -246,10 +371,11 @@ public class UIE_EquipMenu : UIE_Equipment
 
             equipedItemButton.SetHoverAction(() =>
             {
-                ShowItemDetails(itemEquiped.nameDisplay, "Item por defecto, selecciona un item para equipartelo en su lugar", GetImage());
+                ShowDetails(itemEquiped.nameDisplay, "Item por defecto, selecciona un item para equipartelo en su lugar", GetImage());
                 SetChangeButton(GetImage(), -1);
             });
         }
+
 
         //Crear lista de botones
         foreach (var index in buffer)
@@ -267,7 +393,7 @@ public class UIE_EquipMenu : UIE_Equipment
 
             button.SetHoverAction(() =>
             {
-                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                ShowDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
                 SetChangeButton(item.image, index);
             });
 
@@ -275,7 +401,7 @@ public class UIE_EquipMenu : UIE_Equipment
         }
 
         if (buttonsList.Count == 0)
-            ShowItemDetails("No tienes nada para equipar", "", null);
+            ShowDetails("No tienes nada para equipar", "", null);
         else
             SetSelectedButton();
     }
@@ -311,14 +437,40 @@ public class UIE_EquipMenu : UIE_Equipment
     void PreviousAnimAction()
     {
         if (filterType == typeof(MeleeWeapon))
-            ShowHideWeaponInMenu(false);
+        {
+            HideWeapon();
+            /*
+            if (slotItem.GetSlotType() == typeof(WeaponKata))
+            {
+                var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
+                if(weapon != null)
+                    HideWeapon();
+                
+            }
+            else
+            {
+                HideWeapon();
+            }
+            */
+        }
         else if (filterType == typeof(WeaponKata))
             StopAnimation();
     }
     void PostAnimAction()
     {
         if (filterType == typeof(MeleeWeapon) && equipedItemIndex >= 0)
-            ShowHideWeaponInMenu(true);
+        {
+            if (slotItem.GetSlotType() == typeof(WeaponKata))
+            {
+                var weapon = (slotItem as SlotItem<WeaponKata>).equiped.Weapon;
+                if (weapon != null)
+                    ShowWeapon(weapon);
+            }
+            else
+            {
+                ShowWeapon();
+            }
+        }
         else if (filterType == typeof(WeaponKata) && equipedItemIndex >= 0)
             ShowAnimationLoop((character.inventory[equipedItemIndex] as WeaponKata).itemBase.animations.animClips["Cast"]);
             
@@ -333,29 +485,54 @@ public class UIE_EquipMenu : UIE_Equipment
         {
             equipedItemButton.Set(GetImage(item as ItemEquipable, filterType), GetText(item as ItemEquipable, filterType), "", "", () => 
             {
-                EquipOtherItem(-1);
-                changeButton.HideInUIE();
-                ShowItemDetails(GetText(null, filterType), "", null);
+                if(slotItem.defaultItem != null)
+                {
+                    EquipOtherItem(-1);
+                    changeButton.HideInUIE();
+                    ShowDetails(slotItem.defaultItem.nameDisplay, slotItem.defaultItem.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), slotItem.defaultItem.image);
+                }
+                else
+                {
+                    EquipOtherItem(-1);
+                    changeButton.HideInUIE();
+                    ShowDetails(GetText(null, filterType), "", null);
+                }
             });
             equipedItemButton.SetEquipText("Desequipar");
             equipedItemButton.SetHoverAction(() =>
             {
-                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                ShowDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
                 SetChangeButton(GetImage(item as ItemEquipable, filterType), -1);
             });
         }
         else
         {
-            equipedItemButton.Set(GetImage(null, filterType), GetText(null, filterType), "", "", () => { });
-            equipedItemButton.SetEquipText("");
-            equipedItemButton.SetHoverAction(() =>
+            if(slotItem.defaultItem!=null)
             {
-                changeButton.HideInUIE();
-                ShowItemDetails("No tienes nada equipado", "", null);
-            });
+                equipedItemButton.Set(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "", "", () => {});
+                equipedItemButton.SetEquipText("");
+                equipedItemButton.SetHoverAction(() =>
+                {
+                    changeButton.HideInUIE();
+                    ShowDetails(slotItem.defaultItem.nameDisplay, slotItem.defaultItem.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), slotItem.defaultItem.image);
+                });
+            }
+            else
+            {
+                equipedItemButton.Set(GetImage(null, filterType), GetText(null, filterType), "", "", () => { });
+                equipedItemButton.SetEquipText("");
+                equipedItemButton.SetHoverAction(() =>
+                {
+                    changeButton.HideInUIE();
+                    ShowDetails("No tienes nada equipado", "", null);
+                });
+            }
         }
 
-        originalButton.style.backgroundImage = new StyleBackground(GetImage(item as ItemEquipable, filterType));
+        if(slotItem.defaultItem != null)
+            originalButton.style.backgroundImage = new StyleBackground(slotItem.defaultItem.image);
+        else
+            originalButton.style.backgroundImage = new StyleBackground(GetImage(item as ItemEquipable, filterType));
     }
 
 
@@ -380,7 +557,7 @@ public class UIE_EquipMenu : UIE_Equipment
             equipedItemButton.SetEquipText("Desequipar");
             equipedItemButton.SetHoverAction(() =>
             {
-                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
+                ShowDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
                 SetChangeButton(item.image, -1);
             });
 
@@ -393,7 +570,7 @@ public class UIE_EquipMenu : UIE_Equipment
             equipedItemButton.SetEquipText("");
             equipedItemButton.SetHoverAction(() =>
             {
-                ShowItemDetails("No tienes nada equipado", "Selecciona un item para equipar", null);
+                ShowDetails("No tienes nada equipado", "Selecciona un item para equipar", null);
                 SetChangeButton(GetImage(), -1);
             });
             character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon(character.caster.actualWeapon.Weapon.itemBase.weaponModel);
@@ -405,200 +582,6 @@ public class UIE_EquipMenu : UIE_Equipment
             SetSelectedButton();
 
         originalButton.style.backgroundImage = new StyleBackground(GetImage(itemEquiped, filterType));
-    }
-
-
-    /*
-    void OLDCreateListItems()
-    {
-        List<int> buffer = new List<int>();
-
-        //Filtrar inventario
-        for (int i = 0; i < character.inventory.Count; i++)
-        {
-            if (filterType != null && !filterType.IsAssignableFrom(character.inventory[i].GetType()))
-                continue;
-
-            if (character.inventory[i] is Ability && !((Ability)character.inventory[i]).visible)
-            {
-                continue;
-            }
-
-            var index = i;
-            buffer.Add(index);
-        }
-        //Debug.Log("Lista filtrada: -------------------------");
-        foreach (var item in buffer)
-        {
-            Debug.Log(character.inventory[item].nameDisplay + " index: " + item);
-        }
-        //Debug.Log("Fin de lista filtrada-------------------------");
-
-        Action changeAction = () =>
-        {
-            auxAction.Invoke(itemToChangeIndex);
-            ResetList();
-        };
-
-        Action hoverAct = () =>
-        {
-            ShowItemDetails("Equipar", "Selecciona un item para equipar", GetImage());
-            SetChangeButton(GetImage(), -1);
-        };
-
-        foreach (var index in buffer)
-        {
-            UIE_ListButton button = new UIE_ListButton();
-
-            if (itemEquiped == null)
-            {
-                listContainer.Add(button);
-                buttonsList.Add(button);
-                button.AddToClassList("itemToChange");
-
-                button.Init(GetImage(), GetText(), "", "", changeAction);
-                button.SetEquipText("Desequipar");
-                button.SetHoverAction(hoverAct);
-                break;
-            }
-
-            var item = character.inventory[index];
-
-            if (slotItem.defaultItem != null && slotItem.defaultItem.nameDisplay == item.nameDisplay && !(itemEquiped is MeleeWeapon))
-            {
-                listContainer.Add(button);
-                buttonsList.Add(button);
-                button.AddToClassList("itemToChange");
-
-                button.Init(GetImage(slotItem.defaultItem, filterType), GetText(slotItem.defaultItem, filterType), "Item por defecto", "", changeAction);
-                button.SetEquipText("");
-
-                hoverAct = () =>
-                {
-                    ShowItemDetails(item.nameDisplay, "Item por defecto, selecciona un item para equipartelo en su lugar", GetImage());
-                    SetChangeButton(GetImage(), -1);
-                };
-
-                button.SetHoverAction(hoverAct);
-                buffer.Remove(index);
-                break;
-            }
-
-            if (itemEquiped is Ability)
-            {
-                if (itemEquiped.nameDisplay != item.nameDisplay)
-                    continue;
-            }
-            else if (!item.Equals(itemEquiped))
-            {
-                continue;
-            }
-
-            hoverAct = () =>
-            {
-                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
-                SetChangeButton(item.image, -1);
-            };
-
-            listContainer.Add(button);
-            buttonsList.Add(button);
-            button.AddToClassList("itemToChange");
-            button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "-", changeAction);
-            button.SetHoverAction(hoverAct);
-            button.SetEquipText("Desequipar");
-
-            buffer.Remove(index);
-
-            break;
-        }
-
-        //Debug.Log("Lista filtrada 2: -------------------------");
-        foreach (var item in buffer)
-        {
-            Debug.Log(character.inventory[item].nameDisplay + " index: " + item);
-        }
-        //Debug.Log("Fin de lista filtrada 2-------------------------");
-
-        //Agregar botones de los items restantes
-        foreach (var index in buffer)
-        {
-            var item = character.inventory[index];
-
-            UIE_ListButton button = new UIE_ListButton();
-            listContainer.Add(button);
-            buttonsList.Add(button);
-
-            hoverAct = () =>
-            {
-                ShowItemDetails(item.nameDisplay, item.GetDetails().ToString("\n") + "\n" + GetDamageDetails(item, slotItem), item.image);
-                SetChangeButton(item.image, index);
-                Debug.Log(item.nameDisplay + "  index: " + index);
-            };
-
-            button.Init(item.image, item.nameDisplay, item.GetType().ToString(), "-", changeAction);
-            button.SetHoverAction(hoverAct);
-            button.SetEquipText("Equipar");
-        }
-
-        if (buttonsList.Count == 0)
-            ShowItemDetails("No tienes nada para equipar", "", null);
-    }
-
-    void ResetList()
-    {
-        Debug.Log("Se llamo a Reset List");
-        itemToChangeIndex = -1;
-
-        originalButton.HideInUIE();
-        //changeButton.HideInUIE();
-        
-        if(filterType == typeof(MeleeWeapon))
-            SetEquipMenu(slotItem, typeof(MeleeWeapon), auxAction);
-        else
-            SetEquipMenu(slotItem, auxAction);
-
-        if (slotItem.equiped != null)
-        {
-            if (slotItem.GetSlotType() == typeof(WeaponKata) && filterType != typeof(WeaponKata) && (slotItem.equiped as WeaponKata).Weapon != null)
-                ShowItemDetails(GetText((slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)), (slotItem.equiped as WeaponKata).Weapon.GetDetails().ToString("\n") + "\n" + GetDamageDetails(slotItem.equiped, slotItem), GetImage((slotItem.equiped as WeaponKata).Weapon, typeof(MeleeWeapon)));
-            else
-                ShowItemDetails(slotItem.equiped.nameDisplay, slotItem.equiped.GetDetails().ToString("\n") + "\n" + GetDamageDetails(slotItem.equiped, slotItem), slotItem.equiped.image);
-        }
-        else
-            containerDW.AddToClassList("opacityHidden");
-
-        listContainer.Clear();
-        buttonsList.Clear();
-        CreateListItems();
-    }
-    */
-
-    void ShowItemDetails(string nameDisplay, string details, Sprite Image)
-    {
-        containerDW.RemoveFromClassList("opacityHidden");
-        if (nameDisplay == "")
-            titleDW.HideInUIE();
-        else
-        {
-            titleDW.ShowInUIE();
-            titleDW.text = nameDisplay;
-        }
-
-        if (details == "")
-            descriptionDW.HideInUIE();
-        else
-        {
-            descriptionDW.ShowInUIE();
-            descriptionDW.text = details;
-        }
-
-        if (Image == null)
-            imageDW.HideInUIE();
-        else
-        {
-            imageDW.ShowInUIE();
-            imageDW.style.backgroundImage = new StyleBackground(Image);
-        }
     }
 
     string GetDamageDetails(Item item, SlotItem slotItem)

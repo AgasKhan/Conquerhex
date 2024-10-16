@@ -31,9 +31,12 @@ public class RangeWeaponBase : MeleeWeaponBase
 
 public class RangeWeapon : MeleeWeapon
 {
-    public Tim amination;
+    public Tim amunation;
 
-    public Tim dispersion;
+    //public Tim dispersion;
+
+
+    public event System.Action<float> onDispersionChanged;
 
     public Vector2Int prefabBullet => ((RangeWeaponBase)itemBase).indexPrefabBullet;
 
@@ -41,7 +44,7 @@ public class RangeWeapon : MeleeWeapon
     {
         base.Init();
 
-        amination = new Tim(((RangeWeaponBase)itemBase).magazine);
+        amunation = new Tim(((RangeWeaponBase)itemBase).magazine);
     }
 
     public override IEnumerable<Entity> ApplyDamage(Ability ability, IEnumerable<Damage> damages, IEnumerable<Entity> damageables)
@@ -57,10 +60,14 @@ public class RangeWeapon : MeleeWeapon
         if(ability.isPerspective)
         {
             aim = ability.ObjectiveToAim - sapawnPos;
+            ///*
+            ///
+            var angle = ability.Angle / 2;
 
-            var angle = Mathf.Clamp(ability.Angle, 0 , 30);
+            angle = Mathf.Clamp(angle, 0, 30);
 
             aim = Quaternion.Euler(Random.Range(angle / -2, angle / 2), Random.Range(angle / -2, angle / 2), 0) * (aim);
+            //*/
         }
         else
         {
@@ -93,10 +100,10 @@ public class RangeWeapon : MeleeWeapon
 
     public override void Durability(float damageToDurability)
     {
-        if (amination.total == 0)
+        if (amunation.total == 0)
             return;
 
-        if (amination.Substract(1) <= 0)
+        if (amunation.Substract(1) <= 0)
         {
             TriggerOff();
             return;

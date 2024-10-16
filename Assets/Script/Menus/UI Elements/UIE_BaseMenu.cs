@@ -69,7 +69,7 @@ public class UIE_BaseMenu : MyScripts
 
         ui.RemoveFromClassList("opacityHidden");
         //ui.AddToClassList("opacityVisible");
-        character.GetInContainer<AnimatorController>().SetScaleController(AnimatorUpdateMode.UnscaledTime);
+        character.GetInContainer<AnimatorController>().SetUnscaleController(true);
 
         onEnableMenu?.Invoke();
     }
@@ -80,9 +80,10 @@ public class UIE_BaseMenu : MyScripts
     }
     public void DisableMenu()
     {
+        onDisableMenu?.Invoke();
         //ui.style.opacity = 0;
         //var timeEnabler = TimersManager.Create(100f, 0f, 2, Mathf.Lerp, (save) => ui.style.opacity = save).AddToEnd(()=> ui.style.display = DisplayStyle.None);
-        
+
         //ui.RemoveFromClassList("opacityVisible");
         ui.AddToClassList("opacityHidden");
         ui.style.display = DisplayStyle.None;
@@ -90,8 +91,8 @@ public class UIE_BaseMenu : MyScripts
         //TimersManager.Create(0.2f, () => ui.style.display = DisplayStyle.None);
 
 
-        character.GetInContainer<AnimatorController>().SetScaleController();
-        onDisableMenu?.Invoke();
+        character.GetInContainer<AnimatorController>().SetUnscaleController(false);
+        
     }
 
 }

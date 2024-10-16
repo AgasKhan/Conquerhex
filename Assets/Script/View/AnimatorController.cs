@@ -47,11 +47,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     AnimatorOverrideController animatorOverrideController;
 
-    AnimActionBehaviour[] actionBehaviours;
+    List<AnimActionBehaviour> actionBehaviours = new();
+
+
 
     MoveEntityComponent move;
 
-    Vector3 forwardObj;
+    Vector3 forwardObj = Vector3.forward;
 
     Timer timerEndAnimationTransition;
 
@@ -62,6 +64,8 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     int index => ++_index > maxActions-1 ? _index = 0 : _index;
 
     int _index = 0;
+
+    System.Action endAnimation;
 
     string strAction => "Action" + (_index+1);
 
@@ -94,6 +98,24 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     {
         controller.updateMode = _mode;
     }
+    /// <summary>
+    /// Setea el animator y sus timers para que sean o no Unscaled. TRUE-UNSCALED / FALSE-SCALED
+    /// </summary>
+    /// <param name="_condition"></param>
+    public void SetUnscaleController(bool _condition)
+    {
+        if(_condition)
+        {
+            controller.updateMode = AnimatorUpdateMode.UnscaledTime;
+            timerEndAnimationTransition.SetUnscaled(true);
+        }
+        else
+        {
+            controller.updateMode = AnimatorUpdateMode.Normal;
+            timerEndAnimationTransition.SetUnscaled(false);
+        }
+        
+    }
 
     private void Ia_onMove(Vector3 obj)
     {
@@ -123,6 +145,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         }
 
         controller.SetBool("Wait", false);
+        controller.SetBool("Move", false);
     }
 
     public void ChangeActionAnimation(AnimationInfo.Data data)
@@ -130,6 +153,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         controller.SetBool("Mirror", data.mirror);
         controller.SetFloat("ActionMultiply", data.velocity);
         ChangeActionAnimation(data.animationClip, data.defaultAction, data.inLoop);
+
+        endAnimation = null;
+
+        if (data.nextAnimation != null)
+        {
+            endAnimation = ()=> ChangeActionAnimation(data.nextAnimation);
+        }
     }
 
     public void ChangeActionAnimation(AnimationClip newClip, bool inLoop)
@@ -161,6 +191,8 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         //ChangeAnimation(actionsName[i],newClip);
         timerEndAnimationTransition.Stop();
 
+        Debug.Log("Change Animation: " + newClip.name);
+
         if(name!=null && animations.ContainsKey(name, out int indexPic))
         {
             var pic = animations.GetPic(indexPic);
@@ -183,6 +215,13 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         }
     }
 
+    public void AddActionBehaviours(AnimActionBehaviour actionBehaviour)
+    {
+        actionBehaviours.Add(actionBehaviour);
+        actionBehaviour.onEnter += OnAnimStartAction;
+        actionBehaviour.onExit += OnAnimExitAction;
+    }
+
     void SuperAnimator()
     {
         animatorOverrideController = new AnimatorOverrideController(controller.runtimeAnimatorController);
@@ -195,6 +234,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             animatorOverrideController[animations.GetPic(index).key] = animations.GetPic(index).value.clip;
         }
 
+        /*
         actionBehaviours = controller.GetBehaviours<AnimActionBehaviour>();
 
         foreach (var item in actionBehaviours)
@@ -202,6 +242,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
             item.onEnter += OnAnimStartAction;
             item.onExit += OnAnimExitAction;
         }
+        */
     }
 
     private void OnAnimExitAction(AnimatorStateInfo obj)
@@ -222,7 +263,9 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
 
     private void TimerEndAnimation()
     {
+        Debug.Log("Fin timer");
         controller.SetBool("Wait", false);
+        endAnimation?.Invoke();
     }
 
     #if UNITY_EDITOR
