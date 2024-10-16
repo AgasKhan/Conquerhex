@@ -271,7 +271,7 @@ public class HexagonsManager : SingletonMono<HexagonsManager>
         if (!queueOnOffFlag)
         {
             queueOnOffFlag = true;
-            instance.StartCoroutine(QueueOnOffRoutine());
+            GameManager.eventQueueGamePlay.Enqueue(()=> instance.StartCoroutine(QueueOnOffRoutine()));            
         }
 
         instance.previusViewActive = hex;
