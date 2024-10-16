@@ -209,8 +209,6 @@ public class GameManager : SingletonMono<GameManager>, IUpdate
             eventManager.events.SearchOrCreate<SingleEvent>("defeat").delegato?.Invoke();
             
         }).SetUnscaled(true);
-
-     
     }
 
     public void Victory()

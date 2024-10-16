@@ -21,13 +21,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_s_triplanarText
-  m_Shader: {fileID: -6465566751694194690, guid: 05a464fb0d8c78b489147d7c980a2be5,
+  m_Shader: {fileID: -6465566751694194690, guid: a06b7f3580cd1a240888a6ae379de93c,
     type: 3}
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 2100000, guid: 18b55dc811878df41a2d2692470ca3a3, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -37,52 +37,22 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
+    - _AO:
+        m_Texture: {fileID: 2800000, guid: 919caf10991499743aefc6f5081af7c0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a68e13f4501897246898ee8a200ebb34, type: 3}
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: f6061ccb8b8fea94fa21eb7e06f06b56, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTextAO:
-        m_Texture: {fileID: 2800000, guid: 66e2c9fe267ac444bab43bcf037dba5c, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTextNormal:
-        m_Texture: {fileID: 2800000, guid: c7c9300ce318e2645add41d9523c3a54, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SecondTextNormal:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SecondTexture:
-        m_Texture: {fileID: 2800000, guid: 5f53d3b906c3a5345abe3f1aff262f95, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 69efd895cd26126478011d870f0ff77a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CanDither: 1
-    - _DitherThreshold: 3.66
-    - _HasAlpha: 0
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _SecondTextureHeight: 3.14
-    - _SecondTextureThreshold: 0.759
+    - _UseAlphaOptacityTransparent: 1
+    - _UseDither: 1
     m_Colors:
     - _Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0}
-    - _MultiplyTextColor: {r: 0.40784314, g: 0.45490196, b: 0.4627451, a: 0}
   m_BuildTextureStacks: []

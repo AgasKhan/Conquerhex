@@ -216,6 +216,13 @@ public class MainCamera : SingletonMono<MainCamera>
         }
     }
 
+    private void TrackerOnFov(float obj)
+    {
+        for (int i = 0; i < rendersOverlay.cameras.Length; i++)
+        {
+            rendersOverlay.cameras[i].fieldOfView = obj;
+        }
+    }
 
 
     protected override void Awake()
@@ -258,13 +265,7 @@ public class MainCamera : SingletonMono<MainCamera>
         });
     }
 
-    private void TrackerOnFov(float obj)
-    {
-        for (int i = 0; i < rendersOverlay.Length; i++)
-        {
-            rendersOverlay.cameras[i].fieldOfView = obj;
-        }
-    }
+    
 
     private void LateUpdate()
     {
@@ -371,6 +372,9 @@ namespace CameraComponents
         public Quaternion rotationPerspective;
 
         public Vector3 vectorPerspective;
+
+        [SerializeField]
+        float velocityRotate=20;
 
         public float Dist = 10;
 
@@ -519,7 +523,9 @@ namespace CameraComponents
             if (!transitionsSet.Chck)
                 return;
 
-            rotationEulerPerspective.x -= arg1.y;
+            //arg1 *= (1/Time.deltaTime) * (1/velocityRotate);
+
+            rotationEulerPerspective.x -=  arg1.y;
 
             rotationEulerPerspective.x = Mathf.Clamp(rotationEulerPerspective.x, -20, 89);
 
@@ -548,7 +554,10 @@ namespace CameraComponents
 
             VirtualControllers.CameraBlock.eventPress -= CameraBlockTopDownStay;
             VirtualControllers.CameraBlock.eventDown -= CameraBlockPerspectiveDown;
+
+            VirtualControllers.Camera.eventDown -= AimingEventMediatorEventPress;
             VirtualControllers.Camera.eventPress -= AimingEventMediatorEventPress;
+            VirtualControllers.Camera.eventUp -= AimingEventMediatorEventPress;
             _update -= AimingUpdate;
 
             switch (obj)
@@ -564,7 +573,9 @@ namespace CameraComponents
 
                     VirtualControllers.CameraBlock.eventDown += CameraBlockPerspectiveDown;
 
+                    VirtualControllers.Camera.eventDown += AimingEventMediatorEventPress;
                     VirtualControllers.Camera.eventPress += AimingEventMediatorEventPress;
+                    VirtualControllers.Camera.eventUp += AimingEventMediatorEventPress;
 
                     _update += AimingUpdate;
 
