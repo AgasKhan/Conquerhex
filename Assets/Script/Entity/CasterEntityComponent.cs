@@ -410,6 +410,36 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         EnergyUpdate();
     }
 
+
+    void SetGeneric<T>(SlotItemList<T> slotList, int index, AttackBase.ItemToEquip[] toEquip) where T : Ability
+    {
+        var indexToEquip = toEquip[index].indexToEquip == -1 ? index : toEquip[index].indexToEquip;
+
+        //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"
+        slotList.Actual(indexToEquip).isModifiable = toEquip[index].isModifiable;
+        slotList.actual.isBlocked = toEquip[index].isBlocked;
+        //Fin de cambios
+        
+        if (toEquip[index]?.itemToEquip == null || indexToEquip > slotList.Count || slotList.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
+            return;
+
+        var aux = toEquip[index].itemToEquip.Create();
+
+        if (!container.GetInContainer<InventoryEntityComponent>().Contains(aux))
+            aux.Init(inventoryEntity);
+        else
+            ((T)aux).CreateCopy(out int copyIndex);
+
+        ((T)aux).isDefault = toEquip[index].isDefault;
+
+        if (toEquip[index].isDefault)//Se agrega la condicion para setear el item por default solo cuando corresponde
+            slotList.actual.SetDefaultItem((T)aux);
+
+        ((T)aux).CreateCopy(out int otherindex);
+
+        slotList.actual.indexEquipedItem = otherindex;
+    }
+
     void SetWeapon(int index)
     {
         //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"

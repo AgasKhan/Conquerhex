@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2b1936eb057c29418e9670be3207f5d, type: 3}
-  m_Name: EspadaNexo
+  m_Name: EspadaRotaInfinita
   m_EditorClassIdentifier: 
-  _nameDisplay: EspadaNexo
-  _image: {fileID: -405826507, guid: 17d90ad2b19afdb409c147bd3ff6fd9b, type: 3}
-  _details: El arma mas comun, debido a su efectividad
+  _nameDisplay: Espada Rota
+  _image: {fileID: 582093121, guid: 65fa7ba1529a21e4d86a500a6a1fffc4, type: 3}
+  _details: "Es tan d\xE9bil que solo te servir\xEDa para recolectar los materiales
+    para otra arma"
   maxAmount: 1
   weight: 0
   visible: 1
@@ -23,23 +24,16 @@ MonoBehaviour:
   resultColor: {r: 0, g: 0, b: 0, a: 0}
   defaultKata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
   velocity: 1
-  range: 3
+  range: 0.9
   minimalRange: 0
   damages:
   - name: 
-    amount: 6
-    knockBack: 0
-    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
-  - name: 
-    amount: 10
-    knockBack: 0
-    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
-  - name: 
-    amount: 4
+    amount: 1.5
     knockBack: 0
     typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
-  durability: 9999
-  weaponModel: {fileID: 0}
+  durability: 8888
+  weaponModel: {fileID: 649136710156119278, guid: 2a0180923f3ea7a43965f4e199211438,
+    type: 3}
   animations: {fileID: 0}
   inPlaceOwner:
     prefabToSpawn: {fileID: 0}
