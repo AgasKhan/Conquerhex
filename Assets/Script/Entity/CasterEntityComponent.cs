@@ -410,7 +410,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         EnergyUpdate();
     }
 
-
+    /*
     void SetGeneric<T>(SlotItemList<T> slotList, int index, AttackBase.ItemToEquip[] toEquip) where T : Ability
     {
         var indexToEquip = toEquip[index].indexToEquip == -1 ? index : toEquip[index].indexToEquip;
@@ -436,7 +436,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         ((T)aux).CreateCopy(out int otherindex);
 
         slotList.actual.indexEquipedItem = otherindex;
-    }
+    }*/
 
     void SetIndexSlotItem<T>(SlotItem<T> slotItem, AttackBase.ToEquip toEquip) where T : Ability
     {
@@ -444,7 +444,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         slotItem.isBlocked = toEquip.isBlocked;
     }
 
-    T CreateAbility<T>(T ability, out int index) where T : Ability
+    T CreateAbility<T, C>(C ability, out int index) where T : Ability where C : AbilityBase
     {
         var aux = (T)ability.Create();
 
@@ -472,18 +472,16 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
 
     void SetAbility(SlotItem<AbilityExtCast> slotItem, AbilityExtCast ability, AttackBase.ToEquip toEquip, int index)
     {
-        var indexToEquip = flyweight.abilities[index].indexToEquip == -1 ? index : flyweight.abilities[index].indexToEquip;
-
         SetIndexSlotItem(slotItem, toEquip);
 
-        if (flyweight.abilities[index]?.ability == null || indexToEquip > abilities.Count || abilities.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
+        if (flyweight.abilities[index]?.ability == null || abilities.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
             return;
-
-        var newAbility = CreateAbility(ability, out int indexCreated);
+        /*
+        var newAbility = CreateAbility<>(ability, out int indexCreated);
 
         SetDefault(slotItem, newAbility, toEquip.isDefault);
 
-        EquipInSlot(slotItem, newAbility);
+        EquipInSlot(slotItem, newAbility);*/
     }
 
     void SetWeapon(int index)
@@ -513,23 +511,25 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         if (flyweight.kataCombos[index]?.kata == null || indexToEquip > katas.Count || katas.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
             return;
 
-        var aux = flyweight.kataCombos[index].kata.Create();
+        Item itemCreated = null;
+        int indexItemCreated = -1;
 
-        aux.Init(inventoryEntity);
+        if (!container.GetInContainer<InventoryEntityComponent>().Contains(flyweight.kataCombos[index].kata.nameDisplay, out itemCreated, out indexItemCreated))
+        {
+            itemCreated = CreateAbility<WeaponKata, WeaponKataBase>(flyweight.kataCombos[index].kata, out indexItemCreated);
+        }
 
         var aux2 = flyweight.kataCombos[index].weapon.Create();
 
         aux2.Init(inventoryEntity);
 
-        ((WeaponKata)aux).isDefault = flyweight.kataCombos[index].isDefault;
+        ((WeaponKata)itemCreated).isDefault = flyweight.kataCombos[index].isDefault;
         ((MeleeWeapon)aux2).isDefault = flyweight.kataCombos[index].isDefault;
 
         if (flyweight.kataCombos[index].isDefault)//Se agrega la condicion para setear el item por default solo cuando corresponde
-            katas.actual.SetDefaultItem((WeaponKata)aux);
+            katas.actual.SetDefaultItem((WeaponKata)itemCreated);
 
-        ((WeaponKata)aux).CreateCopy(out int otherindex);
-
-        katas.actual.indexEquipedItem = otherindex;
+        EquipInSlot(katas.actual, (WeaponKata)itemCreated);
 
         //Debug.Log($"comprobacion : {katasCombo!=null} {katasCombo.actual != null} {katasCombo.actual.equiped != null}");
 

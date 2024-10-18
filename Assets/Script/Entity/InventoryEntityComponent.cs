@@ -73,6 +73,30 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
         return inventory.Contains(item, out index);
     }
 
+    public bool Contains(string name, out Item item, out int index)
+    {
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if(inventory[i].GetItemBase().nameDisplay == name)
+            {
+                if(inventory[i] is Ability && ((Ability)inventory[i]).IsCopy)
+                    item = ((Ability)inventory[i]).original;
+                else
+                    item = inventory[i];
+
+                Debug.Log("SI se encontro el item: " + name);
+
+                index = i;
+                return true;
+            }
+        }
+        Debug.Log("NO se encontro el item: " + name);
+        index = -1;
+        item = null;
+        return false;
+    }
+
+
     public void Clear()
     {
         inventory.Clear();
