@@ -10,38 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4d9de5f65e4f7d46a3c5c7bfe48bc2a, type: 3}
-  m_Name: DialogoPrueba
+  m_Name: ConsoleDialogue
   m_EditorClassIdentifier: 
   RootNode:
-    dialogueText: "Buenas tardes, esta se\xF1al es una prueba."
+    dialogueText: Buenos dias, En que puedo serle de ayuda?
     ExecuteAction:
       m_PersistentCalls:
         m_Calls: []
     responses:
-    - responseText: Prueba de que?
+    - responseText: () => Execute(Hacking = true);
       nextNode:
-        dialogueText: Lo estas probando.
+        dialogueText: ----Hexagono Fortaleza w193.s23.n431-----
         ExecuteAction:
           m_PersistentCalls:
             m_Calls: []
         responses:
-        - responseText: No comprendo
+        - responseText: () => Download Coordinates;
           nextNode:
-            dialogueText: Tu eleccion importa.
+            dialogueText: ---Descargando Coordenadas---
             ExecuteAction:
               m_PersistentCalls:
                 m_Calls: []
             responses: []
-        - responseText: Adios
-          nextNode:
-            dialogueText: Buenas tardes
-            ExecuteAction:
-              m_PersistentCalls:
-                m_Calls: []
-            responses: []
-    - responseText: Ya entendi.
+    - responseText: Salir
       nextNode:
-        dialogueText: Perfecto.
+        dialogueText: Apagando sistema...
         ExecuteAction:
           m_PersistentCalls:
             m_Calls: []

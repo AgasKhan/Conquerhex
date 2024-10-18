@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using DialogueSystem;
 using UnityEngine;
 
-public class DialogueActivator : MonoBehaviour
+public class DialogueActivator : LogicActive<(InteractEntityComponent interact, Character character)>
 {
     [SerializeField] private DialogueNew _dialogueToShow;
     [SerializeField] private string _entityName;
-
-    public void ShowDialogue()
+    
+    public override void Activate((InteractEntityComponent interact, Character character) genericParams)
     {
         DialogueManager.instance.StartDialogue(_entityName, _dialogueToShow.RootNode);
     }

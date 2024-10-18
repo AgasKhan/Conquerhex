@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class DirectorManager : SingletonMono<DirectorManager>
 {
     [SerializeField] Character _player;
     [SerializeField] ReSpawner[] _spawners;
     [SerializeField] private Transform _puertacasa;
+    [SerializeField] private CanvasGroup _conectionImage;
+    [SerializeField] private TMPro.TextMeshProUGUI textC;
     
     int enemiesKilled;
     private int blocked;
@@ -52,7 +56,7 @@ public class DirectorManager : SingletonMono<DirectorManager>
         if (enemiesKilled >= 20)
         {
             _puertacasa.gameObject.SetActive(false);
-            UI.Interfaz.instance["Subtitulo"].ShowMsg($"La puerta se ha desbloqueado!".RichTextColor(Color.red));
+            UI.Interfaz.instance["Subtitulo"].ShowMsg($"La puerta se ha desbloqueado!".RichTextColor(Color.white));
         }
         //_puertacasa.Translate(_puertacasa.position + Vector3.down * 2 * Time.deltaTime, _puertacasa);
 
@@ -114,17 +118,48 @@ public class DirectorManager : SingletonMono<DirectorManager>
     [ContextMenu("Noti coordenadas")]
     public void ConsoleCoords()
     {
-        UI.Interfaz.instance["Notificacion"]
-            .ShowMsg("Adquiriendo coordenadas de fortaleza......".RichTextColor(Color.cyan));
+        _player.CurrentState = null;
+        
+        UI.Interfaz.instance["Subtitulo"]
+            .AddMsg("Adquiriendo coordenadas de fortaleza......".RichTextColor(Color.cyan));
 
         TimersManager.Create(10f, () => CoordsTaken());
     }
 
     void CoordsTaken()
     {
-        UI.Interfaz.instance["Notificacion"]
-            .ShowMsg("Coordenadas adquiridas!".RichTextColor(Color.cyan));
+        UI.Interfaz.instance["Subtitulo"]
+            .AddMsg("Coordenadas adquiridas!".RichTextColor(Color.cyan));
         
-        //TimersManager.Create(10f, () => );
+        TimersManager.Create(3f, () =>
+        {
+            ConnectionLost();
+        });
     }
+
+    void ConnectionLost()
+    {
+        _conectionImage.alpha = 1;
+        
+        // textC2.ShowMsg("ERROR ERROR ERROR ERROR ERROR ERROR ERROR\nERROR ERROR ERROR ERROR ERROR ERROR ERROR");
+        // textC1.ShowMsg("Conexion Perdida...");
+        textC.text = "Conexion Perdida...";
+        Invoke("NextConnLost", 5f);
+    }
+
+    void NextConnLost()
+    {
+        // textC1.ClearMsg();
+        // textC1.ShowMsg("Avatar Exterminado...");
+        textC.text = "Avatar Exterminado...";
+        Invoke("NextNextConnLost", 5f);
+    }
+
+    void NextNextConnLost()
+    {
+        // textC1.ClearMsg();
+        // textC1.ShowMsg("Volviendo al cuerpo base...");
+        textC.text = "Conectando con cuerpo base...";
+        TimersManager.Create(5f, () => GameManager.instance.Load("Hexagonos test"));
+    } 
 }
