@@ -41,6 +41,15 @@ public class CraftingBuild : Building, ISaveObject
     {
         controller.UpgradeLevel();
     }
+
+    UIE_CraftMenu craftMenu;
+
+    public void ShowMenu()
+    {
+        craftMenu = UIE_MenusManager.instance.GetMenu(UIE_MenusManager.instance.CraftMenu) as UIE_CraftMenu;
+        craftMenu.Init(this);
+        UIE_MenusManager.instance.EnableMenu(UIE_MenusManager.instance.CraftMenu);
+    }
     /*
     public string Save()
     {
