@@ -2475,6 +2475,7 @@ MonoBehaviour:
   renderer: {fileID: 428201229}
   notDamageColor: {r: 0, g: 1, b: 0.1515646, a: 1}
   damageColor: {r: 1, g: 0, b: 0, a: 1}
+  entity: {fileID: 0}
 --- !u!65 &428201228
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11331,7 +11332,7 @@ PrefabInstance:
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4925800942327952149, guid: 6b5900aa9a556e54d818a6fe09263a51,
         type: 3}
@@ -11602,7 +11603,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1423380039}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45f2eb8f38fa17c46b5b14ce8c131d39, type: 3}
   m_Name: 
@@ -11726,6 +11727,11 @@ PrefabInstance:
         type: 3}
       propertyPath: automaticRender
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 71350857104891687, guid: c4e149bb0e8104b4a931b5a03002856c,
+        type: 3}
+      propertyPath: _arrHexCreados.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3041162355114794747, guid: c4e149bb0e8104b4a931b5a03002856c,
         type: 3}
@@ -14456,6 +14462,11 @@ PrefabInstance:
       propertyPath: <playerCharacter>k__BackingField
       value: 
       objectReference: {fileID: 202924756}
+    - target: {fileID: 7739652029663223114, guid: 132d1382f7b77bc42a847412133db52d,
+        type: 3}
+      propertyPath: fsmGameMaganer.load.onFinishLoad.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7739652029663223115, guid: 132d1382f7b77bc42a847412133db52d,
         type: 3}
       propertyPath: m_RootOrder

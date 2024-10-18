@@ -55,6 +55,13 @@ public class UpTrggrCtrllr : TriggerController
         }
     }
 
+    public override void OnStayState(CasterEntityComponent param)
+    {
+        base.OnStayState(param);
+        ability.FeedbackDetect();
+        Detect();
+    }
+
     public override void OnExitState(CasterEntityComponent param)
     {
         if ((triggerBase?.aimingToMove ?? false) && param.container is Character character)
@@ -77,10 +84,6 @@ public class UpTrggrCtrllr : TriggerController
     //Durante, al mantener y moverlo
     public override void ControllerPressed(Vector2 dir, float button)
     {
-
-        ability.FeedbackDetect();
-
-        Detect();
     }
 
     //Despues, al sotarlo
@@ -88,7 +91,7 @@ public class UpTrggrCtrllr : TriggerController
     {
         Cast();
 
-        if(affected!=null && affected.Count>0 && !(triggerBase?.aimingToMove ?? false))
+        if (affected!=null && affected.Count>0 && !(triggerBase?.aimingToMove ?? false))
             ObjectiveToAim = affected[0].transform.position;
 
         caster.abilityControllerMediator -= this;
