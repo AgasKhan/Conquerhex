@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
 using Cursor = UnityEngine.Cursor;
 
 namespace DialogueSystem
@@ -96,7 +94,7 @@ namespace DialogueSystem
         {
             HideDialogue();
             _player.CurrentState = playerIA;
-            Cursor.visible = false;
+            //Cursor.visible = false; Ver como bloquearlo en perspectiva.
             
             foreach (Transform child in responseButtonContainer)
             {
