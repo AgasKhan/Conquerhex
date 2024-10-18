@@ -65,13 +65,13 @@ public class DirectorManager : SingletonMono<DirectorManager>
 
     public void BreakRandomAbility()
     {
-        int ran = Random.Range(2, _player.caster.abilities.Count);
+        int ran = Random.Range(3, _player.caster.abilities.Count);
 
         if (_player.caster.abilities[ran].isBlocked == true) return;
         
         UI.Interfaz.instance["Notificacion"]
             .ShowMsg(
-                $"La habilidad {_player.caster.abilities[ran].defaultItem?.nameDisplay} se ha roto!"
+                $"Una habilidad se ha perdido!"
                     .RichTextColor(Color.red));
         _player.caster.abilities[ran].isBlocked = true;
         _player.caster.abilities[ran].equiped?.Unequip();
@@ -92,11 +92,9 @@ public class DirectorManager : SingletonMono<DirectorManager>
     [ContextMenu("BreakWeapons")]
     public void BreakRandomWeapon()
     {
-        int ran = Random.Range(1, _player.caster.weapons.Count);
-
+        
         //Ver como eliminar un arma del inventario
         _player.caster.actualWeapon?.Unequip();
-        _player.caster.actualAbility?.Destroy();
 
         UI.Interfaz.instance["Notificacion"]
             .ShowMsg($"el arma {_player.caster.actualWeapon.nameDisplay} se ha roto!".RichTextColor(Color.red));
@@ -112,7 +110,7 @@ public class DirectorManager : SingletonMono<DirectorManager>
         _player.caster.katas[ran].equiped?.Unequip();
         UI.Interfaz.instance["Notificacion"]
             .ShowMsg(
-                $"la kata {_player.caster.katas[ran].defaultItem?.nameDisplay} se ha roto!".RichTextColor(Color.red));
+                $"Una kata se ha perdido!".RichTextColor(Color.red));
     }
 
     [ContextMenu("Noti coordenadas")]
