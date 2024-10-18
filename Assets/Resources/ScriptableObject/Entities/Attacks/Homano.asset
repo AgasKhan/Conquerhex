@@ -21,7 +21,7 @@ MonoBehaviour:
     isModifiable: 1
     isDefault: 0
     isBlocked: 0
-    weapon: {fileID: 11400000, guid: 4503a50c1f70575499f64f55a44764df, type: 2}
+    weapon: {fileID: 11400000, guid: 8f14097ff194aa34f8bb0829d0de59bf, type: 2}
   kataCombos:
   - indexToEquip: 0
     isModifiable: 1
@@ -30,11 +30,23 @@ MonoBehaviour:
     weapon: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
     kata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
   - indexToEquip: 1
-    isModifiable: 1
+    isModifiable: 0
     isDefault: 0
-    isBlocked: 0
-    weapon: {fileID: 11400000, guid: 00c520bc752f70f45b63631e968637ae, type: 2}
-    kata: {fileID: 11400000, guid: 7fb1b94fb8c1cfa4aabf132841e81b4b, type: 2}
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
   abilities:
   - indexToEquip: 0
     isModifiable: 1
@@ -50,17 +62,22 @@ MonoBehaviour:
     isModifiable: 1
     isDefault: 0
     isBlocked: 0
-    ability: {fileID: 11400000, guid: 418c233b04005cb4da05f4b58c0b80d9, type: 2}
+    ability: {fileID: 11400000, guid: 12ac7611867a0ef42b9ae3400968119f, type: 2}
   - indexToEquip: 3
-    isModifiable: 1
-    isDefault: 1
-    isBlocked: 0
-    ability: {fileID: 11400000, guid: d82108ebdd8a26d478f47d2dcfb78c11, type: 2}
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
   - indexToEquip: 4
-    isModifiable: 1
-    isDefault: 1
-    isBlocked: 0
-    ability: {fileID: 11400000, guid: e8c04fae3cd8b9f439f5bb3f2769350f, type: 2}
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 5
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
   combos:
   - indexToEquip: 0
     isModifiable: 1
@@ -68,6 +85,90 @@ MonoBehaviour:
     isBlocked: 0
     weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
     ability: {fileID: 11400000, guid: 0e7b36b4dc98b824d8a472414070be6b, type: 2}
+  - indexToEquip: 5
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
+    ability: {fileID: 11400000, guid: 0e7b36b4dc98b824d8a472414070be6b, type: 2}
+  - indexToEquip: 10
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
+    ability: {fileID: 11400000, guid: 0e7b36b4dc98b824d8a472414070be6b, type: 2}
+  - indexToEquip: 1
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 4
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 6
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 7
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 8
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 9
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 11
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 12
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 13
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 14
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
   additiveDamage:
   - name: Perforation
     amount: 2

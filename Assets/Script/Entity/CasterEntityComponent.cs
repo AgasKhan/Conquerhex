@@ -410,6 +410,82 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         EnergyUpdate();
     }
 
+
+    void SetGeneric<T>(SlotItemList<T> slotList, int index, AttackBase.ItemToEquip[] toEquip) where T : Ability
+    {
+        var indexToEquip = toEquip[index].indexToEquip == -1 ? index : toEquip[index].indexToEquip;
+
+        slotList.Actual(indexToEquip).isModifiable = toEquip[index].isModifiable;
+        slotList.actual.isBlocked = toEquip[index].isBlocked;
+        
+        if (toEquip[index]?.itemToEquip == null || indexToEquip > slotList.Count || slotList.actual.equiped != null)
+            return;
+
+        var aux = toEquip[index].itemToEquip.Create();
+
+        if (!container.GetInContainer<InventoryEntityComponent>().Contains(aux))
+            aux.Init(inventoryEntity);
+        else
+            ((T)aux).CreateCopy(out int copyIndex);
+
+        ((T)aux).isDefault = toEquip[index].isDefault;
+
+        if (toEquip[index].isDefault)//Se agrega la condicion para setear el item por default solo cuando corresponde
+            slotList.actual.SetDefaultItem((T)aux);
+
+        ((T)aux).CreateCopy(out int otherindex);
+
+        slotList.actual.indexEquipedItem = otherindex;
+    }
+
+    void SetIndexSlotItem<T>(SlotItem<T> slotItem, AttackBase.ToEquip toEquip) where T : Ability
+    {
+        slotItem.isModifiable = toEquip.isModifiable;
+        slotItem.isBlocked = toEquip.isBlocked;
+    }
+
+    T CreateAbility<T>(T ability, out int index) where T : Ability
+    {
+        var aux = (T)ability.Create();
+
+        index = aux.Init(inventoryEntity);
+
+        return aux;
+    }
+
+    void SetDefault<T>(SlotItem<T> slotItem, T ability, bool isDefault) where T : Ability
+    {
+        ability.isDefault = isDefault;
+
+        if (isDefault)
+            slotItem.SetDefaultItem(ability);
+    }
+
+    T EquipInSlot<T>(SlotItem<T> slotItem, T abilityOriginal) where T : Ability
+    {
+        var aux = (T)abilityOriginal.CreateCopy(out var otherIndex);
+
+        slotItem.indexEquipedItem = otherIndex;
+
+        return aux;
+    }
+
+    void SetAbility(SlotItem<AbilityExtCast> slotItem, AbilityExtCast ability, AttackBase.ToEquip toEquip, int index)
+    {
+        var indexToEquip = flyweight.abilities[index].indexToEquip == -1 ? index : flyweight.abilities[index].indexToEquip;
+
+        SetIndexSlotItem(slotItem, toEquip);
+
+        if (flyweight.abilities[index]?.ability == null || indexToEquip > abilities.Count || abilities.actual.equiped != null)//Se agregó una consideración nueva en la que se pregunta si el item a equipar es null
+            return;
+
+        var newAbility = CreateAbility(ability, out int indexCreated);
+
+        SetDefault(slotItem, newAbility, toEquip.isDefault);
+
+        EquipInSlot(slotItem, newAbility);
+    }
+
     void SetWeapon(int index)
     {
         //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"
@@ -492,7 +568,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         var indexToEquip = flyweight.combos[index].indexToEquip == -1 ? index : flyweight.combos[index].indexToEquip;
 
         //Cambios: Ahora los slots se configuran antes que los items que poseen y se agrego el seteo de la nueva variable "isBlocked"
-        Debug.Log("INDEX OF Combo "+ index + " : " + indexToEquip);
+        //Debug.Log("INDEX OF Combo "+ index + " : " + indexToEquip);
         combos.Actual(indexToEquip).isModifiable = flyweight.combos[index].isModifiable;
         combos.actual.isBlocked = flyweight.combos[index].isBlocked;
         //Fin de cambios

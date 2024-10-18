@@ -47,6 +47,7 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
         _character = param;
 
         param.health.death += Health_death;
+        param.health.revive += Health_revive;
 
         if (param.health.IsDeath)
         {
@@ -63,7 +64,11 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
     {
         param.health.death -= Health_death;
 
-        _character = null;
+        if (!param.health.IsDeath)
+        {
+            param.health.revive -= Health_revive;
+            _character = null;
+        }
     }
 
     protected virtual void Health_death()
@@ -71,4 +76,11 @@ public abstract class IAFather : MonoBehaviour, IState<Character>, IDamageable
         character.CurrentState = null;
         deathWait?.Reset();
     }
+    
+    protected virtual void Health_revive()
+    {
+        character.CurrentState = this;
+    }
+    
+    
 }

@@ -18,7 +18,7 @@ public class TutorialScenaryManager : SingletonMono<TutorialScenaryManager>
     public Animator npcAnim;
 
     public float maxDist = 10;
-    IState<Character> playerIA;
+    IAFather playerIA;
 
     [Header("Scenary")]
     public Hexagone[] newBorders = new Hexagone[6];

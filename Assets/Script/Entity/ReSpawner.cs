@@ -30,7 +30,7 @@ public class ReSpawner : Spawner
             }
         }
     }
-    public void TryRespawn()
+    public Entity TryRespawn()
     {
         if (spawneado != null)
         {
@@ -40,6 +40,7 @@ public class ReSpawner : Spawner
         {
             Init();
         }
+        return spawneado.GetComponent<Entity>();
     }
 
     public void Respawn()
