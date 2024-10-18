@@ -287,7 +287,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
         culling.Update();
 
-        if (HexagonsManager.instance == null)
+        if (HexagonsManager.instance == null || hexagone== null)
         {
             return;
         }
