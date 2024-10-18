@@ -1,91 +1,70 @@
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
+using Cursor = UnityEngine.Cursor;
 
 namespace DialogueSystem
 {
-    public class DialogueManager : MonoBehaviour
+    public class DialogueManager : SingletonMono<DialogueManager>
     {
-
-        public static DialogueManager Instance { get; private set; }
-
-        [Header("Propiedades")]
-        [Space(10)]
-        public GameObject DialogueParent; // Main container for dialogue UI
-        public Text DialogTitleText, DialogBodyText; // Text components for title and body
+        [Header("Propiedades")] [Space(10)]
         public GameObject responseButtonPrefab; // Prefab for generating response buttons
+
         public Transform responseButtonContainer; // Container to hold response buttons
 
-        public static Action OnDialogueEnded;
 
-        private void Awake()
-        {
-            // Singleton pattern to ensure only one instance of DialogueManager
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        [SerializeField] private Character _player;
 
-            // Initially hide the dialogue UI
-            HideDialogue();
-        }
+        IState<Character> playerIA;
 
         // Starts the dialogue with given title and dialogue node
-        public void StartDialogue(string title, DialogueNode node)
+        public void StartDialogue(string title, DialogueNode node, bool end = false)
         {
             // Display the dialogue UI
-            ShowDialogue();
+            ShowDialogue(node.dialogueText);
             node.ExecuteAction?.Invoke();
 
-            // Remove any existing response buttons
             foreach (Transform child in responseButtonContainer)
             {
                 Destroy(child.gameObject);
             }
 
-            // Set dialogue title and body text
-            DialogTitleText.text = title;
-
-            StopAllCoroutines();
-            StartCoroutine(ShowDialogue(title, node));
-
-        }
-
-        IEnumerator ShowDialogue(string title, DialogueNode node)
-        {
-            DialogBodyText.text = "";
-
-            foreach (var letter in node.dialogueText.ToCharArray())
+            if (end)
             {
-                DialogBodyText.text += letter;
-                yield return null;
+                LastDialogue();
+                return;
             }
 
+            playerIA = _player.CurrentState;
+            _player.CurrentState = null;
+            Cursor.visible = true;
+
             CalculateResponseNodes(title, node);
+
+
+            //
+            // // Set dialogue title and body text
+            // DialogTitleText.text = title;
+            //
+            // StopAllCoroutines();
+            // StartCoroutine(ShowDialogue(title, node));
         }
 
         void CalculateResponseNodes(string title, DialogueNode node)
         {
-
             // Create and setup response buttons based on current dialogue node
             foreach (DialogueResponse response in node.responses)
             {
                 GameObject buttonObj = Instantiate(responseButtonPrefab, responseButtonContainer);
-                buttonObj.GetComponentInChildren<Text>().text = response.responseText;
+                EventsCall events = buttonObj.GetComponent<EventsCall>();
+                events.Set(response.responseText, () => SelectResponse(response, title), "");
 
-                // Setup button to trigger SelectResponse when clicked
-                buttonObj.GetComponent<Button>().onClick.AddListener(() => SelectResponse(response, title));
+
+                // buttonObj.GetComponentInChildren<Text>().text = response.responseText;
+                // buttonObj.GetComponent<Button>().onClick.AddListener(() => SelectResponse(response, title));
             }
         }
 
-        // Handles response selection and triggers next dialogue node
         public void SelectResponse(DialogueResponse response, string title)
         {
             // Check if there's a follow-up node
@@ -96,30 +75,66 @@ namespace DialogueSystem
             else
             {
                 // If no follow-up node, end the dialogue
-                HideDialogue();
-                OnDialogueEnded?.Invoke();
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = false;
+                StartDialogue(title, response.nextNode, true);
             }
+        }
+
+        void LastDialogue()
+        {
+            GameObject buttonObj = Instantiate(responseButtonPrefab, responseButtonContainer);
+            EventsCall events = buttonObj.GetComponent<EventsCall>();
+            events.Set("Salir", () => StopDialogue(), "");
         }
 
         // Hide the dialogue UI
         public void HideDialogue()
         {
-            DialogueParent.SetActive(false);
+            UI.Interfaz.instance["Subtitulo"].CompleteMsg();
+        }
+
+        public void StopDialogue()
+        {
+            HideDialogue();
+            _player.CurrentState = playerIA;
+            Cursor.visible = false;
+            
+            foreach (Transform child in responseButtonContainer)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
         // Show the dialogue UI
-        private void ShowDialogue()
+        private void ShowDialogue(string text)
         {
-            DialogueParent.SetActive(true);
+            UI.Interfaz.instance["Subtitulo"].ClearMsg();
+            UI.Interfaz.instance["Subtitulo"].AddMsg(text);
         }
 
-        // Check if dialogue is currently active
-        public bool IsDialogueActive()
-        {
-            return DialogueParent.activeSelf;
-        }
+        //Deprecated
+        // IEnumerator ShowDialogue(string title, DialogueNode node)
+        // {
+        //     DialogBodyText.text = "";
+        //
+        //     foreach (var letter in node.dialogueText.ToCharArray())
+        //     {
+        //         DialogBodyText.text += letter;
+        //         yield return null;
+        //     }
+        //
+        //     CalculateResponseNodes(title, node);
+        // }
+
+
+        // Handles response selection and triggers next dialogue node
+
+        //
+        // // Check if dialogue is currently active
+        // public bool IsDialogueActive()
+        // {
+        //     //return DialogueParent.activeSelf;
+        //     UI.Interfaz.instance["Subtitulo"].
+        // }
 
 
         #region Deprecated
