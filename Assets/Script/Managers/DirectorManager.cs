@@ -6,7 +6,8 @@ public class DirectorManager : SingletonMono<DirectorManager>
 {
     [SerializeField] Character _player;
     [SerializeField] ReSpawner[] _spawners;
-
+    [SerializeField] private Transform _puertacasa;
+    
     int enemiesKilled;
     private int blocked;
 
@@ -20,7 +21,7 @@ public class DirectorManager : SingletonMono<DirectorManager>
         _player.health.death += () =>
         {
             t = TimersManager.Create(1f,
-                () => UnityEngine.SceneManagement.SceneManager.LoadScene("Hexagonos test"));
+                () => GameManager.instance.Load("Hexagonos test"));
         };
     }
 
@@ -43,13 +44,19 @@ public class DirectorManager : SingletonMono<DirectorManager>
         
         
         enemiesKilled++;
-        Debug.Log(enemiesKilled);
         if(enemiesKilled % 2 != 0) return;
 
         BreakRandomAbility();
         BreakRandomKataCombo();
-        
-        if(enemiesKilled >= 20) _player.TakeDamage(Damage.Create<DamageTypes.Perforation>(100));
+
+        if (enemiesKilled >= 20)
+        {
+            _puertacasa.gameObject.SetActive(false);
+            UI.Interfaz.instance["Subtitulo"].ShowMsg($"La puerta se ha desbloqueado!".RichTextColor(Color.red));
+        }
+        //_puertacasa.Translate(_puertacasa.position + Vector3.down * 2 * Time.deltaTime, _puertacasa);
+
+        //_player.TakeDamage(Damage.Create<DamageTypes.Perforation>(100));
     }
 
     public void BreakRandomAbility()
@@ -85,7 +92,7 @@ public class DirectorManager : SingletonMono<DirectorManager>
 
         //Ver como eliminar un arma del inventario
         _player.caster.actualWeapon?.Unequip();
-        _player.caster.weapons[ran].inventoryComponent[0].Destroy();
+        _player.caster.actualAbility?.Destroy();
 
         UI.Interfaz.instance["Notificacion"]
             .ShowMsg($"el arma {_player.caster.actualWeapon.nameDisplay} se ha roto!".RichTextColor(Color.red));
@@ -102,5 +109,22 @@ public class DirectorManager : SingletonMono<DirectorManager>
         UI.Interfaz.instance["Notificacion"]
             .ShowMsg(
                 $"la kata {_player.caster.katas[ran].defaultItem?.nameDisplay} se ha roto!".RichTextColor(Color.red));
+    }
+
+    [ContextMenu("Noti coordenadas")]
+    public void ConsoleCoords()
+    {
+        UI.Interfaz.instance["Notificacion"]
+            .ShowMsg("Adquiriendo coordenadas de fortaleza......".RichTextColor(Color.cyan));
+
+        TimersManager.Create(10f, () => CoordsTaken());
+    }
+
+    void CoordsTaken()
+    {
+        UI.Interfaz.instance["Notificacion"]
+            .ShowMsg("Coordenadas adquiridas!".RichTextColor(Color.cyan));
+        
+        //TimersManager.Create(10f, () => );
     }
 }

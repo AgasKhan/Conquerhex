@@ -13,7 +13,7 @@ namespace DialogueSystem
 
         [SerializeField] private Character _player;
 
-        IState<Character> playerIA;
+        IAFather playerIA;
 
         // Starts the dialogue with given title and dialogue node
         public void StartDialogue(string title, DialogueNode node, bool end = false)
