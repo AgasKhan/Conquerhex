@@ -28,6 +28,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         }
     }
 
+    [SerializeField]
     Hexagone hexagoneParent;
 
     public event System.Action<Damage> onTakeDamage;
