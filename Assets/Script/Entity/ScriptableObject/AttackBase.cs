@@ -41,6 +41,13 @@ public class AttackBase : FlyWeight<EntityBase>
         public AbilityExtCastBase ability;
     }
 
+    [System.Serializable]
+    public class ItemToEquip : ToEquip
+    {
+        public MeleeWeaponBase weaponToEquip;
+        public AbilityBase itemToEquip;
+    }
+
     [Header("Energia")]
     public int energy = 100;
 
@@ -66,6 +73,9 @@ public class AttackBase : FlyWeight<EntityBase>
 
     [Header("Combos de ataque")]
     public AbilityCombo[] combos;
+
+    [Header("Test de habilidades")]
+    public ItemToEquip[] testAbilities;
 
     [Header("Especialization")]
 

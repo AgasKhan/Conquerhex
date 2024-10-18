@@ -474,7 +474,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
     {
         SetIndexSlotItem(slotItem, toEquip);
 
-        if (flyweight.abilities[index]?.ability == null || abilities.actual.equiped != null)//Se agregÛ una consideraciÛn nueva en la que se pregunta si el item a equipar es null
+        if (flyweight.abilities[index]?.ability == null || abilities.actual.equiped != null)//Se agreg√≥ una consideraci√≥n nueva en la que se pregunta si el item a equipar es null
             return;
         /*
         var newAbility = CreateAbility<>(ability, out int indexCreated);
@@ -482,6 +482,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         SetDefault(slotItem, newAbility, toEquip.isDefault);
 
         EquipInSlot(slotItem, newAbility);*/
+
     }
 
     void SetWeapon(int index)
@@ -490,7 +491,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         weapons.Actual(0).isBlocked = flyweight.weaponToEquip.isBlocked;
         //Fin de cambios
 
-        if (flyweight.weaponToEquip?.weapon == null /*|| indexToEquip > katas.Count */ || weapons.actual.equiped != null)//Se agregÛ una consideraciÛn nueva en la que se pregunta si el item a equipar es null
+        if (flyweight.weaponToEquip?.weapon == null /*|| indexToEquip > katas.Count */ || weapons.actual.equiped != null)//Se agreg√≥ una consideraci√≥n nueva en la que se pregunta si el item a equipar es null
             return;
 
         var aux2 = (MeleeWeapon)flyweight.weaponToEquip.weapon.Create();
@@ -508,7 +509,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         katas.actual.isBlocked = flyweight.kataCombos[index].isBlocked;
         //Fin de cambios
 
-        if (flyweight.kataCombos[index]?.kata == null || indexToEquip > katas.Count || katas.actual.equiped != null)//Se agregÛ una consideraciÛn nueva en la que se pregunta si el item a equipar es null
+        if (flyweight.kataCombos[index]?.kata == null || indexToEquip > katas.Count || katas.actual.equiped != null)//Se agreg√≥ una consideraci√≥n nueva en la que se pregunta si el item a equipar es null
             return;
 
         Item itemCreated = null;
@@ -546,7 +547,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         abilities.actual.isBlocked = flyweight.abilities[index].isBlocked;
         //Fin de cambios
 
-        if (flyweight.abilities[index]?.ability == null || indexToEquip > abilities.Count || abilities.actual.equiped != null)//Se agregÛ una consideraciÛn nueva en la que se pregunta si el item a equipar es null
+        if (flyweight.abilities[index]?.ability == null || indexToEquip > abilities.Count || abilities.actual.equiped != null)//Se agreg√≥ una consideraci√≥n nueva en la que se pregunta si el item a equipar es null
             return;
 
         var aux = flyweight.abilities[index].ability.Create();
@@ -573,7 +574,7 @@ public class CasterEntityComponent : ComponentOfContainer<Entity>, ISaveObject, 
         combos.actual.isBlocked = flyweight.combos[index].isBlocked;
         //Fin de cambios
 
-        if (flyweight.combos[index]?.ability == null || indexToEquip > combos.Count || combos.actual.equiped != null)//Se agregÛ una consideraciÛn nueva en la que se pregunta si el item a equipar es null
+        if (flyweight.combos[index]?.ability == null || indexToEquip > combos.Count || combos.actual.equiped != null)//Se agreg√≥ una consideraci√≥n nueva en la que se pregunta si el item a equipar es null
             return;
 
         Ability aux = (Ability)flyweight.combos[index].ability.Create();
