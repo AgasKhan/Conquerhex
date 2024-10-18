@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789d9d0bf1f5c714a8ebf28b525cc4d2, type: 3}
+  m_Name: Homano Debil
+  m_EditorClassIdentifier: 
+  energy: 100
+  chargeEnergy: 2
+  energyStatic: 0
+  energyDefault: 0.5
+  weaponToEquip:
+    indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: 3e477dded8bd57a478e73c50c8a3928c, type: 2}
+  kataCombos:
+  - indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 1
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  abilities:
+  - indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    ability: {fileID: 0}
+  - indexToEquip: 1
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    ability: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    ability: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 4
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  - indexToEquip: 5
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    ability: {fileID: 0}
+  combos:
+  - indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 5
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 10
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 1
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 4
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 6
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 7
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 8
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 9
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 11
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 12
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 13
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 14
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 1
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  additiveDamage:
+  - name: Perforation
+    amount: 2
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
+  - name: Slash
+    amount: 5
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
+  - name: Impact
+    amount: 8
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}

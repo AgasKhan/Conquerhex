@@ -9,6 +9,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public string EquipItemMenu = "EquipItem_UIDoc";
     public string EquipmentMenu = "Equipment_UIDoc";
     public string CombosMenu = "Combos_UIDoc";
+    public string CraftMenu = "Craft_UIDoc";
 
     public Pictionarys<string, UIE_BaseMenu> menuList = new Pictionarys<string, UIE_BaseMenu>();
     public static Dictionary<string, VisualTreeAsset> treeAsset = new Dictionary<string, VisualTreeAsset>();
@@ -29,6 +30,11 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public Sprite defaultKataImage;
     public string defaultKataText;
 
+    public Sprite defaultNoFilterImage;
+    public Sprite oldDefaultWeaponImage;
+    public Sprite oldDefaultAbilityImage;
+    public Sprite oldDefaultKataImage;
+
     public Pictionarys<string, string> shortCuts = new Pictionarys<string, string>();
 
     string currentMenu = "";
@@ -40,13 +46,19 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     string tooltAuxText = "";
 
     public AnimationClip idleAnim;
-    public AnimationClip showWeaponAnim;
 
-    /*
-    public List<Sprite> basicsKeys = new List<Sprite>();
-    public List<Sprite> abilitiesKeys = new List<Sprite>();
-    public List<Sprite> katasKeys = new List<Sprite>();
-    */
+    //HARDCODEO-----------------------------------
+    public AnimationClip bowAnim;
+
+    public void BowCastAnim()
+    {
+        GameManager.instance.playerCharacter.GetInContainer<AnimatorController>().ChangeActionAnimation(bowAnim);
+    }
+    //HARDCODEO-----------------------------------
+
+
+    public AnimationInfo showWeapon;
+
     EventControllerMediator escapeEventMediator;
 
     protected override void Awake()
@@ -138,6 +150,15 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         else
             return defaultAbilityImage;
     }
+    public Sprite GetOldImage<T>() where T : ItemEquipable
+    {
+        if (typeof(T) == typeof(MeleeWeapon))
+            return oldDefaultWeaponImage;
+        else if (typeof(T) == typeof(WeaponKata))
+            return oldDefaultKataImage;
+        else
+            return oldDefaultAbilityImage;
+    }
 
     public string GetText<T>(ItemEquipable itemEquiped) where T : ItemEquipable
     {
@@ -181,6 +202,8 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         GameManager.instance.Menu(true);
         currentMenu = name;
         menuList[name].EnableMenu();
+
+        
     }
 
     public void DisableMenu(string name)
@@ -189,6 +212,11 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         GameManager.instance.Menu(false);
         lastMenu = name;
         menuList[name].DisableMenu();
+    }
+
+    public UIE_BaseMenu GetMenu(string name)
+    {
+        return menuList[name];
     }
 
     public void TriggerOnClose()

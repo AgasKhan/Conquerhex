@@ -1081,20 +1081,26 @@ MonoBehaviour:
   shake:
     _shakeIntensity: 0.3
     _shakeDuration: 0.1
-  pointsInWorld: []
   tracker:
     obj: {fileID: 0}
+    maskToAiming:
+      serializedVersion: 2
+      m_Bits: 137
+    maskToCollisionCamera:
+      serializedVersion: 2
+      m_Bits: 9
     rotationEulerPerspective: {x: 0, y: 0, z: 0}
     offsetObjPosition: {x: 0, y: 0, z: 0}
     rotationPerspective: {x: 0, y: 0, z: 0, w: 0}
     vectorPerspective: {x: 0, y: 0, z: 0}
+    velocityRotate: 20
     Dist: 10
     velocityTransition: 0.75
     smoothColision: 5
     transitionsSet:
       _total: 0
       _current: 0
-    cameraSet: 0
+    cameraSet: 1
     prevCameraSet: 0
     aimingMaterial: {fileID: 2100000, guid: 017e211e4240019428bd4be8a8910697, type: 2}
   _main: {fileID: 1125739740253471796}
@@ -1122,18 +1128,6 @@ MonoBehaviour:
     - {fileID: 2174288819520640708}
     - {fileID: 863672502243763701}
     offsetIndex: 2
-  culling:
-    pointsInScreen:
-    - {x: 0, y: 0}
-    - {x: 0, y: 1}
-    - {x: 1, y: 0}
-    - {x: 1, y: 1}
-    - {x: 0.5, y: 1}
-    - {x: 0, y: 0.5}
-    - {x: 1, y: 0.5}
-    points: []
-    _points: []
-    _points2: []
   renderObjects: {fileID: 4545446371477908154, guid: 2213d535134026846a1d3cb171d03198,
     type: 2}
 --- !u!81 &8852253582668569097

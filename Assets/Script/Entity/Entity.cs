@@ -28,6 +28,7 @@ public abstract class Entity : Container<Entity>, IDamageable, IGetEntity, ISave
         }
     }
 
+    [SerializeField]
     Hexagone hexagoneParent;
 
     public event System.Action<Damage> onTakeDamage;
@@ -392,6 +393,7 @@ public class Health
     public event System.Action noLife;
     public event System.Action reLife;
     public event System.Action death;
+    public event System.Action revive;
 
     public event System.Action<Health> helthUpdate;
 
@@ -468,6 +470,7 @@ public class Health
         regen.Reset();
         life.Reset();
         deathBool = false;
+        revive?.Invoke();
     }
 
     public float TakeRegenDamage(float amount)
@@ -583,8 +586,9 @@ public class Health
 
                 if (regen.current <= 0)
                 {
-                    death?.Invoke();
                     deathBool = true;
+                    death?.Invoke();
+                    
                 }
             }
         }

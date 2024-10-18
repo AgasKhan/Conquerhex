@@ -54,6 +54,10 @@ public class SecretKey : MonoBehaviour
         {
             GameManager.instance.Load("Tutorial_Combate_Fixed");
         }
+        if (SceneManager.GetActiveScene().name == "MainMenu" && Input.GetKeyDown(KeyCode.U))
+        {
+            GameManager.instance.Load("Hexagonos test");
+        }
 
 
         if (SceneManager.GetActiveScene().name == "DummyPractice" && Input.GetKeyDown(KeyCode.P))

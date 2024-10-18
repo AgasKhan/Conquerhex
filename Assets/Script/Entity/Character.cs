@@ -8,7 +8,7 @@ using System;
 [RequireComponent(typeof(CasterEntityComponent))]
 [RequireComponent(typeof(AimingEntityComponent))]
 [RequireComponent(typeof(MoveEntityComponent))]
-public class Character : Entity, ISwitchState<Character, IState<Character>>
+public class Character : Entity, ISwitchState<Character, IAFather>
 {
     /// <summary>
     /// Boton de apuntado
@@ -74,7 +74,8 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     [SerializeField]
     bool iaOn = true;
 
-    IState<Character> _ia;
+    [SerializeField]
+    IAFather _ia;
 
     FSMCharacter fsmCharacter;
 
@@ -92,7 +93,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     /// <summary>
     /// estado de la IA actual
     /// </summary>
-    public IState<Character> CurrentState
+    public IAFather CurrentState
     {
         get => _ia;
         set
@@ -292,7 +293,7 @@ public class Character : Entity, ISwitchState<Character, IState<Character>>
     {
         actualCombo = -2;
 
-        _ia = GetComponent<IState<Character>>();
+        _ia = GetComponent<IAFather>();
 
         move = GetInContainer<MoveEntityComponent>();
         inventory = GetInContainer<InventoryEntityComponent>();

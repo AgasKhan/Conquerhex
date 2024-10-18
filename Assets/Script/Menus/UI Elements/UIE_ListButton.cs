@@ -21,6 +21,9 @@ public class UIE_ListButton : VisualElement
     System.Action mainAct;
     System.Action copyAction;
 
+    System.Action changeAction;
+    System.Action changeActCopy;
+
     System.Action hoverAct;
 
     public void Init(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, System.Action _mainAction)
@@ -52,6 +55,16 @@ public class UIE_ListButton : VisualElement
     {
         hoverAct = _action;
         mainButton.RegisterCallback<MouseEnterEvent>((clEvent) => hoverAct.Invoke());
+    }
+
+    public void SetChangeButton(System.Action _changeAction)
+    {
+        changeAction = _changeAction;
+        changeActCopy = _changeAction;
+        changeButton.RegisterCallback<ClickEvent>((clEvent) => changeAction.Invoke());
+
+        equipText.HideInUIE();
+        changeButton.ShowInUIE();
     }
 
     public void SetEquipText(string _text)
@@ -126,6 +139,19 @@ public class UIE_ListButton : VisualElement
         mainButton.AddToClassList("itemSelected");
         mainButton.RemoveFromClassList("ListItemButton");
         SetEquipText("");
+    }
+
+    public void EnableChange()
+    {
+        changeAction = changeActCopy;
+        changeButton.RemoveFromClassList("changeButtonDisable");
+        changeButton.AddToClassList("changeButton");
+    }
+    public void DisableChange()
+    {
+        changeAction = () => { };
+        changeButton.AddToClassList("changeButtonDisable");
+        changeButton.RemoveFromClassList("changeButton");
     }
 
     public UIE_ListButton() { }

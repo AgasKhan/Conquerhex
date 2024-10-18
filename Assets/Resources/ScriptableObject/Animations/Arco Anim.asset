@@ -17,10 +17,11 @@ MonoBehaviour:
     - key: Cast
       value:
         defaultAction: 0
-        animationClip: {fileID: 9067093048684652814, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+        handHandling: 0
+        animationClip: {fileID: -998496362607748373, guid: ef32f545dcd91cf4a953326438d6700b,
           type: 3}
         inLoop: 0
-        velocity: 1
+        velocity: 1.5
         nextIndex: -1
         nextAnimation:
           rid: -2
@@ -28,14 +29,15 @@ MonoBehaviour:
         events:
           pictionaries:
           - key: Action
-            value: 0.04639235
+            value: 0.58021986
     - key: Middle
       value:
         defaultAction: 0
-        animationClip: {fileID: 1827226128182048838, guid: db67b6f2444f15a46beecda8d9ad4c80,
+        handHandling: 0
+        animationClip: {fileID: 1827226128182048838, guid: ef32f545dcd91cf4a953326438d6700b,
           type: 3}
         inLoop: 1
-        velocity: 0.5
+        velocity: 0.3
         nextIndex: -1
         nextAnimation:
           rid: -2
@@ -45,13 +47,14 @@ MonoBehaviour:
     - key: Start
       value:
         defaultAction: 0
-        animationClip: {fileID: 1827226128182048838, guid: 0bfe08ac9d18a8a4895e1da4030ae26d,
+        handHandling: 0
+        animationClip: {fileID: 1827226128182048838, guid: ef32f545dcd91cf4a953326438d6700b,
           type: 3}
         inLoop: 0
-        velocity: 1
+        velocity: 0.3
         nextIndex: 1
         nextAnimation:
-          rid: 9055861519105130612
+          rid: 3317647003228045674
         mirrorType: 0
         events:
           pictionaries: []
@@ -60,14 +63,15 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 9055861519105130612
+    - rid: 3317647003228045674
       type: {class: AnimationInfo/Data, ns: , asm: Assembly-CSharp}
       data:
         defaultAction: 0
-        animationClip: {fileID: 1827226128182048838, guid: db67b6f2444f15a46beecda8d9ad4c80,
+        handHandling: 0
+        animationClip: {fileID: 1827226128182048838, guid: ef32f545dcd91cf4a953326438d6700b,
           type: 3}
         inLoop: 1
-        velocity: 0.5
+        velocity: 0.3
         nextIndex: -1
         nextAnimation:
           rid: -2

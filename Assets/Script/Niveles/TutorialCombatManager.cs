@@ -19,7 +19,7 @@ public class TutorialCombatManager : SingletonMono<TutorialCombatManager>
     public bool dialogEnable = true;
 
     TextCompleto dialogText;
-    IState<Character> playerIA;
+    IAFather playerIA;
 
     protected override void Awake()
     {

@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b1936eb057c29418e9670be3207f5d, type: 3}
+  m_Name: SuperEspadaInfinita
+  m_EditorClassIdentifier: 
+  _nameDisplay: Espada Refractaria
+  _image: {fileID: 582093121, guid: 65fa7ba1529a21e4d86a500a6a1fffc4, type: 3}
+  _details: Un arma extremadamente efectiva que empuja a todo lo que golpea
+  maxAmount: 1
+  weight: 0
+  visible: 1
+  ingredients:
+  - Item: {fileID: 11400000, guid: 1cc8a87097780c04589ae4ac54ac62a4, type: 2}
+    Amount: 6
+  - Item: {fileID: 11400000, guid: 66ff0aa558f4bb74abf498da05a0c9fc, type: 2}
+    Amount: 4
+  - Item: {fileID: 11400000, guid: b8fcf2ebf3055d6448f2e27f48406fc4, type: 2}
+    Amount: 6
+  resultAmount: 1
+  resultColor: {r: 0, g: 0, b: 0, a: 0}
+  defaultKata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
+  velocity: 0.5
+  range: 1.1
+  minimalRange: 0
+  damages:
+  - name: 
+    amount: 10
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
+  - name: 
+    amount: 8
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
+  - name: 
+    amount: 4
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}
+  - name: 
+    amount: 5
+    knockBack: 20
+    typeInstance: {fileID: 11400000, guid: 582c5c38f1607604fb78d317332828c6, type: 2}
+  durability: 99999
+  weaponModel: {fileID: 649136710156119278, guid: 2a0180923f3ea7a43965f4e199211438,
+    type: 3}
+  animations: {fileID: 0}
+  inPlaceOwner:
+    prefabToSpawn: {fileID: 0}
+    spawnInLocal: 0
+    offsetPositionX: 0
+    offsetPositionY: 0
+    offsetPositionZ: 0
+    offsetRotationX: 0
+    offsetRotationY: 0
+    offsetRotationZ: 0
+    randomPositionX: 0
+    randomPositionY: 0
+    randomPositionZ: 0
+    randomRotationX: 0
+    randomRotationY: 0
+    randomRotationZ: 0
+    radius: 0
+    offsetPosition: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0, w: 1}
+    index: {x: -1, y: -1}
+    category: NoSelection
+  castAudio:
+    source: {fileID: 0}
+    mixer: {fileID: -4351104960769947795, guid: bf2733c8308b68b459088c5aaa1b81c6,
+      type: 2}
+    clip: {fileID: 8300000, guid: dbb6a2b463d060e47bcb4b67aacd8f1c, type: 3}
+    volume: 0.1
+    pitch: 1.1
+    spatialBlend: 0
+    maxDistance: 1
+    minDistance: 1
+    loop: 0
+    onAwake: 0
+  auxiliarAudios:
+    pictionaries: []

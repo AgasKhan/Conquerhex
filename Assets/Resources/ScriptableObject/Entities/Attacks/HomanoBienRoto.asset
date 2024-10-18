@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789d9d0bf1f5c714a8ebf28b525cc4d2, type: 3}
+  m_Name: HomanoBienRoto
+  m_EditorClassIdentifier: 
+  energy: 100
+  chargeEnergy: 2
+  energyStatic: 0
+  energyDefault: 0.5
+  weaponToEquip:
+    indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: 4503a50c1f70575499f64f55a44764df, type: 2}
+  kataCombos:
+  - indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: 8eaab92236b82784199a05ffe9ac0478, type: 2}
+    kata: {fileID: 11400000, guid: 4daa96c04a509e94e992d46121787cc9, type: 2}
+  - indexToEquip: 1
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    kata: {fileID: 0}
+  abilities:
+  - indexToEquip: 0
+    isModifiable: 1
+    isDefault: 1
+    isBlocked: 0
+    ability: {fileID: 11400000, guid: 8f2b042ee940f5441b223337f49827d1, type: 2}
+  - indexToEquip: 1
+    isModifiable: 1
+    isDefault: 1
+    isBlocked: 0
+    ability: {fileID: 11400000, guid: e9bf8e442538832469742b382e4ad678, type: 2}
+  - indexToEquip: 2
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    ability: {fileID: 11400000, guid: 12ac7611867a0ef42b9ae3400968119f, type: 2}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    ability: {fileID: 0}
+  - indexToEquip: 4
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    ability: {fileID: 0}
+  - indexToEquip: 5
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    ability: {fileID: 0}
+  combos:
+  - indexToEquip: 0
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
+    ability: {fileID: 11400000, guid: 0e7b36b4dc98b824d8a472414070be6b, type: 2}
+  - indexToEquip: 5
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
+    ability: {fileID: 11400000, guid: 0e7b36b4dc98b824d8a472414070be6b, type: 2}
+  - indexToEquip: 10
+    isModifiable: 1
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 11400000, guid: d56a49a99e5d6c04b8c2d73d5700f35d, type: 2}
+    ability: {fileID: 11400000, guid: 0e7b36b4dc98b824d8a472414070be6b, type: 2}
+  - indexToEquip: 1
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 2
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 3
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 4
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 6
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 7
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 8
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 9
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 11
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 12
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 13
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  - indexToEquip: 14
+    isModifiable: 0
+    isDefault: 0
+    isBlocked: 0
+    weapon: {fileID: 0}
+    ability: {fileID: 0}
+  additiveDamage:
+  - name: Perforation
+    amount: 2
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: bd1caab2cb30bf8498c1e54e25a53946, type: 2}
+  - name: Slash
+    amount: 5
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 9db34d22a95ff194284cc1e2d55cc9c8, type: 2}
+  - name: Impact
+    amount: 8
+    knockBack: 0
+    typeInstance: {fileID: 11400000, guid: 5869098bc1261134b99b56165686efa7, type: 2}

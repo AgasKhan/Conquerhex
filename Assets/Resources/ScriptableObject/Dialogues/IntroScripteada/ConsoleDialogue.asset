@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d9de5f65e4f7d46a3c5c7bfe48bc2a, type: 3}
+  m_Name: ConsoleDialogue
+  m_EditorClassIdentifier: 
+  RootNode:
+    dialogueText: Buenos dias, En que puedo serle de ayuda?
+    ExecuteAction:
+      m_PersistentCalls:
+        m_Calls: []
+    responses:
+    - responseText: () => Execute(Hacking = true);
+      nextNode:
+        dialogueText: ----Hexagono Fortaleza w193.s23.n431-----
+        ExecuteAction:
+          m_PersistentCalls:
+            m_Calls: []
+        responses:
+        - responseText: () => Download Coordinates;
+          nextNode:
+            dialogueText: ---Descargando Coordenadas---
+            ExecuteAction:
+              m_PersistentCalls:
+                m_Calls: []
+            responses: []
+    - responseText: Salir
+      nextNode:
+        dialogueText: Apagando sistema...
+        ExecuteAction:
+          m_PersistentCalls:
+            m_Calls: []
+        responses: []
+  dialogueSound: {fileID: 0}

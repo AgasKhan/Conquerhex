@@ -98,6 +98,24 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
     {
         controller.updateMode = _mode;
     }
+    /// <summary>
+    /// Setea el animator y sus timers para que sean o no Unscaled. TRUE-UNSCALED / FALSE-SCALED
+    /// </summary>
+    /// <param name="_condition"></param>
+    public void SetUnscaleController(bool _condition)
+    {
+        if(_condition)
+        {
+            controller.updateMode = AnimatorUpdateMode.UnscaledTime;
+            timerEndAnimationTransition.SetUnscaled(true);
+        }
+        else
+        {
+            controller.updateMode = AnimatorUpdateMode.Normal;
+            timerEndAnimationTransition.SetUnscaled(false);
+        }
+        
+    }
 
     private void Ia_onMove(Vector3 obj)
     {
@@ -127,6 +145,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         }
 
         controller.SetBool("Wait", false);
+        controller.SetBool("Move", false);
     }
 
     public void ChangeActionAnimation(AnimationInfo.Data data)
@@ -171,6 +190,8 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         //
         //ChangeAnimation(actionsName[i],newClip);
         timerEndAnimationTransition.Stop();
+
+        Debug.Log("Change Animation: " + newClip.name);
 
         if(name!=null && animations.ContainsKey(name, out int indexPic))
         {
