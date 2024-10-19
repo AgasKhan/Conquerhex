@@ -73,7 +73,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
                     rays.Add(new(pointA, pointB - pointA));
 
-                    //Debug.DrawRay(rays[rays.Count - 1].origin, rays[rays.Count-1].direction, Color.green);
+                    Debug.DrawRay(rays[rays.Count - 1].origin, rays[rays.Count-1].direction, Color.green);
                 }
 
                 pointsCalculated.Add(pointA);
@@ -111,7 +111,7 @@ public class MainCamera : SingletonMono<MainCamera>
         }
     }
 
-    static public Camera Main => instance?._main;
+    public static Camera Main => instance?._main;
 
     static Plane plane;
 
@@ -142,7 +142,7 @@ public class MainCamera : SingletonMono<MainCamera>
     Material CameraRenderer;
 
     [SerializeField]
-    MapTransform rendersOverlay;
+    public MapTransform rendersOverlay;
 
     [SerializeField]
     Culling culling;
@@ -208,7 +208,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
     private void UpdateRenderers()
     {
-        for (int i = -2; i < rendersOverlay.Length; i++)
+        for (int i = -1; i < rendersOverlay.Length; i++)
         {
             rendersOverlay.GetParent(i).rotation = tracker.rotationPerspective;
 
@@ -218,10 +218,7 @@ public class MainCamera : SingletonMono<MainCamera>
 
     private void TrackerOnFov(float obj)
     {
-        for (int i = 0; i < rendersOverlay.cameras.Length; i++)
-        {
-            rendersOverlay.cameras[i].fieldOfView = obj;
-        }
+        Main.fieldOfView = obj;
     }
 
 
@@ -239,19 +236,19 @@ public class MainCamera : SingletonMono<MainCamera>
 
         eventManager.events.SearchOrCreate<SingleEvent<Character>>("Character").delegato += tracker.OnCharacterSelected;
 
-        tracker.transitionsSet.AddToEnd(()=> 
+        tracker.transitionsSet.AddToEnd(()=>
         {
+            var originalLayer = Main.cullingMask;
+            
+            if(tracker.setDetectLayer)
+                originalLayer |= (1 << 6);
+            else
+                originalLayer  &= ~(1 << 6);
+
+            Main.cullingMask = originalLayer;
+            
             for (int i = -1; i < rendersOverlay.Length; i++)
             {
-                var originalLayer = rendersOverlay.cameras[i + 2].cullingMask;
-
-                if(tracker.setDetectLayer)
-                    originalLayer |= (1 << 6);
-                else
-                    originalLayer  &= ~(1 << 6);
-
-                rendersOverlay.cameras[i + 2].cullingMask = originalLayer;
-
                 renderObjects.SetActive(tracker.setEntitiesOverlay);
             }
         });
@@ -287,14 +284,12 @@ public class MainCamera : SingletonMono<MainCamera>
 
         culling.Update();
 
-        if (HexagonsManager.instance == null || hexagone== null)
+        if (HexagonsManager.instance != null && hexagone!= null)
         {
-            return;
-        }
-
-        for (int i = 0; i < hexagone.ladosArray.Length; i++)
-        {
-            camerasEdge[i] = culling.IsInFrustrum(hexagone.GetEquivalentPoints(i, 20));
+            for (int i = 0; i < hexagone.ladosArray.Length; i++)
+            {
+                camerasEdge[i] = culling.IsInFrustrum(hexagone.GetEquivalentPoints(i, 20));
+            }
         }
 
         RefreshMaterial();
@@ -308,9 +303,10 @@ public class MainCamera : SingletonMono<MainCamera>
         tracker.Destroy();
     }
 
-
+/*
     private void OnDrawGizmosSelected()
     {
+
         Gizmos.color = Color.yellow;
 
         Gizmos.DrawSphere(tracker.hitInfo.point, 0.05f);
@@ -319,9 +315,8 @@ public class MainCamera : SingletonMono<MainCamera>
         {
             Utilitys.DrawArrowRay(-item.normal * item.distance, item.normal*10);
         }
-    }
-
-    
+       
+    } */
 }
 
 namespace CameraComponents
@@ -329,9 +324,9 @@ namespace CameraComponents
     [System.Serializable]
     public class MapTransform
     {
-        public Camera[] cameras = new Camera[6];
+        public Transform[] camerasTr = new Transform[6];
 
-        public int RealLength => cameras.Length;
+        public int RealLength => camerasTr.Length;
 
         public int Length => RealLength - offsetIndex;
 
@@ -349,7 +344,7 @@ namespace CameraComponents
         {
             get
             {
-                return cameras[index + offsetIndex].transform;
+                return camerasTr[index + offsetIndex].transform;
             }
         }
     }

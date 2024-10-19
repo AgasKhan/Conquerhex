@@ -234,7 +234,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 52735
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: c213545ca63bc6f489cece9cde888897, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
@@ -1109,17 +1109,15 @@ MonoBehaviour:
   offsetTr: {fileID: 5303370391014685321}
   CameraRenderer: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
   rendersOverlay:
-    cameras:
-    - {fileID: 8646954649118161720}
-    - {fileID: 1125739740253471796}
-    - {fileID: 501442639090808573}
-    - {fileID: 3739943530721321387}
-    - {fileID: 3620443624617921835}
-    - {fileID: 1633939840909120087}
-    - {fileID: 4711910297825391498}
-    - {fileID: 9096749347204285647}
+    camerasTr:
+    - {fileID: 1125739740253471947}
+    - {fileID: 6530128573798706043}
+    - {fileID: 3263557999981583260}
+    - {fileID: 2386590717115526210}
+    - {fileID: 3989621773366547073}
+    - {fileID: 216163382166974066}
+    - {fileID: 3830021865431683125}
     parents:
-    - {fileID: 7221870825161067448}
     - {fileID: 1830716969104065746}
     - {fileID: 8294817568840734642}
     - {fileID: 1943562137769346628}
@@ -1127,7 +1125,7 @@ MonoBehaviour:
     - {fileID: 572665598570858217}
     - {fileID: 2174288819520640708}
     - {fileID: 863672502243763701}
-    offsetIndex: 2
+    offsetIndex: 1
   renderObjects: {fileID: 4545446371477908154, guid: 2213d535134026846a1d3cb171d03198,
     type: 2}
 --- !u!81 &8852253582668569097

@@ -88,6 +88,8 @@ Shader "Unlit/DepthToAlpha"
 
                 depth = ((tex2D(_MainDepth, uv).r)) * _Numer;
 
+                depth = saturate(depth);
+
                 float4 color = tex2D(_MainTex, uv);
                 //depth = pow(depth, _NumerSum);
 

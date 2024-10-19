@@ -110,7 +110,7 @@ Shader "Custom/MultiRenderTexture"
                 {
                     float4 colorAux = tex2D(_Texs[index], input.uv);
 
-                    if (depthMax < colorAux.a)
+                    if (colorAux.a > depthMax)
                     {
                         depthMax = colorAux.a;
                         //colorAux.a = 1;
@@ -119,7 +119,7 @@ Shader "Custom/MultiRenderTexture"
                 }
             }
 
-            //color = float4(color.r, color.g, color.b,1);
+            //color = float4(color.a, 0, 0,1);
 
             return color;
         }

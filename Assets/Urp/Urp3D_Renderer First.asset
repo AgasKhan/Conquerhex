@@ -12,37 +12,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faef0fff70aa039408255702e0b3d426, type: 3}
   m_Name: MatrizRenderFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   data:
     _renderTextures:
     - {fileID: 8400000, guid: 898755efa4c09da418c2dd3566232928, type: 2}
-    _rotation: {x: 0, y: 0, z: 0, w: 1}
-    _scale: {x: 1, y: 1, z: 1}
-    _position: {x: 80, y: 20, z: -5}
-    _view:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    scale: {x: 0, y: 0, z: 0}
+    originalView:
       e00: 1
-      e01: 0
-      e02: 0
-      e03: -80
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: -20
-      e20: 0
-      e21: 0
-      e22: -1
-      e23: -5
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    _proj:
-      e00: 0.97427857
       e01: 0
       e02: 0
       e03: 0
       e10: 0
-      e11: 1.7320508
+      e11: 0.7660444
+      e12: 0.6427877
+      e13: 8.999027
+      e20: 0
+      e21: 0.6427877
+      e22: -0.7660444
+      e23: -10.724621
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    originalProj:
+      e00: 2.0992785
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 3.7320507
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: -1.002002
+      e23: -0.2002002
+      e30: 0
+      e31: 0
+      e32: -1
+      e33: 0
+    view:
+      e00: 0
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 0
+      e12: 0
+      e13: -0.00000047683716
+      e20: 0
+      e21: 0
+      e22: 0
+      e23: 0.00000047683716
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    proj:
+      e00: 2.0992785
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 3.7320507
       e12: 0
       e13: 0
       e20: 0
@@ -72,64 +106,300 @@ MonoBehaviour:
       m_Bits: 32768
     renderTexturePlayer: {fileID: 8400000, guid: 7a36e601a38520f408b2028f6c848669,
       type: 2}
-    renderPassEvent: 1000
+    cullingMask:
+      serializedVersion: 2
+      m_Bits: 1
+    renderPassEvent: 550
     materialBlitter: {fileID: 2100000, guid: cf096d8b32535d346aa55ab3faa52d55, type: 2}
     pass: -1
     materialCombined: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
-    width: 1920
-    height: 1080
+    view:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: -1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    proj:
+      e00: 0.97427857
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1.7320508
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: -1.002002
+      e23: -0.2002002
+      e30: 0
+      e31: 0
+      e32: -1
+      e33: 0
     cameraToRender:
-      pictionaries:
-      - key: _Camera0
-        value:
-          name: _Camera0
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _Camera1
-        value:
-          name: _Camera1
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _Camera2
-        value:
-          name: _Camera2
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _Camera3
-        value:
-          name: _Camera3
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _Camera4
-        value:
-          name: _Camera4
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _MainCamera
-        value:
-          name: _MainCamera
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _Camera5
-        value:
-          name: _Camera5
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _Camera Stack
-        value:
-          name: _Camera Stack
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _Camera 0
-        value:
-          name: _Camera 0
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
-      - key: _SceneCamera
-        value:
-          name: _SceneCamera
-          target: {fileID: 0}
-          copyTarget: {fileID: 0}
+    - name: _MainCamera
+      targetColor: {fileID: 8400000, guid: c213545ca63bc6f489cece9cde888897, type: 2}
+      view:
+        e00: 1
+        e01: 0
+        e02: 0
+        e03: -200
+        e10: 0
+        e11: 0.7660444
+        e12: 0.6427877
+        e13: -65.722824
+        e20: 0
+        e21: 0.6427877
+        e22: -0.7660444
+        e23: 64.32539
+        e30: 0
+        e31: 0
+        e32: 0
+        e33: 1
+      proj:
+        e00: 2.0992785
+        e01: 0
+        e02: 0
+        e03: 0
+        e10: 0
+        e11: 3.7320507
+        e12: 0
+        e13: 0
+        e20: 0
+        e21: 0
+        e22: -1.002002
+        e23: -0.2002002
+        e30: 0
+        e31: 0
+        e32: -1
+        e33: 0
+    - name: _Camera0
+      targetColor: {fileID: 8400000, guid: c48ddca49735aa64fb3013ad62af3c3e, type: 2}
+      view:
+        e00: 0.6293203
+        e01: 0.0000000018626451
+        e02: 0.77714604
+        e03: -239.97559
+        e10: 0.04744363
+        e11: 0.9981348
+        e12: -0.038419086
+        e13: -23.809772
+        e20: 0.77569646
+        e21: -0.06104854
+        e22: -0.6281465
+        e23: -368.2157
+        e30: 0
+        e31: 0
+        e32: 0
+        e33: 1
+      proj:
+        e00: 0.97427857
+        e01: 0
+        e02: 0
+        e03: 0
+        e10: 0
+        e11: 1.7320508
+        e12: 0
+        e13: 0
+        e20: 0
+        e21: 0
+        e22: -1.002002
+        e23: -0.2002002
+        e30: 0
+        e31: 0
+        e32: -1
+        e33: 0
+    - name: _Camera1
+      targetColor: {fileID: 8400000, guid: 524b857439665324bbd5dad123f37662, type: 2}
+      view:
+        e00: 0.6293203
+        e01: 0.0000000018626451
+        e02: 0.77714604
+        e03: -226.42796
+        e10: 0.04744363
+        e11: 0.9981348
+        e12: -0.038419086
+        e13: -18.587904
+        e20: 0.77569646
+        e21: -0.06104854
+        e22: -0.6281465
+        e23: -282.83893
+        e30: 0
+        e31: 0
+        e32: 0
+        e33: 1
+      proj:
+        e00: 0.97427857
+        e01: 0
+        e02: 0
+        e03: 0
+        e10: 0
+        e11: 1.7320508
+        e12: 0
+        e13: 0
+        e20: 0
+        e21: 0
+        e22: -1.002002
+        e23: -0.2002002
+        e30: 0
+        e31: 0
+        e32: -1
+        e33: 0
+    - name: _Camera2
+      targetColor: {fileID: 8400000, guid: f1ed9f8320da16944be546d180e0279d, type: 2}
+      view:
+        e00: 0.6293203
+        e01: 0.0000000018626451
+        e02: 0.77714604
+        e03: -293.73077
+        e10: 0.04744363
+        e11: 0.9981348
+        e12: -0.038419086
+        e13: -15.260715
+        e20: 0.77569646
+        e21: -0.06104854
+        e22: -0.6281465
+        e23: -228.43987
+        e30: 0
+        e31: 0
+        e32: 0
+        e33: 1
+      proj:
+        e00: 0.97427857
+        e01: 0
+        e02: 0
+        e03: 0
+        e10: 0
+        e11: 1.7320508
+        e12: 0
+        e13: 0
+        e20: 0
+        e21: 0
+        e22: -1.002002
+        e23: -0.2002002
+        e30: 0
+        e31: 0
+        e32: -1
+        e33: 0
+    - name: _Camera3
+      targetColor: {fileID: 8400000, guid: 1b2de7f56e30c564294ffb94e86b2d20, type: 2}
+      view:
+        e00: 0.35836774
+        e01: 0
+        e02: 0.9335805
+        e03: -275.78018
+        e10: 0.07324788
+        e11: 0.9969173
+        e12: -0.028117208
+        e13: -29.937487
+        e20: 0.93070257
+        e21: -0.07845909
+        e22: -0.35726303
+        e23: -364.7736
+        e30: 0
+        e31: 0
+        e32: 0
+        e33: 1
+      proj:
+        e00: 0.97427857
+        e01: 0
+        e02: 0
+        e03: 0
+        e10: 0
+        e11: 1.7320508
+        e12: 0
+        e13: 0
+        e20: 0
+        e21: 0
+        e22: -1.002002
+        e23: -0.2002002
+        e30: 0
+        e31: 0
+        e32: -1
+        e33: 0
+    - name: _Camera4
+      targetColor: {fileID: 8400000, guid: 8f2f2b93440d59b4188bf78454464599, type: 2}
+      view:
+        e00: 0.6293203
+        e01: 0.0000000018626451
+        e02: 0.77714604
+        e03: -388.12885
+        e10: 0.04744363
+        e11: 0.9981348
+        e12: -0.038419086
+        e13: -22.377258
+        e20: 0.77569646
+        e21: -0.06104854
+        e22: -0.6281465
+        e23: -344.7943
+        e30: 0
+        e31: 0
+        e32: 0
+        e33: 1
+      proj:
+        e00: 0.97427857
+        e01: 0
+        e02: 0
+        e03: 0
+        e10: 0
+        e11: 1.7320508
+        e12: 0
+        e13: 0
+        e20: 0
+        e21: 0
+        e22: -1.002002
+        e23: -0.2002002
+        e30: 0
+        e31: 0
+        e32: -1
+        e33: 0
+    - name: _Camera5
+      targetColor: {fileID: 8400000, guid: b1192e241e2940645887aa632c88fc2c, type: 2}
+      view:
+        e00: 0.6293203
+        e01: 0.0000000018626451
+        e02: 0.77714604
+        e03: -320.82602
+        e10: 0.04744363
+        e11: 0.9981348
+        e12: -0.038419086
+        e13: -25.704449
+        e20: 0.77569646
+        e21: -0.06104854
+        e22: -0.6281465
+        e23: -399.19342
+        e30: 0
+        e31: 0
+        e32: 0
+        e33: 1
+      proj:
+        e00: 0.97427857
+        e01: 0
+        e02: 0
+        e03: 0
+        e10: 0
+        e11: 1.7320508
+        e12: 0
+        e13: 0
+        e20: 0
+        e21: 0
+        e22: -1.002002
+        e23: -0.2002002
+        e30: 0
+        e31: 0
+        e32: -1
+        e33: 0
 --- !u!114 &-3850841579667572443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,12 +413,12 @@ MonoBehaviour:
   m_Name: RenderToMainCamera
   m_EditorClassIdentifier: 
   m_Active: 1
-  injectionPoint: 600
-  fetchColorBuffer: 0
-  requirements: 0
+  injectionPoint: 550
+  fetchColorBuffer: 1
+  requirements: -1
   passMaterial: {fileID: 2100000, guid: e79fad9cbd99e8a46a45db7c269ea398, type: 2}
   passIndex: 0
-  bindDepthStencilAttachment: 0
+  bindDepthStencilAttachment: 1
   m_Version: 1
   MainCamera: 1
 --- !u!114 &-3194483877275257867
@@ -184,7 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbff09b8b5a58cc45b8a20c5444c54ce, type: 3}
   m_Name: Aiming
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   injectionPoint: 600
   fetchColorBuffer: 1
   requirements: 0
@@ -205,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: PlayerVisible
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: PlayerVisible
     Event: 300
@@ -254,15 +524,15 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 3233976003540843404}
   - {fileID: -4559962870005143157}
-  - {fileID: -3194483877275257867}
   - {fileID: -3850841579667572443}
+  - {fileID: -3194483877275257867}
   - {fileID: 2135540002385118812}
   - {fileID: 4545446371477908154}
   - {fileID: 5114080054119581445}
   - {fileID: -266832351515254742}
   - {fileID: -2831843747078651557}
   - {fileID: -8948317391604130055}
-  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c0f5b34bb6d6e9aad325399c65fc0f8fca5c46cd4d51f6a21dba6a875d64ab143f0547b5b2b6dcf8462ae059d963054cfc5b41f7a31d45b3d8
+  m_RendererFeatureMap: 8c7b30770a64e12c8b695ff0edc1b7c025399c65fc0f8fcaf5b34bb6d6e9aad35c46cd4d51f6a21dba6a875d64ab143f0547b5b2b6dcf8462ae059d963054cfc5b41f7a31d45b3d8
   m_UseNativeRenderPass: 1
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -302,7 +572,7 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 2
   m_DepthPrimingMode: 0
-  m_CopyDepthMode: 2
+  m_CopyDepthMode: 1
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
 --- !u!114 &2135540002385118812
@@ -399,7 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: PlayerHidden
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: PlayerHidden
     Event: 300
