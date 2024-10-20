@@ -21,13 +21,16 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
         public Matrix4x4 view;
         public Matrix4x4 proj;
 
-        public bool Set => rtTargetColor != null;
+        public Pictionarys<string,Material> materialsToApply = new();
 
-        Settings settings;
+        public bool Set => rtTargetColor != null;
 
         public void Configure(Settings settings, RenderTextureDescriptor desc, Material updateRef)
         {
-            this.settings = settings;
+            if (materialsToApply.Count==0)
+            {
+                materialsToApply.Add("DepthToAlpha", settings.materialBlitter);
+            }
             
             if (Set)
             {
@@ -55,7 +58,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
             }
         }
 
-        public void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
+        public void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData, Settings settings)
         {
             if (!renderingData.cameraData.camera.TryGetCullingParameters(out var originalCullingParams))
             {
@@ -109,6 +112,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
         public Material materialBlitter;
         public int pass;
         public Material materialCombined;
+        public Material combinedMaterial;
         
         public Matrix4x4 view;
         public Matrix4x4 proj;
@@ -136,6 +140,8 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
 
         private RTHandle colorBuffer;
         private RTHandle depthBuffer;
+        
+        private RenderTexture auxiliarTexture;
 
         public CustomRenderPass(Settings settings, string name)
         {
@@ -161,6 +167,17 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
             depthBuffer = renderingData.cameraData.renderer.cameraDepthTargetHandle;
             colorBuffer = renderingData.cameraData.renderer.cameraColorTargetHandle;
             
+            if (auxiliarTexture == null)
+            {
+                auxiliarTexture = new(colorBuffer);
+            }
+            else
+            {
+                auxiliarTexture.Release();
+                auxiliarTexture.descriptor = colorBuffer.rt.descriptor;
+                auxiliarTexture.Create();
+            }
+            
             settings.view = renderingData.cameraData.camera.worldToCameraMatrix;
             settings.proj = renderingData.cameraData.camera.projectionMatrix;
             
@@ -181,7 +198,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
                     data = new DataPerCamera(name);
                     data.offset = camera;
 
-                    data.OnCameraSetup(cmd, ref renderingData);
+                    data.OnCameraSetup(cmd, ref renderingData, settings);
                     
                     settings.cameraToRender.Add(data);
                 }
@@ -190,16 +207,7 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
                     data.offset = camera;
                 }
             }
-           
-            /*
-            else
-            {
-                data = settings.cameraToRender[index];
-            }
-            */
-
-            //Debug.Log("cameraData null = " + (renderingData.cameraData.camera == null) + "\ntargetTexture null =" + (renderingData.cameraData.camera.targetTexture == null));
-
+        
         }
 
 
@@ -219,11 +227,11 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
                     if (data?.offset==null || !data.offset.gameObject.activeInHierarchy)
                         continue;
                     
-                    Debug.Log("Render " + data.name);
+                    //Debug.Log("Render " + data.name);
                     if(data.name != "_MainCamera")
                     {
                         //if (data.offset.gameObject.activeInHierarchy)
-                        data.OnCameraSetup(cmd, ref renderingData);
+                        data.OnCameraSetup(cmd, ref renderingData, settings);
                         
                         //var cullResults = context.Cull(ref data.cullingParameters);
                         
@@ -244,65 +252,95 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
                         
                         context.ExecuteCommandBuffer(cmd);
                         cmd.Clear();
-                        //context.Submit();
-                        
-                        ///////////////////////////////////////////////////////////////////////////////////
-                        ///DepthToAlpha
-                        ///////////////////////////////////////////////////////////////////////////////////
-                        
-                        if (data.Set)
-                        {
-                            //Debug.Log(data.name + " Se ejecuto el blit");
-
-                            settings.materialBlitter.SetTexture("_MainTex", colorBuffer);
-                            settings.materialBlitter.SetTexture("_MainDepth", depthBuffer);
-
-                            cmd.Blit(null, data.rtTargetColor, settings.materialBlitter, settings.pass);
-
-                            context.ExecuteCommandBuffer(cmd);
-                            cmd.Clear();
-                        }
                     }
-                    else
+                    
+                    ///////////////////////////////////////////////////////////////////////////////////
+                    ///DepthToAlpha
+                    ///////////////////////////////////////////////////////////////////////////////////
+                    if (data.Set)
                     {
-                        if (settings.materialBlitter != null && data.Set)
-                        {
-                            //Debug.Log(data.name + " Se ejecuto el blit");
-
-                            settings.materialBlitter.SetTexture("_MainTex", renderingData.cameraData.renderer.cameraColorTargetHandle);
-                            settings.materialBlitter.SetTexture("_MainDepth", renderingData.cameraData.renderer.cameraDepthTargetHandle);
-
-                            cmd.Blit(null, data.rtTargetColor, settings.materialBlitter, settings.pass);
-                        }
-
+                        cmd.Blit(colorBuffer, auxiliarTexture);
                         context.ExecuteCommandBuffer(cmd);
                         cmd.Clear();
-
-                        if (settings.renderTexturePlayer != null)
+                        
+                        for (int i = 0; i < data.materialsToApply.Count; i++)
                         {
-                            cmd.SetRenderTarget(settings.renderTexturePlayer);
-                            cmd.ClearRenderTarget(RTClearFlags.All, Color.clear,  1, 0);
-                            cmd.SetViewProjectionMatrices(settings.view, settings.proj);
+                            settings.materialBlitter.SetTexture("_MainTex", auxiliarTexture);
+                            settings.materialBlitter.SetTexture("_MainDepth", depthBuffer);
 
-                            //Al final si era necesario
+                            cmd.Blit(null, data.targetColor, data.materialsToApply[i], -1);
+
                             context.ExecuteCommandBuffer(cmd);
                             cmd.Clear();
 
-                            DrawingSettings drawingSettings = CreateDrawingSettings(_shaderTagIds, ref renderingData, SortingCriteria.CommonOpaque);
-                            FilteringSettings filteringSettings = new(RenderQueueRange.all, settings.targetLayer);
+                            if (i < data.materialsToApply.Count - 1)
+                            {
+                                cmd.Blit(data.targetColor, auxiliarTexture);
                             
-                            context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
-
-                            context.ExecuteCommandBuffer(cmd);
-                            cmd.Clear();
+                                context.ExecuteCommandBuffer(cmd);
+                                cmd.Clear();    
+                            }
                         }
                     }
                 }
+                
+                //Separar en otro rendererPass luego
+                if (settings.renderTexturePlayer != null)
+                {
+                    cmd.SetRenderTarget(settings.renderTexturePlayer);
+                    cmd.ClearRenderTarget(RTClearFlags.All, Color.clear,  1, 0);
+                    cmd.SetViewProjectionMatrices(settings.view, settings.proj);
+
+                    //Al final si era necesario
+                    context.ExecuteCommandBuffer(cmd);
+                    cmd.Clear();
+
+                    DrawingSettings drawingSettings = CreateDrawingSettings(_shaderTagIds, ref renderingData, SortingCriteria.CommonOpaque);
+                    FilteringSettings filteringSettings = new(RenderQueueRange.all, settings.targetLayer);
+                            
+                    context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
+
+                    context.ExecuteCommandBuffer(cmd);
+                    cmd.Clear();
+                }
+                
+                /*
+                //COMBINADO
+                cmd.Blit(settings.cameraToRender[0].targetColor, auxiliarTexture);
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
+                
+                for (int i = 1; i < settings.cameraToRender.Count; i++)
+                {
+                    var data = settings.cameraToRender[i];
+                    
+                    if (data?.offset == null || !data.offset.gameObject.activeInHierarchy)
+                        continue;
+                    
+                    settings.combinedMaterial.SetTexture("_Texture1", auxiliarTexture);
+                    settings.combinedMaterial.SetTexture("_Texture2", data.targetColor);
+                    
+                    cmd.Blit(null, colorBuffer, settings.combinedMaterial);
+                    
+                    context.ExecuteCommandBuffer(cmd);
+                    cmd.Clear();
+                    
+                    cmd.Blit(colorBuffer, auxiliarTexture);
+                    
+                    context.ExecuteCommandBuffer(cmd);
+                    cmd.Clear();        
+                }
+                */
             }
             
             context.ExecuteCommandBuffer(cmd);
             cmd.Clear();
             CommandBufferPool.Release(cmd);
+        }
+
+        public override void FrameCleanup(CommandBuffer cmd)
+        {
+            auxiliarTexture.Release();
         }
     }
 
@@ -318,10 +356,10 @@ public class DepthToAlphaRendererFeature : ScriptableRendererFeature
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
         // Añadir la pasada solo si el layer de la cámara coincide con el targetLayer
-        if (renderingData.cameraData.cameraType == CameraType.Preview || renderingData.cameraData.cameraType == CameraType.Reflection || renderingData.cameraData.cameraType == CameraType.SceneView)
-        {
-            return;
-        }
+        //if (renderingData.cameraData.cameraType == CameraType.Preview || renderingData.cameraData.cameraType == CameraType.Reflection || renderingData.cameraData.cameraType == CameraType.SceneView)
+        //{
+          //  return;
+        //}
 
         if (renderingData.cameraData.camera.CompareTag("MainCamera"))
         {
