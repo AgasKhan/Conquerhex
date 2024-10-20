@@ -98,7 +98,7 @@ public class PathfindingManager : SingletonMono<PathfindingManager>
                 return path;
             }
 
-            foreach (var next in current.getNeighbors)
+            foreach (var next in current.GetNeighbors)
             {
                 if (next.cost <= 0)
                     continue;

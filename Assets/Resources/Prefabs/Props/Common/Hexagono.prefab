@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 988257799917268728}
   - component: {fileID: 3014906498211223378}
   - component: {fileID: 4925800942327952149}
-  - component: {fileID: 1341907997223995709}
+  - component: {fileID: 5808484328214620602}
   m_Layer: 9
   m_Name: Hexagono
   m_TagString: Hexagono
@@ -390,6 +390,7 @@ MonoBehaviour:
   biomes: {fileID: 0}
   map: {fileID: 0}
   mapCopado: {fileID: 6867081987140553804}
+  spatialGridH: {fileID: 5808484328214620602}
   effect:
   - {fileID: 613242843961767987}
   - {fileID: 8870137854229946788}
@@ -404,7 +405,7 @@ MonoBehaviour:
   lenght: 100
   manualSpawnSpawner: 0
   bussy: 0
---- !u!114 &1341907997223995709
+--- !u!114 &5808484328214620602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -413,7 +414,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4467571277743417452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075ab74d63a916c47abe1c0097af24bb, type: 3}
+  m_Script: {fileID: 11500000, guid: fe781ef71a520f449bbeb28cbb0afa69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   xz: 1
@@ -426,6 +427,10 @@ MonoBehaviour:
   areGizmosShutDown: 0
   activatedGrid: 1
   showLogs: 0
+  showIsTransitable: 0
+  _layerMaskBake:
+    serializedVersion: 2
+    m_Bits: 3081
 --- !u!1 &6576989581473226350
 GameObject:
   m_ObjectHideFlags: 0

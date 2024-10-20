@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System;
-using UnityEngine;
 using System.Collections;
 
 public class PriorityQueue<T> : IEnumerable<T> where T : IComparable<T>
@@ -9,7 +8,7 @@ public class PriorityQueue<T> : IEnumerable<T> where T : IComparable<T>
 
     public bool IsEmpty => _heap.Count == 0;
 
-    public int Count { get { return _heap.Count; } }
+    public int Count => _heap.Count; 
 
     public void UpdateElement(T element)
     {
@@ -103,9 +102,7 @@ public class PriorityQueue<T> : IEnumerable<T> where T : IComparable<T>
 
     private void Swap(int i, int j)
     {
-        T temp = _heap[i];
-        _heap[i] = _heap[j];
-        _heap[j] = temp;
+        (_heap[i], _heap[j]) = (_heap[j], _heap[i]);
     }
 
     public IEnumerator<T> GetEnumerator()

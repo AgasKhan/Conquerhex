@@ -51,6 +51,8 @@ public class Hexagone : MonoBehaviour, IUpdate
 
     public TerrainManager mapCopado;
 
+    public SpatialGridH spatialGridH;
+
     public SpriteRenderer[] effect;
 
     public float velocityTransfer;
@@ -64,9 +66,9 @@ public class Hexagone : MonoBehaviour, IUpdate
     public int lenght = 42;
 
     //[SerializeField]
-    int objectsPerChunk => HexagonsManager.instance.objectsPerChunk;
+    int ObjectsPerChunk => HexagonsManager.instance.objectsPerChunk;
 
-    int[,] detailsMap => mapCopado.detailsMap;
+    int[,] DetailsMap => mapCopado.detailsMap;
 
     public TerrainManager.Paths Paths => mapCopado.paths[0];
 
@@ -86,6 +88,7 @@ public class Hexagone : MonoBehaviour, IUpdate
 
     public event UnityAction MyUpdates;
     public event UnityAction MyFixedUpdates;
+    
     public void SetPortalColor(Color color)
     {
         for (int i = 0; i < effect.Length; i++)
@@ -137,7 +140,7 @@ public class Hexagone : MonoBehaviour, IUpdate
 
         var parent = chunks.Dequeue();
 
-        if (parent.transform.childCount >= objectsPerChunk)
+        if (parent.transform.childCount >= ObjectsPerChunk)
         {
             Transform newParent = new GameObject("chunk "+ transform.childCount).transform;
 
@@ -173,13 +176,13 @@ public class Hexagone : MonoBehaviour, IUpdate
         }
     }
 
-    void OptimiceChunks()
+    IEnumerator OptimiceChunks()
     {
         List<Transform> childs = new List<Transform>();
         while(!chunks.IsEmpty)
         {
-            var parent =chunks.Dequeue();
-            if (parent.transform.childCount < objectsPerChunk)
+            var parent = chunks.Dequeue();
+            if (parent.transform.childCount < ObjectsPerChunk)
             {
                 for (int i = parent.transform.childCount-1; i >= 0; i--)
                 {
@@ -194,11 +197,17 @@ public class Hexagone : MonoBehaviour, IUpdate
                 chunks.Enqueue(parent);
                 break;
             }
+
+            if (GameManager.MediumFrameRate)
+                yield return null;
         }
 
         for (int i = 0; i < childs.Count; i++)
         {
             EnterChunk(childs[i]);
+            
+            if (GameManager.MediumFrameRate)
+                yield return null;
         }
     }
 
@@ -260,18 +269,10 @@ public class Hexagone : MonoBehaviour, IUpdate
 
         gameObject.SetActive(false);
 
-        OptimiceChunks();
+        yield return OptimiceChunks();
 
         bussy = false;
     }
-
-    /*
-    IEnumerator Routine(System.Action action)
-    {
-        yield return null;
-        action();
-    }
-    */
 
     public Hexagone SetID(int i)
     {
@@ -458,8 +459,8 @@ public class Hexagone : MonoBehaviour, IUpdate
         x = 0;
         z = 0;
 
-        xFin = detailsMap.GetLength(0);
-        zFin = detailsMap.GetLength(1);
+        xFin = DetailsMap.GetLength(0);
+        zFin = DetailsMap.GetLength(1);
 
         suma = 1;
 
@@ -478,16 +479,16 @@ public class Hexagone : MonoBehaviour, IUpdate
         {
             for (int ii = z; ii < zFin; ii += suma)
             {
-                if (detailsMap[i, ii] == 0)
+                if (DetailsMap[i, ii] == 0)
                     continue;
 
                 int index = ii + i * xFin;
 
-                int indexLayerProp = detailsMap[i, ii] - 1;
+                int indexLayerProp = DetailsMap[i, ii] - 1;
 
-                float posXMultiply = ((float)ii - (detailsMap.GetLength(0) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(0) / 2);
+                float posXMultiply = ((float)ii - (DetailsMap.GetLength(0) / 2)) * HexagonsManager.radio / (DetailsMap.GetLength(0) / 2);
 
-                float posZMultiply = ((float)i - (detailsMap.GetLength(1) / 2)) * HexagonsManager.radio / (detailsMap.GetLength(1) / 2);
+                float posZMultiply = ((float)i - (DetailsMap.GetLength(1) / 2)) * HexagonsManager.radio / (DetailsMap.GetLength(1) / 2);
 
                 Vector3 pos = new Vector3(posXMultiply + center.x, center.y, posZMultiply + center.z);
 
@@ -532,6 +533,8 @@ public class Hexagone : MonoBehaviour, IUpdate
 
         if(!centro)
             EnterChunk(Instantiate(biomes.layersOfProps[0].spawners[Mathf.Clamp(level-1, 0, biomes.layersOfProps[0].spawners.Length-1)].center.RandomPic(), center, Quaternion.identity).transform);
+        
+        spatialGridH.Bake();
     }
 
     public Hexagone SetProyections(Transform original, IEnumerable<Transform> components, bool setParent = false)

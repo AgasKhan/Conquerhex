@@ -1,9 +1,47 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SpatialGrid : MonoBehaviour 
+public class SpatialGrid : ParentSpatialGrid<SpatialNode>
+{
+}
+
+public struct SpatialNode : ISpatialNode<SpatialNode>
+{
+    public HashSet<IGridEntity> content { get; set; }
+    
+    public IEnumerator<IGridEntity> GetEnumerator()
+    {
+        return content.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    public SpatialNode Create()
+    {
+        return new SpatialNode() {content = new HashSet<IGridEntity>()};
+    }
+}
+
+public interface ISpatialNode<out TChild> : IEnumerable<IGridEntity> where TChild : ISpatialNode<TChild>
+{
+    public HashSet<IGridEntity> content { get; }
+
+    public bool Add(IGridEntity gridEntity) => content.Add(gridEntity);
+    
+    public bool Remove(IGridEntity gridEntity) => content.Remove(gridEntity);
+
+    public bool Contains(IGridEntity gridEntity) => content.Contains(gridEntity);
+
+    public TChild Create();
+}
+
+public abstract class ParentSpatialGrid<TNode> : MonoBehaviour where TNode : ISpatialNode<TNode>, new()
 {
     #region Variables
     [Tooltip("Verdadero para el plano xz, falso para el plano xy")]
@@ -53,10 +91,10 @@ public class SpatialGrid : MonoBehaviour
 
 
     //ultimas posiciones conocidas de los elementos, guardadas para comparación.
-    private Dictionary<IGridEntity, (int x, int y)> lastPositions = new();
+    protected Dictionary<IGridEntity, (int x, int y)> lastPositions = new();
 
     //los "contenedores"
-    private HashSet<IGridEntity>[,] buckets;
+    protected TNode[,] buckets;
 
     //el valor de posicion que tienen los elementos cuando no estan en la zona de la grilla.
     /*
@@ -207,6 +245,15 @@ public class SpatialGrid : MonoBehaviour
             Mathf.FloorToInt(((xz? pos.z -z : pos.y - y) ) / cellHeight)
             );
     }
+    
+    public Vector3 GetPositionInWorld((int x, int y) gridPos)
+    {
+        float worldX = gridPos.x * cellWidth + x + cellWidth/2;
+        float worldY = xz ? y : gridPos.y * cellHeight + y + cellHeight/2;
+        float worldZ = xz ? gridPos.y * cellHeight + z  + cellHeight/2: z;
+
+        return new Vector3(worldX, worldY, worldZ);
+    }
 
     public bool IsInsideGrid((int x, int y) position)
     {
@@ -215,6 +262,8 @@ public class SpatialGrid : MonoBehaviour
                0 <= position.y && position.y < height;
     }
 
+    
+    
     void OnDestroy()
     {
         var ents = RecursiveWalker(transform).Select(n => n.GetComponent<IGridEntity>())
@@ -225,14 +274,14 @@ public class SpatialGrid : MonoBehaviour
 
     protected void Awake()
     {
-        buckets = new HashSet<IGridEntity>[width, height];
+        buckets = new TNode[width, height];
 
         //creamos todos los hashsets
         for (var i = 0; i < width; i++)
         {
             for (var j = 0; j < height; j++)
             {
-                buckets[i, j] = new HashSet<IGridEntity>();
+                buckets[i, j] = (new TNode()).Create();
             }
         }
 
@@ -273,7 +322,7 @@ public class SpatialGrid : MonoBehaviour
     public bool showLogs = true;
 
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         if (!showGrid)
             return;
