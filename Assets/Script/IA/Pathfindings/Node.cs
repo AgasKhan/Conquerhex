@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using TMPro;
 
-public class Node : MonoBehaviour
+public interface INode<TChild> where TChild: INode<TChild>
+{
+    public IEnumerable<TChild> GetNeighbors { get; }
+}
+
+public class Node : MonoBehaviour, INode<Node>
 {
     [SerializeField]
     List<Node> _neighbors = new List<Node>();
@@ -13,7 +18,7 @@ public class Node : MonoBehaviour
 
     public int cost = 1;
 
-    public List<Node> getNeighbors => _neighbors;
+    public IEnumerable<Node> GetNeighbors => _neighbors;
 
     private void Start()
     {
@@ -35,7 +40,7 @@ public class Node : MonoBehaviour
             if (_neighbors[i].cost <= 0)
                 continue;
 
-            if(_neighbors[i].getNeighbors.Contains(this))
+            if(_neighbors[i].GetNeighbors.Contains(this))
                 Gizmos.color = colorPaths;
             else
                 Gizmos.color = Color.red;
