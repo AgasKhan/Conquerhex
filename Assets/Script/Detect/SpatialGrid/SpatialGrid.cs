@@ -41,7 +41,7 @@ public interface ISpatialNode<out TChild> : IEnumerable<IGridEntity> where TChil
     public TChild Create();
 }
 
-public abstract class ParentSpatialGrid<TNode> : MonoBehaviour where TNode : ISpatialNode<TNode>, new()
+public abstract class ParentSpatialGrid<TNode> : MonoBehaviour, IEnumerable<TNode> where TNode : ISpatialNode<TNode>, new()
 {
     #region Variables
     [Tooltip("Verdadero para el plano xz, falso para el plano xy")]
@@ -261,8 +261,16 @@ public abstract class ParentSpatialGrid<TNode> : MonoBehaviour where TNode : ISp
         return 0 <= position.x && position.x < width &&
                0 <= position.y && position.y < height;
     }
-
     
+    public IEnumerator<TNode> GetEnumerator()
+    {
+        return (IEnumerator<TNode>)buckets.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
     
     void OnDestroy()
     {
@@ -409,4 +417,6 @@ public abstract class ParentSpatialGrid<TNode> : MonoBehaviour where TNode : ISp
     }
 
     #endregion
+
+    
 }
