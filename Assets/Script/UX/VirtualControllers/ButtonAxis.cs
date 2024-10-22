@@ -43,8 +43,10 @@ namespace Controllers
             }
         }
 
+        [SerializeField]
         Vector2 _frameDir;
 
+        [SerializeField]
         Vector2 _lastDir;
 
 

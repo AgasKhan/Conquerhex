@@ -130,16 +130,19 @@ public class AimingEntityComponent : ComponentOfContainer<Entity>, Controllers.I
 
     public void ControllerDown(Vector2 dir, float tim)
     {
-        AimingToObjective2D = dir;
+        if(dir!=Vector2.zero)
+            AimingToObjective2D = dir;
     }
 
     public void ControllerPressed(Vector2 dir, float tim)
     {
-        AimingToObjective2D = dir;
+        if(dir!=Vector2.zero)
+            AimingToObjective2D = dir;
     }
 
     public void ControllerUp(Vector2 dir, float tim)
     {
-        AimingToObjective2D = dir;
+        if(dir!=Vector2.zero)
+            AimingToObjective2D = dir;
     }
 }

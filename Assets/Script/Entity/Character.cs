@@ -499,6 +499,7 @@ namespace FSMCharacterAndStates
         public void OnEnterState(FSMCharacter param)
         {
             InternalCharacterAction.EnterState(stateWithEnd);
+            param.context.OnModelView(param.context.aiming.AimingToObjectiveXZ);
             param.context.aiming.onAimingXZ += param.context.OnModelView;
             
         }

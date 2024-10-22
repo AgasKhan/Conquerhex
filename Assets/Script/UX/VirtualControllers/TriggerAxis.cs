@@ -40,6 +40,12 @@ namespace Controllers
             float h = Input.GetAxisRaw(horizontal);
             float v = Input.GetAxisRaw(vertical);
 
+            if (h == 0 && v == 0)
+            {
+                dir.SetZero();
+                return;
+            }
+            
             if (mouseOverride)
             {
                 if (MainCamera.Main == null)
