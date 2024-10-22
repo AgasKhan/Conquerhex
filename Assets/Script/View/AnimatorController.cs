@@ -191,7 +191,7 @@ public partial class AnimatorController : ComponentOfContainer<Entity>
         //ChangeAnimation(actionsName[i],newClip);
         timerEndAnimationTransition.Stop();
 
-        Debug.Log("Change Animation: " + newClip.name);
+        //Debug.Log("Change Animation: " + newClip.name);
 
         if(name!=null && animations.ContainsKey(name, out int indexPic))
         {

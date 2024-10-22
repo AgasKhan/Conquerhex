@@ -20,6 +20,7 @@ public class UIE_CombosMenu : UIE_Equipment
     Label itemDescription;
     Label itemDetails;
 
+    VisualElement inventoryButton;
     VisualElement equipmentButton;
 
     protected override void Config()
@@ -43,11 +44,14 @@ public class UIE_CombosMenu : UIE_Equipment
         itemDescription = ui.Q<Label>("itemDescription");
         itemDetails = ui.Q<Label>("itemDetails");
 
+        inventoryButton = ui.Q<VisualElement>("inventoryButton");
         equipmentButton = ui.Q<VisualElement>("equipmentButton");
-        
-        noClickPanel.RegisterCallback<ClickEvent>((cleEvent)=> HiddeItemList());
+
+        inventoryButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.InventoryMenu));
         equipmentButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.EquipmentMenu));
 
+        noClickPanel.RegisterCallback<ClickEvent>((cleEvent)=> HiddeItemList());
+        
         onClose += () => manager.DisableMenu(gameObject.name);
     }
 
@@ -87,13 +91,33 @@ public class UIE_CombosMenu : UIE_Equipment
 
         //Debug.Log("Al setear el ComboButton, su indice de combos es: " + aux.indexSlot);
 
+        System.Action enterAct = GetHoverActs(auxAbility, out System.Action _leaveAct);
+        aux.SetHoverActs(enterAct, _leaveAct);
+
         if (auxAbility is WeaponKata)
         {
             aux.SetKata(auxAbility as WeaponKata, GetAction(aux.indexSlot), GetWeaponAction(aux.indexSlot, auxAbility as WeaponKata));
+
+            enterAct = GetHoverActs((auxAbility as WeaponKata).Weapon, out _leaveAct);
+            aux.SetWeaponHoverActs(enterAct, _leaveAct, (auxAbility as WeaponKata).Weapon);
         }
         else
         {
             aux.SetEquipOrAbility(auxAbility as AbilityExtCast, GetAction(aux.indexSlot));
+        }
+    }
+
+    System.Action GetHoverActs(ItemEquipable ability, out System.Action _leaveAct)
+    {
+        if(ability==null)
+        {
+            _leaveAct = default;
+            return () => detailsWindow.AddToClassList("opacityHidden");
+        }
+        else
+        {
+            _leaveAct = () => detailsWindow.AddToClassList("opacityHidden");
+            return () => SetDetailsWindow(ability.image, ability.nameDisplay, ability.GetItemBase().GetTooltip(), "");
         }
     }
 
@@ -125,8 +149,6 @@ public class UIE_CombosMenu : UIE_Equipment
 
             if (weaponEquiped != null)
             {
-                SetDetailsWindow(GetImage(weaponEquiped, typeof(MeleeWeapon)), GetText(weaponEquiped, typeof(MeleeWeapon)), "", "");
-
                 foreach (var itemIndex in buffer)
                 {
                     if (character.inventory[itemIndex].Equals(weaponEquiped))
@@ -143,10 +165,6 @@ public class UIE_CombosMenu : UIE_Equipment
                         break;
                     }
                 }
-            }
-            else
-            {
-                detailsWindow.AddToClassList("opacityHidden");
             }
 
             //Crear otros botones
@@ -198,8 +216,6 @@ public class UIE_CombosMenu : UIE_Equipment
 
             if (character.caster.combos[index].equiped != default(ItemEquipable))
             {
-                SetDetailsWindow(character.caster.combos[index].equiped.image, character.caster.combos[index].equiped.nameDisplay, ((ShowDetails)character.caster.combos[index].equiped.GetItemBase()).GetDetails().ToString(), "");
-
                 foreach (var itemIndex in buffer)
                 {
                     if (character.inventory[itemIndex].nameDisplay == character.caster.combos[index].equiped.nameDisplay)
@@ -219,10 +235,6 @@ public class UIE_CombosMenu : UIE_Equipment
                         break;
                     }
                 }
-            }
-            else
-            {
-                detailsWindow.AddToClassList("opacityHidden");
             }
 
             foreach (var itemIndex in buffer)
@@ -273,13 +285,13 @@ public class UIE_CombosMenu : UIE_Equipment
 
     void SetDetailsWindow(Sprite _sprite, string _title, string _description, string _details)
     {
-        if (detailsWindow.ClassListContains("opacityHidden"))
-            detailsWindow.RemoveFromClassList("opacityHidden");
-
         itemImage.style.backgroundImage = new StyleBackground(_sprite);
         itemName.text = _title;
         itemDescription.text = _description;
         itemDetails.text = _details;
+
+        if (detailsWindow.ClassListContains("opacityHidden"))
+            detailsWindow.RemoveFromClassList("opacityHidden");
     }
 
     void HiddeItemList()

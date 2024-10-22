@@ -14,6 +14,7 @@ public class UIE_Equipment : UIE_BaseMenu
 
     public UIE_EquipMenu equipMenu;
 
+    VisualElement inventoryButton;
     VisualElement combosButton;
 
     protected Timer animTimer;
@@ -41,8 +42,10 @@ public class UIE_Equipment : UIE_BaseMenu
             abilitiesButtons = ui.Q<VisualElement>("Abilities");
             katasButtons = ui.Q<VisualElement>("Katas");
             statisticsLabel = ui.Q<Label>("statisticsLabel");
+            inventoryButton = ui.Q<VisualElement>("inventoryButton");
             combosButton = ui.Q<VisualElement>("combosButton");
 
+            inventoryButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.InventoryMenu));
             combosButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.CombosMenu));
         }
 
@@ -65,7 +68,6 @@ public class UIE_Equipment : UIE_BaseMenu
 
         animController = character.GetInContainer<AnimatorController>();
         animController.CancelAllAnimations();
-        //character.GetInContainer<ModularEquipViewEntityComponent>().DeSpawnWeapon();
         animController.ChangeActionAnimation(manager.idleAnim, true);
 
         HideWeapon();
