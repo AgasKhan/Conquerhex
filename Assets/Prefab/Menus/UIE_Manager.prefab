@@ -189,6 +189,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipMenu: {fileID: 0}
+--- !u!1 &4435304725254706892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5673441388195204086}
+  - component: {fileID: 8247433485049553146}
+  - component: {fileID: 5660043819092141750}
+  m_Layer: 5
+  m_Name: Transmute_UIDoc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5673441388195204086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435304725254706892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5965052078263098672}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8247433485049553146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435304725254706892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 4725b563d3959d74f83708e76f5fb303, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 458542d3b8ed94a48a6919e22f79aa90,
+    type: 3}
+  m_SortingOrder: 0
+--- !u!114 &5660043819092141750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435304725254706892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f72610590c0c84eb93d714e1a8f1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipMenu: {fileID: 0}
 --- !u!1 &5507341918820118517
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +287,7 @@ Transform:
   - {fileID: 7116155173528042587}
   - {fileID: 5457161533818471936}
   - {fileID: 307583594612686147}
+  - {fileID: 5673441388195204086}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8310235135797555403
@@ -243,6 +307,7 @@ MonoBehaviour:
   CombosMenu: Combos_UIDoc
   CraftMenu: Craft_UIDoc
   InventoryMenu: Inventory_UIDoc
+  TransmuteMenu: Transmute_UIDoc
   menuList:
     pictionaries:
     - key: Equipment_UIDoc
@@ -255,6 +320,8 @@ MonoBehaviour:
       value: {fileID: 9210274415551073263}
     - key: Inventory_UIDoc
       value: {fileID: 6899378106384342267}
+    - key: Transmute_UIDoc
+      value: {fileID: 5660043819092141750}
   isInMenu: 0
   timeToTooltip: 0.8
   timeToLeaveTooltip: 0.2

@@ -110,5 +110,10 @@ public class UIE_InventoryMenu : UIE_EquipMenu
 
         return button;
     }
+    protected void RemoveButton(UIE_ListButton button)
+    {
+        listContainer.Remove(button);
+        buttonsList.Remove(button);
+    }
 
 }

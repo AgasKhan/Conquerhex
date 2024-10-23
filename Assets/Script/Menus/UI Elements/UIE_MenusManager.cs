@@ -11,6 +11,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
     public string CombosMenu = "Combos_UIDoc";
     public string CraftMenu = "Craft_UIDoc";
     public string InventoryMenu = "Inventory_UIDoc";
+    public string TransmuteMenu = "Transmute_UIDoc";
 
     public Pictionarys<string, UIE_BaseMenu> menuList = new Pictionarys<string, UIE_BaseMenu>();
     public static Dictionary<string, VisualTreeAsset> treeAsset = new Dictionary<string, VisualTreeAsset>();
