@@ -45,8 +45,10 @@ namespace Controllers
 
         public bool unscaled = false;
 
+        [SerializeField]
         Vector2 _frameDir;
 
+        [SerializeField]
         Vector2 _lastDir;
 
 

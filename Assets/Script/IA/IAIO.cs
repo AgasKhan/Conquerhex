@@ -501,6 +501,7 @@ public class IAIO : IAFather
         cameraPositionMouse.enable = true;
 
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         VirtualControllers.Camera.DesuscribeController(aimingEventMediator);
         //aimingEventMediator.DesuscribeController(character.aiming);
@@ -512,7 +513,8 @@ public class IAIO : IAFather
         cameraPositionMouse.enable = false;
 
         Cursor.visible = true;
-
+        Cursor.lockState = CursorLockMode.Confined;
+        
         VirtualControllers.Camera.SuscribeController(aimingEventMediator);
         //aimingEventMediator.SuscribeController(character.aiming);
     }
