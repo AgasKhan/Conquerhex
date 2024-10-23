@@ -84,13 +84,13 @@ public class InventoryEntityComponent : ComponentOfContainer<Entity>,IEnumerable
                 else
                     item = inventory[i];
 
-                Debug.Log("SI se encontro el item: " + name);
+                //Debug.Log("SI se encontro el item: " + name);
 
                 index = i;
                 return true;
             }
         }
-        Debug.Log("NO se encontro el item: " + name);
+        //Debug.Log("NO se encontro el item: " + name);
         index = -1;
         item = null;
         return false;

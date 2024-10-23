@@ -38,6 +38,7 @@ public class UIE_ListButton : VisualElement
         asset.CloneTree(this);
 
         mainButton.RegisterCallback<ClickEvent>((clEvent) => mainAct?.Invoke());
+        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) => hoverAct.Invoke());
     }
 
     public void Set(Sprite _itemImage, string _itemName, string _typeItem, string _specialityItem, System.Action _mainAction)
@@ -54,7 +55,6 @@ public class UIE_ListButton : VisualElement
     public void SetHoverAction(System.Action _action)
     {
         hoverAct = _action;
-        mainButton.RegisterCallback<MouseEnterEvent>((clEvent) => hoverAct.Invoke());
     }
 
     public void SetChangeButton(System.Action _changeAction)
@@ -141,11 +141,13 @@ public class UIE_ListButton : VisualElement
         SetEquipText("");
     }
 
-    public void EnableChange()
+    public void EnableChange(string _text)
     {
         changeAction = changeActCopy;
         changeButton.RemoveFromClassList("changeButtonDisable");
         changeButton.AddToClassList("changeButton");
+
+        (changeButton as Button).text = _text;
     }
     public void DisableChange()
     {

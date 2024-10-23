@@ -5,6 +5,7 @@
         <ui:VisualElement name="NavBar" style="flex-grow: 0; height: 120px; padding-top: 20px; padding-bottom: 20px;">
             <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/linea.png?fileID=21300000&amp;guid=1f077dab981f5e844a06a9a5fcc698b0&amp;type=3#linea&quot;); -unity-background-image-tint-color: rgb(0, 0, 0); flex-direction: row; padding-left: 105px; padding-right: 105px;">
                 <ui:Button text="EQUIPAMIENTO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="equipmentButton" class="NavBarButtonStyle" style="color: rgb(212, 171, 141);" />
+                <ui:Button text="INVENTARIO" parse-escape-sequences="true" display-tooltip-when-elided="true" name="inventoryButton" class="NavBarButtonStyle" />
                 <ui:Button text="COMBOS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="combosButton" class="NavBarButtonStyle" />
             </ui:VisualElement>
         </ui:VisualElement>

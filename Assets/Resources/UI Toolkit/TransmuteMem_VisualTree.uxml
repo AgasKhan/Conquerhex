@@ -3,8 +3,8 @@
     <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/HUD/Hud_fondo.png?fileID=21300000&amp;guid=8b68bfc29219f84439768d37a350cc08&amp;type=3#Hud_fondo&quot;); -unity-background-image-tint-color: rgba(200, 200, 200, 0.49); background-color: rgb(12, 10, 9); flex-shrink: 0;">
         <ui:VisualElement name="NavBar" style="flex-grow: 0; height: 120px; padding-top: 20px; padding-bottom: 20px;">
             <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/linea.png?fileID=21300000&amp;guid=1f077dab981f5e844a06a9a5fcc698b0&amp;type=3#linea&quot;); -unity-background-image-tint-color: rgb(0, 0, 0); flex-direction: row; padding-left: 105px; padding-right: 105px;">
-                <ui:Button text="CREAR" parse-escape-sequences="true" display-tooltip-when-elided="true" name="craftButton" class="NavBarButtonStyle" style="color: rgb(212, 171, 141);" />
-                <ui:Button text="TRANSMUTAR" parse-escape-sequences="true" display-tooltip-when-elided="true" name="transmuteButton" class="NavBarButtonStyle" />
+                <ui:Button text="CREAR" parse-escape-sequences="true" display-tooltip-when-elided="true" name="craftButton" class="NavBarButtonStyle" />
+                <ui:Button text="TRANSMUTAR" parse-escape-sequences="true" display-tooltip-when-elided="true" name="transmuteButton" class="NavBarButtonStyle" style="color: rgb(212, 171, 141);" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="MiddleBox" style="flex-grow: 1; flex-direction: row;">

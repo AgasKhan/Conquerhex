@@ -5,10 +5,9 @@ using UnityEngine.UIElements;
 using System;
 using System.Linq;
 
-public class UIE_CraftMenu : UIE_InventoryMenu
+public class UIE_TransmuteMenu : UIE_InventoryMenu
 {
-    CraftingBuild building;
-    VisualElement transmuteButton;
+    VisualElement craftButton;
 
     protected override void Config()
     {
@@ -32,8 +31,8 @@ public class UIE_CraftMenu : UIE_InventoryMenu
         inputField = ui.Q<TextField>("inputField");
         searchButton = ui.Q<VisualElement>("searchButton");
 
-        transmuteButton = ui.Q<VisualElement>("transmuteButton");
-        transmuteButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.TransmuteMenu));
+        craftButton = ui.Q<VisualElement>("craftButton");
+        craftButton.RegisterCallback<ClickEvent>((clEvent) => manager.SwitchMenu(UIE_MenusManager.instance.CraftMenu));
 
         onClose += () => manager.DisableMenu(gameObject.name);
         searchButton.RegisterCallback<ClickEvent>((clEvent) => CreateListRecipes(inputField.value));
@@ -70,15 +69,32 @@ public class UIE_CraftMenu : UIE_InventoryMenu
         buttonsList.Clear();
         listContainer.Clear();
 
-        for (int i = 0; i < building.currentRecipes.Count; i++)
+        for (int i = 0; i < character.inventory.Count; i++)
         {
-            if (filterType != null && !filterType.IsAssignableFrom(building.currentRecipes[i].GetItemType()))
+            if (filterType != null && !filterType.IsAssignableFrom(character.inventory[i].GetType()))
                 continue;
 
-            if (_filter != "" && !(building.currentRecipes[i].nameDisplay.ToLower().Contains(_filter.ToLower())))
+            if (character.inventory[i] is Ability && !((Ability)character.inventory[i]).visible)
                 continue;
 
-            AddButton(building.currentRecipes[i]);
+            if (_filter != "" && !(character.inventory[i].nameDisplay.ToLower().Contains(_filter.ToLower())))
+                continue;
+
+            if (!typeof(MeleeWeapon).IsAssignableFrom(character.inventory[i].GetType()))
+                continue;
+
+            int index = i;
+            UIE_ListButton button = default;
+            button = AddButton(character.inventory[index].GetItemBase(), () =>
+            {
+                Transmute(character.inventory[index]);
+                ShowDetails("", "", null);
+                CreateListRecipes();
+            },
+            () => ShowDetails(character.inventory[index].nameDisplay, 
+            character.inventory[index].GetDetails().ToString("\n") + "Materiales obtenidos por transmutar: \n" + ((character.inventory[index].GetItemBase() as ItemCrafteable).GetRequiresString(character.inventory)).ClearRichText().RichText("color", "#6ae26a")
+            , character.inventory[index].image));
+            button.EnableChange("Transmutar");
         }
 
         if (buttonsList.Count <= 0)
@@ -90,48 +106,23 @@ public class UIE_CraftMenu : UIE_InventoryMenu
         }
     }
 
-    void AddButton(ItemCrafteable _itemCraft)
+    void Transmute(Item _item)
     {
-        UIE_ListButton button = AddButton(_itemCraft, () =>
+        ItemCrafteable _itemCraft = _item.GetItemBase() as ItemCrafteable;
+
+        if (character == null || _itemCraft == null)
+            return;
+
+        foreach (var ingredient in _itemCraft.ingredients)
         {
-            if (character == null || _itemCraft == null)
-                return;
+            character.inventory.AddItem(ingredient.Item, ingredient.Amount);
+        }
 
-            if (_itemCraft.CanCraft(character.inventory))
-            {
-                _itemCraft.Craft(character.inventory, (string)_itemCraft.nameDisplay);
-                //audioComponent.Play("CraftAudio");
+        _item.Destroy();
 
-                if (_itemCraft is MeleeWeaponBase)
-                {
-                    ShowDetails(_itemCraft.nameDisplay, _itemCraft.GetDetails().ToString("\n") + "Materiales necesarios: \n" + _itemCraft.GetRequiresString(character.inventory), _itemCraft.image);
-                }
-                else
-                {
-                    building.currentRecipes.Remove(_itemCraft);
-                    ShowDetails("", "", null);
-                    CreateListRecipes();
-                }
-                return;
-            }
-            else
-            {
-                MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "No tienes suficientes materiales")
-                            .AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));
-            }
-        }, () => ShowDetails(_itemCraft.nameDisplay, _itemCraft.GetDetails().ToString("\n") + "Materiales necesarios: \n" + _itemCraft.GetRequiresString(character.inventory), _itemCraft.image));
-
-
-        if (_itemCraft.CanCraft(character.inventory))
-            button.EnableChange("Crear");
-        else
-            button.DisableChange();
-
+        //Item Despawn
+        /*
+        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(true).SetWindow("", "Transmutación exitosa")
+                        .AddButton("Cerrar", () => MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false));*/
     }
-
-    public void Init(CraftingBuild _building)
-    {
-        building = _building;
-    }
-
 }
