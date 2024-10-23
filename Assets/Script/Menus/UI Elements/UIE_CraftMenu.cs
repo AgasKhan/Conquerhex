@@ -123,7 +123,7 @@ public class UIE_CraftMenu : UIE_InventoryMenu
 
 
         if (_itemCraft.CanCraft(character.inventory))
-            button.EnableChange();
+            button.EnableChange("Crear");
         else
             button.DisableChange();
 

@@ -43,6 +43,8 @@ namespace Controllers
             }
         }
 
+        public bool unscaled = false;
+
         Vector2 _frameDir;
 
         Vector2 _lastDir;
@@ -62,7 +64,7 @@ namespace Controllers
 
         public void OnEnterState(Vector2 param)
         {
-            if (!enable || !VirtualControllers.eneable)
+            if (!unscaled && (!enable || !VirtualControllers.eneable))
                 return;
 
             timePressed = 0;
@@ -74,7 +76,7 @@ namespace Controllers
 
         public void OnStayState(Vector2 param)
         {
-            if (!enable || !VirtualControllers.eneable)
+            if (!unscaled && (!enable || !VirtualControllers.eneable))
                 return;
 
             timePressed += Time.deltaTime;

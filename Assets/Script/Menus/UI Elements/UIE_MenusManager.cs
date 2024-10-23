@@ -81,6 +81,7 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         escapeEventMediator.eventDown += EscapeEventMediator_eventDown;
 
         VirtualControllers.Escape.SuscribeController(escapeEventMediator);
+        //VirtualControllers.Escape.unscaled = true;
     }
 
     private void EscapeEventMediator_eventDown(Vector2 arg1, float arg2)
@@ -88,12 +89,27 @@ public class UIE_MenusManager : SingletonMono<UIE_MenusManager>
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
             return;
 
-        MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
+        if(isInMenu)
+        {
+            menuList[currentMenu].TriggerOnClose(default);
+        }
+        else
+        {
+            ToggleBackMenu();
+        }
+    }
+
+    void ToggleBackMenu()
+    {
+        if(GameManager.instance.ActualStringState() == "Gameplay")
+        {
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(true)
                .SetWindow("", "¿Deseas volver al menu principal?")
                .AddButton("Si", () => GameManager.instance.Load("MainMenu"))
                .AddButton("No", () => { MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false); });
-
-        VirtualControllers.Escape.SuscribeController(escapeEventMediator);
+        }
+        else
+            MenuManager.instance.modulesMenu.ObtainMenu<PopUp>(false).SetActiveGameObject(false);
     }
 
     void ShowTooltip()

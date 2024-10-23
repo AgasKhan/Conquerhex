@@ -141,11 +141,13 @@ public class UIE_ListButton : VisualElement
         SetEquipText("");
     }
 
-    public void EnableChange()
+    public void EnableChange(string _text)
     {
         changeAction = changeActCopy;
         changeButton.RemoveFromClassList("changeButtonDisable");
         changeButton.AddToClassList("changeButton");
+
+        (changeButton as Button).text = _text;
     }
     public void DisableChange()
     {

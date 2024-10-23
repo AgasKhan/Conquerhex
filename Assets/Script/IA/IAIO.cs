@@ -203,7 +203,7 @@ public class IAIO : IAFather
 
         VirtualControllers.Movement.eventDown -= MoveEventMediator_eventDown;
 
-        inventoryEventMediator.eventDown -= InventoryEventMediator_eventDown;
+        
 
         DesuscribiUI();
         VirtualControllers.Inventory.DesuscribeController(inventoryEventMediator);
@@ -220,7 +220,7 @@ public class IAIO : IAFather
 
         VirtualControllers.Interact.eventDown -= Interact_eventDown;
 
-        VirtualControllers.Inventory.DesuscribeController(inventoryEventMediator);
+        
 
         interactEvent.secondDelegato?.Invoke((false, false, null));
 
@@ -284,7 +284,7 @@ public class IAIO : IAFather
 
         inventoryEventMediator = new EventControllerMediator();
         inventoryEventMediator.eventDown += InventoryEventMediator_eventDown;
-
+        VirtualControllers.Inventory.unscaled = true;
 
         VirtualControllers.Movement.eventDown += MoveEventMediator_eventDown;
 

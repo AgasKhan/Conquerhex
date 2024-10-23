@@ -72,6 +72,7 @@ public class UIE_BaseMenu : MyScripts
         character.GetInContainer<AnimatorController>().SetUnscaleController(true);
 
         onEnableMenu?.Invoke();
+
     }
 
     System.Func<float, float, float, float> UpdateOpacity()

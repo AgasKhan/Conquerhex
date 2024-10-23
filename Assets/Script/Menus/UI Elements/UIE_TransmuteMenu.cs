@@ -80,16 +80,21 @@ public class UIE_TransmuteMenu : UIE_InventoryMenu
             if (_filter != "" && !(character.inventory[i].nameDisplay.ToLower().Contains(_filter.ToLower())))
                 continue;
 
+            if (!typeof(MeleeWeapon).IsAssignableFrom(character.inventory[i].GetType()))
+                continue;
+
             int index = i;
             UIE_ListButton button = default;
             button = AddButton(character.inventory[index].GetItemBase(), () =>
             {
                 Transmute(character.inventory[index]);
-                RemoveButton(button);
                 ShowDetails("", "", null);
+                CreateListRecipes();
             },
-            () => ShowDetails(character.inventory[index].nameDisplay, character.inventory[index].GetDetails().ToString("\n"), character.inventory[index].image));
-            button.EnableChange();
+            () => ShowDetails(character.inventory[index].nameDisplay, 
+            character.inventory[index].GetDetails().ToString("\n") + "Materiales obtenidos por transmutar: \n" + ((character.inventory[index].GetItemBase() as ItemCrafteable).GetRequiresString(character.inventory)).ClearRichText().RichText("color", "#6ae26a")
+            , character.inventory[index].image));
+            button.EnableChange("Transmutar");
         }
 
         if (buttonsList.Count <= 0)
@@ -112,6 +117,8 @@ public class UIE_TransmuteMenu : UIE_InventoryMenu
         {
             character.inventory.AddItem(ingredient.Item, ingredient.Amount);
         }
+
+        _item.Destroy();
 
         //Item Despawn
         /*
